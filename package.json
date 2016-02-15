@@ -1,0 +1,27 @@
+{
+  "name": "fiora-frontend",
+  "version": "0.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/yinxin630/fiora-frontend.git"
+  },
+  "author": "yinxin630",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/yinxin630/fiora-frontend/issues"
+  },
+  "homepage": "https://github.com/yinxin630/fiora-frontend#readme",
+  "devDependencies": {
+    "cz-conventional-changelog": "^1.1.5"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
