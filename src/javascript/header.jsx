@@ -8,12 +8,13 @@ export default class Header extends React.Component {
             marginLeft: '1rem',
         };
         return (
-            <div>
+            <div style={{
+                borderBottom: '0.1rem solid #8b8b8b',
+            }}>
                 <div style={{
                     width: '70%',
                     margin: 'auto',
                     padding: '0rem 2rem',
-                    backgroundColor: 'red',
                     display: 'flex',
                     justifyContent: 'space-between',
                 }}>
