@@ -13,6 +13,8 @@ export default class App extends React.Component {
             <div style={{
                 backgroundColor: 'yellow',
                 height: window.innerHeight,
+                display: 'flex',
+                flexDirection: 'column',
             }}>
                 <Header/>
             </div>

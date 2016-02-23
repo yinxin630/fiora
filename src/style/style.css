@@ -6,6 +6,9 @@
 }
 
 body {
-    font-size: 10px;
     overflow: hidden;
+}
+
+html {
+    font-size: 10px;
 }
