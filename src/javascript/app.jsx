@@ -6,17 +6,18 @@ import { Provider, connect } from 'react-redux';
 import { store } from './store.js';
 import { Router, Route, Link } from 'react-router';
 import Header from './header.jsx';
+import Body from './body.jsx';
 
 export default class App extends React.Component {
     render() {
         return (
             <div style={{
-                backgroundColor: 'yellow',
                 height: window.innerHeight,
                 display: 'flex',
                 flexDirection: 'column',
             }}>
                 <Header/>
+                <Body/>
             </div>
         );
     }
