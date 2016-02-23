@@ -1,7 +1,7 @@
 module.exports = {
     entry: './src/javascript/app.jsx',
     output: {
-        path: __dirname,
+        path: __dirname + '/src/',
         filename: 'app.js'
     },
     watch: true,
