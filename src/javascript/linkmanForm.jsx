@@ -2,7 +2,7 @@
 
 const React = require('react');
 
-export default class Linkman extends React.Component {
+export default class LinkmanForm extends React.Component {
     render () {
         return (
             <div style={{

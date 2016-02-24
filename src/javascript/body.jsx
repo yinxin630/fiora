@@ -4,6 +4,7 @@ const React = require('react');
 import { Image } from 'amazeui-react';
 import Linkman from './linkman.jsx';
 import LinkmanForm from './linkmanForm.jsx';
+import User from './user.jsx';
 
 export default class Body extends React.Component {
     render () {
@@ -19,18 +20,7 @@ export default class Body extends React.Component {
                     flexDirection: 'column',
                     alignItems: 'center',
                 }}>
-                    <div style={{
-                        textAlign: 'center',
-                    }}>
-                        <div style={{
-                            padding: '10px 0px 5px 0px',
-                        }}>
-                            <Image src="http://chat.suisuijiang.com/images/head.png"
-                                width={80} height={80} circle
-                            />
-                        </div>
-                        <span>昵称</span>
-                    </div>
+                    <User/>
                     <nav style={{
                         flex: 1,
                         marginTop: '100px',
