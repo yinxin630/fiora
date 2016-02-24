@@ -10,6 +10,7 @@ export default class LinkmanForm extends React.Component {
                 display: 'flex',
                 flexDirection: 'column',
                 borderCollapse: 'collapse',
+                borderRight: '1px solid #e0e0e0',
             }}>
                 { this.props.children }
             </div>

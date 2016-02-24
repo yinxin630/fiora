@@ -10,6 +10,7 @@ export default class Header extends React.Component {
         return (
             <div style={{
                 borderBottom: '1px solid #8b8b8b',
+                boxShadow: '0px 0px 5px',
             }}>
                 <div style={{
                     width: '70%',
