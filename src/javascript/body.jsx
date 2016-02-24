@@ -3,6 +3,7 @@
 const React = require('react');
 import { Image } from 'amazeui-react';
 import Linkman from './linkman.jsx';
+import LinkmanForm from './linkmanForm.jsx';
 
 export default class Body extends React.Component {
     render () {
@@ -37,16 +38,11 @@ export default class Body extends React.Component {
                         <a>消息</a>
                     </nav>
                 </div>
-                <div style={{
-                    width: '220px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    borderCollapse: 'collapse',
-                }}>
+                <LinkmanForm>
                     <Linkman/>
                     <Linkman/>
                     <Linkman/>
-                </div>
+                </LinkmanForm>
                 <div style={{
                     backgroundColor: 'teal',
                     flex: 1,
