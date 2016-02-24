@@ -1,14 +1,14 @@
-* h1 {
+* {
     padding: 0;
     margin: 0;
     border: none;
     box-sizing: border-box;
 }
 
-body {
-    overflow: hidden;
+h1 {
+    margin: 0;
 }
 
-html {
-    font-size: 10px;
+body {
+    overflow: hidden;
 }
