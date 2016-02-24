@@ -5,6 +5,7 @@ import { Image } from 'amazeui-react';
 import Linkman from './linkman.jsx';
 import LinkmanForm from './linkmanForm.jsx';
 import User from './user.jsx';
+import Sidebar from './sidebar.jsx';
 
 export default class Body extends React.Component {
     render () {
@@ -13,21 +14,17 @@ export default class Body extends React.Component {
                 flex: 1,
                 display: 'flex',
             }}>
-                <div style={{
-                    backgroundColor: 'aquamarine',
-                    width: '100px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}>
+                <Sidebar>
                     <User/>
                     <nav style={{
                         flex: 1,
                         marginTop: '100px',
                     }}>
                         <a>消息</a>
+                        <br/>
+                        <a>贴吧</a>
                     </nav>
-                </div>
+                </Sidebar>
                 <LinkmanForm>
                     <Linkman/>
                     <Linkman/>
