@@ -6,6 +6,7 @@ import Linkman from './linkman.jsx';
 import LinkmanForm from './linkmanForm.jsx';
 import User from './user.jsx';
 import Sidebar from './sidebar.jsx';
+import Topbar from './topbar.jsx';
 
 export default class Body extends React.Component {
     render () {
@@ -31,26 +32,11 @@ export default class Body extends React.Component {
                     <Linkman/>
                 </LinkmanForm>
                 <div style={{
-                    backgroundColor: 'teal',
                     flex: 1,
                     display: 'flex',
                     flexDirection: 'column',
                 }}>
-                    <div style={{
-                        height: '60px',
-                        backgroundColor: 'pink',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                    }}>
-                        <div>
-                            巴拉拉小魔仙
-                        </div>
-                        <div>
-                            <div style={{
-                            }} className="am-icon-md am-icon-gear"/>
-                        </div>
-                    </div>
+                    <Topbar/>
                     <div style={{
                         flex: 1,
                         backgroundColor: 'purple',
