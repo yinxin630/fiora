@@ -16,6 +16,7 @@ export default class Topbar extends React.Component {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                borderBottom: '1px solid #e0e0e0',
             }}>
                 <div style={{
                     display: 'flex',
