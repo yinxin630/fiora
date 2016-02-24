@@ -2,6 +2,7 @@
 
 const React = require('react');
 import { Image } from 'amazeui-react';
+import Linkman from './linkman.jsx';
 
 export default class Body extends React.Component {
     render () {
@@ -33,61 +34,18 @@ export default class Body extends React.Component {
                         flex: 1,
                         marginTop: '100px',
                     }}>
-                        <button>消息</button>
+                        <a>消息</a>
                     </nav>
                 </div>
                 <div style={{
                     width: '220px',
                     display: 'flex',
                     flexDirection: 'column',
+                    borderCollapse: 'collapse',
                 }}>
-                    <div style={{
-                        display: 'flex',
-                    }}>
-                        <div style={{
-                            padding: '10px',
-                        }}>
-                            <Image src="http://chat.suisuijiang.com/images/head.png"
-                                width={40} height={40} circle
-                            />
-                        </div>
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                            flex: 1,
-                            padding: '10px 10px 10px 0px',
-                        }}>
-                            <div style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                width: '100%',
-                                alignItems: 'center',
-                            }}>
-                                <div style={{
-                                    fontSize: '1.4rem',
-                                }}>它的昵称</div>
-                                <div style={{
-                                    fontSize: '0.7rem',
-                                    color: '#687275',
-                                }}>11:12:13</div>
-                            </div>
-                            <div style={{
-                                color: '#687275',
-                                fontSize: '1rem',
-                            }}>
-                                消息内容...
-                            </div>
-                        </div>
-                    </div>
-                    <div style={{
-                        height: '60px',
-                        backgroundColor: 'green',
-                    }}>联系人1</div>
-                    <div style={{
-                        height: '60px',
-                        backgroundColor: 'blue',
-                    }}>联系人2</div>
+                    <Linkman/>
+                    <Linkman/>
+                    <Linkman/>
                 </div>
                 <div style={{
                     backgroundColor: 'teal',
