@@ -19,11 +19,16 @@ export default class Body extends React.Component {
                 display: 'flex',
             }}>
                 <Sidebar>
-                    <User/>
-                    <nav style={{
-                        flex: 1,
-                        marginTop: '100px',
-                    }}>
+                    <User 
+                        nickname={ this.props.user.nickname }
+                        avatar={ this.props.user.avatar }
+                    />
+                    <nav 
+                        style={{
+                            flex: 1,
+                            marginTop: '100px',
+                        }}
+                    >
                     </nav>
                 </Sidebar>
                 <LinkmanForm>

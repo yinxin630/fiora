@@ -20,7 +20,7 @@ export default class App extends React.Component {
                 flexDirection: 'column',
             }}>
                 <Header/>
-                <Body/>
+                <Body user={ user } linkmans={ linkmans }/>
             </div>
         );
     }

@@ -4,11 +4,6 @@ const React = require('react');
 import { Image } from 'amazeui-react';
 
 export default class User extends React.Component {
-    static defaultProps = {
-        avatar: 'http://chat.suisuijiang.com/images/head.png',
-        nickname: '默认昵称',
-    }
-    
     render () {
         return (
             <div style={{
