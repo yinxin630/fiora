@@ -12,7 +12,34 @@ import ChatForm from './chatForm.jsx';
 import InputArea from './inputArea.jsx';
 
 export default class Body extends React.Component {
+    getMessages (linkman, userId) {
+        if (!linkman) {
+            return;
+        }
+        return linkman.messages.map(message => {
+            return <Message
+                avatar={ linkman.avatar }
+                nickname={ linkman.nickname }
+                time={ message.time }
+                content={ message.content }
+                align={ linkman.id === userId ? 'right' : 'left' }
+            />
+        });
+    }
+    
+    getTopbar (linkman) {
+        if (!linkman) {
+            return <Topbar noNickname={ true }/>
+        }
+        return <Topbar
+            avatar={ linkman.avatar }
+            nickname={ linkman.nickname }
+        />
+    }
+    
     render () {
+        const { user, linkmans, linkmanFocus } = this.props;
+        
         return (
             <div style={{
                 flex: 1,
@@ -51,10 +78,11 @@ export default class Body extends React.Component {
                     flexDirection: 'column',
                     backgroundColor: '#FDFFFF',
                 }}>
-                    <Topbar/>
+                    { this.getTopbar(linkmans[linkmanFocus]) }
                     <ChatForm>
-                        <Message/>
-                        <Message align="right"/>
+                        {
+                            this.getMessages(this.props.linkmans[this.props.linkmanFocus], this.props.user.id)
+                        }
                     </ChatForm>
                     <InputArea/>
                 </div>

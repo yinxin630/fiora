@@ -5,11 +5,13 @@ import { combineReducers, createStore } from 'redux';
 
 function reducer(state = {
         user: {
+            id: '0',
             avatar: 'http://chat.suisuijiang.com/images/expression/1.png',
             nickname: '未登录',
         },
         linkmans: [
             {
+                id: '1',
                 avatar: 'http://chat.suisuijiang.com/images/head.png',
                 nickname: '用户1',
                 messages: [
@@ -24,6 +26,7 @@ function reducer(state = {
                 ],
             },
             {
+                id: '2',
                 avatar: 'http://chat.suisuijiang.com/images/expression/22.png',
                 nickname: '用户3',
                 messages: [

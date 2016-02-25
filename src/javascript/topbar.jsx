@@ -5,8 +5,9 @@ import { Image } from 'amazeui-react';
 
 export default class Topbar extends React.Component {
     static defaultProps = {
-        avatar: 'http://chat.suisuijiang.com/images/head.png',
-        nickname: '默认昵称',
+        avatar: '',
+        nickname: '',
+        noNickname: false,
     }
     
     render () {
@@ -24,6 +25,7 @@ export default class Topbar extends React.Component {
                 }}>
                     <div style={{
                         padding: 10,
+                        display: this.props.noNickname ? 'none' : 'block'
                     }}>
                         <Image src={ this.props.avatar }
                             width={40} height={40} circle
