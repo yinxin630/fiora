@@ -23,9 +23,6 @@ export default class Body extends React.Component {
                         flex: 1,
                         marginTop: '100px',
                     }}>
-                        <a>消息</a>
-                        <br/>
-                        <a>贴吧</a>
                     </nav>
                 </Sidebar>
                 <LinkmanForm>
