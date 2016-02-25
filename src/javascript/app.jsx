@@ -12,7 +12,7 @@ import Body from './body.jsx';
 
 export default class App extends React.Component {
     render() {
-        const State = this.props.reducer;
+        const { user, linkmans } = this.props.reducer;
         return (
             <div style={{
                 height: window.innerHeight,
