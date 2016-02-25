@@ -24,17 +24,35 @@ export default class Message extends React.Component {
                     width={40} height={40} circle
                 />
                 <div style={{
-                    width: 'calc(100% - 60px * 2)',
+                    width: 'calc(100% - 40px * 2)',
                     maxWidth: '500px',
+                    padding: '0px 10px',
+                    display: 'flex',
+                    alignItems: this.props.align === 'left' ? 'flex-start' : 'flex-end',
+                    flexDirection: 'column',
                 }}>
                     <div style={{
-                        textAlign: this.props.align,
                     }}>
-                        { this.props.nickname } {this.props.time}
+                        <span style={{
+                            fontSize: '1.4rem',
+                        }}>
+                            { this.props.nickname }
+                        </span>
+                        <span style={{
+                            marginLeft: 5,
+                            fontSize: '1rem',
+                        }}>
+                            { this.props.time }
+                        </span>
                     </div>
                     <div
                     style={{
-                        textAlign: this.props.align,
+                        padding: '3px 10px',
+                        wordBreak: 'break-all',
+                        border: '1px solid blue',
+                        boxShadow: '0px 0px 3px',
+                        borderRadius: 10,
+                        display: 'inline-block',
                     }}>
                         { this.props.content }
                     </div>
