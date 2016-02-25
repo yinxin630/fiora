@@ -15,6 +15,7 @@ export default class Linkman extends React.Component {
         return (
             <div style={{
                 display: 'flex',
+                borderBottom: '1px solid #e0e0e0',
             }}>
                 <div style={{
                     padding: '10px',
