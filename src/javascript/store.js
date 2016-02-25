@@ -5,10 +5,40 @@ import { combineReducers, createStore } from 'redux';
 
 function reducer(state = {
         user: {
-            avatar: 'http://chat.suisuijiang.com/images/head.png',
+            avatar: 'http://chat.suisuijiang.com/images/expression/1.png',
             nickname: '未登录',
         },
-        linkmans: [],
+        linkmans: [
+            {
+                avatar: 'http://chat.suisuijiang.com/images/head.png',
+                nickname: '用户1',
+                messages: [
+                    {
+                        time: '11:11:11',
+                        content: '你好啊！',
+                    },
+                    {
+                        time: '12:12:12',
+                        content: '我不好！',
+                    },
+                ],
+            },
+            {
+                avatar: 'http://chat.suisuijiang.com/images/expression/22.png',
+                nickname: '用户3',
+                messages: [
+                    {
+                        time: '13:13:13',
+                        content: '啊啊啊！',
+                    },
+                    {
+                        time: '14:14:14',
+                        content: '喔喔哦！',
+                    },
+                ],
+            },
+        ],
+        linkmanFocus: -1,
     }, action) {
         switch (action.type) {
             case Action.types.SetUser: {
@@ -29,6 +59,10 @@ function reducer(state = {
                 linkman.messages.push(action.message);
                 return Object.assign({}, state);
             }
+            case Action.types.SetLinkmanFocus: {
+                state.linkmanFocus = action.index;
+                return Object.assign({}, state);
+            }
             default:
                 return state;
         }
@@ -37,6 +71,6 @@ let reducers = combineReducers({ reducer });
 
 module.exports = createStore(reducers);
 
-// let unsubscribe = store.subscribe(() =>
+// let unsubscribe = Store.subscribe(() =>
 //     console.log('store监控', store.getState())
 // );

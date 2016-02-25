@@ -32,9 +32,18 @@ export default class Body extends React.Component {
                     </nav>
                 </Sidebar>
                 <LinkmanForm>
-                    <Linkman focus={ true }/>
-                    <Linkman/>
-                    <Linkman/>
+                    {
+                        this.props.linkmans.map((linkman, index) => {
+                            return <Linkman
+                                avatar={ linkman.avatar }
+                                nickname={ linkman.nickname }
+                                time={ linkman.messages[linkman.messages.length - 1].time }
+                                content={ linkman.messages[linkman.messages.length - 1].content }
+                                focus={ index === this.props.linkmanFocus }
+                                handleClick={ e => this.props.linkmanClick(index) }
+                            />
+                        })
+                    }
                 </LinkmanForm>
                 <div style={{
                     flex: 1,

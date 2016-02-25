@@ -14,12 +14,16 @@ export default class Linkman extends React.Component {
     
     render () {
         return (
-            <div style={{
-                display: 'flex',
-                borderBottom: '1px solid #e0e0e0',
-                height: 60,
-                backgroundColor: this.props.focus ? '#D8D8EB' : '',
-            }} className="linkman">
+            <div 
+                style={{
+                    display: 'flex',
+                    borderBottom: '1px solid #e0e0e0',
+                    height: 60,
+                    backgroundColor: this.props.focus ? '#D8D8EB' : '',
+                }} 
+                className="linkman"
+                onClick={ this.props.handleClick }
+            >
                 <div style={{
                     padding: '10px',
                 }}>

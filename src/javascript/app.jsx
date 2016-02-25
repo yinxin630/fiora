@@ -12,7 +12,8 @@ import Body from './body.jsx';
 
 export default class App extends React.Component {
     render() {
-        const { user, linkmans } = this.props.reducer;
+        const { dispatch } = this.props;
+        const { user, linkmans, linkmanFocus } = this.props.reducer;
         return (
             <div style={{
                 height: window.innerHeight,
@@ -20,7 +21,12 @@ export default class App extends React.Component {
                 flexDirection: 'column',
             }}>
                 <Header/>
-                <Body user={ user } linkmans={ linkmans }/>
+                <Body
+                    user={ user } 
+                    linkmans={ linkmans }
+                    linkmanFocus={ linkmanFocus }
+                    linkmanClick={ index => dispatch(Action.setLinkmanFocus(index)) }
+                />
             </div>
         );
     }

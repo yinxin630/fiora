@@ -4,6 +4,7 @@ module.exports = {
         SetLinkmans: 'SetLinkmans',
         AddLinkman: 'AddLinkman',
         AddMessage: 'AddMessage',
+        SetLinkmanFocus: 'SetLinkmanFocus',
     },
     
     initUserInfo: function (user) {
@@ -31,6 +32,13 @@ module.exports = {
         return {
             type: this.types.AddMessage,
             message: message,
+        }
+    },
+    
+    setLinkmanFocus: function (index) {
+        return {
+            type: this.types.SetLinkmanFocus,
+            index: index,
         }
     }
 }
