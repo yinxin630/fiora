@@ -24,3 +24,7 @@ button:focus {
     border: none;
     box-shadow: 0 0 5px #719ECE;
 }
+
+.linkman:hover {
+    background-color: #D1E9E9;
+}

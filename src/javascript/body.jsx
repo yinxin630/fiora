@@ -26,7 +26,7 @@ export default class Body extends React.Component {
                     </nav>
                 </Sidebar>
                 <LinkmanForm>
-                    <Linkman/>
+                    <Linkman focus={ true }/>
                     <Linkman/>
                     <Linkman/>
                 </LinkmanForm>

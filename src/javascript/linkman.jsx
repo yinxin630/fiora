@@ -9,6 +9,7 @@ export default class Linkman extends React.Component {
         nickname: '默认昵称',
         time: '12:12:12',
         content: '默认内容',
+        focus: false,
     };
     
     render () {
@@ -16,7 +17,8 @@ export default class Linkman extends React.Component {
             <div style={{
                 display: 'flex',
                 borderBottom: '1px solid #e0e0e0',
-            }}>
+                backgroundColor: this.props.focus ? '#D8D8EB' : '',
+            }} className="linkman">
                 <div style={{
                     padding: '10px',
                 }}>
