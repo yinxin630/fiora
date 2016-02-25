@@ -14,6 +14,7 @@ store: {
 
 ```
 user: {
+    id: {Stirng} 用户id
     avatar: {String} 用户头像地址
     nickname: {String} 用户昵称
 }
@@ -32,6 +33,7 @@ linkmans: [
 
 ```
 linkman: {
+    id: {Stirng} 用户id
     avatar: {String} 联系人头像
     nickname: {String} 联系人昵称
     messages: [
