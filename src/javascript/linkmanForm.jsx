@@ -2,6 +2,8 @@
 
 const React = require('react');
 
+const BackgroundColor = '#FDFFFF';
+
 export default class LinkmanForm extends React.Component {
     render () {
         return (
@@ -11,6 +13,7 @@ export default class LinkmanForm extends React.Component {
                 flexDirection: 'column',
                 borderCollapse: 'collapse',
                 borderRight: '1px solid #e0e0e0',
+                backgroundColor: BackgroundColor,
             }}>
                 { this.props.children }
             </div>

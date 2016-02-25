@@ -15,6 +15,7 @@ export default class Body extends React.Component {
             <div style={{
                 flex: 1,
                 display: 'flex',
+                zIndex: -1,
             }}>
                 <Sidebar>
                     <User/>
@@ -36,6 +37,7 @@ export default class Body extends React.Component {
                     flex: 1,
                     display: 'flex',
                     flexDirection: 'column',
+                    backgroundColor: '#FDFFFF',
                 }}>
                     <Topbar/>
                     <ChatForm>

@@ -1,16 +1,20 @@
 'use strict'
 
 const React = require('react');
+const BackgroundColor = '#272727';
+const AppNameColor = '#FFFFFF';
+const LinkColor = '#FFFFFF';
+const aStyle = {
+    marginLeft: '10px',
+    color: LinkColor,
+};
 
 export default class Header extends React.Component {
     render () {
-        const aStyle = {
-            marginLeft: '10px',
-        };
         return (
             <div style={{
-                borderBottom: '1px solid #8b8b8b',
-                boxShadow: '0px 0px 5px',
+                backgroundColor: BackgroundColor,
+                boxShadow: `0px 0px 10px ${BackgroundColor}`,
             }}>
                 <div style={{
                     width: '70%',
@@ -22,6 +26,7 @@ export default class Header extends React.Component {
                     <h1 style={{
                         fontSize: '3rem',
                         padding: '6px 0px',
+                        color: AppNameColor,
                     }}>FIORA</h1>
                     <nav style={{
                         display: 'flex',
