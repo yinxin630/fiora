@@ -1,6 +1,7 @@
 'use strict'
 
 const React = require('react');
+
 import Linkman from './linkman.jsx';
 import LinkmanForm from './linkmanForm.jsx';
 import User from './user.jsx';
