@@ -12,3 +12,15 @@ h1 {
 body {
     overflow: hidden;
 }
+
+textarea:focus {
+    outline: none !important;
+    border: none;
+    box-shadow: 0 0 5px #719ECE;
+}
+
+button:focus {
+    outline: none !important;
+    border: none;
+    box-shadow: 0 0 5px #719ECE;
+}
