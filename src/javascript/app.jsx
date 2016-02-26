@@ -6,11 +6,16 @@ import { Provider, connect } from 'react-redux';
 const Action = require('./action.js');
 const Store = require('./store.js');
 import { Router, Route, Link } from 'react-router';
+const socketIOClient = require('socket.io-client');
+const sailsIOClient = require('sails.io.js');
+const io = sailsIOClient(socketIOClient);
 
 import Header from './header.jsx';
 import Body from './body.jsx';
 import Register from './register.jsx';
 import Login from './login.jsx';
+
+io.sails.url = 'http://localhost:1337';
 
 export default class App extends React.Component {
     render() {
