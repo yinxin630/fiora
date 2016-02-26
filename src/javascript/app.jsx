@@ -9,6 +9,8 @@ import { Router, Route, Link } from 'react-router';
 
 import Header from './header.jsx';
 import Body from './body.jsx';
+import Register from './register.jsx';
+import Login from './login.jsx';
 
 export default class App extends React.Component {
     render() {
@@ -38,6 +40,8 @@ ReactDom.render(
     <Provider store={ Store }>
         <Router>
             <Route path="/" component={ ConnectedApp }/>
+            <Route path="/register" component={ Register }/>
+            <Route path="/login" component={ Login }/>
         </Router>
     </Provider>, 
     document.querySelector('#app')
