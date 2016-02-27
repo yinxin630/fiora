@@ -5,6 +5,28 @@
     box-sizing: border-box;
 }
 
+h1 {
+    margin: 0;
+}
+
 body {
-    font-size: 10px;
+    overflow: hidden;
+    min-width: 900px;
+    min-height: 600px;
+}
+
+textarea:focus {
+    outline: none !important;
+    border: none;
+    box-shadow: 0 0 5px #719ECE;
+}
+
+button:focus {
+    outline: none !important;
+    border: none;
+    box-shadow: 0 0 5px #719ECE;
+}
+
+.linkman:hover {
+    background-color: #D1E9E9;
 }
