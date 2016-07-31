@@ -1,0 +1,66 @@
+.user-list {
+    width: 250px;
+    height: 100%;
+    border-right: 1px solid silver;
+}
+
+.user-list-item {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+
+    img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin: 10px 5px 10px 5px;
+    }
+    div {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+        width: 180px;
+
+        div:first-child {
+            display: flex;
+            flex-direction: row;
+            align-content: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0;
+
+            p:first-child {
+                font-size: 14px;
+                color: #202020;
+                margin: 0;
+                margin-top: 5px;
+            }
+            p:last-child {
+                font-size: 12px;
+                color: #b6b6b6;
+                margin: 0;
+                margin-top: 10px;
+            }
+        }
+        div:last-child {
+            flex: 1;
+            text-overflow: ellipsis;
+            padding: 0;
+
+            p {
+                width: 100%;
+                font-size: 12px;
+                color: #727272;
+                margin: 0;
+                margin-bottom: 10px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+}
