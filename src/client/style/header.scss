@@ -1,0 +1,17 @@
+header {
+    width: 100%;
+    height: 80px;
+    background-color: #03A9F4;
+
+    div {
+        width: 250px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-content: center;
+
+        img {
+            margin: 19px auto;
+        }
+    }
+}
