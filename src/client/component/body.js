@@ -20,6 +20,12 @@ class Body extends React.Component {
                         <MessageList.item self/>
                         <MessageList.item/>
                         <MessageList.item/>
+                        <MessageList.item/>
+                        <MessageList.item/>
+                        <MessageList.item/>
+                        <MessageList.item/>
+                        <MessageList.item/>
+                        <MessageList.item/>
                     </MessageList.container>
                     <div className="input">
                         <input type="text" autofocus/>

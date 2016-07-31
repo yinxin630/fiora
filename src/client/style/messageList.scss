@@ -5,13 +5,15 @@
     display: flex;
     flex-direction: column;
     justify-content: stretch;
+    overflow: auto;
 }
 
 .message-list-item {
     display: flex;
     width: 100%;
     margin-top: 10px;
-
+    min-height: min-content;
+    
     img {
         width: 40px;
         height: 40px;
