@@ -3,6 +3,8 @@ import '../style/body.scss';
 
 import UserList from './userList';
 import MessageList from './messageList';
+import Toolbar from './toolbar';
+import ChatPanelHeader from './chatPanelHeader';
 
 class Body extends React.Component {
     render () {
@@ -13,23 +15,7 @@ class Body extends React.Component {
                     <UserList.item/>
                 </UserList.container>
                 <div className="chatPanel">
-                    <div className="header">
-                        <div>
-                            <img src={ require('../image/avatar.gif') }/>
-                            <p>碎碎酱</p>
-                        </div>
-                        <div>
-                            <div>
-                                <i className="icon">&#xe603;</i>
-                            </div>
-                            <div>
-                                <i className="icon">&#xe603;</i>
-                            </div>
-                            <div>
-                                <i className="icon">&#xe603;</i>
-                            </div>
-                        </div>
-                    </div>
+                    <ChatPanelHeader/>
                     <MessageList.container>
                         <MessageList.item self/>
                         <MessageList.item/>
@@ -38,17 +24,7 @@ class Body extends React.Component {
                     <div className="input">
                         <input type="text" autofocus/>
                     </div>
-                    <div className="toolbar">
-                        <div>
-                            <i className="icon">&#xe603;</i>
-                        </div>
-                        <div>
-                            <i className="icon">&#xe603;</i>
-                        </div>
-                        <div>
-                            <i className="icon">&#xe603;</i>
-                        </div>
-                    </div>
+                    <Toolbar/>
                 </div>
             </div>
         );

@@ -1,0 +1,39 @@
+.chat-panel-header {
+    height: 60px;
+    width: 100%;
+    border-bottom: 1px solid silver;
+    display: flex;
+    justify-content: space-between;
+    
+    div:first-child {
+        display: flex;
+        align-items: center;
+
+        img {
+            width: 40px;
+            height: 40px;
+            margin: 10px 5px 10px 10px;
+            border-radius: 50%;
+        }
+        p {
+            color: #231815;
+            margin: 0;
+        }
+    }
+    div:last-child {
+        display: flex;
+        align-items: center;
+
+        div {
+            margin: auto 5px;
+
+            i {
+                font-size: 25px;
+                color: #349dd1;
+            }
+        }
+        div:last-child {
+            margin-right: 10px;
+        }
+    }
+}
