@@ -1,5 +1,6 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
     entry: './src/client/index.js',
@@ -15,11 +16,11 @@ module.exports = {
             },
             {
                 test: /\.(css)$/,
-                loaders: ['style-loader', 'css-loader']
+                loaders: ['style-loader', 'css-loader', 'postcss-loader']
             },
             {
                 test: /\.scss$/,
-                loaders: ['style-loader', 'css-loader', 'sass-loader']
+                loaders: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader', 'resolve-url']
             },
             {
                 test: /\.(png|jpg)$/,
@@ -27,4 +28,5 @@ module.exports = {
             }
         ]
     },
+    postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],
 };
