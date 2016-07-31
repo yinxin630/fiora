@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+}
+
+.window {
+    width: 100vw;
+    height: 100vh;
+}
+
+.background {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../image/background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(20px);
+    position: absolute;
+    z-index: -100;
+}
+
+.app {
+    width: 1000px;
+    height: 100vh;
+    margin: auto;
+    background-color: red;
+}
