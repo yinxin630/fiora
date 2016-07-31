@@ -38,6 +38,17 @@ class Body extends React.Component {
                     <div className="input">
                         <input type="text" autofocus/>
                     </div>
+                    <div className="toolbar">
+                        <div>
+                            <i className="icon">&#xe603;</i>
+                        </div>
+                        <div>
+                            <i className="icon">&#xe603;</i>
+                        </div>
+                        <div>
+                            <i className="icon">&#xe603;</i>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
