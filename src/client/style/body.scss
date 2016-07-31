@@ -5,7 +5,115 @@
     background-color: rgba(241, 241, 241, 0.5);
 }
 
-.right {
+.chatPanel {
     flex: 1;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .header {
+        height: 60px;
+        width: 100%;
+        border-bottom: 1px solid silver;
+        display: flex;
+        justify-content: space-between;
+        
+        div:first-child {
+            display: flex;
+            align-items: center;
+
+            img {
+                width: 40px;
+                height: 40px;
+                margin: 10px 5px 10px 10px;
+                border-radius: 50%;
+            }
+            p {
+                color: #231815;
+                margin: 0;
+            }
+        }
+        div:last-child {
+            display: flex;
+            align-items: center;
+
+            div {
+                margin: auto 5px;
+
+                i {
+                    font-size: 25px;
+                    color: #349dd1;
+                }
+            }
+            div:last-child {
+                margin-right: 10px;
+            }
+        }
+    }
+    .content {
+        width: 100%;
+        flex: 1;
+        padding: 0px 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: stretch;
+
+        .message {
+            display: flex;
+            width: 100%;
+            margin-top: 10px;
+
+            img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                margin-right: 5px;
+            }
+            & > div {
+                flex: 1;
+                margin-right: 45px;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+
+                & > div:first-child {
+                    display: inline-block;
+                    span {
+                        font-size: 14px;
+                        color: #202020;
+                    }
+                    span:last-child {
+                        font-size: 12px;
+                        margin-left: 5px;
+                    }
+                }
+                & > div:last-child {
+                    padding: 5px;
+                    margin: 0px;
+                    border: 1px solid #999;
+                    word-break: break-all;
+                    border-radius: 10px;
+                    box-shadow: 0px 0px 3px;
+                    display: inline-block;
+                }
+            }
+        }
+        .message-other {
+            flex-direction: row-reverse;
+
+            & > div {
+                align-items: flex-end;
+                margin-right: 0px;
+                margin-left: 45px;
+            }
+            & > img {
+                margin-right: 0px;
+                margin-left: 5px;
+            }
+        }
+    }
+    .input {
+        height: 50px;
+        width: 100%;
+    }
 }
