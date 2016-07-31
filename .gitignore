@@ -17,3 +17,6 @@ coverage
 
 # config file
 config.js
+
+* public
+public/*.js
