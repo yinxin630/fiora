@@ -13,9 +13,9 @@ class NavList extends React.Component {
 
 class Nav extends React.Component {
     render () {
-        let { icon } = this.props;
+        let { icon, selected } = this.props;
         return (
-            <div className="nav-list-item">
+            <div className={ `nav-list-item ${ selected ? 'selected' : '' }` }>
                 <i className="icon">{ icon }</i>
             </div>
         );
