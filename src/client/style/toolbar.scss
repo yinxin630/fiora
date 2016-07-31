@@ -1,0 +1,20 @@
+.toolbar {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    div {
+        i {
+            font-size: 30px;
+            margin: 10px;
+            color: #444;
+        }
+    }
+}
