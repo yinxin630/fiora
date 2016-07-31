@@ -14,3 +14,6 @@ coverage
 
 # Optional npm cache directory
 .npm
+
+# config file
+config.js
