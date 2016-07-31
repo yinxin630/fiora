@@ -1,24 +1,19 @@
 import React from 'react';
 import '../style/header.scss';
 
+import Logo from './logo';
+import NavList from './navList';
+
 class Header extends React.Component {
     render () {
         return (
             <header>
-                <div className="logo">
-                    <img src={ require('../image/logo.png') }/>
-                </div>
-                <nav className="nav">
-                    <div className="selected">
-                        <i className="icon">&#xe601;</i>
-                    </div>
-                    <div>
-                        <i className="icon">&#xe600;</i>
-                    </div>
-                    <div>
-                        <i className="icon">&#xe603;</i>
-                    </div>
-                </nav>
+                <Logo/>
+                <NavList.container>
+                    <NavList.item icon="&#xe601;"/>
+                    <NavList.item icon="&#xe600;"/>
+                    <NavList.item icon="&#xe603;"/>
+                </NavList.container>
                 <div className="user">
                     <div></div>
                     <img src={ require('../image/avatar.gif') }/>

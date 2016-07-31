@@ -1,0 +1,22 @@
+.user-panel {
+    width: 250px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+
+    div {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #6ab82d;
+        margin-right: 10px;
+    }
+
+    img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+}
