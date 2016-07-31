@@ -1,9 +1,11 @@
 header {
     width: 100%;
     height: 80px;
-    background-color: #03A9F4;
+    background-color: #289dda;
+    display: flex;
+    flex-direction: row;
 
-    div {
+    .logo {
         width: 250px;
         display: flex;
         flex-direction: row;
@@ -12,6 +14,63 @@ header {
 
         img {
             margin: 19px auto;
+        }
+    }
+
+    .nav {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        div {
+            width: 70px;
+            height: 50px;
+            background-color: #0288D1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            i {
+                font-size: 30px;
+                color: #fff;
+            }
+        }
+        .selected {
+            background-color: #2ea7e0;
+        }
+        div:first-child {
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+        div:last-child {
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+    }
+
+    .user {
+        width: 250px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+
+        div {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #6ab82d;
+            margin-right: 10px;
+        }
+
+        img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 10px;
         }
     }
 }
