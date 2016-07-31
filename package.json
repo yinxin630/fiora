@@ -1,0 +1,19 @@
+{
+  "name": "fiora",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yinxin630/fiora.git"
+  },
+  "author": "yinxin630",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yinxin630/fiora/issues"
+  },
+  "homepage": "https://github.com/yinxin630/fiora#readme"
+}
