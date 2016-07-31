@@ -35,7 +35,9 @@ class Body extends React.Component {
                         <MessageList.item/>
                         <MessageList.item/>
                     </MessageList.container>
-                    <div className="input"></div>
+                    <div className="input">
+                        <input type="text" autofocus/>
+                    </div>
                 </div>
             </div>
         );
