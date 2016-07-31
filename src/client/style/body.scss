@@ -13,18 +13,19 @@
     position: relative;
 
     .input {
-        height: 50px;
+        height: 80px;
         width: 100%;
         display: flex;
-        align-items: center;
+        // align-items: center;
         justify-content: center;
 
         input {
             width: 450px;
-            height: 36px;
-            border-radius: 18px;
+            height: 32px;
+            border-radius: 16px;
             border: 1px solid #727272;
             padding: 0px 10px;
+            margin-top: 40px;
             font-size: 16px;
         }
     }
