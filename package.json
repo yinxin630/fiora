@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "export NODE_ENV=development && (webpack-dev-server --progress --colors --watch --display-error-details --content-base public/ &) && node bin/develop.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,30 @@
   "bugs": {
     "url": "https://github.com/yinxin630/fiora/issues"
   },
-  "homepage": "https://github.com/yinxin630/fiora#readme"
+  "homepage": "https://github.com/yinxin630/fiora#readme",
+  "dependencies": {
+    "cross-env": "^2.0.0",
+    "history": "^3.0.0",
+    "koa": "^1.2.1",
+    "koa-logger": "^1.3.0",
+    "koa-static": "^2.0.0",
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0",
+    "react-redux": "^4.4.5",
+    "redux": "^3.5.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.11.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.11.1",
+    "babel-preset-stage-0": "^6.5.0",
+    "chokidar": "^1.6.0",
+    "css-loader": "^0.23.1",
+    "node-sass": "^3.8.0",
+    "sass-loader": "^4.0.0",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
+  }
 }
