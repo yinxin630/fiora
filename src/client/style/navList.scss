@@ -5,6 +5,17 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+
+    div {
+        &:first-child {
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+        &:last-child {
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+    }
 }
 
 .nav-list-item {
@@ -22,12 +33,4 @@
 }
 .selected {
     background-color: #2ea7e0;
-}
-div:first-child {
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
-}
-div:last-child {
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
 }
