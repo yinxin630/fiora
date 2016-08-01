@@ -1,12 +1,15 @@
 import React from 'react';
 import '../style/groupSetting.scss';
 
+import { connect } from 'react-redux';
+import ui from '../action/ui';
 import FloatPanel from './floatPanel';
 
 class GroupSetting extends React.Component {
     render () {
+        let { show } = this.props;
         return (
-            <FloatPanel>
+            <FloatPanel onClose={ this.props.closeGroupSetting } show={ show }>
                 <div className="group-info">
                     <div>
                         <span>群名称：</span>
@@ -37,4 +40,11 @@ class GroupSetting extends React.Component {
     }
 }
 
-export default GroupSetting;
+export default connect(
+    state => ({
+        show: state.ui.showGroupSetting,
+    }),
+    () => ({
+        closeGroupSetting: ui.closeGroupSetting,
+    })
+)(GroupSetting);

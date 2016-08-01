@@ -1,12 +1,15 @@
 import React from 'react';
 import '../style/groupNotice.scss';
 
+import { connect } from 'react-redux';
+import ui from '../action/ui';
 import FloatPanel from './floatPanel';
 
 class GroupNotice extends React.Component {
     render () {
+        let { show } = this.props;
         return (
-            <FloatPanel>
+            <FloatPanel onClose={ this.props.closeGroupNotice } show={ show }>
                 <div className="group-notice">
                     <div>碎碎酱 更新于 11月11日 11:11</div>
                     <div className="content">
@@ -21,4 +24,11 @@ class GroupNotice extends React.Component {
     }
 }
 
-export default GroupNotice;
+export default connect(
+    state => ({
+        show: state.ui.showGroupNotice,
+    }),
+    () => ({
+        closeGroupNotice: ui.closeGroupNotice,
+    })
+)(GroupNotice);

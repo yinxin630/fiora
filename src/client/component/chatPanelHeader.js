@@ -1,6 +1,9 @@
 import React from 'react';
 import '../style/chatPanelHeader.scss';
 
+import { connect } from 'react-redux';
+import ui from '../action/ui';
+
 class ChatPanelHeader extends React.Component {
     render () {
         return (
@@ -11,13 +14,16 @@ class ChatPanelHeader extends React.Component {
                 </div>
                 <div>
                     <div>
-                        <i className="icon">&#xe60a;</i>
+                        <i 
+                            className="icon"
+                            onClick={ this.props.openGroupNotice }
+                        >&#xe60a;</i>
                     </div>
                     <div>
-                        <i className="icon">&#xe609;</i>
-                    </div>
-                    <div>
-                        <i className="icon">&#xe601;</i>
+                        <i 
+                            className="icon"
+                            onClick={ this.props.openGroupSetting }
+                        >&#xe609;</i>
                     </div>
                 </div>
             </div>
@@ -25,4 +31,10 @@ class ChatPanelHeader extends React.Component {
     }
 }
 
-export default ChatPanelHeader;
+export default connect(
+    state => ({}),
+    () => ({
+        openGroupSetting: ui.openGroupSetting,
+        openGroupNotice: ui.openGroupNotice,
+    })
+)(ChatPanelHeader);
