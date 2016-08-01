@@ -1,0 +1,22 @@
+.input-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    input {
+        width: 450px;
+        height: 32px;
+        border-radius: 16px;
+        border: 1px solid #727272;
+        padding: 0px 10px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        font-size: 16px;
+        transition: margin-top 0.3s;
+
+        &:focus {
+            margin-top: 45px;
+        }
+    }
+}

@@ -13,11 +13,10 @@
     position: relative;
 
     .input {
-        height: 80px;
         width: 100%;
         display: flex;
-        // align-items: center;
         justify-content: center;
+        align-items: flex-end;
 
         input {
             width: 450px;
@@ -25,8 +24,14 @@
             border-radius: 16px;
             border: 1px solid #727272;
             padding: 0px 10px;
-            margin-top: 40px;
+            margin-bottom: 5px;
+            margin-top: 5px;
             font-size: 16px;
+            transition: margin-top 0.3s;
+
+            &:focus {
+                margin-top: 45px;
+            }
         }
     }
 }

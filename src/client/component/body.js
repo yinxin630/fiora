@@ -5,6 +5,7 @@ import UserList from './userList';
 import MessageList from './messageList';
 import Toolbar from './toolbar';
 import ChatPanelHeader from './chatPanelHeader';
+import InputBox from './inputBox';
 
 class Body extends React.Component {
     render () {
@@ -27,9 +28,7 @@ class Body extends React.Component {
                         <MessageList.item/>
                         <MessageList.item/>
                     </MessageList.container>
-                    <div className="input">
-                        <input type="text" autofocus/>
-                    </div>
+                    <InputBox/>
                     <Toolbar/>
                 </div>
             </div>
