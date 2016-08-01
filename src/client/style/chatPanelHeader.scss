@@ -25,11 +25,19 @@
         align-items: center;
 
         div {
-            margin: auto 5px;
+            margin: auto 8px;
 
             i {
-                font-size: 25px;
+                font-size: 24px;
                 color: #349dd1;
+            }
+            &:nth-child(1000n+1) {
+                i {
+                    font-size: 20px;
+                }
+            }
+            &:nth-child(1000n+2) {
+                margin-top: 18px;
             }
         }
         div:last-child {

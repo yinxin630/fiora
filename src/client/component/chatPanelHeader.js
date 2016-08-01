@@ -11,13 +11,13 @@ class ChatPanelHeader extends React.Component {
                 </div>
                 <div>
                     <div>
-                        <i className="icon">&#xe603;</i>
+                        <i className="icon">&#xe60a;</i>
                     </div>
                     <div>
-                        <i className="icon">&#xe603;</i>
+                        <i className="icon">&#xe609;</i>
                     </div>
                     <div>
-                        <i className="icon">&#xe603;</i>
+                        <i className="icon">&#xe601;</i>
                     </div>
                 </div>
             </div>
