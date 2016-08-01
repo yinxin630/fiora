@@ -5,6 +5,7 @@ import MessageList from './messageList';
 import Toolbar from './toolbar';
 import ChatPanelHeader from './chatPanelHeader';
 import InputBox from './inputBox';
+import GroupSetting from './groupSetting';
 
 class ChatPanel extends React.Component {
     render () {
@@ -24,13 +25,6 @@ class ChatPanel extends React.Component {
                 </MessageList.container>
                 <InputBox/>
                 <Toolbar/>
-
-                <div className="float-panel">
-                    <div>
-                        <span>群设置</span>
-                        <i className="icon">&#xe603;</i>
-                    </div>
-                </div>
             </div>
         );
     }

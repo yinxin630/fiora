@@ -1,0 +1,23 @@
+.group-notice {
+    flex: 1;
+    padding: 15px;
+
+    & > div:first-child {
+        font-size: 12px;
+        color: #727272;
+    }
+    .content {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #212121;
+    }
+    & > div:last-child {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        button {
+            margin: 15px 0px;
+        }
+    }
+}
