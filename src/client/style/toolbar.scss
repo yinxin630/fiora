@@ -20,6 +20,11 @@
             margin: 10px;
             color: #444;
             text-align: center;
+            cursor: pointer;
+
+            &:hover {
+                color: #666;
+            }
         }
         &:nth-child(1000n+2) {
             margin-top: 5px;

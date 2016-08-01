@@ -25,6 +25,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #2ea7e0;
+    }
 
     i {
         font-size: 30px;

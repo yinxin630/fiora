@@ -29,7 +29,12 @@
 
             i {
                 font-size: 24px;
-                color: #349dd1;
+                color: #2ea7e0;
+                cursor: pointer;
+
+                &:hover {
+                    color: #608198;
+                }
             }
             &:nth-child(1000n+1) {
                 i {

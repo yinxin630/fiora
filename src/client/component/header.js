@@ -3,6 +3,7 @@ import '../style/header.scss';
 
 import Logo from './logo';
 import NavList from './navList';
+import UserPanel from './userPanel';
 
 class Header extends React.Component {
     render () {
@@ -14,10 +15,7 @@ class Header extends React.Component {
                     <NavList.item icon="&#xe600;"/>
                     <NavList.item icon="&#xe606;"/>
                 </NavList.container>
-                <div className="user">
-                    <div></div>
-                    <img src={ require('../image/avatar.gif') }/>
-                </div>
+                <UserPanel/>
             </header>
         );
     }
