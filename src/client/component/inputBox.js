@@ -5,7 +5,7 @@ class InputBox extends React.Component {
     render () {
         return (
             <div className="input-box">
-                <input type="text" autofocus/>
+                <input type="text"/>
             </div>
         );
     }

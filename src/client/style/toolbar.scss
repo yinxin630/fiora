@@ -2,7 +2,7 @@
     position: absolute;
     left: 0px;
     right: 0px;
-    bottom: 45px;
+    bottom: 30px;
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -11,10 +11,21 @@
     align-items: center;
 
     div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
         i {
             font-size: 30px;
             margin: 10px;
             color: #444;
+            text-align: center;
+        }
+        &:nth-child(1000n+2) {
+            margin-top: 5px;
+            i {
+                font-size: 28px;
+            }
         }
     }
 }

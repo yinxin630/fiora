@@ -10,9 +10,9 @@ class Header extends React.Component {
             <header>
                 <Logo/>
                 <NavList.container>
-                    <NavList.item icon="&#xe601;" selected/>
+                    <NavList.item icon="&#xe607;" selected/>
                     <NavList.item icon="&#xe600;"/>
-                    <NavList.item icon="&#xe603;"/>
+                    <NavList.item icon="&#xe606;"/>
                 </NavList.container>
                 <div className="user">
                     <div></div>
