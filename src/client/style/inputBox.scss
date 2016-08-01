@@ -14,9 +14,6 @@
         margin-top: 5px;
         font-size: 16px;
         transition: margin-top 0.3s;
-
-        &:focus {
-            margin-top: 45px;
-        }
+        z-index: 1;
     }
 }

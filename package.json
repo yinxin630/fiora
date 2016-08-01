@@ -26,6 +26,7 @@
     "ramda": "^0.21.0",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
+    "react-motion": "^0.4.4",
     "react-redux": "^4.4.5",
     "redux": "^3.5.2"
   },
