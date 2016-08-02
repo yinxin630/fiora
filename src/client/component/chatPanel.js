@@ -8,6 +8,7 @@ import ChatPanelHeader from './chatPanelHeader';
 import InputBox from './inputBox';
 import GroupSetting from './groupSetting';
 import GroupNotice from './groupNotice';
+import Expression from './expression';
 
 class ChatPanel extends React.Component {
     render () {
@@ -30,6 +31,7 @@ class ChatPanel extends React.Component {
                 <Toolbar/>
                 <GroupSetting/>
                 <GroupNotice/>
+                <Expression/>
             </div>
         );
     }
