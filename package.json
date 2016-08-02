@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "export NODE_ENV=development && (webpack-dev-server --progress --colors --watch --display-error-details --content-base public/ &) && node bin/develop.js",
+    "start": "export NODE_ENV=development && (webpack-dev-server -d --progress --colors --watch --display-error-details --content-base public/ &) && node bin/develop.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

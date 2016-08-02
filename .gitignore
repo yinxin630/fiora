@@ -18,5 +18,6 @@ coverage
 # config file
 config.js
 
-* public
+# public
 public/*.js
+public/*.map
