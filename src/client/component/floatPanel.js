@@ -6,20 +6,14 @@ import { Motion, spring } from 'react-motion';
 class FloatPanel extends React.Component {
     constructor (props) {
         super(props);
-        this.renderFloatPanel = this.renderFloatPanel.bind(this);
     }
 
     render () {
-        let { show } = this.props;
-        return show ? this.renderFloatPanel() : null;
-    }
-
-    renderFloatPanel () {
         let { show, title } = this.props;
         return (
             <Motion 
-                defaultStyle={{ right: -325 }}
-                style={{ right: spring(show ? 0 : -325) }}
+                defaultStyle={{ right: -340 }}
+                style={{ right: spring(show ? 0 : -340) }}
             >
             {
                 style => (

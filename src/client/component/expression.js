@@ -28,23 +28,17 @@ class Expression extends React.Component {
     constructor (props) {
         super(props);
         this.state = { page: 'default' };
-        this.renderExpression = this.renderExpression.bind(this);
         this.renderDefaultExpression = this.renderDefaultExpression.bind(this);
         this.renderCollectExpression = this.renderCollectExpression.bind(this);
     }
 
     render () {
-        let { show } = this.props;
-        return show ? this.renderExpression() : null;
-    }
-
-    renderExpression () {
         let { page } = this.state;
         let { show } = this.props;
         return (
             <Motion 
-                defaultStyle={{ scale: 0, opacity: 0 }}
-                style={{ scale :spring(show ? 1 : 0), opacity: spring(show ? 1 : 0) }}
+                defaultStyle={{ scale: 0.4, opacity: 0 }}
+                style={{ scale :spring(show ? 1 : 0.4), opacity: spring(show ? 1 : 0) }}
             >
             {
                 ({ scale, opacity }) => (
