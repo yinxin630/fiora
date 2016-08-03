@@ -1,6 +1,7 @@
 import React from 'react';
 import '../style/toolbar.scss';
 
+import ui from '../action/ui';
 import { connect } from 'react-redux';
 import { Motion, spring } from 'react-motion';
 
@@ -12,7 +13,7 @@ class Toolbar extends React.Component {
 
     render () {
         let { show } = this.props;
-        return show ? this.renderToolbar() : null;
+        return this.renderToolbar();
     }
     
     renderToolbar () {
@@ -29,7 +30,10 @@ class Toolbar extends React.Component {
                         style={ style }
                     >
                         <div>
-                            <i className="icon">&#xe604;</i>
+                            <i 
+                                className="icon"
+                                onClick={ ui.openExpression }
+                            >&#xe604;</i>
                         </div>
                         <div>
                             <i className="icon">&#xe605;</i>
@@ -48,6 +52,5 @@ class Toolbar extends React.Component {
 export default connect(
     state => ({
         show: state.ui.showToolbar,
-    }),
-    () => ({})
+    })
 )(Toolbar);

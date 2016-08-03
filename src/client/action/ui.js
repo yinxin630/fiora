@@ -52,6 +52,22 @@ const actions = {
             });
             resolve('success');
         });
+    },
+    openExpression: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'OpenExpression',
+            });
+            resolve('success');
+        });
+    },
+    closeExpression: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'CloseExpression',
+            });
+            resolve('success');
+        });
     }
 };
 

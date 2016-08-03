@@ -5,6 +5,7 @@ function reducer(
         showToolbar: false,
         showGroupSetting: false,
         showGroupNotice: false,
+        showExpression: false,
     }, 
     action
 ) {
@@ -40,6 +41,17 @@ function reducer(
             newState.showGroupNotice = false;
             return newState;
         }
+        case 'OpenExpression': {
+            let newState = R.clone(state);
+            newState.showExpression = true;
+            return newState;
+        }
+        case 'CloseExpression': {
+            let newState = R.clone(state);
+            newState.showExpression = false;
+            return newState;
+        }
+
         default: 
             return state;
     }

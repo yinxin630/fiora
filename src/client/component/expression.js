@@ -1,6 +1,8 @@
 import React from 'react';
 import '../style/expression.scss';
 
+import { connect } from 'react-redux';
+
 const expressions = ['呵呵', '哈哈', '吐舌', '啊', '酷', '怒', '开心', '汗', '泪', '黑线',
                      '鄙视', '不高兴', '真棒', '钱', '疑问', '阴险', '吐', '咦', '委屈', '花心', 
                      '呼', '笑眼', '冷', '太开心', '滑稽', '勉强', '狂汗', '乖', '睡觉', '惊哭',
@@ -25,11 +27,17 @@ class Expression extends React.Component {
     constructor (props) {
         super(props);
         this.state = { page: 'default' };
+        this.renderExpression = this.renderExpression.bind(this);
         this.renderDefaultExpression = this.renderDefaultExpression.bind(this);
         this.renderCollectExpression = this.renderCollectExpression.bind(this);
     }
 
     render () {
+        let { show } = this.props;
+        return show ? this.renderExpression() : null;
+    }
+
+    renderExpression () {
         let { page } = this.state;
         return (
             <div className="expression">
@@ -83,4 +91,9 @@ class Expression extends React.Component {
     }
 }
 
-export default Expression;
+export default connect(
+    state => ({
+        show: state.ui.showExpression,
+    }),
+    () => ({})
+)(Expression);
