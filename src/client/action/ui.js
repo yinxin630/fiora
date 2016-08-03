@@ -3,7 +3,7 @@ const dispatch = Store.dispatch;
 
 const actions = {
     // inputBox
-    showToolbar: function () {
+    openToolbar: function () {
         return new Promise(resolve => {
             dispatch({
                 type: 'ShowToolbar',
@@ -65,6 +65,24 @@ const actions = {
         return new Promise(resolve => {
             dispatch({
                 type: 'CloseExpression',
+            });
+            resolve('success');
+        });
+    },
+
+    // maskLayout
+    openMaskLayout: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'OpenMaskLayout',
+            });
+            resolve('success');
+        });
+    },
+    closeMaskLayout: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'CloseMaskLayout',
             });
             resolve('success');
         });

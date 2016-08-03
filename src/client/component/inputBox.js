@@ -21,8 +21,8 @@ class InputBox extends React.Component {
                     >
                         <input 
                             type="text" 
-                            onFocus={ this.props.showToolbar }
-                            onBlur={ this.props.closeToolbar }
+                            onFocus={ ui.openToolbar }
+                            onBlur={ ui.closeToolbar }
                         />
                     </div>
                 )
@@ -35,9 +35,5 @@ class InputBox extends React.Component {
 export default connect(
     state => ({
         show: state.ui.showToolbar,
-    }),
-    () => ({
-        showToolbar: ui.showToolbar,
-        closeToolbar: ui.closeToolbar,
     })
 )(InputBox);

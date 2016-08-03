@@ -6,6 +6,7 @@ function reducer(
         showGroupSetting: false,
         showGroupNotice: false,
         showExpression: false,
+        showMaskLayout: false,
     }, 
     action
 ) {
@@ -49,6 +50,17 @@ function reducer(
         case 'CloseExpression': {
             let newState = R.clone(state);
             newState.showExpression = false;
+            return newState;
+        }
+
+        case 'OpenMaskLayout': {
+            let newState = R.clone(state);
+            newState.showMaskLayout = true;
+            return newState;
+        }
+        case 'CloseMaskLayout': {
+            let newState = R.clone(state);
+            newState.showMaskLayout = false;
             return newState;
         }
 

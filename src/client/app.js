@@ -3,6 +3,7 @@ import './style/app.scss';
 
 import Header from './component/header';
 import Body from './component/body';
+import MaskLayout from './component/maskLayout';
 
 class App extends React.Component {
     render () {
@@ -12,6 +13,7 @@ class App extends React.Component {
                 <div className="app">
                     <Header/>
                     <Body/>
+                    <MaskLayout/>
                 </div>
             </div>
         );
