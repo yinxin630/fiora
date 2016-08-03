@@ -15,7 +15,7 @@ class FloatPanel extends React.Component {
     }
 
     renderFloatPanel () {
-        let { show } = this.props;
+        let { show, title } = this.props;
         return (
             <Motion 
                 defaultStyle={{ right: -325 }}
@@ -25,7 +25,7 @@ class FloatPanel extends React.Component {
                 style => (
                     <div className="float-panel" style={ style }>
                         <div>
-                            <span>群设置</span>
+                            <span>{ title }</span>
                             <i className="icon" onClick={ this.props.onClose }>&#xe603;</i>
                         </div>
                         { this.props.children }

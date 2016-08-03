@@ -9,7 +9,11 @@ class GroupSetting extends React.Component {
     render () {
         let { show } = this.props;
         return (
-            <FloatPanel onClose={ ui.closeGroupSetting } show={ show }>
+            <FloatPanel 
+                onClose={ ui.closeGroupSetting } 
+                show={ show }
+                title="群设置"
+            >
                 <div className="group-info">
                     <div>
                         <span>群名称：</span>
