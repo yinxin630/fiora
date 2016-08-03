@@ -16,13 +16,13 @@ class ChatPanelHeader extends React.Component {
                     <div>
                         <i 
                             className="icon"
-                            onClick={ this.props.openGroupNotice }
+                            onClick={ ui.openGroupNotice }
                         >&#xe60a;</i>
                     </div>
                     <div>
                         <i 
                             className="icon"
-                            onClick={ this.props.openGroupSetting }
+                            onClick={ ui.openGroupSetting }
                         >&#xe609;</i>
                     </div>
                 </div>
@@ -32,9 +32,5 @@ class ChatPanelHeader extends React.Component {
 }
 
 export default connect(
-    state => ({}),
-    () => ({
-        openGroupSetting: ui.openGroupSetting,
-        openGroupNotice: ui.openGroupNotice,
-    })
+    state => ({})
 )(ChatPanelHeader);

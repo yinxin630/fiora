@@ -9,7 +9,7 @@ class GroupNotice extends React.Component {
     render () {
         let { show } = this.props;
         return (
-            <FloatPanel onClose={ this.props.closeGroupNotice } show={ show }>
+            <FloatPanel onClose={ ui.closeGroupNotice } show={ show }>
                 <div className="group-notice">
                     <div>碎碎酱 更新于 11月11日 11:11</div>
                     <div className="content">
@@ -27,8 +27,5 @@ class GroupNotice extends React.Component {
 export default connect(
     state => ({
         show: state.ui.showGroupNotice,
-    }),
-    () => ({
-        closeGroupNotice: ui.closeGroupNotice,
     })
 )(GroupNotice);

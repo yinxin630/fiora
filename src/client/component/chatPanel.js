@@ -38,6 +38,5 @@ class ChatPanel extends React.Component {
 }
 
 export default connect(
-    state => ({ }),
-    () => ({ })
+    state => ({ })
 )(ChatPanel);

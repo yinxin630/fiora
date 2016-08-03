@@ -108,6 +108,5 @@ class Expression extends React.Component {
 export default connect(
     state => ({
         show: state.ui.showExpression,
-    }),
-    () => ({})
+    })
 )(Expression);
