@@ -3,8 +3,15 @@ import '../style/chatPanelHeader.scss';
 
 import { connect } from 'react-redux';
 import ui from '../action/ui';
+import mask from '../util/mask';
 
 class ChatPanelHeader extends React.Component {
+    constructor (props) {
+        super(props);
+        this.onGroupNoticeClick = this.onGroupNoticeClick.bind(this);
+        this.onGroupSettingClick = this.onGroupSettingClick.bind(this);
+    }
+
     render () {
         return (
             <div className="chat-panel-header">
@@ -16,18 +23,28 @@ class ChatPanelHeader extends React.Component {
                     <div>
                         <i 
                             className="icon"
-                            onClick={ ui.openGroupNotice }
+                            onClick={ this.onGroupNoticeClick }
                         >&#xe60a;</i>
                     </div>
                     <div>
                         <i 
                             className="icon"
-                            onClick={ ui.openGroupSetting }
+                            onClick={ this.onGroupSettingClick }
                         >&#xe609;</i>
                     </div>
                 </div>
             </div>
         );
+    }
+
+    onGroupNoticeClick () {
+        ui.openGroupNotice();
+        mask(ui.closeGroupNotice);
+    }
+
+    onGroupSettingClick () {
+        ui.openGroupSetting();
+        mask(ui.closeGroupSetting);
     }
 }
 
