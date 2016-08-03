@@ -2,6 +2,7 @@ import React from 'react';
 import '../style/expression.scss';
 
 import { connect } from 'react-redux';
+import { Motion, spring } from 'react-motion';
 
 const expressions = ['呵呵', '哈哈', '吐舌', '啊', '酷', '怒', '开心', '汗', '泪', '黑线',
                      '鄙视', '不高兴', '真棒', '钱', '疑问', '阴险', '吐', '咦', '委屈', '花心', 
@@ -39,24 +40,37 @@ class Expression extends React.Component {
 
     renderExpression () {
         let { page } = this.state;
+        let { show } = this.props;
         return (
-            <div className="expression">
-                { page === 'default' ? this.renderDefaultExpression() : this.renderCollectExpression() }
-                <div>
+            <Motion 
+                defaultStyle={{ scale: 0, opacity: 0 }}
+                style={{ scale :spring(show ? 1 : 0), opacity: spring(show ? 1 : 0) }}
+            >
+            {
+                ({ scale, opacity }) => (
                     <div 
-                        className={ page === 'default' ? 'selected' : '' }
-                        onClick={ () => this.setState({ page: 'default' }) }
+                        className="expression" 
+                        style={{ opacity: opacity, transform: `scale(${ scale })` }}
                     >
-                        <img src={ require('../image/default-expression.png') }/>
+                        { page === 'default' ? this.renderDefaultExpression() : this.renderCollectExpression() }
+                        <div>
+                            <div 
+                                className={ page === 'default' ? 'selected' : '' }
+                                onClick={ () => this.setState({ page: 'default' }) }
+                            >
+                                <img src={ require('../image/default-expression.png') }/>
+                            </div>
+                            <div 
+                                className={ page === 'collect' ? 'selected' : '' }
+                                onClick={ () => this.setState({ page: 'collect' }) }
+                            >
+                                <img src={ require('../image/collect-expression.png') }/>
+                            </div>
+                        </div>
                     </div>
-                    <div 
-                        className={ page === 'collect' ? 'selected' : '' }
-                        onClick={ () => this.setState({ page: 'collect' }) }
-                    >
-                        <img src={ require('../image/collect-expression.png') }/>
-                    </div>
-                </div>
-            </div>
+                )
+            }
+            </Motion>
         );
     }
 
