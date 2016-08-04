@@ -4,7 +4,7 @@ let env = process.env.NODE_ENV;
 
 const config = require('../../config/config.js');
 const path = require('path');
-const koa = require('koa');
+const koa = require('koa.io');
 const app = koa();
 
 // support request log
@@ -29,6 +29,12 @@ app.use(function* (next) {
         console.log('error --> ', message);
     }
 })
+
+app.io.use(function* (next) {
+    console.log('connected');
+    yield* next;
+    console.log('disconnected');
+});
 
 // start listener
 app.listen(config.port, () => {
