@@ -4,8 +4,12 @@ let env = process.env.NODE_ENV;
 
 const config = require('../../config/config.js');
 const path = require('path');
-const koa = require('koa.io');
+const koa = require('koa');
 const app = koa();
+
+// support socket.io
+const server = require('http').Server(app.callback());
+const io = require('socket.io')(server);
 
 // support request log
 if (env !== 'test')
@@ -28,24 +32,32 @@ app.use(function* (next) {
 
         console.log('error --> ', message);
     }
-})
+});
 
-app.io.use(function* (next) {
-    console.log('connected');
-    yield* next;
-    console.log('disconnected');
+// socket handle
+io.on('connection', socket => {
+    console.log('new connection');
+
+    socket.on('message', (data, cb) => {
+        console.log(data, cb);
+        cb('abcd');
+    });
+
+    socket.on('disconnect', () => {
+        console.log('some one disconnect');
+    });
 });
 
 // start listener
-app.listen(config.port, () => {
+server.listen(config.port, () => {
     console.log('start server at http://localhost:' + config.port);
 });
 
 // other error handle
-app.on('error', err => {
+server.on('error', err => {
     console.log('error --> ', err.message);
     process.exit(1);
 });
 
 
-module.exports = app;
+module.exports = server;
