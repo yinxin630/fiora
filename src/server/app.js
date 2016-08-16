@@ -3,6 +3,7 @@
 let env = process.env.NODE_ENV;
 
 const config = require('../../config/config.js');
+const mongoose = require('mongoose');
 const path = require('path');
 const koa = require('koa');
 const app = koa();
@@ -10,6 +11,22 @@ const app = koa();
 // support socket.io
 const server = require('http').Server(app.callback());
 const io = require('socket.io')(server);
+
+// use native Promise
+mongoose.Promise = global.Promise;
+
+// connect database
+mongoose.connect(env !== 'test' ? config.database : config.testDatabase, err => {
+    /* istanbul ignore if  */
+    if (err) {
+        console.log('connect database error -->', err);
+        process.exit(1);
+    }
+    if (env === 'test') {
+        mongoose.connection.db.dropDatabase();
+    }
+    console.log('connect database success');
+});
 
 // support request log
 if (env !== 'test')
