@@ -54,6 +54,7 @@ const user = {
         end(200, user);
     },
     'POST /user/friend': function* (socket, data, end) {
+        yield* isLogin(socket, data, end);
         assert(!mongoose.Types.ObjectId.isValid(data.userId), end, 400, `userId:'${data.userId}' is invalid`);
 
         let me = yield User.findById(socket.user);
@@ -69,6 +70,7 @@ const user = {
         end(204);
     },
     'DELETE /user/friend': function* (socket, data, end) {
+        yield* isLogin(socket, data, end);
         assert(!mongoose.Types.ObjectId.isValid(data.userId), end, 400, `userId:'${data.userId}' is invalid`);
 
         let me = yield User.findById(socket.user);

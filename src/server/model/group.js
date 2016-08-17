@@ -8,6 +8,7 @@ const GroupSchema = new Schema({
     name: {
         type: String,
         trim: true,
+        unique: true,
         match: /^[\-_0-9a-z\u4e00-\u9eff]{1,16}$/i
     },
     announcement: String,
@@ -15,6 +16,10 @@ const GroupSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
+    isDefault: {
+        type: Boolean,
+        default: false
+    }
     members: [
         {
             type: Schema.Types.ObjectId,
