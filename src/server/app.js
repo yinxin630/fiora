@@ -13,6 +13,8 @@ const app = koa();
 // support socket.io
 const server = require('http').Server(app.callback());
 const io = require('socket.io')(server);
+io.set('heartbeat interval', 5);
+io.set('heartbeat timeout', 3);
 
 const router = require('./route/index');
 
