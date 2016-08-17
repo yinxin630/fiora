@@ -1,5 +1,5 @@
 const message = {
-    'POST /message': function* (data, end) {
+    'POST /message': function* (socket, data, end) {
         end(200, { });
     }
 }

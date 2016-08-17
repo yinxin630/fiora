@@ -1,14 +1,14 @@
 const group = {
-    'POST /group': function* (data, end) {
+    'POST /group': function* (socket, data, end) {
         end(200, { });
     },
-    'DELETE /group': function* (data, end) {
+    'DELETE /group': function* (socket, data, end) {
         end(200, { });
     },
-    'GET /group': function* (data, end) {
+    'GET /group': function* (socket, data, end) {
         end(200, { });
     },
-    'PUT /group': function* (data, end) {
+    'PUT /group': function* (socket, data, end) {
         end(200, { });
     }
 }

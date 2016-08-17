@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const saltRounds = 10;
 
 const user = {
-    'POST /user': function* (data, end) {
+    'POST /user': function* (socket, data, end) {
         assert(!data.username, end, 400, 'need username param but not exists');
         assert(!data.password, end, 400, 'need password param but not exists');
 
@@ -36,7 +36,7 @@ const user = {
         }
         end(200, savedUser);
     },
-    'GET /user': function* (data, end) {
+    'GET /user': function* (socket, data, end) {
         assert(!mongoose.Types.ObjectId.isValid(data.id), end, 400, `id:'${data.id}' is invalid`);
 
         let user = yield User.findById(data.id);
@@ -47,19 +47,19 @@ const user = {
             end(404, { msg: 'user not exists' });
         }
     },
-    'GET /user/me': function* (data, end) {
+    'GET /user/me': function* (socket, data, end) {
         end(200, { });
     },
-    'POST /user/friend': function* (data, end) {
+    'POST /user/friend': function* (socket, data, end) {
         end(200, { });
     },
-    'DELETE /user/friend': function* (data, end) {
+    'DELETE /user/friend': function* (socket, data, end) {
         end(200, { });
     },
-    'POST /user/group': function* (data, end) {
+    'POST /user/group': function* (socket, data, end) {
         end(200, { });
     },
-    'DELETE /user/group': function* (data, end) {
+    'DELETE /user/group': function* (socket, data, end) {
         end(200, { });
     }
 }

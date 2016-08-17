@@ -1,5 +1,5 @@
 const groupMessage = {
-    'POST /groupMessage': function* (data, end) {
+    'POST /groupMessage': function* (socket, data, end) {
         end(200, { });
     }
 }

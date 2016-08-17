@@ -71,7 +71,7 @@ io.on('connection', socket => {
     console.log('new connection');
 
     socket.on('message', (data, cb) => {
-        router.handle(data, cb);
+        router.handle(socket, data, cb);
     });
 
     socket.on('disconnect', () => {
