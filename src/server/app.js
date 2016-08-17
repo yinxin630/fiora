@@ -2,9 +2,11 @@
 
 let env = process.env.NODE_ENV;
 
-const config = require('../../config/config.js');
+const config = require('../../config/config');
 const mongoose = require('mongoose');
+const promise = require('bluebird');
 const path = require('path');
+const fs = require('fs');
 const koa = require('koa');
 const app = koa();
 
@@ -12,12 +14,13 @@ const app = koa();
 const server = require('http').Server(app.callback());
 const io = require('socket.io')(server);
 
+const router = require('./route/index');
+
 // use native Promise
 mongoose.Promise = global.Promise;
 
 // connect database
 mongoose.connect(env !== 'test' ? config.database : config.testDatabase, err => {
-    /* istanbul ignore if  */
     if (err) {
         console.log('connect database error -->', err);
         process.exit(1);
@@ -26,6 +29,18 @@ mongoose.connect(env !== 'test' ? config.database : config.testDatabase, err => 
         mongoose.connection.db.dropDatabase();
     }
     console.log('connect database success');
+});
+
+// import all routers
+fs.readdir(__dirname + '/route', (err, result) => {
+    for (let file of result) {
+        if (file !== 'index.js') {
+            let routers = require('./route/' + file);
+            for (let path in routers) {
+                router[path] = promise.coroutine(routers[path]);
+            }
+        }
+    }
 });
 
 // support request log
@@ -56,8 +71,7 @@ io.on('connection', socket => {
     console.log('new connection');
 
     socket.on('message', (data, cb) => {
-        console.log(data, cb);
-        cb('abcd');
+        router.handle(data, cb);
     });
 
     socket.on('disconnect', () => {
