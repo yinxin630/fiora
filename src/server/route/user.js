@@ -34,7 +34,7 @@ const user = {
             console.log('save new user error ->', err);
             return end(500, { msg: 'server error when save new user' });
         }
-        end(200, savedUser);
+        end(201, savedUser);
     },
     'GET /user': function* (socket, data, end) {
         assert(!mongoose.Types.ObjectId.isValid(data.id), end, 400, `id:'${data.id}' is invalid`);

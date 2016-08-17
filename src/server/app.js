@@ -13,8 +13,8 @@ const app = koa();
 // support socket.io
 const server = require('http').Server(app.callback());
 const io = require('socket.io')(server);
-io.set('heartbeat interval', 5);
-io.set('heartbeat timeout', 3);
+io.set('heartbeat interval', 5000);
+io.set('heartbeat timeout', 3000);
 
 const router = require('./route/index');
 
@@ -31,6 +31,10 @@ mongoose.connect(env !== 'test' ? config.database : config.testDatabase, err => 
         mongoose.connection.db.dropDatabase();
     }
     console.log('connect database success');
+    // clear old auth record
+    require('./model/auth').remove({}, () => {
+        console.log('remove all old auth');
+    });
 });
 
 // import all routers
@@ -78,6 +82,7 @@ io.on('connection', socket => {
 
     socket.on('disconnect', () => {
         console.log('some one disconnect');
+        router.handle(socket, { method: 'DELETE', path: '/auth', data: { } }, () => { });
     });
 });
 

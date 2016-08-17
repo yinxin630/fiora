@@ -20,7 +20,7 @@ const auth = {
         assert(!isPasswordCorrect, end, 400, `password not correct`);
 
         // token过期时间 = 3day
-        let token = jwt.encode({ userId: user._id, socketId: socket.id, expires: Date.now() + (1000 * 60 * 60 * 24 * 3) }, config.jwtSecret);
+        let token = jwt.encode({ userId: user._id, ip: socket.handshake.address, expires: Date.now() + (1000 * 60 * 60 * 24 * 3) }, config.jwtSecret);
 
         let auth = yield Auth.find({ user: user._id });
         if (auth.length === 0) {
@@ -35,10 +35,23 @@ const auth = {
         }
 
         let newAuth = yield auth.save();
-        end(200, newAuth);
+        end(201, newAuth);
     },
     'DELETE /auth': function* (socket, data, end) {
-        end(200, { });
+        let auth = yield Auth.find({ clients: socket.id });
+        assert(auth.length === 0, end, 400, 'you hava not login');
+
+        auth = auth[0];
+        if (auth.clients.length === 1) {
+            yield auth.remove();
+        }
+        else {
+            let index = auth.clients.indexOf(socket.id);
+            auth.clients.splice(index, 1);
+            yield auth.save();
+        }
+
+        end(204);
     }
 }
 
