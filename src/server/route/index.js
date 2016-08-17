@@ -6,7 +6,7 @@ const router = {
             this[path](data.data, end);
         }
         else {
-            end(400, { msg: 'interface not exits' });
+            end(404, { msg: 'interface not exits' });
         }
     }
 }
