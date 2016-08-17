@@ -3,6 +3,7 @@ const promise = require('bluebird');
 const bcrypt = promise.promisifyAll(require('bcrypt'), { suffix: '$' });
 const User = require('../model/user');
 const mongoose = require('mongoose');
+const isLogin = require('../police/isLogin');
 
 // bcrypt salt length
 const saltRounds = 10;
@@ -48,6 +49,7 @@ const user = {
         }
     },
     'GET /user/me': function* (socket, data, end) {
+        yield* isLogin(socket, data, end);
         end(200, { });
     },
     'POST /user/friend': function* (socket, data, end) {

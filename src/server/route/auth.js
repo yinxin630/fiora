@@ -35,7 +35,7 @@ const auth = {
         }
 
         let newAuth = yield auth.save();
-        end(201, newAuth);
+        end(201, { token: token });
     },
     'DELETE /auth': function* (socket, data, end) {
         let auth = yield Auth.find({ clients: socket.id });
