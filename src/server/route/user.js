@@ -50,13 +50,39 @@ const user = {
     },
     'GET /user/me': function* (socket, data, end) {
         yield* isLogin(socket, data, end);
-        end(200, { });
+        let user = yield User.findById(socket.user);
+        end(200, user);
     },
     'POST /user/friend': function* (socket, data, end) {
-        end(200, { });
+        assert(!mongoose.Types.ObjectId.isValid(data.userId), end, 400, `userId:'${data.userId}' is invalid`);
+
+        let me = yield User.findById(socket.user);
+        if (me.friends.indexOf(data.userId) !== -1) {
+            end(204);
+        }
+
+        let user = yield User.findById(data.userId);
+        assert(!user, end, 400, 'user:'${data.userId}' not exists');
+
+        me.friends.push(user._id);
+        yield me.save();
+        end(204);
     },
     'DELETE /user/friend': function* (socket, data, end) {
-        end(200, { });
+        assert(!mongoose.Types.ObjectId.isValid(data.userId), end, 400, `userId:'${data.userId}' is invalid`);
+
+        let me = yield User.findById(socket.user);
+        let index = me.friends.indexOf(data.userId);
+        if (index === -1) {
+            end(204);
+        }
+
+        let user = yield User.findById(data.userId);
+        assert(!user, end, 400, 'user:'${data.userId}' not exists');
+
+        me.friends.splice(index, 1);
+        yield me.save();
+        end(204);
     },
     'POST /user/group': function* (socket, data, end) {
         end(200, { });
