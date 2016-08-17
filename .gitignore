@@ -21,3 +21,5 @@ config.js
 # public
 public/*.js
 public/*.map
+
+client.test.js

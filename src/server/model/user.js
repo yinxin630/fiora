@@ -8,8 +8,10 @@ const UserSchema = new Schema({
     username: {
         type: String,
         trim: true,
+        unique: true,
         match: /^[\-_0-9a-z\u4e00-\u9eff]{1,16}$/i
     },
+    salt: String,
     password: String,
     gender: {
         type: String,

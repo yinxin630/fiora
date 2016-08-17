@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/yinxin630/fiora#readme",
   "dependencies": {
+    "bcrypt": "^0.8.7",
     "bluebird": "^3.4.1",
     "cross-env": "^2.0.0",
     "history": "^3.0.0",
