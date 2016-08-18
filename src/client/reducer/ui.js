@@ -7,6 +7,8 @@ function reducer(
         showGroupNotice: false,
         showExpression: false,
         showMaskLayout: false,
+
+        isLogin: false,
     }, 
     action
 ) {
