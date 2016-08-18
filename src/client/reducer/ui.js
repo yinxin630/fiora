@@ -7,6 +7,8 @@ function reducer(
         showGroupNotice: false,
         showExpression: false,
         showMaskLayout: false,
+        showNotification: false,
+        notificationContent: '',
 
         isLogin: false,
     }, 
@@ -63,6 +65,18 @@ function reducer(
         case 'CloseMaskLayout': {
             let newState = R.clone(state);
             newState.showMaskLayout = false;
+            return newState;
+        }
+
+        case 'OpenNotification': {
+            let newState = R.clone(state);
+            newState.showNotification = true;
+            newState.notificationContent = action.content;
+            return newState;
+        }
+        case 'CloseNotification': {
+            let newState = R.clone(state);
+            newState.showNotification = false;
             return newState;
         }
 

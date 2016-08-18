@@ -1,5 +1,7 @@
 import Store from '../store';
+
 const dispatch = Store.dispatch;
+let closeNotification = null;
 
 const actions = {
     // inputBox
@@ -65,6 +67,26 @@ const actions = {
         return new Promise(resolve => {
             dispatch({
                 type: 'CloseExpression',
+            });
+            resolve('success');
+        });
+    },
+
+    openNotification: function (content) {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'OpenNotification',
+                content: content
+            });
+            resolve('success');
+            clearTimeout(closeNotification);
+            closeNotification = setTimeout(this.closeNotification, 5000);
+        });
+    },
+    closeNotification: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'CloseNotification',
             });
             resolve('success');
         });

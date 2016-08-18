@@ -27,13 +27,13 @@ const user = {
         }
         catch (err) {
             if (err.code === 11000) {
-                return end(400, { msg: `username:'${data.username}' already exists` });
+                return end(400, `username already exists` );
             }
             else if (err.message === 'User validation failed') {
-                return end(400, { msg: `username:'${data.username}' invalid` });
+                return end(400, `username invalid`);
             }
             console.log('save new user error ->', err);
-            return end(500, { msg: 'server error when save new user' });
+            return end(500, 'server error when save new user');
         }
         end(201, savedUser);
     },

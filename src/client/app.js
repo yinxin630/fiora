@@ -8,6 +8,7 @@ import Body from './component/body';
 import MaskLayout from './component/maskLayout';
 
 import Login from './component/login';
+import Notification from './component/notification';
 
 class App extends React.Component {
     render () {
@@ -15,6 +16,7 @@ class App extends React.Component {
         return (
             <div className="window">
                 <div className="background"></div>
+                <Notification/>
                 {
                     isLogin ?
                     <div className="app">

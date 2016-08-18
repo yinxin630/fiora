@@ -20,7 +20,17 @@ const actions = {
                     socket.setToken(response.data.token);
                     resolve(response);
                 }
-                
+                else {
+                    resolve(response);
+                }
+            });
+        });
+    },
+
+    signup: function(username, password) {
+        return new Promise(resolve => {
+            socket.post('/user', { username, password }, response => {
+                resolve(response);
             });
         });
     }

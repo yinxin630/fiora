@@ -13,7 +13,7 @@ const auth = {
         assert(!data.password, end, 400, 'need password param but not exists');
 
         let user = yield User.findOne({ username: data.username });
-        assert(!user, end, 404, `user:'${data.username}' not exists`);
+        assert(!user, end, 404, `user not exists`);
         yield User.populate(user, 'groups');
         yield User.populate(user, 'friends');
 
@@ -39,7 +39,9 @@ const auth = {
     },
     'DELETE /auth': function* (socket, data, end) {
         let auth = yield Auth.findOne({ clients: socket.id });
-        assert(!auth, end, 400, 'you hava not login');
+        if (!auth) {
+            return end(400, 'you hava not login');
+        }
 
         if (auth.clients.length === 1) {
             yield auth.remove();

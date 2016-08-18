@@ -1,0 +1,20 @@
+.notification {
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0px;
+    z-index: -1;
+
+    & > div {
+        background-color: #fff;
+        max-width: 400px;
+        padding: 5px 15px;
+        margin-top: 50px;
+        border-radius: 10px;
+        font-size: 16px;
+        box-shadow: 0px 0px 5px #bdbdbd;
+        text-align: center;
+    }
+}

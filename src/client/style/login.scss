@@ -13,6 +13,16 @@
         align-items: center;
         padding: 20px 30px;
 
+        .focus {
+            border: 1px solid #03a9f4;
+            box-shadow: 0px 0px 3px #03a9f4;
+        }
+
+        .error {
+            border: 1px solid red;
+            box-shadow: 0px 0px 3px red;
+        }
+
         & > div:nth-child(1000n+2) {
             margin-top: 10px;
         }
