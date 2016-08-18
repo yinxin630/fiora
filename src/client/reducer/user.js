@@ -7,6 +7,10 @@ function reducer(
     action
 ) {
     switch (action.type) {
+        case 'LoginSuccess': {
+            let newState = R.clone(state, action.user);
+            return newState;
+        }
 
         default: 
             return state;

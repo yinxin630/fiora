@@ -1,6 +1,8 @@
 import React from 'react';
 import '../style/login.scss';
 
+import user from '../action/user';
+
 class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -20,6 +22,7 @@ class Login extends React.Component {
                         </div>
                         <input
                             type="text"
+                            ref={username => this.username = username}
                             placeholder="用户名"
                         />
                     </div>
@@ -29,12 +32,15 @@ class Login extends React.Component {
                         </div>
                         <input
                             type="text"
+                            ref={password => this.password = password}
                             placeholder="密码"
                         />
                     </div>
                     {
                         login ?
-                        <button>登录</button>
+                        <button
+                            onClick={() => user.login(this.username.value, this.password.value)}
+                        >登录</button>
                         :
                         <button>注册</button>
                     }

@@ -66,6 +66,13 @@ function reducer(
             return newState;
         }
 
+        // app
+        case 'LoginSuccess': {
+            let newState = R.clone(state);
+            newState.isLogin = true;
+            return newState;
+        }
+
         default: 
             return state;
     }
