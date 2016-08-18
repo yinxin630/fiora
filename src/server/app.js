@@ -35,6 +35,20 @@ mongoose.connect(env !== 'test' ? config.database : config.testDatabase, err => 
     require('./model/auth').remove({}, () => {
         console.log('remove all old auth');
     });
+    // create default group
+    const Group = require('./model/group');
+    Group.find({ }, (err, groups) => {
+        if (groups.length === 0) {
+            let defaultGroup = new Group({
+                name: 'fiora',
+                announcement: '欢迎各位来到fiora',
+                isDefault: true
+            });
+            defaultGroup.save((err, result) => {
+                console.log('create default group success');
+            });
+        }
+    });
 });
 
 // import all routers

@@ -6,10 +6,13 @@ const isLogin = require('../police/isLogin');
 
 const group = {
     'POST /group': function* (socket, data, end) {
+        yield* isLogin(socket, data, end);
         assert(!data.name, end, 400, 'need name param but not exists');
 
-        let newGroup = new User({
+        let newGroup = new Group({
             name: data.name,
+            creator: socket.user,
+            members: [socket.user]
         });
 
         let savedGroup = null;
