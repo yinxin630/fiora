@@ -63,7 +63,7 @@ const user = {
         }
 
         let user = yield User.findById(data.userId);
-        assert(!user, end, 400, 'user:'${data.userId}' not exists');
+        assert(!user, end, 400, `user:'${data.userId}' not exists`);
 
         me.friends.push(user._id);
         yield me.save();
@@ -80,7 +80,7 @@ const user = {
         }
 
         let user = yield User.findById(data.userId);
-        assert(!user, end, 400, 'user:'${data.userId}' not exists');
+        assert(!user, end, 400, `user:'${data.userId}' not exists`);
 
         me.friends.splice(index, 1);
         yield me.save();

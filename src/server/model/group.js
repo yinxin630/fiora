@@ -19,7 +19,7 @@ const GroupSchema = new Schema({
     isDefault: {
         type: Boolean,
         default: false
-    }
+    },
     members: [
         {
             type: Schema.Types.ObjectId,
