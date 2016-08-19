@@ -11,12 +11,12 @@ class UserPanel extends React.Component {
             <div className="user-panel">
                 <div></div>
                 {
-                    avatar === '' ?
-                    <div>
+                    avatar.match(/http/) ?
+                    <img src={ avatar }/>
+                    :
+                    <div style={{ backgroundColor: avatar }}>
                         <span>{ username.slice(0, 1) }</span>
                     </div>
-                    :
-                    <img src={ avatar }/>
                 }
             </div>
         );

@@ -7,6 +7,8 @@ const isLogin = require('../police/isLogin');
 
 // bcrypt salt length
 const saltRounds = 10;
+const avatarColors = ['aquamarine', 'blueviolet', 'chocolate', 'darkcyan', 'darkgrey', 'darkmagenta', 'darkorange', 'darkseagreen', 'darkslategrey',
+                    'deeppink', 'deepskyblue', 'dimgrey', 'forestgreen', 'indigo'];
 
 const user = {
     'POST /user': function* (socket, data, end) {
@@ -18,7 +20,8 @@ const user = {
         let newUser = new User({
             username: data.username,
             salt: salt,
-            password: hash
+            password: hash,
+            avatar: avatarColors[Math.floor(Math.random() * avatarColors.length)]
         });
 
         let savedUser = null;
