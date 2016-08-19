@@ -19,9 +19,6 @@ const actions = {
                     });
                     socket.setToken(response.data.token);
                     resolve(response);
-
-                    // debug log
-                    console.log(response.data.user);
                 }
                 else {
                     resolve(response);
@@ -49,6 +46,23 @@ const actions = {
                     });
                     dispatch({
                         type: 'LoginSuccess'
+                    });
+                    resolve(response);
+                }
+                else {
+                    resolve(response);
+                }
+            });
+        });
+    },
+
+    createGroup: function(name) {
+        return new Promise(resolve => {
+            socket.post('/group', { name: name }, response => {
+                if (response.status === 201) {
+                    dispatch({
+                        type: 'createGroup',
+                        user: response.data
                     });
                     resolve(response);
                 }

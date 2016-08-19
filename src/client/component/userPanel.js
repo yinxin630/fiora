@@ -3,20 +3,20 @@ import '../style/userPanel.scss';
 
 import { connect } from 'react-redux';
 
+import Avatar from './avatar'
+
 class UserPanel extends React.Component {
     render () {
         const { avatar, username } = this.props;
         return (
             <div className="user-panel">
                 <div></div>
-                {
-                    avatar.match(/http/) ?
-                    <img src={ avatar }/>
-                    :
-                    <div style={{ backgroundColor: avatar }}>
-                        <span>{ username.slice(0, 1) }</span>
-                    </div>
-                }
+                <Avatar
+                    avatar={avatar}
+                    name={username}
+                    width={60}
+                    height={60}
+                />
             </div>
         );
     }

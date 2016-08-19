@@ -21,6 +21,9 @@ class App extends React.Component {
     
     render () {
         const { isLogin } = this.props;
+        // for debug
+        console.log(this.props.state);
+        
         return (
             <div className="window">
                 <div className="background"></div>
@@ -42,6 +45,7 @@ class App extends React.Component {
 
 export default connect(
     state => ({
-        isLogin: state.ui.isLogin
+        isLogin: state.ui.isLogin,
+        state: state
     })
 )(App);

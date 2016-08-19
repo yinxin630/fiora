@@ -12,13 +12,13 @@
     justify-content: center;
     align-content: center;
 
-    img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
+    & > div:nth-child(1000n+1) {
         margin: 10px 5px 10px 5px;
     }
-    div {
+    & > img:nth-child(1000n+1) {
+        margin: 10px 5px 10px 5px;
+    }
+    & > div:nth-child(1000n+2) {
         flex: 1;
         display: flex;
         flex-direction: column;

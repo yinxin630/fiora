@@ -1,6 +1,10 @@
 import React from 'react';
 import '../style/userList.scss';
 
+import moment from 'moment';
+
+import Avatar from './avatar'
+
 class UserList extends React.Component {
     render () {
         return (
@@ -13,16 +17,26 @@ class UserList extends React.Component {
 
 class User extends React.Component {
     render () {
+        const { data } = this.props;
+        const isGroup = data.itemType === 'group';
+        const time = moment(data.messages.length === 0 ? Date.now() : data.messages[data.messages.length - 1].createTime).format('hh:mm');
+        const message = data.messages.length === 0 ? '无消息' : data.messages[data.messages.length - 1].content;
+
         return (
             <div className="user-list-item">
-                <img src={ require('../image/avatar.gif') }></img>
+                <Avatar
+                    avatar={data.avatar}
+                    name={isGroup === 'group' ? data.name : data.username}
+                    width={40}
+                    height={40}
+                />
                 <div>
                     <div>
-                        <p>碎碎酱</p>
-                        <p>12:34</p>
+                        <p>{ isGroup ? data.name : data.username }</p>
+                        <p>{ time }</p>
                     </div>
                     <div>
-                        <p>我是一个老司机, 老啊老司机.我是一个老司机, 老啊老司机.</p>
+                        <p>{ message }</p>
                     </div>
                 </div>
             </div>
