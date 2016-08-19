@@ -12,15 +12,25 @@ const auth = {
         assert(!data.username, end, 400, 'need username param but not exists');
         assert(!data.password, end, 400, 'need password param but not exists');
 
+        // get user info
         let user = yield User.findOne({ username: data.username });
         assert(!user, end, 404, `user not exists`);
-        yield User.populate(user, 'groups');
-        yield User.populate(user, 'friends');
 
+        // check user password
         let isPasswordCorrect = bcrypt.compareSync(data.password, user.password);
         assert(!isPasswordCorrect, end, 400, `password not correct`);
 
-        // token过期时间 = 3day
+        // get user populate info
+        yield User.populate(user, 'groups');
+        yield User.populate(user, 'friends');
+
+        // handle client socket. system message room: system
+        socket.join('system');
+        for (let group of user.groups) {
+            socket.join(group._id);
+        }
+
+        // token expires time = 3 day
         let token = jwt.encode({ userId: user._id, ip: socket.handshake.address, expires: Date.now() + (1000 * 60 * 60 * 24 * 3) }, config.jwtSecret);
 
         let auth = yield Auth.findOne({ user: user._id });

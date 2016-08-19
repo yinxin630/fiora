@@ -5,12 +5,29 @@
     align-items: center;
     justify-content: flex-end;
 
-    div {
+    & > div:nth-child(1000n+1) {
         width: 10px;
         height: 10px;
         border-radius: 50%;
         background-color: #6ab82d;
         margin-right: 10px;
+    }
+
+    & > div:nth-child(1000n+2) {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-right: 10px;
+        cursor: pointer;
+        background-color: rebeccapurple;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        & > span {
+            color: #fff;
+            font-size: 22px;
+        }
     }
 
     img {

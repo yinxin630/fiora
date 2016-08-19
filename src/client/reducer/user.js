@@ -8,8 +8,8 @@ function reducer(
 ) {
     switch (action.type) {
         case 'LoginSuccess': {
-            let newState = R.clone(state, action.user);
-            return newState;
+            let newState = R.clone(state);
+            return Object.assign(newState, action.user);
         }
 
         default: 

@@ -93,7 +93,7 @@ class Login extends React.Component {
                             <i className="icon">&#xe60b;</i>
                         </div>
                         <input
-                            type="text"
+                            type="password"
                             ref={password => this.password = password}
                             placeholder="密码"
                             onFocus={() => this.setState({ passwordInput: 'focus' })}

@@ -13,13 +13,23 @@ const UserSchema = new Schema({
     },
     salt: String,
     password: String,
+    avatar: {
+        type: String,
+        default: ''
+    },
     gender: {
         type: String,
         enum: ['male', 'female'],
         default: 'male'
     },
-    birthday: Date,
-    introduce: String,
+    birthday: {
+        type: Date,
+        default: Date.now
+    },
+    introduce: {
+        type: String,
+        default: ''
+    },
     friends: [
         {
             type: Schema.Types.ObjectId,
