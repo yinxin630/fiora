@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 class UserPanel extends React.Component {
     render () {
         const { avatar, username } = this.props;
-        console.log(avatar, username, this.props.state);
         return (
             <div className="user-panel">
                 <div></div>
@@ -26,7 +25,6 @@ class UserPanel extends React.Component {
 export default connect(
     state => ({
         avatar: state.user.avatar,
-        username: state.user.username,
-        state: state
+        username: state.user.username
     })
 )(UserPanel);

@@ -2,6 +2,7 @@ const assert = require('../util/assert');
 const promise = require('bluebird');
 const bcrypt = promise.promisifyAll(require('bcrypt'), { suffix: '$' });
 const User = require('../model/user');
+const Group = require('../model/group');
 const mongoose = require('mongoose');
 const isLogin = require('../police/isLogin');
 
@@ -15,18 +16,23 @@ const user = {
         assert(!data.username, end, 400, 'need username param but not exists');
         assert(!data.password, end, 400, 'need password param but not exists');
 
+        let defaultGroup = yield Group.findOne({ isDefault: true });
+
         let salt = yield bcrypt.genSalt$(saltRounds);
         let hash = yield bcrypt.hash$(data.password, salt);
         let newUser = new User({
             username: data.username,
             salt: salt,
             password: hash,
-            avatar: avatarColors[Math.floor(Math.random() * avatarColors.length)]
+            avatar: avatarColors[Math.floor(Math.random() * avatarColors.length)],
+            groups: [defaultGroup]
         });
 
         let savedUser = null;
         try {
             savedUser = yield newUser.save();
+            defaultGroup.members.push(newUser);
+            yield defaultGroup.save();
         }
         catch (err) {
             if (err.code === 11000) {

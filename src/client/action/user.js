@@ -19,6 +19,9 @@ const actions = {
                     });
                     socket.setToken(response.data.token);
                     resolve(response);
+
+                    // debug log
+                    console.log(response.data.user);
                 }
                 else {
                     resolve(response);

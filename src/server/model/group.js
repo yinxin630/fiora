@@ -11,6 +11,10 @@ const GroupSchema = new Schema({
         unique: true,
         match: /^[\-_0-9a-z\u4e00-\u9eff]{1,16}$/i
     },
+    avatar: {
+        type: String,
+        default: 'http://oc58aytf1.bkt.clouddn.com/group_avatar_default'
+    },
     announcement: String,
     creator: {
         type: Schema.Types.ObjectId,
