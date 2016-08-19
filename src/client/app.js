@@ -2,6 +2,7 @@ import React from 'react';
 import './style/app.scss';
 
 import { connect } from 'react-redux';
+import user from './action/user';
 
 import Header from './component/header';
 import Body from './component/body';
@@ -11,6 +12,13 @@ import Login from './component/login';
 import Notification from './component/notification';
 
 class App extends React.Component {
+    componentDidMount() {
+        let token = window.localStorage.getItem('token');
+        if (token && token !== '') {
+            user.reConnect(token);
+        }
+    }
+    
     render () {
         const { isLogin } = this.props;
         return (

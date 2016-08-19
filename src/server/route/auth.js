@@ -6,6 +6,7 @@ const Auth = require('../model/auth');
 const mongoose = require('mongoose');
 const jwt = require('jwt-simple');
 const config = require('../../../config/config');
+const isLogin = require('../police/isLogin');
 
 const auth = {
     'POST /auth': function* (socket, data, end) {
@@ -47,6 +48,38 @@ const auth = {
         let newAuth = yield auth.save();
         end(201, { user: user, token: token });
     },
+
+    'POST /auth/re': function* (socket, data, end) {
+        yield* isLogin(socket, data, end);
+
+        // get user info
+        let user = yield User.findById(socket.user);
+
+        // get user populate info
+        yield User.populate(user, 'groups');
+        yield User.populate(user, 'friends');
+
+        // handle client socket. system message room: system
+        socket.join('system');
+        for (let group of user.groups) {
+            socket.join(group._id);
+        }
+
+        let auth = yield Auth.findOne({ user: user._id });
+        if (!auth) {
+            auth = new Auth({
+                user: user._id,
+                clients: [socket.id]
+            });
+        }
+        else {
+            auth.clients.push(socket.id);
+        }
+
+        let newAuth = yield auth.save();
+        end(201, user);
+    },
+
     'DELETE /auth': function* (socket, data, end) {
         let auth = yield Auth.findOne({ clients: socket.id });
         if (!auth) {

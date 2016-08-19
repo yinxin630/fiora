@@ -36,6 +36,10 @@ class Login extends React.Component {
                 ui.openNotification('密码错误!');
                 this.setState({ passwordInput: 'error' });
             }
+
+            if (result.status === 201) {
+                window.localStorage.setItem('token', result.data.token);
+            }
         });
     }
 

@@ -33,6 +33,27 @@ const actions = {
                 resolve(response);
             });
         });
+    },
+
+    reConnect: function(token) {
+        socket.setToken(token);
+        return new Promise(resolve => {
+            socket.post('/auth/re', { }, response => {
+                if (response.status === 201) {
+                    dispatch({
+                        type: 'LoginSuccess',
+                        user: response.data
+                    });
+                    dispatch({
+                        type: 'LoginSuccess'
+                    });
+                    resolve(response);
+                }
+                else {
+                    resolve(response);
+                }
+            });
+        });
     }
 };
 
