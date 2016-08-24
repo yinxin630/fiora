@@ -8,6 +8,7 @@ const promise = require('bluebird');
 const path = require('path');
 const fs = require('fs');
 const koa = require('koa');
+const send = require('koa-send');
 const app = koa();
 
 // support socket.io
@@ -64,8 +65,24 @@ fs.readdir(__dirname + '/route', (err, result) => {
 });
 
 // support request log
-if (env !== 'test')
+if (env !== 'test') {
     app.use(require('koa-logger')());
+}
+
+// mapping front end route to index file
+// app.use(function* (next){
+//     if (this.path.match(/\./) === null) {
+//         console.log('---> ', this.path, path.join(__dirname, 'util/a.html'));
+//         yield send(this, path.join(__dirname, 'util/a.html'), {
+//                 maxage: 1000 * 60 * 60 * 24,
+//                 gzip: true,
+//             }
+//         );
+//     }
+//     else {
+//         yield next;
+//     }
+// });
 
 // support static file
 app.use(require('koa-static')(
