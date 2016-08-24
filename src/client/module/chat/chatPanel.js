@@ -12,7 +12,8 @@ import Expression from './expression';
 
 class ChatPanel extends React.Component {
     render () {
-        let { showGroupSetting } = this.props;
+        let { showGroupSetting, data } = this.props;
+        console.log('data', data);
         return (
             <div className="chat-panel">
                 <ChatPanelHeader/>

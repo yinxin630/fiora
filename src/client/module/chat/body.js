@@ -5,29 +5,32 @@ import { connect } from 'react-redux';
 
 import UserList from './userList';
 import ChatPanel from './chatPanel';
+import EmptyChatPanel from './emptyChatPanel';
 
 class Body extends React.Component {
-    render () {
-        const { groups } = this.props;
-        const userListItems = [];
-        for (let group of groups) {
-            group.itemType = 'group';
-            userListItems.push(group);
-        }
+    render() {
+        const { linkmans, location, routeParams } = this.props;
 
         return (
             <div className="body">
                 <UserList.container>
-                {
-                    userListItems.map(item => (
-                        <UserList.item
-                            key={item.type + item._id}
-                            data={item}
-                        />
-                    ))
-                }
+                    {
+                        linkmans.map(item => (
+                            <UserList.item
+                                key={item.type + item._id}
+                                data={item}
+                                />
+                        ))
+                    }
                 </UserList.container>
-                <ChatPanel/>
+                {
+                    location.pathname === '/chat' ?
+                        <EmptyChatPanel/>
+                        :
+                        <ChatPanel
+                            data={linkmans.filter(x => x.type === routeParams.type && x._id === routeParams.id)[0]}
+                            />
+                }
             </div>
         );
     }
@@ -35,6 +38,6 @@ class Body extends React.Component {
 
 export default connect(
     state => ({
-        groups: state.user.groups
+        linkmans: state.user.linkmans
     })
 )(Body);

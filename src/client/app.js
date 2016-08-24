@@ -1,10 +1,10 @@
 import React from 'react';
-import './style/app.scss';
+import './app.scss';
 
 import { connect } from 'react-redux';
 import user from './action/user';
 
-import Notification from './component/notification';
+import Notification from './commonComponent/notification';
 
 class App extends React.Component {
     static contextTypes = {

@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const jwt = require('jwt-simple');
 const config = require('../../../config/config');
 const isLogin = require('../police/isLogin');
+const filterUser = require('../filter/user');
 
 const auth = {
     'POST /auth': function* (socket, data, end) {
@@ -46,7 +47,7 @@ const auth = {
         }
 
         let newAuth = yield auth.save();
-        end(201, { user: user, token: token });
+        end(201, { user: filterUser(user), token: token });
     },
 
     'POST /auth/re': function* (socket, data, end) {
@@ -77,7 +78,7 @@ const auth = {
         }
 
         let newAuth = yield auth.save();
-        end(201, user);
+        end(201, filterUser(user));
     },
 
     'DELETE /auth': function* (socket, data, end) {

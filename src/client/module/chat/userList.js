@@ -16,14 +16,21 @@ class UserList extends React.Component {
 }
 
 class User extends React.Component {
+    static contextTypes = {
+        router: React.PropTypes.object.isRequired
+    }
+
     render () {
         const { data } = this.props;
-        const isGroup = data.itemType === 'group';
+        const isGroup = data.type === 'group';
         const time = moment(data.messages.length === 0 ? Date.now() : data.messages[data.messages.length - 1].createTime).format('hh:mm');
         const message = data.messages.length === 0 ? '无消息' : data.messages[data.messages.length - 1].content;
 
         return (
-            <div className="user-list-item">
+            <div 
+            className="user-list-item"
+            onClick={() => this.context.router.push(`/chat/${data.type}/${data._id}`)}
+            >
                 <Avatar
                     avatar={data.avatar}
                     name={isGroup === 'group' ? data.name : data.username}

@@ -18,7 +18,7 @@ body {
 .background {
     width: 100vw;
     height: 100vh;
-    background-image: url('../image/background.jpg');
+    background-image: url('./image/background.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     filter: blur(20px);
