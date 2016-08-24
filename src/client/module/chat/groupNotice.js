@@ -1,8 +1,8 @@
 import React from 'react';
-import '../style/groupNotice.scss';
+import './style/groupNotice.scss';
 
 import { connect } from 'react-redux';
-import ui from '../action/ui';
+import ui from '../../action/ui';
 import FloatPanel from './floatPanel';
 
 class GroupNotice extends React.Component {

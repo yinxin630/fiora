@@ -1,5 +1,5 @@
 import React from 'react';
-import '../style/chatPanel.scss';
+import './style/chatPanel.scss';
 
 import { connect } from 'react-redux';
 import MessageList from './messageList';

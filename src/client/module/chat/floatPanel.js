@@ -1,8 +1,8 @@
 import React from 'react';
-import '../style/floatPanel.scss';
+import './style/floatPanel.scss';
 
 import { Motion, spring } from 'react-motion';
-import ui from '../action/ui';
+import ui from '../../action/ui';
 
 class FloatPanel extends React.Component {
     constructor (props) {

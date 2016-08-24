@@ -1,10 +1,10 @@
 import React from 'react';
-import '../style/toolbar.scss';
+import './style/toolbar.scss';
 
-import ui from '../action/ui';
+import ui from '../../action/ui';
 import { connect } from 'react-redux';
 import { Motion, spring } from 'react-motion';
-import mask from '../util/mask';
+import mask from '../../util/mask';
 
 class Toolbar extends React.Component {
     constructor (props) {

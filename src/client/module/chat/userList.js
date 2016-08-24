@@ -1,5 +1,5 @@
 import React from 'react';
-import '../style/userList.scss';
+import './style/userList.scss';
 
 import moment from 'moment';
 

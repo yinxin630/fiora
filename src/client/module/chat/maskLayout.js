@@ -1,5 +1,5 @@
 import React from 'react';
-import '../style/maskLayout.scss';
+import './style/maskLayout.scss';
 
 import { connect } from 'react-redux';
 

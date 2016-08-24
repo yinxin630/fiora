@@ -1,5 +1,5 @@
 import React from 'react';
-import '../style/userPanel.scss';
+import './style/userPanel.scss';
 
 import { connect } from 'react-redux';
 

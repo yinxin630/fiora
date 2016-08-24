@@ -4,40 +4,35 @@ import './style/app.scss';
 import { connect } from 'react-redux';
 import user from './action/user';
 
-import Header from './component/header';
-import Body from './component/body';
-import MaskLayout from './component/maskLayout';
-
-import Login from './component/login';
 import Notification from './component/notification';
 
 class App extends React.Component {
+    static contextTypes = {
+        router: React.PropTypes.object.isRequired
+    }
+
     componentDidMount() {
         let token = window.localStorage.getItem('token');
         if (token && token !== '') {
-            user.reConnect(token);
+            user
+                .reConnect(token)
+                .then(result => {
+                    if (result.status === 201) {
+                        this.context.router.push('/chat');
+                    }
+                });
         }
     }
-    
-    render () {
-        const { isLogin } = this.props;
+
+    render() {
         // for debug
         console.log(this.props.state);
-        
+
         return (
             <div className="window">
                 <div className="background"></div>
                 <Notification/>
-                {
-                    isLogin ?
-                    <div className="app">
-                        <Header/>
-                        <Body/>
-                        <MaskLayout/>
-                    </div>
-                    :
-                    <Login/>
-                }
+                { this.props.children }
             </div>
         );
     }
@@ -45,7 +40,6 @@ class App extends React.Component {
 
 export default connect(
     state => ({
-        isLogin: state.ui.isLogin,
         state: state
     })
 )(App);

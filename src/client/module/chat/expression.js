@@ -1,5 +1,5 @@
 import React from 'react';
-import '../style/expression.scss';
+import './style/expression.scss';
 
 import { connect } from 'react-redux';
 import { Motion, spring } from 'react-motion';
@@ -52,13 +52,13 @@ class Expression extends React.Component {
                                 className={ page === 'default' ? 'selected' : '' }
                                 onClick={ () => this.setState({ page: 'default' }) }
                             >
-                                <img src={ require('../image/default-expression.png') }/>
+                                <img src={ require('../../image/default-expression.png') }/>
                             </div>
                             <div 
                                 className={ page === 'collect' ? 'selected' : '' }
                                 onClick={ () => this.setState({ page: 'collect' }) }
                             >
-                                <img src={ require('../image/collect-expression.png') }/>
+                                <img src={ require('../../image/collect-expression.png') }/>
                             </div>
                         </div>
                     </div>

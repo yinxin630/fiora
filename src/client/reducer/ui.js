@@ -9,8 +9,6 @@ function reducer(
         showMaskLayout: false,
         showNotification: false,
         notificationContent: '',
-
-        isLogin: false,
     }, 
     action
 ) {
@@ -77,13 +75,6 @@ function reducer(
         case 'CloseNotification': {
             let newState = R.clone(state);
             newState.showNotification = false;
-            return newState;
-        }
-
-        // app
-        case 'LoginSuccess': {
-            let newState = R.clone(state);
-            newState.isLogin = true;
             return newState;
         }
 

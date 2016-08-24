@@ -1,9 +1,9 @@
 import React from 'react';
-import '../style/inputBox.scss';
+import './style/inputBox.scss';
 
 import { Motion, spring } from 'react-motion';
 import { connect } from 'react-redux'
-import ui from '../action/ui';
+import ui from '../../action/ui';
 
 class InputBox extends React.Component {
     render () {

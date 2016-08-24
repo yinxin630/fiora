@@ -1,8 +1,8 @@
 import React from 'react';
-import '../style/groupSetting.scss';
+import './style/groupSetting.scss';
 
 import { connect } from 'react-redux';
-import ui from '../action/ui';
+import ui from '../../action/ui';
 import FloatPanel from './floatPanel';
 
 class GroupSetting extends React.Component {
@@ -30,11 +30,11 @@ class GroupSetting extends React.Component {
                     </div>
                     <div className="userList">
                         <div>
-                            <img src={ require('../image/avatar.gif') }/>
+                            <img src={ require('../../image/avatar.gif') }/>
                             <span>碎碎酱</span>
                         </div>
                         <div>
-                            <img src={ require('../image/avatar.gif') }/>
+                            <img src={ require('../../image/avatar.gif') }/>
                             <span>碎碎酱</span>
                         </div>
                     </div>

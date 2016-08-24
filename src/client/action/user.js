@@ -14,9 +14,6 @@ const actions = {
                         type: 'LoginSuccess',
                         user: response.data.user
                     });
-                    dispatch({
-                        type: 'LoginSuccess'
-                    });
                     socket.setToken(response.data.token);
                     resolve(response);
                 }
@@ -43,9 +40,6 @@ const actions = {
                     dispatch({
                         type: 'LoginSuccess',
                         user: response.data
-                    });
-                    dispatch({
-                        type: 'LoginSuccess'
                     });
                     resolve(response);
                 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import '../style/body.scss';
+import './style/body.scss';
 
 import { connect } from 'react-redux';
 

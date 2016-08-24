@@ -1,5 +1,5 @@
 import React from 'react';
-import '../style/messageList.scss';
+import './style/messageList.scss';
 
 class MessageList extends React.Component {
     render () {
@@ -16,7 +16,7 @@ class Message extends React.Component {
         let { self } = this.props;
         return (
             <div className={ `message-list-item ${ self ? 'message-self': '' }` }>
-                <img src={ require('../image/avatar.gif') }/>
+                <img src={ require('../../image/avatar.gif') }/>
                 <div>
                     <div>
                         <span>碎碎酱</span>

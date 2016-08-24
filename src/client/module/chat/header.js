@@ -1,5 +1,5 @@
 import React from 'react';
-import '../style/header.scss';
+import './style/header.scss';
 
 import Logo from './logo';
 import NavList from './navList';

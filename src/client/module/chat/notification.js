@@ -1,5 +1,5 @@
 import React from 'react';
-import '../style/notification.scss';
+import './style/notification.scss';
 
 import { connect } from 'react-redux';
 

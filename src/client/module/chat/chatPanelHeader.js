@@ -1,9 +1,9 @@
 import React from 'react';
-import '../style/chatPanelHeader.scss';
+import './style/chatPanelHeader.scss';
 
 import { connect } from 'react-redux';
-import ui from '../action/ui';
-import mask from '../util/mask';
+import ui from '../../action/ui';
+import mask from '../../util/mask';
 
 class ChatPanelHeader extends React.Component {
     constructor (props) {
@@ -16,7 +16,7 @@ class ChatPanelHeader extends React.Component {
         return (
             <div className="chat-panel-header">
                 <div>
-                    <img src={ require('../image/avatar.gif') }/>
+                    <img src={ require('../../image/avatar.gif') }/>
                     <p>碎碎酱</p>
                 </div>
                 <div>
