@@ -5,6 +5,10 @@ import Socket from '../util/socket';
 
 const socket = new Socket(socketClient('http://localhost:9200'));
 
+socket.socket.on('groupMessage', data => {
+    console.log('get server group message ->', data);
+});
+
 const actions = {
     login: function(username, password) {
         return new Promise(resolve => {
@@ -40,6 +44,24 @@ const actions = {
                     dispatch({
                         type: 'LoginSuccess',
                         user: response.data
+                    });
+                    resolve(response);
+                }
+                else {
+                    resolve(response);
+                }
+            });
+        });
+    },
+
+    sendGroupMessage: function(linkmanId, content) {
+        return new Promise(resolve => {
+            socket.post('/groupMessage', { linkmanId, content }, response => {
+                console.log('post group message ->', response);
+                if (response.status === 201) {
+                    dispatch({
+                        type: 'SendGroupMessageSuccess',
+                        message: response.data
                     });
                     resolve(response);
                 }

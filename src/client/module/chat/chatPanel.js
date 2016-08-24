@@ -13,7 +13,7 @@ import Expression from './expression';
 class ChatPanel extends React.Component {
     render() {
         let { showGroupSetting, data, me } = this.props;
-        
+
         return (
             <div className="chat-panel">
                 <ChatPanelHeader
@@ -31,11 +31,14 @@ class ChatPanel extends React.Component {
                                 time={message.createTime}
                                 type={message.type}
                                 content={message.content}
-                            />
+                                />
                         ))
                     }
                 </MessageList.container>
-                <InputBox/>
+                <InputBox
+                    type={data.type}
+                    linkmanId={data._id}
+                    />
                 <Toolbar/>
                 <GroupSetting/>
                 <GroupNotice/>
