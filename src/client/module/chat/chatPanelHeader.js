@@ -13,11 +13,13 @@ class ChatPanelHeader extends React.Component {
     }
 
     render () {
+        const { avatar, name } = this.props;
+
         return (
             <div className="chat-panel-header">
                 <div>
-                    <img src={ require('../../image/avatar.gif') }/>
-                    <p>碎碎酱</p>
+                    <img src={ avatar }/>
+                    <p>{ name }</p>
                 </div>
                 <div>
                     <div>
@@ -48,6 +50,4 @@ class ChatPanelHeader extends React.Component {
     }
 }
 
-export default connect(
-    state => ({})
-)(ChatPanelHeader);
+export default ChatPanelHeader;

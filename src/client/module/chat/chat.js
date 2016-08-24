@@ -8,7 +8,7 @@ import MaskLayout from './maskLayout';
 class Chat extends React.Component {
     render() {
         const { avatar, name, width, height, location, routeParams } = this.props;
-        console.log(this.props);
+        
         return (
             <div className="app">
                 <Header/>

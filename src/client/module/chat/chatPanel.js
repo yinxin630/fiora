@@ -11,22 +11,29 @@ import GroupNotice from './groupNotice';
 import Expression from './expression';
 
 class ChatPanel extends React.Component {
-    render () {
-        let { showGroupSetting, data } = this.props;
-        console.log('data', data);
+    render() {
+        let { showGroupSetting, data, me } = this.props;
+        
         return (
             <div className="chat-panel">
-                <ChatPanelHeader/>
+                <ChatPanelHeader
+                    avatar={data.avatar}
+                    name={data.type === 'group' ? data.name : data.username}
+                    />
                 <MessageList.container>
-                    <MessageList.item self/>
-                    <MessageList.item/>
-                    <MessageList.item/>
-                    <MessageList.item/>
-                    <MessageList.item/>
-                    <MessageList.item/>
-                    <MessageList.item/>
-                    <MessageList.item/>
-                    <MessageList.item/>
+                    {
+                        data.messages.map(message => (
+                            <MessageList.item
+                                key={`${data.type}_${message._id}`}
+                                self={message.from._id === me}
+                                avatar={message.from.avatar}
+                                name={message.from.username}
+                                time={message.createTime}
+                                type={message.type}
+                                content={message.content}
+                            />
+                        ))
+                    }
                 </MessageList.container>
                 <InputBox/>
                 <Toolbar/>
@@ -38,6 +45,4 @@ class ChatPanel extends React.Component {
     }
 }
 
-export default connect(
-    state => ({ })
-)(ChatPanel);
+export default ChatPanel;

@@ -9,7 +9,7 @@ import EmptyChatPanel from './emptyChatPanel';
 
 class Body extends React.Component {
     render() {
-        const { linkmans, location, routeParams } = this.props;
+        const { linkmans, me, location, routeParams } = this.props;
 
         return (
             <div className="body">
@@ -29,6 +29,7 @@ class Body extends React.Component {
                         :
                         <ChatPanel
                             data={linkmans.filter(x => x.type === routeParams.type && x._id === routeParams.id)[0]}
+                            me={me}
                             />
                 }
             </div>
@@ -38,6 +39,7 @@ class Body extends React.Component {
 
 export default connect(
     state => ({
-        linkmans: state.user.linkmans
+        linkmans: state.user.linkmans,
+        me: state.user._id
     })
 )(Body);
