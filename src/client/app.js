@@ -3,12 +3,20 @@ import './app.scss';
 
 import { connect } from 'react-redux';
 import user from './action/user';
+import socket from './socket';
 
 import Notification from './commonComponent/notification';
 
 class App extends React.Component {
     static contextTypes = {
         router: React.PropTypes.object.isRequired
+    }
+
+    componentWillMount() {
+        // register server event
+        socket.on('groupMessage', data => {
+            console.log('receive group message ->', data);
+        });
     }
 
     componentDidMount() {

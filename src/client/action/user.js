@@ -1,13 +1,6 @@
 import Store from '../store';
 const dispatch = Store.dispatch;
-import socketClient from 'socket.io-client';
-import Socket from '../util/socket';
-
-const socket = new Socket(socketClient('http://localhost:9200'));
-
-socket.socket.on('groupMessage', data => {
-    console.log('get server group message ->', data);
-});
+import socket from '../socket';
 
 const actions = {
     login: function(username, password) {
