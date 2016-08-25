@@ -30,6 +30,6 @@ class GroupNotice extends React.Component {
 
 export default connect(
     state => ({
-        show: state.ui.showGroupNotice,
+        show: state.getIn(['ui', 'showGroupNotice'])
     })
 )(GroupNotice);

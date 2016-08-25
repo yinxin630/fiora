@@ -17,6 +17,6 @@ class MaskLayout extends React.Component {
 
 export default connect(
     state => ({
-        show: state.ui.showMaskLayout
+        show: state.getIn(['ui', 'showMaskLayout'])
     })
 )(MaskLayout);

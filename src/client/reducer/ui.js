@@ -1,81 +1,57 @@
-import R from 'ramda';
+import immutable from 'immutable';
 
-function reducer(
-    state = {
-        showToolbar: false,
-        showGroupSetting: false,
-        showGroupNotice: false,
-        showExpression: false,
-        showMaskLayout: false,
-        showNotification: false,
-        notificationContent: '',
-    }, 
-    action
-) {
+const initialState = immutable.fromJS({
+    showToolbar: false,
+    showGroupSetting: false,
+    showGroupNotice: false,
+    showExpression: false,
+    showMaskLayout: false,
+    showNotification: false,
+    notificationContent: '',
+});
+
+function reducer(state = initialState, action) {
     switch (action.type) {
         case 'ShowToolbar': {
-            let newState = R.clone(state);
-            newState.showToolbar = true;
-            return newState;
+            return state.set('showToolbar', true);
         }
         case 'CloseToolbar': {
-            let newState = R.clone(state);
-            newState.showToolbar = false;
-            return newState;
+            return state.set('showToolbar', false);
         }
 
         case 'OpenGroupSetting': {
-            let newState = R.clone(state);
-            newState.showGroupSetting = true;
-            return newState;
+            return state.set('showGroupSetting', true);
         }
         case 'CloseGroupSetting': {
-            let newState = R.clone(state);
-            newState.showGroupSetting = false;
-            return newState;
+            return state.set('showGroupSetting', false);
         }
         case 'OpenGroupNotice': {
-            let newState = R.clone(state);
-            newState.showGroupNotice = true;
-            return newState;
+            return state.set('showGroupNotice', true);
         }
         case 'CloseGroupNotice': {
-            let newState = R.clone(state);
-            newState.showGroupNotice = false;
-            return newState;
+            return state.set('showGroupNotice', false);
         }
         case 'OpenExpression': {
-            let newState = R.clone(state);
-            newState.showExpression = true;
-            return newState;
+            return state.set('showExpression', true);
         }
         case 'CloseExpression': {
-            let newState = R.clone(state);
-            newState.showExpression = false;
-            return newState;
+            return state.set('showExpression', false);
         }
 
         case 'OpenMaskLayout': {
-            let newState = R.clone(state);
-            newState.showMaskLayout = true;
-            return newState;
+            return state.set('showMaskLayout', true);
         }
         case 'CloseMaskLayout': {
-            let newState = R.clone(state);
-            newState.showMaskLayout = false;
-            return newState;
+            return state.set('showMaskLayout', false);
         }
 
         case 'OpenNotification': {
-            let newState = R.clone(state);
-            newState.showNotification = true;
-            newState.notificationContent = action.content;
-            return newState;
+            return state
+            .set('showNotification', true)
+            .set('notificationContent', action.content);
         }
         case 'CloseNotification': {
-            let newState = R.clone(state);
-            newState.showNotification = false;
-            return newState;
+            return state.set('showNotification', false);
         }
 
         default: 

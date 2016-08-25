@@ -23,7 +23,7 @@ class User extends React.Component {
     render () {
         const { data } = this.props;
         const isGroup = data.type === 'group';
-        const time = moment(data.messages.length === 0 ? Date.now() : data.messages[data.messages.length - 1].createTime).format('hh:mm');
+        const time = moment(data.messages.length === 0 ? data.createTime : data.messages[data.messages.length - 1].createTime).format('hh:mm');
         const message = data.messages.length === 0 ? '无消息' : data.messages[data.messages.length - 1].content;
 
         return (

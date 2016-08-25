@@ -26,7 +26,7 @@ class App extends React.Component {
 
     render() {
         // for debug
-        console.log(this.props.state);
+        console.log(this.props.state.toJS());
 
         return (
             <div className="window">

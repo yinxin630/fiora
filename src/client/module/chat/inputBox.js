@@ -52,6 +52,6 @@ class InputBox extends React.Component {
 
 export default connect(
     state => ({
-        show: state.ui.showToolbar,
+        show: state.getIn(['ui', 'showToolbar'])
     })
 )(InputBox);

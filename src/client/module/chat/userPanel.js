@@ -8,6 +8,7 @@ import Avatar from './avatar'
 class UserPanel extends React.Component {
     render () {
         const { avatar, username } = this.props;
+        
         return (
             <div className="user-panel">
                 <div></div>
@@ -24,7 +25,7 @@ class UserPanel extends React.Component {
 
 export default connect(
     state => ({
-        avatar: state.user.avatar,
-        username: state.user.username
+        avatar: state.getIn(['user', 'avatar']),
+        username: state.getIn(['user', 'username'])
     })
 )(UserPanel);

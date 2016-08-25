@@ -1,14 +1,12 @@
-import R from 'ramda';
+import immutable from 'immutable';
 
-function reducer(
-    state = {
+const initialState = immutable.fromJS({
 
-    }, 
-    action
-) {
+});
+
+function reducer( state = initialState, action ) {
     switch (action.type) {
         case 'LoginSuccess': {
-            let newState = R.clone(state);
             let linkmans = [];
             for (let group of action.user.groups) {
                 group.type = 'group';
@@ -25,12 +23,19 @@ function reducer(
             });
             action.user.linkmans = linkmans;
 
-            return Object.assign(newState, action.user);
+            return immutable.fromJS({
+                createTime: action.user.createTime,
+                updateTime: action.user.updateTime,
+                username: action.user.username,
+                avatar: action.user.avatar,
+                gender: action.user.gender,
+                birthday: action.user.birthday,
+                introduce: action.user.introduce,
+                linkmans: action.user.linkmans
+            });
         }
         case 'createGroup': {
-            let newState = R.clone(state);
-            newState.groups.push(action.data);
-            return newState;
+            return state;
         }
 
         default: 

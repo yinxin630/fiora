@@ -101,6 +101,6 @@ class Expression extends React.Component {
 
 export default connect(
     state => ({
-        show: state.ui.showExpression,
+        show: state.getIn(['ui', 'showExpression'])
     })
 )(Expression);

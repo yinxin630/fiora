@@ -39,7 +39,7 @@ class Body extends React.Component {
 
 export default connect(
     state => ({
-        linkmans: state.user.linkmans,
-        me: state.user._id
+        linkmans: state.getIn(['user', 'linkmans']).toJS(),
+        me: state.getIn(['user', '_id'])
     })
 )(Body);
