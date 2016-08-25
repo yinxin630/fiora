@@ -1,6 +1,7 @@
 import React from 'react';
 import './style/chatPanel.scss';
 
+import pureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 import MessageList from './messageList';
 import Toolbar from './toolbar';
@@ -11,20 +12,26 @@ import GroupNotice from './groupNotice';
 import Expression from './expression';
 
 class ChatPanel extends React.Component {
+    constructor(props) {
+        super(props);
+        this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
+    }
+
     render() {
-        let { showGroupSetting, data, me } = this.props;
+        let { linkman, me } = this.props;
+        linkman = linkman.toJS();
 
         return (
             <div className="chat-panel">
                 <ChatPanelHeader
-                    avatar={data.avatar}
-                    name={data.type === 'group' ? data.name : data.username}
+                    avatar={linkman.avatar}
+                    name={linkman.type === 'group' ? linkman.name : linkman.username}
                     />
                 <MessageList.container>
                     {
-                        data.messages.map(message => (
+                        linkman.messages.map(message => (
                             <MessageList.item
-                                key={`${data.type}_${message._id}`}
+                                key={`${linkman.type}_${message._id}`}
                                 self={message.from._id === me}
                                 avatar={message.from.avatar}
                                 name={message.from.username}
@@ -36,8 +43,8 @@ class ChatPanel extends React.Component {
                     }
                 </MessageList.container>
                 <InputBox
-                    type={data.type}
-                    linkmanId={data._id}
+                    type={linkman.type}
+                    linkmanId={linkman._id}
                     />
                 <Toolbar/>
                 <GroupSetting/>

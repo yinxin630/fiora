@@ -1,6 +1,7 @@
 import React from 'react';
 import './style/body.scss';
 
+import pureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 
 import UserList from './userList';
@@ -8,6 +9,11 @@ import ChatPanel from './chatPanel';
 import EmptyChatPanel from './emptyChatPanel';
 
 class Body extends React.Component {
+    constructor(props) {
+        super(props);
+        this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
+    }
+
     render() {
         const { linkmans, me, location, routeParams } = this.props;
 
@@ -15,10 +21,10 @@ class Body extends React.Component {
             <div className="body">
                 <UserList.container>
                     {
-                        linkmans.map(item => (
+                        linkmans.map(linkman => (
                             <UserList.item
-                                key={item.type + item._id}
-                                data={item}
+                                key={linkman.get('type') + linkman.get('_id')}
+                                linkman={linkman}
                                 />
                         ))
                     }
@@ -28,7 +34,7 @@ class Body extends React.Component {
                         <EmptyChatPanel/>
                         :
                         <ChatPanel
-                            data={linkmans.filter(x => x.type === routeParams.type && x._id === routeParams.id)[0]}
+                            linkman={linkmans.find(linkman => linkman.get('type') === routeParams.type && linkman.get('_id') === routeParams.id)}
                             me={me}
                             />
                 }
@@ -39,7 +45,7 @@ class Body extends React.Component {
 
 export default connect(
     state => ({
-        linkmans: state.getIn(['user', 'linkmans']).toJS(),
+        linkmans: state.getIn(['user', 'linkmans']),
         me: state.getIn(['user', '_id'])
     })
 )(Body);

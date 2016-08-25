@@ -1,6 +1,7 @@
 import React from 'react';
 import './style/login.scss';
 
+import pureRenderMixin from 'react-addons-pure-render-mixin';
 import user from '../../action/user';
 import ui from '../../action/ui';
 
@@ -11,11 +12,11 @@ class Login extends React.Component {
 
     constructor(props) {
         super(props);
+        this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
         this.state = {
             usernameInput: 'normal',
             passwordInput: 'normal'
         };
-
         this.handleLogin = this.handleLogin.bind(this);
     }
 

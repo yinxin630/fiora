@@ -2,10 +2,16 @@ import React from 'react';
 import './style/userPanel.scss';
 
 import { connect } from 'react-redux';
+import pureRenderMixin from 'react-addons-pure-render-mixin';
 
 import Avatar from './avatar'
 
 class UserPanel extends React.Component {
+    constructor(props) {
+        super(props);
+        this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
+    }
+
     render () {
         const { avatar, username } = this.props;
         

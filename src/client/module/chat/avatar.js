@@ -1,7 +1,14 @@
 import React from 'react';
 import './style/avatar.scss';
 
+import pureRenderMixin from 'react-addons-pure-render-mixin';
+
 class Avatar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
+    }
+
     render () {
         const { avatar, name, width, height } = this.props;
         return (

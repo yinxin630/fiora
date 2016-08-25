@@ -1,7 +1,14 @@
 import React from 'react';
 import './style/messageList.scss';
 
+import pureRenderMixin from 'react-addons-pure-render-mixin';
+
 class MessageList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
+    }
+    
     render () {
         return (
             <div className="message-list">
@@ -12,6 +19,11 @@ class MessageList extends React.Component {
 }
 
 class Message extends React.Component {
+    constructor(props) {
+        super(props);
+        this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
+    }
+
     render () {
         let { key, self, avatar, name, time, type, content } = this.props;
 

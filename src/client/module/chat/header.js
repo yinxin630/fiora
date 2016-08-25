@@ -1,11 +1,17 @@
 import React from 'react';
 import './style/header.scss';
 
+import pureRenderMixin from 'react-addons-pure-render-mixin';
 import Logo from './logo';
 import NavList from './navList';
 import UserPanel from './userPanel';
 
 class Header extends React.Component {
+    constructor(props) {
+        super(props);
+        this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
+    }
+
     render () {
         return (
             <header>

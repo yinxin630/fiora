@@ -1,11 +1,17 @@
 import React from 'react';
 import './style/groupNotice.scss';
 
+import pureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 import ui from '../../action/ui';
 import FloatPanel from './floatPanel';
 
 class GroupNotice extends React.Component {
+    constructor(props) {
+        super(props);
+        this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
+    }
+
     render () {
         let { show } = this.props;
         return (

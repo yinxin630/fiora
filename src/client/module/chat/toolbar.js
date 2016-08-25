@@ -1,6 +1,7 @@
 import React from 'react';
 import './style/toolbar.scss';
 
+import pureRenderMixin from 'react-addons-pure-render-mixin';
 import ui from '../../action/ui';
 import { connect } from 'react-redux';
 import { Motion, spring } from 'react-motion';
@@ -9,6 +10,7 @@ import mask from '../../util/mask';
 class Toolbar extends React.Component {
     constructor (props) {
         super(props);
+        this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
         this.renderToolbar = this.renderToolbar.bind(this);
         this.onExpressionClick = this.onExpressionClick.bind(this);
     }

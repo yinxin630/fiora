@@ -1,9 +1,15 @@
 import React from 'react';
 import './style/notification.scss';
 
+import pureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 
 class Notification extends React.Component {
+    constructor(props) {
+        super(props);
+        this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
+    }
+
     renderNotification() {
         const { content } = this.props;
         return (

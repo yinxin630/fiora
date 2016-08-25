@@ -1,9 +1,15 @@
 import React from 'react';
 import './style/maskLayout.scss';
 
+import pureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 
 class MaskLayout extends React.Component {
+    constructor(props) {
+        super(props);
+        this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
+    }
+
     render () {
         return (
             <div 

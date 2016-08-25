@@ -32,6 +32,7 @@
     "mongoose": "^4.5.9",
     "once-event-listener": "^1.0.0",
     "react": "^15.3.0",
+    "react-addons-pure-render-mixin": "^15.3.1",
     "react-dom": "^15.3.0",
     "react-motion": "^0.4.4",
     "react-redux": "^4.4.5",

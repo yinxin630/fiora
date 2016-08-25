@@ -1,6 +1,7 @@
 import React from 'react';
 import './style/inputBox.scss';
 
+import pureRenderMixin from 'react-addons-pure-render-mixin';
 import { Motion, spring } from 'react-motion';
 import { connect } from 'react-redux'
 import ui from '../../action/ui';
@@ -9,6 +10,7 @@ import user from '../../action/user';
 class InputBox extends React.Component {
     constructor(props) {
         super(props);
+        this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
         this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
     }
 

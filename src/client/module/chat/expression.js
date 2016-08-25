@@ -1,6 +1,7 @@
 import React from 'react';
 import './style/expression.scss';
 
+import pureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 import { Motion, spring } from 'react-motion';
 
@@ -27,6 +28,7 @@ const collectExpressionExample = [
 class Expression extends React.Component {
     constructor (props) {
         super(props);
+        this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
         this.state = { page: 'default' };
         this.renderDefaultExpression = this.renderDefaultExpression.bind(this);
         this.renderCollectExpression = this.renderCollectExpression.bind(this);

@@ -1,11 +1,17 @@
 import React from 'react';
 import './style/groupSetting.scss';
 
+import pureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 import ui from '../../action/ui';
 import FloatPanel from './floatPanel';
 
 class GroupSetting extends React.Component {
+    constructor(props) {
+        super(props);
+        this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
+    }
+
     render () {
         let { show } = this.props;
         return (
