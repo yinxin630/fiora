@@ -2,14 +2,15 @@ import React from 'react';
 import './style/messageList.scss';
 
 import pureRenderMixin from 'react-addons-pure-render-mixin';
+import Avatar from './avatar';
 
 class MessageList extends React.Component {
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
     }
-    
-    render () {
+
+    render() {
         return (
             <div className="message-list">
                 { this.props.children }
@@ -24,12 +25,18 @@ class Message extends React.Component {
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
     }
 
-    render () {
+    render() {
         let { key, self, avatar, name, time, type, content } = this.props;
+        console.log(this.props);
 
         return (
-            <div className={ `message-list-item ${ self ? 'message-self': '' }` }>
-                <img src={ avatar }/>
+            <div className={ `message-list-item ${self ? 'message-self' : ''}` }>
+                <Avatar
+                    avatar={avatar}
+                    name={name}
+                    width={40}
+                    height={40}
+                    />
                 <div>
                     <div>
                         <span>{ name }</span>

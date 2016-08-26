@@ -22,6 +22,8 @@ const groupMessage = {
         let savedMessage = null;
         try {
             savedMessage = yield message.save();
+            group.messages.push(savedMessage);
+            yield group.save();
         }
         catch(err) {
             end(500, { msg: 'server error when save new message' });

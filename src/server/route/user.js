@@ -5,7 +5,6 @@ const User = require('../model/user');
 const Group = require('../model/group');
 const mongoose = require('mongoose');
 const isLogin = require('../police/isLogin');
-const filterUser = require('../filter/user');
 
 // bcrypt salt length
 const saltRounds = 10;
@@ -45,14 +44,14 @@ const user = {
             console.log('save new user error ->', err);
             return end(500, 'server error when save new user');
         }
-        end(201, filterUser(savedUser));
+        end(201, savedUser);
     },
     'GET /user': function* (socket, data, end) {
         assert(!mongoose.Types.ObjectId.isValid(data.id), end, 400, `id:'${data.id}' is invalid`);
 
-        let user = yield User.findById(data.id);
+        let user = yield User.findById(data.id, '-password -salt');
         if (user) {
-            end(200, filterUser(user));
+            end(200, user);
         }
         else {
             end(404, { msg: 'user not exists' });
@@ -60,8 +59,8 @@ const user = {
     },
     'GET /user/me': function* (socket, data, end) {
         yield* isLogin(socket, data, end);
-        let user = yield User.findById(socket.user);
-        end(200, filterUser(user));
+        let user = yield User.findById(socket.user, '-password -salt');
+        end(200, user);
     },
     'POST /user/friend': function* (socket, data, end) {
         yield* isLogin(socket, data, end);

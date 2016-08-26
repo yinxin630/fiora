@@ -1,13 +1,16 @@
-const assert = require('../util/assert');
 const promise = require('bluebird');
 const bcrypt = promise.promisifyAll(require('bcrypt'), { suffix: '$' });
-const User = require('../model/user');
-const Auth = require('../model/auth');
 const mongoose = require('mongoose');
 const jwt = require('jwt-simple');
+
+const User = require('../model/user');
+const Auth = require('../model/auth');
+const Group = require('../model/group');
+const GroupMessage = require('../model/groupMessage');
+
+const assert = require('../util/assert');
 const config = require('../../../config/config');
 const isLogin = require('../police/isLogin');
-const filterUser = require('../filter/user');
 
 const auth = {
     'POST /auth': function* (socket, data, end) {
@@ -15,16 +18,43 @@ const auth = {
         assert(!data.password, end, 400, 'need password param but not exists');
 
         // get user info
-        let user = yield User.findOne({ username: data.username });
+        let user = yield User.findOne({ username: data.username }, '-password -salt');
         assert(!user, end, 404, `user not exists`);
 
         // check user password
         let isPasswordCorrect = bcrypt.compareSync(data.password, user.password);
         assert(!isPasswordCorrect, end, 400, `password not correct`);
 
-        // get user populate info
-        yield User.populate(user, 'groups');
-        yield User.populate(user, 'friends');
+        // populate user info
+        const userOpts = [
+            { 
+                path: 'groups'
+            },
+            { 
+                path: 'friends'
+            }
+        ];
+        yield User.populate(user, userOpts);
+
+        // populate group info
+        const groupOpts = [
+            {
+                path: 'members',
+                select: {
+                    _id: true,
+                    avatar: true,
+                    username: true
+                }
+            }
+        ];
+        for (let group of user.groups) {
+            yield Group.populate(group, groupOpts);
+            let skip = group.messages.length - 30;
+            if (skip < 0) {
+                skip = 0;
+            }
+            group.messages = yield GroupMessage.find({ to: group._id }, null, { skip: skip }).populate({ path: 'from', select: { username: true, avatar: true } });
+        }
 
         // handle client socket. system message room: system
         socket.join('system');
@@ -47,18 +77,45 @@ const auth = {
         }
 
         let newAuth = yield auth.save();
-        end(201, { user: filterUser(user), token: token });
+        end(201, { user: user, token: token });
     },
 
     'POST /auth/re': function* (socket, data, end) {
         yield* isLogin(socket, data, end);
 
         // get user info
-        let user = yield User.findById(socket.user);
+        let user = yield User.findById(socket.user, '-password -salt');
 
-        // get user populate info
-        yield User.populate(user, 'groups');
-        yield User.populate(user, 'friends');
+        // populate user info
+        const userOpts = [
+            { 
+                path: 'groups'
+            },
+            { 
+                path: 'friends'
+            }
+        ];
+        yield User.populate(user, userOpts);
+
+        // populate group info
+        const groupOpts = [
+            {
+                path: 'members',
+                select: {
+                    _id: true,
+                    avatar: true,
+                    username: true
+                }
+            }
+        ];
+        for (let group of user.groups) {
+            yield Group.populate(group, groupOpts);
+            let skip = group.messages.length - 30;
+            if (skip < 0) {
+                skip = 0;
+            }
+            group.messages = yield GroupMessage.find({ to: group._id }, null, { skip: skip }).populate({ path: 'from', select: { username: true, avatar: true } });
+        }
 
         // handle client socket. system message room: system
         socket.join('system');
@@ -78,7 +135,7 @@ const auth = {
         }
 
         let newAuth = yield auth.save();
-        end(201, filterUser(user));
+        end(201, user);
     },
 
     'DELETE /auth': function* (socket, data, end) {
