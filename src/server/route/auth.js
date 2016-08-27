@@ -18,7 +18,7 @@ const auth = {
         assert(!data.password, end, 400, 'need password param but not exists');
 
         // get user info
-        let user = yield User.findOne({ username: data.username }, '-password -salt');
+        let user = yield User.findOne({ username: data.username }, '-salt');
         assert(!user, end, 404, `user not exists`);
 
         // check user password

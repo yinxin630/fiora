@@ -12,6 +12,7 @@ class Notification extends React.Component {
 
     renderNotification() {
         const { content } = this.props;
+        console.log(content);
         return (
             <div className="notification">
                 <div>
@@ -30,6 +31,6 @@ class Notification extends React.Component {
 export default connect(
     state => ({
         show: state.getIn(['ui', 'showNotification']),
-        content: state.getIn['ui', 'notificationContent']
+        content: state.getIn(['ui', 'notificationContent'])
     })
 )(Notification);

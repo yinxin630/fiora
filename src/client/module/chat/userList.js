@@ -38,7 +38,7 @@ class User extends React.Component {
         linkman = linkman.toJS();
         const isGroup = linkman.type === 'group';
         const time = moment(linkman.messages.length === 0 ? linkman.createTime : linkman.messages[linkman.messages.length - 1].createTime).format('hh:mm');
-        const message = linkman.messages.length === 0 ? '无消息' : linkman.messages[linkman.messages.length - 1].content;
+        const message = linkman.messages.length === 0 ? null : linkman.messages[linkman.messages.length - 1];
 
         return (
             <div 
@@ -57,7 +57,7 @@ class User extends React.Component {
                         <p>{ time }</p>
                     </div>
                     <div>
-                        <p>{ message }</p>
+                        <p>{ `${message ? message.from.username + ': ' + message.content : '...'}` }</p>
                     </div>
                 </div>
             </div>

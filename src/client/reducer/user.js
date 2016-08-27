@@ -19,7 +19,7 @@ function reducer( state = initialState, action ) {
             linkmans.sort((a, b) => {
                 let lastMessageTimeOfA = a.messages.length === 0 ? a.createTime : a.messages[a.messages.length - 1].createTime;
                 let lastMessageTimeOfB = b.messages.length === 0 ? b.createTime : b.messages[b.messages.length - 1].createTime;
-                return lastMessageTimeOfA - lastMessageTimeOfB;
+                return new Date(lastMessageTimeOfB).getTime() - new Date(lastMessageTimeOfA).getTime();
             });
             action.user.linkmans = linkmans;
 
@@ -41,15 +41,13 @@ function reducer( state = initialState, action ) {
 
         case 'AddGroupMessage': {
             return state.updateIn(
-                ['linkmans'],
-                linkman => linkman.update(
-                    linkman.findIndex(l => l.get('type') === 'group' && l.get('_id') === action.message.to._id),
-                    o => o.updateIn(
-                        ['messages'],
-                        messages => messages.push(immutable.fromJS(action.message))
-                    )
-                )
-            );
+                ['linkmans'], 
+                linkmans => {
+                    let groupIndex = linkmans.findIndex(g => g.get('type') === 'group' && g.get('_id') === action.message.to._id);
+                    let group = linkmans.get(groupIndex).updateIn(['messages'], m => m.push(immutable.fromJS(action.message)));
+                    return linkmans.delete(groupIndex).unshift(group);
+                }
+            )
         }
 
         default: 

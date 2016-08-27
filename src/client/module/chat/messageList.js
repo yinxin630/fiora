@@ -40,7 +40,7 @@ class Message extends React.Component {
                 <div>
                     <div>
                         <span>{ message.getIn(['from', 'username']) }</span>
-                        <span>{ moment(message.get('time')).format('hh:mm') }</span>
+                        <span>{ moment(message.get('createTime')).format('hh:mm') }</span>
                     </div>
                     <div>
                         { message.get('content') }
