@@ -20,6 +20,7 @@ class ChatPanel extends React.Component {
     render() {
         let { linkman, me } = this.props;
         linkman = linkman.toJS();
+        console.log(linkman.messages);
 
         return (
             <div className="chat-panel">
@@ -31,7 +32,7 @@ class ChatPanel extends React.Component {
                     {
                         linkman.messages.map(message => (
                             <MessageList.item
-                                key={`${linkman.type}_${message._id}`}
+                                key={`${linkman.type}${message._id}`}
                                 self={message.from._id === me}
                                 avatar={message.from.avatar}
                                 name={message.from.username}

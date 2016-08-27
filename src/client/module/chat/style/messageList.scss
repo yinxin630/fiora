@@ -14,20 +14,20 @@
     margin-top: 10px;
     min-height: min-content;
     
-    // img {
-    //     width: 40px;
-    //     height: 40px;
-    //     border-radius: 50%;
-    //     margin-right: 5px;
-    // }
-    & > div {
+    & > :first-child {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 5px;
+    }
+    & > :nth-child(1000n+2) {
         flex: 1;
         margin-right: 45px;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
 
-        & > div:first-child {
+        & > :first-child {
             display: inline-block;
             span {
                 font-size: 14px;
@@ -38,7 +38,7 @@
                 margin-left: 5px;
             }
         }
-        & > div:last-child {
+        & > :last-child {
             padding: 5px;
             margin: 0px;
             border: 1px solid #999;
@@ -52,12 +52,12 @@
 .message-self {
     flex-direction: row-reverse;
 
-    & > div {
+    & > :nth-child(1000n+2) {
         align-items: flex-end;
         margin-right: 0px;
         margin-left: 45px;
     }
-    & > img {
+    & > :first-child {
         margin-right: 0px;
         margin-left: 5px;
     }

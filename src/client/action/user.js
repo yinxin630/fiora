@@ -50,7 +50,6 @@ const actions = {
     sendGroupMessage: function(linkmanId, content) {
         return new Promise(resolve => {
             socket.post('/groupMessage', { linkmanId, content }, response => {
-                console.log('post group message ->', response);
                 if (response.status === 201) {
                     dispatch({
                         type: 'SendGroupMessageSuccess',

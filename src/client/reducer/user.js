@@ -24,6 +24,7 @@ function reducer( state = initialState, action ) {
             action.user.linkmans = linkmans;
 
             return immutable.fromJS({
+                _id: action.user._id,
                 createTime: action.user.createTime,
                 updateTime: action.user.updateTime,
                 username: action.user.username,

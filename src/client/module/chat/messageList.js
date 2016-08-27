@@ -2,6 +2,7 @@ import React from 'react';
 import './style/messageList.scss';
 
 import pureRenderMixin from 'react-addons-pure-render-mixin';
+import moment from 'moment';
 import Avatar from './avatar';
 
 class MessageList extends React.Component {
@@ -40,7 +41,7 @@ class Message extends React.Component {
                 <div>
                     <div>
                         <span>{ name }</span>
-                        <span>{ time }</span>
+                        <span>{ moment(time).format('hh:mm') }</span>
                     </div>
                     <div>
                         { content }
