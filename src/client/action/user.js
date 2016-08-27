@@ -52,7 +52,7 @@ const actions = {
             socket.post('/groupMessage', { linkmanId, content }, response => {
                 if (response.status === 201) {
                     dispatch({
-                        type: 'SendGroupMessageSuccess',
+                        type: 'AddGroupMessage',
                         message: response.data
                     });
                     resolve(response);
@@ -64,12 +64,22 @@ const actions = {
         });
     },
 
+    addGroupMessage: function(message) {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'AddGroupMessage',
+                message: message
+            });
+            resolve(message);
+        });
+    },
+
     createGroup: function(name) {
         return new Promise(resolve => {
             socket.post('/group', { name: name }, response => {
                 if (response.status === 201) {
                     dispatch({
-                        type: 'createGroup',
+                        type: 'CreateGroup',
                         user: response.data
                     });
                     resolve(response);

@@ -27,24 +27,23 @@ class Message extends React.Component {
     }
 
     render() {
-        let { key, self, avatar, name, time, type, content } = this.props;
-        console.log(this.props);
+        let { self, message } = this.props;
 
         return (
             <div className={ `message-list-item ${self ? 'message-self' : ''}` }>
                 <Avatar
-                    avatar={avatar}
-                    name={name}
+                    avatar={message.getIn(['from', 'avatar'])}
+                    name={message.getIn(['from', 'username'])}
                     width={40}
                     height={40}
                     />
                 <div>
                     <div>
-                        <span>{ name }</span>
-                        <span>{ moment(time).format('hh:mm') }</span>
+                        <span>{ message.getIn(['from', 'username']) }</span>
+                        <span>{ moment(message.get('time')).format('hh:mm') }</span>
                     </div>
                     <div>
-                        { content }
+                        { message.get('content') }
                     </div>
                 </div>
             </div>

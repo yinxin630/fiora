@@ -15,7 +15,7 @@ class App extends React.Component {
     componentWillMount() {
         // register server event
         socket.on('groupMessage', data => {
-            console.log('receive group message ->', data);
+            user.addGroupMessage(data);
         });
     }
 

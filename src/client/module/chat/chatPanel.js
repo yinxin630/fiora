@@ -19,33 +19,27 @@ class ChatPanel extends React.Component {
 
     render() {
         let { linkman, me } = this.props;
-        linkman = linkman.toJS();
-        console.log(linkman.messages);
 
         return (
             <div className="chat-panel">
                 <ChatPanelHeader
-                    avatar={linkman.avatar}
-                    name={linkman.type === 'group' ? linkman.name : linkman.username}
+                    avatar={linkman.get('avatar')}
+                    name={linkman.get('type') === 'group' ? linkman.get('name') : linkman.get('username')}
                     />
                 <MessageList.container>
                     {
-                        linkman.messages.map(message => (
+                        linkman.get('messages').map(message => (
                             <MessageList.item
-                                key={`${linkman.type}${message._id}`}
-                                self={message.from._id === me}
-                                avatar={message.from.avatar}
-                                name={message.from.username}
-                                time={message.createTime}
-                                type={message.type}
-                                content={message.content}
+                                key={ linkman.get('type') + message.get('_id') }
+                                self={ message.getIn(['from', '_id']) === me }
+                                message={ message }
                                 />
                         ))
                     }
                 </MessageList.container>
                 <InputBox
-                    type={linkman.type}
-                    linkmanId={linkman._id}
+                    type={linkman.get('type')}
+                    linkmanId={linkman.get('_id')}
                     />
                 <Toolbar/>
                 <GroupSetting/>

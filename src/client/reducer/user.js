@@ -35,8 +35,21 @@ function reducer( state = initialState, action ) {
                 linkmans: action.user.linkmans
             });
         }
-        case 'createGroup': {
-            return state;
+        case 'CreateGroup': {
+            
+        }
+
+        case 'AddGroupMessage': {
+            return state.updateIn(
+                ['linkmans'],
+                linkman => linkman.update(
+                    linkman.findIndex(l => l.get('type') === 'group' && l.get('_id') === action.message.to._id),
+                    o => o.updateIn(
+                        ['messages'],
+                        messages => messages.push(immutable.fromJS(action.message))
+                    )
+                )
+            );
         }
 
         default: 
