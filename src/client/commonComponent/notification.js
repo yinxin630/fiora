@@ -18,7 +18,7 @@ class Notification extends React.Component {
 
     renderNotification() {
         const { content } = this.props;
-        console.log(content);
+
         return (
             <div className="notification">
                 <div>
