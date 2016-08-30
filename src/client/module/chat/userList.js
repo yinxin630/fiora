@@ -35,29 +35,29 @@ class User extends React.Component {
     render () {
         
         let { linkman } = this.props;
-        linkman = linkman.toJS();
-        const isGroup = linkman.type === 'group';
-        const time = moment(linkman.messages.length === 0 ? linkman.createTime : linkman.messages[linkman.messages.length - 1].createTime).format('hh:mm');
-        const message = linkman.messages.length === 0 ? null : linkman.messages[linkman.messages.length - 1];
+        const isGroup = linkman.get('type') === 'group';
+        const messagesLength = linkman.get('messages').size;
+        const time = moment(messagesLength === 0 ? linkman.get('createTime') : linkman.getIn(['messages', messagesLength - 1, 'createTime'])).format('hh:mm');
+        const message = messagesLength === 0 ? null : linkman.getIn(['messages', messagesLength - 1]);
 
         return (
             <div 
             className="user-list-item"
-            onClick={() => this.context.router.push(`/chat/${linkman.type}/${linkman._id}`)}
+            onClick={() => this.context.router.push(`/chat/${linkman.get('type')}/${linkman.get('_id')}`)}
             >
                 <Avatar
-                    avatar={linkman.avatar}
-                    name={isGroup === 'group' ? linkman.name : linkman.username}
+                    avatar={linkman.get('avatar')}
+                    name={isGroup ? linkman.get('name') : linkman.get('username')}
                     width={40}
                     height={40}
                 />
                 <div>
                     <div>
-                        <p>{ isGroup ? linkman.name : linkman.username }</p>
+                        <p>{ isGroup ? linkman.get('name') : linkman.get('username') }</p>
                         <p>{ time }</p>
                     </div>
                     <div>
-                        <p>{ `${message ? message.from.username + ': ' + message.content : '...'}` }</p>
+                        <p>{ `${message ? message.getIn(['from', 'username']) + ': ' + message.get('content') : '...'}` }</p>
                     </div>
                 </div>
             </div>
