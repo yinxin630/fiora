@@ -33,6 +33,7 @@
         "react/jsx-indent-props": ["error", 4], // JSX组件属性缩进4空格
         "no-return-assign": 0, // 箭头函数不允许返回表达式
         "react/no-multi-comp": 0, // 禁止一个文件定义多个组件
-        "jsx-a11y/img-has-alt": 0 // <img>必须有alt属性
+        "jsx-a11y/img-has-alt": 0, // <img>必须有alt属性
+        "require-yield": 0 // generator函数必须有yield
     }
 }

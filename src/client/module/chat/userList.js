@@ -8,15 +8,11 @@ import Avatar from './avatar';
 
 class UserList extends React.Component {
     static propTypes = {
-        children: PropTypes.arrayOf(PropTypes.element),
+        children: PropTypes.object,
     };
 
-    static contextTypes = {
-        router: React.PropTypes.object.isRequired,
-    };
-
-    constructor(props) {
-        super(props);
+    constructor(props, context) {
+        super(props, context);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
     }
 
@@ -34,6 +30,10 @@ class User extends React.Component {
         linkman: PropTypes.object,
     };
 
+    static contextTypes = {
+        router: React.PropTypes.object.isRequired,
+    };
+
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
@@ -43,7 +43,7 @@ class User extends React.Component {
         const { linkman } = this.props;
         const isGroup = linkman.get('type') === 'group';
         const messagesLength = linkman.get('messages').size;
-        const time = moment(messagesLength === 0 ? linkman.get('createTime') : linkman.getIn(['messages', messagesLength - 1, 'createTime'])).format('hh:mm');
+        const time = moment(messagesLength === 0 ? linkman.get('createTime') : linkman.getIn(['messages', messagesLength - 1, 'createTime'])).format('HH:mm');
         const message = messagesLength === 0 ? null : linkman.getIn(['messages', messagesLength - 1]);
 
         return (

@@ -11,7 +11,7 @@ import Notification from './commonComponent/notification';
 class App extends React.Component {
     static propTypes = {
         state: PropTypes.object.isRequired,
-        children: PropTypes.arrayOf(PropTypes.element),
+        children: PropTypes.element,
     };
 
     static contextTypes = {

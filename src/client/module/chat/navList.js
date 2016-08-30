@@ -24,7 +24,7 @@ class NavList extends React.Component {
 class Nav extends React.Component {
     static propTypes = {
         icon: PropTypes.string.isRequired,
-        selected: PropTypes.bool.isRequired,
+        selected: PropTypes.bool,
     };
 
     constructor(props) {

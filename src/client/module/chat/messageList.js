@@ -8,7 +8,7 @@ import Avatar from './avatar';
 
 class MessageList extends React.Component {
     static propTypes = {
-        children: PropTypes.arrayOf(PropTypes.element),
+        children: PropTypes.object,
     };
 
     constructor(props) {
@@ -50,7 +50,7 @@ class Message extends React.Component {
                 <div>
                     <div>
                         <span>{ message.getIn(['from', 'username']) }</span>
-                        <span>{ moment(message.get('createTime')).format('hh:mm') }</span>
+                        <span>{ moment(message.get('createTime')).format('HH:mm') }</span>
                     </div>
                     <div>
                         { message.get('content') }

@@ -21,7 +21,6 @@ function* isLogin(socket, data, end) {
     assert(payload.expires < Date.now(), 403, 'token expires over');
 
     socket.user = payload.userId;
-    yield;
 }
 
 module.exports = isLogin;
