@@ -3,4 +3,4 @@ module.exports = function (result, end, status, data) {
         end(status, data);
         throw new Error('assert failed');
     }
-}
+};

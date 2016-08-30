@@ -1,7 +1,8 @@
 import React from 'react';
+import pureRenderMixin from 'react-addons-pure-render-mixin';
+
 import './style/header.scss';
 
-import pureRenderMixin from 'react-addons-pure-render-mixin';
 import Logo from './logo';
 import NavList from './navList';
 import UserPanel from './userPanel';
@@ -12,16 +13,23 @@ class Header extends React.Component {
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
     }
 
-    render () {
+    render() {
         return (
             <header>
-                <Logo/>
+                <Logo />
                 <NavList.container>
-                    <NavList.item icon="&#xe607;" selected/>
-                    <NavList.item icon="&#xe600;"/>
-                    <NavList.item icon="&#xe606;"/>
+                    <NavList.item
+                        icon="&#xe607;"
+                        selected
+                    />
+                    <NavList.item
+                        icon="&#xe600;"
+                    />
+                    <NavList.item
+                        icon="&#xe606;"
+                    />
                 </NavList.container>
-                <UserPanel/>
+                <UserPanel />
             </header>
         );
     }

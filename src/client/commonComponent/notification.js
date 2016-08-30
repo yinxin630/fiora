@@ -1,10 +1,16 @@
-import React from 'react';
-import './style/notification.scss';
-
+import React, { PropTypes } from 'react';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 
+import './style/notification.scss';
+
+
 class Notification extends React.Component {
+    static propTypes = {
+        content: PropTypes.string.isRequired,
+        show: PropTypes.bool.isRequired,
+    };
+
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
@@ -22,7 +28,7 @@ class Notification extends React.Component {
         );
     }
 
-    render () {
+    render() {
         const { show } = this.props;
         return show ? this.renderNotification.call(this) : null;
     }
@@ -31,6 +37,6 @@ class Notification extends React.Component {
 export default connect(
     state => ({
         show: state.getIn(['ui', 'showNotification']),
-        content: state.getIn(['ui', 'notificationContent'])
+        content: state.getIn(['ui', 'notificationContent']),
     })
 )(Notification);

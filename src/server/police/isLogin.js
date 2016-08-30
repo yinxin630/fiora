@@ -19,8 +19,9 @@ function* isLogin(socket, data, end) {
 
     assert(payload.ip !== socket.handshake.address, end, 403, 'your ip not same as token payload ip');
     assert(payload.expires < Date.now(), 403, 'token expires over');
-    
+
     socket.user = payload.userId;
+    yield;
 }
 
 module.exports = isLogin;

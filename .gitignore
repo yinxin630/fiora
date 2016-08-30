@@ -22,4 +22,8 @@ config.js
 public/*.js
 public/*.map
 
+# server api test
 client.test.js
+
+# eslint cache
+.eslintcache

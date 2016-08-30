@@ -1,12 +1,12 @@
-import React from 'react';
-import './style/expression.scss';
-
+import React, { PropTypes } from 'react';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 import { Motion, spring } from 'react-motion';
 
+import './style/expression.scss';
+
 const expressions = ['呵呵', '哈哈', '吐舌', '啊', '酷', '怒', '开心', '汗', '泪', '黑线',
-                     '鄙视', '不高兴', '真棒', '钱', '疑问', '阴险', '吐', '咦', '委屈', '花心', 
+                     '鄙视', '不高兴', '真棒', '钱', '疑问', '阴险', '吐', '咦', '委屈', '花心',
                      '呼', '笑眼', '冷', '太开心', '滑稽', '勉强', '狂汗', '乖', '睡觉', '惊哭',
                      '升起', '惊讶', '喷', '爱心', '心碎', '玫瑰', '礼物', '彩虹', '星星月亮', '太阳',
                      '钱币', '灯泡', '咖啡', '蛋糕', '音乐', 'haha', '胜利', '大拇指', '弱', 'ok'];
@@ -26,7 +26,11 @@ const collectExpressionExample = [
 ];
 
 class Expression extends React.Component {
-    constructor (props) {
+    static propTypes = {
+        show: PropTypes.bool.isRequired,
+    };
+
+    constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
         this.state = { page: 'default' };
@@ -34,33 +38,61 @@ class Expression extends React.Component {
         this.renderCollectExpression = this.renderCollectExpression.bind(this);
     }
 
-    render () {
-        let { page } = this.state;
-        let { show } = this.props;
+    renderDefaultExpression() {
         return (
-            <Motion 
+            <div className="default-expression">
+            {
+                expressions.map((e, index) => (
+                    <div key={index} >
+                        <div style={{ backgroundPosition: `left ${-30 * index}px` }} />
+                    </div>
+                ))
+            }
+            </div>
+        );
+    }
+
+    renderCollectExpression() {
+        return (
+            <div className="collect-expression">
+            {
+                collectExpressionExample.map((e, index) => (
+                    <div key={index}>
+                        <div style={{ backgroundImage: `url(${e})` }} />
+                    </div>
+                ))
+            }
+            </div>
+        );
+    }
+
+    render() {
+        const { page } = this.state;
+        const { show } = this.props;
+        return (
+            <Motion
                 defaultStyle={{ scale: 0.4, opacity: 0 }}
-                style={{ scale :spring(show ? 1 : 0.4), opacity: spring(show ? 1 : 0) }}
+                style={{ scale: spring(show ? 1 : 0.4), opacity: spring(show ? 1 : 0) }}
             >
             {
                 ({ scale, opacity }) => (
-                    <div 
-                        className="expression" 
-                        style={{ opacity: opacity, transform: `scale(${ scale })` }}
+                    <div
+                        className="expression"
+                        style={{ opacity: opacity, transform: `scale(${scale})` }}
                     >
                         { page === 'default' ? this.renderDefaultExpression() : this.renderCollectExpression() }
                         <div>
-                            <div 
-                                className={ page === 'default' ? 'selected' : '' }
-                                onClick={ () => this.setState({ page: 'default' }) }
+                            <div
+                                className={page === 'default' ? 'selected' : ''}
+                                onClick={() => this.setState({ page: 'default' })}
                             >
-                                <img src={ require('../../image/default-expression.png') }/>
+                                <img src={require('../../image/default-expression.png')} />
                             </div>
-                            <div 
-                                className={ page === 'collect' ? 'selected' : '' }
-                                onClick={ () => this.setState({ page: 'collect' }) }
+                            <div
+                                className={page === 'collect' ? 'selected' : ''}
+                                onClick={() => this.setState({ page: 'collect' })}
                             >
-                                <img src={ require('../../image/collect-expression.png') }/>
+                                <img src={require('../../image/collect-expression.png')} />
                             </div>
                         </div>
                     </div>
@@ -69,40 +101,10 @@ class Expression extends React.Component {
             </Motion>
         );
     }
-
-    renderDefaultExpression () {
-        return (
-            <div className="default-expression">
-            {
-                expressions.map((e, index) => {
-                    return (
-                        <div key={ index } >
-                            <div style={{ backgroundPosition: `left ${-30 * index}px` }}/>
-                        </div>
-                    );
-                })
-            }
-            </div>
-        );
-    }
-
-    renderCollectExpression () {
-        return (
-            <div className="collect-expression">
-            {
-                collectExpressionExample.map((e, index) => (
-                    <div key={ index }>
-                        <div style={{ backgroundImage: `url(${e})` }}/>
-                    </div>
-                ))
-            }
-            </div>
-        );
-    }
 }
 
 export default connect(
     state => ({
-        show: state.getIn(['ui', 'showExpression'])
+        show: state.getIn(['ui', 'showExpression']),
     })
 )(Expression);

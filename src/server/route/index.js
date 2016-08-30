@@ -1,14 +1,14 @@
 const router = {
     handle: function (socket, data, cb) {
-        let end = (status, data) => cb({ status, data });
-        let path = data.method + ' ' + data.path;
+        const end = (status, responesData) => cb({ status, responesData });
+        const path = `${data.method} ${data.path}`;
         if (this[path]) {
             this[path](socket, data.data, end);
         }
         else {
             end(404, 'interface not exits');
         }
-    }
-}
+    },
+};
 
 module.exports = router;

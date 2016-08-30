@@ -11,21 +11,21 @@ const saltRounds = 10;
 const avatarColors = ['aquamarine', 'blueviolet', 'chocolate', 'darkcyan', 'darkgrey', 'darkmagenta', 'darkorange', 'darkseagreen', 'darkslategrey',
                     'deeppink', 'deepskyblue', 'dimgrey', 'forestgreen', 'indigo'];
 
-const user = {
+const UserRoute = {
     'POST /user': function* (socket, data, end) {
         assert(!data.username, end, 400, 'need username param but not exists');
         assert(!data.password, end, 400, 'need password param but not exists');
 
-        let defaultGroup = yield Group.findOne({ isDefault: true });
+        const defaultGroup = yield Group.findOne({ isDefault: true });
 
-        let salt = yield bcrypt.genSalt$(saltRounds);
-        let hash = yield bcrypt.hash$(data.password, salt);
-        let newUser = new User({
+        const salt = yield bcrypt.genSalt$(saltRounds);
+        const hash = yield bcrypt.hash$(data.password, salt);
+        const newUser = new User({
             username: data.username,
-            salt: salt,
+            salt,
             password: hash,
             avatar: avatarColors[Math.floor(Math.random() * avatarColors.length)],
-            groups: [defaultGroup]
+            groups: [defaultGroup],
         });
 
         let savedUser = null;
@@ -36,10 +36,10 @@ const user = {
         }
         catch (err) {
             if (err.code === 11000) {
-                return end(400, `username already exists` );
+                return end(400, 'username already exists');
             }
             else if (err.message === 'User validation failed') {
-                return end(400, `username invalid`);
+                return end(400, 'username invalid');
             }
             console.log('save new user error ->', err);
             return end(500, 'server error when save new user');
@@ -49,7 +49,7 @@ const user = {
     'GET /user': function* (socket, data, end) {
         assert(!mongoose.Types.ObjectId.isValid(data.id), end, 400, `id:'${data.id}' is invalid`);
 
-        let user = yield User.findById(data.id, '-password -salt');
+        const user = yield User.findById(data.id, '-password -salt');
         if (user) {
             end(200, user);
         }
@@ -59,19 +59,19 @@ const user = {
     },
     'GET /user/me': function* (socket, data, end) {
         yield* isLogin(socket, data, end);
-        let user = yield User.findById(socket.user, '-password -salt');
+        const user = yield User.findById(socket.user, '-password -salt');
         end(200, user);
     },
     'POST /user/friend': function* (socket, data, end) {
         yield* isLogin(socket, data, end);
         assert(!mongoose.Types.ObjectId.isValid(data.userId), end, 400, `userId:'${data.userId}' is invalid`);
 
-        let me = yield User.findById(socket.user);
+        const me = yield User.findById(socket.user);
         if (me.friends.indexOf(data.userId) !== -1) {
             end(204);
         }
 
-        let user = yield User.findById(data.userId);
+        const user = yield User.findById(data.userId);
         assert(!user, end, 400, `user:'${data.userId}' not exists`);
 
         me.friends.push(user._id);
@@ -82,13 +82,13 @@ const user = {
         yield* isLogin(socket, data, end);
         assert(!mongoose.Types.ObjectId.isValid(data.userId), end, 400, `userId:'${data.userId}' is invalid`);
 
-        let me = yield User.findById(socket.user);
-        let index = me.friends.indexOf(data.userId);
+        const me = yield User.findById(socket.user);
+        const index = me.friends.indexOf(data.userId);
         if (index === -1) {
             end(204);
         }
 
-        let user = yield User.findById(data.userId);
+        const user = yield User.findById(data.userId);
         assert(!user, end, 400, `user:'${data.userId}' not exists`);
 
         me.friends.splice(index, 1);
@@ -96,11 +96,11 @@ const user = {
         end(204);
     },
     'POST /user/group': function* (socket, data, end) {
-        end(200, { });
+        yield end(200, { });
     },
     'DELETE /user/group': function* (socket, data, end) {
-        end(200, { });
-    }
-}
+        yield end(200, { });
+    },
+};
 
-module.exports = user;
+module.exports = UserRoute;

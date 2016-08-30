@@ -1,20 +1,17 @@
 import React from 'react';
+import pureRenderMixin from 'react-addons-pure-render-mixin';
+
 import './style/signup.scss';
 
-import pureRenderMixin from 'react-addons-pure-render-mixin';
 import user from '../../action/user';
 import ui from '../../action/ui';
 
 class Login extends React.Component {
-    static contextTypes = {
-        router: React.PropTypes.object.isRequired
-    }
-
     constructor(props) {
         super(props);
         this.state = {
             usernameInput: 'normal',
-            passwordInput: 'normal'
+            passwordInput: 'normal',
         };
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
         this.handleSignup = this.handleSignup.bind(this);
@@ -27,7 +24,7 @@ class Login extends React.Component {
                 if (result.status === 201) {
                     user
                         .login(this.username.value, this.password.value)
-                        .then(result => {
+                        .then(() => {
                             this.context.router.push('/chat');
                         });
                 }
@@ -68,11 +65,11 @@ class Login extends React.Component {
                             type="text"
                             ref={username => this.username = username}
                             placeholder="用户名"
-                            onFocus={() => this.setState({ usernameInput: 'focus' }) }
-                            onBlur={() => this.setState({ usernameInput: 'normal' }) }
-                            />
+                            onFocus={() => this.setState({ usernameInput: 'focus' })}
+                            onBlur={() => this.setState({ usernameInput: 'normal' })}
+                        />
                     </div>
-                    <div  className={`${passwordInput}`}>
+                    <div className={`${passwordInput}`}>
                         <div>
                             <i className="icon">&#xe60b; </i>
                         </div>
@@ -80,18 +77,18 @@ class Login extends React.Component {
                             type="password"
                             ref={password => this.password = password}
                             placeholder="密码"
-                            onFocus={() => this.setState({ passwordInput: 'focus' }) }
-                            onBlur={() => this.setState({ passwordInput: 'normal' }) }
-                            />
+                            onFocus={() => this.setState({ passwordInput: 'focus' })}
+                            onBlur={() => this.setState({ passwordInput: 'normal' })}
+                        />
                     </div>
                     <button
                         onClick={this.handleSignup}
-                        >
+                    >
                         注册
                     </button>
                     <span
-                        onClick={() => this.context.router.push('/login') }
-                        >
+                        onClick={() => this.context.router.push('/login')}
+                    >
                         已有帐号, 我是一个老司机 ヾ(=^▽^=) ノ
                     </span>
                 </div>
@@ -99,5 +96,9 @@ class Login extends React.Component {
         );
     }
 }
+
+Login.contextTypes = {
+    router: React.PropTypes.object.isRequired,
+};
 
 export default Login;

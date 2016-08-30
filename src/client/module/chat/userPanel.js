@@ -1,10 +1,10 @@
-import React from 'react';
-import './style/userPanel.scss';
-
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
 
-import Avatar from './avatar'
+import './style/userPanel.scss';
+
+import Avatar from './avatar';
 
 class UserPanel extends React.Component {
     constructor(props) {
@@ -12,12 +12,12 @@ class UserPanel extends React.Component {
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
     }
 
-    render () {
+    render() {
         const { avatar, username } = this.props;
-        
+
         return (
             <div className="user-panel">
-                <div></div>
+                <div />
                 <Avatar
                     avatar={avatar}
                     name={username}
@@ -29,9 +29,14 @@ class UserPanel extends React.Component {
     }
 }
 
+UserPanel.propTypes = {
+    avatar: PropTypes.string,
+    username: PropTypes.string,
+};
+
 export default connect(
     state => ({
         avatar: state.getIn(['user', 'avatar']),
-        username: state.getIn(['user', 'username'])
+        username: state.getIn(['user', 'username']),
     })
 )(UserPanel);

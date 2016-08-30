@@ -1,18 +1,15 @@
-const assert = require('../util/assert');
-const promise = require('bluebird');
 const User = require('../model/user');
 const Group = require('../model/group');
 const GroupMessage = require('../model/groupMessage');
-const mongoose = require('mongoose');
 const isLogin = require('../police/isLogin');
 
-const groupMessage = {
+const GroupMessageRoute = {
     'POST /groupMessage': function* (socket, data, end) {
         yield* isLogin(socket, data, end);
 
-        let user = yield User.findById(socket.user);
-        let group = yield Group.findById(data.linkmanId);
-        let message = new GroupMessage({
+        const user = yield User.findById(socket.user);
+        const group = yield Group.findById(data.linkmanId);
+        const message = new GroupMessage({
             from: user,
             to: group,
             type: 'text',
@@ -25,14 +22,14 @@ const groupMessage = {
             group.messages.push(savedMessage);
             yield group.save();
         }
-        catch(err) {
+        catch (err) {
             end(500, { msg: 'server error when save new message' });
         }
 
         socket.to(group._id.toString()).emit('groupMessage', savedMessage);
 
         end(201, savedMessage);
-    }
-}
+    },
+};
 
-module.exports = groupMessage;
+module.exports = GroupMessageRoute;

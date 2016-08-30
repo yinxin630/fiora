@@ -1,41 +1,47 @@
-import React from 'react';
-import './style/toolbar.scss';
-
+import React, { PropTypes } from 'react';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
-import ui from '../../action/ui';
 import { connect } from 'react-redux';
 import { Motion, spring } from 'react-motion';
+
+import './style/toolbar.scss';
+
+import ui from '../../action/ui';
 import mask from '../../util/mask';
 
 class Toolbar extends React.Component {
-    constructor (props) {
+    static propTypes = {
+        show: PropTypes.bool.isRequired,
+    };
+
+    constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
         this.renderToolbar = this.renderToolbar.bind(this);
         this.onExpressionClick = this.onExpressionClick.bind(this);
     }
 
-    render () {
-        let { show } = this.props;
-        return this.renderToolbar();
+    onExpressionClick() {
+        ui.openExpression();
+        mask(ui.closeExpression);
     }
-    
-    renderToolbar () {
-        let { show } = this.props;
+
+    renderToolbar() {
+        const { show } = this.props;
         return (
-            <Motion 
+            <Motion
                 defaultStyle={{ bottom: -5, opacity: 0 }}
                 style={{ bottom: spring(show ? 30 : -5), opacity: spring(show ? 1 : 0) }}
             >
             {
                 style => (
-                    <div 
+                    <div
                         className="toolbar"
-                        style={ style }
+                        style={style}
                     >
                         <div>
-                            <i  className="icon"
-                                onClick={ this.onExpressionClick }
+                            <i
+                                className="icon"
+                                onClick={this.onExpressionClick}
                             >&#xe604;</i>
                         </div>
                         <div>
@@ -51,14 +57,13 @@ class Toolbar extends React.Component {
         );
     }
 
-    onExpressionClick () {
-        ui.openExpression();
-        mask(ui.closeExpression);
+    render() {
+        return this.renderToolbar();
     }
 }
 
 export default connect(
     state => ({
-        show: state.getIn(['ui', 'showToolbar'])
+        show: state.getIn(['ui', 'showToolbar']),
     })
 )(Toolbar);

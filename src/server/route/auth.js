@@ -1,6 +1,5 @@
 const promise = require('bluebird');
 const bcrypt = promise.promisifyAll(require('bcrypt'), { suffix: '$' });
-const mongoose = require('mongoose');
 const jwt = require('jwt-simple');
 
 const User = require('../model/user');
@@ -12,27 +11,27 @@ const assert = require('../util/assert');
 const config = require('../../../config/config');
 const isLogin = require('../police/isLogin');
 
-const auth = {
+const AuthRoute = {
     'POST /auth': function* (socket, data, end) {
         assert(!data.username, end, 400, 'need username param but not exists');
         assert(!data.password, end, 400, 'need password param but not exists');
 
         // get user info
-        let user = yield User.findOne({ username: data.username }, '-salt');
-        assert(!user, end, 404, `user not exists`);
+        const user = yield User.findOne({ username: data.username }, '-salt');
+        assert(!user, end, 404, 'user not exists');
 
         // check user password
-        let isPasswordCorrect = bcrypt.compareSync(data.password, user.password);
-        assert(!isPasswordCorrect, end, 400, `password not correct`);
+        const isPasswordCorrect = bcrypt.compareSync(data.password, user.password);
+        assert(!isPasswordCorrect, end, 400, 'password not correct');
 
         // populate user info
         const userOpts = [
-            { 
-                path: 'groups'
+            {
+                path: 'groups',
             },
-            { 
-                path: 'friends'
-            }
+            {
+                path: 'friends',
+            },
         ];
         yield User.populate(user, userOpts);
 
@@ -43,11 +42,11 @@ const auth = {
                 select: {
                     _id: true,
                     avatar: true,
-                    username: true
-                }
-            }
+                    username: true,
+                },
+            },
         ];
-        for (let group of user.groups) {
+        for (const group of user.groups) {
             yield Group.populate(group, groupOpts);
             let skip = group.messages.length - 30;
             if (skip < 0) {
@@ -58,25 +57,25 @@ const auth = {
 
         // handle client socket. system message room: system
         socket.join('system');
-        for (let group of user.groups) {
+        for (const group of user.groups) {
             socket.join(group._id);
         }
 
         // token expires time = 3 day
-        let token = jwt.encode({ userId: user._id, ip: socket.handshake.address, expires: Date.now() + (1000 * 60 * 60 * 24 * 3) }, config.jwtSecret);
+        const token = jwt.encode({ userId: user._id, ip: socket.handshake.address, expires: Date.now() + (1000 * 60 * 60 * 24 * 3) }, config.jwtSecret);
 
         let auth = yield Auth.findOne({ user: user._id });
         if (!auth) {
             auth = new Auth({
                 user: user._id,
-                clients: [socket.id]
+                clients: [socket.id],
             });
         }
         else {
             auth.clients.push(socket.id);
         }
 
-        let newAuth = yield auth.save();
+        yield auth.save();
         end(201, { user: user, token: token });
     },
 
@@ -84,16 +83,16 @@ const auth = {
         yield* isLogin(socket, data, end);
 
         // get user info
-        let user = yield User.findById(socket.user, '-password -salt');
+        const user = yield User.findById(socket.user, '-password -salt');
 
         // populate user info
         const userOpts = [
-            { 
-                path: 'groups'
+            {
+                path: 'groups',
             },
-            { 
-                path: 'friends'
-            }
+            {
+                path: 'friends',
+            },
         ];
         yield User.populate(user, userOpts);
 
@@ -104,11 +103,11 @@ const auth = {
                 select: {
                     _id: true,
                     avatar: true,
-                    username: true
-                }
-            }
+                    username: true,
+                },
+            },
         ];
-        for (let group of user.groups) {
+        for (const group of user.groups) {
             yield Group.populate(group, groupOpts);
             let skip = group.messages.length - 30;
             if (skip < 0) {
@@ -119,7 +118,7 @@ const auth = {
 
         // handle client socket. system message room: system
         socket.join('system');
-        for (let group of user.groups) {
+        for (const group of user.groups) {
             socket.join(group._id);
         }
 
@@ -127,19 +126,19 @@ const auth = {
         if (!auth) {
             auth = new Auth({
                 user: user._id,
-                clients: [socket.id]
+                clients: [socket.id],
             });
         }
         else {
             auth.clients.push(socket.id);
         }
 
-        let newAuth = yield auth.save();
+        yield auth.save();
         end(201, user);
     },
 
     'DELETE /auth': function* (socket, data, end) {
-        let auth = yield Auth.findOne({ clients: socket.id });
+        const auth = yield Auth.findOne({ clients: socket.id });
         if (!auth) {
             return end(400, 'you hava not login');
         }
@@ -148,13 +147,13 @@ const auth = {
             yield auth.remove();
         }
         else {
-            let index = auth.clients.indexOf(socket.id);
+            const index = auth.clients.indexOf(socket.id);
             auth.clients.splice(index, 1);
             yield auth.save();
         }
 
         end(204);
-    }
-}
+    },
+};
 
-module.exports = auth;
+module.exports = AuthRoute;

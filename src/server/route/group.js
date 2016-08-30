@@ -1,20 +1,18 @@
 const assert = require('../util/assert');
-const promise = require('bluebird');
 const User = require('../model/user');
 const Group = require('../model/group');
-const mongoose = require('mongoose');
 const isLogin = require('../police/isLogin');
 
-const group = {
+const GroupRoute = {
     'POST /group': function* (socket, data, end) {
         yield* isLogin(socket, data, end);
         assert(!data.name, end, 400, 'need name param but not exists');
 
-        let user = yield User.findById(socket.user);
-        let newGroup = new Group({
+        const user = yield User.findById(socket.user);
+        const newGroup = new Group({
             name: data.name,
             creator: user,
-            members: [user]
+            members: [user],
         });
 
         let savedGroup = null;
@@ -36,14 +34,14 @@ const group = {
         end(201, savedGroup);
     },
     'DELETE /group': function* (socket, data, end) {
-        end(200, { });
+        yield end(200, { });
     },
     'GET /group': function* (socket, data, end) {
-        end(200, { });
+        yield end(200, { });
     },
     'PUT /group': function* (socket, data, end) {
-        end(200, { });
-    }
-}
+        yield end(200, { });
+    },
+};
 
-module.exports = group;
+module.exports = GroupRoute;

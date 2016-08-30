@@ -1,19 +1,23 @@
-import React from 'react';
-import './style/maskLayout.scss';
-
+import React, { PropTypes } from 'react';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 
+import './style/maskLayout.scss';
+
 class MaskLayout extends React.Component {
+    static propTypes = {
+        show: PropTypes.bool.isRequired,
+    };
+
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
     }
 
-    render () {
+    render() {
         return (
-            <div 
-                className="mask-layout" 
+            <div
+                className="mask-layout"
                 id="maskLayout"
                 style={{ display: this.props.show ? 'block' : 'none' }}
             />
@@ -23,6 +27,6 @@ class MaskLayout extends React.Component {
 
 export default connect(
     state => ({
-        show: state.getIn(['ui', 'showMaskLayout'])
+        show: state.getIn(['ui', 'showMaskLayout']),
     })
 )(MaskLayout);

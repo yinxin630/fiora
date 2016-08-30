@@ -1,6 +1,4 @@
-'use strict'
-
-let env = process.env.NODE_ENV;
+const env = process.env.NODE_ENV;
 
 const config = require('../../config/config');
 const mongoose = require('mongoose');
@@ -8,12 +6,13 @@ const promise = require('bluebird');
 const path = require('path');
 const fs = require('fs');
 const koa = require('koa');
-const send = require('koa-send');
+
 const app = koa();
 
 // support socket.io
 const server = require('http').Server(app.callback());
 const io = require('socket.io')(server);
+
 io.set('heartbeat interval', 5000);
 io.set('heartbeat timeout', 3000);
 
@@ -38,27 +37,37 @@ mongoose.connect(env !== 'test' ? config.database : config.testDatabase, err => 
     });
     // create default group
     const Group = require('./model/group');
-    Group.find({ }, (err, groups) => {
+
+    Group.find({ }, (findErr, groups) => {
         if (groups.length === 0) {
-            let defaultGroup = new Group({
+            const defaultGroup = new Group({
                 name: 'fiora',
                 announcement: '欢迎各位来到fiora',
-                isDefault: true
+                isDefault: true,
             });
-            defaultGroup.save((err, result) => {
+            defaultGroup.save((saveErr) => {
+                if (saveErr) {
+                    console.log('save default group get error ->', saveErr);
+                }
                 console.log('create default group success');
             });
+        }
+
+        if (findErr) {
+            console.log('find default group get error ->', findErr);
         }
     });
 });
 
 // import all routers
-fs.readdir(__dirname + '/route', (err, result) => {
-    for (let file of result) {
+fs.readdir(`${__dirname}/route`, (err, result) => {
+    for (const file of result) {
         if (file !== 'index.js') {
-            let routers = require('./route/' + file);
-            for (let path in routers) {
-                router[path] = promise.coroutine(routers[path]);
+            const routers = require(`./route/${file}`);
+            for (const routePath in routers) {
+                if (Object.hasOwnProperty.call(routers, routePath)) {
+                    router[routePath] = promise.coroutine(routers[routePath]);
+                }
             }
         }
     }
@@ -97,8 +106,7 @@ app.use(function* (next) {
         yield next;
     }
     catch (err) {
-        let message = err.message;
-
+        const message = err.message;
         console.log('error --> ', message);
     }
 });
@@ -119,7 +127,7 @@ io.on('connection', socket => {
 
 // start listener
 server.listen(config.port, () => {
-    console.log('start server at http://localhost:' + config.port);
+    console.log(`start server at http://localhost:'${config.port}`);
 });
 
 // other error handle

@@ -1,7 +1,8 @@
 import React from 'react';
+import pureRenderMixin from 'react-addons-pure-render-mixin';
+
 import './style/emptyChatPanel.scss';
 
-import pureRenderMixin from 'react-addons-pure-render-mixin';
 
 class EmptyChatPanel extends React.Component {
     constructor(props) {
@@ -9,11 +10,9 @@ class EmptyChatPanel extends React.Component {
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
     }
 
-    render () {
+    render() {
         return (
-            <div className="empty-chat-panel">
-
-            </div>
+            <div className="empty-chat-panel" />
         );
     }
 }

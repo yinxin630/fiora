@@ -4,5 +4,5 @@ module.exports = {
     database: 'database_name',
     testDatabase: 'test_database_name',
 
-    jwtSecret: 'jwt_token_secret'
-}
+    jwtSecret: 'jwt_token_secret',
+};

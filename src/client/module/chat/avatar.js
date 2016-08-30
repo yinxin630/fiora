@@ -1,15 +1,22 @@
-import React from 'react';
-import './style/avatar.scss';
-
+import React, { PropTypes } from 'react';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
 
+import './style/avatar.scss';
+
 class Avatar extends React.Component {
+    static propTypes = {
+        avatar: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        width: PropTypes.number.isRequired,
+        height: PropTypes.number.isRequired,
+    };
+
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
     }
 
-    render () {
+    render() {
         const { avatar, name, width, height } = this.props;
         return (
             <div
@@ -18,14 +25,14 @@ class Avatar extends React.Component {
             >
                 {
                     avatar.match(/http/) ?
-                    <img
-                        style={{ width, height }}
-                        src={ avatar }
-                    />
+                        <img
+                            style={{ width, height }}
+                            src={avatar}
+                        />
                     :
-                    <div style={{ backgroundColor: avatar, width, height }}>
-                        <span>{ name.slice(0, 1) }</span>
-                    </div>
+                        <div style={{ backgroundColor: avatar, width, height }}>
+                            <span>{ name.slice(0, 1) }</span>
+                        </div>
                 }
             </div>
         );

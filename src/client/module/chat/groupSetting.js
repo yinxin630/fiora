@@ -1,23 +1,28 @@
-import React from 'react';
-import './style/groupSetting.scss';
-
+import React, { PropTypes } from 'react';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
+
+import './style/groupSetting.scss';
+
 import ui from '../../action/ui';
 import FloatPanel from './floatPanel';
 
 class GroupSetting extends React.Component {
+    static propTypes = {
+        show: PropTypes.bool.isRequired,
+    };
+
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
     }
 
-    render () {
-        let { show } = this.props;
+    render() {
+        const { show } = this.props;
         return (
-            <FloatPanel 
-                onClose={ ui.closeGroupSetting } 
-                show={ show }
+            <FloatPanel
+                onClose={ui.closeGroupSetting}
+                show={show}
                 title="群设置"
             >
                 <div className="group-info">
@@ -36,11 +41,11 @@ class GroupSetting extends React.Component {
                     </div>
                     <div className="userList">
                         <div>
-                            <img src={ require('../../image/avatar.gif') }/>
+                            <img src={require('../../image/avatar.gif')} />
                             <span>碎碎酱</span>
                         </div>
                         <div>
-                            <img src={ require('../../image/avatar.gif') }/>
+                            <img src={require('../../image/avatar.gif')} />
                             <span>碎碎酱</span>
                         </div>
                     </div>
@@ -52,6 +57,6 @@ class GroupSetting extends React.Component {
 
 export default connect(
     state => ({
-        show: state.getIn(['ui', 'showGroupSetting'])
+        show: state.getIn(['ui', 'showGroupSetting']),
     })
 )(GroupSetting);

@@ -1,23 +1,28 @@
-import React from 'react';
-import './style/groupNotice.scss';
-
+import React, { PropTypes } from 'react';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
+
+import './style/groupNotice.scss';
+
 import ui from '../../action/ui';
 import FloatPanel from './floatPanel';
 
 class GroupNotice extends React.Component {
+    static propTypes = {
+        show: PropTypes.bool.isRequired,
+    };
+
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
     }
 
-    render () {
-        let { show } = this.props;
+    render() {
+        const { show } = this.props;
         return (
-            <FloatPanel 
-                onClose={ ui.closeGroupNotice } 
-                show={ show }
+            <FloatPanel
+                onClose={ui.closeGroupNotice}
+                show={show}
                 title="群公告"
             >
                 <div className="group-notice">
@@ -36,6 +41,6 @@ class GroupNotice extends React.Component {
 
 export default connect(
     state => ({
-        show: state.getIn(['ui', 'showGroupNotice'])
+        show: state.getIn(['ui', 'showGroupNotice']),
     })
 )(GroupNotice);

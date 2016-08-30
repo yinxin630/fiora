@@ -1,13 +1,14 @@
 import React from 'react';
+import pureRenderMixin from 'react-addons-pure-render-mixin';
+
 import './style/login.scss';
 
-import pureRenderMixin from 'react-addons-pure-render-mixin';
 import user from '../../action/user';
 import ui from '../../action/ui';
 
 class Login extends React.Component {
     static contextTypes = {
-        router: React.PropTypes.object.isRequired
+        router: React.PropTypes.object.isRequired,
     }
 
     constructor(props) {
@@ -15,7 +16,7 @@ class Login extends React.Component {
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
         this.state = {
             usernameInput: 'normal',
-            passwordInput: 'normal'
+            passwordInput: 'normal',
         };
         this.handleLogin = this.handleLogin.bind(this);
     }
@@ -60,11 +61,11 @@ class Login extends React.Component {
                             type="text"
                             ref={username => this.username = username}
                             placeholder="用户名"
-                            onFocus={() => this.setState({ usernameInput: 'focus' }) }
-                            onBlur={() => this.setState({ usernameInput: 'normal' }) }
-                            />
+                            onFocus={() => this.setState({ usernameInput: 'focus' })}
+                            onBlur={() => this.setState({ usernameInput: 'normal' })}
+                        />
                     </div>
-                    <div  className={`${passwordInput}`}>
+                    <div className={`${passwordInput}`}>
                         <div>
                             <i className="icon">&#xe60b; </i>
                         </div>
@@ -72,18 +73,18 @@ class Login extends React.Component {
                             type="password"
                             ref={password => this.password = password}
                             placeholder="密码"
-                            onFocus={() => this.setState({ passwordInput: 'focus' }) }
-                            onBlur={() => this.setState({ passwordInput: 'normal' }) }
-                            />
+                            onFocus={() => this.setState({ passwordInput: 'focus' })}
+                            onBlur={() => this.setState({ passwordInput: 'normal' })}
+                        />
                     </div>
                     <button
                         onClick={this.handleLogin}
-                        >
+                    >
                         登录
                     </button>
                     <span
-                        onClick={() => this.context.router.push('/signup') }
-                        >
+                        onClick={() => this.context.router.push('/signup')}
+                    >
                         还没有帐号?那就注册一个吧 (ﾉ ○ Д ○) ﾉ
                     </span>
                 </div>

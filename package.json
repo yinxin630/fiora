@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "export NODE_ENV=development && (webpack-dev-server -d --progress --colors --watch --display-error-details --content-base public/ &) && node bin/develop.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "./node_modules/.bin/eslint ./ --cache --ignore-pattern .eslintignore"
   },
   "repository": {
     "type": "git",
@@ -18,8 +19,10 @@
   },
   "homepage": "https://github.com/yinxin630/fiora#readme",
   "dependencies": {
+    "autoprefixer": "^6.3.7",
     "bcrypt": "^0.8.7",
     "bluebird": "^3.4.1",
+    "chokidar": "^1.6.0",
     "cross-env": "^2.0.0",
     "history": "^3.0.0",
     "immutable": "^3.8.1",
@@ -43,13 +46,12 @@
     "socket.io-client": "^1.4.8"
   },
   "devDependencies": {
-    "autoprefixer": "^6.3.7",
     "babel-core": "^6.11.4",
+    "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "^6.5.0",
-    "chokidar": "^1.6.0",
     "css-loader": "^0.23.1",
     "eslint": "^3.4.0",
     "eslint-config-airbnb": "^10.0.1",

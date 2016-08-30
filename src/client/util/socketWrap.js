@@ -1,5 +1,5 @@
 function createInterface(method) {
-    return function(path, data, cb) {
+    return function (path, data, cb) {
         if (this.token !== '') {
             data.token = this.token;
         }

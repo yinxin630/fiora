@@ -5,6 +5,7 @@
         "es6": true,
         "node": true
     },
+    "parser": "babel-eslint",
     "extends": "airbnb",
     "installedESLint": true,
     "plugins": [
@@ -13,6 +14,25 @@
         "import"
     ],
     "rules": {
-        "indent": ["error", 4]
+        "indent": ["error", 4], // 4空格
+        "max-len": 0, // 单行长度
+        "func-names": 0, // 不允许匿名函数
+        "consistent-return": 0, // 必须有返回值
+        "brace-style": 0, // catch, else等必须在}后面
+        "no-console": 0, // 禁止console
+        "no-underscore-dangle": 0, // 禁止_做变量名
+        "object-shorthand": 0,
+        "no-param-reassign": 0, // 禁止修改形参
+        "new-cap": 0, // 非构造函数首字母不允许大写
+        "global-require": 0, // 禁止全局require
+        "no-path-concat": 0, //禁止__dirname直接拼接路径
+        "no-restricted-syntax": 0, // 禁止for in
+        "no-lonely-if": 0, //禁止else语句中只有if语句
+        "react/jsx-filename-extension": 0, // 只能在.jsx文件使用JSX
+        "react/jsx-indent": ["error", 4], // JSX缩进4空格
+        "react/jsx-indent-props": ["error", 4], // JSX组件属性缩进4空格
+        "no-return-assign": 0, // 箭头函数不允许返回表达式
+        "react/no-multi-comp": 0, // 禁止一个文件定义多个组件
+        "jsx-a11y/img-has-alt": 0 // <img>必须有alt属性
     }
 }

@@ -1,15 +1,16 @@
 import Store from '../store';
-const dispatch = Store.dispatch;
 import socket from '../socket';
 
+const dispatch = Store.dispatch;
+
 const actions = {
-    login: function(username, password) {
+    login: function (username, password) {
         return new Promise(resolve => {
             socket.post('/auth', { username, password }, response => {
                 if (response.status === 201) {
                     dispatch({
                         type: 'LoginSuccess',
-                        user: response.data.user
+                        user: response.data.user,
                     });
                     socket.setToken(response.data.token);
                     resolve(response);
@@ -21,7 +22,7 @@ const actions = {
         });
     },
 
-    signup: function(username, password) {
+    signup: function (username, password) {
         return new Promise(resolve => {
             socket.post('/user', { username, password }, response => {
                 resolve(response);
@@ -29,14 +30,14 @@ const actions = {
         });
     },
 
-    reConnect: function(token) {
+    reConnect: function (token) {
         socket.setToken(token);
         return new Promise(resolve => {
             socket.post('/auth/re', { }, response => {
                 if (response.status === 201) {
                     dispatch({
                         type: 'LoginSuccess',
-                        user: response.data
+                        user: response.data,
                     });
                     resolve(response);
                 }
@@ -47,13 +48,13 @@ const actions = {
         });
     },
 
-    sendGroupMessage: function(linkmanId, content) {
+    sendGroupMessage: function (linkmanId, content) {
         return new Promise(resolve => {
             socket.post('/groupMessage', { linkmanId, content }, response => {
                 if (response.status === 201) {
                     dispatch({
                         type: 'AddGroupMessage',
-                        message: response.data
+                        message: response.data,
                     });
                     resolve(response);
                 }
@@ -64,23 +65,23 @@ const actions = {
         });
     },
 
-    addGroupMessage: function(message) {
+    addGroupMessage: function (message) {
         return new Promise(resolve => {
             dispatch({
                 type: 'AddGroupMessage',
-                message: message
+                message: message,
             });
             resolve(message);
         });
     },
 
-    createGroup: function(name) {
+    createGroup: function (name) {
         return new Promise(resolve => {
             socket.post('/group', { name: name }, response => {
                 if (response.status === 201) {
                     dispatch({
                         type: 'CreateGroup',
-                        user: response.data
+                        user: response.data,
                     });
                     resolve(response);
                 }
@@ -89,7 +90,7 @@ const actions = {
                 }
             });
         });
-    }
+    },
 };
 
 export default actions;

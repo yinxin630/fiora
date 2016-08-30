@@ -1,7 +1,8 @@
 import React from 'react';
+import pureRenderMixin from 'react-addons-pure-render-mixin';
+
 import './style/logo.scss';
 
-import pureRenderMixin from 'react-addons-pure-render-mixin';
 
 class Logo extends React.Component {
     constructor(props) {
@@ -9,10 +10,10 @@ class Logo extends React.Component {
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
     }
 
-    render () {
+    render() {
         return (
             <div className="logo">
-                <img src={ require('../../image/logo.png') }/>
+                <img src={require('../../image/logo.png')} />
             </div>
         );
     }

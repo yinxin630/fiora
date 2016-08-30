@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+
 import './app.scss';
 
-import { connect } from 'react-redux';
 import user from './action/user';
 import socket from './socket';
 
 import Notification from './commonComponent/notification';
 
 class App extends React.Component {
+    static propTypes = {
+        state: PropTypes.object.isRequired,
+        children: PropTypes.arrayOf(PropTypes.element),
+    };
+
     static contextTypes = {
-        router: React.PropTypes.object.isRequired
+        router: React.PropTypes.object.isRequired,
     }
 
     componentWillMount() {
@@ -20,7 +26,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        let token = window.localStorage.getItem('token');
+        const token = window.localStorage.getItem('token');
         if (token && token !== '') {
             user
                 .reConnect(token)
@@ -38,8 +44,8 @@ class App extends React.Component {
 
         return (
             <div className="window">
-                <div className="background"></div>
-                <Notification/>
+                <div className="background" />
+                <Notification />
                 { this.props.children }
             </div>
         );
@@ -48,6 +54,6 @@ class App extends React.Component {
 
 export default connect(
     state => ({
-        state: state
+        state: state,
     })
 )(App);

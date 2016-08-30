@@ -76,7 +76,7 @@ const actions = {
         return new Promise(resolve => {
             dispatch({
                 type: 'OpenNotification',
-                content: content
+                content: content,
             });
             resolve('success');
             clearTimeout(closeNotification);
@@ -108,7 +108,7 @@ const actions = {
             });
             resolve('success');
         });
-    }
+    },
 };
 
 export default actions;
