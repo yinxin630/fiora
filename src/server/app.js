@@ -6,6 +6,7 @@ const promise = require('bluebird');
 const path = require('path');
 const fs = require('fs');
 const koa = require('koa');
+const send = require('koa-send');
 
 const app = koa();
 
@@ -79,24 +80,29 @@ if (env !== 'test') {
 }
 
 // mapping front end route to index file
-// app.use(function* (next){
-//     if (this.path.match(/\./) === null) {
-//         console.log('---> ', this.path, path.join(__dirname, 'util/a.html'));
-//         yield send(this, path.join(__dirname, 'util/a.html'), {
-//                 maxage: 1000 * 60 * 60 * 24,
-//                 gzip: true,
-//             }
-//         );
-//     }
-//     else {
-//         yield next;
-//     }
-// });
+app.use(function* (next) {
+    // if request path is front route path
+    if (this.path.match(/\./) === null) {
+        yield send(
+            this,
+            'index.html',
+            {
+                root: path.join(__dirname, '../../public'),
+                maxage: 1000 * 60 * 60 * 24,
+                gzip: true,
+            }
+        );
+    }
+    else {
+        yield next;
+    }
+});
 
 // support static file
 app.use(require('koa-static')(
-    path.join(__dirname, '../../public/'), {
+    path.join(__dirname, '../../public'), {
         maxAge: 1000 * 60 * 60 * 24,
+        gzip: true,
     }
 ));
 
