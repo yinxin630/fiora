@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Route, IndexRoute, hashHistory } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 import Store from './store';
 
@@ -12,7 +12,7 @@ import Chat from './module/chat/chat';
 
 ReactDom.render(
     <Provider store={Store}>
-        <Router history={hashHistory}>
+        <Router history={browserHistory}>
             <Route path="/" component={App}>
                 <IndexRoute component={Login} />
                 <Route path="login" component={Login} />

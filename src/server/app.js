@@ -127,7 +127,7 @@ io.on('connection', socket => {
 
 // start listener
 server.listen(config.port, () => {
-    console.log(`start server at http://localhost:'${config.port}`);
+    console.log(`start server at http://localhost:${config.port}`);
 });
 
 // other error handle

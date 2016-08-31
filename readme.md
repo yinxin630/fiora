@@ -22,7 +22,7 @@ The project depends node.js and mongodb database. To install [node.js](https://n
 0. go to repository directory and run `npm install`
 0. create config file from simple config `cp config/config.simple.js config/config.js`. modify config file to set database and other params
 0. run project `npm start`
-0. open `http://localhost:9200`(default port) to look
+0. open `http://localhost:8080/webpack-dev-server/` to look
 
 ## Contribute
 
