@@ -8,6 +8,7 @@ const initialState = immutable.fromJS({
     showMaskLayout: false,
     showNotification: false,
     notificationContent: '',
+    insertTexts: [],
 });
 
 function reducer(state = initialState, action) {
@@ -52,6 +53,13 @@ function reducer(state = initialState, action) {
     }
     case 'CloseNotification': {
         return state.set('showNotification', false);
+    }
+
+    case 'InsertText': {
+        return state.update('insertTexts', insertTexts => insertTexts.push(action.text));
+    }
+    case 'InsertTextEnd': {
+        return state.update('insertTexts', insertTexts => insertTexts.slice(action.count));
     }
 
     default:

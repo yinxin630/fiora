@@ -29,14 +29,14 @@ class Toolbar extends React.Component {
         const { show } = this.props;
         return (
             <Motion
-                defaultStyle={{ bottom: -5, opacity: 0 }}
-                style={{ bottom: spring(show ? 30 : -5), opacity: spring(show ? 1 : 0) }}
+                defaultStyle={{ bottom: 0, opacity: 0 }}
+                style={{ bottom: spring(show ? 30 : 0), opacity: spring(show ? 1 : 0) }}
             >
             {
-                style => (
+                ({ bottom, opacity }) => (
                     <div
                         className="toolbar"
-                        style={style}
+                        style={{ bottom, opacity, display: opacity === 0 ? 'none' : 'flex' }}
                     >
                         <div>
                             <i

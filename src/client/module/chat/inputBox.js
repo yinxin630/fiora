@@ -13,12 +13,46 @@ class InputBox extends React.Component {
         linkmanId: PropTypes.string.isRequired,
         show: PropTypes.bool.isRequired,
         type: PropTypes.string.isRequired,
+        insertTexts: PropTypes.object.isRequired,
     };
 
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
         this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
+    }
+
+    componentWillUpdate(nextProps) {
+        if (!nextProps.insertTexts.equals(this.props.insertTexts)) {
+            nextProps.insertTexts.forEach(text => {
+                this.insertAtCursor(this.input, text);
+            });
+            ui.insertTextEnd(nextProps.insertTexts.size);
+        }
+    }
+
+    insertAtCursor(input, value) {
+        if (document.selection) {
+            input.focus();
+            const sel = document.selection.createRange();
+            sel.text = value;
+            sel.select();
+        }
+        else if (input.selectionStart || input.selectionStart === '0') {
+            const startPos = input.selectionStart;
+            const endPos = input.selectionEnd;
+            const restoreTop = input.scrollTop;
+            input.value = input.value.substring(0, startPos) + value + input.value.substring(endPos, input.value.length);
+            if (restoreTop > 0) {
+                input.scrollTop = restoreTop;
+            }
+            input.focus();
+            input.selectionStart = startPos + value.length;
+            input.selectionEnd = startPos + value.length;
+        } else {
+            input.value += value;
+            input.focus();
+        }
     }
 
     handleInputKeyDown(e) {
@@ -52,6 +86,7 @@ class InputBox extends React.Component {
                             ref={input => this.input = input}
                             onFocus={ui.openToolbar}
                             onBlur={ui.closeToolbar}
+                            onClick={ui.openToolbar}
                             onKeyDown={this.handleInputKeyDown}
                         />
                     </div>
@@ -65,5 +100,6 @@ class InputBox extends React.Component {
 export default connect(
     state => ({
         show: state.getIn(['ui', 'showToolbar']),
+        insertTexts: state.getIn(['ui', 'insertTexts']),
     })
 )(InputBox);

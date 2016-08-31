@@ -5,11 +5,8 @@ import { Motion, spring } from 'react-motion';
 
 import './style/expression.scss';
 
-const expressions = ['呵呵', '哈哈', '吐舌', '啊', '酷', '怒', '开心', '汗', '泪', '黑线',
-                     '鄙视', '不高兴', '真棒', '钱', '疑问', '阴险', '吐', '咦', '委屈', '花心',
-                     '呼', '笑眼', '冷', '太开心', '滑稽', '勉强', '狂汗', '乖', '睡觉', '惊哭',
-                     '升起', '惊讶', '喷', '爱心', '心碎', '玫瑰', '礼物', '彩虹', '星星月亮', '太阳',
-                     '钱币', '灯泡', '咖啡', '蛋糕', '音乐', 'haha', '胜利', '大拇指', '弱', 'ok'];
+import ui from '../../action/ui';
+import expressions from '../../util/expressions';
 
 // this is just for test code
 const collectExpressionExample = [
@@ -36,6 +33,13 @@ class Expression extends React.Component {
         this.state = { page: 'default' };
         this.renderDefaultExpression = this.renderDefaultExpression.bind(this);
         this.renderCollectExpression = this.renderCollectExpression.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(value) {
+        ui.insertText(`#(${value})`);
+        ui.closeExpression();
+        ui.closeMaskLayout();
     }
 
     renderDefaultExpression() {
@@ -43,7 +47,10 @@ class Expression extends React.Component {
             <div className="default-expression">
             {
                 expressions.map((e, index) => (
-                    <div key={index} >
+                    <div
+                        key={index}
+                        onClick={() => this.handleClick(e)}
+                    >
                         <div style={{ backgroundPosition: `left ${-30 * index}px` }} />
                     </div>
                 ))
@@ -78,7 +85,7 @@ class Expression extends React.Component {
                 ({ scale, opacity }) => (
                     <div
                         className="expression"
-                        style={{ opacity: opacity, transform: `scale(${scale})` }}
+                        style={{ opacity, transform: `scale(${scale})`, display: opacity === 0 ? 'none' : 'block' }}
                     >
                         { page === 'default' ? this.renderDefaultExpression() : this.renderCollectExpression() }
                         <div>

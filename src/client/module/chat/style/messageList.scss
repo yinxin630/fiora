@@ -40,7 +40,7 @@
             }
         }
         & > :last-child {
-            padding: 5px;
+            padding: 5px 10px;
             margin: 0px;
             border: 1px solid #999;
             word-break: break-all;
@@ -49,7 +49,15 @@
             background-color: #f1f1f1;
         }
     }
+
+    .expression-message {
+        width: 30px;
+        height: 30px;
+        background-repeat: no-repeat;
+        background-image: url('/images/expressions.png');
+    }
 }
+
 .message-self {
     flex-direction: row-reverse;
 

@@ -109,6 +109,26 @@ const actions = {
             resolve('success');
         });
     },
+
+    // inputBox
+    insertText: function (text) {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'InsertText',
+                text,
+            });
+            resolve('success');
+        });
+    },
+    insertTextEnd: function (count) {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'InsertTextEnd',
+                count,
+            });
+            resolve('success');
+        });
+    },
 };
 
 export default actions;
