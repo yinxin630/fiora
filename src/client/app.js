@@ -12,6 +12,7 @@ class App extends React.Component {
     static propTypes = {
         state: PropTypes.object.isRequired,
         children: PropTypes.element,
+        location: PropTypes.object.isRequired,
     };
 
     static contextTypes = {
@@ -31,7 +32,7 @@ class App extends React.Component {
             user
                 .reConnect(token)
                 .then(result => {
-                    if (result.status === 201) {
+                    if (result.status === 201 && this.props.location.pathname === '/') {
                         this.context.router.push('/chat');
                     }
                 });
