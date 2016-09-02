@@ -9,6 +9,10 @@ const initialState = immutable.fromJS({
     showNotification: false,
     notificationContent: '',
     insertTexts: [],
+
+    messageListScrollHeight: 0,
+    messageListScrollTop: 0,
+    messageListClientHeight: 0,
 });
 
 function reducer(state = initialState, action) {
@@ -60,6 +64,13 @@ function reducer(state = initialState, action) {
     }
     case 'InsertTextEnd': {
         return state.update('insertTexts', insertTexts => insertTexts.slice(action.count));
+    }
+
+    case 'ChangeScroll': {
+        return state
+        .set('messageListScrollHeight', action.scrollHeight)
+        .set('messageListScrollTop', action.scrollTop)
+        .set('messageListClientHeight', action.clientHeight);
     }
 
     default:

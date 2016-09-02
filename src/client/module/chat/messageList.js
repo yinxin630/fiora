@@ -1,11 +1,15 @@
 import React, { PropTypes } from 'react';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
 import moment from 'moment';
+import { connect } from 'react-redux';
 
 import './style/messageList.scss';
 
 import Avatar from './avatar';
 import expressions from '../../util/expressions';
+import ui from '../../action/ui';
+
+let onScrollHandle = null;
 
 class MessageList extends React.Component {
     static propTypes = {
@@ -15,11 +19,29 @@ class MessageList extends React.Component {
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
+        this.handleOnScroll = this.handleOnScroll.bind(this);
+    }
+
+    handleOnScroll() {
+        if (onScrollHandle) {
+            clearTimeout(onScrollHandle);
+        }
+        onScrollHandle = setTimeout(() => {
+            ui.changeScroll(
+                this.list.scrollHeight,
+                this.list.scrollTop,
+                this.list.clientHeight
+            );
+        }, 100);
     }
 
     render() {
         return (
-            <div className="message-list">
+            <div
+                className="message-list"
+                ref={list => this.list = list}
+                onScroll={this.handleOnScroll}
+            >
                 { this.props.children }
             </div>
         );
@@ -30,6 +52,9 @@ class Message extends React.Component {
     static propTypes = {
         self: PropTypes.bool.isRequired,
         message: PropTypes.object.isRequired,
+        messageListScrollHeight: PropTypes.number,
+        messageListScrollTop: PropTypes.number,
+        messageListClientHeight: PropTypes.number,
     };
 
     constructor(props) {
@@ -39,7 +64,9 @@ class Message extends React.Component {
     }
 
     componentDidMount() {
-        this.dom.scrollIntoView();
+        if (this.props.messageListScrollHeight - this.props.messageListScrollTop - this.props.messageListClientHeight < 150) {
+            this.dom.scrollIntoView();
+        }
     }
 
     renderContent(content) {
@@ -83,5 +110,11 @@ class Message extends React.Component {
 
 export default {
     container: MessageList,
-    item: Message,
+    item: connect(
+        state => ({
+            messageListScrollHeight: state.getIn(['ui', 'messageListScrollHeight']),
+            messageListScrollTop: state.getIn(['ui', 'messageListScrollTop']),
+            messageListClientHeight: state.getIn(['ui', 'messageListClientHeight']),
+        })
+    )(Message),
 };

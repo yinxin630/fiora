@@ -129,6 +129,19 @@ const actions = {
             resolve('success');
         });
     },
+
+    // messageList
+    changeScroll: function (scrollHeight, scrollTop, clientHeight) {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'ChangeScroll',
+                scrollHeight,
+                scrollTop,
+                clientHeight,
+            });
+            resolve('success');
+        });
+    },
 };
 
 export default actions;
