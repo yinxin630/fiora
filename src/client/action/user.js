@@ -48,9 +48,9 @@ const actions = {
         });
     },
 
-    sendGroupMessage: function (linkmanId, content) {
+    sendGroupMessage: function (linkmanId, type, content) {
         return new Promise(resolve => {
-            socket.post('/groupMessage', { linkmanId, content }, response => {
+            socket.post('/groupMessage', { linkmanId, type, content }, response => {
                 if (response.status === 201) {
                     dispatch({
                         type: 'AddGroupMessage',

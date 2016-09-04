@@ -39,7 +39,7 @@
                 margin-left: 5px;
             }
         }
-        & > :last-child {
+        .text {
             padding: 5px 10px;
             margin: 0px;
             border: 1px solid #999;
@@ -47,6 +47,14 @@
             border-radius: 10px;
             display: inline-block;
             background-color: #f1f1f1;
+        }
+        .image {
+
+            & > img {
+                max-width: 600px;
+                max-height: 400px;
+                border-radius: 5px;
+            }
         }
     }
 

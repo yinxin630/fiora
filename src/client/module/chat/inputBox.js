@@ -63,7 +63,7 @@ class InputBox extends React.Component {
             const message = this.input.value;
             this.input.value = '';
             if (type === 'group') {
-                user.sendGroupMessage(linkmanId, message);
+                user.sendGroupMessage(linkmanId, 'text', message);
             }
         }
     }

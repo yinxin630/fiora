@@ -69,17 +69,32 @@ class Message extends React.Component {
         }
     }
 
-    renderContent(content) {
-        content = content.replace(
-            /#\(([\u4e00-\u9fa5a-z]+)\)/g,
-            (r, e) => `<img class="expression-message" src="data:image/png;base64,R0lGODlhFAAUAIAAAP///wAAACH5BAEAAAAALAAAAAAUABQAAAIRhI+py+0Po5y02ouz3rz7rxUAOw==" style="background-position: left ${-30 * expressions.indexOf(e)}px" onerror="this.style.display=\'none\'">`
-        );
+    renderContent(type, content) {
+        if (type === 'text') {
+            content = content.replace(
+                /#\(([\u4e00-\u9fa5a-z]+)\)/g,
+                (r, e) => `<img class="expression-message" src="data:image/png;base64,R0lGODlhFAAUAIAAAP///wAAACH5BAEAAAAALAAAAAAUABQAAAIRhI+py+0Po5y02ouz3rz7rxUAOw==" style="background-position: left ${-30 * expressions.indexOf(e)}px" onerror="this.style.display=\'none\'">`
+            );
 
-        return (
-            <div
-                dangerouslySetInnerHTML={{ __html: content }}
-            />
-        );
+            return (
+                <div
+                    className="text"
+                    dangerouslySetInnerHTML={{ __html: content }}
+                />
+            );
+        }
+        else if (type === 'image') {
+            return (
+                <div
+                    className="image"
+                >
+                    <img
+                        src={content}
+                        onLoad={() => this.dom.scrollIntoView()}
+                    />
+                </div>
+            );
+        }
     }
 
     render() {
@@ -101,7 +116,7 @@ class Message extends React.Component {
                         <span>{ message.getIn(['from', 'username']) }</span>
                         <span>{ moment(message.get('createTime')).format('HH:mm') }</span>
                     </div>
-                    { this.renderContent(message.get('content')) }
+                    { this.renderContent(message.get('type'), message.get('content')) }
                 </div>
             </div>
         );

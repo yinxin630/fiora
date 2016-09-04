@@ -46,7 +46,9 @@ class ChatPanel extends React.Component {
                     type={linkman.get('type')}
                     linkmanId={linkman.get('_id')}
                 />
-                <Toolbar />
+                <Toolbar
+                    linkmanId={linkman.get('_id')}
+                />
                 <GroupSetting />
                 <GroupNotice />
                 <Expression />
