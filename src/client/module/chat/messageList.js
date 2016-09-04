@@ -13,6 +13,7 @@ import ui from '../../action/ui';
 import imageNotFound from '../../image/image_not_found.png';
 
 let onScrollHandle = null;
+let scrollMessage = null;
 
 class MessageList extends React.Component {
     static propTypes = {
@@ -55,6 +56,9 @@ class Message extends React.Component {
     static propTypes = {
         self: PropTypes.bool.isRequired,
         message: PropTypes.object.isRequired,
+        index: PropTypes.number.isRequired,
+        messageCount: PropTypes.number.isRequired,
+
         messageListScrollHeight: PropTypes.number,
         messageListScrollTop: PropTypes.number,
         messageListClientHeight: PropTypes.number,
@@ -67,8 +71,10 @@ class Message extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.messageListScrollHeight - this.props.messageListScrollTop - this.props.messageListClientHeight < 150) {
-            this.dom.scrollIntoView();
+        const { messageListScrollHeight, messageListScrollTop, messageListClientHeight, index, messageCount } = this.props;
+        if (messageListScrollHeight - messageListScrollTop - messageListClientHeight < 150 && index + 1 === messageCount) {
+            scrollMessage = () => this.dom.scrollIntoView(false);
+            scrollMessage();
         }
     }
 
@@ -94,7 +100,7 @@ class Message extends React.Component {
                     <img
                         src={content}
                         ref={img => this.img = img}
-                        onLoad={() => this.dom.scrollIntoView()}
+                        onLoad={() => scrollMessage && scrollMessage()}
                         onError={() => this.img.src = imageNotFound}
                     />
                 </div>

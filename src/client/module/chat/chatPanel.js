@@ -34,11 +34,13 @@ class ChatPanel extends React.Component {
                 />
                 <MessageList.container>
                     {
-                        linkman.get('messages').map(message => (
+                        linkman.get('messages').map((message, index) => (
                             <MessageList.item
                                 key={linkman.get('type') + message.get('_id')}
                                 self={message.getIn(['from', '_id']) === me}
                                 message={message}
+                                index={index}
+                                messageCount={linkman.get('messages').size}
                             />
                         ))
                     }
