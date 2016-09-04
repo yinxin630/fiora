@@ -46,20 +46,13 @@
             }
         }
     }
-}
 
-::-webkit-input-placeholder {
-    text-align: center;
-}
-
-:-moz-placeholder {
-    text-align: center;
-}
-
-::-moz-placeholder {
-    text-align: center;
-}
-
-:-ms-input-placeholder {
-    text-align: center;
+    & > span {
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: 130px;
+        text-align: center;
+        color: #BDBDBD;
+    }
 }
