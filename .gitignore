@@ -27,3 +27,6 @@ client.test.js
 
 # eslint cache
 .eslintcache
+
+# message images
+public/images/message

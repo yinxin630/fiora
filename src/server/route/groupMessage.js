@@ -1,7 +1,13 @@
+const fs = require('fs');
+const path = require('path');
+const promise = require('bluebird');
+
 const User = require('../model/user');
 const Group = require('../model/group');
 const GroupMessage = require('../model/groupMessage');
 const isLogin = require('../police/isLogin');
+const qiniu = require('../util/qiniu');
+const config = require('../../../config/config');
 
 const GroupMessageRoute = {
     'POST /groupMessage': function* (socket, data, end) {
@@ -9,10 +15,33 @@ const GroupMessageRoute = {
 
         const user = yield User.findById(socket.user);
         const group = yield Group.findById(data.linkmanId);
+
+        if (data.type === 'image') {
+            const fileName = `message_${Date.now().toString()}.${data.content.match(/data:image\/(.+);base64/)[1]}`;
+            const fileSavePath = path.join(__dirname, `../../../public/images/message/${fileName}`);
+
+            // save to local disk
+            yield promise.promisify(fs.writeFile)(
+                fileSavePath,
+                data.content.replace(/^data:image\/(.+);base64,/, ''),
+                'base64'
+            );
+
+            // if have qiniu config. push file to qiniu
+            if (config.bucket === 'bucket_name' || config.accessKey === 'qiniu_access_key' || config.secretKey === 'qiniu_secret_key') {
+                data.content = `/images/message/${fileName}`;
+            }
+            else {
+                yield qiniu(fileName, fileSavePath);
+                fs.unlinkSync(fileSavePath);
+                data.content = `http://${config.bucketUrl}/${fileName}`;
+            }
+        }
+
         const message = new GroupMessage({
             from: user,
             to: group,
-            type: 'text',
+            type: data.type,
             content: data.content,
         });
 

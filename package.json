@@ -37,6 +37,7 @@
     "moment": "^2.14.1",
     "mongoose": "^4.5.9",
     "once-event-listener": "^1.0.0",
+    "qiniu": "^6.1.11",
     "react": "^15.3.0",
     "react-addons-pure-render-mixin": "^15.3.1",
     "react-dom": "^15.3.0",

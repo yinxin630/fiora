@@ -1,8 +1,18 @@
 module.exports = {
-    port: 9200,     // server port
+    // server port
+    port: 9200,
 
+    // database url and name
     database: 'database_name',
     testDatabase: 'test_database_name',
 
+    // jwt encryption secret
     jwtSecret: 'jwt_token_secret',
+
+    // qiniu CDN config.
+    // this is not necessary. if you not modify this config. image will save to local disk.
+    accessKey: 'qiniu_access_key',
+    secretKey: 'qiniu_secret_key',
+    bucket: 'bucket_name',
+    bucketUrl: 'bucket_outside_url',
 };
