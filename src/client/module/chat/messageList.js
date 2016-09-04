@@ -9,6 +9,8 @@ import Avatar from './avatar';
 import expressions from '../../util/expressions';
 import ui from '../../action/ui';
 
+import imageNotFound from '../../image/image_not_found.png';
+
 let onScrollHandle = null;
 
 class MessageList extends React.Component {
@@ -90,7 +92,9 @@ class Message extends React.Component {
                 >
                     <img
                         src={content}
+                        ref={img => this.img = img}
                         onLoad={() => this.dom.scrollIntoView()}
+                        onError={() => this.img.src = imageNotFound}
                     />
                 </div>
             );
