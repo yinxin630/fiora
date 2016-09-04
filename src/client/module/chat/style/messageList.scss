@@ -59,6 +59,10 @@
         .code {
             max-width: 500px;
             border-radius: 5px;
+
+            & > pre > code {
+                border-radius: 5px;
+            }
         }
         .unknown {
             padding: 5px 10px;
