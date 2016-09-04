@@ -84,6 +84,7 @@ class InputBox extends React.Component {
                         <input
                             type="text"
                             ref={input => this.input = input}
+                            placeholder="输入消息"
                             onFocus={ui.openToolbar}
                             onBlur={ui.closeToolbar}
                             onClick={ui.openToolbar}

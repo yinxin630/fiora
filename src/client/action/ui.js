@@ -71,6 +71,22 @@ const actions = {
             resolve('success');
         });
     },
+    openCodeInput: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'openCodeInput',
+            });
+            resolve('success');
+        });
+    },
+    closeCodeInput: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'closeCodeInput',
+            });
+            resolve('success');
+        });
+    },
 
     openNotification: function (content) {
         return new Promise(resolve => {

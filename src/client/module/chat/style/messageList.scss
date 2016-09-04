@@ -56,6 +56,20 @@
                 border-radius: 5px;
             }
         }
+        .code {
+            max-width: 500px;
+            border-radius: 5px;
+        }
+        .unknown {
+            padding: 5px 10px;
+            margin: 0px;
+            border: 1px solid #999;
+            word-break: break-all;
+            border-radius: 10px;
+            display: inline-block;
+            background-color: #f1f1f1;
+            color: orangered;
+        }
     }
 
     .expression-message {

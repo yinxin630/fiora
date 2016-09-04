@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
 import moment from 'moment';
 import { connect } from 'react-redux';
+import Highlight from 'react-highlight';
 
 import './style/messageList.scss';
 
@@ -99,6 +100,25 @@ class Message extends React.Component {
                 </div>
             );
         }
+        else if (type === 'code') {
+            return (
+                <div
+                    className="code"
+                >
+                    <Highlight>
+                        {content}
+                    </Highlight>
+                </div>
+            );
+        }
+
+        return (
+            <div
+                className="unknown"
+            >
+                不支持的消息类型
+            </div>
+        );
     }
 
     render() {

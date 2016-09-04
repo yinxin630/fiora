@@ -5,6 +5,7 @@ const initialState = immutable.fromJS({
     showGroupSetting: false,
     showGroupNotice: false,
     showExpression: false,
+    showCodeInput: false,
     showMaskLayout: false,
     showNotification: false,
     notificationContent: '',
@@ -41,6 +42,12 @@ function reducer(state = initialState, action) {
     }
     case 'CloseExpression': {
         return state.set('showExpression', false);
+    }
+    case 'openCodeInput': {
+        return state.set('showCodeInput', true);
+    }
+    case 'closeCodeInput': {
+        return state.set('showCodeInput', false);
     }
 
     case 'OpenMaskLayout': {

@@ -10,6 +10,7 @@ import InputBox from './inputBox';
 import GroupSetting from './groupSetting';
 import GroupNotice from './groupNotice';
 import Expression from './expression';
+import CodeInput from './codeInput';
 
 class ChatPanel extends React.Component {
     static propTypes = {
@@ -52,6 +53,9 @@ class ChatPanel extends React.Component {
                 <GroupSetting />
                 <GroupNotice />
                 <Expression />
+                <CodeInput
+                    linkmanId={linkman.get('_id')}
+                />
             </div>
         );
     }

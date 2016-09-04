@@ -21,11 +21,17 @@ class Toolbar extends React.Component {
         this.renderToolbar = this.renderToolbar.bind(this);
         this.onExpressionClick = this.onExpressionClick.bind(this);
         this.handleSelectImage = this.handleSelectImage.bind(this);
+        this.onCodeClick = this.onCodeClick.bind(this);
     }
 
     onExpressionClick() {
         ui.openExpression();
         mask(ui.closeExpression);
+    }
+
+    onCodeClick() {
+        ui.openCodeInput();
+        mask(ui.closeCodeInput);
     }
 
     handleSelectImage() {
@@ -68,7 +74,10 @@ class Toolbar extends React.Component {
                             >&#xe605;</i>
                         </div>
                         <div>
-                            <i className="icon">&#xe602;</i>
+                            <i
+                                className="icon"
+                                onClick={this.onCodeClick}
+                            >&#xe602;</i>
                         </div>
                         <input
                             className="image-input"
