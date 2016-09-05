@@ -16,7 +16,15 @@ const GroupMessageRoute = {
         const user = yield User.findById(socket.user);
         const group = yield Group.findById(data.linkmanId);
 
-        if (data.type === 'image') {
+        if (data.type === 'text') {
+            data.content = data.content
+                .replace(/&/g, '&amp')
+                .replace(/"/g, '&quot;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/'/g, '&apos;');
+        }
+        else if (data.type === 'image') {
             const fileName = `message_${Date.now().toString()}.${data.content.match(/data:image\/(.+);base64/)[1]}`;
             const fileSavePath = path.join(__dirname, `../../../public/images/message/${fileName}`);
 
