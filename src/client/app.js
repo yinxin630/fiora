@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import 'html5-desktop-notifications';
+
 import './app.scss';
 
 import user from './action/user';
@@ -23,6 +25,20 @@ class App extends React.Component {
         // register server event
         socket.on('groupMessage', data => {
             user.addGroupMessage(data);
+            notify.createNotification(data.from.username, {
+                icon: data.from.avatar,
+                body: data.content,
+                tag: data.from.id,
+            });
+        });
+
+        // html5 notification
+        if (notify.permissionLevel() === notify.PERMISSION_DEFAULT) {
+            notify.requestPermission();
+        }
+        notify.config({
+            pageVisibility: true,
+            autoClose: 3000,
         });
     }
 

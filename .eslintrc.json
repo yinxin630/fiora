@@ -13,6 +13,9 @@
         "jsx-a11y",
         "import"
     ],
+    "globals": {
+        "notify": true
+    },
     "rules": {
         "indent": ["error", 4], // 4空格
         "max-len": 0, // 单行长度
