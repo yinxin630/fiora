@@ -31,11 +31,7 @@ class MessageList extends React.Component {
             clearTimeout(onScrollHandle);
         }
         onScrollHandle = setTimeout(() => {
-            ui.changeScroll(
-                this.list.scrollHeight,
-                this.list.scrollTop,
-                this.list.clientHeight
-            );
+            ui.shouldScrollMessage(this.list.scrollHeight - this.list.scrollTop - this.list.clientHeight < 100);
         }, 100);
     }
 
@@ -59,9 +55,7 @@ class Message extends React.Component {
         index: PropTypes.number.isRequired,
         messageCount: PropTypes.number.isRequired,
 
-        messageListScrollHeight: PropTypes.number,
-        messageListScrollTop: PropTypes.number,
-        messageListClientHeight: PropTypes.number,
+        shouldScrollMessage: PropTypes.bool,
     };
 
     constructor(props) {
@@ -71,8 +65,8 @@ class Message extends React.Component {
     }
 
     componentDidMount() {
-        const { messageListScrollHeight, messageListScrollTop, messageListClientHeight, index, messageCount } = this.props;
-        if (messageListScrollHeight - messageListScrollTop - messageListClientHeight < 150 && index + 1 === messageCount) {
+        const { shouldScrollMessage, index, messageCount } = this.props;
+        if (shouldScrollMessage && index + 1 === messageCount) {
             scrollMessage = () => this.dom.scrollIntoView(false);
             scrollMessage();
         }
@@ -157,9 +151,7 @@ export default {
     container: MessageList,
     item: connect(
         state => ({
-            messageListScrollHeight: state.getIn(['ui', 'messageListScrollHeight']),
-            messageListScrollTop: state.getIn(['ui', 'messageListScrollTop']),
-            messageListClientHeight: state.getIn(['ui', 'messageListClientHeight']),
+            shouldScrollMessage: state.getIn(['ui', 'shouldScrollMessage']),
         })
     )(Message),
 };

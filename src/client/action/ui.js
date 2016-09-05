@@ -147,13 +147,11 @@ const actions = {
     },
 
     // messageList
-    changeScroll: function (scrollHeight, scrollTop, clientHeight) {
+    shouldScrollMessage: function (should) {
         return new Promise(resolve => {
             dispatch({
-                type: 'ChangeScroll',
-                scrollHeight,
-                scrollTop,
-                clientHeight,
+                type: 'ShouldScrollMessage',
+                should,
             });
             resolve('success');
         });
