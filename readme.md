@@ -8,12 +8,7 @@ Fiora is a web chat application. Made by node.js, koa, react.
 * 查看用户信息面板
 * 加好友, 好友私聊
 * 创建群组, 群组设置, 群组信息, 群组成员禁言
-
 * 用户在线状态, 断线重连
-
-* 消息长度限制, 频率限制
-* 直接图片粘贴, 图片url
-* 消息桌面推送, 消息提示音, 推送及提示音配置
 
 ## Installation
 

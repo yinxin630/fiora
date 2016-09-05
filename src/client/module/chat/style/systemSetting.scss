@@ -1,0 +1,83 @@
+.system-setting {
+    background-color: #f1f1f1;
+    z-index: 101;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 300px;
+    height: 160px;
+    margin-top: -80px;
+    margin-left: -150px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+
+    & > :nth-child(1000n+1) {
+        background-color: #ffffff;
+        height: 50px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        & > i {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            font-size: 20px;
+            color: #999;
+            cursor: pointer;
+
+            &:hover {
+                color: #c02721;
+            }
+        }
+    }
+
+    & > :nth-child(1000n+2) {
+        flex: 1;
+        background-color: #fafafc;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        padding: 10px 0px;
+
+        & > div {
+            padding: 10px 20px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            & > div {
+                background-color: #e8e8e8;
+                border: 1px solid #bdbdbd;
+                height: 14px;
+                width: 40px;
+                border-radius: 7px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                cursor: pointer;
+
+                & > div {
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 50%;
+                    position: relative;
+
+                    
+                }
+                .on {
+                    left: -5px;
+                    background-color: lawngreen;
+                }
+                .off {
+                    right: -20px;
+                    background-color: orangered;
+                }
+            }
+        }
+    }
+}

@@ -6,6 +6,7 @@ import './style/chat.scss';
 
 import Header from './header';
 import Body from './body';
+import SystemSetting from './systemSetting';
 import MaskLayout from './maskLayout';
 
 class Chat extends React.Component {
@@ -34,6 +35,7 @@ class Chat extends React.Component {
                     location={location}
                     routeParams={routeParams}
                 />
+                <SystemSetting />
                 <MaskLayout />
             </div>
         );

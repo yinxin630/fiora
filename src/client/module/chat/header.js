@@ -6,11 +6,19 @@ import './style/header.scss';
 import Logo from './logo';
 import NavList from './navList';
 import UserPanel from './userPanel';
+import ui from '../../action/ui';
+import mask from '../../util/mask';
 
 class Header extends React.Component {
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
+        this.handleSettingClick = this.handleSettingClick.bind(this);
+    }
+
+    handleSettingClick() {
+        ui.openSystemSetting();
+        mask(ui.closeSystemSetting);
     }
 
     render() {
@@ -27,6 +35,7 @@ class Header extends React.Component {
                     />
                     <NavList.item
                         icon="&#xe606;"
+                        onClick={this.handleSettingClick}
                     />
                 </NavList.container>
                 <UserPanel />

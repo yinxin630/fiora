@@ -13,6 +13,10 @@ const initialState = immutable.fromJS({
 
     shouldScrollMessage: true,
     windowFocus: true,
+    showSystemSetting: false,
+
+    desktopNotification: true,
+    soundNotification: true,
 });
 
 function reducer(state = initialState, action) {
@@ -78,6 +82,20 @@ function reducer(state = initialState, action) {
 
     case 'WindowFocus': {
         return state.set('windowFocus', action.focus);
+    }
+
+    case 'OpenSystemSetting': {
+        return state.set('showSystemSetting', true);
+    }
+    case 'CloseSystemSetting': {
+        return state.set('showSystemSetting', false);
+    }
+
+    case 'ToggleDesktopNotification': {
+        return state.set('desktopNotification', !state.get('desktopNotification'));
+    }
+    case 'ToggleSoundNotification': {
+        return state.set('soundNotification', !state.get('soundNotification'));
     }
 
     default:

@@ -167,6 +167,41 @@ const actions = {
             resolve('success');
         });
     },
+
+    // systemSetting
+    openSystemSetting: function () {
+        console.log('open systemSetting action');
+        return new Promise(resolve => {
+            dispatch({
+                type: 'OpenSystemSetting',
+            });
+            resolve('success');
+        });
+    },
+    closeSystemSetting: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'CloseSystemSetting',
+            });
+            resolve('success');
+        });
+    },
+    toggleDesktopNotification: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'ToggleDesktopNotification',
+            });
+            resolve('success');
+        });
+    },
+    toggleSoundNotification: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'ToggleSoundNotification',
+            });
+            resolve('success');
+        });
+    },
 };
 
 export default actions;

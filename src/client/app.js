@@ -17,6 +17,8 @@ class App extends React.Component {
         children: PropTypes.element,
         location: PropTypes.object.isRequired,
         windowFocus: PropTypes.bool,
+        desktopNotification: PropTypes.bool,
+        soundNotification: PropTypes.bool,
     };
 
     static contextTypes = {
@@ -28,8 +30,11 @@ class App extends React.Component {
         socket.on('groupMessage', data => {
             user.addGroupMessage(data);
 
-            this.sound.play();
-            if (this.props.windowFocus) {
+            if (this.props.soundNotification) {
+                this.sound.play();
+            }
+
+            if (this.props.windowFocus && this.props.desktopNotification) {
                 notify.createNotification(data.from.username, {
                     icon: data.from.avatar,
                     body: data.content,
@@ -90,5 +95,7 @@ export default connect(
     state => ({
         state: state,
         windowFocus: state.getIn(['ui', 'windowFocus']),
+        desktopNotification: state.getIn(['ui', 'desktopNotification']),
+        soundNotification: state.getIn(['ui', 'soundNotification']),
     })
 )(App);
