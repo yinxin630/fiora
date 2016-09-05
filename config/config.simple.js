@@ -15,4 +15,7 @@ module.exports = {
     secretKey: 'qiniu_secret_key',
     bucket: 'bucket_name',
     bucketUrl: 'bucket_outside_url',
+
+    // max message lenght. for both backend and frontend
+    maxMessageLength: 1024,
 };

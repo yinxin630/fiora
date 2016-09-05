@@ -17,6 +17,7 @@ const GroupMessageRoute = {
         const group = yield Group.findById(data.linkmanId);
 
         if (data.type === 'text') {
+            data.content = data.content.slice(0, config.maxMessageLength);
             data.content = data.content
                 .replace(/&/g, '&amp')
                 .replace(/"/g, '&quot;')

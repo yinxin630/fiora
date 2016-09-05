@@ -7,6 +7,7 @@ import './style/inputBox.scss';
 
 import ui from '../../action/ui';
 import user from '../../action/user';
+import config from '../../../../config/config';
 
 class InputBox extends React.Component {
     static propTypes = {
@@ -85,6 +86,7 @@ class InputBox extends React.Component {
                             type="text"
                             ref={input => this.input = input}
                             placeholder="输入消息"
+                            maxLength={config.maxMessageLength}
                             onFocus={ui.openToolbar}
                             onBlur={ui.closeToolbar}
                             onClick={ui.openToolbar}
