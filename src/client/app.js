@@ -28,6 +28,7 @@ class App extends React.Component {
         socket.on('groupMessage', data => {
             user.addGroupMessage(data);
 
+            this.sound.play();
             if (this.props.windowFocus) {
                 notify.createNotification(data.from.username, {
                     icon: data.from.avatar,
@@ -72,6 +73,13 @@ class App extends React.Component {
             <div className="window">
                 <div className="background" />
                 <Notification />
+                <audio
+                    ref={sound => this.sound = sound}
+                >
+                    <source src="/sounds/message_sound.mp3" type="audio/mp3" />
+                    <source src="/sounds/message_sound.ogg" type="audio/ogg" />
+                    <source src="/sounds/message_sound.wav" type="audio/wav" />
+                </audio>
                 { this.props.children }
             </div>
         );
