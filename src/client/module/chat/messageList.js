@@ -111,6 +111,21 @@ class Message extends React.Component {
                 </div>
             );
         }
+        else if (type === 'url') {
+            return (
+                <div
+                    className="url"
+                >
+                    <a
+                        href={content}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                    >
+                        { content }
+                    </a>
+                </div>
+            );
+        }
 
         return (
             <div

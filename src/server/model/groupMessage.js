@@ -16,7 +16,7 @@ const GroupMessageSchema = new Schema({
     },
     type: {
         type: String,
-        enum: ['text', 'image', 'code'],
+        enum: ['text', 'image', 'code', 'url'],
         default: 'text',
     },
     content: {

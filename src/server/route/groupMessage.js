@@ -26,24 +26,27 @@ const GroupMessageRoute = {
                 .replace(/'/g, '&apos;');
         }
         else if (data.type === 'image') {
-            const fileName = `message_${Date.now().toString()}.${data.content.match(/data:image\/(.+);base64/)[1]}`;
-            const fileSavePath = path.join(__dirname, `../../../public/images/message/${fileName}`);
+            // if data.content is image data
+            if (/^data:image/.test(data.content)) {
+                const fileName = `message_${Date.now().toString()}.${data.content.match(/data:image\/(.+);base64/)[1]}`;
+                const fileSavePath = path.join(__dirname, `../../../public/images/message/${fileName}`);
 
-            // save to local disk
-            yield promise.promisify(fs.writeFile)(
-                fileSavePath,
-                data.content.replace(/^data:image\/(.+);base64,/, ''),
-                'base64'
-            );
+                // save to local disk
+                yield promise.promisify(fs.writeFile)(
+                    fileSavePath,
+                    data.content.replace(/^data:image\/(.+);base64,/, ''),
+                    'base64'
+                );
 
-            // if have qiniu config. push file to qiniu
-            if (config.bucket === 'bucket_name' || config.accessKey === 'qiniu_access_key' || config.secretKey === 'qiniu_secret_key') {
-                data.content = `/images/message/${fileName}`;
-            }
-            else {
-                yield qiniu(fileName, fileSavePath);
-                fs.unlinkSync(fileSavePath);
-                data.content = `http://${config.bucketUrl}/${fileName}`;
+                // if have qiniu config. push file to qiniu
+                if (config.bucket === 'bucket_name' || config.accessKey === 'qiniu_access_key' || config.secretKey === 'qiniu_secret_key') {
+                    data.content = `/images/message/${fileName}`;
+                }
+                else {
+                    yield qiniu(fileName, fileSavePath);
+                    fs.unlinkSync(fileSavePath);
+                    data.content = `http://${config.bucketUrl}/${fileName}`;
+                }
             }
         }
 
