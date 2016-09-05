@@ -12,6 +12,7 @@ const initialState = immutable.fromJS({
     insertTexts: [],
 
     shouldScrollMessage: true,
+    windowFocus: true,
 });
 
 function reducer(state = initialState, action) {
@@ -73,6 +74,10 @@ function reducer(state = initialState, action) {
 
     case 'ShouldScrollMessage': {
         return state.set('shouldScrollMessage', action.should);
+    }
+
+    case 'WindowFocus': {
+        return state.set('windowFocus', action.focus);
     }
 
     default:

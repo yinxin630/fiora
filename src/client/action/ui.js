@@ -156,6 +156,17 @@ const actions = {
             resolve('success');
         });
     },
+
+    // window
+    windowFocus: function (focus) {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'WindowFocus',
+                focus,
+            });
+            resolve('success');
+        });
+    },
 };
 
 export default actions;

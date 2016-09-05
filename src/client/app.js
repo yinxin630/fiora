@@ -6,6 +6,7 @@ import 'html5-desktop-notifications';
 import './app.scss';
 
 import user from './action/user';
+import ui from './action/ui';
 import socket from './socket';
 
 import Notification from './commonComponent/notification';
@@ -15,6 +16,7 @@ class App extends React.Component {
         state: PropTypes.object.isRequired,
         children: PropTypes.element,
         location: PropTypes.object.isRequired,
+        windowFocus: PropTypes.bool,
     };
 
     static contextTypes = {
@@ -25,11 +27,14 @@ class App extends React.Component {
         // register server event
         socket.on('groupMessage', data => {
             user.addGroupMessage(data);
-            notify.createNotification(data.from.username, {
-                icon: data.from.avatar,
-                body: data.content,
-                tag: data.from.id,
-            });
+
+            if (this.props.windowFocus) {
+                notify.createNotification(data.from.username, {
+                    icon: data.from.avatar,
+                    body: data.content,
+                    tag: data.from.id,
+                });
+            }
         });
 
         // html5 notification
@@ -43,6 +48,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
+        // get local storage token
         const token = window.localStorage.getItem('token');
         if (token && token !== '') {
             user
@@ -53,6 +59,9 @@ class App extends React.Component {
                     }
                 });
         }
+
+        window.onfocus = () => ui.windowFocus(true);
+        window.onblur = () => ui.windowFocus(false);
     }
 
     render() {
@@ -72,5 +81,6 @@ class App extends React.Component {
 export default connect(
     state => ({
         state: state,
+        windowFocus: state.getIn(['ui', 'windowFocus']),
     })
 )(App);
