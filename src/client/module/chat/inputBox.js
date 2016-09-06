@@ -21,6 +21,7 @@ class InputBox extends React.Component {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
         this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
+        this.handlePaste = this.handlePaste.bind(this);
     }
 
     componentWillUpdate(nextProps) {
@@ -80,6 +81,26 @@ class InputBox extends React.Component {
         }
     }
 
+    handlePaste(e) {
+        const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+
+        // 如果包含文件内容
+        if (e.clipboardData.types.indexOf('Files') > -1) {
+            for (let index = 0; index < items.length; index++) {
+                const item = items[index];
+                if (item.kind === 'file' && item.type.match(/^image/)) {
+                    const reader = new FileReader();
+                    const instance = this;
+                    reader.onloadend = function () {
+                        user.sendGroupMessage(instance.props.linkmanId, 'image', this.result);
+                    };
+                    reader.readAsDataURL(item.getAsFile());
+                }
+            }
+            e.preventDefault();
+        }
+    }
+
     render() {
         const { show } = this.props;
         return (
@@ -102,6 +123,7 @@ class InputBox extends React.Component {
                             onBlur={ui.closeToolbar}
                             onClick={ui.openToolbar}
                             onKeyDown={this.handleInputKeyDown}
+                            onPaste={this.handlePaste}
                         />
                     </div>
                 )
