@@ -12,7 +12,7 @@ const initialState = immutable.fromJS({
     insertTexts: [],
 
     shouldScrollMessage: true,
-    windowFocus: true,
+    windowFocus: false,
     showSystemSetting: false,
 
     desktopNotification: true,

@@ -28,7 +28,6 @@
     "chokidar": "^1.6.0",
     "cross-env": "^2.0.0",
     "history": "^3.0.0",
-    "html5-desktop-notifications": "^1.0.0",
     "immutable": "^3.8.1",
     "jwt-simple": "^0.5.0",
     "koa": "^1.2.1",

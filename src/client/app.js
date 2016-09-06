@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import 'html5-desktop-notifications';
-
 import './app.scss';
 
 import user from './action/user';
@@ -34,12 +32,28 @@ class App extends React.Component {
                 this.sound.play();
             }
 
-            if (!this.props.windowFocus && this.props.desktopNotification) {
-                notify.createNotification(data.from.username, {
-                    icon: data.from.avatar,
-                    body: data.content,
-                    tag: data.from.id,
-                });
+            if (window.Notification.permission === 'granted' && !this.props.windowFocus && this.props.desktopNotification) {
+                const notification = new window.Notification(
+                    `${data.from.username}发来消息:`,
+                    {
+                        icon: data.from.avatar,
+                        body: data.content,
+                        tag: data.from.id,
+                    }
+                );
+                notification.onclick = function () {
+                    this.close();
+                    window.blur();
+                    setTimeout(() => {
+                        window.focus();
+                    }, 0);
+                };
+                // auto close
+                notification.onshow = function () {
+                    setTimeout(() => {
+                        this.close();
+                    }, 3000);
+                };
             }
         });
         socket.on('connect', () => {
@@ -63,13 +77,9 @@ class App extends React.Component {
         });
 
         // html5 notification
-        if (notify.permissionLevel() === notify.PERMISSION_DEFAULT) {
-            notify.requestPermission();
+        if (window.Notification.permission === 'default' || window.Notification.permission === 'denied') {
+            window.Notification.requestPermission();
         }
-        notify.config({
-            pageVisibility: true,
-            autoClose: 3000,
-        });
     }
 
     componentDidMount() {
