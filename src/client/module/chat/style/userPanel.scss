@@ -10,9 +10,14 @@
         width: 10px;
         height: 10px;
         border-radius: 50%;
-        background-color: #6ab82d;
         margin-right: 10px;
         cursor: pointer;
+    }
+    .online {
+        background-color: lawngreen;
+    }
+    .offline {
+        background-color: orangered;
     }
 
     & > div:nth-child(1000n+2) {

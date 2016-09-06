@@ -34,13 +34,32 @@ class App extends React.Component {
                 this.sound.play();
             }
 
-            if (this.props.windowFocus && this.props.desktopNotification) {
+            if (!this.props.windowFocus && this.props.desktopNotification) {
                 notify.createNotification(data.from.username, {
                     icon: data.from.avatar,
                     body: data.content,
                     tag: data.from.id,
                 });
             }
+        });
+        socket.on('connect', () => {
+            // get local storage token
+            const token = window.localStorage.getItem('token');
+            if (token && token !== '') {
+                user
+                    .reConnect(token)
+                    .then(result => {
+                        if (result.status === 201) {
+                            user.online();
+                            if (this.props.location.pathname === '/') {
+                                this.context.router.push('/chat');
+                            }
+                        }
+                    });
+            }
+        });
+        socket.on('disconnect', () => {
+            user.offline();
         });
 
         // html5 notification
@@ -54,18 +73,6 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        // get local storage token
-        const token = window.localStorage.getItem('token');
-        if (token && token !== '') {
-            user
-                .reConnect(token)
-                .then(result => {
-                    if (result.status === 201 && this.props.location.pathname === '/') {
-                        this.context.router.push('/chat');
-                    }
-                });
-        }
-
         window.onfocus = () => ui.windowFocus(true);
         window.onblur = () => ui.windowFocus(false);
     }

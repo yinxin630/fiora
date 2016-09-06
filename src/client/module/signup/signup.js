@@ -26,6 +26,7 @@ class Login extends React.Component {
                         .login(this.username.value, this.password.value)
                         .then(() => {
                             this.context.router.push('/chat');
+                            user.online();
                         });
                 }
                 else {

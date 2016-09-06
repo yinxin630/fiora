@@ -170,7 +170,6 @@ const actions = {
 
     // systemSetting
     openSystemSetting: function () {
-        console.log('open systemSetting action');
         return new Promise(resolve => {
             dispatch({
                 type: 'OpenSystemSetting',

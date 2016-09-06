@@ -1,11 +1,18 @@
 import immutable from 'immutable';
 
 const initialState = immutable.fromJS({
-
+    online: false,
 });
 
 function reducer(state = initialState, action) {
     switch (action.type) {
+    case 'Online': {
+        return state.set('online', true);
+    }
+    case 'Offline': {
+        return state.set('online', false);
+    }
+
     case 'LoginSuccess': {
         const linkmans = [];
         for (const group of action.user.groups) {
@@ -23,7 +30,7 @@ function reducer(state = initialState, action) {
         });
         action.user.linkmans = linkmans;
 
-        return immutable.fromJS({
+        return state.merge({
             _id: action.user._id,
             createTime: action.user.createTime,
             updateTime: action.user.updateTime,

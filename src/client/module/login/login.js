@@ -44,6 +44,7 @@ class Login extends React.Component {
                 if (result.status === 201) {
                     window.localStorage.setItem('token', result.data.token);
                     this.context.router.push('/chat');
+                    user.online();
                 }
             });
     }

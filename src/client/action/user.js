@@ -4,6 +4,24 @@ import socket from '../socket';
 const dispatch = Store.dispatch;
 
 const actions = {
+    online: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'Online',
+            });
+            resolve('success');
+        });
+    },
+
+    offline: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'Offline',
+            });
+            resolve('success');
+        });
+    },
+
     login: function (username, password) {
         return new Promise(resolve => {
             socket.post('/auth', { username, password }, response => {
