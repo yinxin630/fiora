@@ -41,10 +41,12 @@ class User extends React.Component {
 
     render() {
         const { linkman } = this.props;
+        console.log('unread ->', linkman.get('unread'));
         const isGroup = linkman.get('type') === 'group';
         const messagesLength = linkman.get('messages').size;
         const time = moment(messagesLength === 0 ? linkman.get('createTime') : linkman.getIn(['messages', messagesLength - 1, 'createTime'])).format('HH:mm');
         const message = messagesLength === 0 ? null : linkman.getIn(['messages', messagesLength - 1]);
+        const unread = linkman.get('unread') > 99 ? 99 : linkman.get('unread');
 
         return (
             <div
@@ -57,7 +59,8 @@ class User extends React.Component {
                     width={40}
                     height={40}
                 />
-                <div>
+                { unread > 0 ? <div className="unread">{ unread }</div> : null }
+                <div className="content">
                     <div>
                         <p>{ isGroup ? linkman.get('name') : linkman.get('username') }</p>
                         <p>{ time }</p>

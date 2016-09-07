@@ -93,6 +93,17 @@ const actions = {
         });
     },
 
+    clearUnread: function (linkmanType, linkmanId) {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'ClearUnread',
+                linkmanType,
+                linkmanId,
+            });
+            resolve('success');
+        });
+    },
+
     createGroup: function (name) {
         return new Promise(resolve => {
             socket.post('/group', { name: name }, response => {

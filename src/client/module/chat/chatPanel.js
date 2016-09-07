@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
 
 import './style/chatPanel.scss';
@@ -11,6 +12,7 @@ import GroupSetting from './groupSetting';
 import GroupNotice from './groupNotice';
 import Expression from './expression';
 import CodeInput from './codeInput';
+import user from '../../action/user';
 
 class ChatPanel extends React.Component {
     static propTypes = {
@@ -21,6 +23,12 @@ class ChatPanel extends React.Component {
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
+    }
+
+    componentWillUpdate(nextProps) {
+        if (nextProps.linkman.get('unread') > 0 && nextProps.shouldScrollMessage) {
+            user.clearUnread(nextProps.linkman.get('type'), nextProps.linkman.get('_id'));
+        }
     }
 
     render() {
@@ -45,6 +53,7 @@ class ChatPanel extends React.Component {
                         ))
                     }
                 </MessageList.container>
+                { linkman.get('unread') > 0 ? <div className="new-message">新消息</div> : null }
                 <InputBox
                     type={linkman.get('type')}
                     linkmanId={linkman.get('_id')}
@@ -63,4 +72,8 @@ class ChatPanel extends React.Component {
     }
 }
 
-export default ChatPanel;
+export default connect(
+    state => ({
+        shouldScrollMessage: state.getIn(['ui', 'shouldScrollMessage']),
+    })
+)(ChatPanel);

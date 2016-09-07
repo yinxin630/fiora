@@ -11,6 +11,7 @@
     flex-direction: row;
     justify-content: center;
     align-content: center;
+    position: relative;
 
     & > div:nth-child(1000n+1) {
         margin: 10px 5px 10px 5px;
@@ -18,7 +19,21 @@
     & > img:nth-child(1000n+1) {
         margin: 10px 5px 10px 5px;
     }
-    & > div:nth-child(1000n+2) {
+    .unread {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background-color: #289dda;
+        color: white;
+        position: absolute;
+        left: 32px;
+        top: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 10px;
+    }
+    .content {
         flex: 1;
         display: flex;
         flex-direction: column;

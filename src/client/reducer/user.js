@@ -17,10 +17,12 @@ function reducer(state = initialState, action) {
         const linkmans = [];
         for (const group of action.user.groups) {
             group.type = 'group';
+            group.unread = 0;
             linkmans.push(group);
         }
         for (const friend of action.user.friends) {
             friend.type = 'friend';
+            friend.unread = 0;
             linkmans.push(friend);
         }
         linkmans.sort((a, b) => {
@@ -51,9 +53,18 @@ function reducer(state = initialState, action) {
             ['linkmans'],
             linkmans => {
                 const groupIndex = linkmans.findIndex(g => g.get('type') === 'group' && g.get('_id') === action.message.to._id);
-                const group = linkmans.get(groupIndex).updateIn(['messages'], m => m.push(immutable.fromJS(action.message)));
+                const group = linkmans.get(groupIndex).updateIn(['messages'], m => m.push(immutable.fromJS(action.message))).update('unread', unread => unread + 1);
                 return linkmans.delete(groupIndex).unshift(group);
             }
+        );
+    }
+    case 'ClearUnread': {
+        return state.update(
+            'linkmans',
+            linkmans => linkmans.update(
+                linkmans.findIndex(linkman => linkman.get('type') === action.linkmanType && linkman.get('_id') === action.linkmanId),
+                linkman => linkman.set('unread', 0)
+            )
         );
     }
 
