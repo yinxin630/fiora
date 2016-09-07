@@ -16,7 +16,20 @@ const GroupSchema = new Schema({
         type: String,
         default: 'http://oc58aytf1.bkt.clouddn.com/group_avatar_default',
     },
-    announcement: String,
+    // 公告
+    announcement: {
+        type: String,
+        default: '无公告',
+    },
+    announcementPublisher: {
+        type: String,
+        default: 'system',
+    },
+    announcementTime: {
+        type: Date,
+        default: Date.now,
+    },
+
     creator: {
         type: Schema.Types.ObjectId,
         ref: 'User',

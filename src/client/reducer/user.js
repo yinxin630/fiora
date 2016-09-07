@@ -47,6 +47,15 @@ function reducer(state = initialState, action) {
     case 'CreateGroup': {
         return state;
     }
+    case 'UpdateGroupAnnouncement': {
+        return state.update(
+            'linkmans',
+            linkmans => linkmans.update(
+                linkmans.findIndex(linkman => linkman.get('type') === 'group' && linkman.get('_id') === action.group._id),
+                linkman => linkman.set('announcement', action.group.announcement).set('announcementPublisher', action.group.announcementPublisher).set('announcementTime', action.group.announcementTime)
+            )
+        );
+    }
 
     case 'AddGroupMessage': {
         return state.updateIn(

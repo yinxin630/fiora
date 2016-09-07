@@ -41,7 +41,6 @@ class User extends React.Component {
 
     render() {
         const { linkman } = this.props;
-        console.log('unread ->', linkman.get('unread'));
         const isGroup = linkman.get('type') === 'group';
         const messagesLength = linkman.get('messages').size;
         const time = moment(messagesLength === 0 ? linkman.get('createTime') : linkman.getIn(['messages', messagesLength - 1, 'createTime'])).format('HH:mm');

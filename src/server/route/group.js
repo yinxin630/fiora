@@ -2,6 +2,7 @@ const assert = require('../util/assert');
 const User = require('../model/user');
 const Group = require('../model/group');
 const isLogin = require('../police/isLogin');
+const mongoose = require('mongoose');
 
 const GroupRoute = {
     'POST /group': function* (socket, data, end) {
@@ -41,6 +42,30 @@ const GroupRoute = {
     },
     'PUT /group': function* (socket, data, end) {
         yield end(200, { });
+    },
+    'PUT /group/announcement': function* (socket, data, end) {
+        yield* isLogin(socket, data, end);
+        assert(!data.content, end, 400, 'need content param but not exists');
+        assert(!data.groupId, end, 400, 'need groupId param but not exists');
+        assert(!mongoose.Types.ObjectId.isValid(data.groupId), end, 400, `groupId:'${data.groupId}' is invalid`);
+
+        const group = yield Group.findById(data.groupId);
+        if (!group) {
+            return end(400, { msg: 'group not exists' });
+        }
+        if (group.creator.toString() !== socket.user) {
+            return end(401, { msg: 'you are not creator of this group' });
+        }
+
+        const user = yield User.findById(socket.user);
+
+        group.announcement = data.content;
+        group.announcementPublisher = user.username;
+        group.announcementTime = Date.now();
+
+        yield group.save();
+
+        yield end(201, group);
     },
 };
 

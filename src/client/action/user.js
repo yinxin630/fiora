@@ -120,6 +120,23 @@ const actions = {
             });
         });
     },
+
+    updateGroupAnnouncement: function (groupId, content) {
+        return new Promise(resolve => {
+            socket.put('/group/announcement', { groupId, content }, response => {
+                if (response.status === 201) {
+                    dispatch({
+                        type: 'UpdateGroupAnnouncement',
+                        group: response.data,
+                    });
+                    resolve(response);
+                }
+                else {
+                    resolve(response);
+                }
+            });
+        });
+    },
 };
 
 export default actions;

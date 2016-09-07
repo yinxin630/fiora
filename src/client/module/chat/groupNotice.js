@@ -1,10 +1,12 @@
 import React, { PropTypes } from 'react';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import './style/groupNotice.scss';
 
 import ui from '../../action/ui';
+import user from '../../action/user';
 import FloatPanel from './floatPanel';
 
 class GroupNotice extends React.Component {
@@ -12,6 +14,7 @@ class GroupNotice extends React.Component {
         show: PropTypes.bool.isRequired,
         creator: PropTypes.object,
         me: PropTypes.string,
+        linkman: PropTypes.object.isRequired,
     };
 
     constructor(props) {
@@ -20,10 +23,19 @@ class GroupNotice extends React.Component {
             editor: false,
         };
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
+        this.handleSaveClick = this.handleSaveClick.bind(this);
+    }
+
+    handleSaveClick() {
+        user.updateGroupAnnouncement(this.props.linkman.get('_id'), this.editor.value).then(response => {
+            if (response.status === 201) {
+                this.setState({ editor: false });
+            }
+        });
     }
 
     render() {
-        const { show, creator, me } = this.props;
+        const { show, creator, me, linkman } = this.props;
 
         return (
             <FloatPanel
@@ -32,16 +44,17 @@ class GroupNotice extends React.Component {
                 title="群公告"
             >
                 <div className="group-notice">
-                    <div>碎碎酱 更新于 11月11日 11:11</div>
+                    <div>{ linkman.get('announcementPublisher') } 更新于 { moment(linkman.get('announcementTime')).format('YYYY MMMM Do h:mm') }</div>
                     {
                         this.state.editor ?
                             <textarea
                                 className="editor"
-                                defaultValue="2016年第一次集体生日会来了，下午4：30在一层休闲区，这月的寿星有：金老师、HR姐姐、杜雪、逗年、滔姐、少一老师、刘洁和皮皮哥，祝几位大摩羯和大水瓶生日快乐~ 届时欢迎各位光年一起给他们过生日并吃蛋糕。"
+                                ref={editor => this.editor = editor}
+                                defaultValue={linkman.get('announcement')}
                             />
                         :
                             <div className="content">
-                                2016年第一次集体生日会来了，下午4：30在一层休闲区，这月的寿星有：金老师、HR姐姐、杜雪、逗年、滔姐、少一老师、刘洁和皮皮哥，祝几位大摩羯和大水瓶生日快乐~ 届时欢迎各位光年一起给他们过生日并吃蛋糕。
+                                {linkman.get('announcement')}
                             </div>
                     }
                     {
@@ -49,7 +62,9 @@ class GroupNotice extends React.Component {
                             <div>
                             {
                                 this.state.editor ?
-                                    <button>保存</button>
+                                    <button
+                                        onClick={this.handleSaveClick}
+                                    >保存</button>
                                 :
                                     <button
                                         onClick={() => this.setState({ editor: true })}
