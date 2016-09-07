@@ -12,6 +12,7 @@ class Chat extends React.Component {
     static propTypes = {
         children: PropTypes.element,
         user: PropTypes.object,
+        location: PropTypes.object,
     };
 
     constructor(props) {
@@ -20,7 +21,7 @@ class Chat extends React.Component {
     }
 
     render() {
-        const { user } = this.props;
+        const { user, location } = this.props;
         if (!user.get('_id')) {
             // if store don't hava user data. render empty div
             return <div />;
@@ -28,7 +29,9 @@ class Chat extends React.Component {
 
         return (
             <div className="app">
-                <Header />
+                <Header
+                    pathname={location.pathname}
+                />
                 { this.props.children }
                 <SystemSetting />
                 <MaskLayout />

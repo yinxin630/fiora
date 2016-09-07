@@ -11,7 +11,7 @@ import mask from '../../util/mask';
 
 class Header extends React.Component {
     static propTypes = {
-        location: PropTypes.object,
+        pathname: PropTypes.string,
     }
 
     static contextTypes = {
@@ -30,6 +30,8 @@ class Header extends React.Component {
     }
 
     render() {
+        const { pathname } = this.props;
+
         return (
             <header>
                 <Logo />
@@ -37,11 +39,12 @@ class Header extends React.Component {
                     <NavList.item
                         icon="&#xe607;"
                         onClick={() => this.context.router.push('/chat/body')}
-                        selected
+                        selected={/^\/chat\/body|\/chat$/.test(pathname)}
                     />
                     <NavList.item
                         icon="&#xe600;"
                         onClick={() => this.context.router.push('/chat/manage')}
+                        selected={/^\/chat\/manage$/.test(pathname)}
                     />
                     <NavList.item
                         icon="&#xe606;"
