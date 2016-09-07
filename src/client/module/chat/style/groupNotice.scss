@@ -11,13 +11,27 @@
         font-size: 14px;
         color: #212121;
     }
+    .editor {
+        margin-top: 10px;
+        width: 295px;
+        height: 150px;
+        font-size: 14px;
+        padding: 5px;
+    }
     & > div:last-child {
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-top: 15px;
 
         button {
-            margin: 15px 0px;
+            background-color: #289dda;
+            color: white;
+            width: 100px;
+            height: 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
         }
     }
 }

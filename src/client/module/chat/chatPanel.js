@@ -65,7 +65,10 @@ class ChatPanel extends React.Component {
                     creator={linkman.get('creator')}
                     members={linkman.get('members')}
                 />
-                <GroupNotice />
+                <GroupNotice
+                    creator={linkman.get('creator')}
+                    me={me}
+                />
                 <Expression />
                 <CodeInput
                     linkmanId={linkman.get('_id')}
