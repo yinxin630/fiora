@@ -9,6 +9,8 @@ import App from './app';
 import Login from './module/login/login';
 import Signup from './module/signup/signup';
 import Chat from './module/chat/chat';
+import Body from './module/chat/body';
+import GroupManage from './module/chat/groupManage';
 
 ReactDom.render(
     <Provider store={Store}>
@@ -17,8 +19,12 @@ ReactDom.render(
                 <IndexRoute component={Login} />
                 <Route path="login" component={Login} />
                 <Route path="signup" component={Signup} />
-                <Route path="chat/:type/:id" component={Chat} />
-                <Route path="chat" component={Chat} />
+                <Route path="chat" component={Chat}>
+                    <IndexRoute component={Body} />
+                    <Route path="body" component={Body} />
+                    <Route path="body/:type/:id" component={Body} />
+                    <Route path="manage" component={GroupManage} />
+                </Route>
             </Route>
         </Router>
     </Provider>,

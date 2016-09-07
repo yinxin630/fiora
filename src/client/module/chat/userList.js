@@ -50,7 +50,7 @@ class User extends React.Component {
         return (
             <div
                 className="user-list-item"
-                onClick={() => this.context.router.push(`/chat/${linkman.get('type')}/${linkman.get('_id')}`)}
+                onClick={() => this.context.router.push(`/chat/body/${linkman.get('type')}/${linkman.get('_id')}`)}
             >
                 <Avatar
                     avatar={linkman.get('avatar')}

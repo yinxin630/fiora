@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
 
 import './style/header.scss';
@@ -10,6 +10,14 @@ import ui from '../../action/ui';
 import mask from '../../util/mask';
 
 class Header extends React.Component {
+    static propTypes = {
+        location: PropTypes.object,
+    }
+
+    static contextTypes = {
+        router: React.PropTypes.object.isRequired,
+    }
+
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
@@ -28,10 +36,12 @@ class Header extends React.Component {
                 <NavList.container>
                     <NavList.item
                         icon="&#xe607;"
+                        onClick={() => this.context.router.push('/chat/body')}
                         selected
                     />
                     <NavList.item
                         icon="&#xe600;"
+                        onClick={() => this.context.router.push('/chat/manage')}
                     />
                     <NavList.item
                         icon="&#xe606;"

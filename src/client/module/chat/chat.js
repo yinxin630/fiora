@@ -5,14 +5,12 @@ import pureRenderMixin from 'react-addons-pure-render-mixin';
 import './style/chat.scss';
 
 import Header from './header';
-import Body from './body';
 import SystemSetting from './systemSetting';
 import MaskLayout from './maskLayout';
 
 class Chat extends React.Component {
     static propTypes = {
-        location: PropTypes.object.isRequired,
-        routeParams: PropTypes.object.isRequired,
+        children: PropTypes.element,
         user: PropTypes.object,
     };
 
@@ -22,7 +20,7 @@ class Chat extends React.Component {
     }
 
     render() {
-        const { location, routeParams, user } = this.props;
+        const { user } = this.props;
         if (!user.get('_id')) {
             // if store don't hava user data. render empty div
             return <div />;
@@ -31,10 +29,7 @@ class Chat extends React.Component {
         return (
             <div className="app">
                 <Header />
-                <Body
-                    location={location}
-                    routeParams={routeParams}
-                />
+                { this.props.children }
                 <SystemSetting />
                 <MaskLayout />
             </div>
