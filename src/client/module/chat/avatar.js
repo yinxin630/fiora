@@ -19,22 +19,19 @@ class Avatar extends React.Component {
     render() {
         const { avatar, name, width, height } = this.props;
         return (
-            <div
-                className="avatar"
-                style={{ width, height }}
-            >
-                {
-                    avatar.match(/http/) ?
-                        <img
-                            style={{ width, height }}
-                            src={avatar}
-                        />
-                    :
-                        <div style={{ backgroundColor: avatar, width, height }}>
-                            <span>{ name.slice(0, 1) }</span>
-                        </div>
-                }
-            </div>
+            avatar.match(/http/) ?
+                <img
+                    className="avatar-image"
+                    style={{ width, height }}
+                    src={avatar}
+                />
+            :
+                <div
+                    className="avatar-text"
+                    style={{ backgroundColor: avatar, width, height, fontSize: width / 3 }}
+                >
+                    <span>{ name.slice(0, 1) }</span>
+                </div>
         );
     }
 }

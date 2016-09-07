@@ -1,17 +1,12 @@
-.avatar {
-    & > div {
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+.avatar-text {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 22px;
+}
 
-        & > span {
-            color: #fff;
-            font-size: 22px;
-        }
-    }
-
-    & > img {
-        border-radius: 50%;
-    }
+.avatar-image {
+    border-radius: 50%;
 }

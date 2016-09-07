@@ -114,6 +114,7 @@ const AuthRoute = {
                 skip = 0;
             }
             group.messages = yield GroupMessage.find({ to: group._id }, null, { skip: skip }).populate({ path: 'from', select: { _id: true, username: true, avatar: true } });
+            yield Group.populate(group, { path: 'creator', select: '_id username' });
         }
 
         // handle client socket. system message room: system
