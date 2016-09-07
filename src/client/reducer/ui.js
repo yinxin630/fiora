@@ -17,6 +17,9 @@ const initialState = immutable.fromJS({
 
     desktopNotification: true,
     soundNotification: true,
+
+    showCreateGroupInput: false,
+    showAddGroupInput: false,
 });
 
 function reducer(state = initialState, action) {
@@ -96,6 +99,19 @@ function reducer(state = initialState, action) {
     }
     case 'ToggleSoundNotification': {
         return state.set('soundNotification', !state.get('soundNotification'));
+    }
+
+    case 'OpenCreateGroupInput': {
+        return state.set('showCreateGroupInput', true);
+    }
+    case 'CloseCreateGroupInput': {
+        return state.set('showCreateGroupInput', false);
+    }
+    case 'OpenAddGroupInput': {
+        return state.set('showAddGroupInput', true);
+    }
+    case 'CloseAddGroupInput': {
+        return state.set('showAddGroupInput', false);
     }
 
     default:

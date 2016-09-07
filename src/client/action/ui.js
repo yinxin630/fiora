@@ -201,6 +201,39 @@ const actions = {
             resolve('success');
         });
     },
+
+    openCreateGroupInput: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'OpenCreateGroupInput',
+            });
+            resolve('success');
+        });
+    },
+    closeCreateGroupInput: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'CloseCreateGroupInput',
+            });
+            resolve('success');
+        });
+    },
+    openAddGroupInput: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'OpenAddGroupInput',
+            });
+            resolve('success');
+        });
+    },
+    closeAddGroupInput: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'CloseAddGroupInput',
+            });
+            resolve('success');
+        });
+    },
 };
 
 export default actions;

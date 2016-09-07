@@ -32,6 +32,19 @@ const GroupRoute = {
             console.log('save new group error ->', err);
             return end(500, { msg: 'server error when save new group' });
         }
+
+        const groupOpts = [
+            {
+                path: 'members',
+                select: {
+                    _id: true,
+                    avatar: true,
+                    username: true,
+                },
+            },
+        ];
+        yield Group.populate(savedGroup, groupOpts);
+        yield Group.populate(savedGroup, { path: 'creator', select: '_id username' });
         end(201, savedGroup);
     },
     'DELETE /group': function* (socket, data, end) {

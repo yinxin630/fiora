@@ -110,7 +110,7 @@ const actions = {
                 if (response.status === 201) {
                     dispatch({
                         type: 'CreateGroup',
-                        user: response.data,
+                        group: response.data,
                     });
                     resolve(response);
                 }

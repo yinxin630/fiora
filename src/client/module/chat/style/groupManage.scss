@@ -1,4 +1,38 @@
 .group-manage {
     background-color: rgba(241, 241, 241, 0.5);
     flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & > div:nth-child(1000n+1) {
+        width: 120px;
+        height: 120px;
+        background-color: #2ea7e0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        color: white;
+
+        &:hover {
+            background-color: #289dda;
+        }
+    }
+
+    & > div:nth-child(1000n+2) {
+        width: 120px;
+        height: 120px;
+        background-color: #2ea7e0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        color: white;
+        margin-left: 80px;
+
+        &:hover {
+            background-color: #289dda;
+        }
+    }
 }

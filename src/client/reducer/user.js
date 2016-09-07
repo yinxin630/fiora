@@ -45,7 +45,12 @@ function reducer(state = initialState, action) {
         });
     }
     case 'CreateGroup': {
-        return state;
+        action.group.type = 'group';
+        action.group.unread = 0;
+        return state.update(
+            'linkmans',
+            linkmans => linkmans.unshift(immutable.fromJS(action.group))
+        );
     }
     case 'UpdateGroupAnnouncement': {
         return state.update(
