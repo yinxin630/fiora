@@ -19,6 +19,7 @@ class CreateGroup extends React.Component {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
     handleClick(text) {
@@ -31,6 +32,11 @@ class CreateGroup extends React.Component {
         });
     }
 
+    handleClose() {
+        ui.closeCreateGroupInput();
+        ui.closeMaskLayout();
+    }
+
     render() {
         const { show } = this.props;
 
@@ -39,6 +45,7 @@ class CreateGroup extends React.Component {
                 show={show}
                 title="请输入群组名"
                 onClick={this.handleClick}
+                onClose={this.handleClose}
             />
         );
     }

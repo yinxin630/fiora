@@ -19,6 +19,10 @@ class AddGroup extends React.Component {
 
     }
 
+    handleClose() {
+
+    }
+
     render() {
         const { show } = this.props;
 
@@ -27,6 +31,7 @@ class AddGroup extends React.Component {
                 show={show}
                 title="请输入群组名"
                 onClick={this.handleClick}
+                onClose={this.handleClose}
             />
         );
     }

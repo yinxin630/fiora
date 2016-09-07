@@ -9,6 +9,7 @@ class InputForm extends React.Component {
         show: PropTypes.bool.isRequired,
         title: PropTypes.string,
         onClick: PropTypes.func,
+        onClose: PropTypes.func,
     };
 
     constructor(props) {
@@ -22,7 +23,7 @@ class InputForm extends React.Component {
     }
 
     render() {
-        const { show, title, onClick } = this.props;
+        const { show, title, onClick, onClose } = this.props;
 
         return (
             <Motion
@@ -39,7 +40,7 @@ class InputForm extends React.Component {
                             <span>{ title }</span>
                             <i
                                 className="icon"
-                                onClick={this.handleCloseClick}
+                                onClick={onClose}
                             >&#xe603;</i>
                         </div>
                         <div>

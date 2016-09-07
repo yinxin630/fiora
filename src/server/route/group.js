@@ -9,6 +9,10 @@ const GroupRoute = {
         yield* isLogin(socket, data, end);
         assert(!data.name, end, 400, 'need name param but not exists');
 
+        const ownedGroup = yield Group.find({ creator: socket.user });
+        console.log(ownedGroup);
+        assert(ownedGroup.length > 1, end, 400, 'every one can create only one group');
+
         const user = yield User.findById(socket.user);
         const newGroup = new Group({
             name: data.name,
