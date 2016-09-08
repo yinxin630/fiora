@@ -52,12 +52,29 @@ function reducer(state = initialState, action) {
             linkmans => linkmans.unshift(immutable.fromJS(action.group))
         );
     }
+    case 'JoinGroup': {
+        action.group.type = 'group';
+        action.group.unread = 0;
+        return state.update(
+            'linkmans',
+            linkmans => linkmans.unshift(immutable.fromJS(action.group))
+        );
+    }
     case 'UpdateGroupAnnouncement': {
         return state.update(
             'linkmans',
             linkmans => linkmans.update(
                 linkmans.findIndex(linkman => linkman.get('type') === 'group' && linkman.get('_id') === action.group._id),
                 linkman => linkman.set('announcement', action.group.announcement).set('announcementPublisher', action.group.announcementPublisher).set('announcementTime', action.group.announcementTime)
+            )
+        );
+    }
+    case 'UpdateGroupAvatar': {
+        return state.update(
+            'linkmans',
+            linkmans => linkmans.update(
+                linkmans.findIndex(linkman => linkman.get('type') === 'group' && linkman.get('_id') === action.group._id),
+                linkman => linkman.set('avatar', action.group.avatar)
             )
         );
     }

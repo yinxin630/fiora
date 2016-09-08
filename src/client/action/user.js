@@ -121,12 +121,46 @@ const actions = {
         });
     },
 
+    joinGroup: function (groupName) {
+        return new Promise(resolve => {
+            socket.post('/group/members', { groupName }, response => {
+                if (response.status === 201) {
+                    dispatch({
+                        type: 'JoinGroup',
+                        group: response.data,
+                    });
+                    resolve(response);
+                }
+                else {
+                    resolve(response);
+                }
+            });
+        });
+    },
+
     updateGroupAnnouncement: function (groupId, content) {
         return new Promise(resolve => {
             socket.put('/group/announcement', { groupId, content }, response => {
                 if (response.status === 201) {
                     dispatch({
                         type: 'UpdateGroupAnnouncement',
+                        group: response.data,
+                    });
+                    resolve(response);
+                }
+                else {
+                    resolve(response);
+                }
+            });
+        });
+    },
+
+    updateGroupAvatar: function (groupId, avatar) {
+        return new Promise(resolve => {
+            socket.put('/group/avatar', { groupId, avatar }, response => {
+                if (response.status === 201) {
+                    dispatch({
+                        type: 'UpdateGroupAvatar',
                         group: response.data,
                     });
                     resolve(response);

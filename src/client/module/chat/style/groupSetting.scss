@@ -4,7 +4,7 @@
     color: #727272;
     overflow: auto;
 
-    div {
+    .content {
         margin: 10px 0px;
         span {
             font-size: 14px;
@@ -20,6 +20,27 @@
                 font-size: 12px;
                 color: #2ea7e0;
                 cursor: pointer;
+            }
+        }
+    }
+
+    .button {
+        width: 100%;
+        display: flex;
+        flex: 1;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10px;
+        
+        button {
+            width: 120px;
+            height: 30px;
+            border-radius: 5px;
+            color: white;
+            background-color: #0288D1;
+
+            &:hover {
+                background-color: #2ea7e0;
             }
         }
     }
@@ -42,5 +63,9 @@
                 font-size: 12px;
             }
         }
+    }
+
+    input {
+        display: none;
     }
 }
