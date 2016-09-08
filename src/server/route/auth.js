@@ -53,6 +53,7 @@ const AuthRoute = {
                 skip = 0;
             }
             group.messages = yield GroupMessage.find({ to: group._id }, null, { skip: skip }).populate({ path: 'from', select: { username: true, avatar: true } });
+            yield Group.populate(group, { path: 'creator', select: '_id username' });
         }
 
         // handle client socket. system message room: system
@@ -139,9 +140,14 @@ const AuthRoute = {
     },
 
     'DELETE /auth': function* (socket, data, end) {
-        const auth = yield Auth.findOne({ clients: socket.id });
+        const auth = yield Auth.findOne({ clients: socket.id }).populate('user');
         if (!auth) {
             return end(400, 'you hava not login');
+        }
+
+        socket.leave('system');
+        for (const group of auth.user.groups) {
+            socket.leave(group._id);
         }
 
         if (auth.clients.length === 1) {

@@ -25,6 +25,9 @@ const initialState = immutable.fromJS({
 
 function reducer(state = initialState, action) {
     switch (action.type) {
+    case 'Initialize': {
+        return initialState;
+    }
     case 'ShowToolbar': {
         return state.set('showToolbar', true);
     }

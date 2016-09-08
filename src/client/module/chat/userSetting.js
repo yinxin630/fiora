@@ -25,6 +25,7 @@ class UserSetting extends React.Component {
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
         this.handleCloseClick = this.handleCloseClick.bind(this);
         this.handleSelectImage = this.handleSelectImage.bind(this);
+        this.handleLogoutClick = this.handleLogoutClick.bind(this);
     }
 
     handleCloseClick() {
@@ -47,6 +48,16 @@ class UserSetting extends React.Component {
             });
         };
         reader.readAsDataURL(image);
+    }
+
+    handleLogoutClick() {
+        user.logout().then(response => {
+            if (response.status === 204) {
+                this.context.router.push('/login');
+                window.localStorage.removeItem('token');
+                user.init();
+            }
+        });
     }
 
     render() {
@@ -92,7 +103,9 @@ class UserSetting extends React.Component {
                                 />
                             </div>
                             <div>
-                                <button>退出登录</button>
+                                <button
+                                    onClick={this.handleLogoutClick}
+                                >退出登录</button>
                             </div>
                         </div>
                     </div>

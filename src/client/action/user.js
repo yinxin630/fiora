@@ -40,6 +40,29 @@ const actions = {
         });
     },
 
+    logout: function () {
+        return new Promise(resolve => {
+            socket.delete('/auth', { }, response => {
+                if (response.status === 204) {
+                    socket.setToken('');
+                    resolve(response);
+                }
+                else {
+                    resolve(response);
+                }
+            });
+        });
+    },
+
+    init: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'Initialize',
+            });
+            resolve('success');
+        });
+    },
+
     signup: function (username, password) {
         return new Promise(resolve => {
             socket.post('/user', { username, password }, response => {
