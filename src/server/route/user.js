@@ -96,10 +96,10 @@ const UserRoute = {
         end(204);
     },
     'POST /user/group': function* (socket, data, end) {
-        yield end(200, { });
+        return end(200, { });
     },
     'DELETE /user/group': function* (socket, data, end) {
-        yield end(200, { });
+        return end(200, { });
     },
 };
 

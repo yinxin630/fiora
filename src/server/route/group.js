@@ -99,13 +99,13 @@ const GroupRoute = {
     },
 
     'DELETE /group': function* (socket, data, end) {
-        yield end(200, { });
+        return end(200, { });
     },
     'GET /group': function* (socket, data, end) {
-        yield end(200, { });
+        return end(200, { });
     },
     'PUT /group': function* (socket, data, end) {
-        yield end(200, { });
+        return end(200, { });
     },
     'PUT /group/announcement': function* (socket, data, end) {
         yield* isLogin(socket, data, end);
@@ -129,7 +129,7 @@ const GroupRoute = {
 
         yield group.save();
 
-        yield end(201, group);
+        return end(201, group);
     },
     'PUT /group/avatar': function* (socket, data, end) {
         yield* isLogin(socket, data, end);
@@ -149,7 +149,7 @@ const GroupRoute = {
         group.avatar = yield* saveImage(fileName, data.avatar);
         yield group.save();
 
-        yield end(201, group);
+        return end(201, group);
     },
 };
 
