@@ -13,6 +13,7 @@ class GroupSetting extends React.Component {
     static propTypes = {
         show: PropTypes.bool.isRequired,
         creator: PropTypes.object,
+        me: PropTypes.string,
         members: PropTypes.object.isRequired,
         linkmanId: PropTypes.string.isRequired,
     };
@@ -38,7 +39,7 @@ class GroupSetting extends React.Component {
     }
 
     render() {
-        const { show, creator, members } = this.props;
+        const { show, creator, me, members } = this.props;
         return (
             <FloatPanel
                 onClose={ui.closeGroupSetting}
@@ -46,14 +47,16 @@ class GroupSetting extends React.Component {
                 title="群设置"
             >
                 <div className="group-info">
-                    <div className="button">
-                        <button
-                            onClick={() => this.image.click()}
-                        >修改群头像</button>
-                    </div>
-                    <div className="button">
-                        <button>删除群</button>
-                    </div>
+                    {
+                        creator && creator.get('_id') === me ?
+                            <div className="button">
+                                <button
+                                    onClick={() => this.image.click()}
+                                >修改群头像</button>
+                            </div>
+                        :
+                            null
+                    }
                     <div className="content">
                         <span>群主：</span>
                         <span>{ creator ? creator.get('username') : '无' }</span>
