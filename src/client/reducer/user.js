@@ -98,6 +98,9 @@ function reducer(state = initialState, action) {
             )
         );
     }
+    case 'UpdateAvatar': {
+        return state.set('avatar', action.user.avatar);
+    }
 
     default:
         return state;

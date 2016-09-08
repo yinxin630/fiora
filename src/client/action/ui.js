@@ -234,6 +234,23 @@ const actions = {
             resolve('success');
         });
     },
+
+    openUserSetting: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'OpenUserSetting',
+            });
+            resolve('success');
+        });
+    },
+    closeUserSetting: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'CloseUserSetting',
+            });
+            resolve('success');
+        });
+    },
 };
 
 export default actions;

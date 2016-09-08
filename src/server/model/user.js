@@ -29,7 +29,7 @@ const UserSchema = new Schema({
     },
     introduce: {
         type: String,
-        default: '',
+        default: '无',
     },
     friends: [
         {

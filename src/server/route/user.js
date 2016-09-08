@@ -5,6 +5,7 @@ const User = require('../model/user');
 const Group = require('../model/group');
 const mongoose = require('mongoose');
 const isLogin = require('../police/isLogin');
+const saveImage = require('../util/saveImage');
 
 // bcrypt salt length
 const saltRounds = 10;
@@ -100,6 +101,18 @@ const UserRoute = {
     },
     'DELETE /user/group': function* (socket, data, end) {
         return end(200, { });
+    },
+
+    'PUT /user/avatar': function* (socket, data, end) {
+        yield* isLogin(socket, data, end);
+        assert(!data.avatar, end, 400, 'need avatar param but not exists');
+
+        const user = yield User.findById(socket.user, '-password -salt');
+        const fileName = `user_${user._id}_${Date.now().toString()}.${data.avatar.match(/data:image\/(.+);base64/)[1]}`;
+        user.avatar = yield* saveImage(fileName, data.avatar);
+        yield user.save();
+
+        return end(200, user);
     },
 };
 

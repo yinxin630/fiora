@@ -48,6 +48,23 @@ const actions = {
         });
     },
 
+    updateAvatar: function (avatar) {
+        return new Promise(resolve => {
+            socket.put('/user/avatar', { avatar }, response => {
+                if (response.status === 200) {
+                    dispatch({
+                        type: 'UpdateAvatar',
+                        user: response.data,
+                    });
+                    resolve(response);
+                }
+                else {
+                    resolve(response);
+                }
+            });
+        });
+    },
+
     reConnect: function (token) {
         socket.setToken(token);
         return new Promise(resolve => {
