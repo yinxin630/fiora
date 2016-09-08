@@ -7,6 +7,7 @@ import './style/chat.scss';
 import Header from './header';
 import SystemSetting from './systemSetting';
 import UserSetting from './userSetting';
+import UserInfo from './userInfo';
 import MaskLayout from './maskLayout';
 
 class Chat extends React.Component {
@@ -36,6 +37,7 @@ class Chat extends React.Component {
                 { this.props.children }
                 <SystemSetting />
                 <UserSetting />
+                <UserInfo />
                 <MaskLayout />
             </div>
         );

@@ -15,6 +15,8 @@ const initialState = immutable.fromJS({
     windowFocus: false,
     showSystemSetting: false,
     showUserSetting: false,
+    showUserInfo: false,
+    userInfoData: {},
 
     desktopNotification: true,
     soundNotification: true,
@@ -102,6 +104,12 @@ function reducer(state = initialState, action) {
     }
     case 'CloseUserSetting': {
         return state.set('showUserSetting', false);
+    }
+    case 'OpenUserInfo': {
+        return state.set('showUserInfo', true).set('userInfoData', immutable.fromJS(action.user));
+    }
+    case 'CloseUserInfo': {
+        return state.set('showUserInfo', false);
     }
 
     case 'ToggleDesktopNotification': {

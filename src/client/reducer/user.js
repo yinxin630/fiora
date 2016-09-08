@@ -104,6 +104,13 @@ function reducer(state = initialState, action) {
     case 'UpdateAvatar': {
         return state.set('avatar', action.user.avatar);
     }
+    case 'AddUserLinkman': {
+        action.user = action.user.set('type', 'stranger').set('unread', 0).set('messages', immutable.fromJS([]));
+        return state.update(
+            'linkmans',
+            linkmans => linkmans.unshift(action.user)
+        );
+    }
 
     default:
         return state;

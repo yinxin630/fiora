@@ -39,6 +39,7 @@ class ChatPanel extends React.Component {
                 <ChatPanelHeader
                     avatar={linkman.get('avatar')}
                     name={linkman.get('type') === 'group' ? linkman.get('name') : linkman.get('username')}
+                    type={linkman.get('type')}
                 />
                 <MessageList.container>
                     {
@@ -61,17 +62,27 @@ class ChatPanel extends React.Component {
                 <Toolbar
                     linkmanId={linkman.get('_id')}
                 />
-                <GroupSetting
-                    creator={linkman.get('creator')}
-                    me={me}
-                    members={linkman.get('members')}
-                    linkmanId={linkman.get('_id')}
-                />
-                <GroupNotice
-                    creator={linkman.get('creator')}
-                    me={me}
-                    linkman={linkman}
-                />
+                {
+                    linkman.get('type' === 'group') ?
+                        <GroupSetting
+                            creator={linkman.get('creator')}
+                            me={me}
+                            members={linkman.get('members')}
+                            linkmanId={linkman.get('_id')}
+                        />
+                    :
+                        null
+                }
+                {
+                    linkman.get('type' === 'group') ?
+                        <GroupNotice
+                            creator={linkman.get('creator')}
+                            me={me}
+                            linkman={linkman}
+                        />
+                    :
+                        null
+                }
                 <Expression />
                 <CodeInput
                     linkmanId={linkman.get('_id')}

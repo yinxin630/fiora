@@ -20,6 +20,7 @@
         border-radius: 50%;
         margin: 5px;
         margin-right: 5px;
+        cursor: pointer;
     }
     & > :nth-child(1000n+2) {
         flex: 1;

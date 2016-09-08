@@ -9,7 +9,7 @@
         display: flex;
         align-items: center;
 
-        img {
+        & > :nth-child(1000n+1) {
             width: 40px;
             height: 40px;
             margin: 10px 5px 10px 10px;

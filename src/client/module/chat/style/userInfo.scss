@@ -1,0 +1,93 @@
+.user-info {
+    background-color: #f1f1f1;
+    z-index: 101;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 300px;
+    height: 200px;
+    margin-top: -100px;
+    margin-left: -150px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+
+    & > :nth-child(1000n+1) {
+        background-color: #ffffff;
+        height: 50px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        & > i {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            font-size: 20px;
+            color: #999;
+            cursor: pointer;
+
+            &:hover {
+                color: #c02721;
+            }
+        }
+    }
+
+    & > :nth-child(1000n+2) {
+        flex: 1;
+        background-color: #fafafc;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        padding: 10px;
+
+        & > :nth-child(1000n+1) {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            & > div {
+                display: flex;
+                flex-direction: column;
+                
+                & > span {
+                    font-size: 14px;
+                    margin-bottom: 5px;
+                }
+            }
+
+            & > :nth-child(1000n+2) {
+                margin-right: 10px;
+                cursor: pointer;
+            }
+
+            input {
+                display: none;
+            }
+        }
+
+        & > :nth-child(1000n+2) {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+
+            & > button {
+                width: 120px;
+                height: 30px;
+                border-radius: 5px;
+                color: white;
+                background-color: #0288D1;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #2ea7e0;
+                }
+            }
+        }
+    }
+}

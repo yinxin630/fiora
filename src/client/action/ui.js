@@ -251,6 +251,24 @@ const actions = {
             resolve('success');
         });
     },
+
+    openUserInfo: function (user) {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'OpenUserInfo',
+                user,
+            });
+            resolve('success');
+        });
+    },
+    closeUserInfo: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'CloseUserInfo',
+            });
+            resolve('success');
+        });
+    },
 };
 
 export default actions;

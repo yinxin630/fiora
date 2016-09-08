@@ -5,11 +5,13 @@ import './style/chatPanelHeader.scss';
 
 import ui from '../../action/ui';
 import mask from '../../util/mask';
+import Avatar from './avatar';
 
 class ChatPanelHeader extends React.Component {
     static propTypes = {
         avatar: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
+        type: PropTypes.string,
     };
 
     constructor(props) {
@@ -30,28 +32,38 @@ class ChatPanelHeader extends React.Component {
     }
 
     render() {
-        const { avatar, name } = this.props;
+        const { avatar, name, type } = this.props;
 
         return (
             <div className="chat-panel-header">
                 <div>
-                    <img src={avatar} />
+                    <Avatar
+                        width={40}
+                        height={40}
+                        avatar={avatar}
+                        name={name}
+                    />
                     <p>{ name }</p>
                 </div>
-                <div>
-                    <div>
-                        <i
-                            className="icon"
-                            onClick={this.onGroupNoticeClick}
-                        >&#xe60a;</i>
-                    </div>
-                    <div>
-                        <i
-                            className="icon"
-                            onClick={this.onGroupSettingClick}
-                        >&#xe609;</i>
-                    </div>
-                </div>
+                {
+                    type === 'group' ?
+                        <div>
+                            <div>
+                                <i
+                                    className="icon"
+                                    onClick={this.onGroupNoticeClick}
+                                >&#xe60a;</i>
+                            </div>
+                            <div>
+                                <i
+                                    className="icon"
+                                    onClick={this.onGroupSettingClick}
+                                >&#xe609;</i>
+                            </div>
+                        </div>
+                    :
+                        null
+                }
             </div>
         );
     }

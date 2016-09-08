@@ -211,6 +211,16 @@ const actions = {
             });
         });
     },
+
+    addUserLinkman: function (user) {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'AddUserLinkman',
+                user,
+            });
+            resolve('success');
+        });
+    },
 };
 
 export default actions;

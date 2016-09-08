@@ -9,6 +9,7 @@ import './style/messageList.scss';
 import Avatar from './avatar';
 import expressions from '../../util/expressions';
 import ui from '../../action/ui';
+import mask from '../../util/mask';
 
 import imageNotFound from '../../image/image_not_found.png';
 
@@ -62,6 +63,7 @@ class Message extends React.Component {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
         this.renderContent = this.renderContent.bind(this);
+        this.handleAvatarClick = this.handleAvatarClick.bind(this);
     }
 
     componentDidMount() {
@@ -70,6 +72,11 @@ class Message extends React.Component {
             scrollMessage = () => this.dom.scrollIntoView(false);
             scrollMessage();
         }
+    }
+
+    handleAvatarClick() {
+        ui.openUserInfo(this.props.message.get('from'));
+        mask(ui.closeUserInfo);
     }
 
     renderContent(type, content) {
@@ -149,6 +156,7 @@ class Message extends React.Component {
                     name={message.getIn(['from', 'username'])}
                     width={40}
                     height={40}
+                    onClick={this.handleAvatarClick}
                 />
                 <div>
                     <div>

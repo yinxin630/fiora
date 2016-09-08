@@ -4,10 +4,13 @@ const GroupMessage = require('../model/groupMessage');
 const isLogin = require('../police/isLogin');
 const config = require('../../../config/config');
 const saveImage = require('../util/saveImage');
+const assert = require('../util/assert');
 
 const GroupMessageRoute = {
     'POST /groupMessage': function* (socket, data, end) {
         yield* isLogin(socket, data, end);
+        assert(!data.user, end, 400, 'need user param but not exists');
+        assert(!data.linkmanId, end, 400, 'need linkmanId param but not exists');
 
         const user = yield User.findById(socket.user);
         const group = yield Group.findById(data.linkmanId);
@@ -46,6 +49,7 @@ const GroupMessageRoute = {
             end(500, { msg: 'server error when save new message' });
         }
 
+        yield GroupMessage.populate(savedMessage, { path: 'from', select: '_id username gender birthday avatar' });
         socket.to(group._id.toString()).emit('groupMessage', savedMessage);
 
         end(201, savedMessage);
