@@ -93,13 +93,13 @@ class Expression extends React.Component {
                                 className={page === 'default' ? 'selected' : ''}
                                 onClick={() => this.setState({ page: 'default' })}
                             >
-                                <img src={require('../../image/default-expression.png')} />
+                                <img src={'http://od8dycy67.bkt.clouddn.com/default-expression.png'} />
                             </div>
                             <div
                                 className={page === 'collect' ? 'selected' : ''}
                                 onClick={() => this.setState({ page: 'collect' })}
                             >
-                                <img src={require('../../image/collect-expression.png')} />
+                                <img src={'http://od8dycy67.bkt.clouddn.com/collect-expression.png'} />
                             </div>
                         </div>
                     </div>

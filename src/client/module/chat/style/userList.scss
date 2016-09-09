@@ -13,6 +13,7 @@
     align-content: center;
     position: relative;
     cursor: default;
+    user-select: none;
 
     & > div:nth-child(1000n+1) {
         margin: 10px 5px 10px 5px;
@@ -58,7 +59,7 @@
             }
             p:last-child {
                 font-size: 12px;
-                color: #b6b6b6;
+                color: #666;
                 margin: 0;
                 margin-top: 10px;
             }

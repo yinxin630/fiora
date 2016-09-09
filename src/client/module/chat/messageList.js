@@ -11,8 +11,6 @@ import expressions from '../../util/expressions';
 import ui from '../../action/ui';
 import mask from '../../util/mask';
 
-import imageNotFound from '../../image/image_not_found.png';
-
 let onScrollHandle = null;
 let scrollMessage = null;
 
@@ -106,7 +104,7 @@ class Message extends React.Component {
                         src={content}
                         ref={img => this.img = img}
                         onLoad={() => scrollMessage && scrollMessage()}
-                        onError={() => this.img.src = imageNotFound}
+                        onError={() => this.img.src = 'http://od8dycy67.bkt.clouddn.com/image_not_found.png'}
                     />
                 </div>
             );
