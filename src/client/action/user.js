@@ -221,6 +221,33 @@ const actions = {
             resolve('success');
         });
     },
+
+    sendMessage: function (linkmanId, type, content) {
+        return new Promise(resolve => {
+            socket.post('/message', { linkmanId, type, content }, response => {
+                if (response.status === 201) {
+                    dispatch({
+                        type: 'SendMessage',
+                        message: response.data,
+                    });
+                    resolve(response);
+                }
+                else {
+                    resolve(response);
+                }
+            });
+        });
+    },
+
+    addMessage: function (message) {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'AddMessage',
+                message: message,
+            });
+            resolve(message);
+        });
+    },
 };
 
 export default actions;

@@ -43,12 +43,17 @@ const MessageRoute = {
         let savedMessage = null;
         try {
             savedMessage = yield message.save();
+            yield Message.populate(message, { path: 'from', select: '_id username gender birthday avatar' });
+            yield Message.populate(message, { path: 'to', select: '_id username gender birthday avatar' });
         }
         catch (err) {
             this.end(500, { msg: 'server error when save new message' });
         }
 
         const receiverAuth = yield Auth.findOne({ user: receiver });
+        if (!receiverAuth) {
+            return this.end(201, savedMessage);
+        }
         for (const client of receiverAuth.clients) {
             this.io.to(client).emit('message', savedMessage);
         }
