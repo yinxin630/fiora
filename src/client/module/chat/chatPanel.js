@@ -64,7 +64,7 @@ class ChatPanel extends React.Component {
                     linkmanId={linkman.get('_id')}
                 />
                 {
-                    linkman.get('type' === 'group') ?
+                    linkman.get('type') === 'group' ?
                         <GroupSetting
                             creator={linkman.get('creator')}
                             me={me}
@@ -75,7 +75,7 @@ class ChatPanel extends React.Component {
                         null
                 }
                 {
-                    linkman.get('type' === 'group') ?
+                    linkman.get('type') === 'group' ?
                         <GroupNotice
                             creator={linkman.get('creator')}
                             me={me}

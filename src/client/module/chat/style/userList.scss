@@ -12,6 +12,7 @@
     justify-content: center;
     align-content: center;
     position: relative;
+    cursor: default;
 
     & > div:nth-child(1000n+1) {
         margin: 10px 5px 10px 5px;
@@ -47,6 +48,7 @@
             justify-content: space-between;
             width: 100%;
             padding: 0;
+            margin-top: 3px;
 
             p:first-child {
                 font-size: 14px;

@@ -6,7 +6,7 @@ const config = require('../../../config/config');
 const qiniu = require('./qiniu');
 
 module.exports = function* (fileName, imageData) {
-    const fileSavePath = path.join(__dirname, `../../../public/images/message/${fileName}`);
+    const fileSavePath = path.join(__dirname, `../../../public/images/${fileName}`);
 
     // save to local disk
     yield promise.promisify(fs.writeFile)(
@@ -17,7 +17,7 @@ module.exports = function* (fileName, imageData) {
 
     // if have qiniu config. push file to qiniu
     if (config.bucket === 'bucket_name' || config.accessKey === 'qiniu_access_key' || config.secretKey === 'qiniu_secret_key') {
-        return `/images/message/${fileName}`;
+        return `/images/${fileName}`;
     }
     else {
         yield qiniu(fileName, fileSavePath);

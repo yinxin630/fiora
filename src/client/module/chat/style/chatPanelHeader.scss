@@ -5,7 +5,7 @@
     display: flex;
     justify-content: space-between;
     
-    div:first-child {
+    & > div:nth-child(1000n+1) {
         display: flex;
         align-items: center;
 
@@ -21,11 +21,11 @@
             font-size: 20px;
         }
     }
-    div:last-child {
+    & > div:nth-child(1000n+2) {
         display: flex;
         align-items: center;
 
-        div {
+        & > div {
             margin: auto 8px;
 
             i {
@@ -45,9 +45,10 @@
             &:nth-child(1000n+2) {
                 margin-top: 18px;
             }
-        }
-        div:last-child {
-            margin-right: 10px;
+
+            & > :last-child {
+                margin-right: 10px;
+            }
         }
     }
 }

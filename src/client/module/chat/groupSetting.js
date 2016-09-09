@@ -40,6 +40,7 @@ class GroupSetting extends React.Component {
 
     render() {
         const { show, creator, me, members } = this.props;
+
         return (
             <FloatPanel
                 onClose={ui.closeGroupSetting}
