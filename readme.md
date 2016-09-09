@@ -3,10 +3,6 @@
 Fiora is a web chat application. Made by node.js, koa, react.
 
 
-## Todo
-
-* 查看用户信息面板, 私聊
-
 ## Installation
 
 The project depends node.js and mongodb database. To install [node.js](https://nodejs.org/en/download/) ([For China mirror](https://npm.taobao.org/mirrors/node)). To install [mongodb](https://docs.mongodb.com/manual/installation/).
