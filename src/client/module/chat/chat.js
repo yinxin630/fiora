@@ -17,10 +17,21 @@ class Chat extends React.Component {
         location: PropTypes.object,
     };
 
+    static contextTypes = {
+        router: React.PropTypes.object.isRequired,
+    }
+
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
     }
+
+    componentWillUpdate(nextProps) {
+        if (!nextProps.user.get('_id')) {
+            this.context.router.push('/login');
+        }
+    }
+
 
     render() {
         const { user, location } = this.props;

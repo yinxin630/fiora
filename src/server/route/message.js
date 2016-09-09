@@ -47,7 +47,7 @@ const MessageRoute = {
             yield Message.populate(message, { path: 'to', select: '_id username gender birthday avatar' });
         }
         catch (err) {
-            this.end(500, { msg: 'server error when save new message' });
+            this.end(500, 'server error when save new message');
         }
 
         const receiverAuth = yield Auth.findOne({ user: receiver });

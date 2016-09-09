@@ -55,7 +55,7 @@ const UserRoute = {
             this.end(200, user);
         }
         else {
-            this.end(404, { msg: 'user not exists' });
+            this.end(404, 'user not exists');
         }
     },
     'GET /user/me': function* (data) {

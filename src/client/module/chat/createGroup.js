@@ -29,6 +29,17 @@ class CreateGroup extends React.Component {
                 ui.closeMaskLayout();
                 this.context.router.push('/chat/body');
             }
+            else {
+                if (response.data === 'group name already exists') {
+                    ui.openNotification('群组名称已存在');
+                }
+                else if (response.data === 'group name invalid') {
+                    ui.openNotification('群组名称错误. 仅能使用字母,数字,汉字,横线-,下划线_');
+                }
+                else {
+                    ui.openNotification('创建失败! 服务器发生错误, 请联系管理员.');
+                }
+            }
         });
     }
 

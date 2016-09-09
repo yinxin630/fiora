@@ -29,6 +29,17 @@ class AddGroup extends React.Component {
                 ui.closeMaskLayout();
                 this.context.router.push('/chat/body');
             }
+            else {
+                if (response.data === 'group not exists') {
+                    ui.openNotification('该群组不存在');
+                }
+                else if (response.data === 'you already join this group') {
+                    ui.openNotification('您已在该群组中');
+                }
+                else {
+                    ui.openNotification('加入失败! 服务器发生错误, 请联系管理员.');
+                }
+            }
         });
     }
 
