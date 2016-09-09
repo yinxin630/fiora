@@ -12,17 +12,17 @@ const config = require('../../../config/config');
 const isLogin = require('../police/isLogin');
 
 const AuthRoute = {
-    'POST /auth': function* (socket, data, end) {
-        assert(!data.username, end, 400, 'need username param but not exists');
-        assert(!data.password, end, 400, 'need password param but not exists');
+    'POST /auth': function* (data) {
+        assert(!data.username, this.end, 400, 'need username param but not exists');
+        assert(!data.password, this.end, 400, 'need password param but not exists');
 
         // get user info
         const user = yield User.findOne({ username: data.username }, '-salt');
-        assert(!user, end, 404, 'user not exists');
+        assert(!user, this.end, 404, 'user not exists');
 
         // check user password
         const isPasswordCorrect = bcrypt.compareSync(data.password, user.password);
-        assert(!isPasswordCorrect, end, 400, 'password not correct');
+        assert(!isPasswordCorrect, this.end, 400, 'password not correct');
 
         // populate user info
         const userOpts = [
@@ -57,34 +57,34 @@ const AuthRoute = {
         }
 
         // handle client socket. system message room: system
-        socket.join('system');
+        this.socket.join('system');
         for (const group of user.groups) {
-            socket.join(group._id);
+            this.socket.join(group._id);
         }
 
         // token expires time = 3 day
-        const token = jwt.encode({ userId: user._id, ip: socket.handshake.address, expires: Date.now() + (1000 * 60 * 60 * 24 * 3) }, config.jwtSecret);
+        const token = jwt.encode({ userId: user._id, ip: this.socket.handshake.address, expires: Date.now() + (1000 * 60 * 60 * 24 * 3) }, config.jwtSecret);
 
         let auth = yield Auth.findOne({ user: user._id });
         if (!auth) {
             auth = new Auth({
                 user: user._id,
-                clients: [socket.id],
+                clients: [this.socket.id],
             });
         }
         else {
-            auth.clients.push(socket.id);
+            auth.clients.push(this.socket.id);
         }
 
         yield auth.save();
-        end(201, { user: user, token: token });
+        this.end(201, { user: user, token: token });
     },
 
-    'POST /auth/re': function* (socket, data, end) {
-        yield* isLogin(socket, data, end);
+    'POST /auth/re': function* (data) {
+        yield* isLogin(this.socket, data, this.end);
 
         // get user info
-        const user = yield User.findById(socket.user, '-password -salt');
+        const user = yield User.findById(this.socket.user, '-password -salt');
 
         // populate user info
         const userOpts = [
@@ -119,47 +119,47 @@ const AuthRoute = {
         }
 
         // handle client socket. system message room: system
-        socket.join('system');
+        this.socket.join('system');
         for (const group of user.groups) {
-            socket.join(group._id);
+            this.socket.join(group._id);
         }
 
         let auth = yield Auth.findOne({ user: user._id });
         if (!auth) {
             auth = new Auth({
                 user: user._id,
-                clients: [socket.id],
+                clients: [this.socket.id],
             });
         }
         else {
-            auth.clients.push(socket.id);
+            auth.clients.push(this.socket.id);
         }
 
         yield auth.save();
-        end(201, user);
+        this.end(201, user);
     },
 
-    'DELETE /auth': function* (socket, data, end) {
-        const auth = yield Auth.findOne({ clients: socket.id }).populate('user');
+    'DELETE /auth': function* () {
+        const auth = yield Auth.findOne({ clients: this.socket.id }).populate('user');
         if (!auth) {
-            return end(400, 'you hava not login');
+            return this.end(400, 'you hava not login');
         }
 
-        socket.leave('system');
+        this.socket.leave('system');
         for (const group of auth.user.groups) {
-            socket.leave(group._id);
+            this.socket.leave(group._id);
         }
 
         if (auth.clients.length === 1) {
             yield auth.remove();
         }
         else {
-            const index = auth.clients.indexOf(socket.id);
+            const index = auth.clients.indexOf(this.socket.id);
             auth.clients.splice(index, 1);
             yield auth.save();
         }
 
-        end(204);
+        this.end(204);
     },
 };
 

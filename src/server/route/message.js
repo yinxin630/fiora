@@ -6,13 +6,13 @@ const Message = require('../model/message');
 const config = require('../../../config/config');
 
 const MessageRoute = {
-    'POST /message': function* (socket, data, end) {
-        yield* isLogin(socket, data, end);
-        assert(!data.type, end, 400, 'need type param but not exists');
-        assert(!data.content, end, 400, 'need content param but not exists');
-        assert(!data.linkmanId, end, 400, 'need linkmanId param but not exists');
+    'POST /message': function* (data) {
+        yield* isLogin(this.socket, data, this.end);
+        assert(!data.type, this.end, 400, 'need type param but not exists');
+        assert(!data.content, this.end, 400, 'need content param but not exists');
+        assert(!data.linkmanId, this.end, 400, 'need linkmanId param but not exists');
 
-        const sender = yield User.findById(socket.user);
+        const sender = yield User.findById(this.socket.user);
         const receiver = yield User.findById(data.linkmanId);
 
         if (data.type === 'text') {
@@ -44,11 +44,11 @@ const MessageRoute = {
             savedMessage = yield message.save();
         }
         catch (err) {
-            end(500, { msg: 'server error when save new message' });
+            this.end(500, { msg: 'server error when save new message' });
         }
 
-        socket.to(receiver._id.toString()).emit('message', savedMessage);
-        end(201, savedMessage);
+        this.socket.to(receiver._id.toString()).emit('message', savedMessage);
+        this.end(201, savedMessage);
     },
 };
 

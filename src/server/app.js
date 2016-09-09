@@ -122,12 +122,12 @@ io.on('connection', socket => {
     console.log('new connection');
 
     socket.on('message', (data, cb) => {
-        router.handle(socket, data, cb);
+        router.handle(io, socket, data, cb);
     });
 
     socket.on('disconnect', () => {
         console.log('some one disconnect');
-        router.handle(socket, { method: 'DELETE', path: '/auth', data: { } }, () => { });
+        router.handle(io, socket, { method: 'DELETE', path: '/auth', data: { } }, () => { });
     });
 });
 

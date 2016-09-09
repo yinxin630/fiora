@@ -7,13 +7,13 @@ const saveImage = require('../util/saveImage');
 const assert = require('../util/assert');
 
 const GroupMessageRoute = {
-    'POST /groupMessage': function* (socket, data, end) {
-        yield* isLogin(socket, data, end);
-        assert(!data.type, end, 400, 'need type param but not exists');
-        assert(!data.content, end, 400, 'need content param but not exists');
-        assert(!data.linkmanId, end, 400, 'need linkmanId param but not exists');
+    'POST /groupMessage': function* (data) {
+        yield* isLogin(this.socket, data, this.end);
+        assert(!data.type, this.end, 400, 'need type param but not exists');
+        assert(!data.content, this.end, 400, 'need content param but not exists');
+        assert(!data.linkmanId, this.end, 400, 'need linkmanId param but not exists');
 
-        const user = yield User.findById(socket.user);
+        const user = yield User.findById(this.socket.user);
         const group = yield Group.findById(data.linkmanId);
 
         if (data.type === 'text') {
@@ -47,13 +47,13 @@ const GroupMessageRoute = {
             yield group.save();
         }
         catch (err) {
-            end(500, { msg: 'server error when save new message' });
+            this.end(500, { msg: 'server error when save new message' });
         }
 
         yield GroupMessage.populate(savedMessage, { path: 'from', select: '_id username gender birthday avatar' });
-        socket.to(group._id.toString()).emit('groupMessage', savedMessage);
+        this.socket.to(group._id.toString()).emit('groupMessage', savedMessage);
 
-        end(201, savedMessage);
+        this.end(201, savedMessage);
     },
 };
 
