@@ -34,6 +34,9 @@ class UserInfo extends React.Component {
 
     handleSendMessageClick() {
         user.addUserLinkman(this.props.userInfo);
+        ui.closeUserInfo();
+        ui.closeMaskLayout();
+        this.context.router.push(`/chat/body/stranger/${this.props.userInfo.get('_id')}`);
     }
 
     render() {

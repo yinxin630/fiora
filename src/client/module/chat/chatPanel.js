@@ -60,6 +60,7 @@ class ChatPanel extends React.Component {
                     linkmanId={linkman.get('_id')}
                 />
                 <Toolbar
+                    linkmanType={linkman.get('type')}
                     linkmanId={linkman.get('_id')}
                 />
                 {
@@ -85,6 +86,7 @@ class ChatPanel extends React.Component {
                 }
                 <Expression />
                 <CodeInput
+                    linkmanType={linkman.get('type')}
                     linkmanId={linkman.get('_id')}
                 />
             </div>

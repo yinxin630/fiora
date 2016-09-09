@@ -59,6 +59,10 @@ class Message extends React.Component {
         shouldScrollMessage: PropTypes.bool,
     };
 
+    static contextTypes = {
+        router: React.PropTypes.object.isRequired,
+    }
+
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);

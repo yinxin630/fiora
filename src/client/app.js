@@ -56,6 +56,39 @@ class App extends React.Component {
                 };
             }
         });
+
+        socket.on('message', data => {
+            user.addMessage(data);
+
+            if (this.props.soundNotification) {
+                this.sound.play();
+            }
+
+            if (window.Notification.permission === 'granted' && !this.props.windowFocus && this.props.desktopNotification) {
+                const notification = new window.Notification(
+                    `${data.from.username}发来消息:`,
+                    {
+                        icon: data.from.avatar,
+                        body: data.content,
+                        tag: data.from.id,
+                    }
+                );
+                notification.onclick = function () {
+                    this.close();
+                    window.blur();
+                    setTimeout(() => {
+                        window.focus();
+                    }, 0);
+                };
+                // auto close
+                notification.onshow = function () {
+                    setTimeout(() => {
+                        this.close();
+                    }, 3000);
+                };
+            }
+        });
+
         socket.on('connect', () => {
             // get local storage token
             const token = window.localStorage.getItem('token');

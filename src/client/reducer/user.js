@@ -105,10 +105,43 @@ function reducer(state = initialState, action) {
         return state.set('avatar', action.user.avatar);
     }
     case 'AddUserLinkman': {
+        if (state.get('linkmans').findIndex(g => g.get('type') === 'stranger' && g.get('_id') === action.user._id) !== -1) {
+            return state;
+        }
         action.user = action.user.set('type', 'stranger').set('unread', 0).set('messages', immutable.fromJS([]));
         return state.update(
             'linkmans',
             linkmans => linkmans.unshift(action.user)
+        );
+    }
+
+    case 'AddMessage': {
+        if (state.get('linkmans').findIndex(g => g.get('type') === 'stranger' && g.get('_id') === action.message.from._id) === -1) {
+            let newLinkman = immutable.fromJS(action.message.from);
+            newLinkman = newLinkman.set('type', 'stranger').set('unread', 1).set('messages', immutable.fromJS([action.message]));
+            return state.updateIn(
+                ['linkmans'],
+                linkmans => linkmans.unshift(newLinkman)
+            );
+        }
+        return state.updateIn(
+            ['linkmans'],
+            linkmans => {
+                const linkmanIndex = linkmans.findIndex(g => g.get('type') === 'stranger' && g.get('_id') === action.message.from._id);
+                const linkman = linkmans.get(linkmanIndex).updateIn(['messages'], m => m.push(immutable.fromJS(action.message))).update('unread', unread => unread + 1);
+                return linkmans.delete(linkmanIndex).unshift(linkman);
+            }
+        );
+    }
+
+    case 'SendMessage': {
+        return state.updateIn(
+            ['linkmans'],
+            linkmans => {
+                const linkmanIndex = linkmans.findIndex(g => g.get('type') === 'stranger' && g.get('_id') === action.message.to._id);
+                const linkman = linkmans.get(linkmanIndex).updateIn(['messages'], m => m.push(immutable.fromJS(action.message)));
+                return linkmans.delete(linkmanIndex).unshift(linkman);
+            }
         );
     }
 

@@ -43,7 +43,12 @@ class Toolbar extends React.Component {
         const reader = new FileReader();
         const instance = this;
         reader.onloadend = function () {
-            user.sendGroupMessage(instance.props.linkmanId, 'image', this.result);
+            if (instance.props.linkmanType === 'group') {
+                user.sendGroupMessage(instance.props.linkmanId, 'image', this.result);
+            }
+            else {
+                user.sendMessage(instance.props.linkmanId, 'image', this.result);
+            }
         };
         reader.readAsDataURL(image);
     }

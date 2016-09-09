@@ -13,6 +13,7 @@ class CodeInput extends React.Component {
     static propTypes = {
         show: PropTypes.bool.isRequired,
         linkmanId: PropTypes.string.isRequired,
+        linkmanType: PropTypes.string.isRequired,
     };
 
     constructor(props) {
@@ -23,7 +24,12 @@ class CodeInput extends React.Component {
     }
 
     onSendClick() {
-        user.sendGroupMessage(this.props.linkmanId, 'code', this.code.value);
+        if (this.props.linkmanType === 'group') {
+            user.sendGroupMessage(this.props.linkmanId, 'code', this.code.value);
+        }
+        else {
+            user.sendMessage(this.props.linkmanId, 'code', this.code.value);
+        }
         this.code.value = '';
         ui.closeCodeInput();
         ui.closeMaskLayout();

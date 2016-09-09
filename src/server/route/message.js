@@ -3,6 +3,7 @@ const assert = require('../util/assert');
 const saveImage = require('../util/saveImage');
 const User = require('../model/user');
 const Message = require('../model/message');
+const Auth = require('../model/auth');
 const config = require('../../../config/config');
 
 const MessageRoute = {
@@ -47,7 +48,11 @@ const MessageRoute = {
             this.end(500, { msg: 'server error when save new message' });
         }
 
-        this.socket.to(receiver._id.toString()).emit('message', savedMessage);
+        const receiverAuth = yield Auth.findOne({ user: receiver });
+        for (const client of receiverAuth.clients) {
+            this.io.to(client).emit('message', savedMessage);
+        }
+
         this.end(201, savedMessage);
     },
 };
