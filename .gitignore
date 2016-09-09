@@ -1,4 +1,5 @@
 # visual studio code
+.DS_Store
 .vscode
 
 # node.js
