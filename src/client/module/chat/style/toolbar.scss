@@ -17,8 +17,8 @@
         align-items: center;
 
         i {
-            font-size: 30px;
-            margin: 10px;
+            font-size: 26px;
+            margin: 5px 10px 10px 10px;
             color: #444;
             text-align: center;
             cursor: pointer;
@@ -30,7 +30,7 @@
         &:nth-child(1000n+2) {
             margin-top: 5px;
             i {
-                font-size: 28px;
+                font-size: 26px;
             }
         }
     }

@@ -1,7 +1,5 @@
 import React, { PropTypes } from 'react';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
-import { connect } from 'react-redux';
-import { Motion, spring } from 'react-motion';
 
 import './style/toolbar.scss';
 
@@ -11,7 +9,6 @@ import mask from '../../util/mask';
 
 class Toolbar extends React.Component {
     static propTypes = {
-        show: PropTypes.bool.isRequired,
         linkmanId: PropTypes.string.isRequired,
     };
 
@@ -54,47 +51,36 @@ class Toolbar extends React.Component {
     }
 
     renderToolbar() {
-        const { show } = this.props;
         return (
-            <Motion
-                defaultStyle={{ bottom: 0, opacity: 0 }}
-                style={{ bottom: spring(show ? 30 : 0), opacity: spring(show ? 1 : 0) }}
+            <div
+                className="toolbar"
             >
-            {
-                ({ bottom, opacity }) => (
-                    <div
-                        className="toolbar"
-                        style={{ bottom, opacity, display: opacity === 0 ? 'none' : 'flex' }}
-                    >
-                        <div>
-                            <i
-                                className="icon"
-                                onClick={this.onExpressionClick}
-                            >&#xe604;</i>
-                        </div>
-                        <div>
-                            <i
-                                className="icon"
-                                onClick={() => this.image.click()}
-                            >&#xe605;</i>
-                        </div>
-                        <div>
-                            <i
-                                className="icon"
-                                onClick={this.onCodeClick}
-                            >&#xe602;</i>
-                        </div>
-                        <input
-                            className="image-input"
-                            type="file"
-                            ref={image => this.image = image}
-                            accept="image/*"
-                            onChange={this.handleSelectImage}
-                        />
-                    </div>
-                )
-            }
-            </Motion>
+                <div>
+                    <i
+                        className="icon"
+                        onClick={this.onExpressionClick}
+                    >&#xe604;</i>
+                </div>
+                <div>
+                    <i
+                        className="icon"
+                        onClick={() => this.image.click()}
+                    >&#xe605;</i>
+                </div>
+                <div>
+                    <i
+                        className="icon"
+                        onClick={this.onCodeClick}
+                    >&#xe602;</i>
+                </div>
+                <input
+                    className="image-input"
+                    type="file"
+                    ref={image => this.image = image}
+                    accept="image/*"
+                    onChange={this.handleSelectImage}
+                />
+            </div>
         );
     }
 
@@ -103,8 +89,4 @@ class Toolbar extends React.Component {
     }
 }
 
-export default connect(
-    state => ({
-        show: state.getIn(['ui', 'showToolbar']),
-    })
-)(Toolbar);
+export default Toolbar;

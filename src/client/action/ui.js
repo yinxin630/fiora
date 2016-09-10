@@ -4,24 +4,6 @@ const dispatch = Store.dispatch;
 let closeNotification = null;
 
 const actions = {
-    // inputBox
-    openToolbar: function () {
-        return new Promise(resolve => {
-            dispatch({
-                type: 'ShowToolbar',
-            });
-            resolve('success');
-        });
-    },
-    closeToolbar: function () {
-        return new Promise(resolve => {
-            dispatch({
-                type: 'CloseToolbar',
-            });
-            resolve('success');
-        });
-    },
-
     // chatPanel
     openGroupSetting: function () {
         return new Promise(resolve => {

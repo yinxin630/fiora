@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
-import { Motion, spring } from 'react-motion';
 import { connect } from 'react-redux';
 
 import './style/inputBox.scss';
@@ -12,7 +11,6 @@ import config from '../../../../config/config';
 class InputBox extends React.Component {
     static propTypes = {
         linkmanId: PropTypes.string.isRequired,
-        show: PropTypes.bool.isRequired,
         type: PropTypes.string.isRequired,
         insertTexts: PropTypes.object.isRequired,
     };
@@ -121,40 +119,25 @@ class InputBox extends React.Component {
     }
 
     render() {
-        const { show } = this.props;
         return (
-            <Motion
-                defaultStyle={{ marginTop: 5 }}
-                style={{ marginTop: spring(show ? 40 : 5) }}
+            <div
+                className="input-box"
             >
-            {
-                style => (
-                    <div
-                        className="input-box"
-                        style={style}
-                    >
-                        <input
-                            type="text"
-                            ref={input => this.input = input}
-                            placeholder="输入消息"
-                            maxLength={config.maxMessageLength}
-                            onFocus={ui.openToolbar}
-                            onBlur={ui.closeToolbar}
-                            onClick={ui.openToolbar}
-                            onKeyDown={this.handleInputKeyDown}
-                            onPaste={this.handlePaste}
-                        />
-                    </div>
-                )
-            }
-            </Motion>
+                <input
+                    type="text"
+                    ref={input => this.input = input}
+                    placeholder="输入消息"
+                    maxLength={config.maxMessageLength}
+                    onKeyDown={this.handleInputKeyDown}
+                    onPaste={this.handlePaste}
+                />
+            </div>
         );
     }
 }
 
 export default connect(
     state => ({
-        show: state.getIn(['ui', 'showToolbar']),
         insertTexts: state.getIn(['ui', 'insertTexts']),
     })
 )(InputBox);

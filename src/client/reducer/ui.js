@@ -1,7 +1,6 @@
 import immutable from 'immutable';
 
 const initialState = immutable.fromJS({
-    showToolbar: false,
     showGroupSetting: false,
     showGroupNotice: false,
     showExpression: false,
@@ -29,12 +28,6 @@ function reducer(state = initialState, action) {
     switch (action.type) {
     case 'Initialize': {
         return initialState;
-    }
-    case 'ShowToolbar': {
-        return state.set('showToolbar', true);
-    }
-    case 'CloseToolbar': {
-        return state.set('showToolbar', false);
     }
 
     case 'OpenGroupSetting': {
