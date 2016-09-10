@@ -8,6 +8,7 @@ import ui from './action/ui';
 import socket from './socket';
 
 import Notification from './commonComponent/notification';
+import MaskLayout from './commonComponent/maskLayout';
 
 class App extends React.Component {
     static propTypes = {
@@ -128,6 +129,7 @@ class App extends React.Component {
             <div className="window">
                 <div className="background" />
                 <Notification />
+                <MaskLayout />
                 <audio
                     ref={sound => this.sound = sound}
                 >

@@ -30,7 +30,7 @@ class MessageList extends React.Component {
             clearTimeout(onScrollHandle);
         }
         onScrollHandle = setTimeout(() => {
-            ui.shouldScrollMessage(this.list.scrollHeight - this.list.scrollTop - this.list.clientHeight < 100);
+            ui.shouldScrollMessage(this.list.scrollHeight - this.list.scrollTop - this.list.clientHeight < this.list.clientHeight);
         }, 100);
     }
 

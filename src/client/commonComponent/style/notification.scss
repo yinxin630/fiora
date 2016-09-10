@@ -6,6 +6,7 @@
     position: absolute;
     top: 0px;
     z-index: 105;
+    pointer-events: none;
 
     & > div {
         background-color: #fff;
