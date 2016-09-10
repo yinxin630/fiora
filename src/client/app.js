@@ -25,6 +25,9 @@ class App extends React.Component {
     }
 
     componentWillMount() {
+        // force to root path
+        this.context.router.push('/');
+
         // register server event
         socket.on('groupMessage', data => {
             user.addGroupMessage(data);
