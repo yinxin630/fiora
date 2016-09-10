@@ -43,11 +43,9 @@ class App extends React.Component {
                     }
                 );
                 notification.onclick = function () {
-                    this.close();
                     window.blur();
-                    setTimeout(() => {
-                        window.focus();
-                    }, 0);
+                    window.focus();
+                    this.close();
                 };
                 // auto close
                 notification.onshow = function () {

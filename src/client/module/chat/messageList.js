@@ -49,11 +49,8 @@ class MessageList extends React.Component {
 
 class Message extends React.Component {
     static propTypes = {
-        self: PropTypes.bool.isRequired,
+        me: PropTypes.string.isRequired,
         message: PropTypes.object.isRequired,
-        index: PropTypes.number.isRequired,
-        messageCount: PropTypes.number.isRequired,
-
         shouldScrollMessage: PropTypes.bool,
     };
 
@@ -69,8 +66,8 @@ class Message extends React.Component {
     }
 
     componentDidMount() {
-        const { shouldScrollMessage, index, messageCount } = this.props;
-        if (shouldScrollMessage && index + 1 === messageCount) {
+        const { shouldScrollMessage, message, me } = this.props;
+        if (shouldScrollMessage || message.getIn(['from', '_id']) === me) {
             scrollMessage = () => this.dom.scrollIntoView(false);
             scrollMessage();
         }
@@ -146,11 +143,11 @@ class Message extends React.Component {
     }
 
     render() {
-        const { self, message } = this.props;
+        const { me, message } = this.props;
 
         return (
             <div
-                className={`message-list-item ${self ? 'message-self' : ''}`}
+                className={`message-list-item ${message.getIn(['from', '_id']) === me ? 'message-self' : ''}`}
                 ref={dom => this.dom = dom}
             >
                 <Avatar

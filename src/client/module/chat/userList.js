@@ -5,6 +5,7 @@ import pureRenderMixin from 'react-addons-pure-render-mixin';
 import './style/userList.scss';
 
 import Avatar from './avatar';
+import user from '../../action/user';
 
 class UserList extends React.Component {
     static propTypes = {
@@ -37,6 +38,13 @@ class User extends React.Component {
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
+        this.handleUserListItemClick = this.handleUserListItemClick.bind(this);
+    }
+
+    handleUserListItemClick() {
+        const { linkman } = this.props;
+        this.context.router.push(`/chat/body/${linkman.get('type')}/${linkman.get('_id')}`);
+        user.clearUnread(linkman.get('type'), linkman.get('_id'));
     }
 
     render() {
@@ -62,7 +70,7 @@ class User extends React.Component {
         return (
             <div
                 className="user-list-item"
-                onClick={() => this.context.router.push(`/chat/body/${linkman.get('type')}/${linkman.get('_id')}`)}
+                onClick={this.handleUserListItemClick}
             >
                 <Avatar
                     avatar={linkman.get('avatar')}

@@ -87,7 +87,7 @@ function reducer(state = initialState, action) {
             ['linkmans'],
             linkmans => {
                 const groupIndex = linkmans.findIndex(g => g.get('type') === 'group' && g.get('_id') === action.message.to._id);
-                const group = linkmans.get(groupIndex).updateIn(['messages'], m => m.push(immutable.fromJS(action.message))).update('unread', unread => unread + 1);
+                const group = linkmans.get(groupIndex).updateIn(['messages'], m => m.push(immutable.fromJS(action.message))).update('unread', unread => (action.message.from._id === state.get('_id') ? 0 : unread + 1));
                 return linkmans.delete(groupIndex).unshift(group);
             }
         );
@@ -128,7 +128,7 @@ function reducer(state = initialState, action) {
             ['linkmans'],
             linkmans => {
                 const linkmanIndex = linkmans.findIndex(g => g.get('type') === 'stranger' && g.get('_id') === action.message.from._id);
-                const linkman = linkmans.get(linkmanIndex).updateIn(['messages'], m => m.push(immutable.fromJS(action.message))).update('unread', unread => unread + 1);
+                const linkman = linkmans.get(linkmanIndex).updateIn(['messages'], m => m.push(immutable.fromJS(action.message))).update('unread', unread => (action.message.from._id === state.get('_id') ? 0 : unread + 1));
                 return linkmans.delete(linkmanIndex).unshift(linkman);
             }
         );
@@ -139,7 +139,7 @@ function reducer(state = initialState, action) {
             ['linkmans'],
             linkmans => {
                 const linkmanIndex = linkmans.findIndex(g => g.get('type') === 'stranger' && g.get('_id') === action.message.to._id);
-                const linkman = linkmans.get(linkmanIndex).updateIn(['messages'], m => m.push(immutable.fromJS(action.message)));
+                const linkman = linkmans.get(linkmanIndex).updateIn(['messages'], m => m.push(immutable.fromJS(action.message))).set('unread', 0);
                 return linkmans.delete(linkmanIndex).unshift(linkman);
             }
         );
