@@ -9,7 +9,6 @@ const assert = require('../util/assert');
 const GroupMessageRoute = {
     'POST /groupMessage': function* (data) {
         yield* isLogin(this.socket, data, this.end);
-        console.log(data);
         assert(!data.type, this.end, 400, 'need type param but not exists');
         assert(!data.content, this.end, 400, 'need content param but not exists');
         assert(!data.linkmanId, this.end, 400, 'need linkmanId param but not exists');

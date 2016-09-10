@@ -23,7 +23,6 @@ class AddGroup extends React.Component {
 
     handleClick(groupName) {
         user.joinGroup(groupName).then(response => {
-            console.log(response);
             if (response.status === 201) {
                 ui.closeAddGroupInput();
                 ui.closeMaskLayout();

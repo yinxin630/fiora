@@ -1,5 +1,7 @@
 module.exports = {
-    // server port
+    // server config.
+    // you can use domain name, ip address or localhost. but in develop mode it always be localhost
+    server: 'example.com',
     port: 9200,
 
     // database url and name
