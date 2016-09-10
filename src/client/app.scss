@@ -64,3 +64,26 @@ body {
     font-family: 'iconfont';
     font-style: normal;
 }
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 0px;
+
+    &:end {
+        display: none;
+    }
+}
+::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+}    
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5); 
+    border-radius: 4px;
+
+    &:end {
+        display: none;
+    }
+}
+::-webkit-scrollbar-corner {
+    background-color: rgba(0, 0, 0, 0);
+}
