@@ -48,11 +48,7 @@ class App extends React.Component {
                     this.close();
                 };
                 // auto close
-                notification.onshow = function () {
-                    setTimeout(() => {
-                        this.close();
-                    }, 3000);
-                };
+                setTimeout(notification.close.bind(notification), 3000);
             }
         });
 
@@ -80,11 +76,7 @@ class App extends React.Component {
                     }, 0);
                 };
                 // auto close
-                notification.onshow = function () {
-                    setTimeout(() => {
-                        this.close();
-                    }, 3000);
-                };
+                setTimeout(notification.close.bind(notification), 3000);
             }
         });
 
@@ -122,10 +114,17 @@ class App extends React.Component {
     render() {
         // for debug
         console.log(this.props.state.toJS());
+        const width = window.screen.width;
+        const height = window.screen.height;
 
         return (
             <div className="window">
-                <div className="background" />
+                <div
+                    className="background"
+                    style={{ backgroundSize: `${width}px ${height - 50}px` }}
+                >
+                    <div style={{ backgroundSize: `${width}px ${height - 50}px` }} />
+                </div>
                 <Notification />
                 <MaskLayout />
                 <audio

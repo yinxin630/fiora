@@ -32,10 +32,19 @@ body {
     height: 100%;
     background-image: url('./image/background.jpg');
     background-repeat: no-repeat;
-    background-size: cover;
-    filter: blur(5px);
-    position: absolute;
+    position: fixed;
     z-index: -1;
+
+    & > div {
+        width: 1000px;
+        height: 100%;
+        position: absolute;
+        left: calc((100vw - 1000px) / 2);
+        background-image: url('./image/background.jpg');
+        background-repeat: no-repeat;
+        background-position: calc((1000px - 100vw) / 2) 0px;
+        filter: blur(10px);
+    }
 }
 
 .app {

@@ -13,7 +13,6 @@ import GroupNotice from './groupNotice';
 import Expression from './expression';
 import CodeInput from './codeInput';
 import user from '../../action/user';
-import ui from '../../action/ui';
 
 class ChatPanel extends React.Component {
     static propTypes = {
@@ -53,15 +52,6 @@ class ChatPanel extends React.Component {
                         ))
                     }
                 </MessageList.container>
-                {
-                    linkman.get('unread') > 0 ?
-                        <div
-                            className="new-message"
-                            onClick={() => ui.shouldScrollMessage(true)}
-                        >新消息</div>
-                    :
-                        null
-                }
                 <InputBox
                     type={linkman.get('type')}
                     linkmanId={linkman.get('_id')}
