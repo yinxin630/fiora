@@ -1,10 +1,10 @@
 .chat-panel {
     flex: 1;
-    height: 100%;
     display: flex;
     flex-direction: column;
     position: relative;
     overflow: hidden;
+    max-height: 100%;
 
     .new-message {
         width: 100px;

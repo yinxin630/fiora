@@ -73,7 +73,7 @@ class GroupNotice extends React.Component {
                     }
                     {
                         creator && creator.get('_id') === me ?
-                            <div>
+                            <div className="button">
                             {
                                 this.state.editor ?
                                     <button

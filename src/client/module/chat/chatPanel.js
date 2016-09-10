@@ -52,12 +52,12 @@ class ChatPanel extends React.Component {
                         ))
                     }
                 </MessageList.container>
-                <InputBox
-                    type={linkman.get('type')}
-                    linkmanId={linkman.get('_id')}
-                />
                 <Toolbar
                     linkmanType={linkman.get('type')}
+                    linkmanId={linkman.get('_id')}
+                />
+                <InputBox
+                    type={linkman.get('type')}
                     linkmanId={linkman.get('_id')}
                 />
                 {

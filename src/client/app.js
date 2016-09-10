@@ -126,7 +126,12 @@ class App extends React.Component {
                     className="background"
                     style={{ backgroundSize: `${width}px ${height - 50}px` }}
                 >
-                    <div style={{ backgroundSize: `${width}px ${height - 50}px` }} />
+                {
+                    /^\/chat/.test(this.props.location.pathname) ?
+                        <div style={{ backgroundSize: `${width}px ${height - 50}px` }} />
+                    :
+                        null
+                }
                 </div>
                 <Notification />
                 <MaskLayout />

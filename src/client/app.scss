@@ -7,20 +7,20 @@
 }
 
 html {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
 }
 body {
     overflow: hidden;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     min-width: 100%;
     min-height: 100%;
 }
 
 .window {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
 
     & > audio {
         display: none;
@@ -28,8 +28,8 @@ body {
 }
 
 .background {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background-image: url('./image/background.jpg');
     background-repeat: no-repeat;
     position: fixed;
@@ -37,7 +37,7 @@ body {
 
     & > div {
         width: 1000px;
-        height: 100%;
+        height: 100vh;
         position: absolute;
         left: calc((100vw - 1000px) / 2);
         background-image: url('./image/background.jpg');
@@ -49,14 +49,14 @@ body {
 
 .app {
     width: 1000px;
-    height: 100%;
+    height: 100vh;
     margin: auto;
     display: flex;
     flex-direction: column;
 }
 
 #app {
-    height: 100%;
+    height: 100vh;
 }
 
 @font-face {

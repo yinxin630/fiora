@@ -1,19 +1,20 @@
 .message-list {
     width: 100%;
-    flex: 1;
     padding: 0px 10px 5px 10px;
     display: flex;
+    flex: 1;
     flex-direction: column;
     justify-content: stretch;
     overflow: auto;
+    max-height: 100%;
 }
 
 .message-list-item {
     display: flex;
-    width: 100%;
     margin-top: 10px;
     min-height: min-content;
-    
+    max-height: 100%;
+
     & > :first-child {
         width: 40px;
         height: 40px;
