@@ -46,6 +46,18 @@ class User extends React.Component {
         const time = moment(messagesLength === 0 ? linkman.get('createTime') : linkman.getIn(['messages', messagesLength - 1, 'createTime'])).format('HH:mm');
         const message = messagesLength === 0 ? null : linkman.getIn(['messages', messagesLength - 1]);
         const unread = linkman.get('unread') > 99 ? 99 : linkman.get('unread');
+        let content = '';
+        if (!message) {
+            content = '...';
+        }
+        else {
+            if (message.get('type') === 'text') {
+                content = `${message.getIn(['from', 'username'])}: ${message.get('content')}`;
+            }
+            else {
+                content = `${message.getIn(['from', 'username'])}: [${message.get('type')}]`;
+            }
+        }
 
         return (
             <div
@@ -65,7 +77,7 @@ class User extends React.Component {
                         <p>{ time }</p>
                     </div>
                     <div>
-                        <p>{ `${message ? `${message.getIn(['from', 'username'])}: ${message.get('content')}` : '...'}` }</p>
+                        <p>{ content }</p>
                     </div>
                 </div>
             </div>

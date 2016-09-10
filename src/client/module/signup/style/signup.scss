@@ -72,6 +72,10 @@
             &:hover {
                 background-color: #0288d1;
             }
+            &:focus {
+                border: 1px solid #0288d1;
+                box-shadow: 0px 0px 3px #0288d1;
+            }
         }
 
         span {
