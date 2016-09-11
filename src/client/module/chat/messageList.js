@@ -78,6 +78,10 @@ class Message extends React.Component {
         mask(ui.closeUserInfo);
     }
 
+    handleImageDoubleClick(src) {
+        ui.openImageViewer(src);
+    }
+
     renderContent(type, content) {
         if (type === 'text') {
             content = content.replace(
@@ -104,6 +108,7 @@ class Message extends React.Component {
                         ref={img => this.img = img}
                         onLoad={() => scrollMessage && scrollMessage()}
                         onError={() => this.img.src = 'http://od8dycy67.bkt.clouddn.com/image_not_found.png'}
+                        onDoubleClick={() => this.handleImageDoubleClick(content)}
                     />
                 </div>
             );

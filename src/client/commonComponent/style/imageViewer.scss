@@ -1,0 +1,64 @@
+.image-viewer {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    overflow: hidden;
+
+    & > :nth-child(1000n+1) {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    & > :nth-child(1000n+2) {
+        position: absolute;
+        max-width: 50%;
+        opacity: 1;
+    }
+
+    & > :nth-child(1000n+3) {
+        background-color: rgba(0,0,0,0.7);
+        height: 36px;
+        position: absolute;
+        bottom: 100px;
+        left: 50%;
+        margin-left: -100px;
+        border-radius: 18px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        & > span {
+            margin-left: 5px;
+            margin-right: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+
+            &:first-child {
+                margin-left: 18px;
+            }
+            &:last-child {
+                margin-right: 18px;
+            }
+
+            & > i {
+                font-size: 24px;
+                color: #bdbdbd;
+            }
+        }
+    }
+}

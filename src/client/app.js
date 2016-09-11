@@ -9,6 +9,7 @@ import socket from './socket';
 
 import Notification from './commonComponent/notification';
 import MaskLayout from './commonComponent/maskLayout';
+import ImageViewer from './commonComponent/imageViewer';
 
 class App extends React.Component {
     static propTypes = {
@@ -135,6 +136,7 @@ class App extends React.Component {
                 </div>
                 <Notification />
                 <MaskLayout />
+                <ImageViewer />
                 <audio
                     ref={sound => this.sound = sound}
                 >

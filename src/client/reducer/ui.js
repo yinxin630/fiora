@@ -22,6 +22,9 @@ const initialState = immutable.fromJS({
 
     showCreateGroupInput: false,
     showAddGroupInput: false,
+
+    showImageViewer: false,
+    imageViewerSrc: '',
 });
 
 function reducer(state = initialState, action) {
@@ -123,6 +126,13 @@ function reducer(state = initialState, action) {
     }
     case 'CloseAddGroupInput': {
         return state.set('showAddGroupInput', false);
+    }
+
+    case 'OpenImageViewer': {
+        return state.set('showImageViewer', true).set('imageViewerSrc', action.src);
+    }
+    case 'CloseImageViewer': {
+        return state.set('showImageViewer', false);
     }
 
     default:

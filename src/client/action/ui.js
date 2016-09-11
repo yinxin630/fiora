@@ -251,6 +251,24 @@ const actions = {
             resolve('success');
         });
     },
+
+    openImageViewer: function (src) {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'OpenImageViewer',
+                src,
+            });
+            resolve('success');
+        });
+    },
+    closeImageViewer: function () {
+        return new Promise(resolve => {
+            dispatch({
+                type: 'CloseImageViewer',
+            });
+            resolve('success');
+        });
+    },
 };
 
 export default actions;
