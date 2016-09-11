@@ -6,6 +6,7 @@ import './app.scss';
 import user from './action/user';
 import ui from './action/ui';
 import socket from './socket';
+import './api';
 
 import Notification from './commonComponent/notification';
 import MaskLayout from './commonComponent/maskLayout';

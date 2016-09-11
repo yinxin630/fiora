@@ -161,6 +161,11 @@ const AuthRoute = {
 
         this.end(204);
     },
+
+    'GET /auth/count': function* () {
+        const onlineCount = yield Auth.count({});
+        this.end(200, { onlineCount });
+    },
 };
 
 module.exports = AuthRoute;
