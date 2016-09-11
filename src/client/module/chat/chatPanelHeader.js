@@ -4,6 +4,7 @@ import pureRenderMixin from 'react-addons-pure-render-mixin';
 import './style/chatPanelHeader.scss';
 
 import ui from '../../action/ui';
+import user from '../../action/user';
 import mask from '../../util/mask';
 import Avatar from './avatar';
 
@@ -12,6 +13,7 @@ class ChatPanelHeader extends React.Component {
         avatar: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         type: PropTypes.string,
+        linkmanId: PropTypes.string,
     };
 
     constructor(props) {
@@ -27,6 +29,7 @@ class ChatPanelHeader extends React.Component {
     }
 
     onGroupSettingClick() {
+        user.getGroupInfo(this.props.linkmanId).then(response => console.log(response));
         ui.openGroupSetting();
         mask(ui.closeGroupSetting);
     }

@@ -147,6 +147,17 @@ function reducer(state = initialState, action) {
         );
     }
 
+    case 'GetGroupInfo': {
+        console.log('in redux', action);
+        return state.update(
+            'linkmans',
+            linkmans => linkmans.update(
+                linkmans.findIndex(g => g.get('type') === 'group' && g.get('_id') === action.group._id),
+                linkman => linkman.set('members', immutable.fromJS(action.group.members))
+            )
+        );
+    }
+
     default:
         return state;
     }

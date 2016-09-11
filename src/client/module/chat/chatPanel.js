@@ -40,6 +40,7 @@ class ChatPanel extends React.Component {
                     avatar={linkman.get('avatar')}
                     name={linkman.get('type') === 'group' ? linkman.get('name') : linkman.get('username')}
                     type={linkman.get('type')}
+                    linkmanId={linkman.get('_id')}
                 />
                 <MessageList.container>
                     {

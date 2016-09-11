@@ -53,6 +53,19 @@ const GroupRoute = {
         this.end(201, savedGroup);
     },
 
+    'GET /group': function* (data) {
+        yield* isLogin(this.socket, data, this.end);
+        assert(!data.groupId, this.end, 400, 'need groupId param but not exists');
+        assert(!mongoose.Types.ObjectId.isValid(data.groupId), this.end, 400, 'groupId is invalid');
+
+        const group = yield Group.findById(data.groupId).populate({
+            path: 'members',
+            select: '_id avatar username',
+        });
+
+        this.end(200, group);
+    },
+
     'POST /group/members': function* (data) {
         yield* isLogin(this.socket, data, this.end);
         assert(!data.groupName, this.end, 400, 'need groupName param but not exists');

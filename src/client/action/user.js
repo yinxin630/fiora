@@ -248,6 +248,23 @@ const actions = {
             resolve(message);
         });
     },
+
+    getGroupInfo: function (groupId) {
+        return new Promise(resolve => {
+            socket.get('/group', { groupId }, response => {
+                if (response.status === 200) {
+                    dispatch({
+                        type: 'GetGroupInfo',
+                        group: response.data,
+                    });
+                    resolve(response);
+                }
+                else {
+                    resolve(response);
+                }
+            });
+        });
+    },
 };
 
 export default actions;

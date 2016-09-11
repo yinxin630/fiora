@@ -55,12 +55,15 @@
             flex-direction: column;
             align-items: center;
             margin: 3px 0px;
+            max-width: 60px;
+            text-align: center;
 
             & >:nth-child(1000n+1) {
                 margin: 3px 10px;
             }
             span {
                 font-size: 12px;
+                margin: 0px 2px;
             }
         }
     }
