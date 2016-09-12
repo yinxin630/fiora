@@ -24,6 +24,13 @@ class ImageViewer extends React.Component {
         };
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
         this.renderImageViewer = this.renderImageViewer.bind(this);
+        this.handleAddExpressionClick = this.handleAddExpressionClick.bind(this);
+    }
+
+    handleAddExpressionClick() {
+        const { image } = this.props;
+        user.addUserExpression(image);
+        ui.closeImageViewer();
     }
 
     renderImageViewer() {
@@ -66,7 +73,7 @@ class ImageViewer extends React.Component {
                         <i className="icon">&#xe60e;</i>
                     </span>
                     <span
-                        onClick={() => user.addUserExpression(image)}
+                        onClick={this.handleAddExpressionClick}
                     >
                         <i className="icon">&#xe60f;</i>
                     </span>

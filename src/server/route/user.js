@@ -117,7 +117,7 @@ const UserRoute = {
         user.expressions.push(data.src);
         yield user.save();
 
-        return this.end(200, user.expressions);
+        return this.end(201, user.expressions);
     },
 };
 
