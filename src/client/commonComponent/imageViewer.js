@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import './style/imageViewer.scss';
 
 import ui from '../action/ui';
+import user from '../action/user';
 
 let offsetX = 0;
 let offsetY = 0;
@@ -64,7 +65,9 @@ class ImageViewer extends React.Component {
                     >
                         <i className="icon">&#xe60e;</i>
                     </span>
-                    <span>
+                    <span
+                        onClick={() => user.addUserExpression(image)}
+                    >
                         <i className="icon">&#xe60f;</i>
                     </span>
                 </div>

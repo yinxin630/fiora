@@ -267,6 +267,24 @@ const actions = {
             });
         });
     },
+
+    addUserExpression: function (src) {
+        return new Promise(resolve => {
+            socket.post('/user/expression', { src }, response => {
+                console.log(response);
+                if (response.status === 201) {
+                    dispatch({
+                        type: 'AddUserExpression',
+                        expressions: response.data,
+                    });
+                    resolve(response);
+                }
+                else {
+                    resolve(response);
+                }
+            });
+        });
+    },
 };
 
 export default actions;

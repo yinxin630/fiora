@@ -82,7 +82,10 @@ class ChatPanel extends React.Component {
                     :
                         null
                 }
-                <Expression />
+                <Expression
+                    linkmanType={linkman.get('type')}
+                    linkmanId={linkman.get('_id')}
+                />
                 <CodeInput
                     linkmanType={linkman.get('type')}
                     linkmanId={linkman.get('_id')}

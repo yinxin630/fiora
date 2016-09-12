@@ -6,25 +6,16 @@ import { Motion, spring } from 'react-motion';
 import './style/expression.scss';
 
 import ui from '../../action/ui';
+import user from '../../action/user';
 import expressions from '../../util/expressions';
 
-// this is just for test code
-const collectExpressionExample = [
-    'http://7xrutd.com1.z0.glb.clouddn.com/message_1470115329646?v=1470115329772',
-    'http://7xrutd.com1.z0.glb.clouddn.com/message_1470114833324?v=1470114833419',
-    'http://7xrutd.com1.z0.glb.clouddn.com/avatar_5717231b9eb6ce193a9a7806?v=1469758686352',
-    'http://7xrutd.com1.z0.glb.clouddn.com/message_1470114592770?v=1470114592943',
-    'http://7xrutd.com1.z0.glb.clouddn.com/avatar_56f0c64f696c9deb176d770b?v=1463118961270',
-    'http://7xrutd.com1.z0.glb.clouddn.com/message_1470115329646?v=1470115329772',
-    'http://7xrutd.com1.z0.glb.clouddn.com/message_1470114833324?v=1470114833419',
-    'http://7xrutd.com1.z0.glb.clouddn.com/avatar_5717231b9eb6ce193a9a7806?v=1469758686352',
-    'http://7xrutd.com1.z0.glb.clouddn.com/message_1470114592770?v=1470114592943',
-    'http://7xrutd.com1.z0.glb.clouddn.com/avatar_56f0c64f696c9deb176d770b?v=1463118961270',
-];
 
 class Expression extends React.Component {
     static propTypes = {
         show: PropTypes.bool.isRequired,
+        userExpressions: PropTypes.object,
+        linkmanType: PropTypes.string.isRequired,
+        linkmanId: PropTypes.string.isRequired,
     };
 
     constructor(props) {
@@ -34,12 +25,27 @@ class Expression extends React.Component {
         this.renderDefaultExpression = this.renderDefaultExpression.bind(this);
         this.renderCollectExpression = this.renderCollectExpression.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.handleCollectExpressionClick = this.handleCollectExpressionClick.bind(this);
     }
 
     handleClick(value) {
         ui.insertText(`#(${value})`);
         ui.closeExpression();
         ui.closeMaskLayout();
+    }
+
+    handleCollectExpressionClick(src) {
+        const { linkmanType, linkmanId } = this.props;
+        if (linkmanType === 'group') {
+            user.sendGroupMessage(linkmanId, 'image', src);
+            ui.closeExpression();
+            ui.closeMaskLayout();
+        }
+        else {
+            user.sendMessage(linkmanId, 'image', src);
+            ui.closeExpression();
+            ui.closeMaskLayout();
+        }
     }
 
     renderDefaultExpression() {
@@ -60,11 +66,16 @@ class Expression extends React.Component {
     }
 
     renderCollectExpression() {
+        const { userExpressions } = this.props;
+
         return (
             <div className="collect-expression">
             {
-                collectExpressionExample.map((e, index) => (
-                    <div key={index}>
+                userExpressions.map((e, index) => (
+                    <div
+                        key={index}
+                        onClick={() => this.handleCollectExpressionClick(e)}
+                    >
                         <div style={{ backgroundImage: `url(${e})` }} />
                     </div>
                 ))
@@ -113,5 +124,6 @@ class Expression extends React.Component {
 export default connect(
     state => ({
         show: state.getIn(['ui', 'showExpression']),
+        userExpressions: state.getIn(['user', 'expressions']),
     })
 )(Expression);

@@ -43,6 +43,11 @@ const UserSchema = new Schema({
             ref: 'Group',
         },
     ],
+    expressions: [
+        {
+            type: String,
+        },
+    ],
 });
 
 const User = mongoose.model('User', UserSchema);

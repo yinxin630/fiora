@@ -47,6 +47,7 @@ function reducer(state = initialState, action) {
             birthday: action.user.birthday,
             introduce: action.user.introduce,
             linkmans: action.user.linkmans,
+            expressions: action.user.expressions,
         });
     }
     case 'CreateGroup': {
@@ -148,7 +149,6 @@ function reducer(state = initialState, action) {
     }
 
     case 'GetGroupInfo': {
-        console.log('in redux', action);
         return state.update(
             'linkmans',
             linkmans => linkmans.update(
@@ -156,6 +156,10 @@ function reducer(state = initialState, action) {
                 linkman => linkman.set('members', immutable.fromJS(action.group.members))
             )
         );
+    }
+
+    case 'AddUserExpression': {
+        return state.set('expressions', immutable.fromJS(action.expressions));
     }
 
     default:
