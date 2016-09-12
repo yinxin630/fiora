@@ -44,6 +44,20 @@
             width: 98px;
             height: 100px;
             padding: 2px;
+            position: relative;
+
+            & > i {
+                position: absolute;
+                right: 2px;
+                top: 2px;
+                font-size: 20px;
+                color: #999;
+                cursor: pointer;
+
+                &:hover {
+                    color: #c02721;
+                }
+            }
 
             & > div {
                 width: 100%;

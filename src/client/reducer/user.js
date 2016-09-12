@@ -161,6 +161,9 @@ function reducer(state = initialState, action) {
     case 'AddUserExpression': {
         return state.set('expressions', immutable.fromJS(action.expressions));
     }
+    case 'DeleteUserExpression': {
+        return state.set('expressions', immutable.fromJS(action.expressions));
+    }
 
     default:
         return state;

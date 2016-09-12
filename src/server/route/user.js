@@ -114,10 +114,26 @@ const UserRoute = {
         assert(!data.src, this.end, 400, 'need src param but not exists');
 
         const user = yield User.findById(this.socket.user, '-password -salt');
-        user.expressions.push(data.src);
-        yield user.save();
+        if (user.expressions.indexOf(data.src) === -1) {
+            user.expressions.push(data.src);
+            yield user.save();
+        }
 
         return this.end(201, user.expressions);
+    },
+
+    'DELETE /user/expression': function* (data) {
+        yield* isLogin(this.socket, data, this.end);
+        assert(!data.src, this.end, 400, 'need src param but not exists');
+
+        const user = yield User.findById(this.socket.user, '-password -salt');
+        const index = user.expressions.indexOf(data.src);
+        if (index !== -1) {
+            user.expressions.splice(index, 1);
+            yield user.save();
+        }
+
+        return this.end(200, user.expressions);
     },
 };
 

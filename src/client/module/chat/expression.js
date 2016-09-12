@@ -26,6 +26,7 @@ class Expression extends React.Component {
         this.renderCollectExpression = this.renderCollectExpression.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleCollectExpressionClick = this.handleCollectExpressionClick.bind(this);
+        this.handleCollectExpressionDelete = this.handleCollectExpressionDelete.bind(this);
     }
 
     handleClick(value) {
@@ -46,6 +47,10 @@ class Expression extends React.Component {
             ui.closeExpression();
             ui.closeMaskLayout();
         }
+    }
+
+    handleCollectExpressionDelete(src) {
+        user.deleteUserExpression(src);
     }
 
     renderDefaultExpression() {
@@ -72,11 +77,15 @@ class Expression extends React.Component {
             <div className="collect-expression">
             {
                 userExpressions.map((e, index) => (
-                    <div
-                        key={index}
-                        onClick={() => this.handleCollectExpressionClick(e)}
-                    >
-                        <div style={{ backgroundImage: `url(${e})` }} />
+                    <div key={index}>
+                        <i
+                            className="icon"
+                            onClick={() => this.handleCollectExpressionDelete(e)}
+                        >&#xe603;</i>
+                        <div
+                            style={{ backgroundImage: `url(${e})` }}
+                            onClick={() => this.handleCollectExpressionClick(e)}
+                        />
                     </div>
                 ))
             }
