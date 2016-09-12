@@ -6,11 +6,13 @@ import './app.scss';
 import user from './action/user';
 import ui from './action/ui';
 import socket from './socket';
-import './api';
+import publicApi from './publicApi';
 
 import Notification from './commonComponent/notification';
 import MaskLayout from './commonComponent/maskLayout';
 import ImageViewer from './commonComponent/imageViewer';
+
+window.fiora = publicApi;
 
 class App extends React.Component {
     static propTypes = {
