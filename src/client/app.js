@@ -60,7 +60,7 @@ class App extends React.Component {
                     `${data.from.username} - 发来消息:`,
                     {
                         icon: data.from.avatar,
-                        body: data.content,
+                        body: data.type === 'text' ? data.content : `[${data.type}]`,
                         tag: data.from.id,
                     }
                 );
@@ -86,7 +86,7 @@ class App extends React.Component {
                     `${data.from.username} - 发来消息:`,
                     {
                         icon: data.from.avatar,
-                        body: data.content,
+                        body: data.type === 'text' ? data.content : `[${data.type}]`,
                         tag: data.from.id,
                     }
                 );
