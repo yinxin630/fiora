@@ -47,7 +47,7 @@ class SystemSetting extends React.Component {
                             >&#xe603;</i>
                         </div>
                         <div>
-                            <div>
+                            <div className="switch">
                                 <span>启用桌面通知</span>
                                 <div
                                     onClick={() => ui.toggleDesktopNotification()}
@@ -57,7 +57,7 @@ class SystemSetting extends React.Component {
                                     />
                                 </div>
                             </div>
-                            <div>
+                            <div className="switch">
                                 <span>启用声音通知</span>
                                 <div
                                     onClick={() => ui.toggleSoundNotification()}
@@ -67,6 +67,24 @@ class SystemSetting extends React.Component {
                                     />
                                 </div>
                             </div>
+                            <a
+                                className="button"
+                                href="https://github.com/yinxin630/fiora"
+                                rel="noopener noreferrer"
+                                target="_blank"
+                            >
+                                <i className="icon">&#xe611;</i>
+                                <span>源码</span>
+                            </a>
+                            <a
+                                className="button"
+                                href="http://suisuijiang.com"
+                                rel="noopener noreferrer"
+                                target="_blank"
+                            >
+                                <i className="icon">&#xe612;</i>
+                                <span>作者</span>
+                            </a>
                         </div>
                     </div>
                 )

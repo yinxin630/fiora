@@ -5,7 +5,6 @@
     left: 50%;
     top: 50%;
     width: 300px;
-    height: 160px;
     margin-top: -80px;
     margin-left: -150px;
     display: flex;
@@ -43,7 +42,7 @@
         border-bottom-right-radius: 5px;
         padding: 10px 0px;
 
-        & > div {
+        .switch {
             padding: 10px 20px;
             display: flex;
             flex-direction: row;
@@ -78,6 +77,38 @@
                     background-color: orangered;
                 }
             }
+        }
+
+        .button {
+            margin: 0px 20px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            background-color: #289dda;
+            color: white;
+            height: 35px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+
+            & > i {
+                font-size: 20px;
+            }
+            & > span {
+                margin-left: 15px;
+            }
+        }
+
+        // 图片偏下, 上移2像素
+        & > :nth-child(1000n+3) > i {
+            position: relative;
+            top: -2px;
+        }
+
+        & > :nth-child(1000n+4) {
+            margin-top: 10px;
+            margin-bottom: 5px;
         }
     }
 }
