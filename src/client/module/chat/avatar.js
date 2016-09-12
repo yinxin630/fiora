@@ -24,7 +24,7 @@ class Avatar extends React.Component {
                 <img
                     className="avatar-image"
                     style={{ width, height }}
-                    src={avatar}
+                    src={`${avatar}?imageView2/2/w/${width}/h/${height}`}
                     onClick={onClick}
                 />
             :
