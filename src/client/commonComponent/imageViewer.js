@@ -27,6 +27,13 @@ class ImageViewer extends React.Component {
         this.handleAddExpressionClick = this.handleAddExpressionClick.bind(this);
     }
 
+    componentWillUpdate(nextProps) {
+        if (this.props.image !== nextProps.image) {
+            this.setState({ scale: 1, rotate: 0 });
+        }
+    }
+
+
     handleAddExpressionClick() {
         const { image } = this.props;
         user.addUserExpression(image);
