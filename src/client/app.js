@@ -36,7 +36,6 @@ class App extends React.Component {
             user
             .reConnect(token)
             .then(result => {
-                console.log(result);
                 if (result.status === 201) {
                     user.online();
                     if (this.props.location.pathname === '/') {
