@@ -1,7 +1,20 @@
-#Fiora
+# Fiora
 
 Fiora is a web chat application. Made by node.js, koa, react.
 
+[中文版](readme-zh.md)
+
+## Function
+
+0. create user, create group, join group, private chat, group chat
+0. text, image, code, url of message type
+0. desktop notification, sound notification, notification switch
+0. modify avatar, expression collect, modify group announcement
+0. message length limit, message send frequency limit
+
+## Run Shot
+
+![](screenshot_01.png)
 
 ## Installation
 
