@@ -5,10 +5,14 @@ const isLogin = require('../police/isLogin');
 const config = require('../../../config/config');
 const saveImage = require('../util/saveImage');
 const assert = require('../util/assert');
+const messageFrequency = require('../util/messageFrequency');
 
 const GroupMessageRoute = {
     'POST /groupMessage': function* (data) {
         yield* isLogin(this.socket, data, this.end);
+        if (!messageFrequency(this.socket.user)) {
+            return this.end(401, 'send messages too frequently');
+        }
         assert(!data.type, this.end, 400, 'need type param but not exists');
         assert(!data.content, this.end, 400, 'need content param but not exists');
         assert(!data.linkmanId, this.end, 400, 'need linkmanId param but not exists');

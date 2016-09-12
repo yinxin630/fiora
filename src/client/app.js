@@ -30,6 +30,22 @@ class App extends React.Component {
         // force to root path
         this.context.router.push('/');
 
+        // try auto login
+        const token = window.localStorage.getItem('token');
+        if (token && token !== '') {
+            user
+            .reConnect(token)
+            .then(result => {
+                console.log(result);
+                if (result.status === 201) {
+                    user.online();
+                    if (this.props.location.pathname === '/') {
+                        this.context.router.push('/chat');
+                    }
+                }
+            });
+        }
+
         // register server event
         socket.on('groupMessage', data => {
             user.addGroupMessage(data);
@@ -40,7 +56,7 @@ class App extends React.Component {
 
             if (window.Notification.permission === 'granted' && !this.props.windowFocus && this.props.desktopNotification) {
                 const notification = new window.Notification(
-                    `${data.from.username}发来消息:`,
+                    `${data.from.username} - 发来消息:`,
                     {
                         icon: data.from.avatar,
                         body: data.content,
@@ -66,7 +82,7 @@ class App extends React.Component {
 
             if (window.Notification.permission === 'granted' && !this.props.windowFocus && this.props.desktopNotification) {
                 const notification = new window.Notification(
-                    `${data.from.username}发来消息:`,
+                    `${data.from.username} - 发来消息:`,
                     {
                         icon: data.from.avatar,
                         body: data.content,
@@ -85,24 +101,19 @@ class App extends React.Component {
             }
         });
 
-        socket.on('connect', () => {
-            // get local storage token
-            const token = window.localStorage.getItem('token');
-            if (token && token !== '') {
-                user
-                    .reConnect(token)
-                    .then(result => {
-                        if (result.status === 201) {
-                            user.online();
-                            if (this.props.location.pathname === '/') {
-                                this.context.router.push('/chat');
-                            }
-                        }
-                    });
-            }
-        });
         socket.on('disconnect', () => {
+            console.log('disconnect');
             user.offline();
+        });
+        socket.on('reconnect', () => {
+            console.log('reconnect');
+            user
+            .reConnect()
+            .then(result => {
+                if (result.status === 201) {
+                    user.online();
+                }
+            });
         });
 
         // html5 notification

@@ -89,7 +89,9 @@ const actions = {
     },
 
     reConnect: function (token) {
-        socket.setToken(token);
+        if (token) {
+            socket.setToken(token);
+        }
         return new Promise(resolve => {
             socket.post('/auth/re', { }, response => {
                 if (response.status === 201) {

@@ -5,10 +5,14 @@ const User = require('../model/user');
 const Message = require('../model/message');
 const Auth = require('../model/auth');
 const config = require('../../../config/config');
+const messageFrequency = require('../util/messageFrequency');
 
 const MessageRoute = {
     'POST /message': function* (data) {
         yield* isLogin(this.socket, data, this.end);
+        if (!messageFrequency(this.socket.user)) {
+            return this.end(401, 'send messages too frequently');
+        }
         assert(!data.type, this.end, 400, 'need type param but not exists');
         assert(!data.content, this.end, 400, 'need content param but not exists');
         assert(!data.linkmanId, this.end, 400, 'need linkmanId param but not exists');
