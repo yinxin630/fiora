@@ -1,3 +1,5 @@
+@import "../../../common";
+
 .nav-list {
     flex: 1;
     height: 100%;
@@ -21,22 +23,22 @@
 .nav-list-item {
     width: 70px;
     height: 45px;
-    background-color: #0288D1;
+    background-color: $darkPrimaryColor;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
 
     &:hover {
-        background-color: #2ea7e0;
+        background-color: $selectColor;
     }
 
     i {
         font-size: 30px;
-        color: #fff;
+        color: $textIconColor;
     }
 }
 
 .selected {
-    background-color: #2ea7e0;
+    background-color: $selectColor;
 }

@@ -1,3 +1,5 @@
+@import "../../../common";
+
 .user-list {
     width: 250px;
     border-right: 1px solid silver;
@@ -56,13 +58,13 @@
 
             p:first-child {
                 font-size: 14px;
-                color: #202020;
+                color: $primaryText;
                 margin: 0;
                 margin-top: 5px;
             }
             p:last-child {
                 font-size: 12px;
-                color: #666;
+                color: $secondaryText;
                 margin: 0;
                 margin-top: 10px;
             }
@@ -75,7 +77,7 @@
             p {
                 width: 100%;
                 font-size: 12px;
-                color: #333;
+                color: $secondaryText;
                 margin: 0;
                 overflow: hidden;
                 white-space: nowrap;
