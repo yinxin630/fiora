@@ -53,6 +53,8 @@ const AuthRoute = {
         ];
         for (const group of user.groups) {
             yield Group.populate(group, groupOpts);
+            const onlines = yield Auth.find({ });
+            group.members = group.members.filter(m => onlines.find(o => o.user.toString() === m._id.toString()) !== undefined || m._id.toString() === this.socket.user.toString());
             let skip = group.messages.length - 30;
             if (skip < 0) {
                 skip = 0;
@@ -120,6 +122,8 @@ const AuthRoute = {
         ];
         for (const group of user.groups) {
             yield Group.populate(group, groupOpts);
+            const onlines = yield Auth.find({ });
+            group.members = group.members.filter(m => onlines.find(o => o.user.toString() === m._id.toString()) !== undefined || m._id.toString() === this.socket.user.toString());
             let skip = group.messages.length - 30;
             if (skip < 0) {
                 skip = 0;

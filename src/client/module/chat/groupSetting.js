@@ -74,11 +74,11 @@ class GroupSetting extends React.Component {
                             null
                     }
                     <div className="content">
-                        <span>群主：</span>
+                        <span>管理员：</span>
                         <span>{ creator ? creator.get('username') : '无' }</span>
                     </div>
                     <div className="content">
-                        <span>群成员：</span>
+                        <span>在线人数：</span>
                         <span>{ members.size }人</span>
                     </div>
                     <div className="userList">

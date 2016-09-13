@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const assert = require('../util/assert');
 const User = require('../model/user');
 const Group = require('../model/group');
+const Auth = require('../model/auth');
 const isLogin = require('../police/isLogin');
 const saveImage = require('../util/saveImage');
 
@@ -61,6 +62,8 @@ const GroupRoute = {
             path: 'members',
             select: '_id avatar username',
         });
+        const onlines = yield Auth.find({ });
+        group.members = group.members.filter(m => onlines.find(o => o.user.toString() === m._id.toString()) !== undefined || m._id.toString() === this.socket.user.toString());
 
         this.end(200, group);
     },
