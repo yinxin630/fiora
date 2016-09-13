@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const User = require('../model/user');
 const Group = require('../model/group');
 const GroupMessage = require('../model/groupMessage');
@@ -16,6 +17,7 @@ const GroupMessageRoute = {
         assert(!data.type, this.end, 400, 'need type param but not exists');
         assert(!data.content, this.end, 400, 'need content param but not exists');
         assert(!data.linkmanId, this.end, 400, 'need linkmanId param but not exists');
+        assert(!mongoose.Types.ObjectId.isValid(data.linkmanId), this.end, 400, 'linkmanId is invalid');
 
         const user = yield User.findById(this.socket.user);
         const group = yield Group.findById(data.linkmanId);
@@ -51,7 +53,7 @@ const GroupMessageRoute = {
             yield group.save();
         }
         catch (err) {
-            this.end(500, 'server error when save new message');
+            return this.end(500, 'server error when save new message');
         }
 
         yield GroupMessage.populate(savedMessage, { path: 'from', select: '_id username gender birthday avatar' });

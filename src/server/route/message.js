@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const isLogin = require('../police/isLogin');
 const assert = require('../util/assert');
 const saveImage = require('../util/saveImage');
@@ -16,6 +17,7 @@ const MessageRoute = {
         assert(!data.type, this.end, 400, 'need type param but not exists');
         assert(!data.content, this.end, 400, 'need content param but not exists');
         assert(!data.linkmanId, this.end, 400, 'need linkmanId param but not exists');
+        assert(!mongoose.Types.ObjectId.isValid(data.linkmanId), this.end, 400, 'linkmanId is invalid');
 
         const sender = yield User.findById(this.socket.user);
         const receiver = yield User.findById(data.linkmanId);
@@ -51,7 +53,7 @@ const MessageRoute = {
             yield Message.populate(message, { path: 'to', select: '_id username gender birthday avatar' });
         }
         catch (err) {
-            this.end(500, 'server error when save new message');
+            return this.end(500, 'server error when save new message');
         }
 
         const receiverAuth = yield Auth.findOne({ user: receiver });
