@@ -59,6 +59,21 @@ const GroupMessageRoute = {
 
         this.end(201, savedMessage);
     },
+
+    'GET /groupMessage/history': function* (data) {
+        assert(!data.groupId, this.end, 400, 'need groupId param but not exists');
+        assert(!data.length, this.end, 400, 'need length param but not exists');
+
+        const group = yield Group.findById(data.groupId);
+        let skip = group.messages.length - data.length - 30;
+        let limit = 30;
+        if (skip < 0) {
+            limit += skip;
+            skip = 0;
+        }
+        const messages = limit > 0 ? yield GroupMessage.find({ to: data.groupId }, null, { skip, limit }).populate({ path: 'from', select: '_id username gender birthday avatar' }) : [];
+        this.end(200, messages);
+    },
 };
 
 module.exports = GroupMessageRoute;

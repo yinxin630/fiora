@@ -158,6 +158,16 @@ function reducer(state = initialState, action) {
         );
     }
 
+    case 'GetGroupHistoryMessage': {
+        return state.update(
+            'linkmans',
+            linkmans => linkmans.update(
+                linkmans.findIndex(g => g.get('type') === 'group' && g.get('_id') === action.groupId),
+                linkman => linkman.update('messages', messages => immutable.fromJS(action.messages).concat(messages))
+            )
+        );
+    }
+
     case 'AddUserExpression': {
         return state.set('expressions', immutable.fromJS(action.expressions));
     }

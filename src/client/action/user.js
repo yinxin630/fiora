@@ -268,6 +268,24 @@ const actions = {
         });
     },
 
+    getGroupHistoryMessage: function (groupId, length) {
+        return new Promise(resolve => {
+            socket.get('/groupMessage/history', { groupId, length }, response => {
+                if (response.status === 200) {
+                    dispatch({
+                        type: 'GetGroupHistoryMessage',
+                        groupId,
+                        messages: response.data,
+                    });
+                    resolve(response);
+                }
+                else {
+                    resolve(response);
+                }
+            });
+        });
+    },
+
     addUserExpression: function (src) {
         return new Promise(resolve => {
             socket.post('/user/expression', { src }, response => {

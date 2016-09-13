@@ -42,7 +42,11 @@ class ChatPanel extends React.Component {
                     type={linkman.get('type')}
                     linkmanId={linkman.get('_id')}
                 />
-                <MessageList.container>
+                <MessageList.container
+                    linkmanId={linkman.get('_id')}
+                    linkmanType={linkman.get('type')}
+                    messagesCount={linkman.get('messages').size}
+                >
                     {
                         linkman.get('messages').map((message) => (
                             <MessageList.item

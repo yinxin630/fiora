@@ -9,6 +9,7 @@ import './style/messageList.scss';
 import Avatar from './avatar';
 import expressions from '../../util/expressions';
 import ui from '../../action/ui';
+import user from '../../action/user';
 import mask from '../../util/mask';
 
 let onScrollHandle = null;
@@ -17,6 +18,9 @@ let scrollMessage = null;
 class MessageList extends React.Component {
     static propTypes = {
         children: PropTypes.object,
+        linkmanId: PropTypes.string.isRequired,
+        linkmanType: PropTypes.string.isRequired,
+        messagesCount: PropTypes.number,
     };
 
     constructor(props) {
@@ -26,11 +30,15 @@ class MessageList extends React.Component {
     }
 
     handleOnScroll() {
+        const { linkmanId, linkmanType, messagesCount } = this.props;
         if (onScrollHandle) {
             clearTimeout(onScrollHandle);
         }
         onScrollHandle = setTimeout(() => {
             ui.shouldScrollMessage(this.list.scrollHeight - this.list.scrollTop - this.list.clientHeight < this.list.clientHeight);
+            if (this.list.scrollTop === 0 && linkmanType === 'group') {
+                user.getGroupHistoryMessage(linkmanId, messagesCount);
+            }
         }, 100);
     }
 
