@@ -16,6 +16,11 @@ const AuthRoute = {
         assert(!data.username, this.end, 400, 'need username param but not exists');
         assert(!data.password, this.end, 400, 'need password param but not exists');
 
+        const auths = yield Auth.find({ clients: this.socket.id });
+        if (auths.length > 0) {
+            return this.end(401, 'you have login. please logout first');
+        }
+
         // get user info
         const user = yield User.findOne({ username: data.username }, '-salt');
         assert(!user, this.end, 404, 'user not exists');
@@ -82,6 +87,11 @@ const AuthRoute = {
 
     'POST /auth/re': function* (data) {
         yield* isLogin(this.socket, data, this.end);
+
+        const auths = yield Auth.find({ clients: this.socket.id });
+        if (auths.length > 0) {
+            return this.end(401, 'you have login. please logout first');
+        }
 
         // get user info
         const user = yield User.findById(this.socket.user, '-password -salt');

@@ -40,6 +40,9 @@ class Login extends React.Component {
                     ui.openNotification('密码错误!');
                     this.setState({ passwordInput: 'error' });
                 }
+                else if (result.data === 'you have login. please logout first') {
+                    ui.openNotification('您已经登录了一个帐号, 请退出登录后再试!');
+                }
 
                 if (result.status === 201) {
                     window.localStorage.setItem('token', result.data.token);
