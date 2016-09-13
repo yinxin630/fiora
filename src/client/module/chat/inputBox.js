@@ -62,6 +62,9 @@ class InputBox extends React.Component {
 
             const message = this.input.value;
             this.input.value = '';
+            if (message.trim() === '') {
+                return;
+            }
             if (type === 'group') {
                 if (/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(message)) {
                     const img = new Image();
