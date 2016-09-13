@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "export NODE_ENV=development && (webpack-dev-server -d --progress --colors --watch --display-error-details --history-api-fallback --content-base public/ &) && node bin/develop.js",
+    "start": "export NODE_ENV=development && (webpack-dev-server -d --define process.env.NODE_ENV='\"development\"' --progress --colors --watch --display-error-details --history-api-fallback --content-base public/ &) && node bin/develop.js",
     "build": "export NODE_ENV=production && ./node_modules/.bin/webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors",
     "test": "echo \"Error: no test specified\" && exit 1",
     "eslint": "./node_modules/.bin/eslint ./ --cache --ignore-pattern .eslintignore"

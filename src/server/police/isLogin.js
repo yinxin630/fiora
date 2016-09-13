@@ -13,7 +13,6 @@ function* isLogin(socket, data, end) {
         if (err.message === 'Signature verification failed') {
             return end(403, 'invalid token');
         }
-        console.log(err.message);
         return end(500, 'server error when run police isLogin');
     }
 

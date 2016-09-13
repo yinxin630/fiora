@@ -29,7 +29,7 @@ class ChatPanelHeader extends React.Component {
     }
 
     onGroupSettingClick() {
-        user.getGroupInfo(this.props.linkmanId).then(response => console.log(response));
+        user.getGroupInfo(this.props.linkmanId);
         ui.openGroupSetting();
         mask(ui.closeGroupSetting);
     }

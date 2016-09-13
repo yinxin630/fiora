@@ -34,7 +34,6 @@ const GroupRoute = {
             else if (err.message === 'Group validation failed') {
                 return this.end(400, 'group name invalid');
             }
-            console.log('save new group error ->', err);
             return this.end(500, 'server error when save new group');
         }
 
@@ -92,7 +91,6 @@ const GroupRoute = {
             }
         }
         catch (err) {
-            console.log('add user to group error ->', err);
             return this.end(500, 'server error when add user to group');
         }
 

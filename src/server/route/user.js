@@ -42,7 +42,6 @@ const UserRoute = {
             else if (err.message === 'User validation failed') {
                 return this.end(400, 'username invalid');
             }
-            console.log('save new user error ->', err);
             return this.end(500, 'server error when save new user');
         }
         this.end(201, savedUser);

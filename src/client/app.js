@@ -103,11 +103,9 @@ class App extends React.Component {
         });
 
         socket.on('disconnect', () => {
-            console.log('disconnect');
             user.offline();
         });
         socket.on('reconnect', () => {
-            console.log('reconnect');
             user
             .reConnect()
             .then(result => {
