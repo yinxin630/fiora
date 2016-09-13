@@ -52,6 +52,9 @@ class ImageViewer extends React.Component {
                     style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
                     draggable
                     onDragStart={event => {
+                        const img = document.createElement('img');
+                        img.src = 'data:image/png;base64,R0lGODlhFAAUAIAAAP///wAAACH5BAEAAAAALAAAAAAUABQAAAIRhI+py+0Po5y02ouz3rz7rxUAOw==';
+                        event.dataTransfer.setDragImage(img, 0, 0);
                         offsetX = event.clientX - event.target.offsetLeft;
                         offsetY = event.clientY - event.target.offsetTop;
                     }}
