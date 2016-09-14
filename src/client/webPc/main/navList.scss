@@ -1,0 +1,44 @@
+@import "../../common/commonStyle";
+
+.nav-list {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    div {
+        &:first-child {
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+        &:last-child {
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+    }
+}
+
+.nav-list-item {
+    width: 70px;
+    height: 45px;
+    background-color: $darkPrimaryColor;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $selectColor;
+    }
+
+    i {
+        font-size: 30px;
+        color: $textIconColor;
+    }
+}
+
+.selected {
+    background-color: $selectColor;
+}

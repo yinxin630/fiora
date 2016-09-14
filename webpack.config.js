@@ -1,7 +1,7 @@
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
-    entry: './src/client/index.js',
+    entry: './src/client/webPc/index.js',
     output: { path: './public', filename: 'app.js' },
     module: {
         loaders: [
