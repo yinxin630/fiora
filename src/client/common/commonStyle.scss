@@ -32,6 +32,11 @@ $grey7: #616161;
 $grey8: #424242;
 $grey9: #212121;
 
+@mixin button {
+    cursor: pointer;
+    user-select: none;
+}
+
 @mixin horizontalCenter {
     position: absolute;
     margin: auto;
@@ -47,6 +52,12 @@ $grey9: #212121;
 @mixin containerCenter {
     @include horizontalCenter;
     @include verticalCenter;
+}
+
+@mixin containerStart {
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 @mixin floatPanel {
@@ -68,8 +79,9 @@ $grey9: #212121;
     }
 }
 
-@mixin flexCenter {
+@mixin flexCenter($direction: row) {
     display: flex;
+    flex-direction: $direction;
     justify-content: center;
     align-items: center;
 }
@@ -82,4 +94,26 @@ $grey9: #212121;
 @mixin content($color: $grey8) {
     font-size: 16px;
     color: $color;
+}
+
+@mixin size($width: 100%, $height: 100%) {
+    width: $width;
+    height: $height;
+}
+
+@mixin primaryIndex {
+    z-index: 0;
+}
+@mixin maskIndex {
+    z-index: 10;
+}
+@mixin floatIndex {
+    z-index: 11;
+}
+@mixin notificationIndex {
+    z-index: 15;
+}
+
+@mixin maskColor {
+    background-color: rgba(0, 0, 0, 0.2);
 }

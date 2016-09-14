@@ -30,7 +30,7 @@ class Avatar extends React.Component {
             :
                 <div
                     className="avatar-text"
-                    style={{ backgroundColor: avatar, width, height, fontSize: width / 3 }}
+                    style={{ backgroundColor: avatar, width, height, fontSize: width / 2.5 }}
                     onClick={onClick}
                 >
                     { name.slice(0, 1) }

@@ -1,10 +1,9 @@
+@import "./commonStyle";
+
 .avatar-text {
+    @include flexCenter;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size: 22px;
+    color: white;
 }
 
 .avatar-image {

@@ -61,6 +61,8 @@ class ImageViewer extends React.Component {
                     onDragOver={event => {
                         event.target.style.left = `${event.clientX - offsetX}px`;
                         event.target.style.top = `${event.clientY - offsetY}px`;
+                        event.target.style.right = undefined;
+                        event.target.style.bottom = undefined;
                     }}
                     onClick={event => event.bubbles = false}
                 />

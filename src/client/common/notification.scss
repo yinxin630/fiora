@@ -1,15 +1,14 @@
+@import "./commonStyle";
+
 .notification {
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 0px;
-    z-index: 105;
+    @include size(100%, auto);
+    @include flexCenter;
+    @include containerStart;
+    @include notificationIndex;
     pointer-events: none;
 
     & > div {
-        background-color: #fff;
+        background-color: white;
         max-width: 400px;
         padding: 5px 15px;
         margin-top: 90px;
