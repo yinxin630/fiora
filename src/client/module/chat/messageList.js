@@ -115,7 +115,7 @@ class Message extends React.Component {
                         src={content}
                         ref={img => this.img = img}
                         onLoad={() => scrollMessage && scrollMessage()}
-                        onError={() => this.img.src = 'http://od8dycy67.bkt.clouddn.com/image_not_found.png'}
+                        onError={() => this.img.src = 'http://od8dycy67.bkt.clouddn.com/image_not_found.png?imageView2/2/w/250'}
                         onDoubleClick={() => this.handleImageDoubleClick(content)}
                     />
                 </div>
