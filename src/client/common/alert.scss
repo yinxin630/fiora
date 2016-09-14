@@ -1,0 +1,33 @@
+@import "./commonStyle";
+
+.alert {
+    @include floatPanel;
+    width: 300px;
+    height: min-content;
+
+    & > :nth-child(1000n+1) {
+        @include flexCenter;
+        @include title;
+        height: 40px;
+    }
+
+    & > :nth-child(1000n+2) {
+        padding: {
+            left: 15px;
+            right: 15px;
+            top: 5px;
+            bottom: 10px;
+        }
+    }
+
+    & > :nth-child(1000n+3) {
+        @include flexCenter;
+        border-top: 1px solid $grey4;
+        height: 44px;
+
+        & > span {
+            @include floatPanelButton;
+            @include flexCenter;
+        }
+    }
+}
