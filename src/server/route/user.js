@@ -17,6 +17,9 @@ const UserRoute = {
         assert(!data.username, this.end, 400, 'need username param but not exists');
         assert(!data.password, this.end, 400, 'need password param but not exists');
 
+        const user = yield User.findOne({ username: data.username });
+        assert(user, this.end, 400, 'username already exists');
+
         const defaultGroup = yield Group.findOne({ isDefault: true });
 
         const salt = yield bcrypt.genSalt$(saltRounds);
@@ -36,10 +39,7 @@ const UserRoute = {
             yield defaultGroup.save();
         }
         catch (err) {
-            if (err.code === 11000) {
-                return this.end(400, 'username already exists');
-            }
-            else if (err.message === 'User validation failed') {
+            if (err.message === 'User validation failed') {
                 return this.end(400, 'username invalid');
             }
             return this.end(500, 'server error when save new user');

@@ -13,7 +13,14 @@ const router = {
                     end,
                 },
                 receiveData.data
-            );
+            ).catch(e => {
+                if (/^assert failed./.test(e.message)) {
+                    console.info(e.message);
+                    return;
+                }
+                console.error(e);
+                return end(500, e.message);
+            });
         }
         else {
             end(404, 'interface not exits');

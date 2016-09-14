@@ -43,6 +43,9 @@ class Login extends React.Component {
                 else if (result.data === 'you have login. please logout first') {
                     ui.openNotification('您已经登录了一个帐号, 请退出登录后再试!');
                 }
+                else {
+                    ui.openNotification('登录失败! 服务器发生错误, 请联系管理员.');
+                }
 
                 if (result.status === 201) {
                     window.localStorage.setItem('token', result.data.token);
