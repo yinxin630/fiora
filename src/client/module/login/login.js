@@ -25,32 +25,33 @@ class Login extends React.Component {
         user
             .login(this.username.value, this.password.value)
             .then(result => {
-                if (result.data === 'need username param but not exists') {
-                    ui.openNotification('请输入用户名');
-                    this.setState({ usernameInput: 'error' });
-                }
-                else if (result.data === 'need password param but not exists') {
-                    ui.openNotification('请输入密码');
-                    this.setState({ passwordInput: 'error' });
-                }
-                else if (result.data === 'user not exists') {
-                    ui.openNotification('该用户不存在!');
-                }
-                else if (result.data === 'password not correct') {
-                    ui.openNotification('密码错误!');
-                    this.setState({ passwordInput: 'error' });
-                }
-                else if (result.data === 'you have login. please logout first') {
-                    ui.openNotification('您已经登录了一个帐号, 请退出登录后再试!');
-                }
-                else {
-                    ui.openNotification('登录失败! 服务器发生错误, 请联系管理员.');
-                }
-
                 if (result.status === 201) {
                     window.localStorage.setItem('token', result.data.token);
                     this.context.router.push('/chat');
                     user.online();
+                }
+                else {
+                    if (result.data === 'need username param but not exists') {
+                        ui.openNotification('请输入用户名');
+                        this.setState({ usernameInput: 'error' });
+                    }
+                    else if (result.data === 'need password param but not exists') {
+                        ui.openNotification('请输入密码');
+                        this.setState({ passwordInput: 'error' });
+                    }
+                    else if (result.data === 'user not exists') {
+                        ui.openNotification('该用户不存在!');
+                    }
+                    else if (result.data === 'password not correct') {
+                        ui.openNotification('密码错误!');
+                        this.setState({ passwordInput: 'error' });
+                    }
+                    else if (result.data === 'you have login. please logout first') {
+                        ui.openNotification('您已经登录了一个帐号, 请退出登录后再试!');
+                    }
+                    else {
+                        ui.openNotification('登录失败! 服务器发生错误, 请联系管理员.');
+                    }
                 }
             });
     }
