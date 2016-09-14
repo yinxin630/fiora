@@ -3,7 +3,7 @@ import ui from '../action/ui';
 
 function mask(call) {
     ui.openMaskLayout();
-    once(document.querySelector('#maskLayout'), 'click', () => {
+    once(document.getElementById('maskLayout'), 'click', () => {
         ui.closeMaskLayout();
         call();
     });
