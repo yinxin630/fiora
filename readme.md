@@ -6,11 +6,11 @@ Fiora is a web chat application. Made by node.js, koa, react.
 
 ## Function
 
-0. create user, create group, join group, private chat, group chat
-0. text, image, code, url of message type
-0. desktop notification, sound notification, notification switch
-0. modify avatar, expression collect, modify group announcement
-0. message length limit, message send frequency limit
+0. Register user, create group, join group, private chat, group chat
+0. Support text, image, code, url types of message
+0. Desktop notification, sound notification, notification switch
+0. Customize avatar, collect expression, customize group announcement
+0. Limit message length, message frequency
 
 ## Run Shot
 
