@@ -18,20 +18,25 @@ Fiora is a web chat application. Made by node.js, koa, react.
 
 ## Installation
 
-The project depends node.js and mongodb database. To install [node.js](https://nodejs.org/en/download/) ([For China mirror](https://npm.taobao.org/mirrors/node)). To install [mongodb](https://docs.mongodb.com/manual/installation/).
+The project is powered by node.js and mongodb database. To install [node.js](https://nodejs.org/en/download/) ([For China mirror](https://npm.taobao.org/mirrors/node)). To install [mongodb](https://docs.mongodb.com/manual/installation/).
 
-0. clone repository to local from `https://github.com/yinxin630/fiora`
-0. go to repository directory and run `npm install`
-0. create config file from simple config `cp config/config.simple.js config/config.js`. modify config file to set database and other params
-0. run project `npm start`
-0. open `http://localhost:8080/webpack-dev-server/` to look
+0. Clone repository to local  
+`git clone git@github.com:yinxin630/fiora.git`
+0. Go to repository directory and run  
+`npm install`
+0. Create config file from simple config  
+`cp config/config.simple.js config/config.js`. 
+0. Set database and other params in config file
+0. Run project  
+`npm start`
+0. Open `http://localhost:8080/webpack-dev-server/` and enjoy it
 
 ## Contribute
 
-If you want to add functionality or fix bug. Please observe the following process.
+If you want to add functionality or fix bug, please observe the following process.
 
-0. fork this repository and clone your fork repository to local
-0. install depends `npm install`
-0. modify code and check for bug
-0. commit your code. if you get some errors or warnings from eslint. please fix it
-0. create pull request to me.
+0. Fork this repository and clone your fork repository to local
+0. Install dependencies `npm install`
+0. Modify the code and check for bug
+0. Commit your code. If you get any error or warning from eslint, please fix it
+0. Create a pull request 
