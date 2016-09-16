@@ -35,7 +35,7 @@ The project is powered by node.js and mongodb database. To install [node.js](htt
 
 If you want to add functionality or fix bug, please observe the following process.
 
-0. Fork this repository and clone the repository fork
+0. Fork this repository and clone the fork
 0. Install dependencies `npm install`
 0. Modify the code and check for bug
 0. Commit your code. If you get any error or warning from eslint, please fix it
