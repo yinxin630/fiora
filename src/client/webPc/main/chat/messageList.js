@@ -174,7 +174,7 @@ class Message extends React.Component {
                 />
                 <div>
                     <div>
-                        <span>{ message.getIn(['from', 'username']) }</span>
+                        <span className="message-username">{ message.getIn(['from', 'username']) }</span>
                         <span>{ moment(message.get('createTime')).format('HH:mm') }</span>
                     </div>
                     { this.renderContent(message.get('type'), message.get('content')) }
