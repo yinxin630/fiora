@@ -1,6 +1,7 @@
 import Store from '../store';
 import socket from '../socket';
-import api from '../common/api'
+import api from '../common/api';
+
 const dispatch = Store.dispatch;
 
 const actions = {
@@ -125,8 +126,8 @@ const actions = {
         });
     },
 
-    addGroupMessage: function (message) {              
-        api.emit("rawMessage",message);
+    addGroupMessage: function (message) {
+        api.emit('rawMessage', message);
         return new Promise(resolve => {
             dispatch({
                 type: 'AddGroupMessage',
@@ -242,8 +243,8 @@ const actions = {
         });
     },
 
-    addMessage: function (message) {        
-        api.emit("message",message);
+    addMessage: function (message) {
+        api.emit('message', message);
         return new Promise(resolve => {
             dispatch({
                 type: 'AddMessage',

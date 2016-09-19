@@ -5,19 +5,4 @@
     position: relative;
     overflow: hidden;
     max-height: 100%;
-
-    .new-message {
-        width: 100px;
-        height: 30px;
-        border-radius: 10px;
-        background-color: #2ea7e0;
-        color: white;
-        position: absolute;
-        bottom: 60px;
-        left: 50%;
-        margin-left: -40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
 }

@@ -8,6 +8,7 @@ import UserList from './userList';
 import ChatPanel from './chatPanel';
 import EmptyChatPanel from './emptyChatPanel';
 import api from '../../../common/api';
+
 class Body extends React.Component {
     static propTypes = {
         linkmans: PropTypes.object.isRequired,
@@ -19,7 +20,7 @@ class Body extends React.Component {
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
-        api.init(this); 
+        api.init(this);
     }
 
     render() {

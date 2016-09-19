@@ -1,43 +1,39 @@
 @import "../../../common/commonStyle";
 
 .chat-panel-header {
+    @include size(100%, 60px);
     min-height: 60px;
-    height: 60px;
-    width: 100%;
-    border-bottom: 1px solid $dividerColor;
+    border-bottom: 1px solid $grey4;
     display: flex;
     justify-content: space-between;
     
     & > div:nth-child(1000n+1) {
-        display: flex;
-        align-items: center;
+        @include flexCenter;
 
         & > :nth-child(1000n+1) {
-            width: 40px;
-            height: 40px;
+            @include size(40px, 40px);
             margin: 10px 5px 10px 10px;
             border-radius: 50%;
         }
         p {
-            color: $primaryText;
+            color: $grey9;
             margin-left: 10px;
             font-size: 20px;
         }
     }
     & > div:nth-child(1000n+2) {
-        display: flex;
-        align-items: center;
+        @include flexCenter;
 
         & > div {
             margin: auto 8px;
 
             i {
                 font-size: 24px;
-                color: $darkPrimaryColor;
+                color: $lightBlue7;
                 cursor: pointer;
 
                 &:hover {
-                    color: $selectColor;
+                    color: $lightBlue4;
                 }
             }
             &:nth-child(1000n+1) {

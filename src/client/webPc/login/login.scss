@@ -1,16 +1,13 @@
+@import "../../common/commonStyle";
+
 .login {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include size;
+    @include flexCenter;
 
     & > div {
+        @include flexCenter;
         width: 360px;
-        background-color: #fff;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        background-color: white;
         padding: 20px 30px;
 
         .focus {
@@ -28,20 +25,16 @@
         }
 
         & > div {
+            @include flexCenter;
             width: 300px;
             height: 40px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
 
             & > div {
+                @include flexCenter;
                 width: 40px;
                 height: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
 
                 i {
                     color: #757575;
