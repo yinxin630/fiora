@@ -38,12 +38,12 @@ class Header extends React.Component {
                 <NavList.container>
                     <NavList.item
                         icon="&#xe607;"
-                        onClick={() => this.context.router.push('/chat/body')}
+                        onClick={() => this.context.router.push('/main/chat')}
                         selected={/^\/chat\/body|\/chat$/.test(pathname)}
                     />
                     <NavList.item
                         icon="&#xe600;"
-                        onClick={() => this.context.router.push('/chat/manage')}
+                        onClick={() => this.context.router.push('/main/manage')}
                         selected={/^\/chat\/manage$/.test(pathname)}
                     />
                     <NavList.item

@@ -46,7 +46,7 @@ class App extends React.Component {
                 if (result.status === 201) {
                     user.online();
                     if (this.props.location.pathname === '/') {
-                        this.context.router.push('/chat');
+                        this.context.router.push('/main');
                     }
                 }
             });

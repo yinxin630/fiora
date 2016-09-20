@@ -43,7 +43,7 @@ class User extends React.Component {
 
     handleUserListItemClick() {
         const { linkman } = this.props;
-        this.context.router.push(`/chat/body/${linkman.get('type')}/${linkman.get('_id')}`);
+        this.context.router.push(`/main/chat/${linkman.get('type')}/${linkman.get('_id')}`);
         user.clearUnread(linkman.get('type'), linkman.get('_id'));
     }
 

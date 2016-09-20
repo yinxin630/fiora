@@ -2,13 +2,13 @@ import React, { PropTypes } from 'react';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 
-import './body.scss';
+import './chat.scss';
 
 import UserList from './userList';
 import ChatPanel from './chatPanel';
 import EmptyChatPanel from './emptyChatPanel';
 
-class Body extends React.Component {
+class Chat extends React.Component {
     static propTypes = {
         linkmans: PropTypes.object.isRequired,
         me: PropTypes.string.isRequired,
@@ -55,4 +55,4 @@ export default connect(
         linkmans: state.getIn(['user', 'linkmans']),
         me: state.getIn(['user', '_id']),
     })
-)(Body);
+)(Chat);

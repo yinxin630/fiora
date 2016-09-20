@@ -98,9 +98,10 @@ class InputBox extends React.Component {
 
     handlePaste(e) {
         const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+        const types = (e.clipboardData || e.originalEvent.clipboardData).types;
 
         // 如果包含文件内容
-        if (e.clipboardData.types.indexOf('Files') > -1) {
+        if (types.indexOf('Files') > -1) {
             for (let index = 0; index < items.length; index++) {
                 const item = items[index];
                 if (item.kind === 'file' && item.type.match(/^image/)) {

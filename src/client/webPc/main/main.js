@@ -2,13 +2,13 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
 
-import './chat.scss';
+import './main.scss';
 
 import Header from './header';
 import SystemSetting from './systemSetting';
 import UserSetting from './userSetting';
 
-class Chat extends React.Component {
+class Main extends React.Component {
     static propTypes = {
         children: PropTypes.element,
         user: PropTypes.object,
@@ -55,4 +55,4 @@ export default connect(
     state => ({
         user: state.get('user'),
     })
-)(Chat);
+)(Main);

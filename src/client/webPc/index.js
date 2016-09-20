@@ -8,8 +8,8 @@ import Store from '../store';
 import App from './app';
 import Login from '../webPc/login/login';
 import Signup from '../webPc/signup/signup';
-import Chat from '../webPc/main/chat';
-import Body from '../webPc/main/chat/body';
+import Main from '../webPc/main/main';
+import Chat from '../webPc/main/chat/chat';
 import GroupManage from '../webPc/main/linkmanManage/groupManage';
 
 function requireAll(requireContext) {
@@ -25,10 +25,10 @@ ReactDom.render(
                 <IndexRoute component={Login} />
                 <Route path="login" component={Login} />
                 <Route path="signup" component={Signup} />
-                <Route path="chat" component={Chat}>
-                    <IndexRoute component={Body} />
-                    <Route path="body" component={Body} />
-                    <Route path="body/:type/:id" component={Body} />
+                <Route path="main" component={Main}>
+                    <IndexRoute component={Chat} />
+                    <Route path="chat" component={Chat} />
+                    <Route path="chat/:type/:id" component={Chat} />
                     <Route path="manage" component={GroupManage} />
                 </Route>
             </Route>

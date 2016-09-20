@@ -27,7 +27,7 @@ class CreateGroup extends React.Component {
             if (response.status === 201) {
                 ui.closeCreateGroupInput();
                 ui.closeMaskLayout();
-                this.context.router.push('/chat/body');
+                this.context.router.push('/main/chat');
             }
             else {
                 if (response.data === 'group name already exists') {
