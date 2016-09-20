@@ -41,6 +41,7 @@ class UserPanel extends React.Component {
                     name={username}
                     width={60}
                     height={60}
+                    title="查看个人信息"
                     onClick={this.handleAvatarClick}
                 />
             </div>

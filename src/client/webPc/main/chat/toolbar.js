@@ -58,18 +58,21 @@ class Toolbar extends React.Component {
                 <div>
                     <i
                         className="icon"
+                        title="表情"
                         onClick={this.onExpressionClick}
                     >&#xe604;</i>
                 </div>
                 <div>
                     <i
                         className="icon"
+                        title="图片"
                         onClick={() => this.image.click()}
                     >&#xe605;</i>
                 </div>
                 <div>
                     <i
                         className="icon"
+                        title="代码"
                         onClick={this.onCodeClick}
                     >&#xe602;</i>
                 </div>

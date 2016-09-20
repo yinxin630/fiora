@@ -9,6 +9,7 @@ class Avatar extends React.Component {
         name: PropTypes.string.isRequired,
         width: PropTypes.number.isRequired,
         height: PropTypes.number.isRequired,
+        title: PropTypes.string,
         onClick: PropTypes.func,
     };
 
@@ -18,19 +19,21 @@ class Avatar extends React.Component {
     }
 
     render() {
-        const { avatar, name, width, height, onClick } = this.props;
+        const { avatar, name, width, height, title, onClick } = this.props;
         return (
             avatar.match(/^http/) ?
                 <img
                     className="avatar-image"
                     style={{ width, height }}
                     src={`${avatar}?imageView2/2/w/${60}/h/${60}`}
+                    title={title}
                     onClick={onClick}
                 />
             :
                 <div
                     className="avatar-text"
                     style={{ backgroundColor: avatar, width, height, fontSize: width / 2.5 }}
+                    title={title}
                     onClick={onClick}
                 >
                     { name.slice(0, 1) }

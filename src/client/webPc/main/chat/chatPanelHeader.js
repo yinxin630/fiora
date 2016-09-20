@@ -54,12 +54,14 @@ class ChatPanelHeader extends React.Component {
                             <div>
                                 <i
                                     className="icon"
+                                    title="公告"
                                     onClick={this.onGroupNoticeClick}
                                 >&#xe60a;</i>
                             </div>
                             <div>
                                 <i
                                     className="icon"
+                                    title="关于"
                                     onClick={this.onGroupSettingClick}
                                 >&#xe609;</i>
                             </div>

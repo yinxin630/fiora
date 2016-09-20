@@ -38,16 +38,19 @@ class Header extends React.Component {
                 <NavList.container>
                     <NavList.item
                         icon="&#xe607;"
+                        title="聊天"
                         onClick={() => this.context.router.push('/main/chat')}
-                        selected={/^\/chat\/body|\/chat$/.test(pathname)}
+                        selected={/^\/main\/chat|\/main$/.test(pathname)}
                     />
                     <NavList.item
                         icon="&#xe600;"
+                        title="联系人"
                         onClick={() => this.context.router.push('/main/manage')}
-                        selected={/^\/chat\/manage$/.test(pathname)}
+                        selected={/^\/main\/manage$/.test(pathname)}
                     />
                     <NavList.item
                         icon="&#xe606;"
+                        title="系统设置"
                         onClick={this.handleSettingClick}
                     />
                 </NavList.container>

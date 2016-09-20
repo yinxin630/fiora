@@ -25,6 +25,7 @@ class Nav extends React.Component {
     static propTypes = {
         icon: PropTypes.string.isRequired,
         selected: PropTypes.bool,
+        title: PropTypes.string,
         onClick: PropTypes.func,
     };
 
@@ -34,10 +35,11 @@ class Nav extends React.Component {
     }
 
     render() {
-        const { icon, selected, onClick } = this.props;
+        const { icon, selected, title, onClick } = this.props;
         return (
             <div
                 className={`nav-list-item ${selected ? 'selected' : ''}`}
+                title={title}
                 onClick={onClick}
             >
                 <i className="icon">{ icon }</i>
