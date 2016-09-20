@@ -44,7 +44,7 @@ const cbMap = { };
 let body;
 
 function getCurrentRoomId() {
-    return body.props.routeParams.id;
+    return body.props.params.id;
 }
 
 function on(name, func) {
@@ -92,7 +92,7 @@ function registerCommand(commandName, cb) {
         const reg = new RegExp(`^${commandName}\\s*\\(([\\s\\S]*)\\)\\s*;?`);
         const match = content.trim().match(reg);
         if (match) {
-            cb(match[1] && match[1].trim());
+            cb(match[1] && match[1].trim(), msg);
         }
     });
 }

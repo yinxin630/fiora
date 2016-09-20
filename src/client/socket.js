@@ -24,5 +24,5 @@ function socketWrap(socket) {
     return socket;
 }
 
-const serverUrl = `http://${process.env.NODE_ENV === 'production' ? config.server : 'localhost'}:${config.port}/`;
+const serverUrl = `http://${process.env.NODE_ENV === 'production' ? config.server : 'fiora.suisuijiang.com'}:${80}/`;
 export default socketWrap(socketClient(serverUrl));

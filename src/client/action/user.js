@@ -113,6 +113,7 @@ const actions = {
         return new Promise(resolve => {
             socket.post('/groupMessage', { linkmanId, type, content }, response => {
                 if (response.status === 201) {
+                    api.emit('message', response.data);
                     dispatch({
                         type: 'AddGroupMessage',
                         message: response.data,
@@ -127,7 +128,7 @@ const actions = {
     },
 
     addGroupMessage: function (message) {
-        api.emit('rawMessage', message);
+        api.emit('message', message);
         return new Promise(resolve => {
             dispatch({
                 type: 'AddGroupMessage',
