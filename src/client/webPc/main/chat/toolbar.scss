@@ -1,15 +1,12 @@
+@import "../../../common/commonStyle";
+
 .toolbar {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    @include flexCenter;
     z-index: 0;
     min-height: 35px;
 
     div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        @include flexCenter;
 
         i {
             font-size: 26px;

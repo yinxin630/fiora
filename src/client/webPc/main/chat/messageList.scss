@@ -1,3 +1,5 @@
+@import "../../../common/commonStyle";
+
 .message-list {
     width: 100%;
     padding: 0px 10px 5px 10px;
@@ -17,8 +19,7 @@
     max-height: 100%;
 
     & > :first-child {
-        width: 40px;
-        height: 40px;
+        @include size(40px, 40px);
         border-radius: 50%;
         margin: 5px;
         margin-right: 5px;

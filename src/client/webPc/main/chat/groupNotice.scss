@@ -1,3 +1,5 @@
+@import "../../../common/commonStyle";
+
 .group-notice {
     flex: 1;
     padding: 15px;
@@ -12,23 +14,19 @@
         color: #212121;
     }
     .editor {
+        @include size(295px, 150px);
         margin-top: 10px;
-        width: 295px;
-        height: 150px;
         font-size: 14px;
         padding: 5px;
     }
     .button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        @include flexCenter;
         margin-top: 15px;
 
         button {
+            @include size(100px, 30px);
             background-color: #289dda;
             color: white;
-            width: 100px;
-            height: 30px;
             font-size: 16px;
             border-radius: 5px;
             cursor: pointer;

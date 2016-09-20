@@ -1,14 +1,14 @@
+@import "../../../common/commonStyle";
+
 .input-box {
+    @include flexCenter;
     width: 100%;
-    display: flex;
-    justify-content: center;
     align-items: flex-end;
     z-index: 1;
     min-height: 42px;
 
     input {
-        width: 450px;
-        height: 32px;
+        @include size(450px, 32px);
         border-radius: 16px;
         border: 1px solid #727272;
         padding: 0px 15px;
