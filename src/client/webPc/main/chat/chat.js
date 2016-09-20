@@ -37,7 +37,7 @@ class Chat extends React.Component {
                     }
                 </UserList.container>
                 {
-                    location.pathname === '/chat' || location.pathname === '/chat/body' ?
+                    location.pathname === '/main' || location.pathname === '/main/chat' ?
                         <EmptyChatPanel />
                         :
                         <ChatPanel

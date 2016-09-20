@@ -144,7 +144,7 @@ class App extends React.Component {
                     style={{ backgroundSize: `${width}px ${height - 50}px` }}
                 >
                 {
-                    /^\/chat/.test(this.props.location.pathname) ?
+                    /^\/main/.test(this.props.location.pathname) ?
                         <div style={{ backgroundSize: `${width}px ${height - 50}px` }} />
                     :
                         null
