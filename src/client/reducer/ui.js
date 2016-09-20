@@ -1,13 +1,5 @@
 import immutable from 'immutable';
 
-function requireAll(requireContext) {
-    return requireContext.keys().map(requireContext);
-}
-// requires and returns all modules that match
-
-requireAll(require.context('../plugins/', true, /^\.\/.*\.js$/));
-
-
 const initialState = immutable.fromJS({
     showGroupSetting: false,
     showGroupNotice: false,

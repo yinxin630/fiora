@@ -5,8 +5,8 @@
     @include flexCenter;
 
     & > div {
-        @include flexCenter;
-        width: 360px;
+        @include flexCenter(column);
+        @include size(360px, auto);
         background-color: white;
         padding: 20px 30px;
 
@@ -25,16 +25,15 @@
         }
 
         & > div {
+            @include size(300px, 40px);
             @include flexCenter;
-            width: 300px;
-            height: 40px;
+            box-sizing: content-box;
             border: 1px solid #ccc;
             border-radius: 5px;
 
             & > div {
                 @include flexCenter;
-                width: 40px;
-                height: 40px;
+                @include size(40px, 40px);
 
                 i {
                     color: #757575;
@@ -44,7 +43,7 @@
 
             & > input {
                 flex: 1;
-                height: 38px;
+                height: 40px;
                 padding-right: 10px;
                 font-size: 16px;
                 color: #757575;

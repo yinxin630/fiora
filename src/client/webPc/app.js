@@ -6,7 +6,7 @@ import './app.scss';
 import user from '../action/user';
 import ui from '../action/ui';
 import socket from '../socket';
-import publicApi from './publicApi';
+import api, { publicApi } from '../api';
 
 import Notification from '../common/notification';
 import MaskLayout from '../common/maskLayout';
@@ -26,6 +26,11 @@ class App extends React.Component {
 
     static contextTypes = {
         router: React.PropTypes.object.isRequired,
+    }
+
+    constructor(props, context) {
+        super(props, context);
+        api.init(this);
     }
 
     componentWillMount() {

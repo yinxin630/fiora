@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import api from '../common/api.js';
+import api from '../api.js';
 
 const {
     registerCommand,
@@ -12,11 +12,11 @@ registerCommand('boom', userName => {
     }
     const $target = $name.last().parents('.message-list-item').find('.avatar-image');
     $target.css('transition', '0.2s all')
-            .css('opacity', '0')
-            .css('transform', 'scale(2)');
+           .css('opacity', '0')
+           .css('transform', 'scale(2)');
     setTimeout(() => {
         $target.css('opacity', '')
-            .css('transform', '');
+               .css('transform', '');
         setTimeout(() => {
             $target.css('transition', '0.2s all');
         }, 300);

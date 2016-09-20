@@ -1,6 +1,6 @@
 import Store from '../store';
 import socket from '../socket';
-import api from '../common/api';
+import api from '../api';
 
 const dispatch = Store.dispatch;
 
