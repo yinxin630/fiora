@@ -1,25 +1,20 @@
+@import "../../../common/commonStyle";
+
 .input-form {
+    @include floatIndex;
+    @include containerCenter;
+    @include size(380px, 120px);
     background-color: #f1f1f1;
-    z-index: 101;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 380px;
-    height: 120px;
-    margin-top: -80px;
-    margin-left: -150px;
     display: flex;
     flex-direction: column;
     border-radius: 5px;
 
     & > :nth-child(1000n+1) {
-        background-color: #ffffff;
+        @include flexCenter;
+        background-color: white;
         height: 40px;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         position: relative;
 
         & > i {
@@ -37,19 +32,15 @@
     }
 
     & > :nth-child(1000n+2) {
+        @include flexCenter;
         flex: 1;
         background-color: #fafafc;
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;
         padding: 10px 10px;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
 
         & > input {
-            height: 34px;
-            width: 260px;
+            @include size(34px, 260px);
             border-radius: 10px;
             padding: 0px 10px;
             font-size: 14px;
@@ -57,8 +48,7 @@
         }
 
         & > button {
-            height: 34px;
-            width: 80px;
+            @include size(34px, 80px);
             margin-left: 20px;
             border-radius: 10px;
             font-size: 14px;
@@ -66,7 +56,7 @@
             color: white;
 
             &:hover {
-                background-color: #289dda;
+                background-color: $lightBlue4;
             }
         }
     }

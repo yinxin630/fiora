@@ -1,9 +1,8 @@
+@import "../../common/commonStyle";
+
 .logo {
+    @include flexCenter;
     width: 250px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-content: center;
 
     img {
         margin: 19px auto;

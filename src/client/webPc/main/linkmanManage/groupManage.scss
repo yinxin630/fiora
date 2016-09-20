@@ -1,14 +1,14 @@
+@import "../../../common/commonStyle";
+
 .group-manage {
+    @include flexCenter;
     background-color: rgba(241, 241, 241, 0.2);
     flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
     & > div:nth-child(1000n+1) {
         width: 120px;
         height: 120px;
-        background-color: #2ea7e0;
+        background-color: $lightBlue5;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -21,18 +21,15 @@
     }
 
     & > div:nth-child(1000n+2) {
-        width: 120px;
-        height: 120px;
-        background-color: #2ea7e0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        @include flexCenter;
+        @include size(120px, 120px);
+        background-color: $lightBlue5;
         border-radius: 50%;
         color: white;
         margin-left: 80px;
 
         &:hover {
-            background-color: #289dda;
+            background-color: $lightBlue6;
         }
     }
 }

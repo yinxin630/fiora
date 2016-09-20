@@ -1,27 +1,26 @@
+@import "../common/commonStyle";
+
 * {
     margin: 0;
     padding: 0;
     border: 0;
     outline: 0;
     box-sizing: border-box;
-    font-family: Arial, Verdana, 微软雅黑, 黑体, serif;
 }
 
 html {
-    width: 100vw;
-    height: 100vh;
+    @include size;
+    font-family: Arial, Verdana, 微软雅黑, 黑体, serif;
 }
 body {
     overflow: hidden;
-    width: 100vw;
-    height: 100vh;
+    @include size;
     min-width: 100%;
     min-height: 100%;
 }
 
 .window {
-    width: 100vw;
-    height: 100vh;
+    @include size;
 
     & > audio {
         display: none;
@@ -29,16 +28,14 @@ body {
 }
 
 .background {
-    width: 100vw;
-    height: 100vh;
+    @include size;
     background-image: url('../assets/image/background.jpg');
     background-repeat: no-repeat;
     position: fixed;
     z-index: -1;
 
     & > div {
-        width: 1000px;
-        height: 100vh;
+        @include size(1000px, 100%);
         position: absolute;
         left: calc((100vw - 1000px) / 2);
         background-image: url('../assets/image/background.jpg');
@@ -49,8 +46,7 @@ body {
 }
 
 .app {
-    width: 1000px;
-    height: 100vh;
+    @include size(1000px, 100%);
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -75,8 +71,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    @include size(8px, 8px);
 
     &:end {
         display: none;

@@ -1,9 +1,8 @@
 @import "../../common/commonStyle";
 
 header {
-    width: 100%;
-    height: 80px;
-    background-color: $primaryColor;
+    @include size(100%, 80px);
+    background-color: $lightBlue5;
     display: flex;
     flex-direction: row;
 }

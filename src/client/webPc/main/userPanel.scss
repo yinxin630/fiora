@@ -1,14 +1,13 @@
+@import "../../common/commonStyle";
+
 .user-panel {
-    width: 250px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    @include size(250px, auto);
+    @include flexCenter;
     justify-content: flex-end;
     padding-right: 10px;
 
     & > div:nth-child(1000n+1) {
-        width: 10px;
-        height: 10px;
+        @include size(10px, 10px);
         border-radius: 50%;
         margin-right: 10px;
         cursor: pointer;

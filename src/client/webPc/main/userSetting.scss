@@ -1,25 +1,21 @@
+@import "../../common/commonStyle";
+
 .user-setting {
+    @include floatIndex;
+    @include containerCenter;
     background-color: #f1f1f1;
-    z-index: 101;
-    position: absolute;
-    left: 50%;
-    top: 50%;
     width: 300px;
     height: 200px;
-    margin-top: -100px;
-    margin-left: -150px;
     display: flex;
     flex-direction: column;
     border-radius: 5px;
 
     & > :nth-child(1000n+1) {
+        @include flexCenter;
         background-color: #ffffff;
         height: 50px;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         position: relative;
 
         & > i {
@@ -44,10 +40,8 @@
         padding: 10px;
 
         & > :nth-child(1000n+1) {
-            display: flex;
-            flex-direction: row;
+            @include flexCenter;
             justify-content: space-between;
-            align-items: center;
 
             & > div {
                 display: flex;
@@ -70,15 +64,12 @@
         }
 
         & > :nth-child(1000n+2) {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            @include flexCenter;
+            @include size(100%, auto);
             margin-top: 20px;
 
             & > button {
-                width: 120px;
-                height: 30px;
+                @include size(120px, 30px);
                 border-radius: 5px;
                 color: white;
                 background-color: #0288D1;

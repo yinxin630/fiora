@@ -1,24 +1,20 @@
+@import "../../common/commonStyle";
+
 .system-setting {
+    @include floatIndex;
+    @include containerCenter;
     background-color: #f1f1f1;
-    z-index: 101;
-    position: absolute;
-    left: 50%;
-    top: 50%;
     width: 300px;
-    margin-top: -80px;
-    margin-left: -150px;
     display: flex;
     flex-direction: column;
     border-radius: 5px;
 
     & > :nth-child(1000n+1) {
+        @include flexCenter;
         background-color: #ffffff;
         height: 50px;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         position: relative;
 
         & > i {
@@ -43,26 +39,20 @@
         padding: 10px 0px;
 
         .switch {
+            @include flexCenter;
             padding: 10px 20px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
             justify-content: space-between;
 
             & > div {
+                @include size(40px, 14px);
+                @include flexCenter;
                 background-color: #e8e8e8;
                 border: 1px solid #bdbdbd;
-                height: 14px;
-                width: 40px;
                 border-radius: 7px;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
                 cursor: pointer;
 
                 & > div {
-                    width: 24px;
-                    height: 24px;
+                    @include size(24px, 24px);
                     border-radius: 50%;
                     position: relative;
 
@@ -80,12 +70,9 @@
         }
 
         .button {
+            @include flexCenter;
             margin: 0px 20px;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            background-color: #289dda;
+            background-color: $lightBlue4;
             color: white;
             height: 35px;
             border-radius: 10px;

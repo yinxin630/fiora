@@ -52,9 +52,8 @@
         }
 
         button {
+            @include size(300px, 40px);
             background-color: #03a9f4;
-            width: 300px;
-            height: 40px;
             color: #fff;
             font-size: 18px;
             margin-top: 20px;
