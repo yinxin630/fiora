@@ -21,6 +21,8 @@ body {
 
 .window {
     @include size;
+    display: flex;
+    flex-direction: column;
 
     .background {
         @include size;

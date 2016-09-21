@@ -6,6 +6,9 @@ import './app.scss';
 import user from '../action/user';
 import socket from '../socket';
 
+import Header from './main/header';
+import Toolbar from './main/toolbar';
+
 class App extends React.Component {
     static propTypes = {
         state: PropTypes.object.isRequired,
@@ -30,7 +33,7 @@ class App extends React.Component {
                 if (result.status === 201) {
                     user.online();
                     if (this.props.location.pathname === '/') {
-                        // this.context.router.push('/main');
+                        this.context.router.push('/linkman');
                     }
                 }
             });
@@ -109,6 +112,7 @@ class App extends React.Component {
     render() {
         // for debug
         // console.log(this.props.state.toJS());
+        console.log(this.props.location.pathname);
 
         return (
             <div className="window">
@@ -120,7 +124,9 @@ class App extends React.Component {
                     <source src="http://assets.suisuijiang.com/message_sound.ogg" type="audio/ogg" />
                     <source src="http://assets.suisuijiang.com/message_sound.wav" type="audio/wav" />
                 </audio>
+                <Header />
                 { this.props.children }
+                <Toolbar />
             </div>
         );
     }

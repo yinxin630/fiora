@@ -7,6 +7,7 @@ import Store from '../store';
 
 import App from './app';
 import Login from './login/login';
+import Linkman from './linkman/linkman';
 
 ReactDom.render(
     <Provider store={Store}>
@@ -14,6 +15,7 @@ ReactDom.render(
             <Route path="/" component={App}>
                 <IndexRoute component={Login} />
                 <Route path="login" component={Login} />
+                <Route path="linkman" component={Linkman} />
             </Route>
         </Router>
     </Provider>,
