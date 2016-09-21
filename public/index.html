@@ -8,8 +8,8 @@
 <meta name="description" content="online web chat application">
 <meta name="author" content="碎碎酱">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<link rel="shortcut icon" type="image/png" href="http://od8dycy67.bkt.clouddn.com/favicon.png"/>
-<link href="http://od8dycy67.bkt.clouddn.com/monokai-sublime.min.css" rel="stylesheet">
+<link rel="shortcut icon" type="image/png" href="http://assets.suisuijiang.com/favicon.png"/>
+<link href="http://assets.suisuijiang.com/monokai-sublime.min.css" rel="stylesheet">
 </head>
 <body>
 	<div id="app"></div>
@@ -18,10 +18,10 @@
 		var script = document.createElement('script');
 		script.type = 'text/javascript';
 		if (/android|iphone/i.test(navigator.userAgent)) {
-			script.src = 'app.mobile.js';
+			script.src = '/app.mobile.js';
 		}
 		else {
-			script.src = 'app.js';
+			script.src = '/app.js';
 		}
 		body.appendChild(script);
 	</script>

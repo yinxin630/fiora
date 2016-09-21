@@ -14,7 +14,7 @@ const GroupSchema = new Schema({
     },
     avatar: {
         type: String,
-        default: 'http://oc58aytf1.bkt.clouddn.com/group_avatar_default',
+        default: 'http://assets.suisuijiang.com/group_avatar_default.jpeg',
     },
     // 公告
     announcement: {

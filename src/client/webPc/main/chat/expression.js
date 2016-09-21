@@ -113,13 +113,13 @@ class Expression extends React.Component {
                                 className={page === 'default' ? 'selected' : ''}
                                 onClick={() => this.setState({ page: 'default' })}
                             >
-                                <img src={'http://od8dycy67.bkt.clouddn.com/default-expression.png'} />
+                                <img src={'http://assets.suisuijiang.com/default-expression.png'} />
                             </div>
                             <div
                                 className={page === 'collect' ? 'selected' : ''}
                                 onClick={() => this.setState({ page: 'collect' })}
                             >
-                                <img src={'http://od8dycy67.bkt.clouddn.com/collect-expression.png'} />
+                                <img src={'http://assets.suisuijiang.com/collect-expression.png'} />
                             </div>
                         </div>
                     </div>

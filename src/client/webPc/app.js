@@ -156,9 +156,9 @@ class App extends React.Component {
                 <audio
                     ref={sound => this.sound = sound}
                 >
-                    <source src="http://od8dycy67.bkt.clouddn.com/message_sound.mp3" type="audio/mp3" />
-                    <source src="http://od8dycy67.bkt.clouddn.com/message_sound.ogg" type="audio/ogg" />
-                    <source src="http://od8dycy67.bkt.clouddn.com/message_sound.wav" type="audio/wav" />
+                    <source src="http://assets.suisuijiang.com/message_sound.mp3" type="audio/mp3" />
+                    <source src="http://assets.suisuijiang.com/message_sound.ogg" type="audio/ogg" />
+                    <source src="http://assets.suisuijiang.com/message_sound.wav" type="audio/wav" />
                 </audio>
                 { this.props.children }
             </div>
