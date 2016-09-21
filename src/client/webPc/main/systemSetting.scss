@@ -3,8 +3,8 @@
 .system-setting {
     @include floatIndex;
     @include containerCenter;
+    @include size(300px, 231px);
     background-color: #f1f1f1;
-    width: 300px;
     display: flex;
     flex-direction: column;
     border-radius: 5px;
@@ -59,11 +59,11 @@
                     
                 }
                 .on {
-                    left: -5px;
+                    left: -10px;
                     background-color: lawngreen;
                 }
                 .off {
-                    right: -20px;
+                    right: -15px;
                     background-color: orangered;
                 }
             }

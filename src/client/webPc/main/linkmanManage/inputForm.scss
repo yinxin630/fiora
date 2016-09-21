@@ -40,7 +40,7 @@
         padding: 10px 10px;
 
         & > input {
-            @include size(34px, 260px);
+            @include size(260px, 34px);
             border-radius: 10px;
             padding: 0px 10px;
             font-size: 14px;
@@ -48,7 +48,7 @@
         }
 
         & > button {
-            @include size(34px, 80px);
+            @include size(80px, 34px);
             margin-left: 20px;
             border-radius: 10px;
             font-size: 14px;
