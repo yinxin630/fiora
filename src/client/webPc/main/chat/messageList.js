@@ -97,6 +97,11 @@ class Message extends React.Component {
                 (r, e) => (
                     expressions.indexOf(e) !== -1 ? `<img class="expression-message" src="data:image/png;base64,R0lGODlhFAAUAIAAAP///wAAACH5BAEAAAAALAAAAAAUABQAAAIRhI+py+0Po5y02ouz3rz7rxUAOw==" style="background-position: left ${-30 * expressions.indexOf(e)}px" onerror="this.style.display=\'none\'">` : r
                 )
+            ).replace(
+                /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
+                r => (
+                    `<a href="${r}" rel="noopener noreferrer" target="_blank"/>`
+                )
             );
 
             return (
