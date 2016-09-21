@@ -247,7 +247,7 @@ registerCommand('boom', ([userName], msg) => {
                 easing: 'easeOutCubic',
                 step: function (now, fx) {
                     if (fx.prop === 'borderSpacing') {
-                        $bomb.css('transform', `rotate('${now}'deg)`);
+                        $bomb.css('transform', `rotate(${now}deg)`);
                     }
                 },
                 done: function () {

@@ -100,7 +100,7 @@ class Message extends React.Component {
             ).replace(
                 /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
                 r => (
-                    `<a href="${r}" rel="noopener noreferrer" target="_blank"/>`
+                    `<a href="${r}" rel="noopener noreferrer" target="_blank">${r}</a>`
                 )
             );
 
