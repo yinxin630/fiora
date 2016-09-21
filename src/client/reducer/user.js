@@ -4,7 +4,7 @@ const initialState = immutable.fromJS({
     online: false,
 });
 
-const maxMessageRecords = 100;
+const maxMessageRecords = 200;
 
 function reducer(state = initialState, action) {
     switch (action.type) {

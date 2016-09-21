@@ -132,8 +132,8 @@ io.on('connection', socket => {
 });
 
 // start listener
-server.listen(config.port, () => {
-    console.log(`start server at http://localhost:${config.port}`);
+server.listen(env === 'production' ? config.port : config.localPort, () => {
+    console.log(`start server at http://localhost:${env === 'production' ? config.port : config.localPort}`);
 });
 
 // other error handle

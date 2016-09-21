@@ -22,7 +22,7 @@ Fiora是一款web聊天应用. 使用node.js, koa和react编写.
 
 0. 从 `https://github.com/yinxin630/fiora` 克隆项目到本地
 0. 进行项目目录执行 `npm install`
-0. 创建配置文件 `cp config/config.simple.js config/config.js`. 编辑配置文件来设置数据库和其它参数
+0. 创建配置文件 `cp config/config.simple.js config/config.js`. 编辑配置文件来设置数据库和其它参数, 其中 `localServer`, `localPort`, `database`, `jwtSecret` 是必需的.
 0. 运行项目 `npm start`
 0. 打开 `http://localhost:8080/webpack-dev-server/` 查看效果
 

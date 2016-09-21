@@ -1,8 +1,12 @@
 module.exports = {
     // server config.
-    // you can use domain name, ip address or localhost. but in develop mode it always be localhost
+    // you can use domain name, ip address or localhost.
     server: 'example.com',
     port: 9200,
+
+    // local test config
+    localServer: 'localhost',
+    localPort: 9200,
 
     // database url and name
     database: 'database_name',
