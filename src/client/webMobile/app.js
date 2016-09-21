@@ -112,6 +112,7 @@ class App extends React.Component {
 
         return (
             <div className="window">
+                <div className="background" />
                 <audio
                     ref={sound => this.sound = sound}
                 >

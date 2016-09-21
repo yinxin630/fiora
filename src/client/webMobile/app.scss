@@ -1,0 +1,56 @@
+@import "../common/commonStyle";
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    box-sizing: border-box;
+}
+
+html {
+    @include size;
+    font-family: Arial, Verdana, 微软雅黑, 黑体, serif;
+}
+body {
+    overflow: hidden;
+    @include size;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.window {
+    @include size;
+
+    .background {
+        @include size;
+        @include containerStart;
+        background-image: url("../assets/image/background_mobile.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        filter: blur(5px);
+        z-index: -1;
+    }
+
+    & > audio {
+        display: none;
+    }
+}
+
+#app {
+    @include size;
+}
+
+@font-face {
+  font-family: 'iconfont';
+  src: url('//at.alicdn.com/t/font_1473655409_9411223.eot'); /* IE9*/
+  src: url('//at.alicdn.com/t/font_1473655409_9411223.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('//at.alicdn.com/t/font_1473655409_9411223.woff') format('woff'), /* chrome、firefox */
+  url('//at.alicdn.com/t/font_1473655409_9411223.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('//at.alicdn.com/t/font_1473655409_9411223.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.icon {
+    font-family: 'iconfont';
+    font-style: normal;
+}
