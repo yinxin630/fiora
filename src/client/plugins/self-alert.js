@@ -99,14 +99,11 @@ $.extend($.easing, {
     easeInOutExpo: function (x) {
         if (x === 0) {
             return 0;
-        }
-        else if (x === 1) {
+        } else if (x === 1) {
             return 1;
-        }
-        else if (x < 0.5) {
+        } else if (x < 0.5) {
             return pow(2, (20 * x) - 10) / 2;
-        }
-        else {
+        } else {
             return (2 - pow(2, (-20 * x) + 10)) / 2;
         }
     },
@@ -124,36 +121,29 @@ $.extend($.easing, {
     easeInElastic: function (x) {
         if (x === 0) {
             return 0;
-        }
-        else if (x === 1) {
+        } else if (x === 1) {
             return 1;
-        }
-        else {
+        } else {
             return -pow(2, (10 * x) - 10) * sin(((x * 10) - 10.75) * c4);
         }
     },
     easeOutElastic: function (x) {
         if (x === 0) {
             return 0;
-        }
-        else if (x === 1) {
+        } else if (x === 1) {
             return 1;
-        }
-        else {
+        } else {
             return (pow(2, -10 * x) * sin(((x * 10) - 0.75) * c4)) + 1;
         }
     },
     easeInOutElastic: function (x) {
         if (x === 0) {
             return 0;
-        }
-        else if (x === 1) {
+        } else if (x === 1) {
             return 1;
-        }
-        else if (x < 0.5) {
+        } else if (x < 0.5) {
             return -(pow(2, (20 * x) - 10) * sin(((20 * x) - 11.125) * c5)) / 2;
-        }
-        else {
+        } else {
             return ((pow(2, (-20 * x) + 10) * sin(((20 * x) - 11.125) * c5)) / 2) + 1;
         }
     },
@@ -212,7 +202,11 @@ registerCommand('boom', ([userName], msg) => {
         console.warn(`目标${userName}不存在`);
         return;
     }
-    const $targetAvatar = $target.find('.avatar-image');
+    const $targetAvatar = $target.find('.avatar-image,.avatar-text');
+    if (!$targetAvatar.length) {
+        console.warn(`目标${userName}头像不存在`);
+        return;
+    }
     setTimeout(() => {
         const $source = findUserMessage(msg.from.username);
         $target.attr('a', '2');
@@ -221,10 +215,18 @@ registerCommand('boom', ([userName], msg) => {
         $source.find('.text').replaceWith($bomb);
         const pos1 = $targetAvatar.offset();
         const pos2 = $bomb.offset();
+        if ($source.css('flex-direction') === 'row-reverse') {
+            $bomb.css('left', '-20px')
+                .css('bottom', '-20px')
+                .css('transform', 'translate(50%,-50%)');
+        } else {
+            $bomb.css('left', '20px')
+                .css('bottom', '-20px')
+                .css('transform', 'translate(-50%,-50%)');
+        }
+
+
         $bomb.css('width', '10px')
-            .css('left', '-20px')
-            .css('bottom', '-20px')
-            .css('transform', 'translate(50%,-50%)')
             .css('position', 'relative')
             .animate({
                 width: '40px',
@@ -251,18 +253,26 @@ registerCommand('boom', ([userName], msg) => {
                     }
                 },
                 done: function () {
-                    $(this).css('left', pos1.left - pos2.left - 20)
+                    $(this).css('transform', '')
+                        .css('borderSpacing', '1000')
+                        .css('left', pos1.left - pos2.left - 20)
                         .css('top', (pos1.top - pos2.top) + 20)
                         .css('transform', 'translate(50%,-50%)');
                 },
             })
             .delay(500)
             .animate({
-                width: '100px',
                 opacity: '0',
+                borderSpacing: '2000',
             }, {
                 duration: 200,
                 easing: 'linear',
+                step: function (now, fx) {
+                    if (fx.prop === 'borderSpacing') {
+                        console.log(now / 100);
+                        $bomb.css('transform', `translate(50%,-50%) scale(${now / 1000})`);
+                    }
+                },
                 done: function () {
 
                 },
