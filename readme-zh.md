@@ -14,7 +14,7 @@ Fiora是一款web聊天应用. 使用node.js, koa和react编写.
 
 ## 运行截图
 
-![](screenshot_01.png)
+![](http://assets.suisuijiang.com/screenshot_01.png)
 
 ## 安装
 
