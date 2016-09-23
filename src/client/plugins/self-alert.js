@@ -36,12 +36,26 @@ $.fn.explode = function ({
         minWidth = 1,
         maxWidth,
         omitLastLine = true,
+        radius = 8,
     }) {
     const $target = this;
     const w = $target.width();
     const h = $target.height();
     const minorDimension = Math.min(w, h);
-    const backgroundImage = $target.attr('src');
+    let background;
+
+    if ($target.prop('tagName') === 'IMG') {
+        background = {
+            kind: 'image',
+            src: $target.attr('src'),
+        };
+    } else {
+        background = {
+            kind: 'color',
+            color: $target.css('background-color'),
+        };
+    }
+
     if (!maxWidth) {
         maxWidth = minorDimension / 2;
     }
@@ -108,10 +122,19 @@ $.fn.explode = function ({
                 position: 'absolute',
                 left,
                 top: ragTop,
-                'background-image': `url("${backgroundImage}")`,
+
                 'background-size': `${w}px ${h}px`,
                 'background-position': `${-left}px ${-ragTop}px`,
             });
+            switch (background.kind) {
+            case 'image':
+                $dom.css('background-image', `url("${background.src}")`);
+                break;
+            case 'color':
+                $dom.css('background-color', `${background.color}`);
+                break;
+            default:
+            }
             rags.push({
                 $dom,
                 left,
@@ -132,10 +155,10 @@ $.fn.explode = function ({
         const degMax = 720;
         const rand2 = (((Math.random() * degMax) - (degMax / 2)) / ((Math.random() + 2) * v.width)) * 10;
             //            rand=Math.max(rand,3)
-        const ratio = 8 / rand1;
+        const ratio = radius / rand1;
         setTimeout(() => {
             v.$dom.css('transform', `translate(${(v.left - centerX) * ratio}px,${((v.top - centerY) + maxWidth) * ratio}px) rotate(${rand2}deg)`);
-        });
+        }, 50);
         setTimeout(() => {
             v.$dom.fadeOut({
                 done: function () {
@@ -308,22 +331,37 @@ function toBottom() {
     $('.message-list').scrollTop($('.message-list').prop('scrollHeight'));
 }
 window.checkBottom = checkBottom;
-registerCommand('boom', ([userName], msg) => {
-    const $target = findUserMessage(userName);
-    $target.attr('a', '1');
+registerCommand('boom', (argStr, msg) => {
+    let userName;
+    let radius;
+    if (argStr === '，') {
+        userName = '，';
+    } else {
+        argStr = argStr.split('，').join(',');
+        const args = argStr.split(/(?=[^\\]),/);
+        userName = args[0];
+        radius = args[1];
+    }
+    if (!radius) {
+        radius = 1;
+    }
+    if (radius > 50) {
+        radius = 50;
+    }
+    let $target = findUserMessage(userName);
 
     if (!$target) {
         console.warn(`目标${userName}不存在`);
-        return;
     }
-    const $targetAvatar = $target.find('.avatar-image,.avatar-text');
+
+    let $targetAvatar = $target.find('.avatar-image,.avatar-text');
     if (!$targetAvatar.length) {
         console.warn(`目标${userName}头像不存在`);
-        return;
+        $target = findUserMessage(msg.from.username);
+        $targetAvatar = $target.find('.avatar-image,.avatar-text');
     }
     setTimeout(() => {
         const $source = findUserMessage(msg.from.username);
-        $target.attr('a', '2');
         const $bomb = $bombTpl.clone();
 
         $source.find('.text').replaceWith($bomb);
@@ -390,6 +428,7 @@ registerCommand('boom', ([userName], msg) => {
                     $targetAvatar.explode({
                         maxWidth: 8,
                         minWidth: 1,
+                        radius: radius * 8,
                     });
                 },
                 done: function () {
