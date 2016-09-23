@@ -1,0 +1,18 @@
+@import "../../common/commonStyle";
+
+.toolbar {
+    @include size(100%, 50px);
+    @include flexCenter;
+    background-color: $grey0;
+
+    & > div {
+        @include flexCenter;
+        @include size(100%, 100%);
+        flex: 1;
+        color: $grey8;
+
+        & > i {
+            font-size: 30px;
+        }
+    }
+}

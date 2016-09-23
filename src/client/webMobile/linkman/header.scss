@@ -1,0 +1,11 @@
+@import "../../common/commonStyle";
+
+.header {
+    @include size(100%, 60px);
+    @include flexCenter;
+    background-color: $lightBlue5;
+
+    & > img {
+        @include size(auto, 36px);
+    }
+}

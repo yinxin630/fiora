@@ -12,7 +12,16 @@ class Toolbar extends React.Component {
     render() {
         return (
             <div className="toolbar">
-                Toolbar
+                <div>
+                    <i className="icon">
+                        &#xe607;
+                    </i>
+                </div>
+                <div>
+                    <i className="icon">
+                        &#xe606;
+                    </i>
+                </div>
             </div>
         );
     }

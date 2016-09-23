@@ -7,7 +7,6 @@ import './linkman.scss';
 
 import Avatar from '../../common/avatar';
 import Header from './header';
-import user from '../../action/user';
 
 class LinkmanList extends React.Component {
     static propTypes = {
@@ -28,16 +27,18 @@ class LinkmanList extends React.Component {
         const { linkmans } = this.props;
 
         return (
-            <div className="user-list">
+            <div className="linkman">
                 <Header />
-                {
-                    linkmans && linkmans.map(linkman => (
-                        <Linkman
-                            key={linkman.get('type') + linkman.get('_id')}
-                            linkman={linkman}
-                        />
-                    ))
-                }
+                <div className="user-list">
+                    {
+                        linkmans && linkmans.map(linkman => (
+                            <Linkman
+                                key={linkman.get('type') + linkman.get('_id')}
+                                linkman={linkman}
+                            />
+                        ))
+                    }
+                </div>
             </div>
         );
     }
@@ -55,13 +56,6 @@ class Linkman extends React.Component {
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
-        this.handleUserListItemClick = this.handleUserListItemClick.bind(this);
-    }
-
-    handleUserListItemClick() {
-        const { linkman } = this.props;
-        this.context.router.push(`/main/chat/${linkman.get('type')}/${linkman.get('_id')}`);
-        user.clearUnread(linkman.get('type'), linkman.get('_id'));
     }
 
     render() {
@@ -87,13 +81,12 @@ class Linkman extends React.Component {
         return (
             <div
                 className="user-list-item"
-                onClick={this.handleUserListItemClick}
             >
                 <Avatar
                     avatar={linkman.get('avatar')}
                     name={isGroup ? linkman.get('name') : linkman.get('username')}
-                    width={40}
-                    height={40}
+                    width={50}
+                    height={50}
                 />
                 { unread > 0 ? <div className="unread">{ unread }</div> : null }
                 <div className="content">

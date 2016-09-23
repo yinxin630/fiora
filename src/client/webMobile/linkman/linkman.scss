@@ -1,26 +1,41 @@
 @import "../../common/commonStyle";
 
+.linkman {
+    @include size;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
 .user-list {
+    @include size;
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: stretch;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     background-color: $grey1;
 }
 
 .user-list-item {
     @include flexCenter;
-    @include size(100%, 60px);
+    @include size(100%, 70px);
+    min-height: min-content;
     position: relative;
     cursor: default;
     user-select: none;
+    border-bottom: 1px solid $grey3;
+
+    &:last-child {
+        border-bottom: none;
+    }
 
     & > div:nth-child(1000n+1) {
-        margin: 10px 5px 10px 5px;
+        margin: 5px 5px 5px 10px;
     }
     & > img:nth-child(1000n+1) {
-        margin: 10px 5px 10px 5px;
+        margin: 5px 5px 5px 10px;
     }
     .unread {
         @include size(16px, 16px);
@@ -34,10 +49,13 @@
         font-size: 10px;
     }
     .content {
+        @include size;
         display: flex;
         flex-direction: column;
         padding: 5px;
-        width: 180px;
+        padding-right: 10px;
+        flex: 1;
+        max-width: calc(100% - 60px);
 
         div:first-child {
             @include flexCenter;
@@ -47,13 +65,13 @@
             margin-top: 3px;
 
             p:first-child {
-                font-size: 14px;
+                font-size: 16px;
                 color: $primaryText;
                 margin: 0;
                 margin-top: 5px;
             }
             p:last-child {
-                font-size: 12px;
+                font-size: 14px;
                 color: $secondaryText;
                 margin: 0;
                 margin-top: 10px;
@@ -66,13 +84,14 @@
 
             p {
                 width: 100%;
-                font-size: 12px;
+                font-size: 14px;
                 color: $grey6;
                 margin: 0;
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
                 padding-right: 10px;
+                margin-top: 5px;
             }
         }
     }

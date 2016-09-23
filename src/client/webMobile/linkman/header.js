@@ -12,7 +12,7 @@ class Header extends React.Component {
     render() {
         return (
             <div className="header">
-                Header
+                <img src="http://assets.suisuijiang.com/logo.png" />
             </div>
         );
     }

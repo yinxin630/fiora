@@ -22,12 +22,10 @@ class App extends React.Component {
 
         // try auto login
         const token = window.localStorage.getItem('token');
-        console.log(token);
         if (token && token !== '') {
             user
             .reConnect(token)
             .then(result => {
-                console.log(result);
                 if (result.status === 201) {
                     user.online();
                     if (this.props.location.pathname === '/login') {
