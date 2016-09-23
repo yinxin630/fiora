@@ -1,0 +1,119 @@
+@import "../../common/commonStyle";
+
+.chat {
+    @include size;
+    @include flexCenter(column);
+    flex: 1;
+}
+
+.message-list {
+    width: 100%;
+    padding: 0px 10px 5px 10px;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: stretch;
+    overflow: auto;
+    max-height: 100%;
+    overflow-x: hidden;
+}
+
+.message-list-item {
+    display: flex;
+    margin-top: 10px;
+    min-height: min-content;
+    max-height: 100%;
+
+    & > :first-child {
+        @include size(40px, 40px);
+        border-radius: 50%;
+        margin: 5px;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+    & > :nth-child(1000n+2) {
+        flex: 1;
+        margin-right: 45px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        & > :first-child {
+            display: inline-block;
+            span {
+                font-size: 14px;
+                color: #202020;
+            }
+            span:last-child {
+                font-size: 12px;
+                margin-left: 5px;
+            }
+        }
+        .text {
+            padding: 5px 10px;
+            margin: 0px;
+            border: 1px solid #999;
+            word-break: break-all;
+            border-radius: 10px;
+            display: inline-block;
+            background-color: #f1f1f1;
+        }
+        .image {
+
+            & > img {
+                max-width: calc(100% - 10px);
+                max-height: 300px;
+                border-radius: 5px;
+            }
+        }
+        .code {
+            max-width: calc(100% - 110px);
+            border-radius: 5px;
+
+            & > pre > code {
+                border-radius: 5px;
+                max-height: 300px;
+            }
+        }
+        .url {
+            padding: 5px 10px;
+            margin: 0px;
+            border: 1px solid #999;
+            word-break: break-all;
+            border-radius: 10px;
+            display: inline-block;
+            background-color: #f1f1f1;
+        }
+        .unknown {
+            padding: 5px 10px;
+            margin: 0px;
+            border: 1px solid #999;
+            word-break: break-all;
+            border-radius: 10px;
+            display: inline-block;
+            background-color: #f1f1f1;
+            color: orangered;
+        }
+    }
+
+    .expression-message {
+        width: 30px;
+        height: 30px;
+        background-repeat: no-repeat;
+        background-image: url('http://assets.suisuijiang.com/expressions.png');
+    }
+}
+
+.message-self {
+    flex-direction: row-reverse;
+
+    & > :nth-child(1000n+2) {
+        align-items: flex-end;
+        margin-right: 0px;
+        margin-left: 50px;
+    }
+    & > :first-child {
+        margin-right: 0px;
+        margin-left: 5px;
+    }
+}

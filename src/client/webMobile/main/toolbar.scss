@@ -3,6 +3,7 @@
 .toolbar {
     @include size(100%, 50px);
     @include flexCenter;
+    min-height: 50px;
     background-color: $grey0;
 
     & > div {

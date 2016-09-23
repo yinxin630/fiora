@@ -56,6 +56,12 @@ class Linkman extends React.Component {
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
+        this.handleUserListItemClick = this.handleUserListItemClick.bind(this);
+    }
+
+    handleUserListItemClick() {
+        const { linkman } = this.props;
+        this.context.router.push(`/main/chat/${linkman.get('type')}/${linkman.get('_id')}`);
     }
 
     render() {
@@ -81,6 +87,7 @@ class Linkman extends React.Component {
         return (
             <div
                 className="user-list-item"
+                onClick={this.handleUserListItemClick}
             >
                 <Avatar
                     avatar={linkman.get('avatar')}

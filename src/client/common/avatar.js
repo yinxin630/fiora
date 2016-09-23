@@ -24,7 +24,7 @@ class Avatar extends React.Component {
             avatar.match(/^http/) ?
                 <img
                     className="avatar-image"
-                    style={{ width, height }}
+                    style={{ width, height, minWidth: width, minHeight: height }}
                     src={`${avatar}?imageView2/2/w/${60}/h/${60}`}
                     title={title}
                     onClick={onClick}
@@ -32,7 +32,7 @@ class Avatar extends React.Component {
             :
                 <div
                     className="avatar-text"
-                    style={{ backgroundColor: avatar, width, height, fontSize: width / 2.5 }}
+                    style={{ backgroundColor: avatar, width, height, fontSize: width / 2.5, minWidth: width, minHeight: height }}
                     title={title}
                     onClick={onClick}
                 >

@@ -9,6 +9,7 @@ import App from './app';
 import Login from './login/login';
 import Main from './main/main';
 import Linkman from './linkman/linkman';
+import Chat from './chat/chat';
 
 ReactDom.render(
     <Provider store={Store}>
@@ -18,6 +19,7 @@ ReactDom.render(
                 <Route path="login" component={Login} />
                 <Route path="main" component={Main}>
                     <Route path="linkman" component={Linkman} />
+                    <Route path="chat/:type/:id" component={Chat} />
                 </Route>
             </Route>
         </Router>
