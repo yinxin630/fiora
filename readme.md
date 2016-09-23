@@ -11,6 +11,7 @@ Fiora is a web chat application. Made by node.js, koa, react.
 0. Desktop notification, sound notification, notification switch
 0. Customize avatar, collect expression, customize group announcement
 0. Limit message length, message frequency
+0. A simple plugin system
 
 ## Run Shot
 
