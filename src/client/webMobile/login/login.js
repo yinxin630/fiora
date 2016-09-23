@@ -25,7 +25,6 @@ class Login extends React.Component {
         user
             .login(this.username.value, this.password.value)
             .then(result => {
-                console.log(result);
                 if (result.status === 201) {
                     window.localStorage.setItem('token', result.data.token);
                     this.context.router.push('/linkman');
@@ -65,7 +64,7 @@ class Login extends React.Component {
                     user
                         .login(this.username.value, this.password.value)
                         .then(() => {
-                            this.context.router.push('/main');
+                            this.context.router.push('/linkman');
                             user.online();
                         });
                 }

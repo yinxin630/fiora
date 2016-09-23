@@ -1,0 +1,6 @@
+@import "../../common/commonStyle";
+
+.main {
+    @include flexCenter(column);
+    flex: 1;
+}

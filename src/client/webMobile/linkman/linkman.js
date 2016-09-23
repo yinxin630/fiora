@@ -6,6 +6,7 @@ import pureRenderMixin from 'react-addons-pure-render-mixin';
 import './linkman.scss';
 
 import Avatar from '../../common/avatar';
+import Header from './header';
 import user from '../../action/user';
 
 class LinkmanList extends React.Component {
@@ -28,6 +29,7 @@ class LinkmanList extends React.Component {
 
         return (
             <div className="user-list">
+                <Header />
                 {
                     linkmans && linkmans.map(linkman => (
                         <Linkman
