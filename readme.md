@@ -49,3 +49,10 @@ If you want to add functionality or fix bug, please observe the following proces
 * Mobile web support
 * Self message instead to add it when before send
 * Use chinese to format time
+
+### v1.2
+
+* Theme mechanism
+* Message encrypt mechanism
+* Nav bar optimize
+* Save user setting on server
