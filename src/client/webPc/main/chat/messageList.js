@@ -193,7 +193,7 @@ export default {
     container: MessageList,
     item: connect(
         state => ({
-            shouldScrollMessage: state.getIn(['ui', 'shouldScrollMessage']),
+            shouldScrollMessage: state.getIn(['pc', 'shouldScrollMessage']),
         })
     )(Message),
 };

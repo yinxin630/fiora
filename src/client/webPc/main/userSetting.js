@@ -118,7 +118,7 @@ class UserSetting extends React.Component {
 
 export default connect(
     state => ({
-        show: state.getIn(['ui', 'showUserSetting']),
+        show: state.getIn(['pc', 'showUserSetting']),
         userInfo: state.get('user'),
     })
 )(UserSetting);

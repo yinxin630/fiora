@@ -96,6 +96,6 @@ class GroupNotice extends React.Component {
 
 export default connect(
     state => ({
-        show: state.getIn(['ui', 'showGroupNotice']),
+        show: state.getIn(['pc', 'showGroupNotice']),
     })
 )(GroupNotice);

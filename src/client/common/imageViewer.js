@@ -101,7 +101,7 @@ class ImageViewer extends React.Component {
 
 export default connect(
     state => ({
-        show: state.getIn(['ui', 'showImageViewer']),
-        image: state.getIn(['ui', 'imageViewerSrc']),
+        show: state.getIn(['pc', 'showImageViewer']),
+        image: state.getIn(['pc', 'imageViewerSrc']),
     })
 )(ImageViewer);

@@ -79,6 +79,6 @@ class CodeInput extends React.Component {
 
 export default connect(
     state => ({
-        show: state.getIn(['ui', 'showCodeInput']),
+        show: state.getIn(['pc', 'showCodeInput']),
     })
 )(CodeInput);

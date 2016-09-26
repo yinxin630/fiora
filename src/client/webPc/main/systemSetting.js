@@ -96,8 +96,8 @@ class SystemSetting extends React.Component {
 
 export default connect(
     state => ({
-        show: state.getIn(['ui', 'showSystemSetting']),
-        desktopNotification: state.getIn(['ui', 'desktopNotification']),
-        soundNotification: state.getIn(['ui', 'soundNotification']),
+        show: state.getIn(['pc', 'showSystemSetting']),
+        desktopNotification: state.getIn(['pc', 'desktopNotification']),
+        soundNotification: state.getIn(['pc', 'soundNotification']),
     })
 )(SystemSetting);

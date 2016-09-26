@@ -171,8 +171,8 @@ class App extends React.Component {
 export default connect(
     state => ({
         state: state,
-        windowFocus: state.getIn(['ui', 'windowFocus']),
-        desktopNotification: state.getIn(['ui', 'desktopNotification']),
-        soundNotification: state.getIn(['ui', 'soundNotification']),
+        windowFocus: state.getIn(['pc', 'windowFocus']),
+        desktopNotification: state.getIn(['pc', 'desktopNotification']),
+        soundNotification: state.getIn(['pc', 'soundNotification']),
     })
 )(App);

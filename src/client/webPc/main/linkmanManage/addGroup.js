@@ -63,6 +63,6 @@ class AddGroup extends React.Component {
 
 export default connect(
     state => ({
-        show: state.getIn(['ui', 'showAddGroupInput']),
+        show: state.getIn(['pc', 'showAddGroupInput']),
     })
 )(AddGroup);

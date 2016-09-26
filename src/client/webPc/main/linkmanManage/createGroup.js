@@ -67,6 +67,6 @@ class CreateGroup extends React.Component {
 
 export default connect(
     state => ({
-        show: state.getIn(['ui', 'showCreateGroupInput']),
+        show: state.getIn(['pc', 'showCreateGroupInput']),
     })
 )(CreateGroup);

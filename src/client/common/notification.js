@@ -36,7 +36,7 @@ class Notification extends React.Component {
 
 export default connect(
     state => ({
-        show: state.getIn(['ui', 'showNotification']),
-        content: state.getIn(['ui', 'notificationContent']),
+        show: state.getIn(['pc', 'showNotification']),
+        content: state.getIn(['pc', 'notificationContent']),
     })
 )(Notification);

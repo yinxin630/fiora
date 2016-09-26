@@ -90,7 +90,7 @@ class UserInfo extends React.Component {
 
 export default connect(
     state => ({
-        show: state.getIn(['ui', 'showUserInfo']),
-        userInfo: state.getIn(['ui', 'userInfoData']),
+        show: state.getIn(['pc', 'showUserInfo']),
+        userInfo: state.getIn(['pc', 'userInfoData']),
     })
 )(UserInfo);

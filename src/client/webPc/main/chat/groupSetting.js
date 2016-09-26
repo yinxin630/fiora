@@ -112,6 +112,6 @@ class GroupSetting extends React.Component {
 
 export default connect(
     state => ({
-        show: state.getIn(['ui', 'showGroupSetting']),
+        show: state.getIn(['pc', 'showGroupSetting']),
     })
 )(GroupSetting);

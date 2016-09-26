@@ -147,6 +147,6 @@ class InputBox extends React.Component {
 
 export default connect(
     state => ({
-        insertTexts: state.getIn(['ui', 'insertTexts']),
+        insertTexts: state.getIn(['pc', 'insertTexts']),
     })
 )(InputBox);

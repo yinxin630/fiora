@@ -103,6 +103,6 @@ class ChatPanel extends React.Component {
 
 export default connect(
     state => ({
-        shouldScrollMessage: state.getIn(['ui', 'shouldScrollMessage']),
+        shouldScrollMessage: state.getIn(['pc', 'shouldScrollMessage']),
     })
 )(ChatPanel);
