@@ -3,7 +3,7 @@ import { Motion, spring } from 'react-motion';
 
 import './floatPanel.scss';
 
-import ui from '../../action/ui';
+import ui from '../../action/pc';
 
 class FloatPanel extends React.Component {
     static propTypes = {

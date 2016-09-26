@@ -5,7 +5,7 @@ import './groupManage.scss';
 
 import CreateGroup from './createGroup';
 import AddGroup from './addGroup';
-import ui from '../../../action/ui';
+import ui from '../../../action/pc';
 import mask from '../../../util/mask';
 
 class GroupManage extends React.Component {

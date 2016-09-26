@@ -6,7 +6,7 @@ import './header.scss';
 import Logo from './logo';
 import NavList from './navList';
 import UserPanel from './userPanel';
-import ui from '../../action/ui';
+import ui from '../../action/pc';
 import mask from '../../util/mask';
 
 class Header extends React.Component {

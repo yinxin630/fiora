@@ -5,7 +5,7 @@ import { Motion, spring } from 'react-motion';
 
 import './expression.scss';
 
-import ui from '../../../action/ui';
+import ui from '../../../action/pc';
 import user from '../../../action/user';
 import expressions from '../../../util/expressions';
 

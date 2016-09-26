@@ -4,7 +4,7 @@ import pureRenderMixin from 'react-addons-pure-render-mixin';
 import './signup.scss';
 
 import user from '../../action/user';
-import ui from '../../action/ui';
+import ui from '../../action/pc';
 
 class Login extends React.Component {
     constructor(props) {

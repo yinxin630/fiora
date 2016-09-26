@@ -6,7 +6,7 @@ import pureRenderMixin from 'react-addons-pure-render-mixin';
 
 import './userSetting.scss';
 
-import ui from '../../action/ui';
+import ui from '../../action/pc';
 import user from '../../action/user';
 import Avatar from '../../common/avatar';
 

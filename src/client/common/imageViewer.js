@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import './imageViewer.scss';
 
-import ui from '../action/ui';
+import ui from '../action/pc';
 import user from '../action/user';
 
 let offsetX = 0;

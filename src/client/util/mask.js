@@ -1,5 +1,5 @@
 import once from 'once-event-listener';
-import ui from '../action/ui';
+import ui from '../action/pc';
 
 function mask(call) {
     ui.openMaskLayout();

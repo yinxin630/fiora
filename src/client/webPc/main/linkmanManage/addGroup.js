@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
 
 import InputForm from './inputForm';
-import ui from '../../../action/ui';
+import ui from '../../../action/pc';
 import user from '../../../action/user';
 
 class AddGroup extends React.Component {

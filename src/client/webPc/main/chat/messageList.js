@@ -8,7 +8,7 @@ import './messageList.scss';
 
 import Avatar from '../../../common/avatar';
 import expressions from '../../../util/expressions';
-import ui from '../../../action/ui';
+import ui from '../../../action/pc';
 import user from '../../../action/user';
 import mask from '../../../util/mask';
 

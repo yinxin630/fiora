@@ -5,7 +5,7 @@ import pureRenderMixin from 'react-addons-pure-render-mixin';
 
 import './systemSetting.scss';
 
-import ui from '../../action/ui';
+import ui from '../../action/pc';
 
 class SystemSetting extends React.Component {
     static propTypes = {

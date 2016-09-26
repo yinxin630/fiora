@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import './groupNotice.scss';
 
-import ui from '../../../action/ui';
+import ui from '../../../action/pc';
 import user from '../../../action/user';
 import FloatPanel from '../floatPanel';
 

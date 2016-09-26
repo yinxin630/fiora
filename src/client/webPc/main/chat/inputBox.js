@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import './inputBox.scss';
 
-import ui from '../../../action/ui';
+import ui from '../../../action/pc';
 import user from '../../../action/user';
 import api from '../../../api';
 import config from '../../../../../config/config';

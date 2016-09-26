@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import './app.scss';
 
 import user from '../action/user';
-import ui from '../action/ui';
+import ui from '../action/pc';
 import socket from '../socket';
 import api, { publicApi } from '../api';
 

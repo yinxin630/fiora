@@ -5,7 +5,7 @@ import pureRenderMixin from 'react-addons-pure-render-mixin';
 import './userPanel.scss';
 
 import Avatar from '../../common/avatar';
-import ui from '../../action/ui';
+import ui from '../../action/pc';
 import mask from '../../util/mask';
 
 class UserPanel extends React.Component {
