@@ -35,7 +35,7 @@ class MessageList extends React.Component {
             clearTimeout(onScrollHandle);
         }
         onScrollHandle = setTimeout(() => {
-            ui.shouldScrollMessage(this.list.scrollHeight - this.list.scrollTop - this.list.clientHeight < this.list.clientHeight);
+            ui.shouldScrollMessage(this.list.scrollHeight - this.list.scrollTop - this.list.clientHeight < this.list.clientHeight / 2);
             if (this.list.scrollTop === 0 && linkmanType === 'group') {
                 user.getGroupHistoryMessage(linkmanId, messagesCount);
             }

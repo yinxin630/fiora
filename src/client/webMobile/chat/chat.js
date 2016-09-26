@@ -10,7 +10,10 @@ import Avatar from '../../common/avatar';
 import Header from './header';
 import Input from './input';
 import expressions from '../../util/expressions';
+import ui from '../../action/mobile';
+import user from '../../action/user';
 
+let onScrollHandle = null;
 let scrollMessage = null;
 
 class Chat extends React.Component {
@@ -23,6 +26,19 @@ class Chat extends React.Component {
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
+        this.handleOnScroll = this.handleOnScroll.bind(this);
+    }
+
+    handleOnScroll(linkmanId, linkmanType, messagesCount) {
+        if (onScrollHandle) {
+            clearTimeout(onScrollHandle);
+        }
+        onScrollHandle = setTimeout(() => {
+            ui.shouldScrollMessage(this.list.scrollHeight - this.list.scrollTop - this.list.clientHeight < this.list.clientHeight / 2);
+            if (this.list.scrollTop === 0 && linkmanType === 'group') {
+                user.getGroupHistoryMessage(linkmanId, messagesCount);
+            }
+        }, 100);
     }
 
     render() {
@@ -45,10 +61,11 @@ class Chat extends React.Component {
                 <div
                     className="message-list"
                     ref={list => this.list = list}
+                    onScroll={() => this.handleOnScroll(id, type, linkman.get('messages').size)}
                 >
                     {
                         linkman.get('messages').map((message) => (
-                            <Message
+                            <ConnectedMessage
                                 key={linkman.get('type') + message.get('_id')}
                                 me={me}
                                 message={message}
@@ -189,9 +206,16 @@ class Message extends React.Component {
     }
 }
 
+const ConnectedMessage = connect(
+    state => ({
+        shouldScrollMessage: state.getIn(['mobile', 'shouldScrollMessage']),
+    })
+)(Message);
+
 export default connect(
     state => ({
         linkmans: state.getIn(['user', 'linkmans']),
         me: state.getIn(['user', '_id']),
+        shouldScrollMessage: state.getIn(['mobile', 'shouldScrollMessage']),
     })
 )(Chat);
