@@ -38,15 +38,15 @@
         margin: 5px 5px 5px 10px;
     }
     .unread {
-        @include size(16px, 16px);
+        @include size(20px, 20px);
         @include flexCenter;
         border-radius: 50%;
         background-color: #289dda;
         color: white;
         position: absolute;
-        left: 32px;
+        left: 40px;
         top: 8px;
-        font-size: 10px;
+        font-size: 12px;
     }
     .content {
         @include size;

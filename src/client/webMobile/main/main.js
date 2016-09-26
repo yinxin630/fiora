@@ -3,7 +3,7 @@ import pureRenderMixin from 'react-addons-pure-render-mixin';
 
 import './main.scss';
 
-import Toolbar from './toolbar';
+// import Toolbar from './toolbar';
 
 class Main extends React.Component {
     static propTypes = {
@@ -19,7 +19,7 @@ class Main extends React.Component {
         return (
             <div className="main">
                 { this.props.children }
-                <Toolbar />
+                {/* <Toolbar />*/}
             </div>
         );
     }

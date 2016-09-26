@@ -29,6 +29,19 @@ class Chat extends React.Component {
         this.handleOnScroll = this.handleOnScroll.bind(this);
     }
 
+    componentWillUpdate(nextProps) {
+        const { linkmans, routeParams } = nextProps;
+        if (!linkmans) {
+            return;
+        }
+        const type = routeParams.type;
+        const id = routeParams.id;
+        const linkman = linkmans.find(l => l.get('type') === type && l.get('_id') === id);
+        if (linkman.get('unread') > 0) {
+            user.clearUnread(type, id);
+        }
+    }
+
     handleOnScroll(linkmanId, linkmanType, messagesCount) {
         if (onScrollHandle) {
             clearTimeout(onScrollHandle);

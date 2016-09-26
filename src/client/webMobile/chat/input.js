@@ -8,7 +8,7 @@ import user from '../../action/user';
 
 class Input extends React.Component {
     static propTypes = {
-        type: PropTypes.string.required,
+        type: PropTypes.string,
         linkmanId: PropTypes.string.isRequired,
     };
 
@@ -19,15 +19,6 @@ class Input extends React.Component {
         this.handlePaste = this.handlePaste.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
     }
-
-    // componentWillUpdate(nextProps) {
-    //     if (!nextProps.insertTexts.equals(this.props.insertTexts)) {
-    //         nextProps.insertTexts.forEach(text => {
-    //             this.insertAtCursor(this.input, text);
-    //         });
-    //         ui.insertTextEnd(nextProps.insertTexts.size);
-    //     }
-    // }
 
     insertAtCursor(input, value) {
         if (document.selection) {
