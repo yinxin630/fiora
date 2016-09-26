@@ -111,17 +111,19 @@ const actions = {
     sendGroupMessage: function (linkmanId, type, content) {
         return new Promise(resolve => {
             socket.post('/groupMessage', { linkmanId, type, content }, response => {
-                if (response.status === 201) {
-                    dispatch({
-                        type: 'AddGroupMessage',
-                        message: response.data,
-                    });
-                    resolve(response);
-                }
-                else {
-                    resolve(response);
-                }
+                resolve(response);
             });
+        });
+    },
+
+    addSelfMessage: function (linkmanType, linkmanId, messageType, messageContent, messageId) {
+        dispatch({
+            type: 'AddSelfMessage',
+            linkmanType,
+            linkmanId,
+            messageType,
+            messageContent,
+            messageId,
         });
     },
 
@@ -227,16 +229,7 @@ const actions = {
     sendMessage: function (linkmanId, type, content) {
         return new Promise(resolve => {
             socket.post('/message', { linkmanId, type, content }, response => {
-                if (response.status === 201) {
-                    dispatch({
-                        type: 'SendMessage',
-                        message: response.data,
-                    });
-                    resolve(response);
-                }
-                else {
-                    resolve(response);
-                }
+                resolve(response);
             });
         });
     },

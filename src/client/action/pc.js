@@ -49,7 +49,7 @@ const actions = {
     // self info and user info
     openUserSetting: () => dispatch({ type: 'OpenUserSetting' }),
     closeUserSetting: () => dispatch({ type: 'CloseUserSetting' }),
-    openUserInfo: () => dispatch({ type: 'OpenUserInfo' }),
+    openUserInfo: (user) => dispatch({ type: 'OpenUserInfo', user }),
     closeUserInfo: () => dispatch({ type: 'CloseUserInfo' }),
 
     // imageViewer
