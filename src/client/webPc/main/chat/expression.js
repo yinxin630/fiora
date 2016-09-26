@@ -8,6 +8,7 @@ import './expression.scss';
 import ui from '../../../action/pc';
 import user from '../../../action/user';
 import expressions from '../../../util/expressions';
+import send from '../../../util/send';
 
 
 class Expression extends React.Component {
@@ -37,16 +38,9 @@ class Expression extends React.Component {
 
     handleCollectExpressionClick(src) {
         const { linkmanType, linkmanId } = this.props;
-        if (linkmanType === 'group') {
-            user.sendGroupMessage(linkmanId, 'image', src);
-            ui.closeExpression();
-            ui.closeMaskLayout();
-        }
-        else {
-            user.sendMessage(linkmanId, 'image', src);
-            ui.closeExpression();
-            ui.closeMaskLayout();
-        }
+        send(linkmanType, linkmanId, 'image', src);
+        ui.closeExpression();
+        ui.closeMaskLayout();
     }
 
     handleCollectExpressionDelete(src) {

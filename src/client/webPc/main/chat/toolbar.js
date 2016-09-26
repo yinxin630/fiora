@@ -4,8 +4,8 @@ import pureRenderMixin from 'react-addons-pure-render-mixin';
 import './toolbar.scss';
 
 import ui from '../../../action/pc';
-import user from '../../../action/user';
 import mask from '../../../util/mask';
+import send from '../../../util/send';
 
 class Toolbar extends React.Component {
     static propTypes = {
@@ -40,12 +40,7 @@ class Toolbar extends React.Component {
         const reader = new FileReader();
         const instance = this;
         reader.onloadend = function () {
-            if (instance.props.linkmanType === 'group') {
-                user.sendGroupMessage(instance.props.linkmanId, 'image', this.result);
-            }
-            else {
-                user.sendMessage(instance.props.linkmanId, 'image', this.result);
-            }
+            send(instance.props.linkmanType, instance.props.linkmanId, 'image', this.result);
         };
         reader.readAsDataURL(image);
     }

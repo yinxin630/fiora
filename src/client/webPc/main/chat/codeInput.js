@@ -6,7 +6,7 @@ import { Motion, spring } from 'react-motion';
 import './codeInput.scss';
 
 import ui from '../../../action/pc';
-import user from '../../../action/user';
+import send from '../../../util/send';
 
 
 class CodeInput extends React.Component {
@@ -24,12 +24,7 @@ class CodeInput extends React.Component {
     }
 
     onSendClick() {
-        if (this.props.linkmanType === 'group') {
-            user.sendGroupMessage(this.props.linkmanId, 'code', this.code.value);
-        }
-        else {
-            user.sendMessage(this.props.linkmanId, 'code', this.code.value);
-        }
+        send(this.props.linkmanType, this.props.linkmanId, 'code', this.code.value);
         this.code.value = '';
         ui.closeCodeInput();
         ui.closeMaskLayout();

@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import './inputBox.scss';
 
 import ui from '../../../action/pc';
-import user from '../../../action/user';
 import api from '../../../api';
 import config from '../../../../../config/config';
+import send from '../../../util/send';
 
 class InputBox extends React.Component {
     static propTypes = {
@@ -66,38 +66,22 @@ class InputBox extends React.Component {
             if (message.trim() === '') {
                 return;
             }
-            if (type === 'group') {
-                if (/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(message)) {
-                    const img = new Image();
-                    img.onload = () => {
-                        user.sendGroupMessage(linkmanId, 'image', message);
-                    };
-                    img.onerror = () => {
-                        user.sendGroupMessage(linkmanId, 'url', message);
-                    };
-                    img.src = message;
-                    return;
-                }
-                user.sendGroupMessage(linkmanId, 'text', message);
+            if (/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(message)) {
+                const img = new Image();
+                img.onload = () => {
+                    send(type, linkmanId, 'image', message);
+                };
+                img.onerror = () => {
+                    send(type, linkmanId, 'url', message);
+                };
+                img.src = message;
+                return;
             }
-            else {
-                if (/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(message)) {
-                    const img = new Image();
-                    img.onload = () => {
-                        user.sendMessage(linkmanId, 'image', message);
-                    };
-                    img.onerror = () => {
-                        user.sendMessage(linkmanId, 'url', message);
-                    };
-                    img.src = message;
-                    return;
+            send(type, linkmanId, 'text', message).then(response => {
+                if (response.status === 201) {
+                    api.emit('rawMessage', response.data);
                 }
-                user.sendMessage(linkmanId, 'text', message).then(response => {
-                    if (response.status === 201) {
-                        api.emit('rawMessage', response.data);
-                    }
-                });
-            }
+            });
         }
     }
 
@@ -113,12 +97,7 @@ class InputBox extends React.Component {
                     const reader = new FileReader();
                     const instance = this;
                     reader.onloadend = function () {
-                        if (instance.props.type === 'group') {
-                            user.sendGroupMessage(instance.props.linkmanId, 'image', this.result);
-                        }
-                        else {
-                            user.sendMessage(instance.props.linkmanId, 'image', this.result);
-                        }
+                        send(instance.props.type, instance.props.linkmanId, 'image', this.result);
                     };
                     reader.readAsDataURL(item.getAsFile());
                 }
