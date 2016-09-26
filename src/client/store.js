@@ -1,8 +1,8 @@
 import { createStore } from 'redux';
 import { combineReducers } from 'redux-immutable';
 
-import ui from './reducer/pc';
+import pc from './reducer/pc';
 import user from './reducer/user';
 
-const reducers = combineReducers({ ui, user });
+const reducers = combineReducers({ pc, user });
 export default createStore(reducers);

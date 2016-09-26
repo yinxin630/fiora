@@ -3,101 +3,58 @@ import Store from '../store';
 const dispatch = Store.dispatch;
 let closeNotification = null;
 
-const types = {
-    OpenGroupSetting: 'OpenGroupSetting',
-    CloseGroupSetting: 'CloseGroupSetting',
-    OpenGroupNotice: 'OpenGroupNotice',
-    CloseGroupNotice: 'CloseGroupNotice',
-    OpenExpression: 'OpenExpression',
-    CloseExpression: 'CloseExpression',
-    OpenCodeInput: 'OpenCodeInput',
-    CloseCodeInput: 'CloseCodeInput',
-    OpenNotification: 'OpenNotification',
-    CloseNotification: 'CloseNotification',
-
-    OpenMaskLayout: 'OpenMaskLayout',
-    CloseMaskLayout: 'CloseMaskLayout',
-
-    InsertText: 'InsertText',
-    InsertTextEnd: 'InsertTextEnd',
-
-    ShouldScrollMessage: 'ShouldScrollMessage',
-
-    WindowFocus: 'WindowFocus',
-
-    OpenSystemSetting: 'OpenSystemSetting',
-    CloseSystemSetting: 'CloseSystemSetting',
-    ToggleDesktopNotification: 'ToggleDesktopNotification',
-    ToggleSoundNotification: 'ToggleSoundNotification',
-
-    OpenCreateGroupInput: 'OpenCreateGroupInput',
-    CloseCreateGroupInput: 'CloseCreateGroupInput',
-    OpenAddGroupInput: 'OpenAddGroupInput',
-    CloseAddGroupInput: 'CloseAddGroupInput',
-
-    OpenUserSetting: 'OpenUserSetting',
-    CloseUserSetting: 'CloseUserSetting',
-    OpenUserInfo: 'OpenUserInfo',
-    CloseUserInfo: 'CloseUserInfo',
-
-    OpenImageViewer: 'OpenImageViewer',
-    CloseImageViewer: 'CloseImageViewer',
-};
-
-export { types };
-
 const actions = {
     // chatPanel
-    openGroupSetting: () => dispatch({ type: types.OpenGroupSetting }),
-    closeGroupSetting: () => dispatch({ type: types.CloseGroupSetting }),
-    openGroupNotice: () => dispatch({ type: types.OpenGroupNotice }),
-    closeGroupNotice: () => dispatch({ type: types.CloseGroupNotice }),
-    openExpression: () => dispatch({ type: types.OpenExpression }),
-    closeExpression: () => dispatch({ type: types.CloseExpression }),
-    openCodeInput: () => dispatch({ type: types.OpenCodeInput }),
-    closeCodeInput: () => dispatch({ type: types.CloseCodeInput }),
+    openGroupSetting: () => dispatch({ type: 'OpenGroupSetting' }),
+    closeGroupSetting: () => dispatch({ type: 'CloseGroupSetting' }),
+    openGroupNotice: () => dispatch({ type: 'OpenGroupNotice' }),
+    closeGroupNotice: () => dispatch({ type: 'CloseGroupNotice' }),
+    openExpression: () => dispatch({ type: 'OpenExpression' }),
+    closeExpression: () => dispatch({ type: 'CloseExpression' }),
+    openCodeInput: () => dispatch({ type: 'OpenCodeInput' }),
+    closeCodeInput: () => dispatch({ type: 'CloseCodeInput' }),
     openNotification: () => {
-        dispatch({ type: types.OpenNotification });
+        dispatch({ type: 'OpenNotification' });
         clearTimeout(closeNotification);
         closeNotification = setTimeout(this.closeNotification, 5000);
     },
-    closeNotification: () => dispatch({ type: types.CloseNotification }),
+    closeNotification: () => dispatch({ type: 'CloseNotification' }),
 
     // maskLayout
-    openMaskLayout: () => dispatch({ type: types.OpenMaskLayout }),
-    closeMaskLayout: () => dispatch({ type: types.CloseMaskLayout }),
+    openMaskLayout: () => dispatch({ type: 'OpenMaskLayout' }),
+    closeMaskLayout: () => dispatch({ type: 'CloseMaskLayout' }),
 
     // inputBox
-    insertText: (text) => dispatch({ type: types.InsertText, text }),
-    insertTextEnd: (count) => dispatch({ type: types.InsertTextEnd, count }),
+    insertText: (text) => dispatch({ type: 'InsertText', text }),
+    insertTextEnd: (count) => dispatch({ type: 'InsertTextEnd', count }),
 
     // messageList
-    shouldScrollMessage: (should) => dispatch({ type: types.ShouldScrollMessage, should }),
+    shouldScrollMessage: (should) => dispatch({ type: 'ShouldScrollMessage', should }),
 
     // window
-    windowFocus: (focus) => dispatch({ type: types.WindowFocus, focus }),
+    windowFocus: (focus) => dispatch({ type: 'WindowFocus', focus }),
 
     // systemSetting
-    openSystemSetting: () => dispatch({ type: types.OpenSystemSetting }),
-    closeSystemSetting: () => dispatch({ type: types.CloseSystemSetting }),
-    toggleDesktopNotification: () => dispatch({ type: types.ToggleDesktopNotification }),
-    toggleSoundNotification: () => dispatch({ type: types.ToggleSoundNotification }),
+    openSystemSetting: () => dispatch({ type: 'OpenSystemSetting' }),
+    closeSystemSetting: () => dispatch({ type: 'CloseSystemSetting' }),
+    toggleDesktopNotification: () => dispatch({ type: 'ToggleDesktopNotification' }),
+    toggleSoundNotification: () => dispatch({ type: 'ToggleSoundNotification' }),
 
     // groupaManage
-    openCreateGroupInput: () => dispatch({ type: types.OpenCreateGroupInput }),
-    closeCreateGroupInput: () => dispatch({ type: types.CloseCreateGroupInput }),
-    openAddGroupInput: () => dispatch({ type: types.OpenAddGroupInput }),
-    closeAddGroupInput: () => dispatch({ type: types.CloseAddGroupInput }),
+    openCreateGroupInput: () => dispatch({ type: 'OpenCreateGroupInput' }),
+    closeCreateGroupInput: () => dispatch({ type: 'CloseCreateGroupInput' }),
+    openAddGroupInput: () => dispatch({ type: 'OpenAddGroupInput' }),
+    closeAddGroupInput: () => dispatch({ type: 'CloseAddGroupInput' }),
 
     // self info and user info
-    openUserSetting: () => dispatch({ type: types.OpenUserSetting }),
-    closeUserSetting: () => dispatch({ type: types.CloseUserSetting }),
-    openUserInfo: () => dispatch({ type: types.OpenUserInfo }),
-    closeUserInfo: () => dispatch({ type: types.CloseUserInfo }),
+    openUserSetting: () => dispatch({ type: 'OpenUserSetting' }),
+    closeUserSetting: () => dispatch({ type: 'CloseUserSetting' }),
+    openUserInfo: () => dispatch({ type: 'OpenUserInfo' }),
+    closeUserInfo: () => dispatch({ type: 'CloseUserInfo' }),
 
     // imageViewer
-    openImageViewer: () => dispatch({ type: types.OpenImageViewer }),
-    closeImageViewer: () => dispatch({ type: types.CloseImageViewer }),
+    openImageViewer: () => dispatch({ type: 'OpenImageViewer' }),
+    closeImageViewer: () => dispatch({ type: 'CloseImageViewer' }),
 };
 
 export default actions;
