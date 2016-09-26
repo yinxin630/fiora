@@ -8,6 +8,7 @@ import './chat.scss';
 
 import Avatar from '../../common/avatar';
 import Header from './header';
+import Input from './input';
 import expressions from '../../util/expressions';
 
 let onScrollHandle = null;
@@ -74,6 +75,10 @@ class Chat extends React.Component {
                         ))
                     }
                 </div>
+                <Input
+                    type={routeParams.type}
+                    linkmanId={routeParams.id}
+                />
             </div>
         );
     }

@@ -1,0 +1,32 @@
+@import "../../common/commonStyle";
+
+.input {
+    @include flexCenter;
+    @include size(100%, 44px);
+
+    & > :nth-child(1), & > :nth-child(2) {
+        border-radius: 5px;
+    }
+
+    & > input {
+        @include size(100%, 32px);
+        flex: 1;
+        margin-left: 10px;
+        padding: {
+            left: 10px;
+            right: 10px;
+        }
+        font-size: 16px;
+    }
+
+    & > button {
+        @include size(54px, 32px);
+        color: white;
+        font-size: 18px;
+        margin: {
+            left: 10px;
+            right: 10px;
+        }
+        background-color: $lightBlue3;
+    }
+}

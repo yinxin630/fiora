@@ -61,7 +61,7 @@ class Linkman extends React.Component {
 
     handleUserListItemClick() {
         const { linkman } = this.props;
-        this.context.router.push(`/main/chat/${linkman.get('type')}/${linkman.get('_id')}`);
+        this.context.router.push(`/chat/${linkman.get('type')}/${linkman.get('_id')}`);
     }
 
     render() {

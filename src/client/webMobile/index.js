@@ -19,8 +19,8 @@ ReactDom.render(
                 <Route path="login" component={Login} />
                 <Route path="main" component={Main}>
                     <Route path="linkman" component={Linkman} />
-                    <Route path="chat/:type/:id" component={Chat} />
                 </Route>
+                <Route path="chat/:type/:id" component={Chat} />
             </Route>
         </Router>
     </Provider>,

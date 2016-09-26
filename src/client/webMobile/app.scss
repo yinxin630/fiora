@@ -27,10 +27,7 @@ body {
     .background {
         @include size;
         @include containerStart;
-        background-image: url("../assets/image/background_mobile.jpg");
-        background-repeat: no-repeat;
-        background-size: cover;
-        filter: blur(5px);
+        background-color: $grey2;
         z-index: -1;
     }
 
