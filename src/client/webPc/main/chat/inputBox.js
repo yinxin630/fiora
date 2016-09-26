@@ -6,6 +6,7 @@ import './inputBox.scss';
 
 import ui from '../../../action/ui';
 import user from '../../../action/user';
+import api from '../../../api';
 import config from '../../../../../config/config';
 
 class InputBox extends React.Component {
@@ -91,7 +92,11 @@ class InputBox extends React.Component {
                     img.src = message;
                     return;
                 }
-                user.sendMessage(linkmanId, 'text', message);
+                user.sendMessage(linkmanId, 'text', message).then(response => {
+                    if (response.status === 201) {
+                        api.emit('rawMessage', response.data);
+                    }
+                });
             }
         }
     }

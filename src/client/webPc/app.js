@@ -54,6 +54,7 @@ class App extends React.Component {
 
         // register server event
         socket.on('groupMessage', data => {
+            api.emit('rawMessage', data);
             user.addGroupMessage(data);
 
             if (this.props.soundNotification) {
@@ -80,6 +81,7 @@ class App extends React.Component {
         });
 
         socket.on('message', data => {
+            api.emit('rawMessage', data);
             user.addMessage(data);
 
             if (this.props.soundNotification) {
