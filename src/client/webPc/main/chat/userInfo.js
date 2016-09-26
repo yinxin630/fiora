@@ -65,7 +65,7 @@ class UserInfo extends React.Component {
                                 <div>
                                     <span>昵称: { userInfo.get('username') }</span>
                                     <span>性别: { userInfo.get('gender') === 'male' ? '男' : '女' }</span>
-                                    <span>生日: { moment(userInfo.get('birthday')).format('YYYY MMMM Do h:mm') }</span>
+                                    <span>生日: { moment(userInfo.get('birthday')).format('YYYY年MM月DD日 h:mm') }</span>
                                 </div>
                                 <Avatar
                                     width={60}

@@ -17,6 +17,10 @@
     cursor: default;
     user-select: none;
 
+    &:hover {
+        left: -5px;
+    }
+
     & > div:nth-child(1000n+1) {
         margin: 10px 5px 10px 5px;
     }

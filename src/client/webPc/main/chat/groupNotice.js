@@ -58,7 +58,7 @@ class GroupNotice extends React.Component {
                 title="群公告"
             >
                 <div className="group-notice">
-                    <div>{ linkman.get('announcementPublisher') } 更新于 { moment(linkman.get('announcementTime')).format('YYYY MMMM Do h:mm') }</div>
+                    <div>{ linkman.get('announcementPublisher') } 更新于 { moment(linkman.get('announcementTime')).format('YYYY年MM月DD日 h:mm') }</div>
                     {
                         this.state.editor ?
                             <textarea
