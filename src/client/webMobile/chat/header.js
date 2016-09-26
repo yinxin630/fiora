@@ -8,6 +8,10 @@ class Header extends React.Component {
         name: PropTypes.string.isRequired,
     };
 
+    static contextTypes = {
+        router: React.PropTypes.object.isRequired,
+    }
+
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
@@ -17,8 +21,12 @@ class Header extends React.Component {
         const { name } = this.props;
 
         return (
-            <div className="header">
+            <div className="chat-header">
                 <span>{ name }</span>
+                <div
+                    className="back"
+                    onClick={this.context.router.goBack}
+                >{'< 后退'}</div>
             </div>
         );
     }

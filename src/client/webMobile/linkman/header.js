@@ -11,7 +11,7 @@ class Header extends React.Component {
 
     render() {
         return (
-            <div className="header">
+            <div className="linkman-header">
                 <img src="http://assets.suisuijiang.com/logo.png" />
             </div>
         );

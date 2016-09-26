@@ -17,6 +17,7 @@ class Input extends React.Component {
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
         this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
         this.handlePaste = this.handlePaste.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
     }
 
     // componentWillUpdate(nextProps) {
@@ -52,44 +53,48 @@ class Input extends React.Component {
         }
     }
 
-    handleInputKeyDown(e) {
+    sendMessage() {
         const { type, linkmanId } = this.props;
-        if (e.keyCode === 13 && !e.shiftKey) {
-            e.preventDefault();
 
-            const message = this.input.value;
-            this.input.value = '';
-            if (message.trim() === '') {
+        const message = this.input.value;
+        this.input.value = '';
+        if (message.trim() === '') {
+            return;
+        }
+        if (type === 'group') {
+            if (/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(message)) {
+                const img = new Image();
+                img.onload = () => {
+                    user.sendGroupMessage(linkmanId, 'image', message);
+                };
+                img.onerror = () => {
+                    user.sendGroupMessage(linkmanId, 'url', message);
+                };
+                img.src = message;
                 return;
             }
-            if (type === 'group') {
-                if (/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(message)) {
-                    const img = new Image();
-                    img.onload = () => {
-                        user.sendGroupMessage(linkmanId, 'image', message);
-                    };
-                    img.onerror = () => {
-                        user.sendGroupMessage(linkmanId, 'url', message);
-                    };
-                    img.src = message;
-                    return;
-                }
-                user.sendGroupMessage(linkmanId, 'text', message);
+            user.sendGroupMessage(linkmanId, 'text', message);
+        }
+        else {
+            if (/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(message)) {
+                const img = new Image();
+                img.onload = () => {
+                    user.sendMessage(linkmanId, 'image', message);
+                };
+                img.onerror = () => {
+                    user.sendMessage(linkmanId, 'url', message);
+                };
+                img.src = message;
+                return;
             }
-            else {
-                if (/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(message)) {
-                    const img = new Image();
-                    img.onload = () => {
-                        user.sendMessage(linkmanId, 'image', message);
-                    };
-                    img.onerror = () => {
-                        user.sendMessage(linkmanId, 'url', message);
-                    };
-                    img.src = message;
-                    return;
-                }
-                user.sendMessage(linkmanId, 'text', message);
-            }
+            user.sendMessage(linkmanId, 'text', message);
+        }
+    }
+
+    handleInputKeyDown(e) {
+        if (e.keyCode === 13 && !e.shiftKey) {
+            e.preventDefault();
+            this.sendMessage();
         }
     }
 
@@ -130,7 +135,9 @@ class Input extends React.Component {
                     onKeyDown={this.handleInputKeyDown}
                     onPaste={this.handlePaste}
                 />
-                <button>发送</button>
+                <button
+                    onClick={this.sendMessage}
+                >发送</button>
             </div>
         );
     }

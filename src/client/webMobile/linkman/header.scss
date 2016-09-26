@@ -1,6 +1,6 @@
 @import "../../common/commonStyle";
 
-.header {
+.linkman-header {
     @include size(100%, 60px);
     @include flexCenter;
     min-height: 60px;
