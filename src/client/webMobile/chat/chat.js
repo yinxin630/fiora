@@ -11,7 +11,6 @@ import Header from './header';
 import Input from './input';
 import expressions from '../../util/expressions';
 
-let onScrollHandle = null;
 let scrollMessage = null;
 
 class Chat extends React.Component {
@@ -24,20 +23,6 @@ class Chat extends React.Component {
     constructor(props) {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
-        this.handleOnScroll = this.handleOnScroll.bind(this);
-    }
-
-    handleOnScroll() {
-        // const { linkmanId, linkmanType, messagesCount } = this.props;
-        if (onScrollHandle) {
-            clearTimeout(onScrollHandle);
-        }
-        onScrollHandle = setTimeout(() => {
-            // ui.shouldScrollMessage(this.list.scrollHeight - this.list.scrollTop - this.list.clientHeight < this.list.clientHeight);
-            // if (this.list.scrollTop === 0 && linkmanType === 'group') {
-            //     user.getGroupHistoryMessage(linkmanId, messagesCount);
-            // }
-        }, 100);
     }
 
     render() {
@@ -47,12 +32,9 @@ class Chat extends React.Component {
                 <div />
             );
         }
-        console.log(this.props);
-
         const type = routeParams.type;
         const id = routeParams.id;
         const linkman = linkmans.find(l => l.get('type') === type && l.get('_id') === id);
-        console.log(linkman.toJS());
 
         const name = linkman.get('type') === 'group' ? linkman.get('name') : linkman.get('username');
         return (
@@ -63,7 +45,6 @@ class Chat extends React.Component {
                 <div
                     className="message-list"
                     ref={list => this.list = list}
-                    onScroll={this.handleOnScroll}
                 >
                     {
                         linkman.get('messages').map((message) => (
@@ -99,7 +80,6 @@ class Message extends React.Component {
         super(props);
         this.shouldComponentUpdate = pureRenderMixin.shouldComponentUpdate.bind(this);
         this.renderContent = this.renderContent.bind(this);
-        this.handleAvatarClick = this.handleAvatarClick.bind(this);
     }
 
     componentDidMount() {
@@ -108,15 +88,6 @@ class Message extends React.Component {
             scrollMessage = () => this.dom.scrollIntoView(false);
             scrollMessage();
         }
-    }
-
-    handleAvatarClick() {
-        // ui.openUserInfo(this.props.message.get('from'));
-        // mask(ui.closeUserInfo);
-    }
-
-    handleImageDoubleClick() {
-        // ui.openImageViewer(src);
     }
 
     renderContent(type, content) {

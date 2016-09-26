@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import './app.scss';
 
 import user from '../action/user';
+import socket from '../socket';
 
 class App extends React.Component {
     static propTypes = {
@@ -34,6 +35,30 @@ class App extends React.Component {
                 }
             });
         }
+
+        // register server event
+        socket.on('groupMessage', data => {
+            user.addGroupMessage(data);
+            this.sound.play();
+
+            if (window.Notification && window.Notification.permission === 'granted') {
+                const notification = new window.Notification(
+                    `${data.from.username} - 发来消息:`,
+                    {
+                        icon: data.from.avatar,
+                        body: data.type === 'text' ? data.content : `[${data.type}]`,
+                        tag: data.from.id,
+                    }
+                );
+                notification.onclick = function () {
+                    window.blur();
+                    window.focus();
+                    this.close();
+                };
+                // auto close
+                setTimeout(notification.close.bind(notification), 3000);
+            }
+        });
     }
 
     render() {
