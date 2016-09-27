@@ -4,7 +4,7 @@ const Group = require('../model/group');
 const GroupMessage = require('../model/groupMessage');
 const isLogin = require('../police/isLogin');
 const config = require('../../../config/config');
-const saveImage = require('../util/saveImage');
+const imageUtil = require('../util/image');
 const assert = require('../util/assert');
 const messageFrequency = require('../util/messageFrequency');
 
@@ -35,7 +35,7 @@ const GroupMessageRoute = {
             // if data.content is image data
             if (/^data:image/.test(data.content)) {
                 const fileName = `message_${Date.now().toString()}.${data.content.match(/data:image\/(.+);base64/)[1]}`;
-                data.content = yield* saveImage(fileName, data.content);
+                data.content = yield* imageUtil.saveImageData(fileName, data.content);
             }
         }
 

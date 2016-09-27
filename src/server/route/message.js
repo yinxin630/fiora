@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const isLogin = require('../police/isLogin');
 const assert = require('../util/assert');
-const saveImage = require('../util/saveImage');
+const imageUtil = require('../util/image');
 const User = require('../model/user');
 const Message = require('../model/message');
 const Auth = require('../model/auth');
@@ -35,7 +35,7 @@ const MessageRoute = {
             // if data.content is image data
             if (/^data:image/.test(data.content)) {
                 const fileName = `message_${Date.now().toString()}.${data.content.match(/data:image\/(.+);base64/)[1]}`;
-                data.content = yield* saveImage(fileName, data.content);
+                data.content = yield* imageUtil.saveImageData(fileName, data.content);
             }
         }
 

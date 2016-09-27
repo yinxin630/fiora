@@ -5,7 +5,7 @@ const User = require('../model/user');
 const Group = require('../model/group');
 const mongoose = require('mongoose');
 const isLogin = require('../police/isLogin');
-const saveImage = require('../util/saveImage');
+const imageUril = require('../util/image');
 
 // bcrypt salt length
 const saltRounds = 10;
@@ -102,7 +102,7 @@ const UserRoute = {
 
         const user = yield User.findById(this.socket.user, '-password -salt');
         const fileName = `user_${user._id}_${Date.now().toString()}.${data.avatar.match(/data:image\/(.+);base64/)[1]}`;
-        user.avatar = yield* saveImage(fileName, data.avatar);
+        user.avatar = yield* imageUril.saveImageData(fileName, data.avatar);
         yield user.save();
 
         return this.end(200, user);

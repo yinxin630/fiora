@@ -5,7 +5,7 @@ const User = require('../model/user');
 const Group = require('../model/group');
 const Auth = require('../model/auth');
 const isLogin = require('../police/isLogin');
-const saveImage = require('../util/saveImage');
+const imageUril = require('../util/image');
 
 const GroupRoute = {
     'POST /group': function* (data) {
@@ -151,7 +151,7 @@ const GroupRoute = {
         }
 
         const fileName = `group_${group._id}_${Date.now().toString()}.${data.avatar.match(/data:image\/(.+);base64/)[1]}`;
-        group.avatar = yield* saveImage(fileName, data.avatar);
+        group.avatar = yield* imageUril.saveImageData(fileName, data.avatar);
         yield group.save();
 
         return this.end(201, group);

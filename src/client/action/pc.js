@@ -13,8 +13,8 @@ const actions = {
     closeExpression: () => dispatch({ type: 'CloseExpression' }),
     openCodeInput: () => dispatch({ type: 'OpenCodeInput' }),
     closeCodeInput: () => dispatch({ type: 'CloseCodeInput' }),
-    openNotification: () => {
-        dispatch({ type: 'OpenNotification' });
+    openNotification: function (content) {
+        dispatch({ type: 'OpenNotification', content });
         clearTimeout(closeNotification);
         closeNotification = setTimeout(this.closeNotification, 5000);
     },
