@@ -262,6 +262,9 @@ const actions = {
     },
 
     getGroupHistoryMessage: function (groupId, length) {
+        if (!length) {
+            length = 0;
+        }
         return new Promise(resolve => {
             socket.get('/groupMessage/history', { groupId, length }, response => {
                 if (response.status === 200) {

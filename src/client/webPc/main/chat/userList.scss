@@ -16,6 +16,8 @@
     position: relative;
     cursor: default;
     user-select: none;
+    left: 0px;
+    transition: left 0.2s;
 
     &:hover {
         left: -5px;

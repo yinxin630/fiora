@@ -53,7 +53,7 @@ const actions = {
     closeUserInfo: () => dispatch({ type: 'CloseUserInfo' }),
 
     // imageViewer
-    openImageViewer: () => dispatch({ type: 'OpenImageViewer' }),
+    openImageViewer: (src) => dispatch({ type: 'OpenImageViewer', src }),
     closeImageViewer: () => dispatch({ type: 'CloseImageViewer' }),
 };
 
