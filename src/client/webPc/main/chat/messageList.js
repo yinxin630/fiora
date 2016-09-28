@@ -171,8 +171,8 @@ class Message extends React.Component {
                 ref={dom => this.dom = dom}
             >
                 <Avatar
-                    avatar={message.getIn(['from', 'avatar'])}
-                    name={message.getIn(['from', 'username'])}
+                    avatar={message.getIn(['from', 'avatar']) || ''}
+                    name={message.getIn(['from', 'username']) || ''}
                     width={40}
                     height={40}
                     onClick={this.handleAvatarClick}
