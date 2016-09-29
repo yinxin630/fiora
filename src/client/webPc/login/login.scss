@@ -5,79 +5,101 @@
     @include flexCenter;
 
     & > div {
-        @include flexCenter(column);
-        @include size(360px, auto);
-        background-color: white;
-        padding: 20px 30px;
+        @include flexCenter(row);
+        @include size(460px, auto);
+        background-color: rgba($grey0, 0.95);
+        padding: 20px 30px 30px 30px;
 
-        .focus {
-            border: 1px solid #03a9f4;
-            box-shadow: 0px 0px 3px #03a9f4;
-        }
-
-        .error {
-            border: 1px solid red;
-            box-shadow: 0px 0px 3px red;
+        & > div:nth-child(1000n+1) {
+            & > img {
+                @include size(100px, 100px);
+                border-radius: 50%;
+                margin-right: 30px;
+            }
         }
 
         & > div:nth-child(1000n+2) {
-            margin-top: 10px;
-        }
+            @include flexCenter(column);
 
-        & > div {
-            @include size(300px, 40px);
-            @include flexCenter;
-            box-sizing: content-box;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-
-            & > div {
+            & > :nth-child(1000n+1) {
+                color: $lightBlue8;
+                margin: {
+                    top: 20px;
+                    bottom: 10px;
+                }
+                height: 18px;
+            }
+            & > :nth-child(1000n+2) {
+                margin-bottom: 10px;
+            }
+            & > :nth-child(1000n+4) {
                 @include flexCenter;
-                @include size(40px, 40px);
+                align-self: flex-end;
+                margin-top: 10px;
 
-                i {
-                    color: #757575;
-                    font-size: 20px;
+                button {
+                    background-color: #03a9f4;
+                    width: 100px;
+                    height: 40px;
+                    color: #fff;
+                    font-size: 16px;
+                    border-radius: 5px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: #0288d1;
+                    }
+                    &:focus {
+                        border: 1px solid #0288d1;
+                        box-shadow: 0px 0px 3px #0288d1;
+                    }
+                }
+
+                span {
+                    color: #03a9f4;
+                    cursor: pointer;
+                    font-size: 16px;
+                    margin-right: 20px;
+                    user-select: none;
+
+                    &:hover {
+                        color: #0288d1;
+                    }
                 }
             }
-
-            & > input {
-                flex: 1;
-                height: 40px;
-                padding-right: 10px;
-                font-size: 16px;
-                color: #757575;
+            .input {
+                @include size(250px, 36px);
+                @include flexCenter;
+                box-sizing: content-box;
+                border: 1px solid #ccc;
                 border-radius: 5px;
+
+                & > div {
+                    @include flexCenter;
+                    @include size(36px, 36px);
+
+                    i {
+                        color: #757575;
+                        font-size: 20px;
+                    }
+                }
+                & > input {
+                    flex: 1;
+                    height: 36px;
+                    padding-right: 10px;
+                    font-size: 16px;
+                    color: #757575;
+                    border-radius: 5px;
+                    background-color: rgba(0, 0, 0, 0);
+                }
             }
-        }
-
-        button {
-            background-color: #03a9f4;
-            width: 300px;
-            height: 40px;
-            color: #fff;
-            font-size: 18px;
-            margin-top: 20px;
-            border-radius: 5px;
-            cursor: pointer;
-
-            &:hover {
-                background-color: #0288d1;
+            .focus {
+                border: 1px solid #03a9f4;
+                box-shadow: 0px 0px 3px #03a9f4;
             }
-            &:focus {
-                border: 1px solid #0288d1;
-                box-shadow: 0px 0px 3px #0288d1;
-            }
-        }
-
-        span {
-            color: #03a9f4;
-            margin-top: 5px;
-            cursor: pointer;
-            font-size: 14px;
-
-            &:hover {
-                color: #0288d1;
+            .error {
+                border: 1px solid red;
+                box-shadow: 0px 0px 3px red;
             }
         }
     }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
 
 import './login.scss';
@@ -7,6 +7,10 @@ import user from '../../action/user';
 import ui from '../../action/pc';
 
 class Login extends React.Component {
+    static propTypes = {
+        location: PropTypes.object.isRequired,
+    }
+
     static contextTypes = {
         router: React.PropTypes.object.isRequired,
     }
@@ -19,6 +23,9 @@ class Login extends React.Component {
             passwordInput: 'normal',
         };
         this.handleLogin = this.handleLogin.bind(this);
+        this.handleSignup = this.handleSignup.bind(this);
+        this.renderLogin = this.renderLogin.bind(this);
+        this.renderSignup = this.renderSignup.bind(this);
     }
 
     handleLogin() {
@@ -56,48 +63,151 @@ class Login extends React.Component {
             });
     }
 
-    render() {
+    handleSignup() {
+        user
+            .signup(this.username.value, this.password.value)
+            .then(result => {
+                if (result.status === 201) {
+                    user
+                        .login(this.username.value, this.password.value)
+                        .then(() => {
+                            this.context.router.push('/main');
+                            user.online();
+                        });
+                }
+                else {
+                    if (result.data === 'need username param but not exists') {
+                        ui.openNotification('请输入用户名');
+                        this.setState({ usernameInput: 'error' });
+                    }
+                    else if (result.data === 'need password param but not exists') {
+                        ui.openNotification('请输入密码');
+                        this.setState({ passwordInput: 'error' });
+                    }
+                    else if (result.data === 'username already exists') {
+                        ui.openNotification('注册失败! 用户名已存在.');
+                        this.setState({ usernameInput: 'error' });
+                    }
+                    else if (result.data === 'username invalid') {
+                        ui.openNotification('注册失败! 用户名仅能使用字母,数字,汉字,横线-,下划线_.');
+                        this.setState({ usernameInput: 'error' });
+                    }
+                    else {
+                        ui.openNotification('注册失败! 服务器发生错误, 请联系管理员.');
+                    }
+                }
+            });
+    }
+
+    renderLogin() {
         const { usernameInput, passwordInput } = this.state;
         return (
             <div className="login">
                 <div>
-                    <div className={`${usernameInput}`}>
-                        <div>
-                            <i className="icon">&#xe608; </i>
-                        </div>
-                        <input
-                            type="text"
-                            ref={username => this.username = username}
-                            placeholder="用户名"
-                            onFocus={() => this.setState({ usernameInput: 'focus' })}
-                            onBlur={() => this.setState({ usernameInput: 'normal' })}
-                        />
+                    <div>
+                        <img src={require('../../assets/image/user_avatar_default.png')} />
                     </div>
-                    <div className={`${passwordInput}`}>
-                        <div>
-                            <i className="icon">&#xe60b; </i>
+                    <div>
+                        <span>欢迎老司机归来 ヾ(=^▽^=) ノ</span>
+                        <div className={`input ${usernameInput}`}>
+                            <div>
+                                <i className="icon">&#xe608; </i>
+                            </div>
+                            <input
+                                type="text"
+                                ref={username => this.username = username}
+                                placeholder="用户名"
+                                onFocus={() => this.setState({ usernameInput: 'focus' })}
+                                onBlur={() => this.setState({ usernameInput: 'normal' })}
+                                onChange={() => console.log('change')}
+                            />
                         </div>
-                        <input
-                            type="password"
-                            ref={password => this.password = password}
-                            placeholder="密码"
-                            onFocus={() => this.setState({ passwordInput: 'focus' })}
-                            onBlur={() => this.setState({ passwordInput: 'normal' })}
-                        />
+                        <div className={`input ${passwordInput}`}>
+                            <div>
+                                <i className="icon">&#xe60b; </i>
+                            </div>
+                            <input
+                                type="password"
+                                ref={password => this.password = password}
+                                placeholder="密码"
+                                onFocus={() => this.setState({ passwordInput: 'focus' })}
+                                onBlur={() => this.setState({ passwordInput: 'normal' })}
+                            />
+                        </div>
+                        <div>
+                            <span
+                                onClick={() => this.context.router.push('/signup')}
+                            >
+                                注册
+                            </span>
+                            <button
+                                onClick={this.handleLogin}
+                            >
+                                登录
+                            </button>
+                        </div>
                     </div>
-                    <button
-                        onClick={this.handleLogin}
-                    >
-                        登录
-                    </button>
-                    <span
-                        onClick={() => this.context.router.push('/signup')}
-                    >
-                        还没有帐号?那就注册一个吧 (ﾉ ○ Д ○) ﾉ
-                    </span>
                 </div>
             </div>
         );
+    }
+
+    renderSignup() {
+        const { usernameInput, passwordInput } = this.state;
+        return (
+            <div className="login">
+                <div>
+                    <div>
+                        <img src={require('../../assets/image/user_avatar_default.png')} />
+                    </div>
+                    <div>
+                        <span
+                            style={{ position: 'relative', top: -4 }}
+                        >新司机快注册驾照 (ﾉ ○ Д ○) ﾉ</span>
+                        <div className={`input ${usernameInput}`}>
+                            <div>
+                                <i className="icon">&#xe608; </i>
+                            </div>
+                            <input
+                                type="text"
+                                ref={username => this.username = username}
+                                placeholder="用户名"
+                                onFocus={() => this.setState({ usernameInput: 'focus' })}
+                                onBlur={() => this.setState({ usernameInput: 'normal' })}
+                            />
+                        </div>
+                        <div className={`input ${passwordInput}`}>
+                            <div>
+                                <i className="icon">&#xe60b; </i>
+                            </div>
+                            <input
+                                type="password"
+                                ref={password => this.password = password}
+                                placeholder="密码"
+                                onFocus={() => this.setState({ passwordInput: 'focus' })}
+                                onBlur={() => this.setState({ passwordInput: 'normal' })}
+                            />
+                        </div>
+                        <div>
+                            <span
+                                onClick={() => this.context.router.push('/login')}
+                            >
+                                登录
+                            </span>
+                            <button
+                                onClick={this.handleSignup}
+                            >
+                                注册
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    render() {
+        return /^(\/|\/login)$/.test(this.props.location.pathname) ? this.renderLogin() : this.renderSignup();
     }
 }
 

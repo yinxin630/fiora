@@ -7,7 +7,6 @@ import Store from '../store';
 
 import App from './app';
 import Login from '../webPc/login/login';
-import Signup from '../webPc/signup/signup';
 import Main from '../webPc/main/main';
 import Chat from '../webPc/main/chat/chat';
 import GroupManage from '../webPc/main/linkmanManage/groupManage';
@@ -24,7 +23,7 @@ ReactDom.render(
             <Route path="/" component={App}>
                 <IndexRoute component={Login} />
                 <Route path="login" component={Login} />
-                <Route path="signup" component={Signup} />
+                <Route path="signup" component={Login} />
                 <Route path="main" component={Main}>
                     <IndexRoute component={Chat} />
                     <Route path="chat" component={Chat} />
