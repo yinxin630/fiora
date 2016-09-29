@@ -20,7 +20,7 @@
             @include flexCenter(column);
 
             & > :nth-child(1000n+1) {
-                color: $lightBlue8;
+                color: $grey6;
                 margin: {
                     top: 20px;
                     bottom: 10px;

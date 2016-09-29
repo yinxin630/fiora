@@ -117,7 +117,7 @@ class Login extends React.Component {
                     <div>
                         <Avatar
                             name={username}
-                            avatar={avatar !== '' ? avatar : require('../../assets/image/user_avatar_default.png')}
+                            avatar={avatar !== '' ? avatar : 'http://assets.suisuijiang.com/user_avatar_default.png'}
                             width={100}
                             height={100}
                         />
@@ -175,7 +175,7 @@ class Login extends React.Component {
                     <div>
                         <Avatar
                             name="a"
-                            avatar={require('../../assets/image/user_avatar_default.png')}
+                            avatar={'http://assets.suisuijiang.com/user_avatar_default.png'}
                             width={100}
                             height={100}
                         />
