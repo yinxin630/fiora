@@ -11,9 +11,7 @@
         padding: 20px 30px 30px 30px;
 
         & > div:nth-child(1000n+1) {
-            & > img {
-                @include size(100px, 100px);
-                border-radius: 50%;
+            & > :nth-child(1000n+1) {
                 margin-right: 30px;
             }
         }

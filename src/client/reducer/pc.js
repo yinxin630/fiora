@@ -25,6 +25,9 @@ const initialState = immutable.fromJS({
 
     showImageViewer: false,
     imageViewerSrc: '',
+
+    username: '',
+    avatar: '',
 });
 
 function reducer(state = initialState, action) {
@@ -74,6 +77,8 @@ function reducer(state = initialState, action) {
 
     case 'OpenImageViewer': { return state.set('showImageViewer', true).set('imageViewerSrc', action.src); }
     case 'CloseImageViewer': { return state.set('showImageViewer', false); }
+
+    case 'GetUserAvatar': { return state.set('username', action.username).set('avatar', action.avatar); }
 
     default:
         return state;

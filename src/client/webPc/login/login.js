@@ -1,14 +1,18 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import pureRenderMixin from 'react-addons-pure-render-mixin';
 
 import './login.scss';
 
 import user from '../../action/user';
 import ui from '../../action/pc';
+import Avatar from '../../common/avatar';
 
 class Login extends React.Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
+        avatar: PropTypes.string,
+        username: PropTypes.string,
     }
 
     static contextTypes = {
@@ -26,6 +30,7 @@ class Login extends React.Component {
         this.handleSignup = this.handleSignup.bind(this);
         this.renderLogin = this.renderLogin.bind(this);
         this.renderSignup = this.renderSignup.bind(this);
+        this.handleUsernameChange = this.handleUsernameChange.bind(this);
     }
 
     handleLogin() {
@@ -99,13 +104,23 @@ class Login extends React.Component {
             });
     }
 
+    handleUsernameChange() {
+        ui.getUserAvatar(this.username.value);
+    }
+
     renderLogin() {
         const { usernameInput, passwordInput } = this.state;
+        const { username, avatar } = this.props;
         return (
             <div className="login">
                 <div>
                     <div>
-                        <img src={require('../../assets/image/user_avatar_default.png')} />
+                        <Avatar
+                            name={username}
+                            avatar={avatar !== '' ? avatar : require('../../assets/image/user_avatar_default.png')}
+                            width={100}
+                            height={100}
+                        />
                     </div>
                     <div>
                         <span>欢迎老司机归来 ヾ(=^▽^=) ノ</span>
@@ -115,11 +130,11 @@ class Login extends React.Component {
                             </div>
                             <input
                                 type="text"
-                                ref={username => this.username = username}
+                                ref={name => this.username = name}
                                 placeholder="用户名"
                                 onFocus={() => this.setState({ usernameInput: 'focus' })}
                                 onBlur={() => this.setState({ usernameInput: 'normal' })}
-                                onChange={() => console.log('change')}
+                                onChange={this.handleUsernameChange}
                             />
                         </div>
                         <div className={`input ${passwordInput}`}>
@@ -158,7 +173,12 @@ class Login extends React.Component {
             <div className="login">
                 <div>
                     <div>
-                        <img src={require('../../assets/image/user_avatar_default.png')} />
+                        <Avatar
+                            name="a"
+                            avatar={require('../../assets/image/user_avatar_default.png')}
+                            width={100}
+                            height={100}
+                        />
                     </div>
                     <div>
                         <span
@@ -211,4 +231,9 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default connect(
+    state => ({
+        username: state.getIn(['pc', 'username']),
+        avatar: state.getIn(['pc', 'avatar']),
+    })
+)(Login);

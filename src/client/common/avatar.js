@@ -6,7 +6,7 @@ import './avatar.scss';
 class Avatar extends React.Component {
     static propTypes = {
         avatar: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
+        name: PropTypes.string,
         width: PropTypes.number.isRequired,
         height: PropTypes.number.isRequired,
         title: PropTypes.string,
@@ -21,11 +21,11 @@ class Avatar extends React.Component {
     render() {
         const { avatar, name, width, height, title, onClick } = this.props;
         return (
-            avatar.match(/^http/) ?
+            avatar.match(/^(http|data:image)/) ?
                 <img
                     className="avatar-image"
                     style={{ width, height, minWidth: width, minHeight: height }}
-                    src={`${avatar}?imageView2/2/w/${60}/h/${60}`}
+                    src={/^http/.test(avatar) ? `${avatar}?imageView2/2/w/${width}/h/${height}` : avatar}
                     title={title}
                     onClick={onClick}
                 />

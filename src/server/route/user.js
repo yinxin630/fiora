@@ -96,6 +96,18 @@ const UserRoute = {
         this.end(204);
     },
 
+    'GET /user/avatar': function* (data) {
+        assert(!data.username, this.end, 400, 'need username param but not exists');
+
+        const user = yield User.findOne({ username: data.username });
+        if (user) {
+            return this.end(200, { username: user.username, avatar: user.avatar });
+        }
+        else {
+            return this.end(200, { avatar: '' });
+        }
+    },
+
     'PUT /user/avatar': function* (data) {
         yield* isLogin(this.socket, data, this.end);
         assert(!data.avatar, this.end, 400, 'need avatar param but not exists');

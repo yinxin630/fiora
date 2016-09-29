@@ -1,4 +1,5 @@
 import Store from '../store';
+import socket from '../socket';
 
 const dispatch = Store.dispatch;
 let closeNotification = null;
@@ -55,6 +56,22 @@ const actions = {
     // imageViewer
     openImageViewer: (src) => dispatch({ type: 'OpenImageViewer', src }),
     closeImageViewer: () => dispatch({ type: 'CloseImageViewer' }),
+
+    // login
+    getUserAvatar: (username) => (
+        new Promise(resolve => {
+            socket.get('/user/avatar', { username }, response => {
+                if (response.status === 200) {
+                    dispatch({
+                        type: 'GetUserAvatar',
+                        username: response.data.username,
+                        avatar: response.data.avatar,
+                    });
+                }
+                resolve(response);
+            });
+        })
+    ),
 };
 
 export default actions;
