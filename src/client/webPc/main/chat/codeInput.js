@@ -42,7 +42,7 @@ class CodeInput extends React.Component {
                 defaultStyle={{ scale: 0.4, opacity: 0 }}
                 style={{ scale: spring(show ? 1 : 0.4), opacity: spring(show ? 1 : 0) }}
             >
-            {
+                {
                 ({ scale, opacity }) => (
                     <div
                         className="code-input"

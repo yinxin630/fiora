@@ -50,7 +50,7 @@ class Expression extends React.Component {
     renderDefaultExpression() {
         return (
             <div className="default-expression">
-            {
+                {
                 expressions.map((e, index) => (
                     <div
                         key={index}
@@ -69,7 +69,7 @@ class Expression extends React.Component {
 
         return (
             <div className="collect-expression">
-            {
+                {
                 userExpressions.map((e, index) => (
                     <div key={index}>
                         <i
@@ -95,7 +95,7 @@ class Expression extends React.Component {
                 defaultStyle={{ scale: 0.4, opacity: 0 }}
                 style={{ scale: spring(show ? 1 : 0.4), opacity: spring(show ? 1 : 0) }}
             >
-            {
+                {
                 ({ scale, opacity }) => (
                     <div
                         className="expression"
