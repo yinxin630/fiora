@@ -82,7 +82,7 @@ class GroupSetting extends React.Component {
                         <span>{ members.size }人</span>
                     </div>
                     <div className="userList">
-                    {
+                        {
                         members.map(member => (
                             <div
                                 key={member.get('_id')}

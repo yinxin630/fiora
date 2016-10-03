@@ -32,6 +32,7 @@
     "history": "^3.0.0",
     "immutable": "^3.8.1",
     "jquery": "^3.1.0",
+    "jquery-image-explode": "^1.0.1",
     "jwt-simple": "^0.5.0",
     "koa": "^1.2.1",
     "koa-logger": "^1.3.0",

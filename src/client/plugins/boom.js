@@ -1,7 +1,12 @@
-import $ from 'jquery';
+import jQuery from 'jquery';
 import api from '../api.js';
 
-window.$ = $;
+window.jQuery = jQuery;
+window.$ = jQuery;
+
+require('jquery-image-explode');
+
+const $ = window.$;
 
 // Preserve the original jQuery "swing" easing as "jswing"
 $.easing.jswing = $.easing.swing;
@@ -32,142 +37,6 @@ function bounceOut(x) {
     }
 }
 
-$.fn.explode = function ({
-        minWidth = 1,
-        maxWidth,
-        omitLastLine = true,
-        radius = 8,
-    }) {
-    const $target = this;
-    const w = $target.width();
-    const h = $target.height();
-    const minorDimension = Math.min(w, h);
-    let background;
-
-    if ($target.prop('tagName') === 'IMG') {
-        background = {
-            kind: 'image',
-            src: $target.attr('src'),
-        };
-    } else {
-        background = {
-            kind: 'color',
-            color: $target.css('background-color'),
-        };
-    }
-
-    if (!maxWidth) {
-        maxWidth = minorDimension / 2;
-    }
-    const $wrapper = $('<div></div>', {
-        class: 'explode-wrapper',
-    });
-    const syncStyles = ['width', 'height', 'margin-top', 'margin-right', 'margin-bottom', 'margin-left', 'position', 'top', 'right', 'bottom', 'left'];
-    syncStyles.forEach((v) => {
-        $wrapper.css(v, $target.css(v));
-    });
-        //        $wrapper.css("background-color", "black");
-    if ($wrapper.css('position') === 'static') {
-        $wrapper.css('position', 'relative');
-    }
-
-    this.replaceWith($wrapper);
-
-    function random(min, max) {
-        max++;
-        return parseInt(Math.random() * (max - min), 10) + min;
-    }
-    window.random = random;
-
-    function generateRags() {
-        let rowCnt;
-        if (omitLastLine) {
-            rowCnt = Math.floor(h / maxWidth);
-        } else {
-            rowCnt = Math.ceil(h / maxWidth);
-        }
-        let value;
-
-        const ret = [];
-        for (let row = 0; row < rowCnt; row++) {
-            let rowSum = 0;
-            let column = 0;
-            do {
-                if (value) {
-                    rowSum += value;
-                    if (ret[row] === undefined) {
-                        ret[row] = [];
-                    }
-                    ret[row][column] = value;
-                    column++;
-                }
-                value = random(minWidth, maxWidth);
-            } while (w > rowSum + value);
-            ret[row][column] = w - rowSum;
-        }
-
-
-        return ret;
-    }
-    const ragMap = generateRags();
-    let ragTop = 0;
-    const rags = [];
-    ragMap.forEach((v) => {
-        let left = 0;
-        v.forEach((u) => {
-            const $dom = $('<div></div>', {});
-            $dom.css({
-                width: u,
-                height: u,
-                position: 'absolute',
-                left,
-                top: ragTop,
-
-                'background-size': `${w}px ${h}px`,
-                'background-position': `${-left}px ${-ragTop}px`,
-            });
-            switch (background.kind) {
-            case 'image':
-                $dom.css('background-image', `url("${background.src}")`);
-                break;
-            case 'color':
-                $dom.css('background-color', `${background.color}`);
-                break;
-            default:
-            }
-            rags.push({
-                $dom,
-                left,
-                top: ragTop,
-                width: u,
-            });
-            left += u;
-            $wrapper.append($dom);
-        });
-        ragTop += maxWidth;
-    });
-    const centerX = w / 2;
-    const centerY = h / 2;
-    rags.forEach((v) => {
-        v.$dom.css('transition', '0.3s all ease-out');
-
-        const rand1 = (Math.random() + 2) * v.width;
-        const degMax = 720;
-        const rand2 = (((Math.random() * degMax) - (degMax / 2)) / ((Math.random() + 2) * v.width)) * 10;
-            //            rand=Math.max(rand,3)
-        const ratio = radius / rand1;
-        setTimeout(() => {
-            v.$dom.css('transform', `translate(${(v.left - centerX) * ratio}px,${((v.top - centerY) + maxWidth) * ratio}px) rotate(${rand2}deg)`);
-        }, 50);
-        setTimeout(() => {
-            v.$dom.fadeOut({
-                done: function () {
-                    v.$dom.remove();
-                },
-            });
-        }, 3000 / ratio);
-    });
-};
 
 $.extend($.easing, {
     def: 'easeOutQuad',
@@ -415,7 +284,7 @@ registerCommand('boom', (argStr, msg) => {
             .delay(500)
             .animate({
                 opacity: '0',
-                borderSpacing: '2000',
+                borderSpacing: '1500',
             }, {
                 duration: 100,
                 easing: 'linear',
@@ -425,10 +294,25 @@ registerCommand('boom', (argStr, msg) => {
                     }
                 },
                 start: function () {
+                    if ($targetAvatar.prop('tagName') !== 'IMG') {
+                        return;
+                    }
+
                     $targetAvatar.explode({
+                        minWidth: 4,
                         maxWidth: 8,
-                        minWidth: 1,
-                        radius: radius * 8,
+                        radius: 25,
+                        minRadius: 3,
+                        release: false,
+                        fadeTime: 300,
+                        recycle: false,
+                        recycleDelay: 500,
+                        explodeTime: 331,
+                        round: false,
+                        minAngle: 0,
+                        maxAngle: 360,
+                        gravity: 3,
+                        groundDistance: 30,
                     });
                 },
                 done: function () {

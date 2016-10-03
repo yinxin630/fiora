@@ -30,7 +30,7 @@ class FloatPanel extends React.Component {
                 defaultStyle={{ right: -340 }}
                 style={{ right: spring(show ? 0 : -340) }}
             >
-            {
+                {
                 style => (
                     <div className="float-panel" style={style}>
                         <div>
