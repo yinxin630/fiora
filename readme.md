@@ -42,7 +42,7 @@ If you want to add functionality or fix bug, please observe the following proces
 0. Commit your code. If you get any error or warning from eslint, please fix it
 0. Create a pull request 
 
-## roadmap
+## Roadmap
 
 ### v1.1
 
