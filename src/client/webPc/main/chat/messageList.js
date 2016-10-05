@@ -3,6 +3,7 @@ import pureRenderMixin from 'react-addons-pure-render-mixin';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import Highlight from 'react-highlight';
+import jQuery from 'jquery';
 
 import './messageList.scss';
 
@@ -11,6 +12,7 @@ import expressions from '../../../util/expressions';
 import ui from '../../../action/pc';
 import user from '../../../action/user';
 import mask from '../../../util/mask';
+import api from '../../../api';
 
 let onScrollHandle = null;
 let scrollMessage = null;
@@ -52,6 +54,30 @@ class MessageList extends React.Component {
                 { this.props.children }
             </div>
         );
+    }
+}
+
+class PluginMessage extends React.Component {
+    static propTypes = {
+        name: PropTypes.string.isRequired,
+        content: PropTypes.string.isRequired,
+    };
+
+    componentDidMount() {
+        this.renderMessage();
+    }
+    componentDidUpdate() {
+        this.renderMessage();
+    }
+    renderMessage() {
+        jQuery(this.dom).empty()
+            .append(api.getMessage(this.props.name, this.props.content));
+    }
+    render() {
+        return (<div
+            className="plugin-dom-container"
+            ref={dom => this.dom = dom}
+        />);
     }
 }
 
@@ -164,6 +190,11 @@ class Message extends React.Component {
 
     render() {
         const { me, message } = this.props;
+
+        const PluginMessageInfo = api.getVirtualMessageName(message.get('content'));
+        if (PluginMessageInfo) {
+            return <div ref={dom => this.dom = dom}><PluginMessage name={PluginMessageInfo.name} content={PluginMessageInfo.content} /></div>;
+        }
 
         return (
             <div

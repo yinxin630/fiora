@@ -96,7 +96,29 @@ function registerCommand(commandName, cb) {
         }
     });
 }
+const messageList = {};
+function getMessage(messageTypeName, content) {
+    return messageList[messageTypeName](content);
+}
+function registerMessage(messageTypeName, cb) {
+    messageList[messageTypeName] = cb;
+}
+function getVirtualMessageName(content) {
+    const match = content.trim().match(/^([a-zA-Z0-9_\-]+)\s*\(([\s\S]*)\)\s*;?\s*$/);
 
+    if (match && match[1] && messageList[match[1]]) {
+        return { name: match[1], content: match[2] };
+    } else {
+        return;
+    }
+}
 export default {
-    on, off, emit, init, registerCommand,
+    on,
+    off,
+    emit,
+    init,
+    registerCommand,
+    registerMessage,
+    getVirtualMessageName,
+    getMessage,
 };
