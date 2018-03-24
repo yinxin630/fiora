@@ -1,0 +1,81 @@
+.module-main-sidebar {
+    width: 80px;
+    background: rgba(48, 56, 65, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+
+    .avatar {
+        margin-top: 50px;
+    }
+    .status {
+        position: absolute;
+        top: 96px;
+        left: 48px;
+    }
+    .tabs {
+        margin-top: 50px;
+    }
+}
+
+.module-main-sidebar-onlineStatus {
+    width: 16px;
+    height: 16px;
+    background-color: rgba(48, 56, 65, 1);
+    border-radius: 50%;
+
+    & > div {
+        width: 10px;
+        height: 10px;
+        margin-top: 3px;
+        margin-left: 3px;
+        border-radius: 50%;
+
+        &.online {
+            background-color: rgba(94, 212, 92, 1);
+        }
+        &.offline {
+            background-color: rgba(206, 12, 35, 1);
+        }
+    }
+}
+
+.module-main-sidebar-singleCheckGroup {
+
+}
+
+.module-main-sidebar-singleCheckButton {
+    @height: 80px;
+    width: 80px;
+    height: @height;
+    text-align: center;
+    cursor: pointer;
+
+    .iconfont {
+        font-size: 36px;
+        line-height: @height;
+        color: rgba(165, 181, 192, 1);
+    }
+    &.focus {
+        background-color: rgba(57, 72, 85, 1);
+        position: relative;
+        .iconfont {
+            color: rgba(247, 247, 247, 1);
+        }
+        .line {
+            position: absolute;
+            width: 5px;
+            height: 100%;
+            left: 0;
+            top: 0;
+            background-color: rgba(91, 211, 141, 1);
+        }
+        &:hover {
+            background-color: rgba(53, 63, 72, 1);
+        }
+    }
+    &:hover {
+        background-color: rgba(57, 72, 85, 1);
+    }
+}
