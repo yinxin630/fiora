@@ -24,7 +24,7 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.jsx', '.json'],
         alias: {
-            '@': resolve('src'),
+            '@': resolve('client'),
         },
     },
     module: {
@@ -32,7 +32,7 @@ module.exports = {
             {
                 test: /\.jsx?$/,
                 loader: 'babel-loader',
-                include: [resolve('src')],
+                include: [resolve('client')],
                 exclude: /node_modules/,
             },
             {

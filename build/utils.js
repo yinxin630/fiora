@@ -13,17 +13,20 @@ exports.assetsPath = (_path) => {
 exports.getStyleLoaders = () => {
     const rules = [{
         test: /\.less$/,
+        use: ['css-loader'],
+    }, {
+        test: /\.css$/,
+        use: ['css-loader'],
     }];
-    const loaders = ['css-loader'];
 
     if (config.commonn.convertPxToRem.enable) {
-        loaders.push({
+        rules[0].use.push({
             loader: 'pxrem-loader',
             options: config.commonn.convertPxToRem.options,
         });
     }
     if (config.commonn.autoPrefix.enable) {
-        loaders.push({
+        rules[0].use.push({
             loader: 'less-loader',
             options: {
                 plugins: [
@@ -32,16 +35,20 @@ exports.getStyleLoaders = () => {
             },
         });
     } else {
-        loaders.push('less-loader');
+        rules[0].use.push('less-loader');
     }
     if (process.env.NODE_ENV === 'production') {
         rules[0].use = ExtractTextPlugin.extract({
             fallback: 'style-loader',
-            use: loaders,
+            use: rules[0].use,
+        });
+        rules[1].use = ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: rules[1].use,
         });
     } else {
-        loaders.unshift('style-loader');
-        rules[0].use = loaders;
+        rules[0].use.unshift('style-loader');
+        rules[1].use.unshift('style-loader');
     }
     return rules;
 };
