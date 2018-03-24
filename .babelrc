@@ -1,0 +1,45 @@
+{
+    "presets": [
+        "stage-0",
+        [
+            "env",
+            {
+                "targets": {
+                    "browsers": ["last 3 versions"]
+                },
+                "modules": false
+            }
+        ],
+        "react"
+    ],
+    "plugins": [
+        "react-hot-loader/babel",
+        "transform-decorators-legacy",
+        "transform-class-properties"
+    ],
+    "comments": false,
+    "env": {
+        "test": {
+            "plugins": [
+                "istanbul"
+            ]
+        },
+        "development": {
+            "plugins": [
+                [
+                    "react-transform",
+                    {
+                        "transforms": [
+                            {
+                                "transform": "react-transform-style"
+                            },
+                            {
+                                "transform": "react-transform-log-render"
+                            }
+                        ]
+                    }
+                ]
+            ]
+        }
+    }
+}
