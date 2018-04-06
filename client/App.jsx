@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'normalize.css';
-
 import { hot } from 'react-hot-loader';
+
 import Main from './modules/main/Main';
 
 import './App.less';
