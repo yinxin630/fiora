@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import '@/styles/feature.less';
 import LinkmanGroup from './LinkmanGroup';
 import Linkman from './Linkman';
+import './FeatureLinkmans.less';
 
-class Feature extends Component {
+class FeatureLinkmans extends Component {
     render() {
         return (
             <div className="module-main-feature">
@@ -39,4 +39,4 @@ class Feature extends Component {
     }
 }
 
-export default Feature;
+export default FeatureLinkmans;

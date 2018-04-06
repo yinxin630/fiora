@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import '@/styles/sidebar.less';
-
 class SingleCheckGroup extends Component {
     static propTypes = {
         children: PropTypes.arrayOf(PropTypes.element),

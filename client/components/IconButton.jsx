@@ -1,7 +1,7 @@
 import React from 'react';
 
-import '@/styles/iconButton.less';
 import Button from './Button';
+import './IconButton.less';
 
 
 class IconButton extends Button {

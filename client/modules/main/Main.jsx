@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 
-import '@/styles/main.less';
 import Sidebar from './sidebar/Sidebar';
-import Feature from './feature/Feature';
+import ChatPanel from './chatPanel/ChatPanel';
+import './Main.less';
 
 @immutableRenderDecorator
 class Main extends Component {
@@ -11,7 +11,7 @@ class Main extends Component {
         return (
             <div className="module-main">
                 <Sidebar />
-                <Feature />
+                <ChatPanel />
             </div>
         );
     }
