@@ -19,7 +19,10 @@ class Sidebar extends Component {
                     <SingleCheckButton key="friends" icon="friends" />
                     <SingleCheckButton key="groups" icon="groups" />
                 </SingleCheckGroup>
-                <IconButton width={40} height={40} icon="logout" iconSize={30} />
+                <div className="buttons">
+                    <IconButton width={40} height={40} icon="setting" iconSize={26} />
+                    <IconButton width={40} height={40} icon="logout" iconSize={26} />
+                </div>
             </div>
         );
     }

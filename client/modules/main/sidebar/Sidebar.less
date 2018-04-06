@@ -19,6 +19,23 @@
     .tabs {
         margin-top: 50px;
     }
+    .buttons {
+        position: absolute;
+        bottom: 40px;
+
+        .iconfont {
+            color: var(--primary-text-color-7);
+            transition: color 0.2s;
+        }
+        & > div {
+            margin-top: 10px;
+            &:hover {
+                .iconfont {
+                    color: var(--primary-text-color-10);
+                }
+            }
+        }
+    }
 }
 
 .module-main-sidebar-onlineStatus {
