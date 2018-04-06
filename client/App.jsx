@@ -14,6 +14,8 @@ class App extends Component {
             width: 0.7,
             height: 0.8,
             resize: 0,
+            primaryColor: '74, 144, 226',
+            primaryTextColor: '247, 247, 247',
         };
     }
     componentDidMount() {
@@ -24,10 +26,16 @@ class App extends Component {
             });
         };
     }
-    static get appStyle() {
-        return {
+    get style() {
+        const style = {
             backgroundSize: '1920px 1080px',
         };
+        for (let i = 0; i <= 10; i++) {
+            style[`--primary-color-${i}`] = `rgba(${this.state.primaryColor}, ${i / 10})`;
+            style[`--primary-color-${i}_5`] = `rgba(${this.state.primaryColor}, ${(i + 0.5) / 10})`;
+            style[`--primary-text-color-${i}`] = `rgba(${this.state.primaryTextColor}, ${i / 10})`;
+        }
+        return style;
     }
     get blurStyle() {
         const { width, height } = this.state;
@@ -52,7 +60,7 @@ class App extends Component {
     }
     render() {
         return (
-            <div className="app" style={App.appStyle}>
+            <div className="app" style={this.style}>
                 <div className="blur" style={this.blurStyle} />
                 <div className="child" style={this.childStyle}>
                     <Main />

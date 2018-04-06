@@ -1,6 +1,6 @@
 .module-main-sidebar {
     width: 80px;
-    background: rgba(52, 133, 228, 0.6);
+    background-color: var(--primary-color-8);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,7 +24,7 @@
 .module-main-sidebar-onlineStatus {
     width: 16px;
     height: 16px;
-    background-color: rgba(0, 118, 255, 0.4);
+    background-color: var(--primary-color-8);
     border-radius: 50%;
 
     & > div {
@@ -57,13 +57,14 @@
     .iconfont {
         font-size: 36px;
         line-height: @height;
-        color: rgba(165, 181, 192, 1);
+        color: var(--primary-text-color-6);
+        transition: color 0.2s;
     }
     &.focus {
-        background-color: rgba(53, 122, 201, 0.6);
+        background-color: var(--primary-color-6);
         position: relative;
         .iconfont {
-            color: rgba(247, 247, 247, 1);
+            color: var(--primary-text-color-10);
         }
         .line {
             position: absolute;
@@ -74,10 +75,12 @@
             background-color: rgba(91, 211, 141, 1);
         }
         &:hover {
-            background-color: rgba(53, 122, 201, 0.6);
+            background-color: var(--primary-color-6);
         }
     }
     &:hover {
-        background-color: rgba(53, 122, 201, 0.2);
+        .iconfont {
+            color: var(--primary-text-color-9);
+        }
     }
 }

@@ -47,7 +47,7 @@ class Linkman extends Component {
         if (zeroMessageTime.getTime() === zeroNowTime.getTime()) {
             return '前天';
         }
-        return `${messageTime.getMonth()}-${messageTime.getDate()}`;
+        return `${messageTime.getMonth()}/${messageTime.getDate()}`;
     }
     render() {
         const {
