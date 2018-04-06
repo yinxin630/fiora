@@ -10,10 +10,96 @@
 .chat-headerBar {
     height: 70px;
     border-bottom: 1px solid rgba(208, 208, 208, 0.6);
+    display: flex;
+    align-items: center;
+    padding: 0px 18px;
+
+    & > h2 {
+        font-size: 18px;
+        color: #333;
+    }
 }
+
 .chat-messageList {
     flex: 1;
+    padding: 8px 10px 0 10px;
+    overflow: auto;
 }
+.chat-message {
+    display: flex;
+    margin-right: 54px;
+    margin-bottom: 10px;
+    position: relative;
+
+    .avatar {
+        
+    }
+    .right {
+        margin-left: 12px;
+    }
+    .nickname-time {
+        
+    }
+    .nickname {
+        color: #333;
+        font-size: 14px;
+        margin-left: 10px;
+    }
+    .time {
+        color: #666;
+        font-size: 12px;
+        margin-left: 8px;
+    }
+    .content {
+        color: #555;
+        font-size: 14px;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 6px 8px;
+        border-radius: 8px;
+        border-top-left-radius: 0px;
+        word-break: break-all;
+        min-height: 28px;
+        margin-top: 2px;
+    }
+    .arrow {
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0px 7px 15px 0;
+        border-color: transparent rgba(255, 255, 255, 0.8) transparent transparent;
+        position: absolute;
+        top: 21px;
+        left: 49px;
+    }
+    &.self {
+        flex-direction: row-reverse;
+        margin-right: 0px;
+        margin-left: 54px;
+
+        .right {
+            margin-left: 0px;
+            margin-right: 12px;
+        }
+        .nickname-time {
+            display: flex;
+            flex-direction: row-reverse;
+        }
+        .content {
+            color: rgba(255, 255, 255, 0.9);
+            background-color: var(--primary-color-10);
+            border-top-left-radius: 8px;
+            border-top-right-radius: 0px;
+        }
+        .arrow {
+            border-width: 0 0 15px 7px;
+            border-color: transparent transparent transparent var(--primary-color-10);
+            left: initial;
+            right: 49px;
+            top: 18px;
+        }
+    }
+}
+
 .chat-chatInput {
     height: 70px;
     background-color: rgba(255, 255, 255, 0.5);

@@ -4,7 +4,7 @@ class HeaderBar extends Component {
     render() {
         return (
             <div className="chat-headerBar">
-                HeaderBar
+                <h2>小姐姐一号</h2>
             </div>
         );
     }
