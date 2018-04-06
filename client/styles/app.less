@@ -13,5 +13,9 @@ div {
 
 .app {
     background-image: url('../assets/images/background.jpg');
-    background-size: cover;
+
+    & > .blur {
+        background-image: url('../assets/images/background.jpg');
+        filter: blur(10px);
+    }
 }
