@@ -11,7 +11,7 @@ class IconButton extends Button {
         } = this.props;
         return (
             <div className="component-iconButton" style={{ width, height }} onClick={onClick}>
-                <i className={`iconfont icon-${icon}`} style={{ fontSize: iconSize, lineHeight: height }} />
+                <i className={`iconfont icon-${icon}`} style={{ fontSize: iconSize, lineHeight: `${height}px` }} />
             </div>
         );
     }
