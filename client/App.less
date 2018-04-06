@@ -1,8 +1,16 @@
-@color: 74, 144, 226;
+@font-face {
+    font-family: 'local-file';
+    src: url('./assets/fonts/font.woff');
+}
 
 html, body, #app, .app {
     width: 100%;
     height: 100%;
+    overflow: hidden;
+}
+
+html {
+    font-family: 'local-file', 'Arial', 'Verdana', '微软雅黑', '黑体', 'serif';
 }
 
 p {
