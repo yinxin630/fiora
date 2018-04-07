@@ -1,6 +1,7 @@
 import React from 'react';
 import Notification from 'rc-notification';
 
+import 'rc-notification/assets/index.css';
 import './Message.less';
 
 function showMessage(text, duration = 1.5, type = 'success') {
