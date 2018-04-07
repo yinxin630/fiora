@@ -1667,7 +1667,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-create-react-class@15.x:
+create-react-class@15.x, create-react-class@^15.5.2:
   version "15.6.3"
   resolved "http://registry.npm.taobao.org/create-react-class/download/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
   dependencies:
@@ -1973,6 +1973,10 @@ dom-converter@~0.1:
   resolved "https://registry.yarnpkg.com/dom-converter/-/dom-converter-0.1.4.tgz#a45ef5727b890c9bffe6d7c876e7b19cb0e17f3b"
   dependencies:
     utila "~0.3"
+
+dom-scroll-into-view@1.x:
+  version "1.2.1"
+  resolved "http://registry.npm.taobao.org/dom-scroll-into-view/download/dom-scroll-into-view-1.2.1.tgz#e8f36732dd089b0201a88d7815dc3f88e6d66c7e"
 
 dom-serializer@0:
   version "0.1.0"
@@ -2934,7 +2938,7 @@ hoek@4.x.x:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.2.0.tgz#72d9d0754f7fe25ca2d01ad8f8f9a9449a89526d"
 
-hoist-non-react-statics@^2.5.0:
+hoist-non-react-statics@^2.3.1, hoist-non-react-statics@^2.5.0:
   version "2.5.0"
   resolved "http://registry.npm.taobao.org/hoist-non-react-statics/download/hoist-non-react-statics-2.5.0.tgz#d2ca2dfc19c5a91c5a6615ce8e564ef0347e2a40"
 
@@ -3788,6 +3792,14 @@ min-document@^2.19.0:
   dependencies:
     dom-walk "^0.1.0"
 
+mini-store@^1.0.2:
+  version "1.0.4"
+  resolved "http://registry.npm.taobao.org/mini-store/download/mini-store-1.0.4.tgz#a540fbfdbddd0415daf17a8b0cc8290c9f7d8bd6"
+  dependencies:
+    hoist-non-react-statics "^2.3.1"
+    prop-types "^15.6.0"
+    shallowequal "^1.0.2"
+
 minimalistic-assert@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/minimalistic-assert/-/minimalistic-assert-1.0.0.tgz#702be2dda6b37f4836bcb3f5db56641b64a1d3d3"
@@ -4616,7 +4628,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@15.x, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.5.9, prop-types@^15.6.0:
+prop-types@15.x, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.5.9, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
   dependencies:
@@ -4773,6 +4785,20 @@ rc-hammerjs@~0.6.0:
     hammerjs "^2.0.8"
     prop-types "^15.5.9"
 
+rc-menu@^6.2.9:
+  version "6.2.9"
+  resolved "http://registry.npm.taobao.org/rc-menu/download/rc-menu-6.2.9.tgz#54e85ca6ba573955d02b6dbe0eb90eb5ac46ab96"
+  dependencies:
+    babel-runtime "6.x"
+    classnames "2.x"
+    create-react-class "^15.5.2"
+    dom-scroll-into-view "1.x"
+    mini-store "^1.0.2"
+    prop-types "^15.5.6"
+    rc-animate "2.x"
+    rc-trigger "^2.3.0"
+    rc-util "^4.1.0"
+
 rc-notification@^3.0.1:
   version "3.0.1"
   resolved "http://registry.npm.taobao.org/rc-notification/download/rc-notification-3.0.1.tgz#9ddcb831895ad40943a7e1df34951aa705173bce"
@@ -4796,7 +4822,7 @@ rc-tabs@^9.2.4:
     rc-util "^4.0.4"
     warning "^3.0.0"
 
-rc-trigger@^2.2.2:
+rc-trigger@^2.2.2, rc-trigger@^2.3.0:
   version "2.3.4"
   resolved "http://registry.npm.taobao.org/rc-trigger/download/rc-trigger-2.3.4.tgz#389dfa5e834ecc3a446fe9cefc0b4a32900f4227"
   dependencies:
@@ -4806,7 +4832,7 @@ rc-trigger@^2.2.2:
     rc-animate "2.x"
     rc-util "^4.4.0"
 
-rc-util@^4.0.4, rc-util@^4.4.0:
+rc-util@^4.0.4, rc-util@^4.1.0, rc-util@^4.4.0:
   version "4.5.0"
   resolved "http://registry.npm.taobao.org/rc-util/download/rc-util-4.5.0.tgz#3183e6ec806f382efb2d3e85770d95875fa6180f"
   dependencies:
