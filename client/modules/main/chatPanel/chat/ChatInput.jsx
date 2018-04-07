@@ -42,7 +42,7 @@ class ChatInput extends Component {
     }
     @autobind
     handleSendCode() {
-        console.log('发送代码', this.codeEditor.getContent());
+        console.log('发送代码', this.codeEditor.getValue());
         this.handleCodeEditorClose();
     }
     expressionDropdown = (
@@ -90,7 +90,7 @@ class ChatInput extends Component {
                         <button className="codeEditor-button" onClick={this.handleSendCode}>发送</button>
                     </div>
                 </Dialog>
-                <input />
+                <input placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来聊聊吧~~" />
                 <IconButton className="send" width={44} height={44} icon="send" iconSize={32} />
             </div>
         );

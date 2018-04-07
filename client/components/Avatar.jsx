@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { immutableRenderDecorator } from 'react-immutable-render-mixin';
+import { shouldComponentUpdate } from 'react-immutable-render-mixin';
 
-@immutableRenderDecorator
 class Avatar extends Component {
     static propTypes = {
         src: PropTypes.string.isRequired,
@@ -11,6 +10,7 @@ class Avatar extends Component {
     static defaultProps = {
         size: 60,
     }
+    shouldComponentUpdate = shouldComponentUpdate
     render() {
         const { src, size } = this.props;
         return (

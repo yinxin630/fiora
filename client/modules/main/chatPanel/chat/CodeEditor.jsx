@@ -166,7 +166,7 @@ class CodeEditor extends Component {
         };
         this.shouldComponentUpdate = shouldComponentUpdate;
     }
-    getContent() {
+    getValue() {
         return this.state.value;
     }
     @autobind
