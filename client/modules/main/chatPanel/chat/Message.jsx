@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 
 import Avatar from '@/components/Avatar';
 
+@immutableRenderDecorator
 class Message extends Component {
     static propTypes = {
         avatar: PropTypes.string.isRequired,

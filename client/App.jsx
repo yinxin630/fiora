@@ -19,6 +19,7 @@ class App extends Component {
         };
     }
     componentDidMount() {
+        this.setCssVariable();
         window.onresize = () => {
             // 触发rerender
             this.setState({
@@ -26,16 +27,10 @@ class App extends Component {
             });
         };
     }
-    get style() {
-        const style = {
+    static get style() {
+        return {
             backgroundSize: '1920px 1080px',
         };
-        for (let i = 0; i <= 10; i++) {
-            style[`--primary-color-${i}`] = `rgba(${this.state.primaryColor}, ${i / 10})`;
-            style[`--primary-color-${i}_5`] = `rgba(${this.state.primaryColor}, ${(i + 0.5) / 10})`;
-            style[`--primary-text-color-${i}`] = `rgba(${this.state.primaryTextColor}, ${i / 10})`;
-        }
-        return style;
     }
     get blurStyle() {
         const { width, height } = this.state;
@@ -58,9 +53,16 @@ class App extends Component {
             top: `${(1 - height) / 2 * 100}%`,
         };
     }
+    setCssVariable() {
+        let cssText = '';
+        for (let i = 0; i <= 10; i++) {
+            cssText += `--primary-color-${i}:rgba(${this.state.primaryColor}, ${i / 10});--primary-color-${i}_5:rgba(${this.state.primaryColor}, ${(i + 0.5) / 10});--primary-text-color-${i}:rgba(${this.state.primaryTextColor}, ${i / 10});`;
+        }
+        document.documentElement.style.cssText += cssText;
+    }
     render() {
         return (
-            <div className="app" style={this.style}>
+            <div className="app" style={App.style}>
                 <div className="blur" style={this.blurStyle} />
                 <div className="child" style={this.childStyle}>
                     <Main />
