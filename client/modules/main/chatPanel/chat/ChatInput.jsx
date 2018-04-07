@@ -12,7 +12,7 @@ import CodeEditor from './CodeEditor';
 
 class ChatInput extends Component {
     static propTypes = {
-        isLogin: PropTypes.object.isRequired,
+        isLogin: PropTypes.bool.isRequired,
     }
     constructor(...args) {
         super(...args);
@@ -98,7 +98,7 @@ class ChatInput extends Component {
                             <button className="codeEditor-button" onClick={this.handleSendCode}>发送</button>
                         </div>
                     </Dialog>
-                    <input placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来聊聊吧~~" />
+                    <input placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~" />
                     <IconButton className="send" width={44} height={44} icon="send" iconSize={32} />
                 </div>
             );
