@@ -2,7 +2,8 @@ import immutable from 'immutable';
 import ActionTypes from './ActionTypes';
 
 const initialState = immutable.fromJS({
-    primaryColor: '74, 144, 226',
+    user: {},
+    connect: true,
 });
 
 function reducer(state = initialState, action) {

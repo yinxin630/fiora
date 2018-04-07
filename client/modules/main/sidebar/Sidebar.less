@@ -22,6 +22,9 @@
     .buttons {
         position: absolute;
         bottom: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
         .iconfont {
             color: var(--primary-text-color-7);
@@ -34,6 +37,18 @@
                     color: var(--primary-text-color-10);
                 }
             }
+        }
+        & > p {
+            writing-mode: vertical-lr;
+            color: var(--primary-text-color-8);
+            font-size: 18px;
+            letter-spacing: 6px;
+            cursor: default;
+        }
+        & > i {
+            font-size: 22px;
+            color: var(--primary-text-color-8) !important;
+            transform: translate(-2px, 5px);
         }
     }
 }

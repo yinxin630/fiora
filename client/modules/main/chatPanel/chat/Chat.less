@@ -133,6 +133,23 @@
             }
         }
     }
+
+    &.guest {
+        & > p {
+            color: #333;
+            user-select: none;
+            font-size: 14px;
+            flex: 1;
+            text-align: center;
+            letter-spacing: 1px;
+
+            & > b {
+                color: var(--primary-color-10);
+                cursor: pointer;
+                font-size: 16px;
+            }
+        }
+    }
 }
 
 .chat-expression {
