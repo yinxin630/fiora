@@ -23,6 +23,7 @@
         "consistent-return": 0,
         "max-len": 0,
         "require-yield": 0,
+        "guard-for-in": 0,
 
         "import/no-extraneous-dependencies": 0,
         "import/no-unresolved": 0,
