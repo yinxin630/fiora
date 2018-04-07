@@ -12,7 +12,7 @@ class App extends Component {
         super(...args);
         this.state = {
             width: 0.7,
-            height: 0.88,
+            height: 0.85,
             resize: 0,
             primaryColor: '74, 144, 226',
             primaryTextColor: '247, 247, 247',
