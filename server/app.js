@@ -70,16 +70,17 @@ io.use(route(
 ));
 
 app.io.on('connection', async (ctx) => {
+    console.log(`  <<<< connection ${ctx.socket.id} ${ctx.socket.request.connection.remoteAddress}`);
     await Socket.create({
         id: ctx.socket.id,
+        ip: ctx.socket.request.connection.remoteAddress,
     });
-    console.log(`  <<<< connection ${ctx.socket.id} ${ctx.socket.request.connection.remoteAddress}`);
 });
 app.io.on('disconnect', async (ctx) => {
+    console.log(`  >>>> disconnect ${ctx.socket.id}`);
     await Socket.remove({
         id: ctx.socket.id,
     });
-    console.log(`  >>>> disconnect ${ctx.socket.id}`);
 });
 
 module.exports = app;

@@ -13,10 +13,11 @@ module.exports = function (io, routes) {
     }, {});
     return async (ctx) => {
         if (router[ctx.event]) {
-            const { event, data } = ctx;
+            const { event, data, socket } = ctx;
             ctx.res = await router[ctx.event]({
                 event,
                 data,
+                socket,
             });
         }
     };

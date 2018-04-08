@@ -13,7 +13,7 @@ const initialState = immutable.fromJS({
 function reducer(state = initialState, action) {
     switch (action.type) {
     case ActionTypes.SetDeepValue: {
-        return state.setIn(action.keys, action.value);
+        return state.setIn(action.keys, immutable.fromJS(action.value));
     }
     default:
         return state;

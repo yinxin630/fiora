@@ -13,15 +13,22 @@ const SocketSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
+        index: true,
     },
-    token: {
+    ip: {
         type: String,
     },
     os: {
         type: String,
+        default: '',
     },
     browser: {
         type: String,
+        default: '',
+    },
+    environment: {
+        type: String,
+        default: '',
     },
 });
 

@@ -5,6 +5,7 @@ const { Schema } = mongoose;
 
 const UserSchema = new Schema({
     createTime: { type: Date, default: Date.now },
+    lastLoginTime: { type: Date, default: Date.now },
 
     username: {
         type: String,

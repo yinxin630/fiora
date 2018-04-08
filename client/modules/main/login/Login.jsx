@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import autobind from 'autobind-decorator';
+import platform from 'platform';
 
 import socket from '@/socket';
+import action from '@/state/action';
 import { Tabs, TabPane, TabContent, ScrollableInkTabBar } from '@/components/Tabs';
 import Input from '@/components/Input';
+import Message from '@/components/Message';
 import './Login.less';
 
 class Login extends Component {
@@ -14,13 +17,22 @@ class Login extends Component {
     }
     @autobind
     handleRegister() {
-        socket.emit(
-            'register',
-            { username: this.username.getValue(), password: this.password.getValue() },
-            (newUser) => {
-                console.log(newUser);
-            },
-        );
+        socket.emit('register', {
+            username: this.username.getValue(),
+            password: this.password.getValue(),
+            os: platform.os.family,
+            browser: platform.name,
+            environment: platform.description,
+        }, (res) => {
+            if (typeof res === 'string') {
+                Message.error(res);
+            } else {
+                Message.success('创建成功');
+                action.setUser(res);
+                action.closeLoginDialog();
+                console.log(res);
+            }
+        });
     }
     renderLogin() {
         return (
