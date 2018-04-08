@@ -3,6 +3,7 @@ import autobind from 'autobind-decorator';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import action from '@/state/action';
 import IconButton from '@/components/IconButton';
 import Dropdown from '@/components/Dropdown';
 import { Menu, MenuItem } from '@/components/Menu';
@@ -13,6 +14,9 @@ import CodeEditor from './CodeEditor';
 class ChatInput extends Component {
     static propTypes = {
         isLogin: PropTypes.bool.isRequired,
+    }
+    static handleLogin() {
+        action.showLoginDialog();
     }
     constructor(...args) {
         super(...args);
@@ -105,7 +109,7 @@ class ChatInput extends Component {
         }
         return (
             <div className="chat-chatInput guest">
-                <p>游客朋友你好, 请<b>登录</b>后参与聊天</p>
+                <p>游客朋友你好, 请<b onClick={ChatInput.handleLogin}>登录</b>后参与聊天</p>
             </div>
         );
     }

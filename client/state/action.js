@@ -3,12 +3,22 @@ import ActionTypes from './ActionTypes';
 
 const { dispatch } = store;
 
-export function setPrimaryColor() {
+export function showLoginDialog() {
     dispatch({
-        type: ActionTypes.SetPrimaryColor,
+        type: ActionTypes.SetDeepValue,
+        keys: ['ui', 'showLoginDialog'],
+        value: true,
+    });
+}
+export function closeLoginDialog() {
+    dispatch({
+        type: ActionTypes.SetDeepValue,
+        keys: ['ui', 'showLoginDialog'],
+        value: false,
     });
 }
 
 export default {
-    setPrimaryColor,
+    showLoginDialog,
+    closeLoginDialog,
 };

@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
-import 'normalize.css';
 import { hot } from 'react-hot-loader';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import 'normalize.css';
 
+import action from '@/state/action';
+import Dialog from '@/components/Dialog';
 import Main from './modules/main/Main';
+import Login from './modules/main/login/Login';
 
 import './App.less';
 
 // App can't be stateless component
 class App extends Component {
+    static propTypes = {
+        showLoginDialog: PropTypes.bool,
+    }
     constructor(...args) {
         super(...args);
         this.state = {
@@ -61,15 +69,21 @@ class App extends Component {
         document.documentElement.style.cssText += cssText;
     }
     render() {
+        const { showLoginDialog } = this.props;
         return (
             <div className="app" style={App.style}>
                 <div className="blur" style={this.blurStyle} />
                 <div className="child" style={this.childStyle}>
                     <Main />
                 </div>
+                <Dialog visible={showLoginDialog} closable={false} onClose={action.closeLoginDialog}>
+                    <Login />
+                </Dialog>
             </div>
         );
     }
 }
 
-export default hot(module)(App);
+export default connect(state => ({
+    showLoginDialog: state.getIn(['ui', 'showLoginDialog']),
+}))(hot(module)(App));

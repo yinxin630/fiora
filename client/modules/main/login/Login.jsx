@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import autobind from 'autobind-decorator';
 
+import socket from '@/socket';
 import { Tabs, TabPane, TabContent, ScrollableInkTabBar } from '@/components/Tabs';
 import Input from '@/components/Input';
 import './Login.less';
@@ -13,8 +14,13 @@ class Login extends Component {
     }
     @autobind
     handleRegister() {
-        console.log('注册');
-        console.log(this.username.getValue(), this.password.getValue());
+        socket.emit(
+            'register',
+            { username: this.username.getValue(), password: this.password.getValue() },
+            (newUser) => {
+                console.log(newUser);
+            },
+        );
     }
     renderLogin() {
         return (

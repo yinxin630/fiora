@@ -2,14 +2,18 @@ import immutable from 'immutable';
 import ActionTypes from './ActionTypes';
 
 const initialState = immutable.fromJS({
-    user: {},
+    user: null,
     connect: true,
+    ui: {
+        showLoginDialog: false,
+    },
 });
+
 
 function reducer(state = initialState, action) {
     switch (action.type) {
-    case ActionTypes.SetPrimaryColor: {
-        return state.set('primaryColor', '189, 16, 224');
+    case ActionTypes.SetDeepValue: {
+        return state.setIn(action.keys, action.value);
     }
     default:
         return state;

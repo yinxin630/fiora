@@ -1,3 +1,3 @@
 export default {
-    SetPrimaryColor: 'SetPrimaryColor',
+    SetDeepValue: 'SetDeepValue',
 };
