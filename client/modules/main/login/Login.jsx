@@ -12,8 +12,21 @@ import './Login.less';
 class Login extends Component {
     @autobind
     handleLogin() {
-        console.log('登录');
-        console.log(this.username.getValue(), this.password.getValue());
+        socket.emit('login', {
+            username: this.username.getValue(),
+            password: this.password.getValue(),
+            os: platform.os.family,
+            browser: platform.name,
+            environment: platform.description,
+        }, (res) => {
+            if (typeof res === 'string') {
+                Message.error(res);
+            } else {
+                action.setUser(res);
+                action.closeLoginDialog();
+                window.localStorage.setItem('token', res.token);
+            }
+        });
     }
     @autobind
     handleRegister() {
@@ -30,7 +43,7 @@ class Login extends Component {
                 Message.success('创建成功');
                 action.setUser(res);
                 action.closeLoginDialog();
-                console.log(res);
+                window.localStorage.setItem('token', res.token);
             }
         });
     }
