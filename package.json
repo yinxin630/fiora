@@ -21,6 +21,7 @@
     "koa-send": "^4.1.3",
     "koa-socket": "^4.4.0",
     "koa-static": "^4.0.2",
+    "mongoose": "^5.0.13",
     "normalize.css": "^8.0.0",
     "rc-dialog": "^7.1.3",
     "rc-dropdown": "^2.1.1",

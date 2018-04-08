@@ -10,6 +10,8 @@ const route = require('./middlewares/route');
 
 const userRoutes = require('./routes/user');
 
+const Socket = require('./models/socket');
+
 const app = new Koa();
 
 // 将前端路由指向 index.html
@@ -39,10 +41,23 @@ app.use(koaStatic(
     } // eslint-disable-line
 ));
 
-const io = new IO();
+const io = new IO({
+    ioOptions: {
+        pingTimeout: 10000,
+        pingInterval: 5000,
+    },
+});
 
 // 注入应用
 io.attach(app);
+
+app._io.origins([
+    'fiora.suisuijiang.com:80',
+    'fiora.suisuijiang.com:443',
+    'localhost:8080',
+    '127.0.0.1:8080',
+]);
+
 
 // 中间件
 io.use(enhanceContext());
@@ -52,22 +67,17 @@ io.use(route(
     Object.assign({}, userRoutes),
 ));
 
-io.use(async (ctx, next) => {
-    await next();
-    ctx.res = { msg: '111' };
+app.io.on('connection', async (ctx) => {
+    await Socket.create({
+        id: ctx.socket.id,
+    });
+    console.log(`<<<< connection ${ctx.socket.id} ${ctx.socket.request.connection.remoteAddress}`);
 });
-
-app.io.on('connection', async () => {
-    // console.log('connection');
-    // await Socket.create({
-    //     socket: ctx.socket.id,
-    // });
-});
-app.io.on('disconnect', async () => {
-    // console.log('disconnect');
-    // await Socket.remove({
-    //     socket: ctx.socket.id,
-    // });
+app.io.on('disconnect', async (ctx) => {
+    await Socket.remove({
+        id: ctx.socket.id,
+    });
+    console.log(`>>>> disconnect ${ctx.socket.id}`);
 });
 
 module.exports = app;

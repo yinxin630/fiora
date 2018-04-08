@@ -7,6 +7,7 @@ const SocketSchema = new Schema({
 
     id: {
         type: String,
+        unique: true,
         index: true,
     },
     user: {

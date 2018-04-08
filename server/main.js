@@ -4,7 +4,7 @@ const path = require('path');
 
 const app = require('./app');
 const config = require('../config/server');
-const checkVersion = require('../../build/check-versions');
+const checkVersion = require('../build/check-versions');
 
 const Socket = require('./models/socket');
 const Group = require('./models/group');

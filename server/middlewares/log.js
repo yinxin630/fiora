@@ -3,7 +3,7 @@
  */
 module.exports = function () {
     return async (ctx, next) => {
-        console.log(`  <-- ${ctx.event} ${JSON.stringify(ctx.data)}`);
+        console.log(`  <-- ${ctx.event} ${ctx.socket.id} ${JSON.stringify(ctx.data)}`);
         const before = Date.now();
 
         await next();

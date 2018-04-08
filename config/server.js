@@ -3,7 +3,7 @@ module.exports = {
     port: 9200,
 
     // mongodb config
-    database: 'localhost:27017/new-fiora',
+    database: 'mongodb://127.0.0.1:27017/new-fiora',
 
     // default group avatar url
     defaultGroupAvatar: '/static/default_group_avatar.png',
