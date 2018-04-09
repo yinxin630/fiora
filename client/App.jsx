@@ -16,10 +16,21 @@ class App extends Component {
     static propTypes = {
         showLoginDialog: PropTypes.bool,
     }
+    static getWidth() {
+        let width = 0.6;
+        if (window.innerWidth < 1000) {
+            width = 0.9;
+        } else if (window.innerWidth < 1300) {
+            width = 0.8;
+        } else if (window.innerWidth < 1600) {
+            width = 0.7;
+        }
+        return width;
+    }
     constructor(...args) {
         super(...args);
         this.state = {
-            width: 0.7,
+            width: App.getWidth(),
             height: 0.85,
             resize: 0,
             primaryColor: '74, 144, 226',
@@ -32,6 +43,7 @@ class App extends Component {
             // 触发rerender
             this.setState({
                 resize: this.state.resize + 1,
+                width: App.getWidth(),
             });
         };
     }

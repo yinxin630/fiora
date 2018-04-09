@@ -3,7 +3,6 @@ import ReactDom from 'react-dom';
 import { Provider } from 'react-redux';
 import platform from 'platform';
 
-import Message from '@/components/Message';
 import App from './App';
 import store from './state/store';
 import action from './state/action';
@@ -18,9 +17,7 @@ socket.on('connect', () => {
             browser: platform.name,
             environment: platform.description,
         }, (res) => {
-            if (typeof res === 'string') {
-                Message.error(res);
-            } else {
+            if (typeof res === 'object') {
                 action.setUser(res);
                 action.connect();
             }

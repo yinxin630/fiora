@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import Linkman from './Linkman';
@@ -56,5 +57,5 @@ class LinkmanGroup extends Component {
 }
 
 export default connect(state => ({
-    groups: state.getIn(['user', 'groups']) || [],
+    groups: state.getIn(['user', 'groups']) || immutable.List(),
 }))(LinkmanGroup);
