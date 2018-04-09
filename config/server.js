@@ -1,12 +1,20 @@
+const commandLineArgs = require('command-line-args');
+
+const optionDefinitions = [
+    { name: 'database', type: String },
+    { name: 'jwtSecret', type: String },
+];
+const options = commandLineArgs(optionDefinitions);
+
 module.exports = {
     // service port
     port: 9200,
 
     // mongodb config
-    database: 'mongodb://127.0.0.1:27017/new-fiora',
+    database: options.database || 'mongodb://localhost:27017/fiora',
 
     // jwt encryption secret
-    jwtSecret: 'jwtSecret',
+    jwtSecret: options.jwtSecret || 'jwtSecret',
 
     // token expires time
     tokenExpiresTime: 1000 * 60 * 60 * 24 * 30,
