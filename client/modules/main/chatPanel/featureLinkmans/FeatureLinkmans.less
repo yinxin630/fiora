@@ -67,3 +67,47 @@
         background-color: var(--primary-color-4);
     }
 }
+
+.chatPanel-feature {
+    display: flex;
+    height: 70px;
+    align-items: center;
+    padding: 0 12px;
+    position: relative;
+
+    & > input {
+        flex: 1;
+        height: 36px;
+        border-radius: 18px;
+        border: none;
+        background-color: rgba(255, 255, 255, 0.5);
+        padding-left: 35px;
+        padding-right: 15px;
+        padding-top: 2px;
+        font-size: 14px;
+        color: #333;
+
+        &:focus {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+    }
+    & > .iconfont {
+        font-size: 22px;
+        position: absolute;
+        left: 20px;
+        top: 22px;
+        color: #666;
+    }
+    & > div {
+        margin-left: 5px;
+
+        .iconfont {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        &:hover {
+            .iconfont {
+                color: rgba(255, 255, 255, 0.9);
+            }
+        }
+    }
+}

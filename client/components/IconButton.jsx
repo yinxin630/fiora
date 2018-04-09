@@ -7,10 +7,10 @@ import './IconButton.less';
 class IconButton extends Button {
     render() {
         const {
-            width, height, icon, iconSize, onClick,
+            width, height, icon, iconSize, onClick, style,
         } = this.props;
         return (
-            <div className="component-iconButton" style={{ width, height }} onClick={onClick}>
+            <div className="component-iconButton" style={Object.assign({ width, height }, style)} onClick={onClick}>
                 <i className={`iconfont icon-${icon}`} style={{ fontSize: iconSize, lineHeight: `${height}px` }} />
             </div>
         );
