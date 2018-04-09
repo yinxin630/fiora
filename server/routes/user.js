@@ -47,7 +47,9 @@ module.exports = {
                 groups: [defaultGroup],
             });
         } catch (err) {
-            assert.equal(err.message, 'User validation failed', '用户名包含不支持的字符');
+            if (err.message === 'User validation failed') {
+                return '用户名包含不支持的字符';
+            }
             throw err;
         }
 
@@ -130,7 +132,9 @@ module.exports = {
         try {
             payload = jwt.decode(token, config.jwtSecret);
         } catch (err) {
-            assert.equal(err.message, 'Signature verification failed', '非法token');
+            if (err.message === 'Signature verification failed') {
+                return '非法token';
+            }
             throw err;
         }
 
