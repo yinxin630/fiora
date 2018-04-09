@@ -6,10 +6,12 @@ const path = require('path');
 
 const enhanceContext = require('./middlewares/enhanceContext.js');
 const log = require('./middlewares/log');
-const route = require('./middlewares/route');
 const catchError = require('./middlewares/catchError');
+const isLogin = require('./middlewares/isLogin');
+const route = require('./middlewares/route');
 
 const userRoutes = require('./routes/user');
+const groupRoutes = require('./routes/group');
 
 const Socket = require('./models/socket');
 
@@ -64,9 +66,10 @@ app._io.origins([
 io.use(enhanceContext());
 io.use(log());
 io.use(catchError());
+io.use(isLogin());
 io.use(route(
     app.io,
-    Object.assign({}, userRoutes),
+    Object.assign({}, userRoutes, groupRoutes),
 ));
 
 app.io.on('connection', async (ctx) => {

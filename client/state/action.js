@@ -31,6 +31,13 @@ function disconnect() {
     });
 }
 
+function addGroup(group) {
+    dispatch({
+        type: ActionTypes.AddGroup,
+        group,
+    });
+}
+
 
 function showLoginDialog() {
     dispatch({
@@ -52,6 +59,8 @@ export default {
     setGuest,
     connect,
     disconnect,
+
+    addGroup,
 
     showLoginDialog,
     closeLoginDialog,

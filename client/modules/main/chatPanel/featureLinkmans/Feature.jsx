@@ -4,6 +4,9 @@ import autobind from 'autobind-decorator';
 import IconButton from '@/components/IconButton';
 import Dialog from '@/components/Dialog';
 import Input from '@/components/Input';
+import Message from '@/components/Message';
+import socket from '@/socket';
+import action from '@/state/action';
 
 class Feature extends Component {
     constructor(...args) {
@@ -37,6 +40,19 @@ class Feature extends Component {
             showCreateGroupDialog: false,
         });
     }
+    @autobind
+    handleCreateGroup() {
+        const name = this.groupName.getValue();
+        socket.emit('createGroup', { name }, (res) => {
+            if (typeof res === 'string') {
+                Message.error(res);
+            } else {
+                action.addGroup(res);
+                this.groupName.clear();
+                this.closeCreateGroupDialog();
+            }
+        });
+    }
     render() {
         const { showAddButton, showCreateGroupDialog } = this.state;
         return (
@@ -47,8 +63,8 @@ class Feature extends Component {
                 <Dialog className="create-group-dialog" title="创建群组" visible={showCreateGroupDialog} onClose={this.closeCreateGroupDialog}>
                     <div className="content">
                         <h3>请输入群组名</h3>
-                        <Input />
-                        <button>创建</button>
+                        <Input ref={i => this.groupName = i} />
+                        <button onClick={this.handleCreateGroup}>创建</button>
                     </div>
                 </Dialog>
             </div>

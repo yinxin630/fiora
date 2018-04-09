@@ -22,6 +22,11 @@ class Input extends Component {
     getValue() {
         return this.state.value;
     }
+    clear() {
+        this.setState({
+            value: '',
+        });
+    }
     @autobind
     handleInput(e) {
         this.setState({

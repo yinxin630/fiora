@@ -6,6 +6,7 @@ const Group = require('../models/group');
 module.exports = {
     async createGroup(ctx) {
         const { name } = ctx.data;
+        assert(name, '群组名不能为空');
 
         const group = await Group.findOne({ name });
         assert(!group, '该群组已存在');

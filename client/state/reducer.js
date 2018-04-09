@@ -19,6 +19,12 @@ function reducer(state = initialState, action) {
     case ActionTypes.SetUser: {
         return state.set('user', immutable.fromJS(action.user)).set('defaultGroup', null);
     }
+    case ActionTypes.AddGroup: {
+        return state.updateIn(
+            ['user', 'groups'],
+            groups => groups.unshift(immutable.fromJS(action.group)),
+        );
+    }
     default:
         return state;
     }
