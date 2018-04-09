@@ -22,6 +22,16 @@ socket.on('connect', () => {
                 action.connect();
             }
         });
+    } else {
+        socket.emit('guest', {
+            os: platform.os.family,
+            browser: platform.name,
+            environment: platform.description,
+        }, (res) => {
+            if (typeof res === 'object') {
+                action.setGuest(res);
+            }
+        });
     }
 });
 socket.on('disconnect', () => {

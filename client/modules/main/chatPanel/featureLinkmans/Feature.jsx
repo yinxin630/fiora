@@ -47,7 +47,7 @@ class Feature extends Component {
                 <Dialog className="create-group-dialog" title="创建群组" visible={showCreateGroupDialog} onClose={this.closeCreateGroupDialog}>
                     <div className="content">
                         <h3>请输入群组名</h3>
-                        <Input  />
+                        <Input />
                         <button>创建</button>
                     </div>
                 </Dialog>

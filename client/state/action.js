@@ -5,9 +5,15 @@ const { dispatch } = store;
 
 function setUser(user) {
     dispatch({
+        type: ActionTypes.SetUser,
+        user,
+    });
+}
+function setGuest(defaultGroup) {
+    dispatch({
         type: ActionTypes.SetDeepValue,
-        keys: ['user'],
-        value: user,
+        keys: ['defaultGroup'],
+        value: defaultGroup,
     });
 }
 function connect() {
@@ -43,6 +49,7 @@ function closeLoginDialog() {
 
 export default {
     setUser,
+    setGuest,
     connect,
     disconnect,
 

@@ -161,4 +161,18 @@ module.exports = {
 
         return Object.assign({ groups }, user.toObject());
     },
+    async guest(ctx) {
+        const { os, browser, environment } = ctx.data;
+
+        await Socket.update({ id: ctx.socket.id }, {
+            os,
+            browser,
+            environment,
+        });
+
+        const group = Group.findOne({ isDefault: true }, { _id: 1, name: 1, avatar: 1, createTime: 1 });
+        ctx.socket.socket.join(group._id);
+
+        return group;
+    },
 };
