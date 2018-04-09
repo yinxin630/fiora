@@ -82,6 +82,7 @@
     "prop-types": "^15.6.0",
     "pxrem-loader": "^1.0.0",
     "react-hot-loader": "^4.0.0",
+    "react-immutable-proptypes": "^2.1.0",
     "react-transform-log-render": "^1.0.0",
     "react-transform-style": "^1.0.4",
     "redbox-react": "^1.3.4",

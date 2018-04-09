@@ -1,36 +1,60 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+
+import Linkman from './Linkman';
 
 class LinkmanGroup extends Component {
     static propTypes = {
-        children: PropTypes.arrayOf(PropTypes.element),
-        defaultFocus: PropTypes.string,
+        groups: ImmutablePropTypes.list,
     }
     constructor(props) {
         super(props);
         this.state = {
-            focus: props.defaultFocus,
+            focus: '',
         };
+    }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.groups.length !== 0) {
+            this.setState({
+                focus: nextProps.groups.getIn(['0', '_id']),
+            });
+        }
     }
     changeFocus(focus) {
         this.setState({
             focus,
         });
     }
+    renderGroup(group) {
+        const groupId = group.get('_id');
+        return (
+            <Linkman
+                key={groupId}
+                name={group.get('name')}
+                avatar={group.get('avatar')}
+                preview="1111111111#(乖)"
+                time={new Date()}
+                unread={9}
+                focus={this.state.focus === groupId}
+                onClick={this.changeFocus.bind(this, groupId)}
+            />
+        );
+    }
     render() {
-        const { children } = this.props;
-        const { focus } = this.state;
+        const { groups } = this.props;
         return (
             <div>
                 {
-                    children.map(linkman => React.cloneElement(linkman, {
-                        focus: focus === linkman.key,
-                        onClick: this.changeFocus.bind(this, linkman.key),
-                    }))
+                    groups.map(group => (
+                        this.renderGroup(group)
+                    ))
                 }
             </div>
         );
     }
 }
 
-export default LinkmanGroup;
+export default connect(state => ({
+    groups: state.getIn(['user', 'groups']) || [],
+}))(LinkmanGroup);
