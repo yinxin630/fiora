@@ -9,22 +9,23 @@ import store from './state/store';
 import action from './state/action';
 import socket from './socket';
 
-const token = window.localStorage.getItem('token');
-if (token) {
-    socket.emit('loginByToken', {
-        token,
-        os: platform.os.family,
-        browser: platform.name,
-        environment: platform.description,
-    }, (res) => {
-        if (typeof res === 'string') {
-            Message.error(res);
-        } else {
-            action.setUser(res);
-        }
-        console.log(res);
-    });
-}
+socket.on('connect', () => {
+    const token = window.localStorage.getItem('token');
+    if (token) {
+        socket.emit('loginByToken', {
+            token,
+            os: platform.os.family,
+            browser: platform.name,
+            environment: platform.description,
+        }, (res) => {
+            if (typeof res === 'string') {
+                Message.error(res);
+            } else {
+                action.setUser(res);
+            }
+        });
+    }
+});
 
 ReactDom.render(
     <Provider store={store}>

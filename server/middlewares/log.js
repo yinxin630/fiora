@@ -3,6 +3,10 @@
  */
 module.exports = function () {
     return async (ctx, next) => {
+        if (ctx.event === 'disconnect') {
+            return next();
+        }
+
         console.log(`  <-- ${ctx.event}  ${ctx.socket.id}`);
         const before = Date.now();
 

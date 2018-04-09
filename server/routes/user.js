@@ -155,6 +155,6 @@ module.exports = {
             environment,
         });
 
-        return Object.assign({ groups }, user);
+        return Object.assign({ groups }, user.toObject());
     },
 };
