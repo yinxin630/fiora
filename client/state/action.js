@@ -10,6 +10,21 @@ function setUser(user) {
         value: user,
     });
 }
+function connect() {
+    dispatch({
+        type: ActionTypes.SetDeepValue,
+        keys: ['connect'],
+        value: true,
+    });
+}
+function disconnect() {
+    dispatch({
+        type: ActionTypes.SetDeepValue,
+        keys: ['connect'],
+        value: false,
+    });
+}
+
 
 function showLoginDialog() {
     dispatch({
@@ -28,6 +43,8 @@ function closeLoginDialog() {
 
 export default {
     setUser,
+    connect,
+    disconnect,
 
     showLoginDialog,
     closeLoginDialog,

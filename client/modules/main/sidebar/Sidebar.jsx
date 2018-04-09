@@ -14,13 +14,14 @@ class Sidebar extends Component {
     static propTypes = {
         isLogin: PropTypes.bool.isRequired,
         isConnect: PropTypes.bool.isRequired,
+        avatar: PropTypes.string,
     }
     render() {
-        const { isLogin, isConnect } = this.props;
+        const { isLogin, isConnect, avatar } = this.props;
         if (isLogin) {
             return (
                 <div className="module-main-sidebar">
-                    <Avatar className="avatar" src={require('@/assets/images/头像1.png')} />
+                    <Avatar className="avatar" src={avatar} />
                     <OnlineStatus className="status" status={isConnect ? 'online' : 'offline'} />
                     <SingleCheckGroup className="tabs" defaultFocus="chat">
                         <SingleCheckButton key="chat" icon="chat" />
@@ -43,4 +44,5 @@ class Sidebar extends Component {
 export default connect(state => ({
     isLogin: !!state.get('user'),
     isConnect: state.get('connect'),
+    avatar: state.getIn(['user', 'avatar']),
 }))(Sidebar);

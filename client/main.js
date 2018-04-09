@@ -22,9 +22,13 @@ socket.on('connect', () => {
                 Message.error(res);
             } else {
                 action.setUser(res);
+                action.connect();
             }
         });
     }
+});
+socket.on('disconnect', () => {
+    action.disconnect();
 });
 
 ReactDom.render(
