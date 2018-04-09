@@ -48,7 +48,7 @@ module.exports = {
             });
         } catch (err) {
             if (err.message === 'User validation failed') {
-                return '用户名包含不支持的字符';
+                return '用户名包含不支持的字符或者长度超过限制';
             }
             throw err;
         }
