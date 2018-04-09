@@ -3,7 +3,7 @@
  */
 module.exports = function () {
     return async (ctx, next) => {
-        console.log(`  <-- ${ctx.event} ${ctx.socket.id} ${JSON.stringify(ctx.data)}`);
+        console.log(`  <-- ${ctx.event}  ${ctx.socket.id}`);
         const before = Date.now();
 
         await next();
@@ -14,6 +14,6 @@ module.exports = function () {
         if (res.length > 1024) {
             resSize = `${res.length / 1024}KB`;
         }
-        console.log(`  --> ${after - before}ms ${resSize} ${res}`);
+        console.log(`  --> ${ctx.event}  ${after - before}ms ${resSize} ${typeof ctx.res === 'string' ? res : '[data]'}`);
     };
 };

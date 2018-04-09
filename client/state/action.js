@@ -3,7 +3,7 @@ import ActionTypes from './ActionTypes';
 
 const { dispatch } = store;
 
-export function setUser(user) {
+function setUser(user) {
     dispatch({
         type: ActionTypes.SetDeepValue,
         keys: ['user'],
@@ -11,14 +11,14 @@ export function setUser(user) {
     });
 }
 
-export function showLoginDialog() {
+function showLoginDialog() {
     dispatch({
         type: ActionTypes.SetDeepValue,
         keys: ['ui', 'showLoginDialog'],
         value: true,
     });
 }
-export function closeLoginDialog() {
+function closeLoginDialog() {
     dispatch({
         type: ActionTypes.SetDeepValue,
         keys: ['ui', 'showLoginDialog'],

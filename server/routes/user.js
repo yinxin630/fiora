@@ -10,6 +10,17 @@ const config = require('../../config/server');
 
 const saltRounds = 10;
 
+function generateToken(user, environment) {
+    return jwt.encode(
+        {
+            user,
+            environment,
+            expires: Date.now() + config.tokenExpiresTime,
+        },
+        config.jwtSecret,
+    );
+}
+
 module.exports = {
     async register(ctx) {
         const {
@@ -37,12 +48,13 @@ module.exports = {
             });
         } catch (err) {
             assert.equal(err.message, 'User validation failed', '用户名包含不支持的字符');
+            throw err;
         }
 
         defaultGroup.members.push(newUser);
         await defaultGroup.save();
 
-        const token = jwt.encode({ user: newUser._id, expires: Date.now() + config.tokenExpiresTime }, config.jwtSecret);
+        const token = generateToken(newUser._id, environment);
 
         ctx.socket.user = newUser._id;
         await Socket.update({ id: ctx.socket.id }, {
@@ -89,7 +101,7 @@ module.exports = {
             return group;
         });
 
-        const token = jwt.encode({ user: user._id, expires: Date.now() + config.tokenExpiresTime }, config.jwtSecret);
+        const token = generateToken(user._id, environment);
 
         ctx.socket.user = user._id;
         await Socket.update({ id: ctx.socket.id }, {
@@ -107,5 +119,42 @@ module.exports = {
             groups,
             token,
         };
+    },
+    async loginByToken(ctx) {
+        const {
+            token, os, browser, environment,
+        } = ctx.data;
+        assert(token, 'token不能为空');
+
+        let payload = null;
+        try {
+            payload = jwt.decode(token, config.jwtSecret);
+        } catch (err) {
+            assert.equal(err.message, 'Signature verification failed', '非法token');
+            throw err;
+        }
+
+        assert(Date.now() < payload.expires, 'token已过期');
+        assert.equal(environment, payload.environment, '非法登录');
+
+        const user = await User.findOne({ _id: payload.user }, { _id: 1, avatar: 1, username: 1, expressions: 1 });
+        user.lastLoginTime = Date.now();
+        await user.save();
+
+        const groups = await Group.find({ members: user }, { _id: 1, name: 1, avatar: 1, createTime: 1 });
+        groups.forEach((group) => {
+            ctx.socket.socket.join(group._id);
+            return group;
+        });
+
+        ctx.socket.user = user._id;
+        await Socket.update({ id: ctx.socket.id }, {
+            user: user._id,
+            os,
+            browser,
+            environment,
+        });
+
+        return Object.assign({ groups }, user);
     },
 };
