@@ -10,7 +10,7 @@ module.exports = {
     // service port
     port: 9200,
 
-    // mongodb config
+    // mongodb address
     database: options.database || 'mongodb://localhost:27017/fiora',
 
     // jwt encryption secret

@@ -36,7 +36,7 @@ module.exports = {
                 groups: [defaultGroup],
             });
         } catch (err) {
-            assert.equal(err.message, 'User validation failed', '用户名包含不支持的字符 ');
+            assert.equal(err.message, 'User validation failed', '用户名包含不支持的字符');
         }
 
         defaultGroup.members.push(newUser);
