@@ -1,6 +1,6 @@
 const path = require('path');
 const utils = require('./utils');
-const config = require('../config');
+const config = require('../config/webpack');
 const pages = require('../config/pages');
 
 const entry = {};

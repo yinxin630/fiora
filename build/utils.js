@@ -1,5 +1,5 @@
 const path = require('path');
-const config = require('../config');
+const config = require('../config/webpack');
 const LessPluginAutoPrefix = require('less-plugin-autoprefix');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
