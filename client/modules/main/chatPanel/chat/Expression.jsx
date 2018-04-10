@@ -26,7 +26,7 @@ class Expression extends Component {
                         data-name={e}
                         onClick={this.handleClick}
                     >
-                        <div className="no-click" style={{ backgroundPosition: `left ${-30 * index}px`, backgroundImage: `url(${baidu})` }} />
+                        <div className="image" style={{ backgroundPosition: `left ${-30 * index}px`, backgroundImage: `url(${baidu})` }} />
                     </div>
                 ))
             }

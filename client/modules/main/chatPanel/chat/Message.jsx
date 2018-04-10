@@ -6,7 +6,6 @@ import Avatar from '@/components/Avatar';
 import expressions from '../../../../../utils/expressions';
 
 const transparentImage = 'data:image/png;base64,R0lGODlhFAAUAIAAAP///wAAACH5BAEAAAAALAAAAAAUABQAAAIRhI+py+0Po5y02ouz3rz7rxUAOw==';
-const baidu = require('@/assets/images/baidu.png');
 
 @immutableRenderDecorator
 class Message extends Component {
@@ -30,7 +29,7 @@ class Message extends Component {
             (r, e) => {
                 const index = expressions.default.indexOf(e);
                 if (index !== -1) {
-                    return `<img class="expression-baidu" src="${transparentImage}" style="background-position: left ${-30 * index}px; background-image: url(${baidu})" onerror="this.style.display='none'" alt="${r}">`;
+                    return `<img class="expression-baidu" src="${transparentImage}" style="background-position: left ${-30 * index}px;" onerror="this.style.display='none'" alt="${r}">`;
                 }
                 return r;
             },
