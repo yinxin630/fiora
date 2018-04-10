@@ -2,35 +2,23 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import PropTypes from 'prop-types';
 
+import action from '@/state/action';
 import Linkman from './Linkman';
 
 class LinkmanGroup extends Component {
     static propTypes = {
         groups: ImmutablePropTypes.list,
         defaultGroup: ImmutablePropTypes.map,
-    }
-    constructor(props) {
-        super(props);
-        this.state = {
-            focus: '',
-        };
+        focusGroup: PropTypes.string,
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.groups.size !== 0) {
-            this.setState({
-                focus: nextProps.groups.getIn(['0', '_id']),
-            });
-        } else if (nextProps.defaultGroup !== null) {
-            this.setState({
-                focus: nextProps.defaultGroup.get('_id'),
-            });
+        if (this.props.groups.size === 0 && nextProps.groups.size !== 0) {
+            action.setFocusGroup(nextProps.groups.getIn(['0', '_id']));
+        } else if (this.props.defaultGroup === null && nextProps.defaultGroup !== null) {
+            action.setFocusGroup(nextProps.defaultGroup.get('_id'));
         }
-    }
-    changeFocus(focus) {
-        this.setState({
-            focus,
-        });
     }
     renderGroup(group) {
         const groupId = group.get('_id');
@@ -42,8 +30,8 @@ class LinkmanGroup extends Component {
                 preview="1111111111#(乖)"
                 time={new Date()}
                 unread={9}
-                focus={this.state.focus === groupId}
-                onClick={this.changeFocus.bind(this, groupId)}
+                focus={this.props.focusGroup === groupId}
+                onClick={action.setFocusGroup.bind(null, groupId)}
             />
         );
     }
@@ -67,4 +55,5 @@ class LinkmanGroup extends Component {
 export default connect(state => ({
     groups: state.getIn(['user', 'groups']) || immutable.List(),
     defaultGroup: state.get('defaultGroup'),
+    focusGroup: state.get('focusGroup'),
 }))(LinkmanGroup);

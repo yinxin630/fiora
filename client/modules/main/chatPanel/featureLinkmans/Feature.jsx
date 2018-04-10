@@ -50,6 +50,7 @@ class Feature extends Component {
                 action.addGroup(res);
                 this.groupName.clear();
                 this.closeCreateGroupDialog();
+                Message.success('创建群组成功');
             }
         });
     }

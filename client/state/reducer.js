@@ -4,6 +4,7 @@ import ActionTypes from './ActionTypes';
 const initialState = immutable.fromJS({
     user: null,
     defaultGroup: null,
+    focusGroup: '',
     connect: true,
     ui: {
         showLoginDialog: false,

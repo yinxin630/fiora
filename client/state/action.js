@@ -37,6 +37,13 @@ function addGroup(group) {
         group,
     });
 }
+function setFocusGroup(groupId) {
+    dispatch({
+        type: ActionTypes.SetDeepValue,
+        keys: ['focusGroup'],
+        value: groupId,
+    });
+}
 
 
 function showLoginDialog() {
@@ -61,6 +68,7 @@ export default {
     disconnect,
 
     addGroup,
+    setFocusGroup,
 
     showLoginDialog,
     closeLoginDialog,
