@@ -7,7 +7,7 @@ module.exports = function () {
             return next();
         }
 
-        console.log(`  <-- ${ctx.event}  ${ctx.socket.id}`);
+        console.log(`  <-- ${ctx.event}  ${ctx.socket.id} ${ctx.socket.user ? ctx.socket.user : ''}`);
         const before = Date.now();
 
         await next();
