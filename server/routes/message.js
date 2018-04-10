@@ -34,4 +34,20 @@ module.exports = {
 
         return messageData;
     },
+    async getGroupsLastMessages(ctx) {
+        const { groups } = ctx.data;
+
+        const promises = groups.map(groupId => Message.find(
+            { toGroup: groupId },
+            { toGroup: 1, type: 1, content: 1 },
+            { sort: { createTime: -1 }, limit: 20 },
+        ));
+        const results = await Promise.all(promises);
+        const messages = groups.reduce((result, groupId, index) => {
+            result[groupId] = (results[index] || []).reverse();
+            return result;
+        }, {});
+
+        return messages;
+    },
 };

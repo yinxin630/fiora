@@ -60,7 +60,7 @@ class ChatInput extends Component {
     @autobind
     handleInputKeyDown(e) {
         if (e.key === 'Enter' && !e.shiftKey) {
-            this.sendMessage();
+            this.sendTextMessage();
         }
     }
     @autobind

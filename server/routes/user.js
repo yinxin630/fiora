@@ -76,6 +76,7 @@ module.exports = {
                 name: defaultGroup.name,
                 avatar: defaultGroup.avatar,
                 createTime: defaultGroup.createTime,
+                messages: [],
             }],
             token,
         };
@@ -103,6 +104,7 @@ module.exports = {
             ctx.socket.socket.join(group._id);
             return group;
         });
+        const groupsData = groups.map(group => Object.assign({ messages: [] }, group.toObject()));
 
         const token = generateToken(user._id, environment);
 
@@ -119,7 +121,7 @@ module.exports = {
             avatar: user.avatar,
             username: user.username,
             expressions: user.expressions,
-            groups,
+            groups: groupsData,
             token,
         };
     },
@@ -151,6 +153,7 @@ module.exports = {
             ctx.socket.socket.join(group._id);
             return group;
         });
+        const groupsData = groups.map(group => Object.assign({ messages: [] }, group.toObject()));
 
         ctx.socket.user = user._id;
         await Socket.update({ id: ctx.socket.id }, {
@@ -160,7 +163,7 @@ module.exports = {
             environment,
         });
 
-        return Object.assign({ groups }, user.toObject());
+        return Object.assign({ groups: groupsData }, user.toObject());
     },
     async guest(ctx) {
         const { os, browser, environment } = ctx.data;

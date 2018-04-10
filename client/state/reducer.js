@@ -26,6 +26,13 @@ function reducer(state = initialState, action) {
             groups => groups.unshift(immutable.fromJS(action.group)),
         );
     }
+    case ActionTypes.SetGroupMessages: {
+        return state.updateIn(['user', 'groups'], groups => (
+            groups.map(group => (
+                group.set('messages', immutable.fromJS(action.messages[group.get('_id')]))
+            ))
+        ));
+    }
     default:
         return state;
     }

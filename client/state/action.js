@@ -1,5 +1,6 @@
 import store from './store';
 import ActionTypes from './ActionTypes';
+import socket from '../socket';
 
 const { dispatch } = store;
 
@@ -28,6 +29,19 @@ function disconnect() {
         type: ActionTypes.SetDeepValue,
         keys: ['connect'],
         value: false,
+    });
+}
+
+
+function getGroupsLastMessages() {
+    const state = store.getState();
+    const groupIds = state.getIn(['user', 'groups']).map(group => group.get('_id'));
+
+    socket.emit('getGroupsLastMessages', { groups: groupIds.toJS() }, (res) => {
+        dispatch({
+            type: ActionTypes.SetGroupMessages,
+            messages: res,
+        });
     });
 }
 
@@ -70,6 +84,8 @@ export default {
 
     addGroup,
     setFocusGroup,
+
+    getGroupsLastMessages,
 
     showLoginDialog,
     closeLoginDialog,
