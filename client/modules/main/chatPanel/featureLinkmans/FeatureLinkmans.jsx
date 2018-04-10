@@ -22,5 +22,5 @@ class FeatureLinkmans extends Component {
 }
 
 export default connect(state => ({
-    isLogin: !!state.get('user'),
+    isLogin: !!state.getIn(['user', '_id']),
 }))(FeatureLinkmans);

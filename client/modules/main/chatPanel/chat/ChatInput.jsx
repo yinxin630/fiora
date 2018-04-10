@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import autobind from 'autobind-decorator';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import action from '@/state/action';
 import socket from '@/socket';
@@ -17,6 +18,7 @@ class ChatInput extends Component {
     static propTypes = {
         isLogin: PropTypes.bool.isRequired,
         groupId: PropTypes.string,
+        user: ImmutablePropTypes.map,
     }
     static handleLogin() {
         action.showLoginDialog();
@@ -71,8 +73,22 @@ class ChatInput extends Component {
     }
     @autobind
     sendMessage(type, content) {
+        const { user, groupId: toGroup } = this.props;
+        const _id = toGroup + Date.now();
+        console.log(user);
+        action.addGroupMessage(toGroup, {
+            _id,
+            type,
+            content,
+            createTime: Date.now(),
+            from: {
+                _id: user.get('_id'),
+                username: user.get('username'),
+                avatar: user.get('avatar'),
+            },
+        });
         socket.emit('sendMessage', {
-            toGroup: this.props.groupId,
+            toGroup,
             type,
             content,
         }, (res) => {
@@ -145,6 +161,7 @@ class ChatInput extends Component {
 }
 
 export default connect(state => ({
-    isLogin: !!state.get('user'),
+    isLogin: !!state.getIn(['user', '_id']),
     groupId: state.get('focusGroup'),
+    user: state.get('user'),
 }))(ChatInput);

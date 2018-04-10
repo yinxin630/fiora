@@ -13,8 +13,9 @@ module.exports = {
         assert(group, '消息发往的群组不存在');
 
         const user = await User.findOne({ _id: ctx.socket.user }, { username: 1, avatar: 1 });
+        let message;
         try {
-            await Message.create({
+            message = await Message.create({
                 from: ctx.socket.user,
                 toGroup,
                 type,
@@ -25,6 +26,8 @@ module.exports = {
         }
 
         const messageData = {
+            _id: message._id,
+            createTime: message.createTime,
             from: user.toObject(),
             toGroup,
             type,

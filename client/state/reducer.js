@@ -3,7 +3,6 @@ import ActionTypes from './ActionTypes';
 
 const initialState = immutable.fromJS({
     user: null,
-    defaultGroup: null,
     focusGroup: '',
     connect: true,
     ui: {
@@ -33,10 +32,16 @@ function reducer(state = initialState, action) {
             ))
         ));
     }
-    case ActionTypes.SetDefaultGroupMessages: {
-        return state.update('defaultGroup', defalutGroup => (
-            defalutGroup.set('messages', immutable.fromJS(action.messages))
-        ));
+    case ActionTypes.AddGroupMessage: {
+        const groupIndex = state
+            .getIn(['user', 'groups'])
+            .findIndex(group => group.get('_id') === action.group);
+        return state
+            .updateIn(['user', 'groups', groupIndex], group => (
+                group.update('messages', messages => (
+                    messages.push(immutable.fromJS(action.message))
+                ))
+            ));
     }
     default:
         return state;

@@ -174,9 +174,9 @@ module.exports = {
             environment,
         });
 
-        const group = Group.findOne({ isDefault: true }, { _id: 1, name: 1, avatar: 1, createTime: 1 });
+        const group = await Group.findOne({ isDefault: true }, { _id: 1, name: 1, avatar: 1, createTime: 1 });
         ctx.socket.socket.join(group._id);
 
-        return group;
+        return Object.assign({ messages: [] }, group.toObject());
     },
 };

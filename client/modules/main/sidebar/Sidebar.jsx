@@ -42,7 +42,7 @@ class Sidebar extends Component {
 }
 
 export default connect(state => ({
-    isLogin: !!state.get('user'),
+    isLogin: !!state.getIn(['user', '_id']),
     isConnect: state.get('connect'),
     avatar: state.getIn(['user', 'avatar']),
 }))(Sidebar);

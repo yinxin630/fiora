@@ -14,8 +14,8 @@ function setUser(user) {
 function setGuest(defaultGroup) {
     dispatch({
         type: ActionTypes.SetDeepValue,
-        keys: ['defaultGroup'],
-        value: defaultGroup,
+        keys: ['user'],
+        value: { groups: [defaultGroup] },
     });
 }
 function connect() {
@@ -55,10 +55,21 @@ function getDefaultGroupMessages() {
             Message.error(res);
             return;
         }
+        const state = store.getState();
+        const defaultGroupId = state.getIn(['user', 'groups', 0, '_id']);
         dispatch({
-            type: ActionTypes.SetDefaultGroupMessages,
-            messages: res,
+            type: ActionTypes.SetGroupMessages,
+            messages: {
+                [defaultGroupId]: res,
+            },
         });
+    });
+}
+function addGroupMessage(group, message) {
+    dispatch({
+        type: ActionTypes.AddGroupMessage,
+        group,
+        message,
     });
 }
 
@@ -104,6 +115,7 @@ export default {
 
     getGroupsLastMessages,
     getDefaultGroupMessages,
+    addGroupMessage,
 
     showLoginDialog,
     closeLoginDialog,

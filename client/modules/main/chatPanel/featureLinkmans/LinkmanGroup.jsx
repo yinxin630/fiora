@@ -10,14 +10,11 @@ import Linkman from './Linkman';
 class LinkmanGroup extends Component {
     static propTypes = {
         groups: ImmutablePropTypes.list,
-        defaultGroup: ImmutablePropTypes.map,
         focusGroup: PropTypes.string,
     }
     componentWillReceiveProps(nextProps) {
         if (this.props.groups.size === 0 && nextProps.groups.size !== 0) {
             action.setFocusGroup(nextProps.groups.getIn(['0', '_id']));
-        } else if (this.props.defaultGroup === null && nextProps.defaultGroup !== null) {
-            action.setFocusGroup(nextProps.defaultGroup.get('_id'));
         }
     }
     renderGroup(group) {
@@ -45,16 +42,13 @@ class LinkmanGroup extends Component {
         );
     }
     render() {
-        const { groups, defaultGroup } = this.props;
+        const { groups } = this.props;
         return (
             <div>
                 {
-                    defaultGroup ?
-                        this.renderGroup(defaultGroup)
-                        :
-                        groups.map(group => (
-                            this.renderGroup(group)
-                        ))
+                    groups.map(group => (
+                        this.renderGroup(group)
+                    ))
                 }
             </div>
         );
@@ -63,6 +57,5 @@ class LinkmanGroup extends Component {
 
 export default connect(state => ({
     groups: state.getIn(['user', 'groups']) || immutable.List(),
-    defaultGroup: state.get('defaultGroup'),
     focusGroup: state.get('focusGroup'),
 }))(LinkmanGroup);

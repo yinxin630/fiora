@@ -40,12 +40,13 @@ class MessageList extends Component {
 }
 
 export default connect((state) => {
-    const isLogin = state.get('user');
+    const isLogin = !!state.getIn(['user', '_id']);
     let messages = immutable.fromJS([]);
     if (!isLogin) {
+        const defaultGroupMessages = state.getIn(['user', 'groups', 0, 'messages']);
         return {
             self: '',
-            messages,
+            messages: defaultGroupMessages || messages,
         };
     }
 
