@@ -5,4 +5,5 @@ export default {
     AddGroup: 'AddGroup',
     SetGroupMessages: 'SetGroupMessages',
     AddGroupMessage: 'AddGroupMessage',
+    updateSelfMessage: 'updateSelfMessage',
 };

@@ -5,6 +5,7 @@ import socket from '../socket';
 
 const { dispatch } = store;
 
+/* ===== 用户 ===== */
 function setUser(user) {
     dispatch({
         type: ActionTypes.SetUser,
@@ -33,7 +34,7 @@ function disconnect() {
     });
 }
 
-
+/* ===== 消息 ===== */
 function getGroupsLastMessages() {
     const state = store.getState();
     const groupIds = state.getIn(['user', 'groups']).map(group => group.get('_id'));
@@ -72,8 +73,16 @@ function addGroupMessage(group, message) {
         message,
     });
 }
+function updateSelfMessage(groupId, messageId, message) {
+    dispatch({
+        type: ActionTypes.updateSelfMessage,
+        groupId,
+        messageId,
+        message,
+    });
+}
 
-
+/* ===== 群组 ===== */
 function addGroup(group) {
     dispatch({
         type: ActionTypes.AddGroup,
@@ -88,7 +97,7 @@ function setFocusGroup(groupId) {
     });
 }
 
-
+/* ===== UI ===== */
 function showLoginDialog() {
     dispatch({
         type: ActionTypes.SetDeepValue,
@@ -116,6 +125,7 @@ export default {
     getGroupsLastMessages,
     getDefaultGroupMessages,
     addGroupMessage,
+    updateSelfMessage,
 
     showLoginDialog,
     closeLoginDialog,

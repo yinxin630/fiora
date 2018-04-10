@@ -75,7 +75,6 @@ class ChatInput extends Component {
     sendMessage(type, content) {
         const { user, groupId: toGroup } = this.props;
         const _id = toGroup + Date.now();
-        console.log(user);
         action.addGroupMessage(toGroup, {
             _id,
             type,
@@ -86,6 +85,7 @@ class ChatInput extends Component {
                 username: user.get('username'),
                 avatar: user.get('avatar'),
             },
+            loading: true,
         });
         socket.emit('sendMessage', {
             toGroup,
@@ -95,7 +95,7 @@ class ChatInput extends Component {
             if (typeof res === 'string') {
                 Message.error(res);
             } else {
-                console.log(res);
+                action.updateSelfMessage(toGroup, _id, res);
             }
         });
     }
