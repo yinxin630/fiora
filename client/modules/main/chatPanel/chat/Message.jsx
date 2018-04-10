@@ -20,12 +20,15 @@ class Message extends Component {
     static formatTime(time) {
         return `${time.getHours()}:${time.getMinutes()}`;
     }
+    componentDidMount() {
+        this.dom.scrollIntoView();
+    }
     render() {
         const {
             avatar, nickname, time, type, content, isSelf,
         } = this.props;
         return (
-            <div className={`chat-message ${isSelf ? 'self' : ''} ${type}`}>
+            <div className={`chat-message ${isSelf ? 'self' : ''} ${type}`} ref={i => this.dom = i}>
                 <Avatar className="avatar" src={avatar} size={44} />
                 <div className="right">
                     <div className="nickname-time">
