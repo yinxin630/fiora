@@ -1,3 +1,4 @@
+import Message from '@/components/Message';
 import store from './store';
 import ActionTypes from './ActionTypes';
 import socket from '../socket';
@@ -38,8 +39,24 @@ function getGroupsLastMessages() {
     const groupIds = state.getIn(['user', 'groups']).map(group => group.get('_id'));
 
     socket.emit('getGroupsLastMessages', { groups: groupIds.toJS() }, (res) => {
+        if (typeof res === 'string') {
+            Message.error(res);
+            return;
+        }
         dispatch({
             type: ActionTypes.SetGroupMessages,
+            messages: res,
+        });
+    });
+}
+function getDefaultGroupMessages() {
+    socket.emit('getDefalutGroupMessages', { }, (res) => {
+        if (typeof res === 'string') {
+            Message.error(res);
+            return;
+        }
+        dispatch({
+            type: ActionTypes.SetDefaultGroupMessages,
             messages: res,
         });
     });
@@ -86,6 +103,7 @@ export default {
     setFocusGroup,
 
     getGroupsLastMessages,
+    getDefaultGroupMessages,
 
     showLoginDialog,
     closeLoginDialog,

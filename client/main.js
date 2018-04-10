@@ -31,6 +31,7 @@ socket.on('connect', () => {
         }, (res) => {
             if (typeof res === 'object') {
                 action.setGuest(res);
+                action.getDefaultGroupMessages();
             }
         });
     }

@@ -4,4 +4,5 @@ export default {
     SetUser: 'SetUser',
     AddGroup: 'AddGroup',
     SetGroupMessages: 'SetGroupMessages',
+    SetDefaultGroupMessages: 'SetDefaultGroupMessages',
 };

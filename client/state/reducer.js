@@ -33,6 +33,11 @@ function reducer(state = initialState, action) {
             ))
         ));
     }
+    case ActionTypes.SetDefaultGroupMessages: {
+        return state.update('defaultGroup', defalutGroup => (
+            defalutGroup.set('messages', immutable.fromJS(action.messages))
+        ));
+    }
     default:
         return state;
     }
