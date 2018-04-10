@@ -37,7 +37,9 @@ class Linkman extends Component {
         const zeroMessageTime = Linkman.getZeroTime(messageTime);
         const zeroNowTime = Linkman.getZeroTime(nowTime);
         if (zeroMessageTime.getTime() === zeroNowTime.getTime()) {
-            return `${messageTime.getHours()}:${messageTime.getMinutes()}`;
+            const hours = messageTime.getHours();
+            const minutes = messageTime.getMinutes();
+            return `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}`;
         }
         zeroNowTime.setDate(zeroNowTime.getDate() - 1);
         if (zeroMessageTime.getTime() === zeroNowTime.getTime()) {

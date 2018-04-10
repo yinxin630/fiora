@@ -41,7 +41,7 @@ module.exports = {
             Message
                 .find(
                     { toGroup: groupId },
-                    { type: 1, content: 1, from: 1 },
+                    { type: 1, content: 1, from: 1, createTime: 1 },
                     { sort: { createTime: -1 }, limit: 20 },
                 )
                 .populate('from', { username: 1, avatar: 1 }));
@@ -58,7 +58,7 @@ module.exports = {
         const messages = await Message
             .find(
                 { toGroup: group._id },
-                { type: 1, content: 1, from: 1 },
+                { type: 1, content: 1, from: 1, createTime: 1 },
                 { sort: { createTime: -1 }, limit: 20 },
             )
             .populate('from', { username: 1, avatar: 1 });

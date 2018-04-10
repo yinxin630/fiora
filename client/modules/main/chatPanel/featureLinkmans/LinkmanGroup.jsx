@@ -22,14 +22,23 @@ class LinkmanGroup extends Component {
     }
     renderGroup(group) {
         const groupId = group.get('_id');
+        const unread = group.get('messages').filter(message => message.get('unread': true)).size;
+        const lastMessage = group.getIn(['messages', group.get('messages').size - 1]);
+
+        let time = new Date(group.get('createTime'));
+        let preview = '';
+        if (lastMessage) {
+            time = new Date(lastMessage.get('createTime'));
+            preview = `${lastMessage.getIn(['from', 'username'])}: ${lastMessage.get('content')}`;
+        }
         return (
             <Linkman
                 key={groupId}
                 name={group.get('name')}
                 avatar={group.get('avatar')}
-                preview="1111111111#(乖)"
-                time={new Date()}
-                unread={9}
+                preview={preview}
+                time={time}
+                unread={unread}
                 focus={this.props.focusGroup === groupId}
                 onClick={action.setFocusGroup.bind(null, groupId)}
             />

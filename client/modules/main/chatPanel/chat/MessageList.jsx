@@ -1,113 +1,63 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import immutable from 'immutable';
+import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+
 import Message from './Message';
 
 class MessageList extends Component {
+    static propTypes = {
+        self: PropTypes.string,
+        messages: ImmutablePropTypes.list,
+    }
+    renderMessage(message) {
+        const { self } = this.props;
+        return (
+            <Message
+                key={message.get('_id')}
+                avatar={message.getIn(['from', 'avatar'])}
+                nickname={message.getIn(['from', 'username'])}
+                time={new Date(message.get('createTime'))}
+                type={message.get('type')}
+                content={message.get('content')}
+                isSelf={self === message.getIn(['from', '_id'])}
+            />
+        );
+    }
     render() {
+        const { messages } = this.props;
         return (
             <div className="chat-messageList">
-                <Message
-                    avatar={require('@/assets/images/头像1.png')}
-                    nickname="test呵呵"
-                    time={new Date()}
-                    type="text"
-                    content="消息内容消息内容消息内容消息内容消息内容消息内容"
-                />
-                <Message
-                    avatar={require('@/assets/images/头像1.png')}
-                    nickname="test呵呵"
-                    time={new Date()}
-                    type="text"
-                    content="超长的消息内容超长的消息内容超长的消息内容超长的消息内容超长的消息内容超长的消息内容超长的消息内容超长的消息内容"
-                />
-                <Message
-                    avatar={require('@/assets/images/头像1.png')}
-                    nickname="test呵呵"
-                    time={new Date()}
-                    type="text"
-                    content="fjlskdjflksdjflsjdlkfsdfjlsdkjfklsdjfdkslfklsdfjfjlskdjflsdjklfjskldfjlksdjfklfjalksdjflkajsdlfjlsadkjflkjdlkfj"
-                />
-                <Message
-                    avatar={require('@/assets/images/头像1.png')}
-                    nickname="碎碎酱"
-                    time={new Date()}
-                    type="text"
-                    content="你好啊, 小姐姐"
-                    isSelf
-                />
-                <Message
-                    avatar={require('@/assets/images/头像1.png')}
-                    nickname="test呵呵"
-                    time={new Date()}
-                    type="text"
-                    content=""
-                />
-                <Message
-                    avatar={require('@/assets/images/头像1.png')}
-                    nickname="碎碎酱"
-                    time={new Date()}
-                    type="text"
-                    content="fjfksjdkfskdjfksjf"
-                    isSelf
-                />
-                <Message
-                    avatar={require('@/assets/images/头像1.png')}
-                    nickname="test呵呵"
-                    time={new Date()}
-                    type="text"
-                    content="消息内容消息内容消息内容消息内容消息内容消息内容"
-                />
-                <Message
-                    avatar={require('@/assets/images/头像1.png')}
-                    nickname="test呵呵"
-                    time={new Date()}
-                    type="text"
-                    content="消息内容消息内容消息内容消息内容消息内容消息内容"
-                />
-                <Message
-                    avatar={require('@/assets/images/头像1.png')}
-                    nickname="test呵呵"
-                    time={new Date()}
-                    type="text"
-                    content="消息内容消息内容消息内容消息内容消息内容消息内容"
-                />
-                <Message
-                    avatar={require('@/assets/images/头像1.png')}
-                    nickname="test呵呵"
-                    time={new Date()}
-                    type="text"
-                    content="消息内容消息内容消息内容消息内容消息内容消息内容"
-                />
-                <Message
-                    avatar={require('@/assets/images/头像1.png')}
-                    nickname="test呵呵"
-                    time={new Date()}
-                    type="text"
-                    content="消息内容消息内容消息内容消息内容消息内容消息内容"
-                />
-                <Message
-                    avatar={require('@/assets/images/头像1.png')}
-                    nickname="test呵呵"
-                    time={new Date()}
-                    type="text"
-                    content="消息内容消息内容消息内容消息内容消息内容消息内容"
-                />
-                <Message
-                    avatar={require('@/assets/images/头像1.png')}
-                    nickname="test呵呵"
-                    time={new Date()}
-                    type="text"
-                    content="消息内容消息内容消息内容消息内容消息内容消息内容"
-                />
-                <Message
-                    avatar={require('@/assets/images/头像1.png')}
-                    nickname="test呵呵"
-                    time={new Date()}
-                    type="text"
-                    content="消息内容消息内容消息内容消息内容消息内容消息内容"
-                />
+                {
+                    messages.map(message => (
+                        this.renderMessage(message)
+                    ))
+                }
             </div>
         );
     }
 }
 
-export default MessageList;
+export default connect((state) => {
+    const isLogin = state.get('user');
+    let messages = immutable.fromJS([]);
+    if (!isLogin) {
+        return {
+            self: '',
+            messages,
+        };
+    }
+
+    const self = state.getIn(['user', '_id']);
+    const focusGroup = state.get('focusGroup');
+    const group = state.getIn(['user', 'groups']).find(g => g.get('_id') === focusGroup);
+    if (group) {
+        messages = group.get('messages');
+    }
+
+    return {
+        self,
+        messages,
+    };
+})(MessageList);
