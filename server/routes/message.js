@@ -3,6 +3,7 @@ const assert = require('assert');
 const User = require('../models/user');
 const Group = require('../models/group');
 const Message = require('../models/message');
+const xss = require('../../utils/xss');
 
 module.exports = {
     async sendMessage(ctx) {
@@ -12,6 +13,8 @@ module.exports = {
         const group = await Group.findOne({ _id: toGroup });
         assert(group, '消息发往的群组不存在');
 
+        const messageContent = xss(content);
+
         const user = await User.findOne({ _id: ctx.socket.user }, { username: 1, avatar: 1 });
         let message;
         try {
@@ -19,7 +22,7 @@ module.exports = {
                 from: ctx.socket.user,
                 toGroup,
                 type,
-                content,
+                content: messageContent,
             });
         } catch (err) {
             throw err;
@@ -31,7 +34,7 @@ module.exports = {
             from: user.toObject(),
             toGroup,
             type,
-            content,
+            content: messageContent,
         };
         ctx.socket.socket.to(toGroup).emit('message', messageData);
 

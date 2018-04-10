@@ -1,10 +1,22 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { Tabs, TabPane, TabContent, ScrollableInkTabBar } from '@/components/Tabs';
 import expressions from '../../../../../utils/expressions';
 
+const baidu = require('@/assets/images/baidu.png');
 
 class Expression extends Component {
+    static propTypes = {
+        onSelect: PropTypes.func,
+    }
+    handleClick = (e) => {
+        const { name } = e.currentTarget.dataset;
+        const { onSelect } = this.props;
+        if (onSelect) {
+            onSelect(name);
+        }
+    }
     renderDefaultExpression = () => (
         <div className="default-expression">
             {
@@ -14,7 +26,7 @@ class Expression extends Component {
                         data-name={e}
                         onClick={this.handleClick}
                     >
-                        <div className="no-click" style={{ backgroundPosition: `left ${-30 * index}px`, backgroundImage: `url(${require('@/assets/images/expressions.png')})` }} />
+                        <div className="no-click" style={{ backgroundPosition: `left ${-30 * index}px`, backgroundImage: `url(${baidu})` }} />
                     </div>
                 ))
             }

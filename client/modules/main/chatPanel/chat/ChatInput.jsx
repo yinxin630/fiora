@@ -14,6 +14,8 @@ import Message from '@/components/Message';
 import Expression from './Expression';
 import CodeEditor from './CodeEditor';
 
+const xss = require('../../../../../utils/xss');
+
 class ChatInput extends Component {
     static propTypes = {
         isLogin: PropTypes.bool.isRequired,
@@ -22,6 +24,28 @@ class ChatInput extends Component {
     }
     static handleLogin() {
         action.showLoginDialog();
+    }
+    static insertAtCursor(input, value) {
+        if (document.selection) {
+            input.focus();
+            const sel = document.selection.createRange();
+            sel.text = value;
+            sel.select();
+        } else if (input.selectionStart || input.selectionStart === '0') {
+            const startPos = input.selectionStart;
+            const endPos = input.selectionEnd;
+            const restoreTop = input.scrollTop;
+            input.value = input.value.substring(0, startPos) + value + input.value.substring(endPos, input.value.length);
+            if (restoreTop > 0) {
+                input.scrollTop = restoreTop;
+            }
+            input.focus();
+            input.selectionStart = startPos + value.length;
+            input.selectionEnd = startPos + value.length;
+        } else {
+            input.value += value;
+            input.focus();
+        }
     }
     constructor(...args) {
         super(...args);
@@ -68,7 +92,8 @@ class ChatInput extends Component {
     @autobind
     sendTextMessage() {
         const message = this.message.value;
-        this.sendMessage('text', message);
+        console.log(xss(message));
+        this.sendMessage('text', xss(message));
         this.message.value = '';
     }
     @autobind
@@ -99,9 +124,14 @@ class ChatInput extends Component {
             }
         });
     }
+    @autobind
+    handleSelectExpression(expression) {
+        this.handleVisibleChange(false);
+        ChatInput.insertAtCursor(this.message, `#(${expression})`);
+    }
     expressionDropdown = (
         <div className="expression-dropdown">
-            <Expression />
+            <Expression onSelect={this.handleSelectExpression} />
         </div>
     )
     featureDropdown = (

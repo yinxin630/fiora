@@ -41,7 +41,8 @@
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
     "redux-immutable": "^4.0.0",
-    "socket.io-client": "^2.1.0"
+    "socket.io-client": "^2.1.0",
+    "xss": "^0.3.7"
   },
   "devDependencies": {
     "babel-core": "^6.22.1",
