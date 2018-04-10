@@ -3,6 +3,7 @@ import autobind from 'autobind-decorator';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import * as qiniu from 'qiniu-js';
 
 import action from '@/state/action';
 import socket from '@/socket';
@@ -13,6 +14,7 @@ import Dialog from '@/components/Dialog';
 import Message from '@/components/Message';
 import Expression from './Expression';
 import CodeEditor from './CodeEditor';
+import config from '../../../../../config/client';
 
 const xss = require('../../../../../utils/xss');
 
@@ -63,6 +65,10 @@ class ChatInput extends Component {
     @autobind
     handleFeatureMenuClick({ key }) {
         switch (key) {
+        case 'image': {
+            this.file.click();
+            break;
+        }
         case 'code': {
             this.setState({
                 codeInputVisible: true,
@@ -129,6 +135,51 @@ class ChatInput extends Component {
         this.handleVisibleChange(false);
         ChatInput.insertAtCursor(this.message, `#(${expression})`);
     }
+    @autobind
+    handleSelectFile() {
+        const { user } = this.props;
+        const image = this.file.files[0];
+        if (!image) {
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onloadend = function () {
+            if (this.result.byteLength > config.maxImageSize) {
+                Message.warning('要发送的图片过大', 3);
+            }
+
+            const ext = image.name.split('.').pop().toLowerCase();
+            const blob = new Blob([new Uint8Array(this.result)], { type: `image/${ext}` });
+
+            const img = new Image();
+            img.onload = () => {
+                socket.emit('uploadToken', {}, (res) => {
+                    if (typeof token === 'string') {
+                        Message.error(res);
+                    } else {
+                        const result = qiniu.upload(blob, `ImageMessage/${user.get('_id')}_${Date.now()}.${ext}`, res.token, { useCdnDomain: true }, {});
+                        result.subscribe({
+                            next(info) {
+                                // 进度百分比
+                                console.log(info.total.percent);
+                            },
+                            error(err) {
+                                console.error(err);
+                                Message.error('上传图片失败');
+                            },
+                            complete(info) {
+                                const url = `${res.urlPrefix + info.key}?width=${img.width}&height=${img.height}`;
+                                console.log(url);
+                            },
+                        });
+                    }
+                });
+            };
+            img.src = URL.createObjectURL(blob);
+        };
+        reader.readAsArrayBuffer(image);
+    }
     expressionDropdown = (
         <div className="expression-dropdown">
             <Expression onSelect={this.handleSelectExpression} />
@@ -139,6 +190,12 @@ class ChatInput extends Component {
             <Menu onClick={this.handleFeatureMenuClick}>
                 <MenuItem key="image">发送图片</MenuItem>
                 <MenuItem key="code">发送代码</MenuItem>
+                <input
+                    style={{ display: 'none' }}
+                    type="file"
+                    ref={i => this.file = i}
+                    onChange={this.handleSelectFile}
+                />
             </Menu>
         </div>
     )
