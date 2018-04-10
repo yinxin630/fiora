@@ -72,6 +72,7 @@ module.exports = {
             username: newUser.username,
             expressions: newUser.expressions,
             groups: [{
+                _id: defaultGroup._id,
                 name: defaultGroup.name,
                 avatar: defaultGroup.avatar,
                 createTime: defaultGroup.createTime,

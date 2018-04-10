@@ -37,6 +37,9 @@ socket.on('connect', () => {
 socket.on('disconnect', () => {
     action.disconnect();
 });
+socket.on('message', (data) => {
+    console.log('收到消息', data);
+});
 
 ReactDom.render(
     <Provider store={store}>

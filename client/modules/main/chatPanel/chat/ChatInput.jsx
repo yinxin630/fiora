@@ -4,16 +4,19 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import action from '@/state/action';
+import socket from '@/socket';
 import IconButton from '@/components/IconButton';
 import Dropdown from '@/components/Dropdown';
 import { Menu, MenuItem } from '@/components/Menu';
 import Dialog from '@/components/Dialog';
+import Message from '@/components/Message';
 import Expression from './Expression';
 import CodeEditor from './CodeEditor';
 
 class ChatInput extends Component {
     static propTypes = {
         isLogin: PropTypes.bool.isRequired,
+        groupId: PropTypes.string,
     }
     static handleLogin() {
         action.showLoginDialog();
@@ -53,6 +56,32 @@ class ChatInput extends Component {
     handleSendCode() {
         console.log('发送代码', this.codeEditor.getValue());
         this.handleCodeEditorClose();
+    }
+    @autobind
+    handleInputKeyDown(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            this.sendMessage();
+        }
+    }
+    @autobind
+    sendTextMessage() {
+        const message = this.message.value;
+        this.sendMessage('text', message);
+        this.message.value = '';
+    }
+    @autobind
+    sendMessage(type, content) {
+        socket.emit('sendMessage', {
+            toGroup: this.props.groupId,
+            type,
+            content,
+        }, (res) => {
+            if (typeof res === 'string') {
+                Message.error(res);
+            } else {
+                console.log(res);
+            }
+        });
     }
     expressionDropdown = (
         <div className="expression-dropdown">
@@ -102,8 +131,8 @@ class ChatInput extends Component {
                             <button className="codeEditor-button" onClick={this.handleSendCode}>发送</button>
                         </div>
                     </Dialog>
-                    <input placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~" />
-                    <IconButton className="send" width={44} height={44} icon="send" iconSize={32} />
+                    <input placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~" ref={i => this.message = i} onKeyDown={this.handleInputKeyDown} />
+                    <IconButton className="send" width={44} height={44} icon="send" iconSize={32} onClick={this.sendTextMessage} />
                 </div>
             );
         }
@@ -117,4 +146,5 @@ class ChatInput extends Component {
 
 export default connect(state => ({
     isLogin: !!state.get('user'),
+    groupId: state.get('focusGroup'),
 }))(ChatInput);
