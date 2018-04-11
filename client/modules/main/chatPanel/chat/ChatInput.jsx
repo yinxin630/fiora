@@ -204,13 +204,13 @@ class ChatInput extends Component {
             <Menu onClick={this.handleFeatureMenuClick}>
                 <MenuItem key="image">发送图片</MenuItem>
                 <MenuItem key="code">发送代码</MenuItem>
-                <input
-                    style={{ display: 'none' }}
-                    type="file"
-                    ref={i => this.file = i}
-                    onChange={this.handleSelectFile}
-                />
             </Menu>
+            <input
+                style={{ display: 'none' }}
+                type="file"
+                ref={i => this.file = i}
+                onChange={this.handleSelectFile}
+            />
         </div>
     )
     render() {
