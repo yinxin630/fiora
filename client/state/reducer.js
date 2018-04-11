@@ -49,7 +49,7 @@ function reducer(state = initialState, action) {
             .findIndex(group => group.get('_id') === action.groupId);
         return state.updateIn(['user', 'groups', groupIndex, 'messages'], (messages) => {
             const messageIndex = messages.findLastIndex(m => m.get('_id') === action.messageId);
-            return messages.update(messageIndex, () => immutable.fromJS(action.message));
+            return messages.update(messageIndex, message => message.mergeDeep(immutable.fromJS(action.message)));
         });
     }
     default:

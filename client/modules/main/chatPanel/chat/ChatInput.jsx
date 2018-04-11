@@ -98,18 +98,17 @@ class ChatInput extends Component {
     @autobind
     sendTextMessage() {
         const message = this.message.value;
-        console.log(xss(message));
-        this.sendMessage('text', xss(message));
+        const id = this.addSelfMessage('text', message);
+        this.sendMessage(id, 'text', message);
         this.message.value = '';
     }
-    @autobind
-    sendMessage(type, content) {
+    addSelfMessage(type, content) {
         const { user, groupId: toGroup } = this.props;
         const _id = toGroup + Date.now();
-        action.addGroupMessage(toGroup, {
+        const message = {
             _id,
             type,
-            content,
+            content: xss(content),
             createTime: Date.now(),
             from: {
                 _id: user.get('_id'),
@@ -117,16 +116,28 @@ class ChatInput extends Component {
                 avatar: user.get('avatar'),
             },
             loading: true,
-        });
+        };
+
+        if (type === 'image') {
+            message.percent = 0;
+        }
+        action.addGroupMessage(toGroup, message);
+
+        return _id;
+    }
+    @autobind
+    sendMessage(localId, type, content) {
+        const { groupId: toGroup } = this.props;
         socket.emit('sendMessage', {
             toGroup,
             type,
-            content,
+            content: xss(content),
         }, (res) => {
             if (typeof res === 'string') {
                 Message.error(res);
             } else {
-                action.updateSelfMessage(toGroup, _id, res);
+                res.loading = false;
+                action.updateSelfMessage(toGroup, localId, res);
             }
         });
     }
@@ -137,13 +148,14 @@ class ChatInput extends Component {
     }
     @autobind
     handleSelectFile() {
-        const { user } = this.props;
+        const { user, groupId: toGroup } = this.props;
         const image = this.file.files[0];
         if (!image) {
             return;
         }
 
         const reader = new FileReader();
+        const that = this;
         reader.onloadend = function () {
             if (this.result.byteLength > config.maxImageSize) {
                 Message.warning('要发送的图片过大', 3);
@@ -151,9 +163,12 @@ class ChatInput extends Component {
 
             const ext = image.name.split('.').pop().toLowerCase();
             const blob = new Blob([new Uint8Array(this.result)], { type: `image/${ext}` });
+            const url = URL.createObjectURL(blob);
 
             const img = new Image();
             img.onload = () => {
+                const id = that.addSelfMessage('image', `${url}?width=${img.width}&height=${img.height}`);
+
                 socket.emit('uploadToken', {}, (res) => {
                     if (typeof token === 'string') {
                         Message.error(res);
@@ -161,16 +176,15 @@ class ChatInput extends Component {
                         const result = qiniu.upload(blob, `ImageMessage/${user.get('_id')}_${Date.now()}.${ext}`, res.token, { useCdnDomain: true }, {});
                         result.subscribe({
                             next(info) {
-                                // 进度百分比
-                                console.log(info.total.percent);
+                                action.updateSelfMessage(toGroup, id, { percent: info.total.percent });
                             },
                             error(err) {
                                 console.error(err);
                                 Message.error('上传图片失败');
                             },
                             complete(info) {
-                                const url = `${res.urlPrefix + info.key}?width=${img.width}&height=${img.height}`;
-                                console.log(url);
+                                const imageUrl = `${res.urlPrefix + info.key}?width=${img.width}&height=${img.height}`;
+                                that.sendMessage(id, 'image', imageUrl);
                             },
                         });
                     }

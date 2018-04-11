@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 
 import Avatar from '@/components/Avatar';
+import { Circle } from '@/components/Progress';
 import expressions from '../../../../../utils/expressions';
 
 const transparentImage = 'data:image/png;base64,R0lGODlhFAAUAIAAAP///wAAACH5BAEAAAAALAAAAAAUABQAAAIRhI+py+0Po5y02ouz3rz7rxUAOw==';
@@ -13,9 +14,11 @@ class Message extends Component {
         avatar: PropTypes.string.isRequired,
         nickname: PropTypes.string.isRequired,
         time: PropTypes.object.isRequired,
-        type: PropTypes.oneOf(['text']),
+        type: PropTypes.oneOf(['text', 'image', 'url', 'code']),
         content: PropTypes.string.isRequired,
         isSelf: PropTypes.bool,
+        loading: PropTypes.bool,
+        percent: PropTypes.number,
     }
     static defaultProps = {
         isSelf: false,
@@ -36,6 +39,29 @@ class Message extends Component {
         );
     }
     componentDidMount() {
+        const { type, content } = this.props;
+        if (type === 'image') {
+            let maxWidth = this.dom.clientWidth - 100;
+            const maxHeight = 400;
+            if (maxWidth > 500) {
+                maxWidth = 500;
+            }
+
+            const $image = this.dom.querySelector('.img');
+            const parseResult = /width=([0-9]+)&height=([0-9]+)/.exec(content);
+            if (parseResult) {
+                const [, width, height] = parseResult;
+                let scale = 1;
+                if (width * scale > maxWidth) {
+                    scale = maxWidth / width;
+                }
+                if (height * scale > maxHeight) {
+                    scale = maxHeight / height;
+                }
+                $image.width = width * scale;
+                $image.height = height * scale;
+            }
+        }
         this.dom.scrollIntoView();
     }
     renderText() {
@@ -44,11 +70,29 @@ class Message extends Component {
             <div className="text" dangerouslySetInnerHTML={{ __html: Message.convertExpression(content) }} />
         );
     }
+    renderImage() {
+        const { content, loading, percent } = this.props;
+        let src = content;
+        if (src.startsWith('blob')) {
+            [src] = src.split('?');
+        }
+        // 设置高度宽度为1防止被原图撑起来
+        return (
+            <div className={`image ${loading ? 'loading' : ''}`}>
+                <img className="img" src={src} width="1" height="1" />
+                <Circle className="progress" percent={percent} strokeWidth="5" strokeColor="#a0c672" trailWidth="5" />
+                <div className="progress-number">{Math.ceil(percent)}%</div>
+            </div>
+        );
+    }
     renderContent() {
         const { type } = this.props;
         switch (type) {
         case 'text': {
             return this.renderText();
+        }
+        case 'image': {
+            return this.renderImage();
         }
         default:
             return (

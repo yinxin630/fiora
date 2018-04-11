@@ -6,6 +6,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import Message from './Message';
 
+
 class MessageList extends Component {
     static propTypes = {
         self: PropTypes.string,
@@ -22,6 +23,8 @@ class MessageList extends Component {
                 type={message.get('type')}
                 content={message.get('content')}
                 isSelf={self === message.getIn(['from', '_id'])}
+                loading={message.get('loading')}
+                percent={message.get('percent')}
             />
         );
     }

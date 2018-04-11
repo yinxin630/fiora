@@ -106,6 +106,40 @@
         background-size: 30px auto;
         background-image: url('../../../../assets/images/baidu.png');
     }
+    .image {
+        position: relative;
+        .progress, .progress-number {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+        }
+        .progress-number {
+            color: var(--primary-text-color-10);
+            text-align: center;
+            line-height: 80px;
+            font-size: 18px;
+        }
+        .img {
+            max-width: 500px;
+            max-height: 400px;
+        }
+
+        &.loading {
+            .img {
+                filter: blur(5px);
+            }
+            .progress {
+                display: block;
+            }
+            .progress-number {
+                display: block;
+            }
+        }
+    }
 }
 
 .chat-chatInput {
