@@ -86,7 +86,10 @@ class ChatInput extends Component {
     }
     @autobind
     handleSendCode() {
-        console.log('发送代码', this.codeEditor.getValue());
+        const language = this.codeEditor.getLanguage();
+        const code = `@language=${language}@${this.codeEditor.getValue()}`;
+        const id = this.addSelfMessage('code', code);
+        this.sendMessage(id, 'code', code);
         this.handleCodeEditorClose();
     }
     @autobind
@@ -239,11 +242,12 @@ class ChatInput extends Component {
                         <IconButton className="feature" width={44} height={44} icon="feature" iconSize={32} />
                     </Dropdown>
                     <Dialog
+                        className="codeEditor-dialog"
                         title="请输入要发送的代码"
                         visible={codeInputVisible}
                         onClose={this.handleCodeEditorClose}
                     >
-                        <div className="codeEditor-dialog">
+                        <div className="container">
                             <CodeEditor ref={i => this.codeEditor = i} />
                             <button className="codeEditor-button" onClick={this.handleSendCode}>发送</button>
                         </div>

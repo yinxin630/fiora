@@ -68,6 +68,6 @@ module.exports = {
                 { sort: { createTime: -1 }, limit: 20 },
             )
             .populate('from', { username: 1, avatar: 1 });
-        return messages;
+        return messages.reverse();
     },
 };

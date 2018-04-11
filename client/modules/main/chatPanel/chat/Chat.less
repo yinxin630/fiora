@@ -140,6 +140,12 @@
             }
         }
     }
+    .code {
+        background-color: #f5f2f0;
+        color: black;
+        padding: 6px 10px;
+        margin: 0;
+    }
 }
 
 .chat-chatInput {
@@ -274,9 +280,12 @@
     }
 }
 .codeEditor-dialog {
-    display: flex;
-    flex-direction: column;
+    width: 600px !important;
 
+    .container {
+        display: flex;
+        flex-direction: column;
+    }
     .codeEditor-button {
         width: 100px;
         height: 36px;

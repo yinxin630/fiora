@@ -169,6 +169,9 @@ class CodeEditor extends Component {
     getValue() {
         return this.state.value;
     }
+    getLanguage() {
+        return this.state.lang;
+    }
     @autobind
     handleSelectLanguage(lang) {
         this.setState({

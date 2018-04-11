@@ -6,7 +6,29 @@ import Avatar from '@/components/Avatar';
 import { Circle } from '@/components/Progress';
 import expressions from '../../../../../utils/expressions';
 
+const Prism = require('prismjs');
+const loadLanguages = require('prismjs/components/index.js');
+require('prismjs/themes/prism.css');
+
 const transparentImage = 'data:image/png;base64,R0lGODlhFAAUAIAAAP///wAAACH5BAEAAAAALAAAAAAUABQAAAIRhI+py+0Po5y02ouz3rz7rxUAOw==';
+const languagesMap = {
+    javascript: 'javascript',
+    typescript: 'typescript',
+    java: 'java',
+    c_cpp: 'cpp',
+    python: 'python',
+    ruby: 'ruby',
+    php: 'php',
+    golang: 'go',
+    csharp: 'csharp',
+    html: 'html',
+    css: 'css',
+    markdown: 'markdown',
+    sql: 'sql',
+    json: 'json',
+};
+loadLanguages(['javascript', 'typescript', 'java', 'cpp', 'python', 'ruby', 'php', 'go', 'csharp', 'css', 'markdown', 'sql', 'json']);
+
 
 @immutableRenderDecorator
 class Message extends Component {
@@ -85,6 +107,24 @@ class Message extends Component {
             </div>
         );
     }
+    renderCode() {
+        const { content } = this.props;
+        const parseResult = /@language=([_a-z]+)@/.exec(content);
+        if (!parseResult) {
+            return (
+                <pre className="code">不支持的编程语言</pre>
+            );
+        }
+
+        const language = languagesMap[parseResult[1]];
+        let html = Prism.highlight(content.replace(/@language=[_a-z]+@/, ''), Prism.languages[language], language);
+        if (language === 'html') {
+            html = html.replace(/&amp;/g, '&');
+        }
+        return (
+            <pre className="code" dangerouslySetInnerHTML={{ __html: html }} />
+        );
+    }
     renderContent() {
         const { type } = this.props;
         switch (type) {
@@ -93,6 +133,9 @@ class Message extends Component {
         }
         case 'image': {
             return this.renderImage();
+        }
+        case 'code': {
+            return this.renderCode();
         }
         default:
             return (
