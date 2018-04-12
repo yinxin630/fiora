@@ -141,10 +141,50 @@
         }
     }
     .code {
-        background-color: #f5f2f0;
+        .button {
+            width: 160px;
+            padding: 0 4px;
+            text-align: center;
+            cursor: pointer;
+            & > div {
+                display: flex;
+                border-bottom: 1px solid #eee;
+                align-items: center;
+                .icon {
+                    width: 30px;
+                    height: 30px;
+                    text-align: center;
+                    line-height: 30px;
+                    margin: 0 2px;
+                }
+                .info {
+                    & > span:last-child {
+                        margin-left: 8px;
+                    }
+                }
+            }
+            & > p {
+                display: inline-block;
+                font-size: 12px;
+                text-align: center;
+                margin-top: 6px;
+            }
+        }
+    }
+}
+.code-viewer {
+    width: 800px !important;
+
+    .rc-dialog-body {
+        overflow: auto;
+        max-width: 900px;
+        max-height: 900px;
+    }
+    .pre {
         color: black;
         padding: 6px 10px;
         margin: 0;
+        font-size: 14px;
     }
 }
 

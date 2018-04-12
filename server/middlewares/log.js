@@ -16,7 +16,7 @@ module.exports = function () {
         const res = JSON.stringify(ctx.res) || '';
         let resSize = `${res.length}B`;
         if (res.length > 1024) {
-            resSize = `${res.length / 1024}KB`;
+            resSize = `${Math.ceil(res.length / 1024 * 100) / 100}KB`;
         }
         console.log(`  --> ${ctx.event}  ${after - before}ms ${resSize} ${typeof ctx.res === 'string' ? res : '[data]'}`);
     };

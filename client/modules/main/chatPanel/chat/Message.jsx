@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { immutableRenderDecorator } from 'react-immutable-render-mixin';
+import autobind from 'autobind-decorator';
 
 import Avatar from '@/components/Avatar';
 import { Circle } from '@/components/Progress';
+import Dialog from '@/components/Dialog';
 import expressions from '../../../../../utils/expressions';
 
 const Prism = require('prismjs/components/prism-core.js');
@@ -76,6 +78,14 @@ class Message extends Component {
             },
         );
     }
+    constructor(props) {
+        super(props);
+        if (props.type === 'code') {
+            this.state = {
+                showCode: false,
+            };
+        }
+    }
     componentDidMount() {
         const { type, content } = this.props;
         if (type === 'image') {
@@ -101,6 +111,18 @@ class Message extends Component {
             }
         }
         this.dom.scrollIntoView();
+    }
+    @autobind
+    showCode() {
+        this.setState({
+            showCode: true,
+        });
+    }
+    @autobind
+    hideCode() {
+        this.setState({
+            showCode: false,
+        });
     }
     renderText() {
         const { content } = this.props;
@@ -137,8 +159,28 @@ class Message extends Component {
             .replace(/&lt;/g, '<')
             .replace(/&gt;/g, '>');
         const html = Prism.highlight(transferContent.replace(/@language=[_a-z]+@/, ''), Prism.languages[language], language);
+        let size = `${transferContent.length}B`;
+        if (transferContent.length > 1024) {
+            size = `${Math.ceil(transferContent.length / 1024 * 100) / 100}KB`;
+        }
         return (
-            <pre className="code" dangerouslySetInnerHTML={{ __html: html }} />
+            <div className="code">
+                <div className="button" onClick={this.showCode}>
+                    <div>
+                        <div className="icon">
+                            <i className="iconfont icon-code" />
+                        </div>
+                        <div className="info">
+                            <span>{language}</span>
+                            <span>{size}</span>
+                        </div>
+                    </div>
+                    <p>查看</p>
+                </div>
+                <Dialog className="code-viewer" title="查看代码" visible={this.state.showCode} onClose={this.hideCode}>
+                    <pre className="pre" dangerouslySetInnerHTML={{ __html: html }} />
+                </Dialog>
+            </div>
         );
     }
     renderUrl() {
