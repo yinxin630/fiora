@@ -154,14 +154,8 @@ class ChatInput extends Component {
         this.handleVisibleChange(false);
         ChatInput.insertAtCursor(this.message, `#(${expression})`);
     }
-    @autobind
-    handleSelectFile() {
+    readFile(file) {
         const { user, groupId: toGroup } = this.props;
-        const image = this.file.files[0];
-        if (!image) {
-            return;
-        }
-
         const reader = new FileReader();
         const that = this;
         reader.onloadend = function () {
@@ -170,7 +164,7 @@ class ChatInput extends Component {
                 return;
             }
 
-            const ext = image.name.split('.').pop().toLowerCase();
+            const ext = file.name.split('.').pop().toLowerCase();
             const blob = new Blob([new Uint8Array(this.result)], { type: `image/${ext}` });
             const url = URL.createObjectURL(blob);
 
@@ -182,6 +176,7 @@ class ChatInput extends Component {
                     if (typeof token === 'string') {
                         Message.error(res);
                     } else {
+                        console.log(blob);
                         const result = qiniu.upload(blob, `ImageMessage/${user.get('_id')}_${Date.now()}.${ext}`, res.token, { useCdnDomain: true }, {});
                         result.subscribe({
                             next(info) {
@@ -201,7 +196,36 @@ class ChatInput extends Component {
             };
             img.src = URL.createObjectURL(blob);
         };
-        reader.readAsArrayBuffer(image);
+        reader.readAsArrayBuffer(file);
+    }
+    @autobind
+    handleSelectFile() {
+        const image = this.file.files[0];
+        if (!image) {
+            return;
+        }
+        this.readFile(image);
+    }
+    @autobind
+    handlePaste(e) {
+        const { items } = (e.clipboardData || e.originalEvent.clipboardData);
+        const { types } = (e.clipboardData || e.originalEvent.clipboardData);
+
+        // 如果包含文件内容
+        if (types.indexOf('Files') > -1) {
+            for (let index = 0; index < items.length; index++) {
+                const item = items[index];
+                if (item.kind === 'file') {
+                    const file = item.getAsFile();
+                    if (file) {
+                        console.log(file.name, file);
+                        console.log(this);
+                        this.readFile(file);
+                    }
+                }
+            }
+            e.preventDefault();
+        }
     }
     expressionDropdown = (
         <div className="expression-dropdown">
@@ -259,7 +283,7 @@ class ChatInput extends Component {
                             <button className="codeEditor-button" onClick={this.handleSendCode}>发送</button>
                         </div>
                     </Dialog>
-                    <input placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~" ref={i => this.message = i} onKeyDown={this.handleInputKeyDown} />
+                    <input placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~" ref={i => this.message = i} onKeyDown={this.handleInputKeyDown} onPaste={this.handlePaste} />
                     <IconButton className="send" width={44} height={44} icon="send" iconSize={32} onClick={this.sendTextMessage} />
                 </div>
             );
