@@ -13,7 +13,11 @@ module.exports = {
         const group = await Group.findOne({ _id: toGroup });
         assert(group, '消息发往的群组不存在');
 
-        const messageContent = xss(content);
+        let messageContent = content;
+        if (type === 'text') {
+            assert(messageContent.length <= 2048, '消息长度过长');
+            messageContent = xss(content);
+        }
 
         const user = await User.findOne({ _id: ctx.socket.user }, { username: 1, avatar: 1 });
         let message;

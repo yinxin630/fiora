@@ -106,7 +106,7 @@ class ChatInput extends Component {
             type = 'url';
         }
 
-        const id = this.addSelfMessage(type, message);
+        const id = this.addSelfMessage(type, xss(message));
         this.sendMessage(id, type, message);
         this.message.value = '';
     }
@@ -116,7 +116,7 @@ class ChatInput extends Component {
         const message = {
             _id,
             type,
-            content: xss(content),
+            content,
             createTime: Date.now(),
             from: {
                 _id: user.get('_id'),
@@ -139,7 +139,7 @@ class ChatInput extends Component {
         socket.emit('sendMessage', {
             toGroup,
             type,
-            content: xss(content),
+            content,
         }, (res) => {
             if (typeof res === 'string') {
                 Message.error(res);
@@ -283,7 +283,7 @@ class ChatInput extends Component {
                             <button className="codeEditor-button" onClick={this.handleSendCode}>发送</button>
                         </div>
                     </Dialog>
-                    <input placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~" ref={i => this.message = i} onKeyDown={this.handleInputKeyDown} onPaste={this.handlePaste} />
+                    <input placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~" maxLength="2048" ref={i => this.message = i} onKeyDown={this.handleInputKeyDown} onPaste={this.handlePaste} />
                     <IconButton className="send" width={44} height={44} icon="send" iconSize={32} onClick={this.sendTextMessage} />
                 </div>
             );

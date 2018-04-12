@@ -155,9 +155,7 @@ class Message extends Component {
         }
 
         const language = languagesMap[parseResult[1]];
-        const transferContent = content
-            .replace(/&lt;/g, '<')
-            .replace(/&gt;/g, '>');
+        const transferContent = content;
         const html = Prism.highlight(transferContent.replace(/@language=[_a-z]+@/, ''), Prism.languages[language], language);
         let size = `${transferContent.length}B`;
         if (transferContent.length > 1024) {
