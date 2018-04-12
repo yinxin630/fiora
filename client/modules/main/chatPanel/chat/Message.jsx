@@ -125,6 +125,12 @@ class Message extends Component {
             <pre className="code" dangerouslySetInnerHTML={{ __html: html }} />
         );
     }
+    renderUrl() {
+        const { content } = this.props;
+        return (
+            <a href={content} target="_black" rel="noopener noreferrer" >{content}</a>
+        );
+    }
     renderContent() {
         const { type } = this.props;
         switch (type) {
@@ -136,6 +142,9 @@ class Message extends Component {
         }
         case 'code': {
             return this.renderCode();
+        }
+        case 'url': {
+            return this.renderUrl();
         }
         default:
             return (

@@ -101,8 +101,13 @@ class ChatInput extends Component {
     @autobind
     sendTextMessage() {
         const message = this.message.value;
-        const id = this.addSelfMessage('text', message);
-        this.sendMessage(id, 'text', message);
+        let type = 'text';
+        if (/[a-zA-z]+:\/\/[^\s]*/.test(message)) {
+            type = 'url';
+        }
+
+        const id = this.addSelfMessage(type, message);
+        this.sendMessage(id, type, message);
         this.message.value = '';
     }
     addSelfMessage(type, content) {
