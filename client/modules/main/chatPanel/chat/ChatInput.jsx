@@ -167,6 +167,7 @@ class ChatInput extends Component {
         reader.onloadend = function () {
             if (this.result.byteLength > config.maxImageSize) {
                 Message.warning('要发送的图片过大', 3);
+                return;
             }
 
             const ext = image.name.split('.').pop().toLowerCase();
@@ -216,6 +217,7 @@ class ChatInput extends Component {
             <input
                 style={{ display: 'none' }}
                 type="file"
+                accept="image/png,image/jpeg,image/gif"
                 ref={i => this.file = i}
                 onChange={this.handleSelectFile}
             />
