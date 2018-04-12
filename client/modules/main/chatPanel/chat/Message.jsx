@@ -6,9 +6,27 @@ import Avatar from '@/components/Avatar';
 import { Circle } from '@/components/Progress';
 import expressions from '../../../../../utils/expressions';
 
-const Prism = require('prismjs');
-const loadLanguages = require('prismjs/components/index.js');
+const Prism = require('prismjs/components/prism-core.js');
 require('prismjs/themes/prism.css');
+
+/* 要使用的语言及其前置语言 */
+require('prismjs/components/prism-clike');
+require('prismjs/components/prism-javascript');
+require('prismjs/components/prism-typescript');
+require('prismjs/components/prism-java');
+require('prismjs/components/prism-c');
+require('prismjs/components/prism-cpp');
+require('prismjs/components/prism-python');
+require('prismjs/components/prism-ruby');
+require('prismjs/components/prism-markup');
+require('prismjs/components/prism-markup-templating');
+require('prismjs/components/prism-php');
+require('prismjs/components/prism-go');
+require('prismjs/components/prism-csharp');
+require('prismjs/components/prism-css');
+require('prismjs/components/prism-markdown');
+require('prismjs/components/prism-sql');
+require('prismjs/components/prism-json');
 
 const transparentImage = 'data:image/png;base64,R0lGODlhFAAUAIAAAP///wAAACH5BAEAAAAALAAAAAAUABQAAAIRhI+py+0Po5y02ouz3rz7rxUAOw==';
 const languagesMap = {
@@ -27,8 +45,6 @@ const languagesMap = {
     sql: 'sql',
     json: 'json',
 };
-loadLanguages(['javascript', 'typescript', 'java', 'cpp', 'python', 'ruby', 'php', 'go', 'csharp', 'css', 'markdown', 'sql', 'json']);
-
 
 @immutableRenderDecorator
 class Message extends Component {
@@ -117,10 +133,10 @@ class Message extends Component {
         }
 
         const language = languagesMap[parseResult[1]];
-        let html = Prism.highlight(content.replace(/@language=[_a-z]+@/, ''), Prism.languages[language], language);
-        if (language === 'html') {
-            html = html.replace(/&amp;/g, '&');
-        }
+        const transferContent = content
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>');
+        const html = Prism.highlight(transferContent.replace(/@language=[_a-z]+@/, ''), Prism.languages[language], language);
         return (
             <pre className="code" dangerouslySetInnerHTML={{ __html: html }} />
         );

@@ -50,7 +50,7 @@ const webpackConfig = merge(baseWebpackConfig, {
             'process.env': config.build.env,
         }),
         new ExtractTextPlugin({
-            filename: utils.assetsPath('css/[name].[contenthash:8].css'),
+            filename: utils.assetsPath('css/[name].[hash:8].css'),
         }),
         new OptimizeCSSPlugin(),
         new CopyWebpackPlugin([
