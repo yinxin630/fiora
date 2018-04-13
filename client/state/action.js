@@ -112,6 +112,20 @@ function closeLoginDialog() {
         value: false,
     });
 }
+function setPrimaryColor(color) {
+    dispatch({
+        type: ActionTypes.SetDeepValue,
+        keys: ['ui', 'primaryColor'],
+        value: color,
+    });
+}
+function setPrimaryTextColor(color) {
+    dispatch({
+        type: ActionTypes.SetDeepValue,
+        keys: ['ui', 'primaryTextColor'],
+        value: color,
+    });
+}
 
 export default {
     setUser,
@@ -129,4 +143,6 @@ export default {
 
     showLoginDialog,
     closeLoginDialog,
+    setPrimaryColor,
+    setPrimaryTextColor,
 };

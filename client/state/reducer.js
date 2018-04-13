@@ -1,5 +1,10 @@
 import immutable from 'immutable';
 import ActionTypes from './ActionTypes';
+import setCssVariable from '../../utils/setCssVariable';
+
+const primaryColor = '74, 144, 226';
+const primaryTextColor = '247, 247, 247';
+setCssVariable(primaryColor, primaryTextColor);
 
 const initialState = immutable.fromJS({
     user: null,
@@ -7,6 +12,8 @@ const initialState = immutable.fromJS({
     connect: true,
     ui: {
         showLoginDialog: false,
+        primaryColor,
+        primaryTextColor,
     },
 });
 

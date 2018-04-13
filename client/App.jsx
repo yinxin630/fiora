@@ -33,12 +33,9 @@ class App extends Component {
             width: App.getWidth(),
             height: 0.85,
             resize: 0,
-            primaryColor: '74, 144, 226',
-            primaryTextColor: '247, 247, 247',
         };
     }
     componentDidMount() {
-        this.setCssVariable();
         window.onresize = () => {
             // 触发rerender
             this.setState({
@@ -72,13 +69,6 @@ class App extends Component {
             left: `${(1 - width) / 2 * 100}%`,
             top: `${(1 - height) / 2 * 100}%`,
         };
-    }
-    setCssVariable() {
-        let cssText = '';
-        for (let i = 0; i <= 10; i++) {
-            cssText += `--primary-color-${i}:rgba(${this.state.primaryColor}, ${i / 10});--primary-color-${i}_5:rgba(${this.state.primaryColor}, ${(i + 0.5) / 10});--primary-text-color-${i}:rgba(${this.state.primaryTextColor}, ${i / 10});`;
-        }
-        document.documentElement.style.cssText += cssText;
     }
     render() {
         const { showLoginDialog } = this.props;

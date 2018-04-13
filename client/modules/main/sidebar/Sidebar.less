@@ -116,3 +116,37 @@
         }
     }
 }
+
+.setting-dialog {
+    .rc-dialog-body {
+        background-color: #fafafa;
+    }
+    .content {
+        & > div {
+            margin-bottom: 14px;
+            & > p {
+                line-height: 33px;
+                font-size: 14px;
+                color: #333;
+                font-weight: bold;
+            }
+            & > .color-info {
+                display: flex;
+                align-items: center;
+                & >div {
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 4px;
+                    margin-left: 6px;
+                }
+                & > span {
+                    margin-left: 12px;
+                    color: #666;
+                }
+            }
+            & > .color-picker {
+                margin-top: 20px;
+            }
+        }
+    }
+}
