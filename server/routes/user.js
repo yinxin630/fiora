@@ -70,7 +70,6 @@ module.exports = {
             _id: newUser._id,
             avatar: newUser.avatar,
             username: newUser.username,
-            expressions: newUser.expressions,
             groups: [{
                 _id: defaultGroup._id,
                 name: defaultGroup.name,
@@ -120,7 +119,6 @@ module.exports = {
             _id: user._id,
             avatar: user.avatar,
             username: user.username,
-            expressions: user.expressions,
             groups: groupsData,
             token,
         };
@@ -144,7 +142,7 @@ module.exports = {
         assert(Date.now() < payload.expires, 'token已过期');
         assert.equal(environment, payload.environment, '非法登录');
 
-        const user = await User.findOne({ _id: payload.user }, { _id: 1, avatar: 1, username: 1, expressions: 1 });
+        const user = await User.findOne({ _id: payload.user }, { _id: 1, avatar: 1, username: 1 });
         user.lastLoginTime = Date.now();
         await user.save();
 
