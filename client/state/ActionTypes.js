@@ -6,4 +6,5 @@ export default {
     SetGroupMessages: 'SetGroupMessages',
     AddGroupMessage: 'AddGroupMessage',
     updateSelfMessage: 'updateSelfMessage',
+    Logout: 'Logout',
 };

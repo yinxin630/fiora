@@ -33,6 +33,11 @@ function disconnect() {
         value: false,
     });
 }
+function logout() {
+    dispatch({
+        type: ActionTypes.Logout,
+    });
+}
 
 /* ===== 消息 ===== */
 function getGroupsLastMessages() {
@@ -142,6 +147,7 @@ export default {
     setGuest,
     connect,
     disconnect,
+    logout,
 
     addGroup,
     setFocusGroup,

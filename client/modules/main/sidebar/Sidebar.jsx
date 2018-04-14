@@ -5,6 +5,7 @@ import autobind from 'autobind-decorator';
 import { TwitterPicker } from 'react-color';
 
 import action from '@/state/action';
+import socket from '@/socket';
 import Avatar from '@/components/Avatar';
 import IconButton from '@/components/IconButton';
 import Dialog from '@/components/Dialog';
@@ -21,6 +22,12 @@ class Sidebar extends Component {
         primaryColor: PropTypes.string,
         primaryTextColor: PropTypes.string,
         backgroundImage: PropTypes.string,
+    }
+    static logout() {
+        action.logout();
+        window.localStorage.removeItem('token');
+        socket.disconnect();
+        socket.connect();
     }
     constructor(...args) {
         super(...args);
@@ -81,7 +88,7 @@ class Sidebar extends Component {
                     <OnlineStatus className="status" status={isConnect ? 'online' : 'offline'} />
                     <div className="buttons">
                         <IconButton width={40} height={40} icon="setting" iconSize={26} onClick={this.openSettingDialog} />
-                        <IconButton width={40} height={40} icon="logout" iconSize={26} />
+                        <IconButton width={40} height={40} icon="logout" iconSize={26} onClick={Sidebar.logout} />
                     </div>
                     <Dialog className="setting-dialog" visible={settingDialog} title="系统设置" onClose={this.closeSettingDialog}>
                         <div className="content">

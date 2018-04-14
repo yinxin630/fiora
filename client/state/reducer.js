@@ -62,6 +62,9 @@ function reducer(state = initialState, action) {
             return messages.update(messageIndex, message => message.mergeDeep(immutable.fromJS(action.message)));
         });
     }
+    case ActionTypes.showLoginDialog: {
+        return initialState;
+    }
     default:
         return state;
     }
