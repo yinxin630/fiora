@@ -1,21 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import './Button.less';
+
 class Button extends Component {
     static propTypes = {
-        width: PropTypes.number.isRequired,
-        height: PropTypes.number.isRequired,
+        width: PropTypes.number,
+        height: PropTypes.number,
         onClick: PropTypes.func,
+        children: PropTypes.string,
+    }
+    static defaultProps = {
+        width: 'initial',
+        height: 'initial',
     }
     render() {
-        const { width, height, onClick } = this.props;
+        const { width, height, onClick, children } = this.props;
         return (
-            <div
+            <button
+                className="component-button"
                 style={{ width, height }}
                 onClick={onClick}
             >
-                Button
-            </div>
+                {children}
+            </button>
         );
     }
 }

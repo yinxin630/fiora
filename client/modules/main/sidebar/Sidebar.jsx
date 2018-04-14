@@ -9,8 +9,10 @@ import socket from '@/socket';
 import Avatar from '@/components/Avatar';
 import IconButton from '@/components/IconButton';
 import Dialog from '@/components/Dialog';
+import Button from '@/components/Button';
 import OnlineStatus from './OnlineStatus';
 import setCssVariable from '../../../../utils/setCssVariable';
+import config from '../../../../config/client';
 import './Sidebar.less';
 
 
@@ -28,6 +30,15 @@ class Sidebar extends Component {
         window.localStorage.removeItem('token');
         socket.disconnect();
         socket.connect();
+    }
+    static resetThume() {
+        action.setPrimaryColor(config.primaryColor);
+        action.setPrimaryTextColor(config.primaryTextColor);
+        action.setBackgroundImage(config.backgroundImage);
+        setCssVariable(config.primaryColor, config.primaryTextColor);
+        window.localStorage.removeItem('primaryColor');
+        window.localStorage.removeItem('primaryTextColor');
+        window.localStorage.removeItem('backgroundImage');
     }
     constructor(...args) {
         super(...args);
@@ -92,6 +103,12 @@ class Sidebar extends Component {
                     </div>
                     <Dialog className="setting-dialog" visible={settingDialog} title="系统设置" onClose={this.closeSettingDialog}>
                         <div className="content">
+                            <div>
+                                <p>恢复</p>
+                                <div>
+                                    <Button width={120} height={34} onClick={Sidebar.resetThume}>恢复默认主题</Button>
+                                </div>
+                            </div>
                             <div>
                                 <p>主题颜色</p>
                                 <div className="color-info">

@@ -1,12 +1,13 @@
 import immutable from 'immutable';
 import ActionTypes from './ActionTypes';
 import setCssVariable from '../../utils/setCssVariable';
+import config from '../../config/client';
 
-const primaryColor = window.localStorage.getItem('primaryColor') || '74, 144, 226';
-const primaryTextColor = window.localStorage.getItem('primaryTextColor') || '247, 247, 247';
+const primaryColor = window.localStorage.getItem('primaryColor') || config.primaryColor;
+const primaryTextColor = window.localStorage.getItem('primaryTextColor') || config.primaryTextColor;
 setCssVariable(primaryColor, primaryTextColor);
 
-const backgroundImage = window.localStorage.getItem('backgroundImage') || require('@/assets/images/background.jpg');
+const backgroundImage = window.localStorage.getItem('backgroundImage') || config.backgroundImage;
 
 const initialState = immutable.fromJS({
     user: null,
