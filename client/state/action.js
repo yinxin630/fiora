@@ -40,9 +40,8 @@ function logout() {
 }
 function setAvatar(avatar) {
     dispatch({
-        type: ActionTypes.SetDeepValue,
-        keys: ['user', 'avatar'],
-        value: avatar,
+        type: ActionTypes.SetAvatar,
+        avatar,
     });
 }
 

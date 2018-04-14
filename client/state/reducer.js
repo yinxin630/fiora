@@ -66,6 +66,23 @@ function reducer(state = initialState, action) {
     case ActionTypes.showLoginDialog: {
         return initialState;
     }
+    case ActionTypes.SetAvatar: {
+        const userId = state.getIn(['user', '_id']);
+        return state
+            .setIn(['user', 'avatar'], action.avatar)
+            .updateIn(['user', 'groups'], groups => (
+                groups.map(group => (
+                    group.update('messages', messages => (
+                        messages.map((message) => {
+                            if (message.getIn(['from', '_id']) === userId) {
+                                return message.setIn(['from', 'avatar'], action.avatar);
+                            }
+                            return message;
+                        })
+                    ))
+                ))
+            ));
+    }
     default:
         return state;
     }

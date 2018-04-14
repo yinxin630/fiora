@@ -7,4 +7,5 @@ export default {
     AddGroupMessage: 'AddGroupMessage',
     updateSelfMessage: 'updateSelfMessage',
     Logout: 'Logout',
+    SetAvatar: 'SetAvatar',
 };
