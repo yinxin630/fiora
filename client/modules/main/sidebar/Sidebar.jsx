@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import { TwitterPicker } from 'react-color';
 import * as qiniu from 'qiniu-js';
+import { RadioGroup, RadioButton } from 'react-radio-buttons';
 
 import action from '@/state/action';
 import socket from '@/socket';
@@ -15,6 +16,7 @@ import Message from '@/components/Message';
 import OnlineStatus from './OnlineStatus';
 import setCssVariable from '../../../../utils/setCssVariable';
 import readDiskFile from '../../../../utils/readDiskFile';
+import playSound from '../../../../utils/sound';
 import config from '../../../../config/client';
 import './Sidebar.less';
 
@@ -28,6 +30,7 @@ class Sidebar extends Component {
         primaryTextColor: PropTypes.string,
         backgroundImage: PropTypes.string,
         userId: PropTypes.string,
+        sound: PropTypes.string,
     }
     static logout() {
         action.logout();
@@ -39,10 +42,12 @@ class Sidebar extends Component {
         action.setPrimaryColor(config.primaryColor);
         action.setPrimaryTextColor(config.primaryTextColor);
         action.setBackgroundImage(config.backgroundImage);
+        action.setSound(config.sound);
         setCssVariable(config.primaryColor, config.primaryTextColor);
         window.localStorage.removeItem('primaryColor');
         window.localStorage.removeItem('primaryTextColor');
         window.localStorage.removeItem('backgroundImage');
+        window.localStorage.removeItem('sound');
     }
     static async selectBackgroundImage() {
         const file = await readDiskFile('base64', 'image/png,image/jpeg,image/gif');
@@ -50,6 +55,10 @@ class Sidebar extends Component {
             return Message.error('设置背景图失败, 请选择小于3MB的图片');
         }
         action.setBackgroundImage(file.result);
+    }
+    static handleSelectSound(sound) {
+        playSound(sound);
+        action.setSound(sound);
     }
     constructor(...args) {
         super(...args);
@@ -129,7 +138,7 @@ class Sidebar extends Component {
         });
     }
     render() {
-        const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage } = this.props;
+        const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound } = this.props;
         const { settingDialog, userDialog } = this.state;
         if (isLogin) {
             return (
@@ -146,6 +155,19 @@ class Sidebar extends Component {
                                 <p>恢复</p>
                                 <div>
                                     <Button width={120} height={34} onClick={Sidebar.resetThume}>恢复默认主题</Button>
+                                </div>
+                            </div>
+                            <div>
+                                <p>提示音</p>
+                                <div className="sounds">
+                                    <RadioGroup value={sound} onChange={Sidebar.handleSelectSound} horizontal>
+                                        <RadioButton value="default">默认</RadioButton>
+                                        <RadioButton value="apple">苹果</RadioButton>
+                                        <RadioButton value="pcqq">电脑QQ</RadioButton>
+                                        <RadioButton value="mobileqq">手机QQ</RadioButton>
+                                        <RadioButton value="momo">陌陌</RadioButton>
+                                        <RadioButton value="huaji">滑稽</RadioButton>
+                                    </RadioGroup>
                                 </div>
                             </div>
                             <div>
@@ -199,4 +221,5 @@ export default connect(state => ({
     primaryColor: state.getIn(['ui', 'primaryColor']),
     primaryTextColor: state.getIn(['ui', 'primaryTextColor']),
     backgroundImage: state.getIn(['ui', 'backgroundImage']),
+    sound: state.getIn(['ui', 'sound']),
 }))(Sidebar);

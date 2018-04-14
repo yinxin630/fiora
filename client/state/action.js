@@ -147,6 +147,15 @@ function setBackgroundImage(image) {
     });
     window.localStorage.setItem('backgroundImage', image);
 }
+function setSound(sound) {
+    dispatch({
+        type: ActionTypes.SetDeepValue,
+        keys: ['ui', 'sound'],
+        value: sound,
+    });
+    window.localStorage.setItem('sound', sound);
+}
+
 
 export default {
     setUser,
@@ -169,4 +178,5 @@ export default {
     setPrimaryColor,
     setPrimaryTextColor,
     setBackgroundImage,
+    setSound,
 };

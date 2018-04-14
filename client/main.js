@@ -11,6 +11,8 @@ import action from './state/action';
 import socket from './socket';
 import notification from '../utils/notification';
 
+import sound from '../utils/sound';
+
 if (window.Notification && (window.Notification.permission === 'default' || window.Notification.permission === 'denied')) {
     window.Notification.requestPermission();
 }
@@ -56,6 +58,9 @@ socket.on('message', (message) => {
         message.content,
         message.toGroup._id,
     );
+
+    const soundType = state.getIn(['ui', 'sound']);
+    sound(soundType);
 });
 
 ReactDom.render(

@@ -8,6 +8,7 @@ const primaryTextColor = window.localStorage.getItem('primaryTextColor') || conf
 setCssVariable(primaryColor, primaryTextColor);
 
 const backgroundImage = window.localStorage.getItem('backgroundImage') || config.backgroundImage;
+const sound = window.localStorage.getItem('sound') || config.sound;
 
 const initialState = immutable.fromJS({
     user: null,
@@ -18,6 +19,7 @@ const initialState = immutable.fromJS({
         primaryColor,
         primaryTextColor,
         backgroundImage,
+        sound,
     },
 });
 

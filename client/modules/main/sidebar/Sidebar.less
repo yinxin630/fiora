@@ -124,6 +124,8 @@
         background-color: #fafafa;
         padding-top: 10px;
         padding-bottom: 10px;
+        height: 750px;
+        overflow-y: auto;
     }
     .content {
         & > div {
@@ -171,6 +173,36 @@
 
                     &:hover {
                         filter: blur(3px);
+                    }
+                }
+            }
+            & > .sounds {
+                & > div {
+                    display: flex !important;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    & > div {
+                        width: 146px !important;
+                        flex: initial !important;
+                        padding: 12px !important;
+                        &:nth-child(3) {
+                            margin-right: 0 !important;
+                            margin-bottom: 6px !important;
+                        }
+                        &:nth-child(1), &:nth-child(2),&:nth-child(3) {
+                            margin-bottom: 6px !important;
+                        }
+                        & > div {
+                            display: flex;
+                            align-items: center;
+                        }
+                        & > div > div {
+                            padding: 0 !important;
+                            font-size: 14px;
+                        }
+                        & > div > div > div {
+                            transform: translate(-2px, -2px);
+                        }
                     }
                 }
             }
