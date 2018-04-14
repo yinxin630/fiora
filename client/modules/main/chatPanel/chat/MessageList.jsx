@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import immutable from 'immutable';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import autobind from 'autobind-decorator';
 
+import fetch from 'utils/fetch';
+import action from '@/state/action';
 import Message from './Message';
 
 
@@ -11,6 +14,18 @@ class MessageList extends Component {
     static propTypes = {
         self: PropTypes.string,
         messages: ImmutablePropTypes.list,
+        focusGroup: PropTypes.string,
+    }
+    @autobind
+    async handleScroll(e) {
+        const { focusGroup, messages } = this.props;
+        const $div = e.target;
+        if ($div.scrollTop === 0) {
+            const [err, result] = await fetch('getGroupHistoryMessages', { groupId: focusGroup, existCount: messages.size });
+            if (!err) {
+                action.addGroupMessages(focusGroup, result);
+            }
+        }
     }
     renderMessage(message) {
         const { self } = this.props;
@@ -31,7 +46,7 @@ class MessageList extends Component {
     render() {
         const { messages } = this.props;
         return (
-            <div className="chat-messageList">
+            <div className="chat-messageList" onScroll={this.handleScroll}>
                 {
                     messages.map(message => (
                         this.renderMessage(message)
@@ -62,6 +77,7 @@ export default connect((state) => {
 
     return {
         self,
+        focusGroup,
         messages,
     };
 })(MessageList);

@@ -25,6 +25,8 @@ module.exports = {
         extensions: ['.js', '.jsx', '.json'],
         alias: {
             '@': resolve('client'),
+            root: resolve('./'),
+            utils: resolve('utils'),
         },
     },
     module: {

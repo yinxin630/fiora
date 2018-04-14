@@ -84,6 +84,13 @@ function addGroupMessage(group, message) {
         message,
     });
 }
+function addGroupMessages(group, messages) {
+    dispatch({
+        type: ActionTypes.AddGroupMessages,
+        group,
+        messages,
+    });
+}
 function updateSelfMessage(groupId, messageId, message) {
     dispatch({
         type: ActionTypes.updateSelfMessage,
@@ -171,6 +178,7 @@ export default {
     getGroupsLastMessages,
     getDefaultGroupMessages,
     addGroupMessage,
+    addGroupMessages,
     updateSelfMessage,
 
     showLoginDialog,

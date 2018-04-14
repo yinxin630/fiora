@@ -113,6 +113,10 @@ class ChatInput extends Component {
     @autobind
     sendTextMessage() {
         const message = this.message.value;
+        if (message.length === 0) {
+            return;
+        }
+
         let type = 'text';
         if (/[a-zA-z]+:\/\/[^\s]*/.test(message)) {
             type = 'url';

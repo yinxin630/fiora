@@ -5,6 +5,7 @@ export default {
     AddGroup: 'AddGroup',
     SetGroupMessages: 'SetGroupMessages',
     AddGroupMessage: 'AddGroupMessage',
+    AddGroupMessages: 'AddGroupMessages',
     updateSelfMessage: 'updateSelfMessage',
     Logout: 'Logout',
     SetAvatar: 'SetAvatar',

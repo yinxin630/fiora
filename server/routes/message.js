@@ -5,6 +5,9 @@ const Group = require('../models/group');
 const Message = require('../models/message');
 const xss = require('../../utils/xss');
 
+const FirstTimeMessagesCount = 15;
+const EachFetchMessagesCount = 30;
+
 module.exports = {
     async sendMessage(ctx) {
         const { toGroup, type, content } = ctx.data;
@@ -52,7 +55,7 @@ module.exports = {
                 .find(
                     { toGroup: groupId },
                     { type: 1, content: 1, from: 1, createTime: 1 },
-                    { sort: { createTime: -1 }, limit: 20 },
+                    { sort: { createTime: -1 }, limit: FirstTimeMessagesCount },
                 )
                 .populate('from', { username: 1, avatar: 1 }));
         const results = await Promise.all(promises);
@@ -69,9 +72,22 @@ module.exports = {
             .find(
                 { toGroup: group._id },
                 { type: 1, content: 1, from: 1, createTime: 1 },
-                { sort: { createTime: -1 }, limit: 20 },
+                { sort: { createTime: -1 }, limit: FirstTimeMessagesCount },
             )
             .populate('from', { username: 1, avatar: 1 });
         return messages.reverse();
+    },
+    async getGroupHistoryMessages(ctx) {
+        const { groupId, existCount } = ctx.data;
+
+        const messages = await Message
+            .find(
+                { toGroup: groupId },
+                { type: 1, content: 1, from: 1, createTime: 1 },
+                { sort: { createTime: -1 }, limit: EachFetchMessagesCount + existCount },
+            )
+            .populate('from', { username: 1, avatar: 1 });
+        const result = messages.slice(existCount).reverse();
+        return result;
     },
 };
