@@ -176,7 +176,6 @@ class ChatInput extends Component {
                     if (typeof token === 'string') {
                         Message.error(res);
                     } else {
-                        console.log(blob);
                         const result = qiniu.upload(blob, `ImageMessage/${user.get('_id')}_${Date.now()}.${ext}`, res.token, { useCdnDomain: true }, {});
                         result.subscribe({
                             next(info) {

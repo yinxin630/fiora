@@ -177,4 +177,14 @@ module.exports = {
 
         return Object.assign({ messages: [] }, group.toObject());
     },
+    async changeAvatar(ctx) {
+        const { avatar } = ctx.data;
+        assert(avatar, '新头像链接不能为空');
+
+        await User.update({ _id: ctx.socket.user }, {
+            avatar,
+        });
+
+        return {};
+    },
 };

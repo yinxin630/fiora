@@ -38,6 +38,13 @@ function logout() {
         type: ActionTypes.Logout,
     });
 }
+function setAvatar(avatar) {
+    dispatch({
+        type: ActionTypes.SetDeepValue,
+        keys: ['user', 'avatar'],
+        value: avatar,
+    });
+}
 
 /* ===== 消息 ===== */
 function getGroupsLastMessages() {
@@ -148,6 +155,7 @@ export default {
     connect,
     disconnect,
     logout,
+    setAvatar,
 
     addGroup,
     setFocusGroup,

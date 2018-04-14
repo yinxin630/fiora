@@ -10,6 +10,7 @@
 
     .avatar {
         margin-top: 50px;
+        cursor: pointer;
     }
     .status {
         position: absolute;
@@ -117,7 +118,7 @@
     }
 }
 
-.setting-dialog {
+.dialog {
     width: 500px !important;
     .rc-dialog-body {
         background-color: #fafafa;
@@ -155,6 +156,17 @@
                 & > img {
                     width: 98%;
                     height: auto;
+                    cursor: pointer;
+
+                    &:hover {
+                        filter: blur(3px);
+                    }
+                }
+            }
+            & > .avatar-preview {
+                & >img {
+                    width: 100px;
+                    height: 100px;
                     cursor: pointer;
 
                     &:hover {
