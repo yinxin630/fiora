@@ -118,6 +118,7 @@ function setPrimaryColor(color) {
         keys: ['ui', 'primaryColor'],
         value: color,
     });
+    window.localStorage.setItem('primaryColor', color);
 }
 function setPrimaryTextColor(color) {
     dispatch({
@@ -125,6 +126,15 @@ function setPrimaryTextColor(color) {
         keys: ['ui', 'primaryTextColor'],
         value: color,
     });
+    window.localStorage.setItem('primaryTextColor', color);
+}
+function setBackgroundImage(image) {
+    dispatch({
+        type: ActionTypes.SetDeepValue,
+        keys: ['ui', 'backgroundImage'],
+        value: image,
+    });
+    window.localStorage.setItem('backgroundImage', image);
 }
 
 export default {
@@ -145,4 +155,5 @@ export default {
     closeLoginDialog,
     setPrimaryColor,
     setPrimaryTextColor,
+    setBackgroundImage,
 };

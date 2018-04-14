@@ -15,6 +15,7 @@ import './App.less';
 class App extends Component {
     static propTypes = {
         showLoginDialog: PropTypes.bool,
+        backgroundImage: PropTypes.string,
     }
     static getWidth() {
         let width = 0.6;
@@ -44,8 +45,9 @@ class App extends Component {
             });
         };
     }
-    static get style() {
+    get style() {
         return {
+            backgroundImage: `url(${this.props.backgroundImage})`,
             backgroundSize: '1920px 1080px',
         };
     }
@@ -54,6 +56,7 @@ class App extends Component {
         const { innerWidth, innerHeight } = window;
         return Object.assign(
             {
+                backgroundImage: `url(${this.props.backgroundImage})`,
                 backgroundSize: '1920px 1080px',
                 backgroundPosition: `${-(1 - width) * innerWidth / 2}px ${-(1 - height) * innerHeight / 2}px`,
             },
@@ -73,7 +76,7 @@ class App extends Component {
     render() {
         const { showLoginDialog } = this.props;
         return (
-            <div className="app" style={App.style}>
+            <div className="app" style={this.style}>
                 <div className="blur" style={this.blurStyle} />
                 <div className="child" style={this.childStyle}>
                     <Main />
@@ -88,4 +91,5 @@ class App extends Component {
 
 export default connect(state => ({
     showLoginDialog: state.getIn(['ui', 'showLoginDialog']),
+    backgroundImage: state.getIn(['ui', 'backgroundImage']),
 }))(hot(module)(App));

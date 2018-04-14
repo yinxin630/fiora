@@ -2,9 +2,11 @@ import immutable from 'immutable';
 import ActionTypes from './ActionTypes';
 import setCssVariable from '../../utils/setCssVariable';
 
-const primaryColor = '74, 144, 226';
-const primaryTextColor = '247, 247, 247';
+const primaryColor = window.localStorage.getItem('primaryColor') || '74, 144, 226';
+const primaryTextColor = window.localStorage.getItem('primaryTextColor') || '247, 247, 247';
 setCssVariable(primaryColor, primaryTextColor);
+
+const backgroundImage = window.localStorage.getItem('backgroundImage') || require('@/assets/images/background.jpg');
 
 const initialState = immutable.fromJS({
     user: null,
@@ -14,6 +16,7 @@ const initialState = immutable.fromJS({
         showLoginDialog: false,
         primaryColor,
         primaryTextColor,
+        backgroundImage,
     },
 });
 

@@ -194,7 +194,7 @@ class ChatInput extends Component {
                     }
                 });
             };
-            img.src = URL.createObjectURL(blob);
+            img.src = url;
         };
         reader.readAsArrayBuffer(file);
     }

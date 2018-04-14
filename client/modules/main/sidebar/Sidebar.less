@@ -118,8 +118,11 @@
 }
 
 .setting-dialog {
+    width: 500px !important;
     .rc-dialog-body {
         background-color: #fafafa;
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
     .content {
         & > div {
@@ -133,7 +136,7 @@
             & > .color-info {
                 display: flex;
                 align-items: center;
-                & >div {
+                & > div {
                     width: 30px;
                     height: 30px;
                     border-radius: 4px;
@@ -146,6 +149,18 @@
             }
             & > .color-picker {
                 margin-top: 20px;
+            }
+            & > .image-preview {
+                text-align: center;
+                & > img {
+                    width: 98%;
+                    height: auto;
+                    cursor: pointer;
+
+                    &:hover {
+                        filter: blur(3px);
+                    }
+                }
             }
         }
     }

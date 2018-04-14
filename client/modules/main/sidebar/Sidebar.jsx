@@ -20,6 +20,7 @@ class Sidebar extends Component {
         avatar: PropTypes.string,
         primaryColor: PropTypes.string,
         primaryTextColor: PropTypes.string,
+        backgroundImage: PropTypes.string,
     }
     constructor(...args) {
         super(...args);
@@ -53,8 +54,25 @@ class Sidebar extends Component {
         action.setPrimaryTextColor(`${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`);
         setCssVariable(primaryColor, primaryTextColor);
     }
+    @autobind
+    openSelectImage() {
+        this.file.click();
+    }
+    @autobind
+    handleSelectImage() {
+        const image = this.file.files[0];
+        if (!image) {
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onloadend = function () {
+            action.setBackgroundImage(this.result);
+        };
+        reader.readAsDataURL(image);
+    }
     render() {
-        const { isLogin, isConnect, avatar, primaryColor, primaryTextColor } = this.props;
+        const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage } = this.props;
         const { settingDialog } = this.state;
         if (isLogin) {
             return (
@@ -83,6 +101,19 @@ class Sidebar extends Component {
                                 </div>
                                 <TwitterPicker className="color-picker" color={`rgb(${primaryTextColor})`} onChange={this.handlePrimaryTextColorChange} />
                             </div>
+                            <div>
+                                <p>背景图</p>
+                                <div className="image-preview">
+                                    <img src={backgroundImage} onClick={this.openSelectImage} />
+                                </div>
+                                <input
+                                    style={{ display: 'none' }}
+                                    type="file"
+                                    accept="image/png,image/jpeg,image/gif"
+                                    ref={i => this.file = i}
+                                    onChange={this.handleSelectImage}
+                                />
+                            </div>
                         </div>
                     </Dialog>
                 </div>
@@ -100,4 +131,5 @@ export default connect(state => ({
     avatar: state.getIn(['user', 'avatar']),
     primaryColor: state.getIn(['ui', 'primaryColor']),
     primaryTextColor: state.getIn(['ui', 'primaryTextColor']),
+    backgroundImage: state.getIn(['ui', 'backgroundImage']),
 }))(Sidebar);
