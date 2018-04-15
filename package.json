@@ -38,6 +38,7 @@
     "rc-progress": "^2.2.5",
     "rc-select": "^7.7.6",
     "rc-tabs": "^9.2.4",
+    "rc-tooltip": "^3.7.2",
     "react": "^16.2.0",
     "react-ace": "^5.10.0",
     "react-color": "^2.14.1",

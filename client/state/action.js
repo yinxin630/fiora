@@ -117,6 +117,13 @@ function setFocusGroup(groupId) {
         groupId,
     });
 }
+function setGroupMembers(groupId, members) {
+    dispatch({
+        type: ActionTypes.SetGroupMembers,
+        groupId,
+        members,
+    });
+}
 
 /* ===== UI ===== */
 function showLoginDialog() {
@@ -177,6 +184,7 @@ export default {
 
     addGroup,
     setFocusGroup,
+    setGroupMembers,
 
     getGroupsLastMessages,
     getDefaultGroupMessages,

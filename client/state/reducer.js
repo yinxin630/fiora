@@ -45,6 +45,12 @@ function reducer(state = initialState, action) {
             ))
         ));
     }
+    case ActionTypes.SetGroupMembers: {
+        const groupIndex = state
+            .getIn(['user', 'groups'])
+            .findIndex(group => group.get('_id') === action.groupId);
+        return state.setIn(['user', 'groups', groupIndex, 'members'], immutable.fromJS(action.members));
+    }
     case ActionTypes.AddGroupMessage: {
         const groupIndex = state
             .getIn(['user', 'groups'])

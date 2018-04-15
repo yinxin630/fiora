@@ -20,7 +20,7 @@ class MessageList extends Component {
     async handleScroll(e) {
         const { focusGroup, messages } = this.props;
         const $div = e.target;
-        if ($div.scrollTop === 0) {
+        if ($div.scrollTop === 0 && $div.scrollHeight > $div.clientHeight) {
             const [err, result] = await fetch('getGroupHistoryMessages', { groupId: focusGroup, existCount: messages.size });
             if (!err) {
                 action.addGroupMessages(focusGroup, result);

@@ -5,6 +5,73 @@
     background-color: rgba(241, 241, 241, 0.6);
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+    overflow: hidden;
+    position: relative;
+
+    .info {
+        height: 100%;
+        width: 300px;
+        position: absolute;
+        right: 0;
+        background-color: rgba(250, 250, 250, 0.95);
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.5s;
+
+        & > p {
+            height: 70px;
+            border-bottom: 1px solid #e8e8e8;
+            box-sizing: border-box;
+            text-align: center;
+            line-height: 70px;
+            font-size: 14px;
+            color: #666;
+            font-weight: bold;
+        }
+        & > div {
+            flex: 1;
+            padding: 12px;
+
+            .online-members {
+                & > p {
+                    line-height: 33px;
+                    font-size: 14px;
+                    color: #333;
+                    font-weight: bold;
+                }
+                & > div {
+                    & > div {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 6px;
+                        cursor: default;
+                        & > div {
+                            display: flex;
+                            align-items: center;
+                            & > p {
+                                margin-left: 10px;
+                                color: #333;
+                                font-size: 14px;
+                            }
+                        }
+                        & > p {
+                            color: #666;
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+        }
+        &.show {
+            transform: translateX(0);
+        }
+        &.hide {
+            transform: translateX(301px);
+        }
+    }
 }
 
 .chat-headerBar {
@@ -13,10 +80,17 @@
     display: flex;
     align-items: center;
     padding: 0px 18px;
+    justify-content: space-between;
 
     & > h2 {
         font-size: 18px;
         color: #333;
+    }
+    .iconfont {
+        color: var(--primary-color-10);
+        &:hover {
+            color: var(--primary-color-8);
+        }
     }
 }
 

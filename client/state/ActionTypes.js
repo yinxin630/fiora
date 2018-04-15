@@ -10,4 +10,5 @@ export default {
     Logout: 'Logout',
     SetAvatar: 'SetAvatar',
     SetFocusGroup: 'SetFocusGroup',
+    SetGroupMembers: 'SetGroupMembers',
 };

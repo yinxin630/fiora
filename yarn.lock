@@ -5871,6 +5871,14 @@ rc-tabs@^9.2.4:
     rc-util "^4.0.4"
     warning "^3.0.0"
 
+rc-tooltip@^3.7.2:
+  version "3.7.2"
+  resolved "http://registry.npm.taobao.org/rc-tooltip/download/rc-tooltip-3.7.2.tgz#3698656d4bacd51b72d9e327bed15d1d5a9f1b27"
+  dependencies:
+    babel-runtime "6.x"
+    prop-types "^15.5.8"
+    rc-trigger "^2.2.2"
+
 rc-trigger@^2.2.0, rc-trigger@^2.2.2, rc-trigger@^2.3.0:
   version "2.3.4"
   resolved "http://registry.npm.taobao.org/rc-trigger/download/rc-trigger-2.3.4.tgz#389dfa5e834ecc3a446fe9cefc0b4a32900f4227"
