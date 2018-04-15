@@ -42,12 +42,16 @@ class Sidebar extends Component {
         action.setPrimaryColor(config.primaryColor);
         action.setPrimaryTextColor(config.primaryTextColor);
         action.setBackgroundImage(config.backgroundImage);
-        action.setSound(config.sound);
         setCssVariable(config.primaryColor, config.primaryTextColor);
         window.localStorage.removeItem('primaryColor');
         window.localStorage.removeItem('primaryTextColor');
         window.localStorage.removeItem('backgroundImage');
+        Message.success('已恢复默认主题');
+    }
+    static resetSound() {
+        action.setSound(config.sound);
         window.localStorage.removeItem('sound');
+        Message.success('已恢复默认提示音');
     }
     static async selectBackgroundImage() {
         const file = await readDiskFile('base64', 'image/png,image/jpeg,image/gif');
@@ -146,6 +150,12 @@ class Sidebar extends Component {
                     <Avatar className="avatar" src={avatar} onClick={this.openUserDialog} />
                     <OnlineStatus className="status" status={isConnect ? 'online' : 'offline'} />
                     <div className="buttons">
+                        <a href="https://github.com/yinxin630/fiora" target="_black" rel="noopener noreferrer">
+                            <IconButton width={40} height={40} icon="github" iconSize={26} />
+                        </a>
+                        <a href="http://suisuijiang.com" target="_black" rel="noopener noreferrer">
+                            <IconButton width={40} height={40} icon="about" iconSize={26} />
+                        </a>
                         <IconButton width={40} height={40} icon="setting" iconSize={26} onClick={this.openSettingDialog} />
                         <IconButton width={40} height={40} icon="logout" iconSize={26} onClick={Sidebar.logout} />
                     </div>
@@ -153,8 +163,9 @@ class Sidebar extends Component {
                         <div className="content">
                             <div>
                                 <p>恢复</p>
-                                <div>
+                                <div className="buttons">
                                     <Button width={120} height={34} onClick={Sidebar.resetThume}>恢复默认主题</Button>
+                                    <Button width={120} height={34} onClick={Sidebar.resetSound}>恢复默认提示音</Button>
                                 </div>
                             </div>
                             <div>
