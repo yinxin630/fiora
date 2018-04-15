@@ -32,6 +32,7 @@ module.exports = {
             name: newGroup.name,
             avatar: newGroup.avatar,
             createTime: newGroup.createTime,
+            messages: [],
         };
     },
     async getGroupOnlineMembers(ctx) {
