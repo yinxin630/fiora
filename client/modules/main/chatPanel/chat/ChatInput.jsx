@@ -24,6 +24,7 @@ class ChatInput extends Component {
         isLogin: PropTypes.bool.isRequired,
         groupId: PropTypes.string,
         user: ImmutablePropTypes.map,
+        connect: PropTypes.bool,
     }
     static handleLogin() {
         action.showLoginDialog();
@@ -98,6 +99,10 @@ class ChatInput extends Component {
     }
     @autobind
     handleSendCode() {
+        if (!this.props.connect) {
+            return Message.error('发送消息失败, 您当前处于离线状态');
+        }
+
         const language = this.codeEditor.getLanguage();
         const code = `@language=${language}@${this.codeEditor.getValue()}`;
         const id = this.addSelfMessage('code', code);
@@ -112,6 +117,10 @@ class ChatInput extends Component {
     }
     @autobind
     sendTextMessage() {
+        if (!this.props.connect) {
+            return Message.error('发送消息失败, 您当前处于离线状态');
+        }
+
         const message = this.message.value;
         if (message.length === 0) {
             return;
@@ -207,11 +216,18 @@ class ChatInput extends Component {
     }
     @autobind
     async handleSelectFile() {
+        if (!this.props.connect) {
+            return Message.error('发送消息失败, 您当前处于离线状态');
+        }
         const image = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
         this.sendImageMessage(image.result);
     }
     @autobind
     handlePaste(e) {
+        if (!this.props.connect) {
+            e.preventDefault();
+            return Message.error('发送消息失败, 您当前处于离线状态');
+        }
         const { items } = (e.clipboardData || e.originalEvent.clipboardData);
         const { types } = (e.clipboardData || e.originalEvent.clipboardData);
 
@@ -310,6 +326,7 @@ class ChatInput extends Component {
 
 export default connect(state => ({
     isLogin: !!state.getIn(['user', '_id']),
+    connect: state.get('connect'),
     groupId: state.get('focusGroup'),
     user: state.get('user'),
 }))(ChatInput);
