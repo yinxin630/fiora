@@ -2,6 +2,7 @@
     width: 300px;
     height: 100%;
     background-color: var(--primary-color-5);
+    position: relative;
 }
 
 .module-main-feature-linkman {
@@ -87,7 +88,7 @@
         font-size: 14px;
         color: #333;
 
-        &:focus {
+        &.focus {
             background-color: rgba(255, 255, 255, 0.9);
         }
     }
@@ -138,5 +139,20 @@
                 background-color: var(--primary-color-8);
             }
         }
+    }
+}
+
+.search-result {
+    position: absolute;
+    top: 60px;
+    left: 8px;
+    width: 276px;
+    background-color: rgba(255, 255, 255, 0.9);
+    
+    .rc-tabs-tab {
+        margin-right: 20px;
+    }
+    .rc-tabs-nav {
+        margin-left: 16px !important;
     }
 }

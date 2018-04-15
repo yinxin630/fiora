@@ -33,17 +33,22 @@ class Chat extends Component {
         };
     }
     componentDidMount() {
-        document.body.onclick = (e) => {
-            const { currentTarget } = e;
-            let { target } = e;
-            do {
-                if (/float-panel/.test(target.className)) {
-                    return;
-                }
-                target = target.parentElement;
-            } while (target !== currentTarget);
-            this.closeGroupInfo();
-        };
+        document.body.addEventListener('click', this.handleBodyClick.bind(this), false);
+    }
+    handleBodyClick(e) {
+        if (!this.state.showGroupInfo) {
+            return;
+        }
+
+        const { currentTarget } = e;
+        let { target } = e;
+        do {
+            if (/float-panel/.test(target.className)) {
+                return;
+            }
+            target = target.parentElement;
+        } while (target !== currentTarget);
+        this.closeGroupInfo();
     }
     @autobind
     async showGroupInfo(e) {
@@ -51,7 +56,9 @@ class Chat extends Component {
         this.setState({
             showGroupInfo: true,
         });
+        console.log(333, e.target);
         e.stopPropagation();
+        e.preventDefault();
 
         const [err, result] = await fetch('getGroupOnlineMembers', { groupId: focusGroup });
         if (!err) {
