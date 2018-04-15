@@ -40,11 +40,21 @@ function reducer(state = initialState, action) {
         );
     }
     case ActionTypes.SetGroupMessages: {
-        return state.updateIn(['user', 'groups'], groups => (
-            groups.map(group => (
+        const newGroups = state
+            .getIn(['user', 'groups'])
+            .map(group => (
                 group.set('messages', immutable.fromJS(action.messages[group.get('_id')]))
             ))
-        ));
+            .sort((group1, group2) => {
+                const messages1 = group1.get('messages');
+                const messages2 = group2.get('messages');
+                const time1 = messages1.size > 0 ? messages1.get(messages1.size - 1).get('createTime') : group1.get('createTime');
+                const time2 = messages2.size > 0 ? messages2.get(messages2.size - 1).get('createTime') : group2.get('createTime');
+                return new Date(time1) < new Date(time2);
+            });
+        return state
+            .setIn(['user', 'groups'], newGroups)
+            .set('focusGroup', newGroups.getIn([0, '_id']));
     }
     case ActionTypes.SetGroupMembers: {
         const groupIndex = state
@@ -68,12 +78,14 @@ function reducer(state = initialState, action) {
             unread = group.get('unread') + 1;
         }
         return state
-            .updateIn(['user', 'groups', groupIndex], g => (
-                g
-                    .update('messages', messages => (
-                        messages.push(immutable.fromJS(action.message))
-                    ))
-                    .set('unread', unread)
+            .updateIn(['user', 'groups'], groups => (
+                groups
+                    .delete(groupIndex)
+                    .unshift(group
+                        .update('messages', messages => (
+                            messages.push(immutable.fromJS(action.message))
+                        ))
+                        .set('unread', unread))
             ));
     }
     case ActionTypes.SetFocusGroup: {
