@@ -11,4 +11,5 @@ export default {
     SetAvatar: 'SetAvatar',
     SetFocusGroup: 'SetFocusGroup',
     SetGroupMembers: 'SetGroupMembers',
+    SetGroupAvatar: 'SetGroupAvatar',
 };

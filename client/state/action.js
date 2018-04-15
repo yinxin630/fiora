@@ -124,6 +124,13 @@ function setGroupMembers(groupId, members) {
         members,
     });
 }
+function setGroupAvatar(groupId, avatar) {
+    dispatch({
+        type: ActionTypes.SetGroupAvatar,
+        groupId,
+        avatar,
+    });
+}
 
 /* ===== UI ===== */
 function showLoginDialog() {
@@ -185,6 +192,7 @@ export default {
     addGroup,
     setFocusGroup,
     setGroupMembers,
+    setGroupAvatar,
 
     getGroupsLastMessages,
     getDefaultGroupMessages,

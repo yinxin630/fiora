@@ -55,4 +55,11 @@ module.exports = {
         }, {});
         return Object.values(filterSockets);
     },
+    async changeGroupAvatar(ctx) {
+        const { groupId, avatar } = ctx.data;
+        assert(avatar, '头像地址不能为空');
+
+        await Group.update({ _id: groupId }, { avatar });
+        return {};
+    },
 };

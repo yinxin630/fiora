@@ -34,15 +34,26 @@
             flex: 1;
             padding: 12px;
 
-            .online-members {
+            & > div {
+                margin-bottom: 10px;
                 & > p {
                     line-height: 33px;
                     font-size: 14px;
                     color: #333;
                     font-weight: bold;
                 }
-                & > div {
-                    & > div {
+                &.avatar {
+                    & > img {
+                        width: 100px;
+                        height: 100px;
+                        cursor: pointer;
+                        &:hover {
+                            filter: blur(3px);
+                        }
+                    }
+                }
+                &.online-members {
+                    & > div > div {
                         display: flex;
                         justify-content: space-between;
                         align-items: center;

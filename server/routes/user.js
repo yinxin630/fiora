@@ -74,6 +74,7 @@ module.exports = {
                 _id: defaultGroup._id,
                 name: defaultGroup.name,
                 avatar: defaultGroup.avatar,
+                creator: defaultGroup.creator,
                 createTime: defaultGroup.createTime,
                 messages: [],
             }],
@@ -97,7 +98,7 @@ module.exports = {
         await user.save();
 
         const groups = await Group.find({ members: user }, {
-            _id: 1, name: 1, avatar: 1, createTime: 1,
+            _id: 1, name: 1, avatar: 1, creator: 1, createTime: 1,
         });
         groups.forEach((group) => {
             ctx.socket.socket.join(group._id);
@@ -146,7 +147,7 @@ module.exports = {
         user.lastLoginTime = Date.now();
         await user.save();
 
-        const groups = await Group.find({ members: user }, { _id: 1, name: 1, avatar: 1, createTime: 1 });
+        const groups = await Group.find({ members: user }, { _id: 1, name: 1, avatar: 1, creator: 1, createTime: 1 });
         groups.forEach((group) => {
             ctx.socket.socket.join(group._id);
             return group;
