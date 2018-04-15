@@ -3,9 +3,13 @@ const assert = require('assert');
 // const User = require('../models/user');
 const Group = require('../models/group');
 const Socket = require('../models/socket');
+const config = require('../../config/server');
 
 module.exports = {
     async createGroup(ctx) {
+        const ownGroupCount = await Group.count({ creator: ctx.socket.user });
+        assert(ownGroupCount < config.maxGroupsCount, `创建群组失败, 你已经创建了${config.maxGroupsCount}个群组`);
+
         const { name } = ctx.data;
         assert(name, '群组名不能为空');
 

@@ -20,6 +20,9 @@ module.exports = {
     // jwt encryption secret
     jwtSecret: options.jwtSecret || 'jwtSecret',
 
+    // Maximize the number of groups
+    maxGroupsCount: 3,
+
     // qiniu config
     qiniuAccessKey: options.qiniuAccessKey || '',
     qiniuSecretKey: options.qiniuSecretKey || '',
