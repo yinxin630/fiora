@@ -11,10 +11,12 @@ const MessageSchema = new Schema({
     },
     toUser: {
         type: String,
+        index: true,
     },
     toGroup: {
         type: Schema.Types.ObjectId,
         ref: 'Group',
+        index: true,
     },
     type: {
         type: String,
