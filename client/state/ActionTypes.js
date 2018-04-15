@@ -9,4 +9,5 @@ export default {
     updateSelfMessage: 'updateSelfMessage',
     Logout: 'Logout',
     SetAvatar: 'SetAvatar',
+    SetFocusGroup: 'SetFocusGroup',
 };

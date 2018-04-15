@@ -49,12 +49,27 @@ function reducer(state = initialState, action) {
         const groupIndex = state
             .getIn(['user', 'groups'])
             .findIndex(group => group.get('_id') === action.group);
+        const group = state.getIn(['user', 'groups', groupIndex]);
+        let unread = 0;
+        if (state.get('focusGroup') !== group.get('_id')) {
+            unread = group.get('unread') + 1;
+        }
         return state
-            .updateIn(['user', 'groups', groupIndex], group => (
-                group.update('messages', messages => (
-                    messages.push(immutable.fromJS(action.message))
-                ))
+            .updateIn(['user', 'groups', groupIndex], g => (
+                g
+                    .update('messages', messages => (
+                        messages.push(immutable.fromJS(action.message))
+                    ))
+                    .set('unread', unread)
             ));
+    }
+    case ActionTypes.SetFocusGroup: {
+        const groupIndex = state
+            .getIn(['user', 'groups'])
+            .findIndex(group => group.get('_id') === action.groupId);
+        return state
+            .set('focusGroup', action.groupId)
+            .setIn(['user', 'groups', groupIndex, 'unread'], 0);
     }
     case ActionTypes.AddGroupMessages: {
         const groupIndex = state

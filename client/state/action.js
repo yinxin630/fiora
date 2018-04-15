@@ -7,12 +7,16 @@ const { dispatch } = store;
 
 /* ===== 用户 ===== */
 function setUser(user) {
+    user.groups.forEach((group) => {
+        group.unread = 0;
+    });
     dispatch({
         type: ActionTypes.SetUser,
         user,
     });
 }
 function setGuest(defaultGroup) {
+    defaultGroup.unread = 0;
     dispatch({
         type: ActionTypes.SetDeepValue,
         keys: ['user'],
@@ -109,9 +113,8 @@ function addGroup(group) {
 }
 function setFocusGroup(groupId) {
     dispatch({
-        type: ActionTypes.SetDeepValue,
-        keys: ['focusGroup'],
-        value: groupId,
+        type: ActionTypes.SetFocusGroup,
+        groupId,
     });
 }
 

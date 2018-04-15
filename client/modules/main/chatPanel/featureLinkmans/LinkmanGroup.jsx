@@ -19,7 +19,7 @@ class LinkmanGroup extends Component {
     }
     renderGroup(group) {
         const groupId = group.get('_id');
-        const unread = group.get('messages').filter(message => message.get('unread': true)).size;
+        const unread = group.get('unread');
         const lastMessage = group.getIn(['messages', group.get('messages').size - 1]);
 
         let time = new Date(group.get('createTime'));
