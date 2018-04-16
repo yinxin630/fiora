@@ -10,6 +10,7 @@ import { Tabs, TabPane, TabContent, ScrollableInkTabBar } from '@/components/Tab
 import socket from '@/socket';
 import action from '@/state/action';
 import fetch from 'utils/fetch';
+import GroupInfo from '../GroupInfo';
 
 class Feature extends Component {
     constructor(...args) {
@@ -48,6 +49,11 @@ class Feature extends Component {
             searchResult: {
                 users: [],
                 groups: [],
+            },
+            groupInfo: {
+                _id: '111',
+                avatar: '',
+                name: '群组',
             },
         });
         this.searchInput.value = '';
@@ -160,7 +166,7 @@ class Feature extends Component {
         return groupsDom;
     }
     render() {
-        const { showAddButton, showCreateGroupDialog, searchResult, showSearchResult, searchResultActiveKey } = this.state;
+        const { showAddButton, showCreateGroupDialog, searchResult, showSearchResult, searchResultActiveKey, groupInfo } = this.state;
         return (
             <div className="chatPanel-feature">
                 <input className={showSearchResult ? 'focus' : 'blur'} placeholder="搜索群组/用户" ref={i => this.searchInput = i} onFocus={this.handleFocus} onKeyDown={this.handleInputKeyDown} />
@@ -223,6 +229,7 @@ class Feature extends Component {
                         }
                     </TabPane>
                 </Tabs>
+                <GroupInfo visible _id={groupInfo._id} avatar={groupInfo.avatar} name={groupInfo.name} />
             </div>
         );
     }
