@@ -164,8 +164,8 @@ class Sidebar extends Component {
                             <div>
                                 <p>恢复</p>
                                 <div className="buttons">
-                                    <Button width={120} height={34} onClick={Sidebar.resetThume}>恢复默认主题</Button>
-                                    <Button width={120} height={34} onClick={Sidebar.resetSound}>恢复默认提示音</Button>
+                                    <Button onClick={Sidebar.resetThume}>恢复默认主题</Button>
+                                    <Button onClick={Sidebar.resetSound}>恢复默认提示音</Button>
                                 </div>
                             </div>
                             <div>

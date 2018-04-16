@@ -24,10 +24,24 @@ class Feature extends Component {
                 users: [],
                 groups: [],
             },
+            showGroupInfo: false,
+            groupInfo: {},
         };
     }
     componentDidMount() {
         document.body.addEventListener('click', this.handleBodyClick.bind(this), false);
+    }
+    resetSearchView() {
+        this.setState({
+            showSearchResult: false,
+            showAddButton: true,
+            searchResultActiveKey: 'all',
+            searchResult: {
+                users: [],
+                groups: [],
+            },
+        });
+        this.searchInput.value = '';
     }
     handleBodyClick(e) {
         if (e.target === this.searchInput || !this.state.showSearchResult) {
@@ -42,21 +56,7 @@ class Feature extends Component {
             }
             target = target.parentElement;
         } while (target !== currentTarget);
-        this.setState({
-            showSearchResult: false,
-            showAddButton: true,
-            searchResultActiveKey: 'all',
-            searchResult: {
-                users: [],
-                groups: [],
-            },
-            groupInfo: {
-                _id: '111',
-                avatar: '',
-                name: '群组',
-            },
-        });
-        this.searchInput.value = '';
+        this.resetSearchView();
     }
     @autobind
     handleFocus() {
@@ -130,6 +130,19 @@ class Feature extends Component {
             searchResultActiveKey: 'group',
         });
     }
+    openGroupInfoDialog(groupInfo) {
+        this.setState({
+            showGroupInfo: true,
+            groupInfo,
+        });
+        this.resetSearchView();
+    }
+    @autobind
+    closeGroupInfoDialog() {
+        this.setState({
+            showGroupInfo: false,
+        });
+    }
     @autobind
     renderSearchUsers(count = Infinity) {
         const { users } = this.state.searchResult;
@@ -154,7 +167,7 @@ class Feature extends Component {
         const groupsDom = [];
         for (let i = 0; i < count; i++) {
             groupsDom.push((
-                <div key={groups[i]._id}>
+                <div key={groups[i]._id} onClick={this.openGroupInfoDialog.bind(this, groups[i])}>
                     <Avatar size={40} src={groups[i].avatar} />
                     <div>
                         <p>{groups[i].name}</p>
@@ -166,7 +179,14 @@ class Feature extends Component {
         return groupsDom;
     }
     render() {
-        const { showAddButton, showCreateGroupDialog, searchResult, showSearchResult, searchResultActiveKey, groupInfo } = this.state;
+        const {
+            showAddButton,
+            showCreateGroupDialog,
+            searchResult, showSearchResult,
+            searchResultActiveKey,
+            showGroupInfo,
+            groupInfo,
+        } = this.state;
         return (
             <div className="chatPanel-feature">
                 <input className={showSearchResult ? 'focus' : 'blur'} placeholder="搜索群组/用户" ref={i => this.searchInput = i} onFocus={this.handleFocus} onKeyDown={this.handleInputKeyDown} />
@@ -229,7 +249,7 @@ class Feature extends Component {
                         }
                     </TabPane>
                 </Tabs>
-                <GroupInfo visible _id={groupInfo._id} avatar={groupInfo.avatar} name={groupInfo.name} />
+                <GroupInfo visible={showGroupInfo} groupInfo={groupInfo} onClose={this.closeGroupInfoDialog} />
             </div>
         );
     }

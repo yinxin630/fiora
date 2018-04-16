@@ -3,6 +3,7 @@ const assert = require('assert');
 // const User = require('../models/user');
 const Group = require('../models/group');
 const Socket = require('../models/socket');
+const Message = require('../models/message');
 const config = require('../../config/server');
 
 module.exports = {
@@ -37,6 +38,32 @@ module.exports = {
             avatar: newGroup.avatar,
             createTime: newGroup.createTime,
             messages: [],
+        };
+    },
+    async joinGroup(ctx) {
+        const { groupId } = ctx.data;
+
+        const group = await Group.findOne({ _id: groupId });
+        assert(group, '加入群组失败, 群组不存在');
+
+        group.members.push(ctx.socket.user);
+        await group.save();
+
+        const messages = await Message
+            .find(
+                { toGroup: groupId },
+                { type: 1, content: 1, from: 1, createTime: 1 },
+                { sort: { createTime: -1 }, limit: 3 },
+            )
+            .populate('from', { username: 1, avatar: 1 });
+        messages.reverse();
+
+        return {
+            _id: group._id,
+            name: group.name,
+            avatar: group.avatar,
+            createTime: group.createTime,
+            messages,
         };
     },
     async getGroupOnlineMembers(ctx) {

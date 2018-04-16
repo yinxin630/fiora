@@ -34,10 +34,12 @@ function reducer(state = initialState, action) {
     }
     case ActionTypes.AddGroup: {
         action.group.unread = 0;
-        return state.updateIn(
-            ['user', 'groups'],
-            groups => groups.unshift(immutable.fromJS(action.group)),
-        );
+        return state
+            .updateIn(
+                ['user', 'groups'],
+                groups => groups.unshift(immutable.fromJS(action.group)),
+            )
+            .set('focusGroup', action.group._id);
     }
     case ActionTypes.SetGroupMessages: {
         const newGroups = state

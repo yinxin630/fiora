@@ -5,21 +5,14 @@ import './Button.less';
 
 class Button extends Component {
     static propTypes = {
-        width: PropTypes.number,
-        height: PropTypes.number,
         onClick: PropTypes.func,
         children: PropTypes.string,
     }
-    static defaultProps = {
-        width: 'initial',
-        height: 'initial',
-    }
     render() {
-        const { width, height, onClick, children } = this.props;
+        const { onClick, children } = this.props;
         return (
             <button
                 className="component-button"
-                style={{ width, height }}
                 onClick={onClick}
             >
                 {children}
