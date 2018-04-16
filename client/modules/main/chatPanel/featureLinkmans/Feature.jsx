@@ -5,9 +5,11 @@ import IconButton from '@/components/IconButton';
 import Dialog from '@/components/Dialog';
 import Input from '@/components/Input';
 import Message from '@/components/Message';
+import Avatar from '@/components/Avatar';
 import { Tabs, TabPane, TabContent, ScrollableInkTabBar } from '@/components/Tabs';
 import socket from '@/socket';
 import action from '@/state/action';
+import fetch from 'utils/fetch';
 
 class Feature extends Component {
     constructor(...args) {
@@ -16,6 +18,7 @@ class Feature extends Component {
             showAddButton: true,
             showCreateGroupDialog: false,
             showSearchResult: false,
+            searchResultActiveKey: 'all',
             searchResult: {
                 users: [],
                 groups: [],
@@ -41,7 +44,13 @@ class Feature extends Component {
         this.setState({
             showSearchResult: false,
             showAddButton: true,
+            searchResultActiveKey: 'all',
+            searchResult: {
+                users: [],
+                groups: [],
+            },
         });
+        this.searchInput.value = '';
     }
     @autobind
     handleFocus() {
@@ -76,8 +85,17 @@ class Feature extends Component {
             }
         });
     }
-    search() {
-        console.log('search', this.searchInput.value);
+    async search() {
+        const keywords = this.searchInput.value;
+        const [searchError, searchResult] = await fetch('search', { keywords });
+        if (!searchError) {
+            this.setState({
+                searchResult: {
+                    users: searchResult.users,
+                    groups: searchResult.groups,
+                },
+            });
+        }
     }
     @autobind
     handleInputKeyDown(e) {
@@ -85,8 +103,61 @@ class Feature extends Component {
             this.search();
         }
     }
+    @autobind
+    handleActiveKeyChange(key) {
+        this.setState({
+            searchResultActiveKey: key,
+        });
+    }
+    @autobind
+    switchTabToUser() {
+        this.setState({
+            searchResultActiveKey: 'user',
+        });
+    }
+    @autobind
+    switchTabToGroup() {
+        this.setState({
+            searchResultActiveKey: 'group',
+        });
+    }
+    @autobind
+    renderSearchUsers(count = Infinity) {
+        const { users } = this.state.searchResult;
+        count = Math.min(count, users.length);
+
+        const usersDom = [];
+        for (let i = 0; i < count; i++) {
+            usersDom.push((
+                <div key={users[i]._id}>
+                    <Avatar size={40} src={users[i].avatar} />
+                    <p>{users[i].username}</p>
+                </div>
+            ));
+        }
+        return usersDom;
+    }
+    @autobind
+    renderSearchGroups(count = Infinity) {
+        const { groups } = this.state.searchResult;
+        count = Math.min(count, groups.length);
+
+        const groupsDom = [];
+        for (let i = 0; i < count; i++) {
+            groupsDom.push((
+                <div key={groups[i]._id}>
+                    <Avatar size={40} src={groups[i].avatar} />
+                    <div>
+                        <p>{groups[i].name}</p>
+                        <p>{groups[i].members}人</p>
+                    </div>
+                </div>
+            ));
+        }
+        return groupsDom;
+    }
     render() {
-        const { showAddButton, showCreateGroupDialog, searchResult, showSearchResult } = this.state;
+        const { showAddButton, showCreateGroupDialog, searchResult, showSearchResult, searchResultActiveKey } = this.state;
         return (
             <div className="chatPanel-feature">
                 <input className={showSearchResult ? 'focus' : 'blur'} placeholder="搜索群组/用户" ref={i => this.searchInput = i} onFocus={this.handleFocus} onKeyDown={this.handleInputKeyDown} />
@@ -102,24 +173,31 @@ class Feature extends Component {
                 <Tabs
                     className="search-result"
                     style={{ display: showSearchResult ? 'block' : 'none' }}
-                    defaultActiveKey="all"
+                    activeKey={searchResultActiveKey}
+                    onChange={this.handleActiveKeyChange}
                     renderTabBar={() => <ScrollableInkTabBar />}
                     renderTabContent={() => <TabContent />}
                 >
                     <TabPane tab="全部" key="all">
                         {
                             searchResult.users.length === 0 && searchResult.groups.length === 0 ?
-                                <p>没有搜索到内容, 换个关键字试试吧~~</p>
+                                <p className="none">没有搜索到内容, 换个关键字试试吧~~</p>
                                 :
                                 (
-                                    <div>
-                                        <div>
+                                    <div className="all-list">
+                                        <div style={{ display: searchResult.users.length > 0 ? 'block' : 'none' }}>
                                             <p>用户</p>
-                                            <div className="user-list">{this.renderSearchUsers()}</div>
+                                            <div className="user-list">{this.renderSearchUsers(3)}</div>
+                                            <div className="more" style={{ display: searchResult.users.length > 3 ? 'block' : 'none' }}>
+                                                <span onClick={this.switchTabToUser}>查看更多</span>
+                                            </div>
                                         </div>
-                                        <div>
+                                        <div style={{ display: searchResult.groups.length > 0 ? 'block' : 'none' }}>
                                             <p>群组</p>
-                                            <div className="group-list">{this.renderSearchGroups()}</div>
+                                            <div className="group-list">{this.renderSearchGroups(3)}</div>
+                                            <div className="more" style={{ display: searchResult.groups.length > 3 ? 'block' : 'none' }}>
+                                                <span onClick={this.switchTabToGroup}>查看更多</span>
+                                            </div>
                                         </div>
                                     </div>
                                 )
@@ -128,17 +206,17 @@ class Feature extends Component {
                     <TabPane tab="用户" key="user">
                         {
                             searchResult.users.length === 0 ?
-                                <p>没有搜索到内容, 换个关键字试试吧~~</p>
+                                <p className="none">没有搜索到内容, 换个关键字试试吧~~</p>
                                 :
-                                <div className="user-list">{this.renderSearchUsers()}</div>
+                                <div className="user-list only">{this.renderSearchUsers()}</div>
                         }
                     </TabPane>
                     <TabPane tab="群组" key="group">
                         {
                             searchResult.groups.length === 0 ?
-                                <p>没有搜索到内容, 换个关键字试试吧~~</p>
+                                <p className="none">没有搜索到内容, 换个关键字试试吧~~</p>
                                 :
-                                <div className="group-list">{this.renderSearchGroups()}</div>
+                                <div className="group-list only">{this.renderSearchGroups()}</div>
                         }
                     </TabPane>
                 </Tabs>
