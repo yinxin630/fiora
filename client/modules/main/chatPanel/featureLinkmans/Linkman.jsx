@@ -64,7 +64,7 @@ class Linkman extends Component {
                         <p className="time">{this.formatTime()}</p>
                     </div>
                     <div className="preview-unread">
-                        <p className="preview">{preview}</p>
+                        <p className="preview" dangerouslySetInnerHTML={{ __html: preview }} />
                         {
                             unread > 0 ? <div className="unread"><span>{unread}</span></div> : null
                         }
