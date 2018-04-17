@@ -23,8 +23,6 @@ class Login extends Component {
                 Message.error(res);
             } else {
                 action.setUser(res);
-                action.connect();
-                action.getGroupsLastMessages();
                 action.closeLoginDialog();
                 window.localStorage.setItem('token', res.token);
             }
@@ -44,8 +42,6 @@ class Login extends Component {
             } else {
                 Message.success('创建成功');
                 action.setUser(res);
-                action.connect();
-                action.getGroupsLastMessages();
                 action.closeLoginDialog();
                 window.localStorage.setItem('token', res.token);
             }

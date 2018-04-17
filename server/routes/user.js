@@ -6,6 +6,7 @@ const jwt = require('jwt-simple');
 const User = require('../models/user');
 const Group = require('../models/group');
 const Socket = require('../models/socket');
+const Friend = require('../models/friend');
 const config = require('../../config/server');
 
 const saltRounds = 10;
@@ -78,6 +79,7 @@ module.exports = {
                 createTime: defaultGroup.createTime,
                 messages: [],
             }],
+            friends: [],
             token,
         };
     },
@@ -104,7 +106,10 @@ module.exports = {
             ctx.socket.socket.join(group._id);
             return group;
         });
-        const groupsData = groups.map(group => Object.assign({ messages: [] }, group.toObject()));
+
+        const friends = await Friend
+            .find({ from: user._id })
+            .populate('to', { avatar: 1, username: 1 });
 
         const token = generateToken(user._id, environment);
 
@@ -120,7 +125,8 @@ module.exports = {
             _id: user._id,
             avatar: user.avatar,
             username: user.username,
-            groups: groupsData,
+            groups,
+            friends,
             token,
         };
     },
@@ -152,7 +158,10 @@ module.exports = {
             ctx.socket.socket.join(group._id);
             return group;
         });
-        const groupsData = groups.map(group => Object.assign({ messages: [] }, group.toObject()));
+
+        const friends = await Friend
+            .find({ from: user._id })
+            .populate('to', { avatar: 1, username: 1 });
 
         ctx.socket.user = user._id;
         await Socket.update({ id: ctx.socket.id }, {
@@ -162,7 +171,13 @@ module.exports = {
             environment,
         });
 
-        return Object.assign({ groups: groupsData }, user.toObject());
+        return {
+            _id: user._id,
+            avatar: user.avatar,
+            username: user.username,
+            groups,
+            friends,
+        };
     },
     async guest(ctx) {
         const { os, browser, environment } = ctx.data;

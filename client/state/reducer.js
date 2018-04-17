@@ -12,7 +12,7 @@ const sound = window.localStorage.getItem('sound') || config.sound;
 
 const initialState = immutable.fromJS({
     user: null,
-    focusGroup: '',
+    focus: '',
     connect: true,
     ui: {
         showLoginDialog: false,
@@ -30,10 +30,9 @@ function reducer(state = initialState, action) {
         return state.setIn(action.keys, immutable.fromJS(action.value));
     }
     case ActionTypes.SetUser: {
-        return state.set('user', immutable.fromJS(action.user)).set('defaultGroup', null);
+        return state.set('user', immutable.fromJS(action.user));
     }
     case ActionTypes.AddGroup: {
-        action.group.unread = 0;
         return state
             .updateIn(
                 ['user', 'groups'],
@@ -57,6 +56,23 @@ function reducer(state = initialState, action) {
         return state
             .setIn(['user', 'groups'], newGroups)
             .set('focusGroup', newGroups.getIn([0, '_id']));
+    }
+    case 'SetLinkmanMessages': {
+        const newLinkmans = state
+            .getIn(['user', 'linkmans'])
+            .map(linkman => (
+                linkman.set('messages', immutable.fromJS(action.messages[linkman.get('_id')]))
+            ))
+            .sort((linkman1, linkman2) => {
+                const messages1 = linkman1.get('messages');
+                const messages2 = linkman2.get('messages');
+                const time1 = messages1.size > 0 ? messages1.get(messages1.size - 1).get('createTime') : linkman1.get('createTime');
+                const time2 = messages2.size > 0 ? messages2.get(messages2.size - 1).get('createTime') : linkman2.get('createTime');
+                return new Date(time1) < new Date(time2);
+            });
+        return state
+            .setIn(['user', 'linkmans'], newLinkmans)
+            .set('focus', newLinkmans.getIn([0, '_id']));
     }
     case ActionTypes.SetGroupMembers: {
         const groupIndex = state

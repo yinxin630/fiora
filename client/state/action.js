@@ -1,26 +1,73 @@
-import Message from '@/components/Message';
+import fetch from 'utils/fetch';
 import store from './store';
 import ActionTypes from './ActionTypes';
-import socket from '../socket';
+
+const getFriendId = require('utils/getFriendId');
 
 const { dispatch } = store;
 
 /* ===== 用户 ===== */
-function setUser(user) {
+async function setUser(user) {
     user.groups.forEach((group) => {
-        group.unread = 0;
+        Object.assign(group, {
+            type: 'group',
+            unread: 0,
+            messages: [],
+            members: [],
+        });
     });
+    user.friends.forEach((friend) => {
+        Object.assign(friend, {
+            type: 'friend',
+            _id: getFriendId(friend.from, friend.to._id),
+            messages: [],
+            unread: 0,
+        });
+    });
+
+    const linkmans = [...user.groups, ...user.friends];
     dispatch({
         type: ActionTypes.SetUser,
-        user,
+        user: {
+            _id: user._id,
+            avatar: user.avatar,
+            username: user.username,
+            linkmans,
+        },
+    });
+
+    connect();
+
+    const [groupMessageResult, friendsMessageResult] = await Promise.all([
+        fetch('getGroupsLastMessages', { groups: user.groups.map(g => g._id) }),
+        fetch('getFriendsLastMessages', { users: user.friends.map(f => f.to._id) }),
+    ]);
+    const messages = Object.assign({}, groupMessageResult[1], friendsMessageResult[1]);
+    dispatch({
+        type: 'SetLinkmanMessages',
+        messages,
     });
 }
-function setGuest(defaultGroup) {
-    defaultGroup.unread = 0;
+async function setGuest(defaultGroup) {
     dispatch({
         type: ActionTypes.SetDeepValue,
         keys: ['user'],
-        value: { groups: [defaultGroup] },
+        value: { linkmans: [
+            Object.assign(defaultGroup, {
+                type: 'group',
+                unread: 0,
+                messages: [],
+                members: [],
+            }),
+        ] },
+    });
+
+    const [, messages = []] = await fetch('getDefalutGroupMessages');
+    dispatch({
+        type: 'SetLinkmanMessages',
+        messages: {
+            [defaultGroup._id]: messages,
+        },
     });
 }
 function connect() {
@@ -49,38 +96,6 @@ function setAvatar(avatar) {
     });
 }
 
-/* ===== 消息 ===== */
-function getGroupsLastMessages() {
-    const state = store.getState();
-    const groupIds = state.getIn(['user', 'groups']).map(group => group.get('_id'));
-
-    socket.emit('getGroupsLastMessages', { groups: groupIds.toJS() }, (res) => {
-        if (typeof res === 'string') {
-            Message.error(res);
-            return;
-        }
-        dispatch({
-            type: ActionTypes.SetGroupMessages,
-            messages: res,
-        });
-    });
-}
-function getDefaultGroupMessages() {
-    socket.emit('getDefalutGroupMessages', { }, (res) => {
-        if (typeof res === 'string') {
-            Message.error(res);
-            return;
-        }
-        const state = store.getState();
-        const defaultGroupId = state.getIn(['user', 'groups', 0, '_id']);
-        dispatch({
-            type: ActionTypes.SetGroupMessages,
-            messages: {
-                [defaultGroupId]: res,
-            },
-        });
-    });
-}
 function addGroupMessage(group, message) {
     dispatch({
         type: ActionTypes.AddGroupMessage,
@@ -194,8 +209,6 @@ export default {
     setGroupMembers,
     setGroupAvatar,
 
-    getGroupsLastMessages,
-    getDefaultGroupMessages,
     addGroupMessage,
     addGroupMessages,
     updateSelfMessage,

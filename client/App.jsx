@@ -75,6 +75,7 @@ class App extends Component {
     }
     render() {
         const { showLoginDialog } = this.props;
+        // return <div>APP</div>;
         return (
             <div className="app" style={this.style}>
                 <div className="blur" style={this.blurStyle} />

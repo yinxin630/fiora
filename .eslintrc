@@ -49,6 +49,7 @@
         "no-return-assign": 0,
         "no-await-in-loop": 0,
         "no-mixed-operators": 0,
+        "no-use-before-define": 0,
 
         "react/jsx-indent": [2, 4],
         "react/jsx-indent-props": [2, 4],

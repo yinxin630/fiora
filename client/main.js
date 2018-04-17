@@ -28,8 +28,6 @@ socket.on('connect', () => {
         }, (res) => {
             if (typeof res === 'object') {
                 action.setUser(res);
-                action.getGroupsLastMessages();
-                action.connect();
             }
         });
     } else {
@@ -40,7 +38,6 @@ socket.on('connect', () => {
         }, (res) => {
             if (typeof res === 'object') {
                 action.setGuest(res);
-                action.getDefaultGroupMessages();
             }
         });
     }

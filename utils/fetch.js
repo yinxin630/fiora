@@ -1,7 +1,7 @@
 import Message from '@/components/Message';
 import socket from '../client/socket';
 
-export default function fetch(event, data, {
+export default function fetch(event, data = {}, {
     toast = true,
 } = {}) {
     return new Promise((resolve) => {

@@ -4,6 +4,7 @@ const User = require('../models/user');
 const Group = require('../models/group');
 const Message = require('../models/message');
 const xss = require('../../utils/xss');
+const getFriendId = require('../../utils/getFriendId');
 
 const FirstTimeMessagesCount = 15;
 const EachFetchMessagesCount = 30;
@@ -61,6 +62,25 @@ module.exports = {
         const results = await Promise.all(promises);
         const messages = groups.reduce((result, groupId, index) => {
             result[groupId] = (results[index] || []).reverse();
+            return result;
+        }, {});
+
+        return messages;
+    },
+    async getFriendsLastMessages(ctx) {
+        const { users } = ctx.data;
+
+        const promises = users.map(userId =>
+            Message
+                .find(
+                    { toUser: getFriendId(ctx.socket.user, userId) },
+                    { type: 1, content: 1, from: 1, createTime: 1 },
+                    { sort: { createTime: -1 }, limit: FirstTimeMessagesCount },
+                )
+                .populate('from', { username: 1, avatar: 1 }));
+        const results = await Promise.all(promises);
+        const messages = users.reduce((result, userId, index) => {
+            result[getFriendId(ctx.socket.user, userId)] = (results[index] || []).reverse();
             return result;
         }, {});
 
