@@ -81,7 +81,7 @@ class Chat extends Component {
 
         const [err, tokenRes] = await fetch('uploadToken', {});
         if (!err) {
-            const result = qiniu.upload(image.result, `Avatar/${userId}_${Date.now()}`, tokenRes.token, { useCdnDomain: true }, {});
+            const result = qiniu.upload(image.result, `GroupAvatar/${userId}_${Date.now()}`, tokenRes.token, { useCdnDomain: true }, {});
             result.subscribe({
                 error(e) {
                     console.error(e);
