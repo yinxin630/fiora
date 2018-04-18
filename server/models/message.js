@@ -9,13 +9,8 @@ const MessageSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
-    toUser: {
+    to: {
         type: String,
-        index: true,
-    },
-    toGroup: {
-        type: Schema.Types.ObjectId,
-        ref: 'Group',
         index: true,
     },
     type: {

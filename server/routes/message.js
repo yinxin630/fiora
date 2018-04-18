@@ -1,8 +1,10 @@
 const assert = require('assert');
+const mongoose = require('mongoose');
 
 const User = require('../models/user');
 const Group = require('../models/group');
 const Message = require('../models/message');
+const Socket = require('../models/socket');
 const xss = require('../../utils/xss');
 const getFriendId = require('../../utils/getFriendId');
 
@@ -11,11 +13,20 @@ const EachFetchMessagesCount = 30;
 
 module.exports = {
     async sendMessage(ctx) {
-        const { toGroup, type, content } = ctx.data;
-        assert(toGroup, 'toGroup不能为空');
+        const { to, type, content } = ctx.data;
+        assert(to, 'to不能为空');
 
-        const group = await Group.findOne({ _id: toGroup });
-        assert(group, '消息发往的群组不存在');
+        let groupId = '';
+        let userId = '';
+        if (mongoose.Types.ObjectId.isValid(to)) {
+            const group = await Group.findOne({ _id: to });
+            assert(group, '群组不存在');
+            groupId = to;
+        } else {
+            userId = to.replace(ctx.socket.user, '');
+            const user = await User.findOne({ _id: userId });
+            assert(user, '用户不存在');
+        }
 
         let messageContent = content;
         if (type === 'text') {
@@ -28,7 +39,7 @@ module.exports = {
         try {
             message = await Message.create({
                 from: ctx.socket.user,
-                toGroup,
+                to,
                 type,
                 content: messageContent,
             });
@@ -40,11 +51,20 @@ module.exports = {
             _id: message._id,
             createTime: message.createTime,
             from: user.toObject(),
-            toGroup,
+            to,
             type,
             content: messageContent,
         };
-        ctx.socket.socket.to(toGroup).emit('message', messageData);
+
+        if (groupId) {
+            ctx.socket.socket.to(groupId).emit('message', messageData);
+        } else {
+            const sockets = await Socket.find({ user: userId });
+            sockets.forEach((socket) => {
+                console.log(socket.id);
+                ctx._io.to(socket.id).emit('message', messageData);
+            });
+        }
 
         return messageData;
     },
@@ -54,7 +74,7 @@ module.exports = {
         const promises = groups.map(groupId =>
             Message
                 .find(
-                    { toGroup: groupId },
+                    { to: groupId },
                     { type: 1, content: 1, from: 1, createTime: 1 },
                     { sort: { createTime: -1 }, limit: FirstTimeMessagesCount },
                 )
@@ -73,7 +93,7 @@ module.exports = {
         const promises = users.map(userId =>
             Message
                 .find(
-                    { toUser: getFriendId(ctx.socket.user, userId) },
+                    { to: getFriendId(ctx.socket.user, userId) },
                     { type: 1, content: 1, from: 1, createTime: 1 },
                     { sort: { createTime: -1 }, limit: FirstTimeMessagesCount },
                 )
@@ -90,7 +110,7 @@ module.exports = {
         const group = await Group.findOne({ isDefault: true });
         const messages = await Message
             .find(
-                { toGroup: group._id },
+                { to: group._id },
                 { type: 1, content: 1, from: 1, createTime: 1 },
                 { sort: { createTime: -1 }, limit: FirstTimeMessagesCount },
             )
@@ -102,7 +122,7 @@ module.exports = {
 
         const messages = await Message
             .find(
-                { toGroup: groupId },
+                { to: groupId },
                 { type: 1, content: 1, from: 1, createTime: 1 },
                 { sort: { createTime: -1 }, limit: EachFetchMessagesCount + existCount },
             )

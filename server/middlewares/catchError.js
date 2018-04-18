@@ -12,7 +12,7 @@ module.exports = function () {
                 ctx.res = err.message;
                 return;
             }
-            ctx.res = `Server Error:${err.message}`;
+            ctx.res = `Server Error: ${err.message}`;
             console.error('Unhandled Error\n', err);
         }
     };

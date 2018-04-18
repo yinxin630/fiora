@@ -26,10 +26,10 @@ const initialState = immutable.fromJS({
 
 function reducer(state = initialState, action) {
     switch (action.type) {
-    case ActionTypes.SetDeepValue: {
+    case 'SetDeepValue': {
         return state.setIn(action.keys, immutable.fromJS(action.value));
     }
-    case ActionTypes.SetUser: {
+    case 'SetUser': {
         return state
             .set('user', immutable.fromJS(action.user))
             .set('focus', action.user.linkmans[0]._id);
@@ -41,6 +41,15 @@ function reducer(state = initialState, action) {
                 groups => groups.unshift(immutable.fromJS(action.group)),
             )
             .set('focusGroup', action.group._id);
+    }
+    case 'AddLinkman': {
+        const newState = state.updateIn(['user', 'linkmans'], linkmans => (
+            linkmans.unshift(immutable.fromJS(action.linkman))
+        ));
+        if (action.focus) {
+            return newState.set('focus', action.linkman._id);
+        }
+        return newState;
     }
     case 'SetLinkmanMessages': {
         const newLinkmans = state
@@ -71,33 +80,33 @@ function reducer(state = initialState, action) {
             .findIndex(group => group.get('_id') === action.groupId);
         return state.setIn(['user', 'groups', groupIndex, 'avatar'], action.avatar);
     }
-    case ActionTypes.AddGroupMessage: {
-        const groupIndex = state
-            .getIn(['user', 'groups'])
-            .findIndex(group => group.get('_id') === action.group);
-        const group = state.getIn(['user', 'groups', groupIndex]);
+    case 'AddLinkmanMessage': {
+        const linkmanIndex = state
+            .getIn(['user', 'linkmans'])
+            .findIndex(l => l.get('_id') === action.linkmanId);
+        const linkman = state.getIn(['user', 'linkmans', linkmanIndex]);
         let unread = 0;
-        if (state.get('focusGroup') !== group.get('_id')) {
-            unread = group.get('unread') + 1;
+        if (state.get('focus') !== linkman.get('_id')) {
+            unread = linkman.get('unread') + 1;
         }
         return state
-            .updateIn(['user', 'groups'], groups => (
-                groups
-                    .delete(groupIndex)
-                    .unshift(group
+            .updateIn(['user', 'linkmans'], linkmans => (
+                linkmans
+                    .delete(linkmanIndex)
+                    .unshift(linkman
                         .update('messages', messages => (
                             messages.push(immutable.fromJS(action.message))
                         ))
                         .set('unread', unread))
             ));
     }
-    case ActionTypes.SetFocusGroup: {
-        const groupIndex = state
-            .getIn(['user', 'groups'])
-            .findIndex(group => group.get('_id') === action.groupId);
+    case 'SetFocus': {
+        const linkmanIndex = state
+            .getIn(['user', 'linkmans'])
+            .findIndex(l => l.get('_id') === action.linkmanId);
         return state
-            .set('focusGroup', action.groupId)
-            .setIn(['user', 'groups', groupIndex, 'unread'], 0);
+            .set('focus', action.linkmanId)
+            .setIn(['user', 'linkmans', linkmanIndex, 'unread'], 0);
     }
     case ActionTypes.AddGroupMessages: {
         const groupIndex = state
@@ -110,11 +119,11 @@ function reducer(state = initialState, action) {
                 ))
             ));
     }
-    case ActionTypes.updateSelfMessage: {
-        const groupIndex = state
-            .getIn(['user', 'groups'])
-            .findIndex(group => group.get('_id') === action.groupId);
-        return state.updateIn(['user', 'groups', groupIndex, 'messages'], (messages) => {
+    case 'UpdateSelfMessage': {
+        const linkmanIndex = state
+            .getIn(['user', 'linkmans'])
+            .findIndex(l => l.get('_id') === action.linkmanId);
+        return state.updateIn(['user', 'linkmans', linkmanIndex, 'messages'], (messages) => {
             const messageIndex = messages.findLastIndex(m => m.get('_id') === action.messageId);
             return messages.update(messageIndex, message => message.mergeDeep(immutable.fromJS(action.message)));
         });

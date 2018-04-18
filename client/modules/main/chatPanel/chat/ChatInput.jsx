@@ -22,7 +22,7 @@ const xss = require('../../../../../utils/xss');
 class ChatInput extends Component {
     static propTypes = {
         isLogin: PropTypes.bool.isRequired,
-        groupId: PropTypes.string,
+        focus: PropTypes.string,
         user: ImmutablePropTypes.map,
         connect: PropTypes.bool,
     }
@@ -136,8 +136,8 @@ class ChatInput extends Component {
         this.message.value = '';
     }
     addSelfMessage(type, content) {
-        const { user, groupId: toGroup } = this.props;
-        const _id = toGroup + Date.now();
+        const { user, focus } = this.props;
+        const _id = focus + Date.now();
         const message = {
             _id,
             type,
@@ -154,15 +154,15 @@ class ChatInput extends Component {
         if (type === 'image') {
             message.percent = 0;
         }
-        action.addGroupMessage(toGroup, message);
+        action.addLinkmanMessage(focus, message);
 
         return _id;
     }
     @autobind
     sendMessage(localId, type, content) {
-        const { groupId: toGroup } = this.props;
+        const { focus } = this.props;
         socket.emit('sendMessage', {
-            toGroup,
+            to: focus,
             type,
             content,
         }, (res) => {
@@ -170,7 +170,7 @@ class ChatInput extends Component {
                 Message.error(res);
             } else {
                 res.loading = false;
-                action.updateSelfMessage(toGroup, localId, res);
+                action.updateSelfMessage(focus, localId, res);
             }
         });
     }
@@ -184,7 +184,7 @@ class ChatInput extends Component {
             return Message.warning('要发送的图片过大', 3);
         }
 
-        const { user, groupId: toGroup } = this.props;
+        const { user, focus } = this.props;
         const ext = image.type.split('/').pop().toLowerCase();
         const url = URL.createObjectURL(image);
 
@@ -198,7 +198,7 @@ class ChatInput extends Component {
                     const result = qiniu.upload(image, `ImageMessage/${user.get('_id')}_${Date.now()}.${ext}`, res.token, { useCdnDomain: true }, {});
                     result.subscribe({
                         next(info) {
-                            action.updateSelfMessage(toGroup, id, { percent: info.total.percent });
+                            action.updateSelfMessage(focus, id, { percent: info.total.percent });
                         },
                         error(err) {
                             console.error(err);
@@ -327,6 +327,6 @@ class ChatInput extends Component {
 export default connect(state => ({
     isLogin: !!state.getIn(['user', '_id']),
     connect: state.get('connect'),
-    groupId: state.get('focusGroup'),
+    focus: state.get('focus'),
     user: state.get('user'),
 }))(ChatInput);

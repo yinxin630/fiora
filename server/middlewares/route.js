@@ -5,7 +5,7 @@ function noop() {}
  * @param {IO} io koa socket io实例
  * @param {Object} routes 路由
  */
-module.exports = function (io, routes) {
+module.exports = function (io, _io, routes) {
     const router = Object.keys(routes).reduce((result, route) => {
         io.on(route, noop);
         result[route] = routes[route];
@@ -18,6 +18,8 @@ module.exports = function (io, routes) {
                 event,
                 data,
                 socket,
+                io,
+                _io,
             });
         }
     };

@@ -30,7 +30,7 @@ class GroupInfo extends Component {
     handleFocusGroup() {
         const { groupInfo, onClose } = this.props;
         onClose();
-        action.setFocusGroup(groupInfo._id);
+        action.setFocus(groupInfo._id);
     }
     render() {
         const { visible, groupInfo, onClose, groups } = this.props;

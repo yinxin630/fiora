@@ -23,7 +23,7 @@ class MessageList extends Component {
         if ($div.scrollTop === 0 && $div.scrollHeight > $div.clientHeight) {
             const [err, result] = await fetch('getGroupHistoryMessages', { groupId: focus, existCount: messages.size });
             if (!err) {
-                action.addGroupMessages(focus, result);
+                action.addLinkmanMessages(focus, result);
             }
         }
     }
@@ -59,7 +59,7 @@ class MessageList extends Component {
 
 export default connect((state) => {
     const isLogin = !!state.getIn(['user', '_id']);
-    let messages = immutable.fromJS([]);
+    let messages = immutable.List();
     if (!isLogin) {
         const defaultGroupMessages = state.getIn(['user', 'linkmans', 0, 'messages']);
         return {

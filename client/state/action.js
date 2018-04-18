@@ -22,6 +22,9 @@ async function setUser(user) {
             _id: getFriendId(friend.from, friend.to._id),
             messages: [],
             unread: 0,
+            avatar: friend.to.avatar,
+            name: friend.to.username,
+            to: friend.to._id,
         });
     });
 
@@ -40,7 +43,7 @@ async function setUser(user) {
 
     const [groupMessageResult, friendsMessageResult] = await Promise.all([
         fetch('getGroupsLastMessages', { groups: user.groups.map(g => g._id) }),
-        fetch('getFriendsLastMessages', { users: user.friends.map(f => f.to._id) }),
+        fetch('getFriendsLastMessages', { users: user.friends.map(f => f.to) }),
     ]);
     const messages = Object.assign({}, groupMessageResult[1], friendsMessageResult[1]);
     dispatch({
@@ -96,10 +99,10 @@ function setAvatar(avatar) {
     });
 }
 
-function addGroupMessage(group, message) {
+function addLinkmanMessage(linkmanId, message) {
     dispatch({
-        type: ActionTypes.AddGroupMessage,
-        group,
+        type: 'AddLinkmanMessage',
+        linkmanId,
         message,
     });
 }
@@ -110,26 +113,26 @@ function addGroupMessages(group, messages) {
         messages,
     });
 }
-function updateSelfMessage(groupId, messageId, message) {
+function updateSelfMessage(linkmanId, messageId, message) {
     dispatch({
-        type: ActionTypes.updateSelfMessage,
-        groupId,
+        type: 'UpdateSelfMessage',
+        linkmanId,
         messageId,
         message,
     });
 }
 
-/* ===== 群组 ===== */
+/* ===== 联系人 ===== */
 function addGroup(group) {
     dispatch({
         type: ActionTypes.AddGroup,
         group,
     });
 }
-function setFocusGroup(groupId) {
+function setFocus(linkmanId) {
     dispatch({
-        type: ActionTypes.SetFocusGroup,
-        groupId,
+        type: 'SetFocus',
+        linkmanId,
     });
 }
 function setGroupMembers(groupId, members) {
@@ -144,6 +147,12 @@ function setGroupAvatar(groupId, avatar) {
         type: ActionTypes.SetGroupAvatar,
         groupId,
         avatar,
+    });
+}
+function addLinkman(linkman) {
+    dispatch({
+        type: 'AddLinkman',
+        linkman,
     });
 }
 
@@ -205,11 +214,12 @@ export default {
     setAvatar,
 
     addGroup,
-    setFocusGroup,
+    setFocus,
     setGroupMembers,
     setGroupAvatar,
+    addLinkman,
 
-    addGroupMessage,
+    addLinkmanMessage,
     addGroupMessages,
     updateSelfMessage,
 

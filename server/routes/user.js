@@ -150,6 +150,8 @@ module.exports = {
         assert.equal(environment, payload.environment, '非法登录');
 
         const user = await User.findOne({ _id: payload.user }, { _id: 1, avatar: 1, username: 1 });
+        assert(user, '用户不存在');
+
         user.lastLoginTime = Date.now();
         await user.save();
 

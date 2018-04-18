@@ -145,7 +145,7 @@ export default connect((state) => {
             focus: state.getIn(['user', 'linkmans', 0, '_id']),
             creator: '',
             avatar: state.getIn(['user', 'linkmans', 0, 'avatar']),
-            members: state.getIn(['user', 'linkmans', 0, 'members']) || immutable.fromJS([]),
+            members: state.getIn(['user', 'linkmans', 0, 'members']) || immutable.List(),
         };
     }
 

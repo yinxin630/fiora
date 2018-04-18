@@ -72,6 +72,7 @@ io.use(catchError());
 io.use(isLogin());
 io.use(route(
     app.io,
+    app._io,
     Object.assign({}, userRoutes, groupRoutes, messageRoutes, qiniuRoutes, systemRoutes),
 ));
 

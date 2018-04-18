@@ -10,8 +10,8 @@ import store from './state/store';
 import action from './state/action';
 import socket from './socket';
 import notification from '../utils/notification';
-
 import sound from '../utils/sound';
+import getFriendId from '../utils/getFriendId';
 
 if (window.Notification && (window.Notification.permission === 'default' || window.Notification.permission === 'denied')) {
     window.Notification.requestPermission();
@@ -46,14 +46,38 @@ socket.on('disconnect', () => {
     action.disconnect();
 });
 socket.on('message', (message) => {
-    action.addGroupMessage(message.toGroup, message);
     const state = store.getState();
-    const group = state.getIn(['user', 'groups']).find(g => g.get('_id') === message.toGroup);
+    const linkman = state.getIn(['user', 'linkmans']).find(l => l.get('_id') === message.to);
+    let title = '';
+    if (linkman) {
+        action.addLinkmanMessage(message.to, message);
+        if (linkman.get('type') === 'group') {
+            title = `${message.from.username} 在 ${linkman.get('name')} 对大家说:`;
+        } else {
+            title = `${message.from.username} 对你说:`;
+        }
+    } else {
+        const newLinkman = {
+            _id: getFriendId(
+                state.getIn(['user', '_id']),
+                message.from._id,
+            ),
+            type: 'temporary',
+            createTime: Date.now(),
+            avatar: message.from.avatar,
+            name: message.from.username,
+            messages: [message],
+            unread: 1,
+        };
+        action.addLinkman(newLinkman);
+        title = `${message.from.username} 对你说:`;
+    }
+
     notification(
-        `${message.from.username} 在 ${group.get('name')} 对大家说:`,
+        title,
         message.from.avatar,
         message.content,
-        message.toGroup._id,
+        message.to,
     );
 
     const soundType = state.getIn(['ui', 'sound']);

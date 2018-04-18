@@ -9,20 +9,20 @@ import Linkman from './Linkman';
 
 class LinkmanGroup extends Component {
     static propTypes = {
-        groups: ImmutablePropTypes.list,
-        focusGroup: PropTypes.string,
+        linkmans: ImmutablePropTypes.list,
+        focus: PropTypes.string,
     }
     componentWillReceiveProps(nextProps) {
-        if (this.props.groups.size === 0 && nextProps.groups.size !== 0) {
-            action.setFocusGroup(nextProps.groups.getIn(['0', '_id']));
+        if (this.props.linkmans.size === 0 && nextProps.linkmans.size !== 0) {
+            action.setFocus(nextProps.linkmans.getIn(['0', '_id']));
         }
     }
-    renderGroup(group) {
-        const groupId = group.get('_id');
-        const unread = group.get('unread');
-        const lastMessage = group.getIn(['messages', group.get('messages').size - 1]);
+    renderLinkman(linkman) {
+        const linkmanId = linkman.get('_id');
+        const unread = linkman.get('unread');
+        const lastMessage = linkman.getIn(['messages', linkman.get('messages').size - 1]);
 
-        let time = new Date(group.get('createTime'));
+        let time = new Date(linkman.get('createTime'));
         let preview = '暂无消息';
         if (lastMessage) {
             time = new Date(lastMessage.get('createTime'));
@@ -30,24 +30,24 @@ class LinkmanGroup extends Component {
         }
         return (
             <Linkman
-                key={groupId}
-                name={group.get('name')}
-                avatar={group.get('avatar')}
+                key={linkmanId}
+                name={linkman.get('name')}
+                avatar={linkman.get('avatar')}
                 preview={preview}
                 time={time}
                 unread={unread}
-                focus={this.props.focusGroup === groupId}
-                onClick={action.setFocusGroup.bind(null, groupId)}
+                focus={this.props.focus === linkmanId}
+                onClick={action.setFocus.bind(null, linkmanId)}
             />
         );
     }
     render() {
-        const { groups } = this.props;
+        const { linkmans } = this.props;
         return (
             <div>
                 {
-                    groups.map(group => (
-                        this.renderGroup(group)
+                    linkmans.map(linkman => (
+                        this.renderLinkman(linkman)
                     ))
                 }
             </div>
@@ -56,6 +56,6 @@ class LinkmanGroup extends Component {
 }
 
 export default connect(state => ({
-    groups: state.getIn(['user', 'groups']) || immutable.List(),
-    focusGroup: state.get('focusGroup'),
+    linkmans: state.getIn(['user', 'linkmans']) || immutable.List(),
+    focus: state.get('focus'),
 }))(LinkmanGroup);
