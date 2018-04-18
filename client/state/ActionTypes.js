@@ -3,7 +3,6 @@ export default {
 
     SetUser: 'SetUser',
     AddGroup: 'AddGroup',
-    SetGroupMessages: 'SetGroupMessages',
     AddGroupMessage: 'AddGroupMessage',
     AddGroupMessages: 'AddGroupMessages',
     updateSelfMessage: 'updateSelfMessage',

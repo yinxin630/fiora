@@ -40,23 +40,6 @@ function reducer(state = initialState, action) {
             )
             .set('focusGroup', action.group._id);
     }
-    case ActionTypes.SetGroupMessages: {
-        const newGroups = state
-            .getIn(['user', 'groups'])
-            .map(group => (
-                group.set('messages', immutable.fromJS(action.messages[group.get('_id')]))
-            ))
-            .sort((group1, group2) => {
-                const messages1 = group1.get('messages');
-                const messages2 = group2.get('messages');
-                const time1 = messages1.size > 0 ? messages1.get(messages1.size - 1).get('createTime') : group1.get('createTime');
-                const time2 = messages2.size > 0 ? messages2.get(messages2.size - 1).get('createTime') : group2.get('createTime');
-                return new Date(time1) < new Date(time2);
-            });
-        return state
-            .setIn(['user', 'groups'], newGroups)
-            .set('focusGroup', newGroups.getIn([0, '_id']));
-    }
     case 'SetLinkmanMessages': {
         const newLinkmans = state
             .getIn(['user', 'linkmans'])
