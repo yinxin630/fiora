@@ -76,7 +76,7 @@ socket.on('message', (message) => {
     notification(
         title,
         message.from.avatar,
-        message.content,
+        message.type === 'text' ? message.content : `[${message.type}]`,
         message.to,
     );
 

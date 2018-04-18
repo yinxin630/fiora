@@ -79,7 +79,7 @@ class ChatInput extends Component {
     handleFeatureMenuClick({ key }) {
         switch (key) {
         case 'image': {
-            this.file.click();
+            this.handleSelectFile();
             break;
         }
         case 'code': {
@@ -180,13 +180,13 @@ class ChatInput extends Component {
         ChatInput.insertAtCursor(this.message, `#(${expression})`);
     }
     sendImageMessage(image) {
-        if (image.size > config.maxImageSize) {
+        if (image.length > config.maxImageSize) {
             return Message.warning('要发送的图片过大', 3);
         }
 
         const { user, focus } = this.props;
         const ext = image.type.split('/').pop().toLowerCase();
-        const url = URL.createObjectURL(image);
+        const url = URL.createObjectURL(image.result);
 
         const img = new Image();
         img.onload = () => {
@@ -195,7 +195,7 @@ class ChatInput extends Component {
                 if (typeof token === 'string') {
                     Message.error(res);
                 } else {
-                    const result = qiniu.upload(image, `ImageMessage/${user.get('_id')}_${Date.now()}.${ext}`, res.token, { useCdnDomain: true }, {});
+                    const result = qiniu.upload(image.result, `ImageMessage/${user.get('_id')}_${Date.now()}.${ext}`, res.token, { useCdnDomain: true }, {});
                     result.subscribe({
                         next(info) {
                             action.updateSelfMessage(focus, id, { percent: info.total.percent });
@@ -220,7 +220,7 @@ class ChatInput extends Component {
             return Message.error('发送消息失败, 您当前处于离线状态');
         }
         const image = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
-        this.sendImageMessage(image.result);
+        this.sendImageMessage(image);
     }
     @autobind
     handlePaste(e) {
@@ -266,13 +266,6 @@ class ChatInput extends Component {
                 <MenuItem key="image">发送图片</MenuItem>
                 <MenuItem key="code">发送代码</MenuItem>
             </Menu>
-            <input
-                style={{ display: 'none' }}
-                type="file"
-                accept="image/png,image/jpeg,image/gif"
-                ref={i => this.file = i}
-                onChange={this.handleSelectFile}
-            />
         </div>
     )
     render() {

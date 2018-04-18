@@ -168,7 +168,7 @@ class Message extends Component {
                         <div className="icon">
                             <i className="iconfont icon-code" />
                         </div>
-                        <div className="info">
+                        <div className="code-info">
                             <span>{language}</span>
                             <span>{size}</span>
                         </div>
