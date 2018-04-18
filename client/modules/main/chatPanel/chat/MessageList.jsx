@@ -14,16 +14,16 @@ class MessageList extends Component {
     static propTypes = {
         self: PropTypes.string,
         messages: ImmutablePropTypes.list,
-        focusGroup: PropTypes.string,
+        focus: PropTypes.string,
     }
     @autobind
     async handleScroll(e) {
-        const { focusGroup, messages } = this.props;
+        const { focus, messages } = this.props;
         const $div = e.target;
         if ($div.scrollTop === 0 && $div.scrollHeight > $div.clientHeight) {
-            const [err, result] = await fetch('getGroupHistoryMessages', { groupId: focusGroup, existCount: messages.size });
+            const [err, result] = await fetch('getGroupHistoryMessages', { groupId: focus, existCount: messages.size });
             if (!err) {
-                action.addGroupMessages(focusGroup, result);
+                action.addGroupMessages(focus, result);
             }
         }
     }
@@ -61,7 +61,7 @@ export default connect((state) => {
     const isLogin = !!state.getIn(['user', '_id']);
     let messages = immutable.fromJS([]);
     if (!isLogin) {
-        const defaultGroupMessages = state.getIn(['user', 'groups', 0, 'messages']);
+        const defaultGroupMessages = state.getIn(['user', 'linkmans', 0, 'messages']);
         return {
             self: '',
             messages: defaultGroupMessages || messages,
@@ -69,15 +69,15 @@ export default connect((state) => {
     }
 
     const self = state.getIn(['user', '_id']);
-    const focusGroup = state.get('focusGroup');
-    const group = state.getIn(['user', 'groups']).find(g => g.get('_id') === focusGroup);
-    if (group) {
-        messages = group.get('messages');
+    const focus = state.get('focus');
+    const linkman = state.getIn(['user', 'linkmans']).find(g => g.get('_id') === focus);
+    if (linkman) {
+        messages = linkman.get('messages');
     }
 
     return {
         self,
-        focusGroup,
+        focus,
         messages,
     };
 })(MessageList);

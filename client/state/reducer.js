@@ -30,7 +30,9 @@ function reducer(state = initialState, action) {
         return state.setIn(action.keys, immutable.fromJS(action.value));
     }
     case ActionTypes.SetUser: {
-        return state.set('user', immutable.fromJS(action.user));
+        return state
+            .set('user', immutable.fromJS(action.user))
+            .set('focus', action.user.linkmans[0]._id);
     }
     case ActionTypes.AddGroup: {
         return state

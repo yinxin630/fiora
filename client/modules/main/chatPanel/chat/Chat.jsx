@@ -20,11 +20,12 @@ import './Chat.less';
 
 class Chat extends Component {
     static propTypes = {
-        focusGroup: PropTypes.string,
+        focus: PropTypes.string,
         members: ImmutablePropTypes.list,
         userId: PropTypes.string,
         creator: PropTypes.string,
         avatar: PropTypes.string,
+        // type: PropTypes.string,
     }
     constructor(...args) {
         super(...args);
@@ -52,17 +53,16 @@ class Chat extends Component {
     }
     @autobind
     async showGroupInfo(e) {
-        const { focusGroup } = this.props;
+        const { focus } = this.props;
         this.setState({
             showGroupInfo: true,
         });
-        console.log(333, e.target);
         e.stopPropagation();
         e.preventDefault();
 
-        const [err, result] = await fetch('getGroupOnlineMembers', { groupId: focusGroup });
+        const [err, result] = await fetch('getGroupOnlineMembers', { groupId: focus });
         if (!err) {
-            action.setGroupMembers(focusGroup, result);
+            action.setGroupMembers(focus, result);
         }
     }
     @autobind
@@ -73,7 +73,7 @@ class Chat extends Component {
     }
     @autobind
     async changeGroupAvatar() {
-        const { userId, focusGroup } = this.props;
+        const { userId, focus } = this.props;
         const image = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
         if (image.length > config.maxImageSize) {
             return Message.error('设置群头像失败, 请选择小于1MB的图片');
@@ -89,9 +89,9 @@ class Chat extends Component {
                 },
                 async complete(info) {
                     const imageUrl = `${tokenRes.urlPrefix + info.key}`;
-                    const [changeGroupAvatarError] = await fetch('changeGroupAvatar', { groupId: focusGroup, avatar: imageUrl });
+                    const [changeGroupAvatarError] = await fetch('changeGroupAvatar', { groupId: focus, avatar: imageUrl });
                     if (!changeGroupAvatarError) {
-                        action.setGroupAvatar(focusGroup, URL.createObjectURL(image.result));
+                        action.setGroupAvatar(focus, URL.createObjectURL(image.result));
                         Message.success('修改群头像成功');
                     }
                 },
@@ -142,21 +142,22 @@ export default connect((state) => {
     if (!isLogin) {
         return {
             userId: '',
-            focusGroup: state.getIn(['user', 'groups', 0, '_id']),
+            focus: state.getIn(['user', 'linkmans', 0, '_id']),
             creator: '',
-            avatar: state.getIn(['user', 'groups', 0, 'avatar']),
-            members: state.getIn(['user', 'groups', 0, 'members']) || immutable.fromJS([]),
+            avatar: state.getIn(['user', 'linkmans', 0, 'avatar']),
+            members: state.getIn(['user', 'linkmans', 0, 'members']) || immutable.fromJS([]),
         };
     }
 
-    const focusGroup = state.get('focusGroup');
-    const group = state.getIn(['user', 'groups']).find(g => g.get('_id') === focusGroup);
+    const focus = state.get('focus');
+    const linkman = state.getIn(['user', 'linkmans']).find(g => g.get('_id') === focus);
 
     return {
         userId: state.getIn(['user', '_id']),
-        focusGroup,
-        creator: group.get('creator'),
-        avatar: group.get('avatar'),
-        members: group.get('members') || immutable.fromJS([]),
+        focus,
+        type: linkman.get('type'),
+        creator: linkman.get('creator'),
+        avatar: linkman.get('avatar'),
+        members: linkman.get('members') || immutable.fromJS([]),
     };
 })(Chat);
