@@ -7,6 +7,4 @@ export default {
     updateSelfMessage: 'updateSelfMessage',
     Logout: 'Logout',
     SetAvatar: 'SetAvatar',
-    SetGroupMembers: 'SetGroupMembers',
-    SetGroupAvatar: 'SetGroupAvatar',
 };

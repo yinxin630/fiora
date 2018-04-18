@@ -68,17 +68,17 @@ function reducer(state = initialState, action) {
             .setIn(['user', 'linkmans'], newLinkmans)
             .set('focus', newLinkmans.getIn([0, '_id']));
     }
-    case ActionTypes.SetGroupMembers: {
-        const groupIndex = state
-            .getIn(['user', 'groups'])
-            .findIndex(group => group.get('_id') === action.groupId);
-        return state.setIn(['user', 'groups', groupIndex, 'members'], immutable.fromJS(action.members));
+    case 'SetGroupMembers': {
+        const linkmanIndex = state
+            .getIn(['user', 'linkmans'])
+            .findIndex(l => l.get('_id') === action.groupId);
+        return state.setIn(['user', 'linkmans', linkmanIndex, 'members'], immutable.fromJS(action.members));
     }
-    case ActionTypes.SetGroupAvatar: {
-        const groupIndex = state
-            .getIn(['user', 'groups'])
-            .findIndex(group => group.get('_id') === action.groupId);
-        return state.setIn(['user', 'groups', groupIndex, 'avatar'], action.avatar);
+    case 'SetGroupAvatar': {
+        const linkmanIndex = state
+            .getIn(['user', 'linkmans'])
+            .findIndex(l => l.get('_id') === action.groupId);
+        return state.setIn(['user', 'linkmans', linkmanIndex, 'avatar'], action.avatar);
     }
     case 'AddLinkmanMessage': {
         const linkmanIndex = state

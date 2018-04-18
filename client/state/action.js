@@ -137,14 +137,14 @@ function setFocus(linkmanId) {
 }
 function setGroupMembers(groupId, members) {
     dispatch({
-        type: ActionTypes.SetGroupMembers,
+        type: 'SetGroupMembers',
         groupId,
         members,
     });
 }
 function setGroupAvatar(groupId, avatar) {
     dispatch({
-        type: ActionTypes.SetGroupAvatar,
+        type: 'SetGroupAvatar',
         groupId,
         avatar,
     });
