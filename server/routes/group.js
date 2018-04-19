@@ -25,7 +25,7 @@ module.exports = {
                 members: [ctx.socket.user],
             });
         } catch (err) {
-            if (err.message === 'Group validation failed') {
+            if (err.name === 'ValidationError') {
                 return '群组名包含不支持的字符或者长度超过限制';
             }
             throw err;
