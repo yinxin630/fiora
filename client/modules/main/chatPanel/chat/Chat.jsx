@@ -122,7 +122,7 @@ class Chat extends Component {
                 <div className={`float-panel info ${showGroupInfo ? 'show' : 'hide'}`}>
                     <p>群组信息</p>
                     <div>
-                        <div className="avatar" style={{ display: userId === creator ? 'block' : 'none' }}>
+                        <div className="avatar" style={{ display: !!userId && userId === creator ? 'block' : 'none' }}>
                             <p>群头像</p>
                             <img src={avatar} onClick={this.changeGroupAvatar} />
                         </div>
