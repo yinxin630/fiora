@@ -244,7 +244,13 @@ class ChatInput extends Component {
                             const image = new Image();
                             image.onload = async () => {
                                 const imageBlob = await ChatInput.compressImage(image, file.type, 0.8);
-                                that.sendImageMessage(imageBlob);
+                                that.sendImageMessage({
+                                    filename: file.name,
+                                    ext: imageBlob.type.split('/').pop(),
+                                    length: imageBlob.size,
+                                    type: imageBlob.type,
+                                    result: imageBlob,
+                                });
                             };
                             image.src = this.result;
                         };

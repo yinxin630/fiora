@@ -94,7 +94,7 @@ function logout() {
 }
 function setAvatar(avatar) {
     dispatch({
-        type: ActionTypes.SetAvatar,
+        type: 'SetAvatar',
         avatar,
     });
 }
@@ -106,10 +106,10 @@ function addLinkmanMessage(linkmanId, message) {
         message,
     });
 }
-function addGroupMessages(group, messages) {
+function addLinkmanMessages(linkmanId, messages) {
     dispatch({
-        type: ActionTypes.AddGroupMessages,
-        group,
+        type: 'AddLinkmanMessages',
+        linkmanId,
         messages,
     });
 }
@@ -219,7 +219,7 @@ export default {
     addLinkman,
 
     addLinkmanMessage,
-    addGroupMessages,
+    addLinkmanMessages,
     updateSelfMessage,
 
     showLoginDialog,

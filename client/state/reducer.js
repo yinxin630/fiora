@@ -92,6 +92,17 @@ function reducer(state = initialState, action) {
                         .set('unread', unread))
             ));
     }
+    case 'AddLinkmanMessages': {
+        const linkmanIndex = state
+            .getIn(['user', 'linkmans'])
+            .findIndex(l => l.get('_id') === action.linkmanId);
+        return state
+            .updateIn(['user', 'linkmans', linkmanIndex], l => (
+                l.update('messages', messages => (
+                    immutable.fromJS(action.messages).concat(messages)
+                ))
+            ));
+    }
     case 'SetFocus': {
         const linkmanIndex = state
             .getIn(['user', 'linkmans'])
@@ -99,17 +110,6 @@ function reducer(state = initialState, action) {
         return state
             .set('focus', action.linkmanId)
             .setIn(['user', 'linkmans', linkmanIndex, 'unread'], 0);
-    }
-    case ActionTypes.AddGroupMessages: {
-        const groupIndex = state
-            .getIn(['user', 'groups'])
-            .findIndex(group => group.get('_id') === action.group);
-        return state
-            .updateIn(['user', 'groups', groupIndex], group => (
-                group.update('messages', messages => (
-                    immutable.fromJS(action.messages).concat(messages)
-                ))
-            ));
     }
     case 'UpdateSelfMessage': {
         const linkmanIndex = state
@@ -123,13 +123,13 @@ function reducer(state = initialState, action) {
     case ActionTypes.showLoginDialog: {
         return initialState;
     }
-    case ActionTypes.SetAvatar: {
+    case 'SetAvatar': {
         const userId = state.getIn(['user', '_id']);
         return state
             .setIn(['user', 'avatar'], action.avatar)
-            .updateIn(['user', 'groups'], groups => (
-                groups.map(group => (
-                    group.update('messages', messages => (
+            .updateIn(['user', 'linkmans'], linkmans => (
+                linkmans.map(l => (
+                    l.update('messages', messages => (
                         messages.map((message) => {
                             if (message.getIn(['from', '_id']) === userId) {
                                 return message.setIn(['from', 'avatar'], action.avatar);
