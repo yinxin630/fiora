@@ -74,6 +74,16 @@ function reducer(state = initialState, action) {
             .set('focus', action.linkmanId)
             .setIn(['user', 'linkmans', linkmanIndex, 'unread'], 0);
     }
+    case 'SetFriend': {
+        const linkmanIndex = state
+            .getIn(['user', 'linkmans'])
+            .findIndex(l => l.get('_id') === action.linkmanId);
+        return state
+            .updateIn(['user', 'linkmans', linkmanIndex], linkman => (
+                linkman.set('type', 'friend')
+            ))
+            .set('focus', action.linkmanId);
+    }
 
     case 'AddLinkman': {
         const newState = state.updateIn(['user', 'linkmans'], linkmans => (

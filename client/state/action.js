@@ -154,6 +154,12 @@ function addLinkman(linkman, focus = false) {
         focus,
     });
 }
+function setFriend(linkmanId) {
+    dispatch({
+        type: 'SetFriend',
+        linkmanId,
+    });
+}
 
 /* ===== UI ===== */
 function showLoginDialog() {
@@ -216,6 +222,7 @@ export default {
     setGroupMembers,
     setGroupAvatar,
     addLinkman,
+    setFriend,
 
     addLinkmanMessage,
     addLinkmanMessages,

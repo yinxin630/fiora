@@ -205,4 +205,21 @@ module.exports = {
 
         return {};
     },
+    async addFrient(ctx) {
+        const { userId } = ctx.data;
+
+        const user = await User.findOne({ _id: userId });
+        assert(user, '添加好友失败, 用户不存在');
+
+        await Friend.create({
+            from: ctx.socket.user,
+            to: user._id,
+        });
+
+        return {
+            _id: user._id,
+            username: user.username,
+            avatar: user.avatar,
+        };
+    },
 };

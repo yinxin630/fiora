@@ -11,6 +11,7 @@ import socket from '@/socket';
 import action from '@/state/action';
 import fetch from 'utils/fetch';
 import GroupInfo from '../GroupInfo';
+import UserInfo from '../UserInfo';
 
 class Feature extends Component {
     constructor(...args) {
@@ -26,6 +27,8 @@ class Feature extends Component {
             },
             showGroupInfo: false,
             groupInfo: {},
+            showUserInfo: false,
+            userInfo: {},
         };
     }
     componentDidMount() {
@@ -144,6 +147,19 @@ class Feature extends Component {
             showGroupInfo: false,
         });
     }
+    openUserInfoDialog(userInfo) {
+        this.setState({
+            showUserInfo: true,
+            userInfo,
+        });
+        this.resetSearchView();
+    }
+    @autobind
+    closeUserInfoDialog() {
+        this.setState({
+            showUserInfo: false,
+        });
+    }
     @autobind
     renderSearchUsers(count = Infinity) {
         const { users } = this.state.searchResult;
@@ -152,7 +168,7 @@ class Feature extends Component {
         const usersDom = [];
         for (let i = 0; i < count; i++) {
             usersDom.push((
-                <div key={users[i]._id}>
+                <div key={users[i]._id} onClick={this.openUserInfoDialog.bind(this, users[i])}>
                     <Avatar size={40} src={users[i].avatar} />
                     <p>{users[i].username}</p>
                 </div>
@@ -187,6 +203,8 @@ class Feature extends Component {
             searchResultActiveKey,
             showGroupInfo,
             groupInfo,
+            showUserInfo,
+            userInfo,
         } = this.state;
         return (
             <div className="chatPanel-feature">
@@ -251,6 +269,7 @@ class Feature extends Component {
                     </TabPane>
                 </Tabs>
                 <GroupInfo visible={showGroupInfo} groupInfo={groupInfo} onClose={this.closeGroupInfoDialog} />
+                <UserInfo visible={showUserInfo} userInfo={userInfo} onClose={this.closeUserInfoDialog} />
             </div>
         );
     }

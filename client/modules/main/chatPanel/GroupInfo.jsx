@@ -36,7 +36,7 @@ class GroupInfo extends Component {
     render() {
         const { visible, groupInfo, onClose, linkmans } = this.props;
         return (
-            <Dialog className="group-info" visible={visible} onClose={onClose}>
+            <Dialog className="info-dialog" visible={visible} onClose={onClose}>
                 {
                     visible && groupInfo ?
                         <div className="content">
