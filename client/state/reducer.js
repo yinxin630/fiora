@@ -1,5 +1,4 @@
 import immutable from 'immutable';
-import ActionTypes from './ActionTypes';
 import setCssVariable from '../../utils/setCssVariable';
 import config from '../../config/client';
 
@@ -26,22 +25,17 @@ const initialState = immutable.fromJS({
 
 function reducer(state = initialState, action) {
     switch (action.type) {
+    case 'Init': {
+        return initialState;
+    }
     case 'SetDeepValue': {
         return state.setIn(action.keys, immutable.fromJS(action.value));
     }
+
     case 'SetUser': {
         return state
             .set('user', immutable.fromJS(action.user))
             .set('focus', action.user.linkmans[0]._id);
-    }
-    case 'AddLinkman': {
-        const newState = state.updateIn(['user', 'linkmans'], linkmans => (
-            linkmans.unshift(immutable.fromJS(action.linkman))
-        ));
-        if (action.focus) {
-            return newState.set('focus', action.linkman._id);
-        }
-        return newState;
     }
     case 'SetLinkmanMessages': {
         const newLinkmans = state
@@ -71,6 +65,24 @@ function reducer(state = initialState, action) {
             .getIn(['user', 'linkmans'])
             .findIndex(l => l.get('_id') === action.groupId);
         return state.setIn(['user', 'linkmans', linkmanIndex, 'avatar'], action.avatar);
+    }
+    case 'SetFocus': {
+        const linkmanIndex = state
+            .getIn(['user', 'linkmans'])
+            .findIndex(l => l.get('_id') === action.linkmanId);
+        return state
+            .set('focus', action.linkmanId)
+            .setIn(['user', 'linkmans', linkmanIndex, 'unread'], 0);
+    }
+
+    case 'AddLinkman': {
+        const newState = state.updateIn(['user', 'linkmans'], linkmans => (
+            linkmans.unshift(immutable.fromJS(action.linkman))
+        ));
+        if (action.focus) {
+            return newState.set('focus', action.linkman._id);
+        }
+        return newState;
     }
     case 'AddLinkmanMessage': {
         const linkmanIndex = state
@@ -103,14 +115,7 @@ function reducer(state = initialState, action) {
                 ))
             ));
     }
-    case 'SetFocus': {
-        const linkmanIndex = state
-            .getIn(['user', 'linkmans'])
-            .findIndex(l => l.get('_id') === action.linkmanId);
-        return state
-            .set('focus', action.linkmanId)
-            .setIn(['user', 'linkmans', linkmanIndex, 'unread'], 0);
-    }
+
     case 'UpdateSelfMessage': {
         const linkmanIndex = state
             .getIn(['user', 'linkmans'])
@@ -119,9 +124,6 @@ function reducer(state = initialState, action) {
             const messageIndex = messages.findLastIndex(m => m.get('_id') === action.messageId);
             return messages.update(messageIndex, message => message.mergeDeep(immutable.fromJS(action.message)));
         });
-    }
-    case ActionTypes.showLoginDialog: {
-        return initialState;
     }
     case 'SetAvatar': {
         const userId = state.getIn(['user', '_id']);
@@ -140,6 +142,7 @@ function reducer(state = initialState, action) {
                 ))
             ));
     }
+
     default:
         return state;
     }

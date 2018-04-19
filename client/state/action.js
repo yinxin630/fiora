@@ -1,6 +1,5 @@
 import fetch from 'utils/fetch';
 import store from './store';
-import ActionTypes from './ActionTypes';
 
 const getFriendId = require('utils/getFriendId');
 
@@ -30,7 +29,7 @@ async function setUser(user) {
 
     const linkmans = [...user.groups, ...user.friends];
     dispatch({
-        type: ActionTypes.SetUser,
+        type: 'SetUser',
         user: {
             _id: user._id,
             avatar: user.avatar,
@@ -53,7 +52,7 @@ async function setUser(user) {
 }
 async function setGuest(defaultGroup) {
     dispatch({
-        type: ActionTypes.SetDeepValue,
+        type: 'SetDeepValue',
         keys: ['user'],
         value: { linkmans: [
             Object.assign(defaultGroup, {
@@ -75,21 +74,21 @@ async function setGuest(defaultGroup) {
 }
 function connect() {
     dispatch({
-        type: ActionTypes.SetDeepValue,
+        type: 'SetDeepValue',
         keys: ['connect'],
         value: true,
     });
 }
 function disconnect() {
     dispatch({
-        type: ActionTypes.SetDeepValue,
+        type: 'SetDeepValue',
         keys: ['connect'],
         value: false,
     });
 }
 function logout() {
     dispatch({
-        type: ActionTypes.Logout,
+        type: 'Init',
     });
 }
 function setAvatar(avatar) {
@@ -159,21 +158,21 @@ function addLinkman(linkman, focus = false) {
 /* ===== UI ===== */
 function showLoginDialog() {
     dispatch({
-        type: ActionTypes.SetDeepValue,
+        type: 'SetDeepValue',
         keys: ['ui', 'showLoginDialog'],
         value: true,
     });
 }
 function closeLoginDialog() {
     dispatch({
-        type: ActionTypes.SetDeepValue,
+        type: 'SetDeepValue',
         keys: ['ui', 'showLoginDialog'],
         value: false,
     });
 }
 function setPrimaryColor(color) {
     dispatch({
-        type: ActionTypes.SetDeepValue,
+        type: 'SetDeepValue',
         keys: ['ui', 'primaryColor'],
         value: color,
     });
@@ -181,7 +180,7 @@ function setPrimaryColor(color) {
 }
 function setPrimaryTextColor(color) {
     dispatch({
-        type: ActionTypes.SetDeepValue,
+        type: 'SetDeepValue',
         keys: ['ui', 'primaryTextColor'],
         value: color,
     });
@@ -189,7 +188,7 @@ function setPrimaryTextColor(color) {
 }
 function setBackgroundImage(image) {
     dispatch({
-        type: ActionTypes.SetDeepValue,
+        type: 'SetDeepValue',
         keys: ['ui', 'backgroundImage'],
         value: image,
     });
@@ -197,7 +196,7 @@ function setBackgroundImage(image) {
 }
 function setSound(sound) {
     dispatch({
-        type: ActionTypes.SetDeepValue,
+        type: 'SetDeepValue',
         keys: ['ui', 'sound'],
         value: sound,
     });
