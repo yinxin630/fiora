@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Avatar from '@/components/Avatar';
+import Time from 'utils/time';
 
 class Linkman extends Component {
     static propTypes = {
@@ -34,22 +35,13 @@ class Linkman extends Component {
     formatTime() {
         const { time: messageTime } = this.props;
         const nowTime = new Date();
-        const zeroMessageTime = Linkman.getZeroTime(messageTime);
-        const zeroNowTime = Linkman.getZeroTime(nowTime);
-        if (zeroMessageTime.getTime() === zeroNowTime.getTime()) {
-            const hours = messageTime.getHours();
-            const minutes = messageTime.getMinutes();
-            return `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}`;
+        if (Time.isToday(nowTime, messageTime)) {
+            return Time.getHourMinute(messageTime);
         }
-        zeroNowTime.setDate(zeroNowTime.getDate() - 1);
-        if (zeroMessageTime.getTime() === zeroNowTime.getTime()) {
+        if (Time.isYesterday(nowTime, messageTime)) {
             return '昨天';
         }
-        zeroNowTime.setDate(zeroNowTime.getDate() - 1);
-        if (zeroMessageTime.getTime() === zeroNowTime.getTime()) {
-            return '前天';
-        }
-        return `${messageTime.getMonth()}/${messageTime.getDate()}`;
+        return Time.getMonthDate(messageTime);
     }
     render() {
         const {

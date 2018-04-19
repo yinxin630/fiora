@@ -6,7 +6,8 @@ import autobind from 'autobind-decorator';
 import Avatar from '@/components/Avatar';
 import { Circle } from '@/components/Progress';
 import Dialog from '@/components/Dialog';
-import expressions from '../../../../../utils/expressions';
+import Time from 'utils/time';
+import expressions from 'utils/expressions';
 
 const Prism = require('prismjs/components/prism-core.js');
 require('prismjs/themes/prism.css');
@@ -64,7 +65,14 @@ class Message extends Component {
         isSelf: false,
     }
     static formatTime(time) {
-        return `${time.getHours()}:${time.getMinutes()}`;
+        const nowTime = new Date();
+        if (Time.isToday(nowTime, time)) {
+            return Time.getHourMinute(time);
+        }
+        if (Time.isYesterday(nowTime, time)) {
+            return `昨天 ${Time.getHourMinute(time)}`;
+        }
+        return `${Time.getMonthDate(time)} ${Time.getHourMinute(time)}`;
     }
     static convertExpression(txt) {
         return txt.replace(

@@ -129,6 +129,7 @@
         color: #333;
         font-size: 14px;
         margin-left: 6px;
+        user-select: text;
     }
     .time {
         color: #666;
@@ -195,6 +196,12 @@
         margin: 0 2px;
         background-size: 30px auto;
         background-image: url('../../../../assets/images/baidu.png');
+    }
+    .text {
+        user-select: text;
+        & > img {
+            user-select: text;
+        }
     }
     .image {
         position: relative;
