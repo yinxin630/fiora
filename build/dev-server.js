@@ -23,6 +23,7 @@ const compiler = webpack(webpackConfig);
 const devMiddleware = require('webpack-dev-middleware')(compiler, {
     publicPath: webpackConfig.output.publicPath,
     quiet: true,
+    logLevel: 'error',
 });
 
 const hotMiddleware = require('webpack-hot-middleware')(compiler, {
@@ -31,7 +32,9 @@ const hotMiddleware = require('webpack-hot-middleware')(compiler, {
 
 compiler.plugin('compilation', (compilation) => {
     compilation.plugin('html-webpack-plugin-after-emit', (data, cb) => {
-        cb();
+        if (cb) {
+            cb();
+        }
     });
 });
 
