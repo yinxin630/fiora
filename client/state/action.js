@@ -123,12 +123,6 @@ function updateSelfMessage(linkmanId, messageId, message) {
 }
 
 /* ===== 联系人 ===== */
-function addGroup(group) {
-    dispatch({
-        type: ActionTypes.AddGroup,
-        group,
-    });
-}
 function setFocus(linkmanId) {
     dispatch({
         type: 'SetFocus',
@@ -149,10 +143,16 @@ function setGroupAvatar(groupId, avatar) {
         avatar,
     });
 }
-function addLinkman(linkman) {
+function addLinkman(linkman, focus = false) {
+    if (linkman.type === 'group') {
+        linkman.members = [];
+        linkman.messages = [];
+        linkman.unread = 0;
+    }
     dispatch({
         type: 'AddLinkman',
         linkman,
+        focus,
     });
 }
 
@@ -213,7 +213,6 @@ export default {
     logout,
     setAvatar,
 
-    addGroup,
     setFocus,
     setGroupMembers,
     setGroupAvatar,

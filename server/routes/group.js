@@ -37,7 +37,7 @@ module.exports = {
             name: newGroup.name,
             avatar: newGroup.avatar,
             createTime: newGroup.createTime,
-            messages: [],
+            creator: newGroup.creator,
         };
     },
     async joinGroup(ctx) {
@@ -63,6 +63,7 @@ module.exports = {
             name: group.name,
             avatar: group.avatar,
             createTime: group.createTime,
+            creator: group.creator,
             messages,
         };
     },

@@ -34,14 +34,6 @@ function reducer(state = initialState, action) {
             .set('user', immutable.fromJS(action.user))
             .set('focus', action.user.linkmans[0]._id);
     }
-    case ActionTypes.AddGroup: {
-        return state
-            .updateIn(
-                ['user', 'groups'],
-                groups => groups.unshift(immutable.fromJS(action.group)),
-            )
-            .set('focusGroup', action.group._id);
-    }
     case 'AddLinkman': {
         const newState = state.updateIn(['user', 'linkmans'], linkmans => (
             linkmans.unshift(immutable.fromJS(action.linkman))

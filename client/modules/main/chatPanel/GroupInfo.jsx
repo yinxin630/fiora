@@ -23,7 +23,8 @@ class GroupInfo extends Component {
         onClose();
         const [err, res] = await fetch('joinGroup', { groupId: groupInfo._id });
         if (!err) {
-            action.addGroup(res);
+            res.type = 'group';
+            action.addLinkman(res, true);
         }
     }
     @autobind
