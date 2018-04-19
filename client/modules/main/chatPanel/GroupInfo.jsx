@@ -15,7 +15,7 @@ class GroupInfo extends Component {
         visible: PropTypes.bool,
         groupInfo: PropTypes.object,
         onClose: PropTypes.func,
-        groups: ImmutablePropTypes.list,
+        linkmans: ImmutablePropTypes.list,
     }
     @autobind
     async handleJoinGroup() {
@@ -34,7 +34,7 @@ class GroupInfo extends Component {
         action.setFocus(groupInfo._id);
     }
     render() {
-        const { visible, groupInfo, onClose, groups } = this.props;
+        const { visible, groupInfo, onClose, linkmans } = this.props;
         return (
             <Dialog className="group-info" visible={visible} onClose={onClose}>
                 {
@@ -50,7 +50,7 @@ class GroupInfo extends Component {
                                     <div>{groupInfo.members}人</div>
                                 </div>
                                 {
-                                    groups.find(g => g.get('_id') === groupInfo._id) ?
+                                    linkmans.find(l => l.get('_id') === groupInfo._id) ?
                                         <Button onClick={this.handleFocusGroup}>发送消息</Button>
                                         :
                                         <Button onClick={this.handleJoinGroup}>加入群组</Button>
@@ -66,5 +66,5 @@ class GroupInfo extends Component {
 }
 
 export default connect(state => ({
-    groups: state.getIn(['user', 'groups']),
+    linkmans: state.getIn(['user', 'linkmans']),
 }))(GroupInfo);

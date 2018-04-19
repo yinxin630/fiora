@@ -58,6 +58,8 @@ module.exports = {
             .populate('from', { username: 1, avatar: 1 });
         messages.reverse();
 
+        ctx.socket.socket.join(group._id);
+
         return {
             _id: group._id,
             name: group.name,
