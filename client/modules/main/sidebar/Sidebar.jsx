@@ -69,6 +69,7 @@ class Sidebar extends Component {
         this.state = {
             settingDialog: false,
             userDialog: false,
+            rewardDialog: false,
         };
     }
     @autobind
@@ -93,6 +94,18 @@ class Sidebar extends Component {
     closeUserDialog() {
         this.setState({
             userDialog: false,
+        });
+    }
+    @autobind
+    openReward() {
+        this.setState({
+            rewardDialog: true,
+        });
+    }
+    @autobind
+    closeReward() {
+        this.setState({
+            rewardDialog: false,
         });
     }
     @autobind
@@ -143,7 +156,7 @@ class Sidebar extends Component {
     }
     render() {
         const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound } = this.props;
-        const { settingDialog, userDialog } = this.state;
+        const { settingDialog, userDialog, rewardDialog } = this.state;
         if (isLogin) {
             return (
                 <div className="module-main-sidebar">
@@ -153,6 +166,7 @@ class Sidebar extends Component {
                         <a href="https://github.com/yinxin630/fiora" target="_black" rel="noopener noreferrer">
                             <IconButton width={40} height={40} icon="github" iconSize={26} />
                         </a>
+                        <IconButton width={40} height={40} icon="dashang" iconSize={26} onClick={this.openReward} />
                         <a href="http://suisuijiang.com" target="_black" rel="noopener noreferrer">
                             <IconButton width={40} height={40} icon="about" iconSize={26} />
                         </a>
@@ -212,6 +226,15 @@ class Sidebar extends Component {
                                 <div className="avatar-preview">
                                     <img src={avatar} onClick={this.selectAvatar} />
                                 </div>
+                            </div>
+                        </div>
+                    </Dialog>
+                    <Dialog className="dialog reward " visible={rewardDialog} title="打赏" onClose={this.closeReward}>
+                        <div className="content">
+                            <p>如果你觉得这个聊天室代码对你有帮助, 希望打赏个咖啡钱~~</p>
+                            <div>
+                                <img src={require('@/assets/images/alipay.jpg')} />
+                                <img src={require('@/assets/images/wxpay.jpg')} />
                             </div>
                         </div>
                     </Dialog>
