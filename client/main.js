@@ -5,6 +5,7 @@ import ReactDom from 'react-dom';
 import { Provider } from 'react-redux';
 import platform from 'platform';
 
+import fetch from 'utils/fetch';
 import App from './App';
 import store from './state/store';
 import action from './state/action';
@@ -17,29 +18,33 @@ if (window.Notification && (window.Notification.permission === 'default' || wind
     window.Notification.requestPermission();
 }
 
-socket.on('connect', () => {
+async function guest() {
+    const [err, res] = await fetch('guest', {
+        os: platform.os.family,
+        browser: platform.name,
+        environment: platform.description,
+    });
+    if (!err) {
+        action.setGuest(res);
+    }
+}
+
+socket.on('connect', async () => {
     const token = window.localStorage.getItem('token');
     if (token) {
-        socket.emit('loginByToken', {
+        const [err, res] = await fetch('loginByToken', {
             token,
             os: platform.os.family,
             browser: platform.name,
             environment: platform.description,
-        }, (res) => {
-            if (typeof res === 'object') {
-                action.setUser(res);
-            }
-        });
+        }, { toast: false });
+        if (err) {
+            guest();
+        } else {
+            action.setUser(res);
+        }
     } else {
-        socket.emit('guest', {
-            os: platform.os.family,
-            browser: platform.name,
-            environment: platform.description,
-        }, (res) => {
-            if (typeof res === 'object') {
-                action.setGuest(res);
-            }
-        });
+        guest();
     }
 });
 socket.on('disconnect', () => {

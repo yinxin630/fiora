@@ -13,6 +13,9 @@ class HeaderBar extends Component {
     }
     render() {
         const { linkman, showGroupInfo } = this.props;
+        if (!linkman) {
+            return <div />;
+        }
         return (
             <div className="chat-headerBar">
                 <h2>{linkman && linkman.get('name')}</h2>
@@ -26,8 +29,8 @@ class HeaderBar extends Component {
 
 export default connect((state) => {
     const focus = state.get('focus');
-    const linkmans = state.getIn(['user', 'linkmans']) || immutable.List;
-    const linkman = linkmans.find(g => g.get('_id') === focus);
+    const linkmans = state.getIn(['user', 'linkmans']) || immutable.fromJS([]);
+    const linkman = linkmans.find(l => l.get('_id') === focus);
     return {
         linkman,
     };

@@ -140,10 +140,7 @@ module.exports = {
         try {
             payload = jwt.decode(token, config.jwtSecret);
         } catch (err) {
-            if (err.message === 'Signature verification failed') {
-                return '非法token';
-            }
-            throw err;
+            return '非法token';
         }
 
         assert(Date.now() < payload.expires, 'token已过期');
