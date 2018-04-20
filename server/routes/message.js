@@ -1,5 +1,5 @@
 const assert = require('assert');
-const mongoose = require('mongoose');
+const { isValid } = require('mongoose').Types.ObjectId;
 
 const User = require('../models/user');
 const Group = require('../models/group');
@@ -17,12 +17,14 @@ module.exports = {
 
         let groupId = '';
         let userId = '';
-        if (mongoose.Types.ObjectId.isValid(to)) {
+        if (isValid(to)) {
+            groupId = to;
+            assert(isValid(groupId), '无效的群组ID');
             const group = await Group.findOne({ _id: to });
             assert(group, '群组不存在');
-            groupId = to;
         } else {
             userId = to.replace(ctx.socket.user, '');
+            assert(isValid(userId), '无效的用户ID');
             const user = await User.findOne({ _id: userId });
             assert(user, '用户不存在');
         }

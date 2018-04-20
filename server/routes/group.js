@@ -1,6 +1,6 @@
 const assert = require('assert');
+const { isValid } = require('mongoose').Types.ObjectId;
 
-// const User = require('../models/user');
 const Group = require('../models/group');
 const Socket = require('../models/socket');
 const Message = require('../models/message');
@@ -59,6 +59,7 @@ module.exports = {
     },
     async joinGroup(ctx) {
         const { groupId } = ctx.data;
+        assert(isValid(groupId), '无效的群组ID');
 
         const group = await Group.findOne({ _id: groupId });
         assert(group, '加入群组失败, 群组不存在');
@@ -88,6 +89,8 @@ module.exports = {
     },
     async getGroupOnlineMembers(ctx) {
         const { groupId } = ctx.data;
+        assert(isValid(groupId), '无效的群组ID');
+
         const group = await Group.findOne({ _id: groupId });
         assert(group, '群组不存在');
         return getGroupOnlineMembers(group);
@@ -99,6 +102,7 @@ module.exports = {
     },
     async changeGroupAvatar(ctx) {
         const { groupId, avatar } = ctx.data;
+        assert(isValid(groupId), '无效的群组ID');
         assert(avatar, '头像地址不能为空');
 
         await Group.update({ _id: groupId }, { avatar });

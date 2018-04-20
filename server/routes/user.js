@@ -2,6 +2,7 @@ const assert = require('assert');
 const bluebird = require('bluebird');
 const bcrypt = bluebird.promisifyAll(require('bcrypt'), { suffix: '$' });
 const jwt = require('jwt-simple');
+const { isValid } = require('mongoose').Types.ObjectId;
 
 const User = require('../models/user');
 const Group = require('../models/group');
@@ -214,6 +215,7 @@ module.exports = {
     },
     async addFrient(ctx) {
         const { userId } = ctx.data;
+        assert(isValid(userId), '无效的用户ID');
 
         const user = await User.findOne({ _id: userId });
         assert(user, '添加好友失败, 用户不存在');
