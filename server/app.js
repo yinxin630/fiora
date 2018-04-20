@@ -7,6 +7,7 @@ const path = require('path');
 const enhanceContext = require('./middlewares/enhanceContext.js');
 const log = require('./middlewares/log');
 const catchError = require('./middlewares/catchError');
+const frequency = require('./middlewares/frequency');
 const isLogin = require('./middlewares/isLogin');
 const route = require('./middlewares/route');
 
@@ -69,6 +70,7 @@ app._io.origins([
 io.use(enhanceContext());
 io.use(log());
 io.use(catchError());
+io.use(frequency());
 io.use(isLogin());
 io.use(route(
     app.io,
