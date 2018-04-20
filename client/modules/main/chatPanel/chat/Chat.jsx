@@ -53,14 +53,20 @@ class Chat extends Component {
     }
     @autobind
     async showGroupInfo(e) {
-        const { focus } = this.props;
+        const { focus, userId } = this.props;
         this.setState({
             showGroupInfo: true,
         });
         e.stopPropagation();
         e.preventDefault();
 
-        const [err, result] = await fetch('getGroupOnlineMembers', { groupId: focus });
+        let err = null;
+        let result = null;
+        if (userId) {
+            [err, result] = await fetch('getGroupOnlineMembers', { groupId: focus });
+        } else {
+            [err, result] = await fetch('getDefaultGroupOnlineMembers', { });
+        }
         if (!err) {
             action.setGroupMembers(focus, result);
         }

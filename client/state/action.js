@@ -60,18 +60,9 @@ async function setGuest(defaultGroup) {
             Object.assign(defaultGroup, {
                 type: 'group',
                 unread: 0,
-                messages: [],
                 members: [],
             }),
         ] },
-    });
-
-    const [, messages = []] = await fetch('getDefalutGroupMessages');
-    dispatch({
-        type: 'SetLinkmanMessages',
-        messages: {
-            [defaultGroup._id]: messages,
-        },
     });
 }
 function connect() {

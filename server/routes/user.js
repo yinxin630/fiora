@@ -7,6 +7,7 @@ const User = require('../models/user');
 const Group = require('../models/group');
 const Socket = require('../models/socket');
 const Friend = require('../models/friend');
+const Message = require('../models/message');
 const config = require('../../config/server');
 
 const saltRounds = 10;
@@ -190,7 +191,16 @@ module.exports = {
         const group = await Group.findOne({ isDefault: true }, { _id: 1, name: 1, avatar: 1, createTime: 1 });
         ctx.socket.socket.join(group._id);
 
-        return Object.assign({ messages: [] }, group.toObject());
+        const messages = await Message
+            .find(
+                { to: group._id },
+                { type: 1, content: 1, from: 1, createTime: 1 },
+                { sort: { createTime: -1 }, limit: 15 },
+            )
+            .populate('from', { username: 1, avatar: 1 });
+        messages.reverse();
+
+        return Object.assign({ messages }, group.toObject());
     },
     async changeAvatar(ctx) {
         const { avatar } = ctx.data;

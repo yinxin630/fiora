@@ -18,10 +18,16 @@ class MessageList extends Component {
     }
     @autobind
     async handleScroll(e) {
-        const { focus, messages } = this.props;
+        const { focus, messages, self } = this.props;
         const $div = e.target;
         if ($div.scrollTop === 0 && $div.scrollHeight > $div.clientHeight) {
-            const [err, result] = await fetch('getLinkmanHistoryMessages', { linkmanId: focus, existCount: messages.size });
+            let err = null;
+            let result = null;
+            if (self) {
+                [err, result] = await fetch('getLinkmanHistoryMessages', { linkmanId: focus, existCount: messages.size });
+            } else {
+                [err, result] = await fetch('getDefalutGroupHistoryMessages', { existCount: messages.size });
+            }
             if (!err) {
                 action.addLinkmanMessages(focus, result);
             }

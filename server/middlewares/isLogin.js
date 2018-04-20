@@ -7,8 +7,8 @@ module.exports = function () {
         login: true,
         loginByToken: true,
         guest: true,
-        getDefalutGroupMessages: true,
-        getGroupOnlineMembers: true,
+        getDefalutGroupHistoryMessages: true,
+        getDefaultGroupOnlineMembers: true,
     };
     return async (ctx, next) => {
         if (!noUseLoginEvent[ctx.event] && !ctx.socket.user) {

@@ -6,6 +6,23 @@ const Socket = require('../models/socket');
 const Message = require('../models/message');
 const config = require('../../config/server');
 
+async function getGroupOnlineMembers(group) {
+    const sockets = await Socket
+        .find(
+            { user: group.members },
+            { os: 1, browser: 1, environment: 1, user: 1 },
+        )
+        .populate(
+            'user',
+            { username: 1, avatar: 1 },
+        );
+    const filterSockets = sockets.reduce((result, socket) => {
+        result[socket.user] = socket;
+        return result;
+    }, {});
+    return Object.values(filterSockets);
+}
+
 module.exports = {
     async createGroup(ctx) {
         const ownGroupCount = await Group.count({ creator: ctx.socket.user });
@@ -71,24 +88,14 @@ module.exports = {
     },
     async getGroupOnlineMembers(ctx) {
         const { groupId } = ctx.data;
-
         const group = await Group.findOne({ _id: groupId });
         assert(group, '群组不存在');
-
-        const sockets = await Socket
-            .find(
-                { user: group.members },
-                { os: 1, browser: 1, environment: 1, user: 1 },
-            )
-            .populate(
-                'user',
-                { username: 1, avatar: 1 },
-            );
-        const filterSockets = sockets.reduce((result, socket) => {
-            result[socket.user] = socket;
-            return result;
-        }, {});
-        return Object.values(filterSockets);
+        return getGroupOnlineMembers(group);
+    },
+    async getDefaultGroupOnlineMembers() {
+        const group = await Group.findOne({ isDefault: true });
+        assert(group, '群组不存在');
+        return getGroupOnlineMembers(group);
     },
     async changeGroupAvatar(ctx) {
         const { groupId, avatar } = ctx.data;
