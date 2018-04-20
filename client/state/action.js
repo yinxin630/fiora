@@ -40,15 +40,17 @@ async function setUser(user) {
 
     connect();
 
-    const [groupMessageResult, friendsMessageResult] = await Promise.all([
-        fetch('getGroupsLastMessages', { groups: user.groups.map(g => g._id) }),
-        fetch('getFriendsLastMessages', { users: user.friends.map(f => f.to) }),
-    ]);
-    const messages = Object.assign({}, groupMessageResult[1], friendsMessageResult[1]);
-    dispatch({
-        type: 'SetLinkmanMessages',
-        messages,
-    });
+    const linkmanIds = [
+        ...user.groups.map(g => g._id),
+        ...user.friends.map(f => f._id),
+    ];
+    const [err, messages] = await fetch('getLinkmansLastMessages', { linkmans: linkmanIds });
+    if (!err) {
+        dispatch({
+            type: 'SetLinkmanMessages',
+            messages,
+        });
+    }
 }
 async function setGuest(defaultGroup) {
     dispatch({

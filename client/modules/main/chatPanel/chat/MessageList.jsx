@@ -21,7 +21,7 @@ class MessageList extends Component {
         const { focus, messages } = this.props;
         const $div = e.target;
         if ($div.scrollTop === 0 && $div.scrollHeight > $div.clientHeight) {
-            const [err, result] = await fetch('getGroupHistoryMessages', { groupId: focus, existCount: messages.size });
+            const [err, result] = await fetch('getLinkmanHistoryMessages', { linkmanId: focus, existCount: messages.size });
             if (!err) {
                 action.addLinkmanMessages(focus, result);
             }

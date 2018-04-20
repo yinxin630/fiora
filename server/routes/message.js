@@ -6,7 +6,6 @@ const Group = require('../models/group');
 const Message = require('../models/message');
 const Socket = require('../models/socket');
 const xss = require('../../utils/xss');
-const getFriendId = require('../../utils/getFriendId');
 
 const FirstTimeMessagesCount = 15;
 const EachFetchMessagesCount = 30;
@@ -68,43 +67,37 @@ module.exports = {
 
         return messageData;
     },
-    async getGroupsLastMessages(ctx) {
-        const { groups } = ctx.data;
+    async getLinkmansLastMessages(ctx) {
+        const { linkmans } = ctx.data;
 
-        const promises = groups.map(groupId =>
+        const promises = linkmans.map(linkmanId =>
             Message
                 .find(
-                    { to: groupId },
+                    { to: linkmanId },
                     { type: 1, content: 1, from: 1, createTime: 1 },
                     { sort: { createTime: -1 }, limit: FirstTimeMessagesCount },
                 )
                 .populate('from', { username: 1, avatar: 1 }));
         const results = await Promise.all(promises);
-        const messages = groups.reduce((result, groupId, index) => {
-            result[groupId] = (results[index] || []).reverse();
+        const messages = linkmans.reduce((result, linkmanId, index) => {
+            result[linkmanId] = (results[index] || []).reverse();
             return result;
         }, {});
 
         return messages;
     },
-    async getFriendsLastMessages(ctx) {
-        const { users } = ctx.data;
+    async getLinkmanHistoryMessages(ctx) {
+        const { linkmanId, existCount } = ctx.data;
 
-        const promises = users.map(userId =>
-            Message
-                .find(
-                    { to: getFriendId(ctx.socket.user, userId) },
-                    { type: 1, content: 1, from: 1, createTime: 1 },
-                    { sort: { createTime: -1 }, limit: FirstTimeMessagesCount },
-                )
-                .populate('from', { username: 1, avatar: 1 }));
-        const results = await Promise.all(promises);
-        const messages = users.reduce((result, userId, index) => {
-            result[getFriendId(ctx.socket.user, userId)] = (results[index] || []).reverse();
-            return result;
-        }, {});
-
-        return messages;
+        const messages = await Message
+            .find(
+                { to: linkmanId },
+                { type: 1, content: 1, from: 1, createTime: 1 },
+                { sort: { createTime: -1 }, limit: EachFetchMessagesCount + existCount },
+            )
+            .populate('from', { username: 1, avatar: 1 });
+        const result = messages.slice(existCount).reverse();
+        return result;
     },
     async getDefalutGroupMessages() {
         const group = await Group.findOne({ isDefault: true });
@@ -116,18 +109,5 @@ module.exports = {
             )
             .populate('from', { username: 1, avatar: 1 });
         return messages.reverse();
-    },
-    async getGroupHistoryMessages(ctx) {
-        const { groupId, existCount } = ctx.data;
-
-        const messages = await Message
-            .find(
-                { to: groupId },
-                { type: 1, content: 1, from: 1, createTime: 1 },
-                { sort: { createTime: -1 }, limit: EachFetchMessagesCount + existCount },
-            )
-            .populate('from', { username: 1, avatar: 1 });
-        const result = messages.slice(existCount).reverse();
-        return result;
     },
 };
