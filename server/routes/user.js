@@ -10,6 +10,7 @@ const Socket = require('../models/socket');
 const Friend = require('../models/friend');
 const Message = require('../models/message');
 const config = require('../../config/server');
+const getRandomAvatar = require('../../utils/getRandomAvatar');
 
 const saltRounds = 10;
 
@@ -47,6 +48,7 @@ module.exports = {
                 username,
                 salt,
                 password: hash,
+                avatar: getRandomAvatar(),
                 groups: [defaultGroup],
             });
         } catch (err) {

@@ -31,9 +31,4 @@ module.exports = {
 
     // token expires time
     tokenExpiresTime: 1000 * 60 * 60 * 24 * 30,
-
-    // default group avatar url
-    defaultGroupAvatar: '/static/default_group_avatar.png',
-    // default user avatar url
-    defaultUserAvatar: '/static/default_user_avatar.png',
 };

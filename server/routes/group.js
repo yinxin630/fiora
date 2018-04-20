@@ -5,6 +5,7 @@ const Group = require('../models/group');
 const Socket = require('../models/socket');
 const Message = require('../models/message');
 const config = require('../../config/server');
+const getRandomAvatar = require('../../utils/getRandomAvatar');
 
 async function getGroupOnlineMembers(group) {
     const sockets = await Socket
@@ -38,6 +39,7 @@ module.exports = {
         try {
             newGroup = await Group.create({
                 name,
+                avatar: getRandomAvatar(),
                 creator: ctx.socket.user,
                 members: [ctx.socket.user],
             });

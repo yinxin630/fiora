@@ -8,6 +8,7 @@ const checkVersion = require('../build/check-versions');
 
 const Socket = require('./models/socket');
 const Group = require('./models/group');
+const getRandomAvatar = require('../utils/getRandomAvatar');
 
 mongoose.Promise = Promise;
 checkVersion();
@@ -29,6 +30,7 @@ mongoose.connect(config.database, async (err) => {
     if (!group) {
         const defaultGroup = await Group.create({
             name: 'fiora',
+            avatar: getRandomAvatar(),
             announcement: '欢迎光临Fiora, 这是一个开源/自由的聊天室',
             isDefault: true,
         });

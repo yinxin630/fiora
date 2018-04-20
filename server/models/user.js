@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const config = require('../../config/server');
 
 const { Schema } = mongoose;
 
@@ -18,7 +17,6 @@ const UserSchema = new Schema({
     password: String,
     avatar: {
         type: String,
-        default: config.defaultUserAvatar,
     },
     expressions: [
         {
