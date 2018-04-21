@@ -12,6 +12,7 @@ import Dropdown from '@/components/Dropdown';
 import { Menu, MenuItem } from '@/components/Menu';
 import Dialog from '@/components/Dialog';
 import Message from '@/components/Message';
+import getRandomHuaji from 'utils/getRandomHuaji';
 import Expression from './Expression';
 import CodeEditor from './CodeEditor';
 import config from '../../../../../config/client';
@@ -80,6 +81,10 @@ class ChatInput extends Component {
         switch (key) {
         case 'image': {
             this.handleSelectFile();
+            break;
+        }
+        case 'huaji': {
+            this.sendHuaji();
             break;
         }
         case 'code': {
@@ -223,6 +228,12 @@ class ChatInput extends Component {
         this.sendImageMessage(image);
     }
     @autobind
+    async sendHuaji() {
+        const huaji = getRandomHuaji();
+        const id = this.addSelfMessage('image', huaji);
+        this.sendMessage(id, 'image', huaji);
+    }
+    @autobind
     handlePaste(e) {
         if (!this.props.connect) {
             e.preventDefault();
@@ -270,6 +281,7 @@ class ChatInput extends Component {
         <div className="feature-dropdown">
             <Menu onClick={this.handleFeatureMenuClick}>
                 <MenuItem key="image">发送图片</MenuItem>
+                <MenuItem key="huaji">发送滑稽</MenuItem>
                 <MenuItem key="code">发送代码</MenuItem>
             </Menu>
         </div>
