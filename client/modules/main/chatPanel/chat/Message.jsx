@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 import autobind from 'autobind-decorator';
 
 import Avatar from '@/components/Avatar';
@@ -49,7 +48,6 @@ const languagesMap = {
     json: 'json',
 };
 
-@immutableRenderDecorator
 class Message extends Component {
     static propTypes = {
         avatar: PropTypes.string.isRequired,
@@ -60,6 +58,7 @@ class Message extends Component {
         isSelf: PropTypes.bool,
         loading: PropTypes.bool,
         percent: PropTypes.number,
+        openUserInfoDialog: PropTypes.func,
     }
     static defaultProps = {
         isSelf: false,
@@ -120,6 +119,12 @@ class Message extends Component {
         }
         this.dom.scrollIntoView();
     }
+    shouldComponentUpdate(nextProps) {
+        return !(
+            this.props.loading === nextProps.loading &&
+            this.props.percent === nextProps.percent
+        );
+    }
     @autobind
     showCode() {
         this.setState({
@@ -131,6 +136,13 @@ class Message extends Component {
         this.setState({
             showCode: false,
         });
+    }
+    @autobind
+    handleClickAvatar() {
+        const { isSelf, openUserInfoDialog } = this.props;
+        if (!isSelf) {
+            openUserInfoDialog();
+        }
     }
     renderText() {
         const { content } = this.props;
@@ -222,7 +234,7 @@ class Message extends Component {
         } = this.props;
         return (
             <div className={`chat-message ${isSelf ? 'self' : ''} ${type}`} ref={i => this.dom = i}>
-                <Avatar className="avatar" src={avatar} size={44} />
+                <Avatar className="avatar" src={avatar} size={44} onClick={this.handleClickAvatar} />
                 <div className="right">
                     <div className="nickname-time">
                         <span className="nickname">{nickname}</span>

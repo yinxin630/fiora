@@ -7,14 +7,23 @@ import autobind from 'autobind-decorator';
 
 import fetch from 'utils/fetch';
 import action from '@/state/action';
+import UserInfo from '../UserInfo';
 import Message from './Message';
 
+function noop() {}
 
 class MessageList extends Component {
     static propTypes = {
         self: PropTypes.string,
         messages: ImmutablePropTypes.list,
         focus: PropTypes.string,
+    }
+    constructor(...args) {
+        super(...args);
+        this.state = {
+            userInfoDialog: false,
+            userInfo: {},
+        };
     }
     @autobind
     async handleScroll(e) {
@@ -33,24 +42,45 @@ class MessageList extends Component {
             }
         }
     }
+    @autobind
+    showUserInfoDialog(userInfo) {
+        this.setState({
+            userInfoDialog: true,
+            userInfo,
+        });
+    }
+    @autobind
+    closeUserInfoDialog() {
+        this.setState({
+            userInfoDialog: false,
+        });
+    }
     renderMessage(message) {
         const { self } = this.props;
+        const props = {
+            key: message.get('_id'),
+            avatar: message.getIn(['from', 'avatar']),
+            nickname: message.getIn(['from', 'username']),
+            time: new Date(message.get('createTime')),
+            type: message.get('type'),
+            content: message.get('content'),
+            isSelf: self === message.getIn(['from', '_id']),
+            openUserInfoDialog: noop,
+        };
+        if (props.type === 'image') {
+            props.loading = message.get('loading');
+            props.percent = message.get('percent');
+        }
+        if (!props.isSelf && self) {
+            props.openUserInfoDialog = this.showUserInfoDialog.bind(this, message.get('from').toJS());
+        }
         return (
-            <Message
-                key={message.get('_id')}
-                avatar={message.getIn(['from', 'avatar'])}
-                nickname={message.getIn(['from', 'username'])}
-                time={new Date(message.get('createTime'))}
-                type={message.get('type')}
-                content={message.get('content')}
-                isSelf={self === message.getIn(['from', '_id'])}
-                loading={message.get('loading')}
-                percent={message.get('percent')}
-            />
+            <Message {...props} />
         );
     }
     render() {
         const { messages } = this.props;
+        const { userInfoDialog, userInfo } = this.state;
         return (
             <div className="chat-messageList" onScroll={this.handleScroll}>
                 {
@@ -58,6 +88,7 @@ class MessageList extends Component {
                         this.renderMessage(message)
                     ))
                 }
+                <UserInfo visible={userInfoDialog} userInfo={userInfo} onClose={this.closeUserInfoDialog} />
             </div>
         );
     }
