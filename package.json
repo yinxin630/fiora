@@ -1,9 +1,8 @@
 {
-  "name": "react-starter",
-  "version": "1.0.0",
-  "description": "personal react starter",
+  "name": "fiora",
+  "version": "0.0.1",
+  "description": "An interesting chat application power by socket.io, koa, mongodb and react",
   "author": "碎碎酱 <yinxin630@gmail.com>",
-  "private": true,
   "scripts": {
     "server": "export NODE_ENV=development && nodemon server/main.js --config .nodemonrc",
     "client": "node build/dev-server.js",

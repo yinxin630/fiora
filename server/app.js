@@ -58,12 +58,12 @@ const io = new IO({
 // 注入应用
 io.attach(app);
 
-app._io.origins([
-    'fiora.suisuijiang.com:80',
-    'fiora.suisuijiang.com:443',
-    'localhost:8080',
-    '127.0.0.1:8080',
-]);
+if (process.env.NODE_ENV === 'production') {
+    app._io.origins([
+        'fiora.suisuijiang.com:80',
+        'fiora.suisuijiang.com:443',
+    ]);
+}
 
 
 // 中间件
