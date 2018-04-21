@@ -16,16 +16,13 @@ Fiora是一款web聊天应用. 使用node.js, mongodb, socket.io和react编写.
 0. 桌面通知, 声音提醒
 0. 自定义桌面背景, 主题颜色和文本颜色
 
-## Script
-
-* `server`: 启动服务端
-* `client`: 启动客户端
-* `build`: 构建发布版本客户端
-* `lint`: 执行eslint检查
-
 ## 运行截图
 
-![](screenshot.png)
+![](./screenshots/runtime.png)
+
+## 安装运行
+
+[查看如何在本地运行Fiora](./INSTALL.ZH.md)
 
 ## 目录结构
 

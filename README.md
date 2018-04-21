@@ -16,16 +16,13 @@ Fiora is a web chat application. It is written by node.js, mongodb, socket.io an
 0. Desktop notification, sound reminder
 0. Custom desktop background, theme color, and text color
 
-## Script
-
-* `server`: Start the server
-* `client`: Start the client
-* `build`: Building a release version of the client
-* `lint`: Perform eslint check
-
 ## Run screenshot
 
-![](./doc/screenshot.png)
+![](./doc/screenshots/runtime.png)
+
+## Install
+
+[See how to run Fiora locally](./INSTALL.md)
 
 ## Directory structure
 
