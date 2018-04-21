@@ -25,7 +25,7 @@ Fiora is a web chat application. It is written by node.js, mongodb, socket.io an
 
 ## Run screenshot
 
-![](screenshot.png)
+![](./doc/screenshot.png)
 
 ## Directory structure
 
