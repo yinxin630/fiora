@@ -1,7 +1,5 @@
-const options = require('../utils/commandOptions');
-
 export default {
-    server: options.server || '//localhost:9200',
+    server: process.env.NODE_ENV === 'development' ? '//localhost:9200' : '',
 
     maxImageSize: 1024 * 1024 * 1,
     maxBackgroundImageSize: 1024 * 1024 * 3,

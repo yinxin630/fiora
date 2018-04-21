@@ -15,7 +15,17 @@
     "plugins": [
         "react-hot-loader/babel",
         "transform-decorators-legacy",
-        "transform-class-properties"
+        "transform-class-properties",
+        [
+            "react-transform",
+            {
+                "transforms": [
+                    {
+                        "transform": "react-transform-style"
+                    }
+                ]
+            }
+        ]
     ],
     "comments": false,
     "env": {
@@ -30,9 +40,6 @@
                     "react-transform",
                     {
                         "transforms": [
-                            {
-                                "transform": "react-transform-style"
-                            },
                             {
                                 "transform": "react-transform-log-render"
                             }

@@ -8,7 +8,6 @@ const optionDefinitions = [
     { name: 'qiniuBucket', type: String },
     { name: 'qiniuUrlPrefix', type: String },
     { name: 'allowOrigin', type: String, multiple: true },
-    { name: 'server', type: String },
     { name: 'publicPath', type: String },
     { name: 'subDirectory', type: String },
 ];
