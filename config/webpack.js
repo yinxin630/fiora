@@ -1,11 +1,5 @@
 const path = require('path');
-const commandLineArgs = require('command-line-args');
-
-const optionDefinitions = [
-    { name: 'publicPath', type: String },
-    { name: 'subDirectory', type: String },
-];
-const options = commandLineArgs(optionDefinitions);
+const options = require('../utils/commandOptions');
 
 module.exports = {
     commonn: {

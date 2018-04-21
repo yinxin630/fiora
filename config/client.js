@@ -1,9 +1,4 @@
-const commandLineArgs = require('command-line-args');
-
-const optionDefinitions = [
-    { name: 'server', type: String },
-];
-const options = commandLineArgs(optionDefinitions);
+const options = require('../utils/commandOptions');
 
 export default {
     server: options.server || '//localhost:9200',

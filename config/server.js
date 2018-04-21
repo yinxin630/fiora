@@ -1,14 +1,4 @@
-const commandLineArgs = require('command-line-args');
-
-const optionDefinitions = [
-    { name: 'database', type: String },
-    { name: 'jwtSecret', type: String },
-    { name: 'qiniuAccessKey', type: String },
-    { name: 'qiniuSecretKey', type: String },
-    { name: 'qiniuBucket', type: String },
-    { name: 'qiniuUrlPrefix', type: String },
-];
-const options = commandLineArgs(optionDefinitions);
+const options = require('../utils/commandOptions');
 
 module.exports = {
     // service port
@@ -29,7 +19,7 @@ module.exports = {
     qiniuBucket: options.qiniuBucket || '',
     qiniuUrlPrefix: options.qiniuUrlPrefix || '',
 
-    allowOrigin: ['localhost:8080'],
+    allowOrigin: options.allowOrigin || ['localhost:8080'],
 
     // token expires time
     tokenExpiresTime: 1000 * 60 * 60 * 24 * 30,
