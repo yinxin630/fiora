@@ -71,11 +71,17 @@ socket.on('message', (message) => {
             createTime: Date.now(),
             avatar: message.from.avatar,
             name: message.from.username,
-            messages: [message],
+            messages: [],
             unread: 1,
         };
         action.addLinkman(newLinkman);
         title = `${message.from.username} 对你说:`;
+
+        fetch('getLinkmanHistoryMessages', { linkmanId: newLinkman._id }).then(([err, res]) => {
+            if (!err) {
+                action.addLinkmanMessages(newLinkman._id, res);
+            }
+        });
     }
 
     notification(
