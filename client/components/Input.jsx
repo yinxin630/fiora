@@ -20,7 +20,7 @@ class Input extends Component {
         };
     }
     getValue() {
-        return this.state.value;
+        return this.state.value.trim();
     }
     clear() {
         this.setState({

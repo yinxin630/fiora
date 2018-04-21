@@ -126,7 +126,7 @@ class ChatInput extends Component {
             return Message.error('发送消息失败, 您当前处于离线状态');
         }
 
-        const message = this.message.value;
+        const message = this.message.value.trim();
         if (message.length === 0) {
             return;
         }

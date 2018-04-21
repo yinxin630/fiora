@@ -96,7 +96,7 @@ class Feature extends Component {
         });
     }
     async search() {
-        const keywords = this.searchInput.value;
+        const keywords = this.searchInput.value.trim();
         const [searchError, searchResult] = await fetch('search', { keywords });
         if (!searchError) {
             this.setState({
