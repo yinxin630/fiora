@@ -29,6 +29,8 @@ module.exports = {
     qiniuBucket: options.qiniuBucket || '',
     qiniuUrlPrefix: options.qiniuUrlPrefix || '',
 
+    allowOrigin: ['localhost:8080'],
+
     // token expires time
     tokenExpiresTime: 1000 * 60 * 60 * 24 * 30,
 };

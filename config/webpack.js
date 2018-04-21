@@ -1,4 +1,11 @@
 const path = require('path');
+const commandLineArgs = require('command-line-args');
+
+const optionDefinitions = [
+    { name: 'publicPath', type: String },
+    { name: 'subDirectory', type: String },
+];
+const options = commandLineArgs(optionDefinitions);
 
 module.exports = {
     commonn: {
@@ -24,9 +31,9 @@ module.exports = {
         },
         index: path.resolve(__dirname, '../dist/index.html'),
         assetsRoot: path.resolve(__dirname, '../dist/fiora'),
-        assetsSubDirectory: '.',
-        assetsPublicPath: '//cdn.suisuijiang.com/fiora',
-        productionSourceMap: true,
+        assetsSubDirectory: options.subDirectory || '.',
+        assetsPublicPath: options.publicPath || '/',
+        productionSourceMap: false,
         productionGzip: false,
         productionGzipExtensions: ['js', 'css'],
         bundleAnalyzerReport: process.env.npm_config_report,

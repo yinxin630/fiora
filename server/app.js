@@ -19,6 +19,8 @@ const systemRoutes = require('./routes/system');
 
 const Socket = require('./models/socket');
 
+const config = require('../config/server');
+
 const app = new Koa();
 
 // 将前端路由指向 index.html
@@ -59,10 +61,7 @@ const io = new IO({
 io.attach(app);
 
 if (process.env.NODE_ENV === 'production') {
-    app._io.origins([
-        'fiora.suisuijiang.com:80',
-        'fiora.suisuijiang.com:443',
-    ]);
+    app._io.origins(config.allowOrigin);
 }
 
 
