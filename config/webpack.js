@@ -1,5 +1,4 @@
 const path = require('path');
-const packageInfo = require('../package.json');
 
 module.exports = {
     commonn: {
@@ -24,9 +23,9 @@ module.exports = {
             NODE_ENV: '"production"',
         },
         index: path.resolve(__dirname, '../dist/index.html'),
-        assetsRoot: path.resolve(__dirname, '../dist'),
+        assetsRoot: path.resolve(__dirname, '../dist/fiora'),
         assetsSubDirectory: '.',
-        assetsPublicPath: `//cdn.suisuijiang.com/fiora/${packageInfo.version}`,
+        assetsPublicPath: '//cdn.suisuijiang.com/fiora',
         productionSourceMap: true,
         productionGzip: false,
         productionGzipExtensions: ['js', 'css'],

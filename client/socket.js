@@ -1,8 +1,10 @@
 import IO from 'socket.io-client';
 
+import config from '../config/client';
+
 
 const options = {
     reconnectionDelay: 3000,
 };
-const socket = new IO('//localhost:9200', options);
+const socket = new IO(config.server, options);
 export default socket;
