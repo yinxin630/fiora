@@ -443,17 +443,27 @@
     }
 }
 
+.react-viewer-toolbar {
+    height: 38px !important;
+}
 .react-viewer-btn {
+    width: 38px !important;
+    height: 38px !important;
     &:nth-child(3), &:nth-child(5) {
         display: none;
     }
+    & > .react-viewer-icon {
+        line-height: 38px;
+        font-size: 16px;
+    }
 }
 .react-viewer-close {
-    width: 60px;
-    height: 60px;
-    border-radius: 0 0 0 60px;
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 0 0 0 80px;
     .react-viewer-icon {
         top: 14px;
-        left: 28px;
+        left: 36px;
+        font-size: 20px;
     }
 }
