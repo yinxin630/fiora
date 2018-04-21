@@ -1,5 +1,5 @@
 import Tooltip from 'rc-tooltip';
 import 'rc-tooltip/assets/bootstrap.css';
-import './Tooltip.less';
+import './components.less';
 
 export default Tooltip;

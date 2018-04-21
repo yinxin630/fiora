@@ -1,6 +1,6 @@
 import Dialog from 'rc-dialog';
 import 'rc-dialog/assets/index.css';
 
-import './Dialog.less';
+import './components.less';
 
 export default Dialog;

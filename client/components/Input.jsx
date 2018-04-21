@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 
 import IconButton from './IconButton';
-import './Input.less';
+import './components.less';
 
 
 class Input extends Component {

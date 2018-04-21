@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import './Button.less';
+import './components.less';
 
 class Button extends Component {
     static propTypes = {

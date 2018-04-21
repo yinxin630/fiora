@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './components.less';
+
 function noop() { }
 
 const Avatar = ({ src, size = 60, onClick = noop, className = '' }) => (

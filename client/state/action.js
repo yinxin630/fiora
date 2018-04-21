@@ -81,7 +81,7 @@ function disconnect() {
 }
 function logout() {
     dispatch({
-        type: 'Init',
+        type: 'Logout',
     });
 }
 function setAvatar(avatar) {

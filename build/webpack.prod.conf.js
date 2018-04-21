@@ -52,7 +52,11 @@ const webpackConfig = merge(baseWebpackConfig, {
         new ExtractTextPlugin({
             filename: utils.assetsPath('css/[name].[hash:8].css'),
         }),
-        new OptimizeCSSPlugin(),
+        new OptimizeCSSPlugin({
+            cssProcessorOptions: {
+                safe: true,
+            },
+        }),
         new CopyWebpackPlugin([
             {
                 from: path.resolve(__dirname, '../static'),

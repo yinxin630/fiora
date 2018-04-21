@@ -87,10 +87,9 @@ class Message extends Component {
     }
     constructor(props) {
         super(props);
+        this.state = {};
         if (props.type === 'code') {
-            this.state = {
-                showCode: false,
-            };
+            this.state.showCode = false;
         }
     }
     componentDidMount() {

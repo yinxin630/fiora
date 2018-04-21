@@ -25,8 +25,18 @@ const initialState = immutable.fromJS({
 
 function reducer(state = initialState, action) {
     switch (action.type) {
-    case 'Init': {
-        return initialState;
+    case 'Logout': {
+        const keepKeys = [
+            ['ui', 'primaryColor'],
+            ['ui', 'primaryTextColor'],
+            ['ui', 'backgroundImage'],
+            ['ui', 'sound'],
+        ];
+        let newState = initialState;
+        for (const key of keepKeys) {
+            newState = newState.setIn(key, state.getIn(key));
+        }
+        return newState;
     }
     case 'SetDeepValue': {
         return state.setIn(action.keys, immutable.fromJS(action.value));
