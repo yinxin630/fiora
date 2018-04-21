@@ -1606,7 +1606,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@2.x, classnames@^2.2.3:
+classnames@2.x, classnames@^2.2.3, classnames@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
@@ -5990,6 +5990,12 @@ react-transform-style@^1.0.4:
   resolved "https://registry.yarnpkg.com/react-transform-style/-/react-transform-style-1.0.4.tgz#87a59de91a7bd85ea79d6219210fcede6184daae"
   dependencies:
     classnames "^2.2.3"
+
+react-viewer@^2.3.9:
+  version "2.3.9"
+  resolved "http://registry.npm.taobao.org/react-viewer/download/react-viewer-2.3.9.tgz#db16eae39bea966113d2e61e05bb4ccb2e5219d5"
+  dependencies:
+    classnames "^2.2.5"
 
 react@^15.6.1:
   version "15.6.2"

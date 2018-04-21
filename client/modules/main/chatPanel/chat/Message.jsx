@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
+import Viewer from 'react-viewer';
+import 'react-viewer/dist/index.css';
 
 import Avatar from '@/components/Avatar';
 import { Circle } from '@/components/Progress';
@@ -90,6 +92,8 @@ class Message extends Component {
         this.state = {};
         if (props.type === 'code') {
             this.state.showCode = false;
+        } else if (props.type === 'iamge') {
+            this.state.showImage = false;
         }
     }
     componentDidMount() {
@@ -122,7 +126,8 @@ class Message extends Component {
         return !(
             this.props.loading === nextProps.loading &&
             this.props.percent === nextProps.percent &&
-            this.state.showCode === nextState.showCode
+            this.state.showCode === nextState.showCode &&
+            this.state.showImage === nextState.showImage
         );
     }
     @autobind
@@ -135,6 +140,18 @@ class Message extends Component {
     hideCode() {
         this.setState({
             showCode: false,
+        });
+    }
+    @autobind
+    showImageViewer() {
+        this.setState({
+            showImage: true,
+        });
+    }
+    @autobind
+    hideImageViewer() {
+        this.setState({
+            showImage: false,
         });
     }
     @autobind
@@ -159,9 +176,15 @@ class Message extends Component {
         // 设置高度宽度为1防止被原图撑起来
         return (
             <div className={`image ${loading ? 'loading' : ''}`}>
-                <img className="img" src={src} width="1" height="1" />
+                <img className="img" src={src} width="1" height="1" onDoubleClick={this.showImageViewer} />
                 <Circle className="progress" percent={percent} strokeWidth="5" strokeColor="#a0c672" trailWidth="5" />
                 <div className="progress-number">{Math.ceil(percent)}%</div>
+                <Viewer
+                    visible={this.state.showImage}
+                    onClose={this.hideImageViewer}
+                    images={[{ src, alt: '' }]}
+                    noNavbar
+                />
             </div>
         );
     }
