@@ -37,3 +37,7 @@ run server `npm run server`
 run client `npm run client`
 
 ![](./screenshots/run-client.png)
+
+## Step 6
+
+The browser will automatically open Fiora, and you can manually open the url `http://localhost:8080`

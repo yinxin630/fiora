@@ -37,3 +37,7 @@
 启动客户端 `npm run client`
 
 ![](./screenshots/run-client.png)
+
+## 第六步
+
+浏览器将会自动打开Fiora, 你也可以手动打开地址 `http://localhost:8080`
