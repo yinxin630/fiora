@@ -205,7 +205,7 @@ class ChatInput extends Component {
         img.onload = () => {
             const id = this.addSelfMessage('image', `${url}?width=${img.width}&height=${img.height}`);
             socket.emit('uploadToken', {}, (res) => {
-                if (typeof token === 'string') {
+                if (typeof res === 'string') {
                     Message.error(res);
                 } else {
                     const result = qiniu.upload(image.result, `ImageMessage/${user.get('_id')}_${Date.now()}.${ext}`, res.token, { useCdnDomain: true }, {});

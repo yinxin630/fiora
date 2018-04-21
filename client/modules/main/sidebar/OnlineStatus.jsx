@@ -7,11 +7,12 @@ class OnlineStatus extends Component {
             'online',
             'offline',
         ]),
+        className: PropTypes.string,
     }
     render() {
-        const { status } = this.props;
+        const { status, className } = this.props;
         return (
-            <div className="module-main-sidebar-onlineStatus">
+            <div className={`module-main-sidebar-onlineStatus ${className}`}>
                 <div className={status} />
             </div>
         );
