@@ -69,6 +69,7 @@ class ChatInput extends Component {
             expressionVisible: false,
             codeInputVisible: false,
         };
+        this.lockEnter = false;
     }
     @autobind
     handleVisibleChange(visible) {
@@ -109,14 +110,21 @@ class ChatInput extends Component {
         }
 
         const language = this.codeEditor.getLanguage();
-        const code = `@language=${language}@${this.codeEditor.getValue()}`;
+        const rawCode = this.codeEditor.getValue();
+        if (rawCode === '') {
+            return Message.warning('请输入内容');
+        }
+
+        const code = `@language=${language}@${rawCode}`;
         const id = this.addSelfMessage('code', code);
         this.sendMessage(id, 'code', code);
         this.handleCodeEditorClose();
     }
     @autobind
     handleInputKeyDown(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
+        if (e.key === 'Tab') {
+            e.preventDefault();
+        } else if (e.key === 'Enter' && !this.lockEnter) {
             this.sendTextMessage();
         }
     }
@@ -272,6 +280,14 @@ class ChatInput extends Component {
             e.preventDefault();
         }
     }
+    @autobind
+    handleIMEStart() {
+        this.lockEnter = true;
+    }
+    @autobind
+    handleIMEEnd() {
+        this.lockEnter = false;
+    }
     expressionDropdown = (
         <div className="expression-dropdown">
             <Expression onSelect={this.handleSelectExpression} />
@@ -322,7 +338,15 @@ class ChatInput extends Component {
                             <button className="codeEditor-button" onClick={this.handleSendCode}>发送</button>
                         </div>
                     </Dialog>
-                    <input placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~" maxLength="2048" ref={i => this.message = i} onKeyDown={this.handleInputKeyDown} onPaste={this.handlePaste} />
+                    <input
+                        placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~"
+                        maxLength="2048"
+                        ref={i => this.message = i}
+                        onKeyDown={this.handleInputKeyDown}
+                        onPaste={this.handlePaste}
+                        onCompositionStart={this.handleIMEStart}
+                        onCompositionEnd={this.handleIMEEnd}
+                    />
                     <IconButton className="send" width={44} height={44} icon="send" iconSize={32} onClick={this.sendTextMessage} />
                 </div>
             );

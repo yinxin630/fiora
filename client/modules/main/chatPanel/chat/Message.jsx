@@ -119,10 +119,11 @@ class Message extends Component {
         }
         this.dom.scrollIntoView();
     }
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps, nextState) {
         return !(
             this.props.loading === nextProps.loading &&
-            this.props.percent === nextProps.percent
+            this.props.percent === nextProps.percent &&
+            this.state.showCode === nextState.showCode
         );
     }
     @autobind
@@ -176,10 +177,11 @@ class Message extends Component {
 
         const language = languagesMap[parseResult[1]];
         const transferContent = content;
-        const html = Prism.highlight(transferContent.replace(/@language=[_a-z]+@/, ''), Prism.languages[language], language);
-        let size = `${transferContent.length}B`;
-        if (transferContent.length > 1024) {
-            size = `${Math.ceil(transferContent.length / 1024 * 100) / 100}KB`;
+        const rawCode = transferContent.replace(/@language=[_a-z]+@/, '');
+        const html = Prism.highlight(rawCode, Prism.languages[language], language);
+        let size = `${rawCode.length}B`;
+        if (rawCode.length > 1024) {
+            size = `${Math.ceil(rawCode.length / 1024 * 100) / 100}KB`;
         }
         return (
             <div className="code">
