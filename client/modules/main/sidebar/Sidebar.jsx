@@ -35,6 +35,7 @@ class Sidebar extends Component {
     static logout() {
         action.logout();
         window.localStorage.removeItem('token');
+        Message.success('您已经退出登录');
         socket.disconnect();
         socket.connect();
     }
