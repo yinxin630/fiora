@@ -61,6 +61,7 @@ class Message extends Component {
         loading: PropTypes.bool,
         percent: PropTypes.number,
         openUserInfoDialog: PropTypes.func,
+        shouldScroll: PropTypes.bool,
     }
     static defaultProps = {
         isSelf: false,
@@ -97,7 +98,7 @@ class Message extends Component {
         }
     }
     componentDidMount() {
-        const { type, content } = this.props;
+        const { type, content, shouldScroll } = this.props;
         if (type === 'image') {
             let maxWidth = this.dom.clientWidth - 100;
             const maxHeight = 400;
@@ -120,7 +121,9 @@ class Message extends Component {
                 $image.height = height * scale;
             }
         }
-        this.dom.scrollIntoView();
+        if (shouldScroll) {
+            this.dom.scrollIntoView();
+        }
     }
     shouldComponentUpdate(nextProps, nextState) {
         return !(

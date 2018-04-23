@@ -66,6 +66,7 @@ class MessageList extends Component {
             content: message.get('content'),
             isSelf: self === message.getIn(['from', '_id']),
             openUserInfoDialog: noop,
+            shouldScroll: this.$list.scrollHeight === this.$list.clientHeight || this.$list.scrollTop > this.$list.scrollHeight - this.$list.clientHeight * 2,
         };
         if (props.type === 'image') {
             props.loading = message.get('loading');
@@ -82,7 +83,7 @@ class MessageList extends Component {
         const { messages } = this.props;
         const { userInfoDialog, userInfo } = this.state;
         return (
-            <div className="chat-messageList" onScroll={this.handleScroll}>
+            <div className="chat-messageList" onScroll={this.handleScroll} ref={i => this.$list = i}>
                 {
                     messages.map(message => (
                         this.renderMessage(message)
