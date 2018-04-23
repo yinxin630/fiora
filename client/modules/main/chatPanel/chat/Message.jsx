@@ -162,7 +162,13 @@ class Message extends Component {
         }
     }
     renderText() {
-        const { content } = this.props;
+        let { content } = this.props;
+        content = content.replace(
+            /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g,
+            r => (
+                `<a href="${r}" rel="noopener noreferrer" target="_blank">${r}</a>`
+            ),
+        );
         return (
             <div className="text" dangerouslySetInnerHTML={{ __html: Message.convertExpression(content) }} />
         );

@@ -139,13 +139,8 @@ class ChatInput extends Component {
             return;
         }
 
-        let type = 'text';
-        if (/[a-zA-z]+:\/\/[^\s]*/.test(message)) {
-            type = 'url';
-        }
-
-        const id = this.addSelfMessage(type, xss(message));
-        this.sendMessage(id, type, message);
+        const id = this.addSelfMessage('text', xss(message));
+        this.sendMessage(id, 'text', message);
         this.message.value = '';
     }
     addSelfMessage(type, content) {
