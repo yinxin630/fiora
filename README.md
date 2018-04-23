@@ -22,7 +22,7 @@ Fiora is a web chat application. It is written by node.js, mongodb, socket.io an
 
 ## Install
 
-[See how to run Fiora locally](./INSTALL.md)
+[See how to run Fiora locally](./doc/INSTALL.md)
 
 ## Directory
 
