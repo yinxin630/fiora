@@ -7,14 +7,19 @@ const sounds = {
     huaji: require('@/assets/audios/huaji.mp3'),
 };
 
+let prevType = 'default';
 const $audio = document.createElement('audio');
 const $source = document.createElement('source');
 $source.setAttribute('type', 'audio/mp3');
+$source.setAttribute('src', sounds[prevType]);
 $audio.appendChild($source);
 document.body.appendChild($audio);
 
 export default function sound(type = 'default') {
-    $source.src = sounds[type];
-    $audio.load();
+    if (type !== prevType) {
+        $source.setAttribute('src', sounds[type]);
+        $audio.load();
+        prevType = type;
+    }
     $audio.play();
 }
