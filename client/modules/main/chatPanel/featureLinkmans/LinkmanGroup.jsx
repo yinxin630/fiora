@@ -44,7 +44,7 @@ class LinkmanGroup extends Component {
     render() {
         const { linkmans } = this.props;
         return (
-            <div>
+            <div className="chatPanel-linkman-group">
                 {
                     linkmans.map(linkman => (
                         this.renderLinkman(linkman)
