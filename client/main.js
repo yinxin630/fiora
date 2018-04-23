@@ -19,6 +19,11 @@ if (window.Notification && (window.Notification.permission === 'default' || wind
     window.Notification.requestPermission();
 }
 
+let windowStatus = 'focus';
+window.onfocus = () => windowStatus = 'focus';
+window.onblur = () => windowStatus = 'blur';
+
+
 async function guest() {
     const [err, res] = await fetch('guest', {
         os: platform.os.family,
@@ -88,12 +93,14 @@ socket.on('message', (message) => {
         });
     }
 
-    notification(
-        title,
-        message.from.avatar,
-        message.type === 'text' ? message.content : `[${message.type}]`,
-        message.to,
-    );
+    if (windowStatus === 'blur') {
+        notification(
+            title,
+            message.from.avatar,
+            message.type === 'text' ? message.content : `[${message.type}]`,
+            message.to,
+        );
+    }
 
     const soundType = state.getIn(['ui', 'sound']);
     sound(soundType);
