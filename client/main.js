@@ -13,6 +13,7 @@ import socket from './socket';
 import notification from '../utils/notification';
 import sound from '../utils/sound';
 import getFriendId from '../utils/getFriendId';
+import convertRobot10Message from '../utils/convertRobot10Message';
 
 if (window.Notification && (window.Notification.permission === 'default' || window.Notification.permission === 'denied')) {
     window.Notification.requestPermission();
@@ -52,17 +53,7 @@ socket.on('disconnect', () => {
 });
 socket.on('message', (message) => {
     // robot10
-    if (message.from._id === '5adad39555703565e7903f79') {
-        try {
-            const parseMessage = JSON.parse(message.content);
-            message.from.avatar = parseMessage.avatar;
-            message.from.username = parseMessage.username;
-            message.type = parseMessage.type;
-            message.content = parseMessage.content;
-        } catch (err) {
-            console.warn('解析robot10消息失败', err);
-        }
-    }
+    convertRobot10Message(message);
 
     const state = store.getState();
     const linkman = state.getIn(['user', 'linkmans']).find(l => l.get('_id') === message.to);

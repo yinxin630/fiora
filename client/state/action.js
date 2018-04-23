@@ -1,4 +1,5 @@
 import fetch from 'utils/fetch';
+import convertRobot10Message from 'utils/convertRobot10Message';
 import store from './store';
 
 const getFriendId = require('utils/getFriendId');
@@ -45,6 +46,9 @@ async function setUser(user) {
         ...user.friends.map(f => f._id),
     ];
     const [err, messages] = await fetch('getLinkmansLastMessages', { linkmans: linkmanIds });
+    for (const key in messages) {
+        messages[key].forEach(m => convertRobot10Message(m));
+    }
     if (!err) {
         dispatch({
             type: 'SetLinkmanMessages',
@@ -99,6 +103,7 @@ function addLinkmanMessage(linkmanId, message) {
     });
 }
 function addLinkmanMessages(linkmanId, messages) {
+    messages.forEach(m => convertRobot10Message(m));
     dispatch({
         type: 'AddLinkmanMessages',
         linkmanId,
