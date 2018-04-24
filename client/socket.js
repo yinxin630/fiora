@@ -4,7 +4,7 @@ import config from '../config/client';
 
 
 const options = {
-    reconnectionDelay: 3000,
+    // reconnectionDelay: 1000,
 };
 const socket = new IO(config.server, options);
 export default socket;
