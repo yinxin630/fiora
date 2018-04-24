@@ -6,7 +6,21 @@ const primaryColor = window.localStorage.getItem('primaryColor') || config.prima
 const primaryTextColor = window.localStorage.getItem('primaryTextColor') || config.primaryTextColor;
 setCssVariable(primaryColor, primaryTextColor);
 
-const backgroundImage = window.localStorage.getItem('backgroundImage') || config.backgroundImage;
+let backgroundImage = window.localStorage.getItem('backgroundImage');
+if (!backgroundImage) {
+    backgroundImage = config.backgroundImage; // eslint-disable-line
+    const img = new Image();
+    img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        const base64 = canvas.toDataURL('image/png');
+        window.localStorage.setItem('backgroundImage', base64);
+    };
+    img.src = backgroundImage;
+}
 const sound = window.localStorage.getItem('sound') || config.sound;
 
 const initialState = immutable.fromJS({
