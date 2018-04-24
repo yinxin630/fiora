@@ -1,19 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import webpackConfig from '../../config/webpack';
 import './components.less';
 
-const env = process.env.NODE_ENV === 'development' ? 'dev' : 'build';
-const publishPath = webpackConfig[env].assetsPublicPath + webpackConfig[env].assetsSubDirectory;
-const avatarFallback = `${publishPath}/avatar/0.jpg`;
+const avatarFallback = 'https://cdn.suisuijiang.com/fiora/avatar/0.jpg';
 const failTimes = new Map();
 
 function noop() { }
 
 function handleError(e) {
     const times = failTimes.get(e.target) || 0;
-    if (times >= 3) {
+    if (times >= 2) {
         return;
     }
     e.target.src = avatarFallback;
