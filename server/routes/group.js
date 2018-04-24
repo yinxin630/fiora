@@ -65,6 +65,7 @@ module.exports = {
 
         const group = await Group.findOne({ _id: groupId });
         assert(group, '加入群组失败, 群组不存在');
+        assert(group.members.indexOf(ctx.socket.user) === -1, '你已经在群组中');
 
         group.members.push(ctx.socket.user);
         await group.save();

@@ -222,6 +222,9 @@ module.exports = {
         const user = await User.findOne({ _id: userId });
         assert(user, '添加好友失败, 用户不存在');
 
+        const friend = await Friend.find({ from: ctx.socket.user, to: user._id });
+        assert(friend.length === 0, '你们已经是好友了');
+
         await Friend.create({
             from: ctx.socket.user,
             to: user._id,
