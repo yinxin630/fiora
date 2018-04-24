@@ -213,7 +213,7 @@ class Sidebar extends Component {
                                 <TwitterPicker className="color-picker" color={`rgb(${primaryTextColor})`} onChange={this.handlePrimaryTextColorChange} />
                             </div>
                             <div>
-                                <p>背景图</p>
+                                <p>背景图 <span className="background-tip">背景图会被拉伸到浏览器窗口大小, 合理的比例会取得更好的效果</span></p>
                                 <div className="image-preview">
                                     <img src={backgroundImage} onClick={Sidebar.selectBackgroundImage} />
                                 </div>

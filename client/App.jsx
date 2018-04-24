@@ -48,7 +48,8 @@ class App extends Component {
     get style() {
         return {
             backgroundImage: `url(${this.props.backgroundImage})`,
-            backgroundSize: '1920px 1080px',
+            backgroundSize: `${window.innerWidth}px ${window.innerHeight}px`,
+            backgroundRepeat: 'no-repeat',
         };
     }
     get blurStyle() {
@@ -56,11 +57,10 @@ class App extends Component {
         const { innerWidth, innerHeight } = window;
         return Object.assign(
             {
-                backgroundImage: `url(${this.props.backgroundImage})`,
-                backgroundSize: '1920px 1080px',
                 backgroundPosition: `${-(1 - width) * innerWidth / 2}px ${-(1 - height) * innerHeight / 2}px`,
             },
             this.childStyle,
+            this.style,
         );
     }
     get childStyle() {
