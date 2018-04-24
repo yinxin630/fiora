@@ -109,7 +109,7 @@ class Feature extends Component {
     }
     @autobind
     handleInputKeyDown(e) {
-        if (e.key === 'Enter' || this.lastSearchTime === undefined || Date.now() - this.lastSearchTime > 5000) {
+        if (e.key === 'Enter') {
             setTimeout(() => {
                 this.search();
                 this.lastSearchTime = Date.now();
