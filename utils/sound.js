@@ -15,11 +15,18 @@ $source.setAttribute('src', sounds[prevType]);
 $audio.appendChild($source);
 document.body.appendChild($audio);
 
+let isPlaying = false;
+
 export default function sound(type = 'default') {
     if (type !== prevType) {
         $source.setAttribute('src', sounds[type]);
         $audio.load();
         prevType = type;
     }
-    $audio.play();
+    if (!isPlaying) {
+        isPlaying = true;
+        $audio.play().then(() => {
+            isPlaying = false;
+        });
+    }
 }
