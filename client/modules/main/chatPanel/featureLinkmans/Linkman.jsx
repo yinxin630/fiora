@@ -27,7 +27,6 @@ class Linkman extends Component {
             this.props.avatar === nextProps.avatar &&
             this.props.name === nextProps.name &&
             this.props.preview === nextProps.preview &&
-            this.props.time === nextProps.time &&
             this.props.unread === nextProps.unread &&
             this.props.focus === nextProps.focus
         );

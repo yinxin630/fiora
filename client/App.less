@@ -39,8 +39,27 @@ div, p, span {
     color: #333;
 }
 
-::-webkit-scrollbar, ::-webkit-scrollbar-track, ::-webkit-scrollbar-thumb, ::-webkit-scrollbar-corner {
+body {overflow-y:hidden;}
+body:hover {overflow-y:scroll;}
+
+::-webkit-scrollbar {
     display: none;
+}
+.chat-messageList::-webkit-scrollbar {
+    display: block;
+    width: 6px;
+    height: 6px;
+}
+.code-viewer .rc-dialog-body::-webkit-scrollbar {
+    display: block;
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .online {
