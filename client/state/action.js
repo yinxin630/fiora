@@ -57,6 +57,7 @@ async function setUser(user) {
     }
 }
 async function setGuest(defaultGroup) {
+    defaultGroup.messages.forEach(m => convertRobot10Message(m));
     dispatch({
         type: 'SetDeepValue',
         keys: ['user'],
