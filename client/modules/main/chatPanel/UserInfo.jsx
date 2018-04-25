@@ -80,17 +80,24 @@ class UserInfo extends Component {
                                     <Avatar size={60} src={userInfo.avatar} />
                                     <p>{userInfo.username}</p>
                                 </div>
-                                <div className="info">
-                                    {
-                                        isFriend ? <Button onClick={this.handleFocusUser}>发送消息</Button> : null
-                                    }
-                                    {
-                                        isFriend ?
-                                            <Button type="danger" onClick={this.handleDeleteFriend}>删除好友</Button>
-                                            :
-                                            <Button onClick={this.handleAddFriend}>加为好友</Button>
-                                    }
-                                </div>
+                                {
+                                    userInfo._id === '5adad39555703565e7903f79' ?
+                                        <div className="info">
+                                            <p>这是一个外星人</p>
+                                        </div>
+                                        :
+                                        <div className="info">
+                                            {
+                                                isFriend ? <Button onClick={this.handleFocusUser}>发送消息</Button> : null
+                                            }
+                                            {
+                                                isFriend ?
+                                                    <Button type="danger" onClick={this.handleDeleteFriend}>删除好友</Button>
+                                                    :
+                                                    <Button onClick={this.handleAddFriend}>加为好友</Button>
+                                            }
+                                        </div>
+                                }
                             </div>
                             :
                             null
