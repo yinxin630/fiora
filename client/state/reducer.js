@@ -108,6 +108,7 @@ function reducer(state = initialState, action) {
                     .set('type', 'friend')
                     .set('from', action.from)
                     .set('to', action.to)
+                    .set('unread', 0)
             ))
             .set('focus', action.linkmanId);
     }
