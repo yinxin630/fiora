@@ -215,7 +215,7 @@ module.exports = {
 
         return {};
     },
-    async addFrient(ctx) {
+    async addFriend(ctx) {
         const { userId } = ctx.data;
         assert(isValid(userId), '无效的用户ID');
 
@@ -225,7 +225,7 @@ module.exports = {
         const friend = await Friend.find({ from: ctx.socket.user, to: user._id });
         assert(friend.length === 0, '你们已经是好友了');
 
-        await Friend.create({
+        const newFriend = await Friend.create({
             from: ctx.socket.user,
             to: user._id,
         });
@@ -234,6 +234,18 @@ module.exports = {
             _id: user._id,
             username: user.username,
             avatar: user.avatar,
+            from: newFriend.from,
+            to: newFriend.to,
         };
+    },
+    async deleteFriend(ctx) {
+        const { userId } = ctx.data;
+        assert(isValid(userId), '无效的用户ID');
+
+        const user = await User.findOne({ _id: userId });
+        assert(user, '用户不存在');
+
+        await Friend.remove({ from: ctx.socket.user, to: user._id });
+        return {};
     },
 };

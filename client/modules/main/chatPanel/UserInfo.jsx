@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import autobind from 'autobind-decorator';
+import immutable from 'immutable';
 
 import Dialog from '@/components/Dialog';
 import Avatar from '@/components/Avatar';
@@ -28,28 +29,47 @@ class UserInfo extends Component {
     @autobind
     async handleAddFriend() {
         const { userInfo, userId, linkmans, onClose } = this.props;
-        onClose();
-        const [err, res] = await fetch('addFrient', { userId: userInfo._id });
+        const [err, res] = await fetch('addFriend', { userId: userInfo._id });
         if (!err) {
+            onClose();
             const _id = getFriendId(userId, res._id);
-            if (linkmans.find(l => l.get('_id') === _id && l.get('type') === 'temporary')) {
-                action.setFriend(_id);
+            let existCount = 0;
+            const linkman = linkmans.find(l => l.get('_id') === _id && l.get('type') === 'temporary');
+            if (linkman) {
+                existCount = linkman.get('messages').size;
+                action.setFriend(_id, userId, userInfo._id);
             } else {
                 const newLinkman = {
-                    _id: getFriendId(userId, res._id),
+                    _id,
                     type: 'friend',
                     createTime: Date.now(),
                     avatar: res.avatar,
                     name: res.username,
                     messages: [],
                     unread: 0,
+                    from: res.from,
+                    to: res.to,
                 };
                 action.addLinkman(newLinkman, true);
             }
+            const [err2, messages] = await fetch('getLinkmanHistoryMessages', { linkmanId: _id, existCount });
+            if (!err2) {
+                action.addLinkmanMessages(_id, messages);
+            }
+        }
+    }
+    @autobind
+    async handleDeleteFriend() {
+        const { userInfo, userId, onClose } = this.props;
+        const [err] = await fetch('deleteFriend', { userId: userInfo._id });
+        if (!err) {
+            onClose();
+            action.removeLinkman(getFriendId(userId, userInfo._id));
         }
     }
     render() {
         const { visible, userInfo, onClose, linkmans } = this.props;
+        const isFriend = linkmans.find(l => l.get('to') === userInfo._id && l.get('type') === 'friend');
         return (
             <Dialog className="info-dialog" visible={visible} onClose={onClose}>
                 <div>
@@ -62,8 +82,11 @@ class UserInfo extends Component {
                                 </div>
                                 <div className="info">
                                     {
-                                        linkmans.find(l => l.get('to') === userInfo._id && l.get('type') === 'friend') ?
-                                            <Button onClick={this.handleFocusUser}>发送消息</Button>
+                                        isFriend ? <Button onClick={this.handleFocusUser}>发送消息</Button> : null
+                                    }
+                                    {
+                                        isFriend ?
+                                            <Button type="danger" onClick={this.handleDeleteFriend}>删除好友</Button>
                                             :
                                             <Button onClick={this.handleAddFriend}>加为好友</Button>
                                     }
@@ -79,6 +102,6 @@ class UserInfo extends Component {
 }
 
 export default connect(state => ({
-    linkmans: state.getIn(['user', 'linkmans']),
+    linkmans: state.getIn(['user', 'linkmans']) || immutable.fromJS([]),
     userId: state.getIn(['user', '_id']),
 }))(UserInfo);

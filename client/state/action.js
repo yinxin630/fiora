@@ -159,10 +159,12 @@ function removeLinkman(linkmanId) {
         linkmanId,
     });
 }
-function setFriend(linkmanId) {
+function setFriend(linkmanId, from, to) {
     dispatch({
         type: 'SetFriend',
         linkmanId,
+        from,
+        to,
     });
 }
 

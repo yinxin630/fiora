@@ -1,12 +1,20 @@
 .component-button {
     border: none;
-    background-color: var(--primary-color-10);
+    background-color: var(--primary-color-8_5);
     color: var(--primary-text-color-10);
     border-radius: 4px;
     font-size: 14px;
+    transition: background-color 0.4s;
 
     &:hover {
-        background-color: var(--primary-color-8);
+        background-color: var(--primary-color-10);
+    }
+    &.danger {
+        background-color: #dd514c;
+
+        &:hover {
+            background-color: #d7342e;
+        }
     }
 }
 

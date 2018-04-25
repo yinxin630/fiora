@@ -7,12 +7,16 @@ class Button extends Component {
     static propTypes = {
         onClick: PropTypes.func,
         children: PropTypes.string,
+        type: PropTypes.string,
+    }
+    static defaultProps = {
+        type: 'primary',
     }
     render() {
-        const { onClick, children } = this.props;
+        const { onClick, children, type } = this.props;
         return (
             <button
-                className="component-button"
+                className={`component-button ${type}`}
                 onClick={onClick}
             >
                 {children}

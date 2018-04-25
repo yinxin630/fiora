@@ -104,7 +104,10 @@ function reducer(state = initialState, action) {
             .findIndex(l => l.get('_id') === action.linkmanId);
         return state
             .updateIn(['user', 'linkmans', linkmanIndex], linkman => (
-                linkman.set('type', 'friend')
+                linkman
+                    .set('type', 'friend')
+                    .set('from', action.from)
+                    .set('to', action.to)
             ))
             .set('focus', action.linkmanId);
     }

@@ -144,7 +144,7 @@ class Chat extends Component {
                         </div>
                         <div className="feature">
                             <p>功能</p>
-                            <Button onClick={this.leaveGroup}>退出群组</Button>
+                            <Button type="danger" onClick={this.leaveGroup}>退出群组</Button>
                         </div>
                         <div className="online-members">
                             <p>在线成员</p>
