@@ -153,6 +153,12 @@ function addLinkman(linkman, focus = false) {
         focus,
     });
 }
+function removeLinkman(linkmanId) {
+    dispatch({
+        type: 'RemoveLinkman',
+        linkmanId,
+    });
+}
 function setFriend(linkmanId) {
     dispatch({
         type: 'SetFriend',
@@ -221,6 +227,7 @@ export default {
     setGroupMembers,
     setGroupAvatar,
     addLinkman,
+    removeLinkman,
     setFriend,
 
     addLinkmanMessage,

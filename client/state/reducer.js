@@ -118,6 +118,15 @@ function reducer(state = initialState, action) {
         }
         return newState;
     }
+    case 'RemoveLinkman': {
+        const linkmanIndex = state
+            .getIn(['user', 'linkmans'])
+            .findIndex(l => l.get('_id') === action.linkmanId);
+        const newState = state.updateIn(['user', 'linkmans'], linkmans => (
+            linkmans.delete(linkmanIndex)
+        ));
+        return newState.set('focus', newState.getIn(['user', 'linkmans', 0, '_id']));
+    }
     case 'AddLinkmanMessage': {
         const linkmanIndex = state
             .getIn(['user', 'linkmans'])

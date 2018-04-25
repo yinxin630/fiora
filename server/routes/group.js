@@ -90,6 +90,23 @@ module.exports = {
             messages,
         };
     },
+    async leaveGroup(ctx) {
+        const { groupId } = ctx.data;
+        assert(isValid(groupId), '无效的群组ID');
+
+        const group = await Group.findOne({ _id: groupId });
+        assert(group, '群组不存在');
+
+        const index = group.members.indexOf(ctx.socket.user);
+        assert(index !== -1, '你不在群组中');
+
+        group.members.splice(index, 1);
+        await group.save();
+
+        ctx.socket.socket.leave(group._id);
+
+        return {};
+    },
     async getGroupOnlineMembers(ctx) {
         const { groupId } = ctx.data;
         assert(isValid(groupId), '无效的群组ID');

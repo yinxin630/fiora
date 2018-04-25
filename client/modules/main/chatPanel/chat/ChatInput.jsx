@@ -334,6 +334,7 @@ class ChatInput extends Component {
                         </div>
                     </Dialog>
                     <input
+                        type="text"
                         placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~"
                         maxLength="2048"
                         ref={i => this.message = i}

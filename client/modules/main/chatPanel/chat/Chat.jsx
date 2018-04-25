@@ -13,6 +13,7 @@ import action from '@/state/action';
 import Avatar from '@/components/Avatar';
 import Tooltip from '@/components/Tooltip';
 import Message from '@/components/Message';
+import Button from '@/components/Button';
 import HeaderBar from './HeaderBar';
 import MessageList from './MessageList';
 import ChatInput from './ChatInput';
@@ -104,6 +105,15 @@ class Chat extends Component {
             });
         }
     }
+    @autobind
+    async leaveGroup() {
+        const { focus } = this.props;
+        const [err] = await fetch('leaveGroup', { groupId: focus });
+        if (!err) {
+            this.closeGroupInfo();
+            action.removeLinkman(focus);
+        }
+    }
     renderMembers() {
         return this.props.members.map(member => (
             <div key={member.get('_id')}>
@@ -131,6 +141,10 @@ class Chat extends Component {
                         <div className="avatar" style={{ display: !!userId && userId === creator ? 'block' : 'none' }}>
                             <p>群头像</p>
                             <img src={avatar} onClick={this.changeGroupAvatar} />
+                        </div>
+                        <div className="feature">
+                            <p>功能</p>
+                            <Button onClick={this.leaveGroup}>退出群组</Button>
                         </div>
                         <div className="online-members">
                             <p>在线成员</p>

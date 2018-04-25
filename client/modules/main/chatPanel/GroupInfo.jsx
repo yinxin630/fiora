@@ -25,6 +25,10 @@ class GroupInfo extends Component {
         if (!err) {
             res.type = 'group';
             action.addLinkman(res, true);
+            const [err2, messages] = await fetch('getLinkmanHistoryMessages', { linkmanId: res._id, existCount: 0 });
+            if (!err2) {
+                action.addLinkmanMessages(res._id, messages);
+            }
         }
     }
     @autobind
