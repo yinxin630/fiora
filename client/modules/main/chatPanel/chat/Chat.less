@@ -274,17 +274,24 @@
 }
 .code-viewer {
     width: 800px !important;
+    height: 80% !important;
 
+    .rc-dialog-content {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
     .rc-dialog-body {
         overflow: auto;
         max-width: 900px;
-        max-height: 900px;
+        flex: 1;
     }
     .pre {
         color: black;
         padding: 6px 10px;
         margin: 0;
         font-size: 14px;
+        user-select: text;
     }
 }
 

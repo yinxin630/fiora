@@ -24,12 +24,22 @@ class MessageList extends Component {
             userInfoDialog: false,
             userInfo: {},
         };
+        this.isFetching = false;
     }
     @autobind
     async handleScroll(e) {
+        // Don't know why the code-view dialog will also trigger when scrolling
+        if (e.target !== this.$list) {
+            return;
+        }
+        if (this.isFetching) {
+            return;
+        }
+
         const { focus, messages, self } = this.props;
         const $div = e.target;
         if ($div.scrollTop === 0 && $div.scrollHeight > $div.clientHeight) {
+            this.isFetching = true;
             let err = null;
             let result = null;
             if (self) {
@@ -40,6 +50,7 @@ class MessageList extends Component {
             if (!err) {
                 action.addLinkmanMessages(focus, result);
             }
+            this.isFetching = false;
         }
     }
     @autobind
@@ -66,7 +77,7 @@ class MessageList extends Component {
             content: message.get('content'),
             isSelf: self === message.getIn(['from', '_id']),
             openUserInfoDialog: noop,
-            shouldScroll: this.$list.scrollHeight === this.$list.clientHeight || this.$list.scrollTop > this.$list.scrollHeight - this.$list.clientHeight * 2,
+            shouldScroll: this.$list.scrollHeight === this.$list.clientHeight || this.$list.scrollTop === 0 || this.$list.scrollTop > this.$list.scrollHeight - this.$list.clientHeight * 2,
         };
         if (props.type === 'image') {
             props.loading = message.get('loading');
