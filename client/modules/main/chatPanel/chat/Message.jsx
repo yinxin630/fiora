@@ -192,7 +192,8 @@ class Message extends Component {
                 <Viewer
                     visible={this.state.showImage}
                     onClose={this.hideImageViewer}
-                    images={[{ src, alt: '' }]}
+                    onMaskClick={this.hideImageViewer}
+                    images={[{ src, alt: src }]}
                     noNavbar
                 />
             </div>
