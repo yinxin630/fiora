@@ -26,7 +26,10 @@ class LinkmanGroup extends Component {
         let preview = '暂无消息';
         if (lastMessage) {
             time = new Date(lastMessage.get('createTime'));
-            preview = `${lastMessage.getIn(['from', 'username'])}: ${lastMessage.get('content')}`;
+            preview = `${lastMessage.get('content')}`;
+            if (linkman.get('type') === 'group') {
+                preview = `${lastMessage.getIn(['from', 'username'])}: ${preview}`;
+            }
         }
         return (
             <Linkman
