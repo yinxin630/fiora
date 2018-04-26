@@ -7,7 +7,6 @@ import autobind from 'autobind-decorator';
 
 import fetch from 'utils/fetch';
 import action from '@/state/action';
-import UserInfo from '../UserInfo';
 import Message from './Message';
 
 function noop() {}
@@ -17,13 +16,10 @@ class MessageList extends Component {
         self: PropTypes.string,
         messages: ImmutablePropTypes.list,
         focus: PropTypes.string,
+        showUserInfoDialog: PropTypes.func,
     }
     constructor(...args) {
         super(...args);
-        this.state = {
-            userInfoDialog: false,
-            userInfo: {},
-        };
         this.isFetching = false;
     }
     @autobind
@@ -53,19 +49,6 @@ class MessageList extends Component {
             this.isFetching = false;
         }
     }
-    @autobind
-    showUserInfoDialog(userInfo) {
-        this.setState({
-            userInfoDialog: true,
-            userInfo,
-        });
-    }
-    @autobind
-    closeUserInfoDialog() {
-        this.setState({
-            userInfoDialog: false,
-        });
-    }
     renderMessage(message) {
         const { self } = this.props;
         const props = {
@@ -85,7 +68,7 @@ class MessageList extends Component {
             props.percent = message.get('percent');
         }
         if (!props.isSelf && self) {
-            props.openUserInfoDialog = this.showUserInfoDialog.bind(this, message.get('from').toJS());
+            props.openUserInfoDialog = this.props.showUserInfoDialog.bind(this, message.get('from').toJS());
         }
         return (
             <Message {...props} />
@@ -93,7 +76,6 @@ class MessageList extends Component {
     }
     render() {
         const { messages } = this.props;
-        const { userInfoDialog, userInfo } = this.state;
         return (
             <div className="chat-messageList" onScroll={this.handleScroll} ref={i => this.$list = i}>
                 {
@@ -101,7 +83,6 @@ class MessageList extends Component {
                         this.renderMessage(message)
                     ))
                 }
-                <UserInfo visible={userInfoDialog} userInfo={userInfo} onClose={this.closeUserInfoDialog} />
             </div>
         );
     }

@@ -17,6 +17,7 @@ import Button from '@/components/Button';
 import HeaderBar from './HeaderBar';
 import MessageList from './MessageList';
 import ChatInput from './ChatInput';
+import UserInfo from '../UserInfo';
 import './Chat.less';
 
 class Chat extends Component {
@@ -26,19 +27,23 @@ class Chat extends Component {
         userId: PropTypes.string,
         creator: PropTypes.string,
         avatar: PropTypes.string,
-        // type: PropTypes.string,
+        to: PropTypes.string,
+        name: PropTypes.string,
+        type: PropTypes.string,
     }
     constructor(...args) {
         super(...args);
         this.state = {
-            showGroupInfo: false,
+            groupInfoDialog: false,
+            userInfoDialog: false,
+            userInfo: {},
         };
     }
     componentDidMount() {
         document.body.addEventListener('click', this.handleBodyClick.bind(this), false);
     }
     handleBodyClick(e) {
-        if (!this.state.showGroupInfo) {
+        if (!this.state.groupInfoDialog) {
             return;
         }
 
@@ -53,10 +58,10 @@ class Chat extends Component {
         this.closeGroupInfo();
     }
     @autobind
-    async showGroupInfo(e) {
+    async groupInfoDialog(e) {
         const { focus, userId } = this.props;
         this.setState({
-            showGroupInfo: true,
+            groupInfoDialog: true,
         });
         e.stopPropagation();
         e.preventDefault();
@@ -75,7 +80,20 @@ class Chat extends Component {
     @autobind
     closeGroupInfo() {
         this.setState({
-            showGroupInfo: false,
+            groupInfoDialog: false,
+        });
+    }
+    @autobind
+    showUserInfoDialog(userInfo) {
+        this.setState({
+            userInfoDialog: true,
+            userInfo,
+        });
+    }
+    @autobind
+    closeUserInfoDialog() {
+        this.setState({
+            userInfoDialog: false,
         });
     }
     @autobind
@@ -129,14 +147,14 @@ class Chat extends Component {
         ));
     }
     render() {
-        const { showGroupInfo } = this.state;
-        const { userId, creator, avatar } = this.props;
+        const { groupInfoDialog, userInfoDialog, userInfo } = this.state;
+        const { userId, creator, avatar, type, to, name } = this.props;
         return (
             <div className="module-main-chat">
-                <HeaderBar showGroupInfo={this.showGroupInfo} />
-                <MessageList />
+                <HeaderBar onShowInfo={type === 'group' ? this.groupInfoDialog : this.showUserInfoDialog.bind(this, { _id: to, username: name, avatar })} />
+                <MessageList showUserInfoDialog={this.showUserInfoDialog} />
                 <ChatInput />
-                <div className={`float-panel info ${showGroupInfo ? 'show' : 'hide'}`}>
+                <div className={`float-panel info ${groupInfoDialog ? 'show' : 'hide'}`}>
                     <p>群组信息</p>
                     <div>
                         <div className="avatar" style={{ display: !!userId && userId === creator ? 'block' : 'none' }}>
@@ -153,6 +171,7 @@ class Chat extends Component {
                         </div>
                     </div>
                 </div>
+                { userInfoDialog ? <UserInfo visible={userInfoDialog} userInfo={userInfo} onClose={this.closeUserInfoDialog} /> : ''}
             </div>
         );
     }
@@ -178,6 +197,8 @@ export default connect((state) => {
         focus,
         type: linkman.get('type'),
         creator: linkman.get('creator'),
+        to: linkman.get('to'),
+        name: linkman.get('name'),
         avatar: linkman.get('avatar'),
         members: linkman.get('members') || immutable.fromJS([]),
     };

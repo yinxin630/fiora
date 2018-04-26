@@ -9,10 +9,10 @@ import IconButton from '@/components/IconButton';
 class HeaderBar extends Component {
     static propTypes = {
         linkman: ImmutablePropTypes.map,
-        showGroupInfo: PropTypes.func,
+        onShowInfo: PropTypes.func,
     }
     render() {
-        const { linkman, showGroupInfo } = this.props;
+        const { linkman, onShowInfo } = this.props;
         if (!linkman) {
             return <div />;
         }
@@ -20,7 +20,7 @@ class HeaderBar extends Component {
             <div className="chat-headerBar">
                 <h2>{linkman && linkman.get('name')}</h2>
                 <div>
-                    {linkman.get('type') === 'group' ? <IconButton width={40} height={40} icon="gongneng" iconSize={24} onClick={showGroupInfo} /> : null}
+                    <IconButton width={40} height={40} icon="gongneng" iconSize={24} onClick={onShowInfo} />
                 </div>
             </div>
         );
