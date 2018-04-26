@@ -46,6 +46,7 @@
     "react-immutable-render-mixin": "^0.9.7",
     "react-radio-buttons": "^1.2.1",
     "react-redux": "^5.0.7",
+    "react-switch": "^2.3.2",
     "react-viewer": "^2.3.9",
     "redux": "^3.7.2",
     "redux-immutable": "^4.0.0",

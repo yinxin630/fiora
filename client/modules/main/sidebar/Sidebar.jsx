@@ -5,6 +5,7 @@ import autobind from 'autobind-decorator';
 import { TwitterPicker } from 'react-color';
 import * as qiniu from 'qiniu-js';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
+import Switch from 'react-switch';
 
 import action from '@/state/action';
 import socket from '@/socket';
@@ -31,6 +32,8 @@ class Sidebar extends Component {
         backgroundImage: PropTypes.string,
         userId: PropTypes.string,
         sound: PropTypes.string,
+        soundSwitch: PropTypes.bool,
+        notificationSwitch: PropTypes.bool,
     }
     static logout() {
         action.logout();
@@ -156,7 +159,7 @@ class Sidebar extends Component {
         });
     }
     render() {
-        const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound } = this.props;
+        const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound, soundSwitch, notificationSwitch } = this.props;
         const { settingDialog, userDialog, rewardDialog } = this.state;
         if (isLogin) {
             return (
@@ -184,6 +187,21 @@ class Sidebar extends Component {
                                 </div>
                             </div>
                             <div>
+                                <p>开关</p>
+                                <div className="switch">
+                                    <p>声音提醒</p>
+                                    <Switch
+                                        onChange={action.setSoundSwitch}
+                                        checked={soundSwitch}
+                                    />
+                                    <p>桌面提醒</p>
+                                    <Switch
+                                        onChange={action.setNotificationSwitch}
+                                        checked={notificationSwitch}
+                                    />
+                                </div>
+                            </div>
+                            <div>
                                 <p>提示音</p>
                                 <div className="sounds">
                                     <RadioGroup value={sound} onChange={Sidebar.handleSelectSound} horizontal>
@@ -194,6 +212,12 @@ class Sidebar extends Component {
                                         <RadioButton value="momo">陌陌</RadioButton>
                                         <RadioButton value="huaji">滑稽</RadioButton>
                                     </RadioGroup>
+                                </div>
+                            </div>
+                            <div>
+                                <p>背景图 <span className="background-tip">背景图会被拉伸到浏览器窗口大小, 合理的比例会取得更好的效果</span></p>
+                                <div className="image-preview">
+                                    <img src={backgroundImage} onClick={Sidebar.selectBackgroundImage} />
                                 </div>
                             </div>
                             <div>
@@ -211,12 +235,6 @@ class Sidebar extends Component {
                                     <span>{`rgb(${primaryTextColor})`}</span>
                                 </div>
                                 <TwitterPicker className="color-picker" color={`rgb(${primaryTextColor})`} onChange={this.handlePrimaryTextColorChange} />
-                            </div>
-                            <div>
-                                <p>背景图 <span className="background-tip">背景图会被拉伸到浏览器窗口大小, 合理的比例会取得更好的效果</span></p>
-                                <div className="image-preview">
-                                    <img src={backgroundImage} onClick={Sidebar.selectBackgroundImage} />
-                                </div>
                             </div>
                         </div>
                     </Dialog>
@@ -257,4 +275,6 @@ export default connect(state => ({
     primaryTextColor: state.getIn(['ui', 'primaryTextColor']),
     backgroundImage: state.getIn(['ui', 'backgroundImage']),
     sound: state.getIn(['ui', 'sound']),
+    soundSwitch: state.getIn(['ui', 'soundSwitch']),
+    notificationSwitch: state.getIn(['ui', 'notificationSwitch']),
 }))(Sidebar);

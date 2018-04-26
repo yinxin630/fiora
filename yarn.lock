@@ -5981,6 +5981,12 @@ react-redux@^5.0.7:
     loose-envify "^1.1.0"
     prop-types "^15.6.0"
 
+react-switch@^2.3.2:
+  version "2.3.2"
+  resolved "http://registry.npm.taobao.org/react-switch/download/react-switch-2.3.2.tgz#4fc5ce48578a8ea2e0a1433f32eb9af0d1be3c0e"
+  dependencies:
+    prop-types "^15.6.0"
+
 react-transform-log-render@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-transform-log-render/-/react-transform-log-render-1.0.0.tgz#95163bd20fe6edbfb58053ff23d110635c0b5d0b"

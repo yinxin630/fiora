@@ -24,6 +24,19 @@ if (!backgroundImage) {
 }
 const sound = window.localStorage.getItem('sound') || config.sound;
 
+let soundSwitch = window.localStorage.getItem('soundSwitch') || 'true';
+if (soundSwitch === 'true') {
+    soundSwitch = true;
+} else {
+    soundSwitch = false;
+}
+let notificationSwitch = window.localStorage.getItem('notificationSwitch') || 'true';
+if (notificationSwitch === 'true') {
+    notificationSwitch = true;
+} else {
+    notificationSwitch = false;
+}
+
 const initialState = immutable.fromJS({
     user: null,
     focus: '',
@@ -34,6 +47,8 @@ const initialState = immutable.fromJS({
         primaryTextColor,
         backgroundImage,
         sound,
+        soundSwitch,
+        notificationSwitch,
     },
 });
 

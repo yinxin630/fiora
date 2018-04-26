@@ -215,6 +215,22 @@ function setSound(sound) {
     });
     window.localStorage.setItem('sound', sound);
 }
+function setSoundSwitch(value) {
+    dispatch({
+        type: 'SetDeepValue',
+        keys: ['ui', 'soundSwitch'],
+        value,
+    });
+    window.localStorage.setItem('soundSwitch', value);
+}
+function setNotificationSwitch(value) {
+    dispatch({
+        type: 'SetDeepValue',
+        keys: ['ui', 'notificationSwitch'],
+        value,
+    });
+    window.localStorage.setItem('notificationSwitch', value);
+}
 
 
 export default {
@@ -242,4 +258,6 @@ export default {
     setPrimaryTextColor,
     setBackgroundImage,
     setSound,
+    setSoundSwitch,
+    setNotificationSwitch,
 };

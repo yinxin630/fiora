@@ -93,7 +93,7 @@ socket.on('message', (message) => {
         });
     }
 
-    if (windowStatus === 'blur') {
+    if (windowStatus === 'blur' && state.getIn(['ui', 'notificationSwitch'])) {
         notification(
             title,
             message.from.avatar,
@@ -102,8 +102,10 @@ socket.on('message', (message) => {
         );
     }
 
-    const soundType = state.getIn(['ui', 'sound']);
-    sound(soundType);
+    if (state.getIn(['ui', 'soundSwitch'])) {
+        const soundType = state.getIn(['ui', 'sound']);
+        sound(soundType);
+    }
 });
 
 ReactDom.render(

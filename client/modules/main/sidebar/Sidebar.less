@@ -116,11 +116,17 @@
 
 .dialog {
     width: 500px !important;
+    height: 80% !important;
+    .rc-dialog-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;;
+    }
     .rc-dialog-body {
+        flex: 1;
         background-color: #fafafa;
         padding-top: 10px;
         padding-bottom: 10px;
-        max-height: 750px;
         overflow-y: auto;
     }
     .content {
@@ -174,6 +180,18 @@
 
                     &:hover {
                         filter: blur(3px);
+                    }
+                }
+            }
+            & > .switch {
+                display: flex;
+                align-items: center;
+
+                & > p {
+                    color: #444;
+                    margin-right: 8px;
+                    &:nth-child(3) {
+                        margin-left: 20px;
                     }
                 }
             }
