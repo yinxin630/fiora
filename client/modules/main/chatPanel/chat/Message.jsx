@@ -62,6 +62,7 @@ class Message extends Component {
         percent: PropTypes.number,
         openUserInfoDialog: PropTypes.func,
         shouldScroll: PropTypes.bool,
+        tag: PropTypes.string,
     }
     static defaultProps = {
         isSelf: false,
@@ -263,13 +264,14 @@ class Message extends Component {
     }
     render() {
         const {
-            avatar, nickname, time, type, isSelf,
+            avatar, nickname, time, type, isSelf, tag,
         } = this.props;
         return (
             <div className={`chat-message ${isSelf ? 'self' : ''} ${type}`} ref={i => this.dom = i}>
                 <Avatar className="avatar" src={avatar} size={44} onClick={this.handleClickAvatar} />
                 <div className="right">
                     <div className="nickname-time">
+                        <span className="tag" style={{ display: tag ? 'inline-block' : 'none' }}>{tag}</span>
                         <span className="nickname">{nickname}</span>
                         <span className="time">{Message.formatTime(time)}</span>
                     </div>

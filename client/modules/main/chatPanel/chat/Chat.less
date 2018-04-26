@@ -131,6 +131,16 @@
     .nickname-time {
         
     }
+    .tag {
+        height: 18px;
+        line-height: 18px;
+        border-radius: 8px;
+        padding: 0 6px;
+        display: inline-block;
+        font-size: 10px;
+        background-color: var(--primary-color-9);
+        color: var(--primary-text-color-10);
+    }
     .nickname {
         color: #333;
         font-size: 14px;
@@ -151,7 +161,7 @@
         border-radius: 8px;
         border-top-left-radius: 0px;
         min-height: 28px;
-        margin-top: 2px;
+        margin-top: 5px;
     }
     .arrow {
         width: 0;
@@ -160,7 +170,7 @@
         border-width: 0px 7px 15px 0;
         border-color: transparent rgba(255, 255, 255, 0.8) transparent transparent;
         position: absolute;
-        top: 21px;
+        top: 24px;
         left: 49px;
     }
     &.self {
@@ -179,6 +189,9 @@
             display: flex;
             flex-direction: row-reverse;
         }
+        .tag {
+            display: none;
+        }
         .content {
             color: rgba(255, 255, 255, 0.9);
             background-color: var(--primary-color-10);
@@ -190,7 +203,7 @@
             border-color: transparent transparent transparent var(--primary-color-10);
             left: initial;
             right: 49px;
-            top: 18px;
+            top: 21px;
         }
         .text {
             color: var(--primary-text-color-10);

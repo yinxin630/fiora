@@ -76,6 +76,7 @@ class MessageList extends Component {
             type: message.get('type'),
             content: message.get('content'),
             isSelf: self === message.getIn(['from', '_id']),
+            tag: message.getIn(['from', 'tag']),
             openUserInfoDialog: noop,
             shouldScroll: this.$list.scrollHeight === this.$list.clientHeight || this.$list.scrollTop === 0 || this.$list.scrollTop > this.$list.scrollHeight - this.$list.clientHeight * 2,
         };
