@@ -232,7 +232,7 @@ class Sidebar extends Component {
                     </Dialog>
                     <Dialog className="dialog reward " visible={rewardDialog} title="打赏" onClose={this.closeReward}>
                         <div className="content">
-                            <p>如果你觉得这个聊天室代码对你有帮助, 希望打赏个咖啡钱~~</p>
+                            <p>如果你觉得这个聊天室代码对你有帮助, 希望打赏下给个鼓励~~<br />作者大多数时间在线, 欢迎提问, 有问必答</p>
                             <div>
                                 <img src={require('@/assets/images/alipay.jpg')} />
                                 <img src={require('@/assets/images/wxpay.jpg')} />
