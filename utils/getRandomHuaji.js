@@ -5,7 +5,7 @@ const huaji = {
     3: `${require('@/assets/images/huaji/3.jpeg')}?width=225&height=225&huaji=true`,
     4: `${require('@/assets/images/huaji/4.jpeg')}?width=224&height=225&huaji=true`,
     5: `${require('@/assets/images/huaji/5.jpg')}?width=400&height=400&huaji=true`,
-    6: `${require('@/assets/images/huaji/6.jpeg')}?width=284&height=17&huaji=true7`,
+    6: `${require('@/assets/images/huaji/6.jpeg')}?width=284&height=177&huaji=true7`,
     7: `${require('@/assets/images/huaji/7.jpg')}?width=300&height=300&huaji=true`,
     8: `${require('@/assets/images/huaji/8.jpeg')}?width=225&height=225&huaji=true`,
     9: `${require('@/assets/images/huaji/9.jpeg')}?width=204&height=247&huaji=true`,

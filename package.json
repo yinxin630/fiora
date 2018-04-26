@@ -44,6 +44,7 @@
     "react-color": "^2.14.1",
     "react-dom": "^16.2.0",
     "react-immutable-render-mixin": "^0.9.7",
+    "react-loading": "^2.0.2",
     "react-radio-buttons": "^1.2.1",
     "react-redux": "^5.0.7",
     "react-switch": "^2.3.2",

@@ -5962,6 +5962,10 @@ react-immutable-render-mixin@^0.9.7:
   version "0.9.7"
   resolved "http://registry.npm.taobao.org/react-immutable-render-mixin/download/react-immutable-render-mixin-0.9.7.tgz#fe34053760cc72e7becc8af3e6e30542d97d3601"
 
+react-loading@^2.0.2:
+  version "2.0.2"
+  resolved "http://registry.npm.taobao.org/react-loading/download/react-loading-2.0.2.tgz#bc6d908fa316e1ccd677b7567792049a9bb4be0d"
+
 react-radio-buttons@^1.2.1:
   version "1.2.1"
   resolved "http://registry.npm.taobao.org/react-radio-buttons/download/react-radio-buttons-1.2.1.tgz#a61c878be9b84fbb79a271293469af1ba2fd2257"

@@ -162,6 +162,7 @@
             }
             & > .image-preview {
                 text-align: center;
+                position: relative;
                 & > img {
                     width: 98%;
                     height: auto;
@@ -170,6 +171,15 @@
                     &:hover {
                         filter: blur(3px);
                     }
+                }
+                .blur {
+                    filter: blur(3px);
+                }
+                .loading {
+                    position: absolute;
+                    top: 70px;
+                    left: 175px;
+                    pointer-events: none;
                 }
             }
             & > .avatar-preview {
@@ -235,8 +245,25 @@
         }
     }
 }
+.selfInfo {
+    height: initial !important;
+
+    .avatar-preview {
+        position: relative;
+        .blur {
+            filter: blur(3px);
+        }
+    }
+    .loading {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        pointer-events: none;
+    }
+}
 .reward {
     width: 800px !important;
+    height: initial !important;
     .content {
         & > p {
             color: #333;

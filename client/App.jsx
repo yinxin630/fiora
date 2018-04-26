@@ -28,13 +28,24 @@ class App extends Component {
         }
         return width;
     }
-    constructor(...args) {
-        super(...args);
+    constructor(props) {
+        super(props);
         this.state = {
             width: App.getWidth(),
             height: 0.85,
             resize: 0,
+            backgroundWidth: window.innerWidth,
+            backgroundHeight: window.innerHeight,
         };
+
+        const img = new Image();
+        img.onload = () => {
+            this.setState({
+                backgroundWidth: Math.max(img.width, window.innerWidth),
+                backgroundHeight: Math.max(img.height, window.innerHeight),
+            });
+        };
+        img.src = props.backgroundImage;
     }
     componentDidMount() {
         window.onresize = () => {
@@ -46,9 +57,10 @@ class App extends Component {
         };
     }
     get style() {
+        const { backgroundWidth, backgroundHeight } = this.state;
         return {
             backgroundImage: `url(${this.props.backgroundImage})`,
-            backgroundSize: `${window.innerWidth}px ${window.innerHeight}px`,
+            backgroundSize: `${backgroundWidth}px ${backgroundHeight}px`,
             backgroundRepeat: 'no-repeat',
         };
     }

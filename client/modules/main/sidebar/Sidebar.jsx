@@ -6,6 +6,7 @@ import { TwitterPicker } from 'react-color';
 import * as qiniu from 'qiniu-js';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import Switch from 'react-switch';
+import ReactLoading from 'react-loading';
 
 import action from '@/state/action';
 import socket from '@/socket';
@@ -57,13 +58,6 @@ class Sidebar extends Component {
         window.localStorage.removeItem('sound');
         Message.success('已恢复默认提示音');
     }
-    static async selectBackgroundImage() {
-        const file = await readDiskFile('base64', 'image/png,image/jpeg,image/gif');
-        if (file.length > config.maxBackgroundImageSize) {
-            return Message.error('设置背景图失败, 请选择小于3MB的图片');
-        }
-        action.setBackgroundImage(file.result);
-    }
     static handleSelectSound(sound) {
         playSound(sound);
         action.setSound(sound);
@@ -74,6 +68,8 @@ class Sidebar extends Component {
             settingDialog: false,
             userDialog: false,
             rewardDialog: false,
+            avatarLoading: false,
+            backgroundLoading: false,
         };
     }
     @autobind
@@ -126,6 +122,11 @@ class Sidebar extends Component {
         action.setPrimaryTextColor(`${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`);
         setCssVariable(primaryColor, primaryTextColor);
     }
+    toggleAvatarLoading() {
+        this.setState({
+            avatarLoading: !this.state.avatarLoading,
+        });
+    }
     @autobind
     async selectAvatar() {
         const file = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
@@ -133,24 +134,28 @@ class Sidebar extends Component {
             return Message.error('设置头像失败, 请选择小于1MB的图片');
         }
 
+        this.toggleAvatarLoading();
         socket.emit('uploadToken', {}, (tokenRes) => {
             if (typeof tokenRes === 'string') {
                 Message.error(tokenRes);
             } else {
                 const result = qiniu.upload(file.result, `Avatar/${this.props.userId}_${Date.now()}`, tokenRes.token, { useCdnDomain: true }, {});
                 result.subscribe({
-                    error(err) {
+                    error: (err) => {
                         console.error(err);
                         Message.error('上传头像失败');
+                        this.toggleAvatarLoading();
                     },
-                    complete(info) {
+                    complete: (info) => {
                         const imageUrl = `${tokenRes.urlPrefix + info.key}`;
                         socket.emit('changeAvatar', { avatar: imageUrl }, (avatarRes) => {
                             if (typeof avatarRes === 'string') {
                                 Message.error(avatarRes);
+                                this.toggleAvatarLoading();
                             } else {
                                 action.setAvatar(URL.createObjectURL(file.result));
                                 Message.success('修改头像成功');
+                                this.toggleAvatarLoading();
                             }
                         });
                     },
@@ -158,9 +163,24 @@ class Sidebar extends Component {
             }
         });
     }
+    toggleBackgroundLoading() {
+        this.setState({
+            backgroundLoading: !this.state.backgroundLoading,
+        });
+    }
+    @autobind
+    async selectBackgroundImage() {
+        this.toggleBackgroundLoading();
+        const file = await readDiskFile('base64', 'image/png,image/jpeg,image/gif');
+        if (file.length > config.maxBackgroundImageSize) {
+            return Message.error('设置背景图失败, 请选择小于3MB的图片');
+        }
+        action.setBackgroundImage(file.result);
+        this.toggleBackgroundLoading();
+    }
     render() {
         const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound, soundSwitch, notificationSwitch } = this.props;
-        const { settingDialog, userDialog, rewardDialog } = this.state;
+        const { settingDialog, userDialog, rewardDialog, avatarLoading, backgroundLoading } = this.state;
         if (isLogin) {
             return (
                 <div className="module-main-sidebar">
@@ -217,7 +237,8 @@ class Sidebar extends Component {
                             <div>
                                 <p>背景图 <span className="background-tip">背景图会被拉伸到浏览器窗口大小, 合理的比例会取得更好的效果</span></p>
                                 <div className="image-preview">
-                                    <img src={backgroundImage} onClick={Sidebar.selectBackgroundImage} />
+                                    <img className={backgroundLoading ? 'blur' : ''} src={backgroundImage} onClick={this.selectBackgroundImage} />
+                                    <ReactLoading className={`loading ${backgroundLoading ? 'show' : 'hide'}`} type="spinningBubbles" color={`rgb(${primaryColor}`} height={100} width={100} />
                                 </div>
                             </div>
                             <div>
@@ -238,12 +259,13 @@ class Sidebar extends Component {
                             </div>
                         </div>
                     </Dialog>
-                    <Dialog className="dialog" visible={userDialog} title="个人信息设置" onClose={this.closeUserDialog}>
+                    <Dialog className="dialog selfInfo" visible={userDialog} title="个人信息设置" onClose={this.closeUserDialog}>
                         <div className="content">
                             <div>
                                 <p>头像</p>
                                 <div className="avatar-preview">
-                                    <img src={avatar} onClick={this.selectAvatar} />
+                                    <img className={avatarLoading ? 'blur' : ''} src={avatar} onClick={this.selectAvatar} />
+                                    <ReactLoading className={`loading ${avatarLoading ? 'show' : 'hide'}`} type="spinningBubbles" color={`rgb(${primaryColor}`} height={80} width={80} />
                                 </div>
                             </div>
                         </div>
