@@ -142,7 +142,7 @@ class Chat extends Component {
                             <p>群头像</p>
                             <img src={avatar} onClick={this.changeGroupAvatar} />
                         </div>
-                        <div className="feature">
+                        <div className="feature" style={{ display: !!userId && userId === creator ? 'none' : 'block' }}>
                             <p>功能</p>
                             <Button type="danger" onClick={this.leaveGroup}>退出群组</Button>
                         </div>

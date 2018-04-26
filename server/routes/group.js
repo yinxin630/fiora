@@ -96,6 +96,7 @@ module.exports = {
 
         const group = await Group.findOne({ _id: groupId });
         assert(group, '群组不存在');
+        assert(group.creator.toString() !== ctx.socket.user.toString(), '群主不可以退出自己创建的群');
 
         const index = group.members.indexOf(ctx.socket.user);
         assert(index !== -1, '你不在群组中');
