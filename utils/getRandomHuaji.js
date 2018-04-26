@@ -35,6 +35,6 @@ const huaji = {
 const HuajiaCount = Object.keys(huaji).length;
 
 export default function getRandomHuaji() {
-    const number = Math.ceil(Math.random() * HuajiaCount);
+    const number = Math.floor(Math.random() * HuajiaCount);
     return huaji[number];
 }

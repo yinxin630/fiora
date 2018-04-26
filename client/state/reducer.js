@@ -10,6 +10,7 @@ let backgroundImage = window.localStorage.getItem('backgroundImage');
 if (!backgroundImage) {
     backgroundImage = config.backgroundImage; // eslint-disable-line
     const img = new Image();
+    img.crossOrigin = 'Anonymous';
     img.onload = () => {
         const canvas = document.createElement('canvas');
         canvas.width = img.width;
