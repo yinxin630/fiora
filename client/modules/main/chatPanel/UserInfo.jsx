@@ -8,6 +8,7 @@ import immutable from 'immutable';
 import Dialog from '@/components/Dialog';
 import Avatar from '@/components/Avatar';
 import Button from '@/components/Button';
+import Message from '@/components/Message';
 import action from '@/state/action';
 import fetch from 'utils/fetch';
 import getFriendId from 'utils/getFriendId';
@@ -65,6 +66,7 @@ class UserInfo extends Component {
         if (!err) {
             onClose();
             action.removeLinkman(getFriendId(userId, userInfo._id));
+            Message.success('删除好友成功');
         }
     }
     render() {

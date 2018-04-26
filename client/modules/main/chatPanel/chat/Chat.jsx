@@ -112,6 +112,7 @@ class Chat extends Component {
         if (!err) {
             this.closeGroupInfo();
             action.removeLinkman(focus);
+            Message.success('退出群组成功');
         }
     }
     renderMembers() {
