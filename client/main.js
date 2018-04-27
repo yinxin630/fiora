@@ -98,7 +98,7 @@ socket.on('message', (message) => {
             title,
             message.from.avatar,
             message.type === 'text' ? message.content : `[${message.type}]`,
-            message.to,
+            Math.random(),
         );
     }
 

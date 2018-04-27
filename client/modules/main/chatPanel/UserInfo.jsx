@@ -83,7 +83,7 @@ class UserInfo extends Component {
                                     <p>{userInfo.username}</p>
                                 </div>
                                 {
-                                    userInfo._id === '5adad39555703565e7903f79' ?
+                                    userInfo._id === '5adad39555703565e7903f79' && userInfo.username !== 'robot10' ?
                                         <div className="info">
                                             <p>这是一个外星人</p>
                                         </div>
