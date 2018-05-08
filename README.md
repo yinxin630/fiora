@@ -7,7 +7,9 @@
 
 Language: [English](README.md) | [简体中文](./doc/README.ZH.md)
 
-Fiora is a web chat application. It is written by node.js, mongodb, socket.io and react.
+Fiora is a web chat application. It is written by node.js, mongodb, socket.io and react
+
+Online address: [https://fiora.suisuijiang.com/](https://fiora.suisuijiang.com/)
 
 ## Functions
 
