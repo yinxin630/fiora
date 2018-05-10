@@ -68,6 +68,7 @@ class Sidebar extends Component {
             settingDialog: false,
             userDialog: false,
             rewardDialog: false,
+            infoDialog: false,
             avatarLoading: false,
             backgroundLoading: false,
         };
@@ -106,6 +107,18 @@ class Sidebar extends Component {
     closeReward() {
         this.setState({
             rewardDialog: false,
+        });
+    }
+    @autobind
+    openInfo() {
+        this.setState({
+            infoDialog: true,
+        });
+    }
+    @autobind
+    closeInfo() {
+        this.setState({
+            infoDialog: false,
         });
     }
     @autobind
@@ -180,7 +193,7 @@ class Sidebar extends Component {
     }
     render() {
         const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound, soundSwitch, notificationSwitch } = this.props;
-        const { settingDialog, userDialog, rewardDialog, avatarLoading, backgroundLoading } = this.state;
+        const { settingDialog, userDialog, rewardDialog, infoDialog, avatarLoading, backgroundLoading } = this.state;
         if (isLogin) {
             return (
                 <div className="module-main-sidebar">
@@ -191,13 +204,11 @@ class Sidebar extends Component {
                             <IconButton width={40} height={40} icon="github" iconSize={26} />
                         </a>
                         <IconButton width={40} height={40} icon="dashang" iconSize={26} onClick={this.openReward} />
-                        <a href="http://suisuijiang.com" target="_black" rel="noopener noreferrer">
-                            <IconButton width={40} height={40} icon="about" iconSize={26} />
-                        </a>
+                        <IconButton width={40} height={40} icon="about" iconSize={26} onClick={this.openInfo} />
                         <IconButton width={40} height={40} icon="setting" iconSize={26} onClick={this.openSettingDialog} />
                         <IconButton width={40} height={40} icon="logout" iconSize={26} onClick={Sidebar.logout} />
                     </div>
-                    <Dialog className="dialog" visible={settingDialog} title="系统设置" onClose={this.closeSettingDialog}>
+                    <Dialog className="dialog system-setting" visible={settingDialog} title="系统设置" onClose={this.closeSettingDialog}>
                         <div className="content">
                             <div>
                                 <p>恢复</p>
@@ -276,6 +287,35 @@ class Sidebar extends Component {
                             <div>
                                 <img src={require('@/assets/images/alipay.jpg')} />
                                 <img src={require('@/assets/images/wxpay.jpg')} />
+                            </div>
+                        </div>
+                    </Dialog>
+                    <Dialog className="dialog fiora-info " visible={infoDialog} title="关于" onClose={this.closeInfo}>
+                        <div className="content">
+                            <div>
+                                <p>作者主页</p>
+                                <a href="https://suisuijiang.com" target="_black" rel="noopener noreferrer">https://suisuijiang.com</a>
+                            </div>
+                            <div>
+                                <p>如何在本地运行</p>
+                                <a href="https://github.com/yinxin630/fiora/blob/master/doc/INSTALL.ZH.md" target="_black" rel="noopener noreferrer">https://github.com/yinxin630/fiora/blob/master/doc/INSTALL.ZH.md</a>
+                            </div>
+                            <div>
+                                <p>作者主页</p>
+                                <a href="https://suisuijiang.com" target="_black" rel="noopener noreferrer">https://suisuijiang.com</a>
+                            </div>
+                            <div>
+                                <p>输入框快捷键</p>
+                                <ul>
+                                    <li>Command / Ctrl + S: 发送滑稽</li>
+                                    <li>Command / Ctrl + 1: 表情阴险</li>
+                                    <li>Command / Ctrl + 2: 表情乖</li>
+                                    <li>Command / Ctrl + 3: 表情滑稽</li>
+                                    <li>Command / Ctrl + 4: 表情呵呵</li>
+                                    <li>Command / Ctrl + 5: 表情委屈</li>
+                                    <li>Command / Ctrl + 6: 表情笑眼</li>
+                                    <li>Command / Ctrl + 7: 表情吐舌</li>
+                                </ul>
                             </div>
                         </div>
                     </Dialog>
