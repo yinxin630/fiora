@@ -37,7 +37,8 @@ class App extends Component {
             backgroundWidth: window.innerWidth,
             backgroundHeight: window.innerHeight,
         };
-
+    }
+    componentDidMount() {
         const img = new Image();
         img.onload = () => {
             this.setState({
@@ -45,9 +46,8 @@ class App extends Component {
                 backgroundHeight: Math.max(img.height, window.innerHeight),
             });
         };
-        img.src = props.backgroundImage;
-    }
-    componentDidMount() {
+        img.src = this.props.backgroundImage;
+
         window.onresize = () => {
             // 触发rerender
             this.setState({
