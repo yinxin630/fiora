@@ -126,6 +126,11 @@ class ChatInput extends Component {
             e.preventDefault();
         } else if (e.key === 'Enter' && !this.lockEnter) {
             this.sendTextMessage();
+        } else if (e.key === 's') {
+            if (e.metaKey || e.ctrlKey) {
+                this.sendHuaji();
+            }
+            e.preventDefault();
         }
     }
     @autobind
