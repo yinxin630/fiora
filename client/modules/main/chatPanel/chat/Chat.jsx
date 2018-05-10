@@ -138,7 +138,7 @@ class Chat extends Component {
             <div key={member.get('_id')}>
                 <div>
                     <Avatar size={24} src={member.getIn(['user', 'avatar'])} />
-                    <p>碎碎酱的小跟班</p>
+                    <p>{member.getIn(['user', 'username'])}</p>
                 </div>
                 <Tooltip placement="top" trigger={['hover']} overlay={<span>{member.get('environment')}</span>}>
                     <p>
