@@ -138,10 +138,14 @@ class Chat extends Component {
             <div key={member.get('_id')}>
                 <div>
                     <Avatar size={24} src={member.getIn(['user', 'avatar'])} />
-                    <p>{member.getIn(['user', 'username'])}</p>
+                    <p>碎碎酱的小跟班</p>
                 </div>
                 <Tooltip placement="top" trigger={['hover']} overlay={<span>{member.get('environment')}</span>}>
-                    <p>{member.get('browser')}&nbsp;&nbsp;{member.get('os')}</p>
+                    <p>
+                        {member.get('browser')}
+                        &nbsp;&nbsp;
+                        {member.get('os') === 'Windows Server 2008 R2 / 7' ? 'Windows 7' : member.get('os')}
+                    </p>
                 </Tooltip>
             </div>
         ));

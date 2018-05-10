@@ -73,11 +73,19 @@
                                 margin-left: 10px;
                                 color: #333;
                                 font-size: 14px;
+                                word-break: keep-all;
+                                max-width: 120px;
                             }
                         }
                         & > p {
+                            flex: 1;
                             color: #666;
                             font-size: 12px;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            margin-left: 12px;
+                            text-align: right;
                         }
                     }
                 }
