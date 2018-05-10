@@ -122,6 +122,15 @@ class ChatInput extends Component {
     }
     @autobind
     handleInputKeyDown(e) {
+        const expressionShortcut = {
+            1: '#(阴险)',
+            2: '#(乖)',
+            3: '#(滑稽)',
+            4: '#(呵呵)',
+            5: '#(委屈)',
+            6: '#(笑眼)',
+            7: '#(吐舌)',
+        };
         if (e.key === 'Tab') {
             e.preventDefault();
         } else if (e.key === 'Enter' && !this.lockEnter) {
@@ -129,6 +138,11 @@ class ChatInput extends Component {
         } else if (e.key === 's') {
             if (e.metaKey || e.ctrlKey) {
                 this.sendHuaji();
+            }
+            e.preventDefault();
+        } else if (expressionShortcut[e.key]) {
+            if (e.metaKey || e.ctrlKey) {
+                ChatInput.insertAtCursor(this.message, expressionShortcut[e.key]);
             }
             e.preventDefault();
         }
