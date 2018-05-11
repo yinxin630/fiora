@@ -142,9 +142,13 @@ class ChatInput extends Component {
             e.preventDefault();
         } else if (expressionShortcut[e.key]) {
             if (e.metaKey || e.ctrlKey) {
-                ChatInput.insertAtCursor(this.message, expressionShortcut[e.key]);
+                if (!this.props.connect) {
+                    return Message.error('发送消息失败, 您当前处于离线状态');
+                }
+                const id = this.addSelfMessage('text', expressionShortcut[e.key]);
+                this.sendMessage(id, 'text', expressionShortcut[e.key]);
+                e.preventDefault();
             }
-            e.preventDefault();
         }
     }
     @autobind
