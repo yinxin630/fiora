@@ -301,10 +301,6 @@ class Sidebar extends Component {
                                 <a href="https://github.com/yinxin630/fiora/blob/master/doc/INSTALL.ZH.md" target="_black" rel="noopener noreferrer">https://github.com/yinxin630/fiora/blob/master/doc/INSTALL.ZH.md</a>
                             </div>
                             <div>
-                                <p>作者主页</p>
-                                <a href="https://suisuijiang.com" target="_black" rel="noopener noreferrer">https://suisuijiang.com</a>
-                            </div>
-                            <div>
                                 <p>输入框快捷键</p>
                                 <ul>
                                     <li>Command / Ctrl + S: 发送滑稽</li>
