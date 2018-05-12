@@ -303,14 +303,14 @@ class Sidebar extends Component {
                             <div>
                                 <p>输入框快捷键</p>
                                 <ul>
-                                    <li>Command / Ctrl + S: 发送滑稽</li>
-                                    <li>Command / Ctrl + 1: 表情阴险</li>
-                                    <li>Command / Ctrl + 2: 表情乖</li>
-                                    <li>Command / Ctrl + 3: 表情滑稽</li>
-                                    <li>Command / Ctrl + 4: 表情呵呵</li>
-                                    <li>Command / Ctrl + 5: 表情委屈</li>
-                                    <li>Command / Ctrl + 6: 表情笑眼</li>
-                                    <li>Command / Ctrl + 7: 表情吐舌</li>
+                                    <li>Alt + S: 发送滑稽</li>
+                                    <li>Alt + 1: 表情阴险</li>
+                                    <li>Alt + 2: 表情乖</li>
+                                    <li>Alt + 3: 表情滑稽</li>
+                                    <li>Alt + 4: 表情呵呵</li>
+                                    <li>Alt + 5: 表情委屈</li>
+                                    <li>Alt + 6: 表情笑眼</li>
+                                    <li>Alt + 7: 表情吐舌</li>
                                 </ul>
                             </div>
                         </div>

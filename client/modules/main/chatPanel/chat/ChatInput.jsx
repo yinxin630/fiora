@@ -130,18 +130,25 @@ class ChatInput extends Component {
             5: '#(委屈)',
             6: '#(笑眼)',
             7: '#(吐舌)',
+            '¡': '#(阴险)',
+            '™': '#(乖)',
+            '£': '#(滑稽)',
+            '¢': '#(呵呵)',
+            '∞': '#(委屈)',
+            '§': '#(笑眼)',
+            '¶': '#(吐舌)',
         };
         if (e.key === 'Tab') {
             e.preventDefault();
         } else if (e.key === 'Enter' && !this.lockEnter) {
             this.sendTextMessage();
-        } else if (e.key === 's') {
-            if (e.metaKey || e.ctrlKey) {
+        } else if (e.key === 's' || e.key === 'ß') {
+            if (e.altKey) {
                 this.sendHuaji();
+                e.preventDefault();
             }
-            e.preventDefault();
         } else if (expressionShortcut[e.key]) {
-            if (e.metaKey || e.ctrlKey) {
+            if (e.altKey) {
                 if (!this.props.connect) {
                     return Message.error('发送消息失败, 您当前处于离线状态');
                 }
@@ -384,3 +391,4 @@ export default connect(state => ({
     focus: state.get('focus'),
     user: state.get('user'),
 }))(ChatInput);
+
