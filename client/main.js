@@ -109,12 +109,20 @@ socket.on('message', (message) => {
     }
 
     if (message.type === 'text' && state.getIn(['ui', 'voiceSwitch'])) {
-        const text = message.content.replace(
-            /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g,
-            () => '',
-        );
+        const text = message.content
+            .replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g, '')
+            .replace(/#/g, '');
+        // The maximum number of words is 200
+        if (text.length > 200) {
+            return;
+        }
+
+        const from = linkman && linkman.get('type') === 'group' ?
+            `${message.from.username}在${linkman.get('name')}说`
+            :
+            `${message.from.username}对你说`;
         if (text) {
-            voice.push(`${message.from.username}说: ${text}`, message.from.username);
+            voice.push(from + text, message.from.username);
         }
     }
 });

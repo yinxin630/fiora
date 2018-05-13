@@ -10,6 +10,11 @@ const voice = {
             const blob = res.data;
             if (blob.type === 'application/json') {
                 console.warn('合成语言失败');
+                const reader = new FileReader();
+                reader.onload = function () {
+                    console.warn(JSON.parse(this.result));
+                };
+                reader.readAsText(blob);
             } else {
                 $source.setAttribute('src', URL.createObjectURL(blob));
                 $audio.load();
