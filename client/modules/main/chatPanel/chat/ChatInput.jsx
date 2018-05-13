@@ -169,6 +169,12 @@ class ChatInput extends Component {
                 this.sendHuaji();
                 e.preventDefault();
             }
+        } else if (e.key === 'd' || e.key === '∂') {
+            if (e.altKey) {
+                this.setState({
+                    expressionSearchVisible: true,
+                });
+            }
         } else if (expressionShortcut[e.key]) {
             if (e.altKey) {
                 if (!this.props.connect) {

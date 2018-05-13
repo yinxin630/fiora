@@ -304,6 +304,7 @@ class Sidebar extends Component {
                                 <p>输入框快捷键</p>
                                 <ul>
                                     <li>Alt + S: 发送滑稽</li>
+                                    <li>Alt + D: 发送表情包</li>
                                     <li>Alt + 1: 表情阴险</li>
                                     <li>Alt + 2: 表情乖</li>
                                     <li>Alt + 3: 表情滑稽</li>
