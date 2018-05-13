@@ -1,0 +1,51 @@
+import axios from 'axios';
+import fetch from './fetch';
+import sleep from './sleep';
+
+const voice = {
+    async read(text, cuid) {
+        const [err, result] = await fetch('getBaiduToken');
+        if (!err) {
+            const res = await axios.get(`http://tsn.baidu.com/text2audio?tex=${text}&tok=${result.token}&cuid=${cuid}&ctp=1&lan=zh`, { responseType: 'blob' });
+            const blob = res.data;
+            if (blob.type === 'application/json') {
+                console.warn('合成语言失败');
+            } else {
+                $source.setAttribute('src', URL.createObjectURL(blob));
+                $audio.load();
+                const promise = new Promise((resolve) => {
+                    $audio.addEventListener('ended', resolve);
+                });
+                $audio.play();
+                await promise;
+            }
+        }
+    },
+    push(text, cuid) {
+        taskQueue.push({ text, cuid });
+    },
+};
+
+const $audio = document.createElement('audio');
+const $source = document.createElement('source');
+$source.setAttribute('type', 'audio/mp3');
+$source.setAttribute('src', '');
+$audio.appendChild($source);
+document.body.appendChild($audio);
+
+const taskQueue = [];
+
+async function handleTaskQueue() {
+    const task = taskQueue.shift();
+    if (task) {
+        await voice.read(task.text, task.cuid);
+        await sleep(200);
+        await handleTaskQueue();
+    } else {
+        setTimeout(handleTaskQueue, 500);
+    }
+}
+handleTaskQueue();
+
+export default voice;
+

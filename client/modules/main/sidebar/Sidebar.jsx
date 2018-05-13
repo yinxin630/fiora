@@ -35,6 +35,7 @@ class Sidebar extends Component {
         sound: PropTypes.string,
         soundSwitch: PropTypes.bool,
         notificationSwitch: PropTypes.bool,
+        voiceSwitch: PropTypes.bool,
     }
     static logout() {
         action.logout();
@@ -192,7 +193,7 @@ class Sidebar extends Component {
         this.toggleBackgroundLoading();
     }
     render() {
-        const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound, soundSwitch, notificationSwitch } = this.props;
+        const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound, soundSwitch, notificationSwitch, voiceSwitch } = this.props;
         const { settingDialog, userDialog, rewardDialog, infoDialog, avatarLoading, backgroundLoading } = this.state;
         if (isLogin) {
             return (
@@ -229,6 +230,11 @@ class Sidebar extends Component {
                                     <Switch
                                         onChange={action.setNotificationSwitch}
                                         checked={notificationSwitch}
+                                    />
+                                    <p>语音播报</p>
+                                    <Switch
+                                        onChange={action.setVoiceSwitch}
+                                        checked={voiceSwitch}
                                     />
                                 </div>
                             </div>
@@ -336,4 +342,5 @@ export default connect(state => ({
     sound: state.getIn(['ui', 'sound']),
     soundSwitch: state.getIn(['ui', 'soundSwitch']),
     notificationSwitch: state.getIn(['ui', 'notificationSwitch']),
+    voiceSwitch: state.getIn(['ui', 'voiceSwitch']),
 }))(Sidebar);

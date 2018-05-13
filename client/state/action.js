@@ -231,6 +231,14 @@ function setNotificationSwitch(value) {
     });
     window.localStorage.setItem('notificationSwitch', value);
 }
+function setVoiceSwitch(value) {
+    dispatch({
+        type: 'SetDeepValue',
+        keys: ['ui', 'voiceSwitch'],
+        value,
+    });
+    window.localStorage.setItem('voiceSwitch', value);
+}
 
 
 export default {
@@ -260,4 +268,5 @@ export default {
     setSound,
     setSoundSwitch,
     setNotificationSwitch,
+    setVoiceSwitch,
 };
