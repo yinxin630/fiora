@@ -15,8 +15,11 @@ Online address: [https://fiora.suisuijiang.com/](https://fiora.suisuijiang.com/)
 
 0. Users, groups, private chat, group chat
 0. Text, pictures, code, URL and many other types of messages
+0. Create/Search/Join group, Search/Add friend
 0. Desktop notification, sound reminder
 0. Custom desktop background, theme color, and text color
+0. Display group online members
+0. Send huaji expression, Search expression
 
 ## Screenshot
 
