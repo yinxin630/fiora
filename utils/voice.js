@@ -6,7 +6,7 @@ const voice = {
     async read(text, cuid) {
         const [err, result] = await fetch('getBaiduToken');
         if (!err) {
-            const res = await axios.get(`http://tsn.baidu.com/text2audio?tex=${text}&tok=${result.token}&cuid=${cuid}&ctp=1&lan=zh`, { responseType: 'blob' });
+            const res = await axios.get(`https://tsn.baidu.com/text2audio?tex=${text}&tok=${result.token}&cuid=${cuid}&ctp=1&lan=zh`, { responseType: 'blob' });
             const blob = res.data;
             if (blob.type === 'application/json') {
                 console.warn('合成语言失败');
