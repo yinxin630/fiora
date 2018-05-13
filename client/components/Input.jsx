@@ -9,6 +9,7 @@ import './components.less';
 class Input extends Component {
     static propTypes = {
         type: PropTypes.string,
+        onEnter: PropTypes.func,
     }
     static defaultProps = {
         type: 'text',
@@ -38,13 +39,37 @@ class Input extends Component {
         this.setState({
             value: '',
         });
+        this.input.focus();
+    }
+    @autobind
+    handleKeyDown(e) {
+        const { onEnter } = this.props;
+        if (e.key === 'Enter' && onEnter) {
+            onEnter(this.state.value);
+        }
+    }
+    @autobind
+    handleIMEStart() {
+        this.lockEnter = true;
+    }
+    @autobind
+    handleIMEEnd() {
+        this.lockEnter = false;
     }
     render() {
         const { type } = this.props;
         const { value } = this.state;
         return (
             <div className="component-chat">
-                <input type={type} value={value} onInput={this.handleInput} />
+                <input
+                    type={type}
+                    value={value}
+                    onInput={this.handleInput}
+                    ref={i => this.input = i}
+                    onKeyDown={this.handleKeyDown}
+                    onCompositionStart={this.handleIMEStart}
+                    onCompositionEnd={this.handleIMEEnd}
+                />
                 <IconButton width={32} height={32} iconSize={18} icon="clear" onClick={this.handleClickClear} />
             </div>
         );

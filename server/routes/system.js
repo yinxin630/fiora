@@ -1,3 +1,5 @@
+const axios = require('axios');
+const assert = require('assert');
 const User = require('../models/user');
 const Group = require('../models/group');
 
@@ -29,5 +31,17 @@ module.exports = {
                 members: group.members.length,
             })),
         };
+    },
+    async searchExpression(ctx) {
+        const { keywords } = ctx.data;
+        if (keywords === '') {
+            return [];
+        }
+
+        const res = await axios.get(`https://www.doutula.com/search?keyword=${encodeURIComponent(keywords)}`);
+        assert(res.status === 200, '搜索表情包失败, 请重试');
+
+        const images = res.data.match(/data-original="[^ "]+"/g) || [];
+        return images.map(i => i.substring(15, i.length - 1));
     },
 };

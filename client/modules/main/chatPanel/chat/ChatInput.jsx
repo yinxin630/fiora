@@ -12,13 +12,20 @@ import Dropdown from '@/components/Dropdown';
 import { Menu, MenuItem } from '@/components/Menu';
 import Dialog from '@/components/Dialog';
 import Message from '@/components/Message';
+import Input from '@/components/Input';
+import Button from '@/components/Button';
+import Loading from '@/components/Loading';
+
 import getRandomHuaji from 'utils/getRandomHuaji';
+import readDiskFile from 'utils/readDiskFile';
+import fetch from 'utils/fetch';
+
 import Expression from './Expression';
 import CodeEditor from './CodeEditor';
 import config from '../../../../../config/client';
-import readDiskFile from '../../../../../utils/readDiskFile';
 
-const xss = require('../../../../../utils/xss');
+const xss = require('utils/xss');
+const Url = require('utils/url');
 
 class ChatInput extends Component {
     static propTypes = {
@@ -68,6 +75,9 @@ class ChatInput extends Component {
         this.state = {
             expressionVisible: false,
             codeInputVisible: false,
+            expressionSearchVisible: false,
+            expressionSearchLoading: false,
+            expressionSearchResults: [],
         };
         this.lockEnter = false;
     }
@@ -94,6 +104,12 @@ class ChatInput extends Component {
             });
             break;
         }
+        case 'expression': {
+            this.setState({
+                expressionSearchVisible: true,
+            });
+            break;
+        }
         default:
         }
     }
@@ -101,6 +117,12 @@ class ChatInput extends Component {
     handleCodeEditorClose() {
         this.setState({
             codeInputVisible: false,
+        });
+    }
+    @autobind
+    closeExpressionSearch() {
+        this.setState({
+            expressionSearchVisible: false,
         });
     }
     @autobind
@@ -313,6 +335,46 @@ class ChatInput extends Component {
     handleIMEEnd() {
         this.lockEnter = false;
     }
+    async searchExpression(keywords) {
+        if (keywords) {
+            this.setState({
+                expressionSearchLoading: true,
+            });
+            const [err, result] = await fetch('searchExpression', { keywords });
+            if (!err) {
+                this.setState({
+                    expressionSearchResults: result,
+                });
+            }
+            this.setState({
+                expressionSearchLoading: false,
+            });
+        }
+    }
+    @autobind
+    handleSearchExpressionButtonClick() {
+        const keywords = this.expressionSearchKeyword.getValue();
+        this.searchExpression(keywords);
+    }
+    @autobind
+    handleSearchExpressionInputEnter(keywords) {
+        this.searchExpression(keywords);
+    }
+    @autobind
+    handleClickExpression(e) {
+        const $target = e.target;
+        if ($target.tagName === 'IMG') {
+            const url = Url.addParam($target.src, {
+                width: $target.naturalWidth,
+                height: $target.naturalHeight,
+            });
+            const id = this.addSelfMessage('image', url);
+            this.sendMessage(id, 'image', url);
+            this.setState({
+                expressionSearchVisible: false,
+            });
+        }
+    }
     expressionDropdown = (
         <div className="expression-dropdown">
             <Expression onSelect={this.handleSelectExpression} />
@@ -321,14 +383,15 @@ class ChatInput extends Component {
     featureDropdown = (
         <div className="feature-dropdown">
             <Menu onClick={this.handleFeatureMenuClick}>
-                <MenuItem key="image">发送图片</MenuItem>
+                <MenuItem key="expression">发送表情包</MenuItem>
                 <MenuItem key="huaji">发送滑稽</MenuItem>
+                <MenuItem key="image">发送图片</MenuItem>
                 <MenuItem key="code">发送代码</MenuItem>
             </Menu>
         </div>
     )
     render() {
-        const { expressionVisible, codeInputVisible } = this.state;
+        const { expressionVisible, codeInputVisible, expressionSearchVisible, expressionSearchResults, expressionSearchLoading } = this.state;
         const { isLogin } = this.props;
 
         if (isLogin) {
@@ -361,6 +424,29 @@ class ChatInput extends Component {
                         <div className="container">
                             <CodeEditor ref={i => this.codeEditor = i} />
                             <button className="codeEditor-button" onClick={this.handleSendCode}>发送</button>
+                        </div>
+                    </Dialog>
+                    <Dialog
+                        className="expressionSearch-dialog"
+                        title="搜索表情包"
+                        visible={expressionSearchVisible}
+                        onClose={this.closeExpressionSearch}
+                    >
+                        <div className="container">
+                            <div className="input-container">
+                                <Input ref={i => this.expressionSearchKeyword = i} onEnter={this.handleSearchExpressionInputEnter} />
+                                <Button onClick={this.handleSearchExpressionButtonClick}>搜索</Button>
+                            </div>
+                            <div className={`loading ${expressionSearchLoading ? 'show' : 'hide'}`}>
+                                <Loading type="spinningBubbles" color="#4A90E2" height={100} width={100} />
+                            </div>
+                            <div className="expression-list" onClick={this.handleClickExpression}>
+                                {
+                                    expressionSearchResults.map(image => (
+                                        <img src={image} key={image} />
+                                    ))
+                                }
+                            </div>
                         </div>
                     </Dialog>
                     <input

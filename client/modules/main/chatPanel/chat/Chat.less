@@ -489,6 +489,50 @@
         }
     }
 }
+.expressionSearch-dialog {
+    width: 600px !important;
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        
+        & > div {
+            display: flex;
+
+            &.input-container {
+                .component-chat {
+                    flex: 1;
+                }
+                .component-button {
+                    width: 80px;
+                    margin-left: 12px;
+                }
+            }
+            &.loading {
+                flex-direction: column;
+                align-items: center;
+                margin-top: 18px;
+            }
+            &.expression-list {
+                flex-wrap: wrap;
+                margin-top: 16px;
+                overflow: auto;
+                max-height: 140px * 4;
+
+                & > img {
+                    width: 130px;
+                    height: auto;
+                    max-height: 130px;
+                    margin: 5px;
+                    cursor: pointer;
+                    &:hover {
+                        box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.15);
+                    }
+                }
+            }
+        }
+    }
+}
 
 .react-viewer-toolbar {
     height: 38px !important;
