@@ -20,6 +20,7 @@ Online address: [https://fiora.suisuijiang.com/](https://fiora.suisuijiang.com/)
 0. Custom desktop background, theme color, and text color
 0. Display group online members
 0. Send huaji expression, Search expression
+0. New message voice broadcast
 
 ## Screenshot
 
