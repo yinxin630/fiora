@@ -99,7 +99,7 @@ class Message extends Component {
         }
     }
     componentDidMount() {
-        const { type, content, shouldScroll } = this.props;
+        const { type, content, shouldScroll, isSelf } = this.props;
         if (type === 'image') {
             let maxWidth = this.dom.clientWidth - 100;
             const maxHeight = 400;
@@ -122,7 +122,7 @@ class Message extends Component {
                 $image.height = height * scale;
             }
         }
-        if (shouldScroll) {
+        if (shouldScroll || isSelf) {
             this.dom.scrollIntoView();
         }
     }
