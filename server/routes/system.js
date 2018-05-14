@@ -56,7 +56,7 @@ module.exports = {
         assert(res.status === 200, '请求百度token失败');
 
         baiduToken = res.data.access_token;
-        lastBaiduTokenTime = Date.now() + (res.data.expires_in - 3600) * 1000;
+        lastBaiduTokenTime = Date.now() + (res.data.expires_in - 60 * 60 * 24) * 1000;
         return { token: baiduToken };
     },
 };
