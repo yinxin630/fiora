@@ -88,6 +88,8 @@ module.exports = {
         };
     },
     async login(ctx) {
+        assert(!ctx.socket.user, '你已经登录了');
+
         const {
             username, password, os, browser, environment,
         } = ctx.data;
@@ -135,6 +137,8 @@ module.exports = {
         };
     },
     async loginByToken(ctx) {
+        assert(!ctx.socket.user, '你已经登录了');
+
         const {
             token, os, browser, environment,
         } = ctx.data;
