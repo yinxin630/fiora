@@ -57,6 +57,8 @@ socket.on('connect', async () => {
 socket.on('disconnect', () => {
     action.disconnect();
 });
+
+let prevFrom = '';
 socket.on('message', (message) => {
     // robot10
     convertRobot10Message(message);
@@ -122,8 +124,9 @@ socket.on('message', (message) => {
             :
             `${message.from.username}对你说`;
         if (text) {
-            voice.push(from + text, message.from.username);
+            voice.push(from !== prevFrom ? from + text : text, message.from.username);
         }
+        prevFrom = from;
     }
 });
 
