@@ -128,6 +128,7 @@ class Message extends Component {
     }
     shouldComponentUpdate(nextProps, nextState) {
         return !(
+            this.props.avatar === nextProps.avatar &&
             this.props.loading === nextProps.loading &&
             this.props.percent === nextProps.percent &&
             this.state.showCode === nextState.showCode &&
