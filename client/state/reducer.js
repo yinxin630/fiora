@@ -80,9 +80,35 @@ function reducer(state = initialState, action) {
     }
 
     case 'SetUser': {
-        return state
-            .set('user', immutable.fromJS(action.user))
-            .set('focus', action.user.linkmans[0]._id);
+        let newState = state;
+        if (state.get('user') === null) {
+            newState = newState
+                .set('user', immutable.fromJS(action.user))
+                .set('focus', state.get('focus') || action.user.linkmans[0]._id);
+        } else {
+            newState = newState.updateIn(['user', 'linkmans'], (linkmans) => {
+                let newLinkmans = linkmans;
+                action.user.linkmans.forEach((linkman) => {
+                    const index = linkmans.findIndex(l => l.get('_id') === linkman._id);
+                    if (index === -1) {
+                        newLinkmans = newLinkmans.push(immutable.fromJS(linkman));
+                    }
+                });
+                newLinkmans.forEach((linkman, linkmanIndex) => {
+                    const index = action.user.linkmans.findIndex(l => l._id === linkman.get('_id'));
+                    if (index === -1) {
+                        newLinkmans = newLinkmans.splice(linkmanIndex, 1);
+                    }
+                });
+                return newLinkmans;
+            });
+
+            const focusIndex = newState.getIn(['user', 'linkmans']).findIndex(l => l.get('_id') === newState.get('focus'));
+            if (focusIndex === -1) {
+                newState = newState.set('focus', newState.getIn(['user', 'linkmans', 0, '_id']));
+            }
+        }
+        return newState;
     }
     case 'SetLinkmanMessages': {
         const newLinkmans = state
@@ -99,7 +125,7 @@ function reducer(state = initialState, action) {
             });
         return state
             .setIn(['user', 'linkmans'], newLinkmans)
-            .set('focus', newLinkmans.getIn([0, '_id']));
+            .set('focus', state.get('focus') || newLinkmans.getIn([0, '_id']));
     }
     case 'SetGroupMembers': {
         const linkmanIndex = state
