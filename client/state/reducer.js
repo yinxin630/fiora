@@ -170,7 +170,10 @@ function reducer(state = initialState, action) {
                     .unshift(linkman
                         .update('messages', (messages) => {
                             const newMessages = messages.push(immutable.fromJS(action.message));
-                            if (newMessages.size > 300) {
+                            if (
+                                action.message.from === state.getIn(['user', '_id']) &&
+                                 newMessages.size > 300
+                            ) {
                                 return newMessages.splice(0, 200);
                             }
                             return newMessages;
