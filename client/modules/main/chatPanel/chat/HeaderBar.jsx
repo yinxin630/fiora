@@ -10,18 +10,24 @@ class HeaderBar extends Component {
     static propTypes = {
         linkman: ImmutablePropTypes.map,
         onShowInfo: PropTypes.func,
+        isLogin: PropTypes.bool.isRequired,
     }
     render() {
-        const { linkman, onShowInfo } = this.props;
+        const { linkman, onShowInfo, isLogin } = this.props;
         if (!linkman) {
             return <div />;
         }
         return (
             <div className="chat-headerBar">
                 <h2>{linkman && linkman.get('name')}</h2>
-                <div>
-                    <IconButton width={40} height={40} icon="gongneng" iconSize={24} onClick={onShowInfo} />
-                </div>
+                {
+                    isLogin ?
+                        <div>
+                            <IconButton width={40} height={40} icon="gongneng" iconSize={24} onClick={onShowInfo} />
+                        </div>
+                        :
+                        null
+                }
             </div>
         );
     }
@@ -32,6 +38,7 @@ export default connect((state) => {
     const linkmans = state.getIn(['user', 'linkmans']) || immutable.fromJS([]);
     const linkman = linkmans.find(l => l.get('_id') === focus);
     return {
+        isLogin: !!state.getIn(['user', '_id']),
         linkman,
     };
 })(HeaderBar);
