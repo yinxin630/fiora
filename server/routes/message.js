@@ -62,8 +62,13 @@ module.exports = {
         } else {
             const sockets = await Socket.find({ user: userId });
             sockets.forEach((socket) => {
-                console.log(socket.id);
                 ctx._io.to(socket.id).emit('message', messageData);
+            });
+            const selfSockets = await Socket.find({ user: ctx.socket.user });
+            selfSockets.forEach((socket) => {
+                if (socket.id !== ctx.socket.id) {
+                    ctx._io.to(socket.id).emit('message', messageData);
+                }
             });
         }
 

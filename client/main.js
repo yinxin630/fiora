@@ -64,6 +64,7 @@ socket.on('message', (message) => {
     convertRobot10Message(message);
 
     const state = store.getState();
+    const isSelfMessage = message.from._id === state.getIn(['user', '_id']);
     const linkman = state.getIn(['user', 'linkmans']).find(l => l.get('_id') === message.to);
     let title = '';
     if (linkman) {
@@ -74,6 +75,10 @@ socket.on('message', (message) => {
             title = `${message.from.username} 对你说:`;
         }
     } else {
+        // 联系人不存在并且是自己发的消息, 不创建新联系人
+        if (isSelfMessage) {
+            return;
+        }
         const newLinkman = {
             _id: getFriendId(
                 state.getIn(['user', '_id']),
@@ -94,6 +99,10 @@ socket.on('message', (message) => {
                 action.addLinkmanMessages(newLinkman._id, res);
             }
         });
+    }
+
+    if (isSelfMessage) {
+        return;
     }
 
     if (windowStatus === 'blur' && state.getIn(['ui', 'notificationSwitch'])) {
