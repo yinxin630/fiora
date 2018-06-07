@@ -16,10 +16,12 @@ import Dialog from '@/components/Dialog';
 import Button from '@/components/Button';
 import Message from '@/components/Message';
 import OnlineStatus from './OnlineStatus';
+import AppDownload from './AppDownload';
 import setCssVariable from '../../../../utils/setCssVariable';
 import readDiskFile from '../../../../utils/readDiskFile';
 import playSound from '../../../../utils/sound';
 import config from '../../../../config/client';
+
 import './Sidebar.less';
 
 
@@ -70,6 +72,7 @@ class Sidebar extends Component {
             userDialog: false,
             rewardDialog: false,
             infoDialog: false,
+            appDownloadDialog: false,
             avatarLoading: false,
             backgroundLoading: false,
         };
@@ -120,6 +123,18 @@ class Sidebar extends Component {
     closeInfo() {
         this.setState({
             infoDialog: false,
+        });
+    }
+    @autobind
+    openAppDownload() {
+        this.setState({
+            appDownloadDialog: true,
+        });
+    }
+    @autobind
+    closeAppDownload() {
+        this.setState({
+            appDownloadDialog: false,
         });
     }
     @autobind
@@ -194,7 +209,7 @@ class Sidebar extends Component {
     }
     render() {
         const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound, soundSwitch, notificationSwitch, voiceSwitch } = this.props;
-        const { settingDialog, userDialog, rewardDialog, infoDialog, avatarLoading, backgroundLoading } = this.state;
+        const { settingDialog, userDialog, rewardDialog, infoDialog, appDownloadDialog, avatarLoading, backgroundLoading } = this.state;
         if (isLogin) {
             return (
                 <div className="module-main-sidebar">
@@ -204,6 +219,7 @@ class Sidebar extends Component {
                         <a href="https://github.com/yinxin630/fiora" target="_black" rel="noopener noreferrer">
                             <IconButton width={40} height={40} icon="github" iconSize={26} />
                         </a>
+                        <IconButton width={40} height={40} icon="app" iconSize={28} onClick={this.openAppDownload} />
                         <IconButton width={40} height={40} icon="dashang" iconSize={26} onClick={this.openReward} />
                         <IconButton width={40} height={40} icon="about" iconSize={26} onClick={this.openInfo} />
                         <IconButton width={40} height={40} icon="setting" iconSize={26} onClick={this.openSettingDialog} />
@@ -322,6 +338,7 @@ class Sidebar extends Component {
                             </div>
                         </div>
                     </Dialog>
+                    <AppDownload visible={appDownloadDialog} onClose={this.closeAppDownload} />
                 </div>
             );
         }
