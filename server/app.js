@@ -60,7 +60,7 @@ const io = new IO({
 // 注入应用
 io.attach(app);
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' && config.allowOrigin) {
     app._io.origins(config.allowOrigin);
 }
 

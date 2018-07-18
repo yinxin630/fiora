@@ -19,7 +19,7 @@ module.exports = {
     qiniuBucket: options.qiniuBucket || '',
     qiniuUrlPrefix: options.qiniuUrlPrefix || '',
 
-    allowOrigin: options.allowOrigin || ['localhost:8080'],
+    allowOrigin: options.allowOrigin,
 
     // token expires time
     tokenExpiresTime: 1000 * 60 * 60 * 24 * 30,
