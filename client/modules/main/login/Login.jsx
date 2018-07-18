@@ -51,9 +51,9 @@ class Login extends Component {
         return (
             <div className="pane">
                 <h3>用户名</h3>
-                <Input ref={i => this.username = i} />
+                <Input ref={i => this.username = i} onEnter={this.handleLogin} />
                 <h3>密码</h3>
-                <Input type="password" ref={i => this.password = i} />
+                <Input type="password" ref={i => this.password = i} onEnter={this.handleLogin} />
                 <button onClick={this.handleLogin}>登录</button>
             </div>
         );
@@ -62,9 +62,9 @@ class Login extends Component {
         return (
             <div className="pane">
                 <h3>用户名</h3>
-                <Input ref={i => this.username = i} />
+                <Input ref={i => this.username = i} onEnter={this.handleRegister} />
                 <h3>密码</h3>
-                <Input type="password" ref={i => this.password = i} />
+                <Input type="password" ref={i => this.password = i} onEnter={this.handleRegister} />
                 <button onClick={this.handleRegister}>注册</button>
             </div>
         );
