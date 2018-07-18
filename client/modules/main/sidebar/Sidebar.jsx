@@ -319,7 +319,7 @@ class Sidebar extends Component {
                                 <a href="https://suisuijiang.com" target="_black" rel="noopener noreferrer">https://suisuijiang.com</a>
                             </div>
                             <div>
-                                <p>如何在本地运行</p>
+                                <p>如何运行</p>
                                 <a href="https://github.com/yinxin630/fiora/blob/master/doc/INSTALL.ZH.md" target="_black" rel="noopener noreferrer">https://github.com/yinxin630/fiora/blob/master/doc/INSTALL.ZH.md</a>
                             </div>
                             <div>
