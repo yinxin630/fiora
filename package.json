@@ -4,7 +4,7 @@
   "description": "An interesting chat application power by socket.io, koa, mongodb and react",
   "author": "碎碎酱 <yinxin630@gmail.com>",
   "scripts": {
-    "server": "cross-env NODE_ENV=development && nodemon server/main.js --config .nodemonrc",
+    "server": "./node_modules/.bin/cross-env NODE_ENV=development && nodemon server/main.js --config .nodemonrc",
     "client": "node build/dev-server.js",
     "build": "node build/build.js",
     "lint": "./node_modules/.bin/eslint ./ --ext js,jsx --ignore-pattern .eslintignore --cache --fix"
