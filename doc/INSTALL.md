@@ -30,7 +30,7 @@ qiniu.com config introduce:
 * `qiniuAccessKey` get from qiniu.com 个人面板 - 密钥管理 page
 * `qiniuSecretKey` get from qiniu.com 个人面板 - 密钥管理 page
 * `qiniuBucket` qiniu.com bucket name
-* `qiniuUrlPrefix` qiniu.com bucket domain. get from qiniu.com 存储空间 - 内容管理 page. should be //xxx.com/ or http://xxx.com/ or https://xxx.com/ format
+* `qiniuUrlPrefix` qiniu.com bucket domain. get from qiniu.com 存储空间 - 内容管理 page. should be `//xxx/` or `http://xxx/` or `https://xxx/` format
 
 ## Step 4
 

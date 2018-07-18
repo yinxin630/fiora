@@ -30,7 +30,7 @@
 * `qiniuAccessKey` 从七牛 个人面板 - 密钥管理 页面获取
 * `qiniuSecretKey` 从七牛 个人面板 - 密钥管理 页面获取
 * `qiniuBucket` 存储空间的名称
-* `qiniuUrlPrefix` 存储空间的域名, 从七牛 存储空间 - 内容管理 页面获取, 需要写成 //xxx.com/ 或者 http://xxx.com/ 或者 https://xxx.com/ 的格式
+* `qiniuUrlPrefix` 存储空间的域名, 从七牛 存储空间 - 内容管理 页面获取, 需要写成 `//xxx/` 或者 `http://xxx/` 或者 `https://xxx/` 的格式
 
 ## 第四步
 
