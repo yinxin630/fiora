@@ -25,6 +25,14 @@
                     }
                 ]
             }
+        ],
+        [
+            "prismjs", {
+                "languages": ["clike", "javascript", "typescript", "java", "c", "cpp", "python", "ruby", "markup", "markup-templating", "php", "go", "csharp", "css", "markdown", "sql", "json" ],
+                "plugins": ["line-numbers"],
+                "theme": "default",
+                "css": true
+            }
         ]
     ],
     "comments": false,

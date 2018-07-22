@@ -26,19 +26,6 @@ import './Sidebar.less';
 
 
 class Sidebar extends Component {
-    static propTypes = {
-        isLogin: PropTypes.bool.isRequired,
-        isConnect: PropTypes.bool.isRequired,
-        avatar: PropTypes.string,
-        primaryColor: PropTypes.string,
-        primaryTextColor: PropTypes.string,
-        backgroundImage: PropTypes.string,
-        userId: PropTypes.string,
-        sound: PropTypes.string,
-        soundSwitch: PropTypes.bool,
-        notificationSwitch: PropTypes.bool,
-        voiceSwitch: PropTypes.bool,
-    }
     static logout() {
         action.logout();
         window.localStorage.removeItem('token');
@@ -64,6 +51,19 @@ class Sidebar extends Component {
     static handleSelectSound(sound) {
         playSound(sound);
         action.setSound(sound);
+    }
+    static propTypes = {
+        isLogin: PropTypes.bool.isRequired,
+        isConnect: PropTypes.bool.isRequired,
+        avatar: PropTypes.string,
+        primaryColor: PropTypes.string,
+        primaryTextColor: PropTypes.string,
+        backgroundImage: PropTypes.string,
+        userId: PropTypes.string,
+        sound: PropTypes.string,
+        soundSwitch: PropTypes.bool,
+        notificationSwitch: PropTypes.bool,
+        voiceSwitch: PropTypes.bool,
     }
     constructor(...args) {
         super(...args);

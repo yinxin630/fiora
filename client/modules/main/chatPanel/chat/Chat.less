@@ -315,16 +315,21 @@
 }
 .code-viewer {
     width: 800px !important;
-    height: 80% !important;
+    max-height: 90%;
+    display: flex;
 
     .rc-dialog-content {
-        height: 100%;
+        flex: 1;
+        min-height: 300px;
         display: flex;
         flex-direction: column;
+        // overflow: hidden;
     }
     .rc-dialog-body {
+        padding: 0 8px;
         overflow: auto;
         max-width: 900px;
+        position: relative;
         flex: 1;
         * {
             user-select: text;
@@ -332,9 +337,20 @@
     }
     .pre {
         color: black;
-        padding: 6px 10px;
         margin: 0;
         font-size: 14px;
+        background-color: white !important;
+        position: static !important;
+
+        & > code {
+            position: static !important;
+        }
+        .line-numbers-rows {
+            position: absolute;
+            left: 0;
+            top: 14px;
+            background-color: white;
+        }
     }
 }
 

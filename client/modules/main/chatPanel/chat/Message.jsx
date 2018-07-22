@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 import Viewer from 'react-viewer';
+import Prism from 'prismjs';
 import 'react-viewer/dist/index.css';
 
 import Avatar from '@/components/Avatar';
@@ -10,27 +11,6 @@ import Dialog from '@/components/Dialog';
 import Time from 'utils/time';
 import expressions from 'utils/expressions';
 
-const Prism = require('prismjs/components/prism-core.js');
-require('prismjs/themes/prism.css');
-
-/* 要使用的语言及其前置语言 */
-require('prismjs/components/prism-clike');
-require('prismjs/components/prism-javascript');
-require('prismjs/components/prism-typescript');
-require('prismjs/components/prism-java');
-require('prismjs/components/prism-c');
-require('prismjs/components/prism-cpp');
-require('prismjs/components/prism-python');
-require('prismjs/components/prism-ruby');
-require('prismjs/components/prism-markup');
-require('prismjs/components/prism-markup-templating');
-require('prismjs/components/prism-php');
-require('prismjs/components/prism-go');
-require('prismjs/components/prism-csharp');
-require('prismjs/components/prism-css');
-require('prismjs/components/prism-markdown');
-require('prismjs/components/prism-sql');
-require('prismjs/components/prism-json');
 
 const transparentImage = 'data:image/png;base64,R0lGODlhFAAUAIAAAP///wAAACH5BAEAAAAALAAAAAAUABQAAAIRhI+py+0Po5y02ouz3rz7rxUAOw==';
 const languagesMap = {
@@ -51,22 +31,6 @@ const languagesMap = {
 };
 
 class Message extends Component {
-    static propTypes = {
-        avatar: PropTypes.string.isRequired,
-        nickname: PropTypes.string.isRequired,
-        time: PropTypes.object.isRequired,
-        type: PropTypes.oneOf(['text', 'image', 'url', 'code']),
-        content: PropTypes.string.isRequired,
-        isSelf: PropTypes.bool,
-        loading: PropTypes.bool,
-        percent: PropTypes.number,
-        openUserInfoDialog: PropTypes.func,
-        shouldScroll: PropTypes.bool,
-        tag: PropTypes.string,
-    }
-    static defaultProps = {
-        isSelf: false,
-    }
     static formatTime(time) {
         const nowTime = new Date();
         if (Time.isToday(nowTime, time)) {
@@ -88,6 +52,22 @@ class Message extends Component {
                 return r;
             },
         );
+    }
+    static propTypes = {
+        avatar: PropTypes.string.isRequired,
+        nickname: PropTypes.string.isRequired,
+        time: PropTypes.object.isRequired,
+        type: PropTypes.oneOf(['text', 'image', 'url', 'code']),
+        content: PropTypes.string.isRequired,
+        isSelf: PropTypes.bool,
+        loading: PropTypes.bool,
+        percent: PropTypes.number,
+        openUserInfoDialog: PropTypes.func,
+        shouldScroll: PropTypes.bool,
+        tag: PropTypes.string,
+    }
+    static defaultProps = {
+        isSelf: false,
     }
     constructor(props) {
         super(props);
@@ -212,7 +192,8 @@ class Message extends Component {
         const language = languagesMap[parseResult[1]];
         const transferContent = content;
         const rawCode = transferContent.replace(/@language=[_a-z]+@/, '');
-        const html = Prism.highlight(rawCode, Prism.languages[language], language);
+        const html = Prism.highlight(rawCode, Prism.languages[language]);
+        setTimeout(Prism.highlightAll.bind(Prism), 0); // https://github.com/PrismJS/prism/issues/1487
         let size = `${rawCode.length}B`;
         if (rawCode.length > 1024) {
             size = `${Math.ceil(rawCode.length / 1024 * 100) / 100}KB`;
@@ -232,7 +213,9 @@ class Message extends Component {
                     <p>查看</p>
                 </div>
                 <Dialog className="code-viewer" title="查看代码" visible={this.state.showCode} onClose={this.hideCode}>
-                    <pre className="pre" dangerouslySetInnerHTML={{ __html: html }} />
+                    <pre className="pre line-numbers">
+                        <code className={`language-${language}`} dangerouslySetInnerHTML={{ __html: html }} />
+                    </pre>
                 </Dialog>
             </div>
         );

@@ -17,17 +17,6 @@ class App extends Component {
         showLoginDialog: PropTypes.bool,
         backgroundImage: PropTypes.string,
     }
-    static getWidth() {
-        let width = 0.6;
-        if (window.innerWidth < 1000) {
-            width = 0.9;
-        } else if (window.innerWidth < 1300) {
-            width = 0.8;
-        } else if (window.innerWidth < 1600) {
-            width = 0.7;
-        }
-        return width;
-    }
     constructor(props) {
         super(props);
         this.state = {
@@ -84,6 +73,17 @@ class App extends Component {
             left: `${(1 - width) / 2 * 100}%`,
             top: `${(1 - height) / 2 * 100}%`,
         };
+    }
+    static getWidth() {
+        let width = 0.6;
+        if (window.innerWidth < 1000) {
+            width = 0.9;
+        } else if (window.innerWidth < 1300) {
+            width = 0.8;
+        } else if (window.innerWidth < 1600) {
+            width = 0.7;
+        }
+        return width;
     }
     render() {
         const { showLoginDialog } = this.props;

@@ -28,12 +28,6 @@ const xss = require('utils/xss');
 const Url = require('utils/url');
 
 class ChatInput extends Component {
-    static propTypes = {
-        isLogin: PropTypes.bool.isRequired,
-        focus: PropTypes.string,
-        user: ImmutablePropTypes.map,
-        connect: PropTypes.bool,
-    }
     static handleLogin() {
         action.showLoginDialog();
     }
@@ -69,6 +63,12 @@ class ChatInput extends Component {
             ctx.drawImage(image, 0, 0);
             canvas.toBlob(resolve, mimeType, quality);
         });
+    }
+    static propTypes = {
+        isLogin: PropTypes.bool.isRequired,
+        focus: PropTypes.string,
+        user: ImmutablePropTypes.map,
+        connect: PropTypes.bool,
     }
     constructor(...args) {
         super(...args);

@@ -14,14 +14,6 @@ class Linkman extends Component {
         focus: PropTypes.bool,
         onClick: PropTypes.func,
     }
-    static getZeroTime(time) {
-        const result = new Date(time);
-        result.setHours(0);
-        result.setMinutes(0);
-        result.setSeconds(0);
-        result.setMilliseconds(0);
-        return result;
-    }
     shouldComponentUpdate(nextProps) {
         return !(
             this.props.avatar === nextProps.avatar &&
@@ -30,6 +22,14 @@ class Linkman extends Component {
             this.props.unread === nextProps.unread &&
             this.props.focus === nextProps.focus
         );
+    }
+    static getZeroTime(time) {
+        const result = new Date(time);
+        result.setHours(0);
+        result.setMinutes(0);
+        result.setSeconds(0);
+        result.setMilliseconds(0);
+        return result;
     }
     formatTime() {
         const { time: messageTime } = this.props;
