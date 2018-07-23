@@ -13,8 +13,8 @@ class Login extends Component {
     @autobind
     handleLogin() {
         socket.emit('login', {
-            username: this.username.getValue(),
-            password: this.password.getValue(),
+            username: this.loginUsername.getValue(),
+            password: this.loginPassword.getValue(),
             os: platform.os.family,
             browser: platform.name,
             environment: platform.description,
@@ -31,8 +31,8 @@ class Login extends Component {
     @autobind
     handleRegister() {
         socket.emit('register', {
-            username: this.username.getValue(),
-            password: this.password.getValue(),
+            username: this.registerUsername.getValue(),
+            password: this.registerPassword.getValue(),
             os: platform.os.family,
             browser: platform.name,
             environment: platform.description,
@@ -51,9 +51,9 @@ class Login extends Component {
         return (
             <div className="pane">
                 <h3>用户名</h3>
-                <Input ref={i => this.username = i} onEnter={this.handleLogin} />
+                <Input ref={i => this.loginUsername = i} onEnter={this.handleLogin} />
                 <h3>密码</h3>
-                <Input type="password" ref={i => this.password = i} onEnter={this.handleLogin} />
+                <Input type="password" ref={i => this.loginPassword = i} onEnter={this.handleLogin} />
                 <button onClick={this.handleLogin}>登录</button>
             </div>
         );
@@ -62,9 +62,9 @@ class Login extends Component {
         return (
             <div className="pane">
                 <h3>用户名</h3>
-                <Input ref={i => this.username = i} onEnter={this.handleRegister} />
+                <Input ref={i => this.registerUsername = i} onEnter={this.handleRegister} />
                 <h3>密码</h3>
-                <Input type="password" ref={i => this.password = i} onEnter={this.handleRegister} />
+                <Input type="password" ref={i => this.registerPassword = i} onEnter={this.handleRegister} />
                 <button onClick={this.handleRegister}>注册</button>
             </div>
         );
