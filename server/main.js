@@ -11,7 +11,7 @@ const Group = require('./models/group');
 const getRandomAvatar = require('../utils/getRandomAvatar');
 
 global.mdb = new Map(); // As a memory database
-global.mdb.set('seatList', new Set()); // Set default seat user list
+global.mdb.set('sealList', new Set()); // Set default seat user list
 
 mongoose.Promise = Promise;
 checkVersion(); // Check node and npm version

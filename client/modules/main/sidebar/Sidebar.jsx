@@ -17,6 +17,7 @@ import Button from '@/components/Button';
 import Message from '@/components/Message';
 import OnlineStatus from './OnlineStatus';
 import AppDownload from './AppDownload';
+import AdminDialog from './AdminDialog';
 import setCssVariable from '../../../../utils/setCssVariable';
 import readDiskFile from '../../../../utils/readDiskFile';
 import playSound from '../../../../utils/sound';
@@ -75,6 +76,7 @@ class Sidebar extends Component {
             appDownloadDialog: false,
             avatarLoading: false,
             backgroundLoading: false,
+            adminDialog: false,
         };
     }
     @autobind
@@ -135,6 +137,18 @@ class Sidebar extends Component {
     closeAppDownload() {
         this.setState({
             appDownloadDialog: false,
+        });
+    }
+    @autobind
+    openAdmin() {
+        this.setState({
+            adminDialog: true,
+        });
+    }
+    @autobind
+    closeAdmin() {
+        this.setState({
+            adminDialog: false,
         });
     }
     @autobind
@@ -209,13 +223,14 @@ class Sidebar extends Component {
     }
     render() {
         const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound, soundSwitch, notificationSwitch, voiceSwitch } = this.props;
-        const { settingDialog, userDialog, rewardDialog, infoDialog, appDownloadDialog, avatarLoading, backgroundLoading } = this.state;
+        const { settingDialog, userDialog, rewardDialog, infoDialog, appDownloadDialog, avatarLoading, backgroundLoading, adminDialog } = this.state;
         if (isLogin) {
             return (
                 <div className="module-main-sidebar">
                     <Avatar className="avatar" src={avatar} onClick={this.openUserDialog} />
                     <OnlineStatus className="status" status={isConnect ? 'online' : 'offline'} />
                     <div className="buttons">
+                        <IconButton width={40} height={40} icon="app" iconSize={28} onClick={this.openAdmin} />
                         <a href="https://github.com/yinxin630/fiora" target="_black" rel="noopener noreferrer">
                             <IconButton width={40} height={40} icon="github" iconSize={26} />
                         </a>
@@ -339,6 +354,7 @@ class Sidebar extends Component {
                         </div>
                     </Dialog>
                     <AppDownload visible={appDownloadDialog} onClose={this.closeAppDownload} />
+                    <AdminDialog visible={adminDialog} onClose={this.closeAdmin} />
                 </div>
             );
         }

@@ -66,15 +66,22 @@ module.exports = {
         const user = await User.findOne({ username });
         assert(user, '用户不存在');
 
+        const userId = user._id.toString();
         const sealList = global.mdb.get('sealList');
-        assert(!sealList.has(user._id), '用户已在封禁名单');
+        assert(!sealList.has(userId), '用户已在封禁名单');
 
-        sealList.add(user._id);
+        sealList.add(userId);
         setTimeout(() => {
-            sealList.delete(user._id);
-            console.log('解除封禁', username, user._id);
+            sealList.delete(userId);
         }, 1000 * 60 * 1);
 
         return { ok: true };
+    },
+    async getSealList() {
+        const sealList = global.mdb.get('sealList');
+        const userIds = [...sealList.keys()];
+        const users = await User.find({ _id: { $in: userIds } });
+        const result = users.map(user => user.username);
+        return result;
     },
 };
