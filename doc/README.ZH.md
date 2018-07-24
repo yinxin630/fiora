@@ -10,6 +10,7 @@
 Fiora是一款web聊天应用. 使用node.js, mongodb, socket.io和react编写
 
 在线地址: [https://fiora.suisuijiang.com/](https://fiora.suisuijiang.com/)
+安卓/iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/yinxin630/fiora-app)
 
 ## 功能
 
