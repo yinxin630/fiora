@@ -2,7 +2,7 @@ const options = require('../utils/commandOptions');
 
 module.exports = {
     // service port
-    port: 9200,
+    port: options.port || 9200,
 
     // mongodb address
     database: options.database || 'mongodb://localhost:27017/fiora',
@@ -23,4 +23,6 @@ module.exports = {
 
     // token expires time
     tokenExpiresTime: 1000 * 60 * 60 * 24 * 30,
+
+    administrator: options.administrator || '',
 };

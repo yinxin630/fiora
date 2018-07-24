@@ -29,13 +29,15 @@ async function setUser(user) {
     });
 
     const linkmans = [...user.groups, ...user.friends];
+    const { _id, avatar, username, isAdmin } = user;
     dispatch({
         type: 'SetUser',
         user: {
-            _id: user._id,
-            avatar: user.avatar,
-            username: user.username,
+            _id,
+            avatar,
+            username,
             linkmans,
+            isAdmin,
         },
     });
 

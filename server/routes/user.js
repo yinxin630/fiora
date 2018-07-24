@@ -134,6 +134,7 @@ module.exports = {
             groups,
             friends,
             token,
+            isAdmin: user._id.toString() === config.administrator,
         };
     },
     async loginByToken(ctx) {
@@ -184,6 +185,7 @@ module.exports = {
             username: user.username,
             groups,
             friends,
+            isAdmin: user._id.toString() === config.administrator,
         };
     },
     async guest(ctx) {

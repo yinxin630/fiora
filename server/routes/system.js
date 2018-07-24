@@ -59,4 +59,22 @@ module.exports = {
         lastBaiduTokenTime = Date.now() + (res.data.expires_in - 60 * 60 * 24) * 1000;
         return { token: baiduToken };
     },
+    async sealUser(ctx) {
+        const { username } = ctx.data;
+        assert(username !== '', 'username不能为空');
+
+        const user = await User.findOne({ username });
+        assert(user, '用户不存在');
+
+        const sealList = global.mdb.get('sealList');
+        assert(!sealList.has(user._id), '用户已在封禁名单');
+
+        sealList.add(user._id);
+        setTimeout(() => {
+            sealList.delete(user._id);
+            console.log('解除封禁', username, user._id);
+        }, 1000 * 60 * 1);
+
+        return { ok: true };
+    },
 };
