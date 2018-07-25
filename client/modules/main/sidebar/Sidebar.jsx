@@ -65,6 +65,7 @@ class Sidebar extends Component {
         soundSwitch: PropTypes.bool,
         notificationSwitch: PropTypes.bool,
         voiceSwitch: PropTypes.bool,
+        isAdmin: PropTypes.bool,
     }
     constructor(...args) {
         super(...args);
@@ -222,7 +223,7 @@ class Sidebar extends Component {
         this.toggleBackgroundLoading();
     }
     render() {
-        const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound, soundSwitch, notificationSwitch, voiceSwitch } = this.props;
+        const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound, soundSwitch, notificationSwitch, voiceSwitch, isAdmin } = this.props;
         const { settingDialog, userDialog, rewardDialog, infoDialog, appDownloadDialog, avatarLoading, backgroundLoading, adminDialog } = this.state;
         if (isLogin) {
             return (
@@ -230,7 +231,12 @@ class Sidebar extends Component {
                     <Avatar className="avatar" src={avatar} onClick={this.openUserDialog} />
                     <OnlineStatus className="status" status={isConnect ? 'online' : 'offline'} />
                     <div className="buttons">
-                        <IconButton width={40} height={40} icon="administrator" iconSize={28} onClick={this.openAdmin} />
+                        {
+                            isAdmin ?
+                                <IconButton width={40} height={40} icon="administrator" iconSize={28} onClick={this.openAdmin} />
+                                :
+                                null
+                        }
                         <a href="https://github.com/yinxin630/fiora" target="_black" rel="noopener noreferrer">
                             <IconButton width={40} height={40} icon="github" iconSize={26} />
                         </a>
@@ -369,6 +375,7 @@ export default connect(state => ({
     isConnect: state.get('connect'),
     avatar: state.getIn(['user', 'avatar']),
     userId: state.getIn(['user', '_id']),
+    isAdmin: state.getIn(['user', 'isAdmin']),
     primaryColor: state.getIn(['ui', 'primaryColor']),
     primaryTextColor: state.getIn(['ui', 'primaryTextColor']),
     backgroundImage: state.getIn(['ui', 'backgroundImage']),
