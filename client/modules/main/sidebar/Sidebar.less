@@ -320,3 +320,27 @@
         }
     }
 }
+.dialog {
+    &.admin {
+        height: 50% !important;
+        .seal {
+            display: flex;
+            .component-input {
+                flex: 1;
+                height: 36px;
+            }
+            .component-button {
+                width: 100px;
+                height: 36px;
+                margin-left: 10px;
+            }
+        }
+        .seal-list {
+            & > span {
+                margin-right: 10px;
+                line-height: 22px;
+                font-size: 14px;
+            }
+        }
+    }
+}

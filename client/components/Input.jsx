@@ -10,6 +10,7 @@ class Input extends Component {
     static propTypes = {
         type: PropTypes.string,
         onEnter: PropTypes.func,
+        placeholder: PropTypes.string,
     }
     static defaultProps = {
         type: 'text',
@@ -57,14 +58,15 @@ class Input extends Component {
         this.lockEnter = false;
     }
     render() {
-        const { type } = this.props;
+        const { type, placeholder } = this.props;
         const { value } = this.state;
         return (
-            <div className="component-chat">
+            <div className="component-input">
                 <input
                     type={type}
                     value={value}
                     onInput={this.handleInput}
+                    placeholder={placeholder}
                     ref={i => this.input = i}
                     onKeyDown={this.handleKeyDown}
                     onCompositionStart={this.handleIMEStart}

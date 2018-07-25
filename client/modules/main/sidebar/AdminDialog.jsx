@@ -5,6 +5,7 @@ import autobind from 'autobind-decorator';
 import Dialog from '@/components/Dialog';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
+import Message from '@/components/Message';
 import fetch from '../../../../utils/fetch';
 
 class AdminDialog extends Component {
@@ -12,35 +13,54 @@ class AdminDialog extends Component {
         visible: PropTypes.bool.isRequired,
         onClose: PropTypes.func.isRequired,
     }
+    constructor(...args) {
+        super(...args);
+        this.state = {
+            sealList: [],
+        };
+    }
+    componentWillReceiveProps(nextProps) {
+        if (this.props.visible === false && nextProps.visible === true) {
+            this.getSealList();
+        }
+    }
     @autobind
-    static async getSealList() {
+    async getSealList() {
         const [err, res] = await fetch('getSealList');
-        console.log(err, res);
+        if (!err) {
+            this.setState({
+                sealList: res,
+            });
+        }
     }
     @autobind
     async handleSeal() {
-        console.log(this.seatUsername.getValue());
-
-        console.log('发送请求');
-        const [err, res] = await fetch('sealUser', { username: this.seatUsername.getValue() });
-        console.log(err, res);
+        const [err] = await fetch('sealUser', { username: this.seatUsername.getValue() });
+        if (!err) {
+            Message.success('封禁用户成功');
+            this.getSealList();
+        }
     }
     render() {
         const { visible, onClose } = this.props;
         return (
-            <Dialog className="dialog admin" visible={visible} title="个人信息设置" onClose={onClose}>
+            <Dialog className="dialog admin" visible={visible} title="管理员控制台" onClose={onClose}>
                 <div className="content">
                     <div>
                         <p>封禁用户</p>
-                        <div className="seat">
-                            <Input ref={i => this.seatUsername = i} />
+                        <div className="seal">
+                            <Input ref={i => this.seatUsername = i} placeholder="要封禁的用户名" />
                             <Button onClick={this.handleSeal}>确定</Button>
                         </div>
                     </div>
                     <div>
                         <p>封禁用户列表</p>
-                        <div className="seat">
-                            <Button onClick={AdminDialog.getSealList}>获取</Button>
+                        <div className="seal-list">
+                            {
+                                this.state.sealList.map(username => (
+                                    <span key={username}>{username}</span>
+                                ))
+                            }
                         </div>
                     </div>
                 </div>
