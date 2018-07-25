@@ -2,6 +2,7 @@ const axios = require('axios');
 const assert = require('assert');
 const User = require('../models/user');
 const Group = require('../models/group');
+const config = require('../../config/server');
 
 let baiduToken = '';
 let lastBaiduTokenTime = Date.now();
@@ -60,6 +61,8 @@ module.exports = {
         return { token: baiduToken };
     },
     async sealUser(ctx) {
+        assert(ctx.socket.user.toString() === config.administrator, '你不是管理员');
+
         const { username } = ctx.data;
         assert(username !== '', 'username不能为空');
 
@@ -77,7 +80,9 @@ module.exports = {
 
         return { ok: true };
     },
-    async getSealList() {
+    async getSealList(ctx) {
+        assert(ctx.socket.user.toString() === config.administrator, '你不是管理员');
+
         const sealList = global.mdb.get('sealList');
         const userIds = [...sealList.keys()];
         const users = await User.find({ _id: { $in: userIds } });
