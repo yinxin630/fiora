@@ -230,7 +230,7 @@ class Sidebar extends Component {
                     <Avatar className="avatar" src={avatar} onClick={this.openUserDialog} />
                     <OnlineStatus className="status" status={isConnect ? 'online' : 'offline'} />
                     <div className="buttons">
-                        <IconButton width={40} height={40} icon="app" iconSize={28} onClick={this.openAdmin} />
+                        <IconButton width={40} height={40} icon="administrator" iconSize={28} onClick={this.openAdmin} />
                         <a href="https://github.com/yinxin630/fiora" target="_black" rel="noopener noreferrer">
                             <IconButton width={40} height={40} icon="github" iconSize={26} />
                         </a>
