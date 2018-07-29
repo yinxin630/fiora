@@ -34,8 +34,7 @@ module.exports = {
             assert(messageContent.length <= 2048, '消息长度过长');
             messageContent = xss(content);
         } else if (type === 'invite') {
-            assert(isValid(content), '无效的目标群组ID');
-            const group = await Group.findOne({ _id: content });
+            const group = await Group.findOne({ name: content });
             assert(group, '目标群组不存在');
 
             const user = await User.findOne({ _id: ctx.socket.user });

@@ -197,8 +197,18 @@ class ChatInput extends Component {
             return;
         }
 
-        const id = this.addSelfMessage('text', xss(message));
-        this.sendMessage(id, 'text', message);
+        if (/^invite::/.test(message)) {
+            const groupName = message.replace('invite::', '');
+            const id = this.addSelfMessage('invite', JSON.stringify({
+                inviter: this.props.user.get('username'),
+                groupId: '',
+                groupName,
+            }));
+            this.sendMessage(id, 'invite', groupName);
+        } else {
+            const id = this.addSelfMessage('text', xss(message));
+            this.sendMessage(id, 'text', message);
+        }
         this.message.value = '';
     }
     addSelfMessage(type, content) {

@@ -3,10 +3,15 @@ import { connect } from 'react-redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import immutable from 'immutable';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import IconButton from '@/components/IconButton';
+import Message from '@/components/Message';
 
 class HeaderBar extends Component {
+    static handleShareGroup() {
+        Message.success('已复制邀请信息到粘贴板, 去邀请其它人加群吧');
+    }
     static propTypes = {
         linkman: ImmutablePropTypes.map,
         onShowInfo: PropTypes.func,
@@ -23,6 +28,15 @@ class HeaderBar extends Component {
                 {
                     isLogin ?
                         <div>
+                            {
+                                linkman.get('type') === 'group' ?
+                                    <CopyToClipboard text={`invite::${linkman.get('name')}`}>
+                                        <IconButton width={40} height={40} icon="share" iconSize={24} onClick={HeaderBar.handleShareGroup} />
+                                    </CopyToClipboard>
+
+                                    :
+                                    null
+                            }
                             <IconButton width={40} height={40} icon="gongneng" iconSize={24} onClick={onShowInfo} />
                         </div>
                         :
