@@ -228,6 +228,15 @@ function reducer(state = initialState, action) {
             return messages.update(messageIndex, message => message.mergeDeep(immutable.fromJS(action.message)));
         });
     }
+    case 'DeleteSelfMessage': {
+        const linkmanIndex = state
+            .getIn(['user', 'linkmans'])
+            .findIndex(l => l.get('_id') === action.linkmanId);
+        return state.updateIn(['user', 'linkmans', linkmanIndex, 'messages'], (messages) => {
+            const messageIndex = messages.findLastIndex(m => m.get('_id') === action.messageId);
+            return messages.delete(messageIndex);
+        });
+    }
     case 'SetAvatar': {
         const userId = state.getIn(['user', '_id']);
         return state

@@ -235,20 +235,20 @@ class ChatInput extends Component {
         return _id;
     }
     @autobind
-    sendMessage(localId, type, content) {
+    async sendMessage(localId, type, content) {
         const { focus } = this.props;
-        socket.emit('sendMessage', {
+        const [err, res] = await fetch('sendMessage', {
             to: focus,
             type,
             content,
-        }, (res) => {
-            if (typeof res === 'string') {
-                Message.error(res);
-            } else {
-                res.loading = false;
-                action.updateSelfMessage(focus, localId, res);
-            }
         });
+        if (err) {
+            Message.error(res);
+            action.deleteSelfMessage(focus, localId);
+        } else {
+            res.loading = false;
+            action.updateSelfMessage(focus, localId, res);
+        }
     }
     @autobind
     handleSelectExpression(expression) {

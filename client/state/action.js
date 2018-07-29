@@ -121,6 +121,18 @@ function updateSelfMessage(linkmanId, messageId, message) {
         message,
     });
 }
+/**
+ * 删除自己的临时消息
+ * @param {String} linkmanId 联系人id
+ * @param {String} messageId 临时消息id
+ */
+function deleteSelfMessage(linkmanId, messageId) {
+    dispatch({
+        type: 'DeleteSelfMessage',
+        linkmanId,
+        messageId,
+    });
+}
 
 /* ===== 联系人 ===== */
 function setFocus(linkmanId) {
@@ -261,6 +273,7 @@ export default {
     addLinkmanMessage,
     addLinkmanMessages,
     updateSelfMessage,
+    deleteSelfMessage,
 
     showLoginDialog,
     closeLoginDialog,
