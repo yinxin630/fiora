@@ -33,6 +33,17 @@ module.exports = {
         if (type === 'text') {
             assert(messageContent.length <= 2048, '消息长度过长');
             messageContent = xss(content);
+        } else if (type === 'invite') {
+            assert(isValid(content), '无效的目标群组ID');
+            const group = await Group.findOne({ _id: content });
+            assert(group, '目标群组不存在');
+
+            const user = await User.findOne({ _id: ctx.socket.user });
+            messageContent = JSON.stringify({
+                inviter: user.username,
+                groupId: group._id,
+                groupName: group.name,
+            });
         }
 
         const user = await User.findOne({ _id: ctx.socket.user }, { username: 1, avatar: 1 });
