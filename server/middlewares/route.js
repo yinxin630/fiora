@@ -6,15 +6,14 @@ function noop() {}
  * @param {Object} routes 路由
  */
 module.exports = function (io, _io, routes) {
-    const router = Object.keys(routes).reduce((result, route) => {
+    Object.keys(routes).forEach((route) => {
         io.on(route, noop);
-        result[route] = routes[route];
-        return result;
-    }, {});
+    });
+
     return async (ctx) => {
-        if (router[ctx.event]) {
+        if (routes[ctx.event]) {
             const { event, data, socket } = ctx;
-            ctx.res = await router[ctx.event]({
+            ctx.res = await routes[ctx.event]({
                 event,
                 data,
                 socket,
