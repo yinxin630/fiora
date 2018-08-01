@@ -49,7 +49,6 @@ module.exports = {
                 salt,
                 password: hash,
                 avatar: getRandomAvatar(),
-                groups: [defaultGroup],
             });
         } catch (err) {
             if (err.name === 'ValidationError') {
