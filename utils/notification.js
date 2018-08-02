@@ -9,7 +9,6 @@ export default function notification(title, icon, body, tag = 'tag', duration = 
             },
         );
         n.onclick = function () {
-            window.blur();
             window.focus();
             this.close();
         };

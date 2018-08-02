@@ -310,8 +310,7 @@ class ChatInput extends Component {
             e.preventDefault();
             return Message.error('发送消息失败, 您当前处于离线状态');
         }
-        const { items } = (e.clipboardData || e.originalEvent.clipboardData);
-        const { types } = (e.clipboardData || e.originalEvent.clipboardData);
+        const { items, types } = (e.clipboardData || e.originalEvent.clipboardData);
 
         // 如果包含文件内容
         if (types.indexOf('Files') > -1) {
