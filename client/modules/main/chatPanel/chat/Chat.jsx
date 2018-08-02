@@ -133,10 +133,24 @@ class Chat extends Component {
             Message.success('退出群组成功');
         }
     }
+    /**
+     * 点击群组信息在线用户列表的用户事件
+     * @param {ImmutableMap} member 群组成员
+     */
+    handleClickGroupInfoUser(member) {
+        // 如果是自己, 则不展示
+        if (member.getIn(['user', '_id']) === this.props.userId) {
+            return;
+        }
+        this.showUserInfoDialog(member.get('user').toJS());
+    }
+    /**
+     * 渲染群组内在线用户列表
+     */
     renderMembers() {
         return this.props.members.map(member => (
             <div key={member.get('_id')}>
-                <div>
+                <div onClick={this.handleClickGroupInfoUser.bind(this, member)}>
                     <Avatar size={24} src={member.getIn(['user', 'avatar'])} />
                     <p>{member.getIn(['user', 'username'])}</p>
                 </div>
@@ -158,7 +172,7 @@ class Chat extends Component {
                 <HeaderBar onShowInfo={type === 'group' ? this.groupInfoDialog : this.showUserInfoDialog.bind(this, { _id: to, username: name, avatar })} />
                 <MessageList showUserInfoDialog={this.showUserInfoDialog} />
                 <ChatInput />
-                <div className={`float-panel info ${groupInfoDialog ? 'show' : 'hide'}`}>
+                <div className={`float-panel group-info ${groupInfoDialog ? 'show' : 'hide'}`}>
                     <p>群组信息</p>
                     <div>
                         <div className="avatar" style={{ display: !!userId && userId === creator ? 'block' : 'none' }}>
