@@ -170,7 +170,7 @@ class Chat extends Component {
                             <Button type="danger" onClick={this.leaveGroup}>退出群组</Button>
                         </div>
                         <div className="online-members">
-                            <p>在线成员</p>
+                            <p>在线成员 &nbsp;<span>{this.props.members.size}</span></p>
                             <div>{this.renderMembers()}</div>
                         </div>
                     </div>
