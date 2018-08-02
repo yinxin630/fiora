@@ -20,6 +20,7 @@ class UserInfo extends Component {
         onClose: PropTypes.func,
         linkmans: ImmutablePropTypes.list,
         userId: PropTypes.string,
+        isAdmin: PropTypes.bool.isRequired,
     }
     @autobind
     handleFocusUser() {
@@ -69,8 +70,15 @@ class UserInfo extends Component {
             Message.success('删除好友成功');
         }
     }
+    @autobind
+    async handleSeal() {
+        const [err] = await fetch('sealUser', { username: this.props.userInfo.username });
+        if (!err) {
+            Message.success('封禁用户成功');
+        }
+    }
     render() {
-        const { visible, userInfo, onClose, linkmans } = this.props;
+        const { visible, userInfo, onClose, linkmans, isAdmin } = this.props;
         const isFriend = linkmans.find(l => l.get('to') === userInfo._id && l.get('type') === 'friend');
         return (
             <Dialog className="info-dialog" visible={visible} onClose={onClose}>
@@ -98,6 +106,9 @@ class UserInfo extends Component {
                                                     :
                                                     <Button onClick={this.handleAddFriend}>加为好友</Button>
                                             }
+                                            {
+                                                isAdmin ? <Button type="danger" onClick={this.handleSeal}>封禁用户</Button> : null
+                                            }
                                         </div>
                                 }
                             </div>
@@ -113,4 +124,5 @@ class UserInfo extends Component {
 export default connect(state => ({
     linkmans: state.getIn(['user', 'linkmans']) || immutable.fromJS([]),
     userId: state.getIn(['user', '_id']),
+    isAdmin: state.getIn(['user', 'isAdmin']),
 }))(UserInfo);
