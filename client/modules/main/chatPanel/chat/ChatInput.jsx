@@ -243,7 +243,6 @@ class ChatInput extends Component {
             content,
         });
         if (err) {
-            Message.error(res);
             action.deleteSelfMessage(focus, localId);
         } else {
             res.loading = false;
