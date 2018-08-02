@@ -100,6 +100,9 @@ class Chat extends Component {
     async changeGroupAvatar() {
         const { userId, focus } = this.props;
         const image = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
+        if (!image) {
+            return;
+        }
         if (image.length > config.maxImageSize) {
             return Message.error('设置群头像失败, 请选择小于1MB的图片');
         }

@@ -174,6 +174,9 @@ class Sidebar extends Component {
     @autobind
     async selectAvatar() {
         const file = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
+        if (!file) {
+            return;
+        }
         if (file.length > config.maxImageSize) {
             return Message.error('设置头像失败, 请选择小于1MB的图片');
         }
@@ -215,12 +218,18 @@ class Sidebar extends Component {
     @autobind
     async selectBackgroundImage() {
         this.toggleBackgroundLoading();
-        const file = await readDiskFile('base64', 'image/png,image/jpeg,image/gif');
-        if (file.length > config.maxBackgroundImageSize) {
-            return Message.error('设置背景图失败, 请选择小于3MB的图片');
+        try {
+            const file = await readDiskFile('base64', 'image/png,image/jpeg,image/gif');
+            if (!file) {
+                return;
+            }
+            if (file.length > config.maxBackgroundImageSize) {
+                return Message.error('设置背景图失败, 请选择小于3MB的图片');
+            }
+            action.setBackgroundImage(file.result);
+        } finally {
+            this.toggleBackgroundLoading();
         }
-        action.setBackgroundImage(file.result);
-        this.toggleBackgroundLoading();
     }
     render() {
         const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound, soundSwitch, notificationSwitch, voiceSwitch, isAdmin } = this.props;
