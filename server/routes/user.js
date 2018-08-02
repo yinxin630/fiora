@@ -108,6 +108,7 @@ module.exports = {
             }],
             friends: [],
             token,
+            isAdmin: false,
         };
     },
     async login(ctx) {
