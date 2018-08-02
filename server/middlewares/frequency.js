@@ -1,4 +1,4 @@
-const MaxCallPerMinutes = 30;
+const MaxCallPerMinutes = 20;
 /**
  * Limiting the frequency of interface calls
  */
