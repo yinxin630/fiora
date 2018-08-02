@@ -14,7 +14,7 @@ const getRandomAvatar = require('../../utils/getRandomAvatar');
 
 const saltRounds = 10;
 
-const OneDay = 1000 * 60 * 3;
+const OneDay = 1000 * 60 * 60 * 24;
 
 /**
  * 生成token
