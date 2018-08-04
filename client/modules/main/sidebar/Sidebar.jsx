@@ -357,13 +357,6 @@ class Sidebar extends Component {
                                 <ul>
                                     <li>Alt + S: 发送滑稽</li>
                                     <li>Alt + D: 发送表情包</li>
-                                    <li>Alt + 1: 表情阴险</li>
-                                    <li>Alt + 2: 表情乖</li>
-                                    <li>Alt + 3: 表情滑稽</li>
-                                    <li>Alt + 4: 表情呵呵</li>
-                                    <li>Alt + 5: 表情委屈</li>
-                                    <li>Alt + 6: 表情笑眼</li>
-                                    <li>Alt + 7: 表情吐舌</li>
                                 </ul>
                             </div>
                         </div>
