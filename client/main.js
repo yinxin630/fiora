@@ -124,7 +124,7 @@ socket.on('message', (message) => {
             .replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g, '')
             .replace(/#/g, '');
         // The maximum number of words is 200
-        if (text.length > 200) {
+        if (text.length > 100) {
             return;
         }
 
