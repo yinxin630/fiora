@@ -278,4 +278,26 @@ module.exports = {
         await Friend.remove({ from: ctx.socket.user, to: user._id });
         return {};
     },
+    /**
+     * 修改用户密码
+     */
+    async changePassword(ctx) {
+        const { oldPassword, newPassword } = ctx.data;
+        assert(newPassword, '新密码不能为空');
+        assert(oldPassword !== newPassword, '新密码不能与旧密码相同');
+
+        const user = await User.findOne({ _id: ctx.socket.user });
+        const isPasswordCorrect = bcrypt.compareSync(oldPassword, user.password);
+        assert(isPasswordCorrect, '旧密码不正确');
+
+        const salt = await bcrypt.genSalt$(saltRounds);
+        const hash = await bcrypt.hash$(newPassword, salt);
+
+        user.password = hash;
+        await user.save();
+
+        return {
+            msg: 'ok',
+        };
+    },
 };

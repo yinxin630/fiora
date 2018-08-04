@@ -78,7 +78,9 @@ module.exports = {
             sealList.delete(userId);
         }, 1000 * 60 * 10);
 
-        return { ok: true };
+        return {
+            msg: 'ok',
+        };
     },
     async getSealList(ctx) {
         assert(ctx.socket.user.toString() === config.administrator, '你不是管理员');

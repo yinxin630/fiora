@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import autobind from 'autobind-decorator';
 import { TwitterPicker } from 'react-color';
 import * as qiniu from 'qiniu-js';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import Switch from 'react-switch';
 import ReactLoading from 'react-loading';
+import autobind from 'autobind-decorator';
 
 import action from '@/state/action';
 import socket from '@/socket';
@@ -15,17 +15,20 @@ import IconButton from '@/components/IconButton';
 import Dialog from '@/components/Dialog';
 import Button from '@/components/Button';
 import Message from '@/components/Message';
+import Input from '@/components/Input';
+import fetch from 'utils/fetch';
+import setCssVariable from 'utils/setCssVariable';
+import readDiskFile from 'utils/readDiskFile';
+import playSound from 'utils/sound';
 import OnlineStatus from './OnlineStatus';
 import AppDownload from './AppDownload';
 import AdminDialog from './AdminDialog';
-import setCssVariable from '../../../../utils/setCssVariable';
-import readDiskFile from '../../../../utils/readDiskFile';
-import playSound from '../../../../utils/sound';
 import config from '../../../../config/client';
 
 import './Sidebar.less';
 
 
+@autobind
 class Sidebar extends Component {
     static logout() {
         action.logout();
@@ -80,86 +83,72 @@ class Sidebar extends Component {
             adminDialog: false,
         };
     }
-    @autobind
     openSettingDialog() {
         this.setState({
             settingDialog: true,
         });
     }
-    @autobind
     closeSettingDialog() {
         this.setState({
             settingDialog: false,
         });
     }
-    @autobind
     openUserDialog() {
         this.setState({
             userDialog: true,
         });
     }
-    @autobind
     closeUserDialog() {
         this.setState({
             userDialog: false,
         });
     }
-    @autobind
     openReward() {
         this.setState({
             rewardDialog: true,
         });
     }
-    @autobind
     closeReward() {
         this.setState({
             rewardDialog: false,
         });
     }
-    @autobind
     openInfo() {
         this.setState({
             infoDialog: true,
         });
     }
-    @autobind
     closeInfo() {
         this.setState({
             infoDialog: false,
         });
     }
-    @autobind
     openAppDownload() {
         this.setState({
             appDownloadDialog: true,
         });
     }
-    @autobind
     closeAppDownload() {
         this.setState({
             appDownloadDialog: false,
         });
     }
-    @autobind
     openAdmin() {
         this.setState({
             adminDialog: true,
         });
     }
-    @autobind
     closeAdmin() {
         this.setState({
             adminDialog: false,
         });
     }
-    @autobind
     handlePrimaryColorChange(color) {
         const primaryColor = `${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`;
         const { primaryTextColor } = this.props;
         action.setPrimaryColor(`${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`);
         setCssVariable(primaryColor, primaryTextColor);
     }
-    @autobind
     handlePrimaryTextColorChange(color) {
         const primaryTextColor = `${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`;
         const { primaryColor } = this.props;
@@ -171,7 +160,6 @@ class Sidebar extends Component {
             avatarLoading: !this.state.avatarLoading,
         });
     }
-    @autobind
     async selectAvatar() {
         const file = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
         if (!file) {
@@ -215,7 +203,6 @@ class Sidebar extends Component {
             backgroundLoading: !this.state.backgroundLoading,
         });
     }
-    @autobind
     async selectBackgroundImage() {
         this.toggleBackgroundLoading();
         try {
@@ -229,6 +216,15 @@ class Sidebar extends Component {
             action.setBackgroundImage(file.result);
         } finally {
             this.toggleBackgroundLoading();
+        }
+    }
+    async changePassword() {
+        const [err] = await fetch('changePassword', {
+            oldPassword: this.oldPassword.getValue(),
+            newPassword: this.newPassword.getValue(),
+        });
+        if (!err) {
+            Message.success('修改密码成功');
         }
     }
     render() {
@@ -325,10 +321,18 @@ class Sidebar extends Component {
                     <Dialog className="dialog selfInfo" visible={userDialog} title="个人信息设置" onClose={this.closeUserDialog}>
                         <div className="content">
                             <div>
-                                <p>头像</p>
+                                <p>修改头像</p>
                                 <div className="avatar-preview">
                                     <img className={avatarLoading ? 'blur' : ''} src={avatar} onClick={this.selectAvatar} />
                                     <ReactLoading className={`loading ${avatarLoading ? 'show' : 'hide'}`} type="spinningBubbles" color={`rgb(${primaryColor}`} height={80} width={80} />
+                                </div>
+                            </div>
+                            <div>
+                                <p>修改密码</p>
+                                <div className="change-password">
+                                    <Input ref={i => this.oldPassword = i} placeholder="旧密码" />
+                                    <Input ref={i => this.newPassword = i} placeholder="新密码" />
+                                    <Button onClick={this.changePassword}>确定</Button>
                                 </div>
                             </div>
                         </div>
