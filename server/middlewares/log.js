@@ -13,11 +13,6 @@ module.exports = function () {
         await next();
 
         const after = Date.now();
-        const res = JSON.stringify(ctx.res) || '';
-        let resSize = `${res.length}B`;
-        if (res.length > 1024) {
-            resSize = `${Math.ceil(res.length / 1024 * 100) / 100}KB`;
-        }
-        console.log(`  --> ${ctx.event}  ${after - before}ms ${resSize} ${typeof ctx.res === 'string' ? res : '[data]'}`);
+        console.log(`  --> ${ctx.event}  ${after - before}ms ${typeof ctx.res === 'string' ? ctx.res : ''}`);
     };
 };
