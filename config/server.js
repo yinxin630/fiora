@@ -22,7 +22,7 @@ module.exports = {
     allowOrigin: options.allowOrigin,
 
     // token expires time
-    tokenExpiresTime: 1000 * 60 * 60 * 24 * 30,
+    tokenExpiresTime: 1000 * 60 * 60 * 24 * 7,
 
     administrator: options.administrator || '',
 };
