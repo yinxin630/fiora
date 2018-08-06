@@ -224,7 +224,12 @@ class Sidebar extends Component {
             newPassword: this.newPassword.getValue(),
         });
         if (!err) {
-            Message.success('修改密码成功');
+            action.logout();
+            window.localStorage.removeItem('token');
+            Message.success('修改密码成功, 请重新登录');
+            socket.disconnect();
+            socket.connect();
+            this.closeUserDialog();
         }
     }
     render() {
@@ -330,9 +335,9 @@ class Sidebar extends Component {
                             <div>
                                 <p>修改密码</p>
                                 <div className="change-password">
-                                    <Input ref={i => this.oldPassword = i} placeholder="旧密码" />
-                                    <Input ref={i => this.newPassword = i} placeholder="新密码" />
-                                    <Button onClick={this.changePassword}>确定</Button>
+                                    <Input ref={i => this.oldPassword = i} type="password" placeholder="旧密码" />
+                                    <Input ref={i => this.newPassword = i} type="password" placeholder="新密码" />
+                                    <Button onClick={this.changePassword}>修改密码</Button>
                                 </div>
                             </div>
                         </div>
