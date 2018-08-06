@@ -109,7 +109,7 @@ socket.on('message', (message) => {
         notification(
             title,
             message.from.avatar,
-            message.type === 'text' ? message.content : `[${message.type}]`,
+            message.type === 'text' ? message.content.replace(/&lt;/g, '<').replace(/&gt;/g, '>') : `[${message.type}]`,
             Math.random(),
         );
     }
