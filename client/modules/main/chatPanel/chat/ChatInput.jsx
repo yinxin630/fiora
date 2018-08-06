@@ -82,7 +82,7 @@ class ChatInput extends Component {
         this.lockEnter = false;
     }
     componentDidUpdate(prevProps) {
-        if (this.props.focus !== prevProps.focus) {
+        if (this.props.focus !== prevProps.focus && this.message) {
             this.message.focus();
         }
     }
@@ -339,9 +339,13 @@ class ChatInput extends Component {
             });
             const [err, result] = await fetch('searchExpression', { keywords });
             if (!err) {
-                this.setState({
-                    expressionSearchResults: result,
-                });
+                if (result.length !== 0) {
+                    this.setState({
+                        expressionSearchResults: result,
+                    });
+                } else {
+                    Message.info('没有相关表情, 换个关键字试试吧');
+                }
             }
             this.setState({
                 expressionSearchLoading: false,
