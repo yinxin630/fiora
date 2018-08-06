@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import autobind from 'autobind-decorator';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import * as qiniu from 'qiniu-js';
+import autobind from 'autobind-decorator';
 
 import action from '@/state/action';
 import socket from '@/socket';
@@ -15,6 +15,7 @@ import Message from '@/components/Message';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
 import Loading from '@/components/Loading';
+import Avatar from '@/components/Avatar';
 
 import getRandomHuaji from 'utils/getRandomHuaji';
 import readDiskFile from 'utils/readDiskFile';
@@ -27,6 +28,7 @@ import config from '../../../../../config/client';
 const xss = require('utils/xss');
 const Url = require('utils/url');
 
+@autobind
 class ChatInput extends Component {
     static handleLogin() {
         action.showLoginDialog();
@@ -69,6 +71,7 @@ class ChatInput extends Component {
         focus: PropTypes.string,
         user: ImmutablePropTypes.map,
         connect: PropTypes.bool,
+        members: ImmutablePropTypes.list,
     }
     constructor(...args) {
         super(...args);
@@ -78,21 +81,31 @@ class ChatInput extends Component {
             expressionSearchVisible: false,
             expressionSearchLoading: false,
             expressionSearchResults: [],
+
+            at: false, // 是否处于@输入中
+            atContent: '', // @内容
         };
-        this.lockEnter = false;
+        this.ime = false;
     }
     componentDidUpdate(prevProps) {
         if (this.props.focus !== prevProps.focus && this.message) {
             this.message.focus();
         }
     }
-    @autobind
+    getSuggestion() {
+        return this.props.members.filter((member) => {
+            const regex = new RegExp(`^${this.state.atContent}`);
+            if (regex.test(member.getIn(['user', 'username']))) {
+                return true;
+            }
+            return false;
+        });
+    }
     handleVisibleChange(visible) {
         this.setState({
             expressionVisible: visible,
         });
     }
-    @autobind
     handleFeatureMenuClick({ key }) {
         switch (key) {
         case 'image': {
@@ -118,19 +131,16 @@ class ChatInput extends Component {
         default:
         }
     }
-    @autobind
     handleCodeEditorClose() {
         this.setState({
             codeInputVisible: false,
         });
     }
-    @autobind
     closeExpressionSearch() {
         this.setState({
             expressionSearchVisible: false,
         });
     }
-    @autobind
     handleSendCode() {
         if (!this.props.connect) {
             return Message.error('发送消息失败, 您当前处于离线状态');
@@ -147,26 +157,64 @@ class ChatInput extends Component {
         this.sendMessage(id, 'code', code);
         this.handleCodeEditorClose();
     }
-    @autobind
-    handleInputKeyDown(e) {
+    async handleInputKeyDown(e) {
         if (e.key === 'Tab') {
             e.preventDefault();
-        } else if (e.key === 'Enter' && !this.lockEnter) {
+        } else if (e.key === 'Enter' && !this.ime) {
             this.sendTextMessage();
-        } else if (e.key === 's' || e.key === 'ß') {
-            if (e.altKey) {
-                this.sendHuaji();
-                e.preventDefault();
-            }
-        } else if (e.key === 'd' || e.key === '∂') {
-            if (e.altKey) {
+        } else if (e.altKey && (e.key === 's' || e.key === 'ß')) {
+            this.sendHuaji();
+            e.preventDefault();
+        } else if (e.altKey && (e.key === 'd' || e.key === '∂')) {
+            this.setState({
+                expressionSearchVisible: true,
+            });
+        } else if (e.key === '@') { // 如果按下@建, 则进入@计算模式
+            if (!/@/.test(this.message.value)) {
                 this.setState({
-                    expressionSearchVisible: true,
+                    at: true,
+                    atContent: '',
                 });
+                const { focus } = this.props;
+                const [err, result] = await fetch('getGroupOnlineMembers', { groupId: focus });
+                if (!err) {
+                    action.setGroupMembers(focus, result);
+                }
             }
+        } else if (this.state.at) { // 如果处于@计算模式
+            const { key } = e;
+            // 延时, 以便拿到新的value和ime状态
+            setTimeout(() => {
+                // 如果@已经被删掉了, 退出@计算模式
+                if (!/@/.test(this.message.value)) {
+                    this.setState({
+                        at: false,
+                        atContent: '',
+                    });
+                    return;
+                }
+                // 如果是输入中文, 并且不是空格键, 忽略输入
+                if (this.ime && key !== ' ') {
+                    return;
+                }
+                // 如果是不是输入中文, 并且是空格键, 则@计算模式结束
+                if (!this.ime && key === ' ') {
+                    this.at = false;
+                    this.setState({ at: false });
+                    return;
+                }
+
+                // 如果是正在输入中文, 则直接返回, 避免取到拼音字母
+                if (this.ime) {
+                    return;
+                }
+                const regexResult = /@([^ ]*)/.exec(this.message.value);
+                if (regexResult) {
+                    this.setState({ atContent: regexResult[1] });
+                }
+            }, 100);
         }
     }
-    @autobind
     sendTextMessage() {
         if (!this.props.connect) {
             return Message.error('发送消息失败, 您当前处于离线状态');
@@ -214,7 +262,6 @@ class ChatInput extends Component {
 
         return _id;
     }
-    @autobind
     async sendMessage(localId, type, content) {
         const { focus } = this.props;
         const [err, res] = await fetch('sendMessage', {
@@ -229,7 +276,6 @@ class ChatInput extends Component {
             action.updateSelfMessage(focus, localId, res);
         }
     }
-    @autobind
     handleSelectExpression(expression) {
         this.handleVisibleChange(false);
         ChatInput.insertAtCursor(this.message, `#(${expression})`);
@@ -269,7 +315,6 @@ class ChatInput extends Component {
         };
         img.src = url;
     }
-    @autobind
     async handleSelectFile() {
         if (!this.props.connect) {
             return Message.error('发送消息失败, 您当前处于离线状态');
@@ -280,13 +325,11 @@ class ChatInput extends Component {
         }
         this.sendImageMessage(image);
     }
-    @autobind
     async sendHuaji() {
         const huaji = getRandomHuaji();
         const id = this.addSelfMessage('image', huaji);
         this.sendMessage(id, 'image', huaji);
     }
-    @autobind
     handlePaste(e) {
         if (!this.props.connect) {
             e.preventDefault();
@@ -324,13 +367,11 @@ class ChatInput extends Component {
             e.preventDefault();
         }
     }
-    @autobind
     handleIMEStart() {
-        this.lockEnter = true;
+        this.ime = true;
     }
-    @autobind
     handleIMEEnd() {
-        this.lockEnter = false;
+        this.ime = false;
     }
     async searchExpression(keywords) {
         if (keywords) {
@@ -352,16 +393,13 @@ class ChatInput extends Component {
             });
         }
     }
-    @autobind
     handleSearchExpressionButtonClick() {
         const keywords = this.expressionSearchKeyword.getValue();
         this.searchExpression(keywords);
     }
-    @autobind
     handleSearchExpressionInputEnter(keywords) {
         this.searchExpression(keywords);
     }
-    @autobind
     handleClickExpression(e) {
         const $target = e.target;
         if ($target.tagName === 'IMG') {
@@ -375,6 +413,14 @@ class ChatInput extends Component {
                 expressionSearchVisible: false,
             });
         }
+    }
+    replaceAt(username) {
+        this.message.value = this.message.value.replace(`@${this.state.atContent}`, `@${username} `);
+        this.setState({
+            at: false,
+            atContent: '',
+        });
+        this.message.focus();
     }
     expressionDropdown = (
         <div className="expression-dropdown">
@@ -392,7 +438,7 @@ class ChatInput extends Component {
         </div>
     )
     render() {
-        const { expressionVisible, codeInputVisible, expressionSearchVisible, expressionSearchResults, expressionSearchLoading } = this.state;
+        const { expressionVisible, codeInputVisible, expressionSearchVisible, expressionSearchResults, expressionSearchLoading, at } = this.state;
         const { isLogin } = this.props;
 
         if (isLogin) {
@@ -416,6 +462,18 @@ class ChatInput extends Component {
                     >
                         <IconButton className="feature" width={44} height={44} icon="feature" iconSize={32} />
                     </Dropdown>
+                    <input
+                        type="text"
+                        placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~"
+                        maxLength="2048"
+                        autofoucus="true"
+                        ref={i => this.message = i}
+                        onKeyDown={this.handleInputKeyDown}
+                        onPaste={this.handlePaste}
+                        onCompositionStart={this.handleIMEStart}
+                        onCompositionEnd={this.handleIMEEnd}
+                    />
+                    <IconButton className="send" width={44} height={44} icon="send" iconSize={32} onClick={this.sendTextMessage} />
                     <Dialog
                         className="codeEditor-dialog"
                         title="请输入要发送的代码"
@@ -450,18 +508,22 @@ class ChatInput extends Component {
                             </div>
                         </div>
                     </Dialog>
-                    <input
-                        type="text"
-                        placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~"
-                        maxLength="2048"
-                        autofoucus="true"
-                        ref={i => this.message = i}
-                        onKeyDown={this.handleInputKeyDown}
-                        onPaste={this.handlePaste}
-                        onCompositionStart={this.handleIMEStart}
-                        onCompositionEnd={this.handleIMEEnd}
-                    />
-                    <IconButton className="send" width={44} height={44} icon="send" iconSize={32} onClick={this.sendTextMessage} />
+                    <div className="aite-panel">
+                        {
+                            at ?
+                                this.getSuggestion().map((member) => {
+                                    const username = member.getIn(['user', 'username']);
+                                    return (
+                                        <div key={member.getIn(['user', '_id'])} onClick={this.replaceAt.bind(this, username)}>
+                                            <Avatar size={24} src={member.getIn(['user', 'avatar'])} />
+                                            <p>{username}</p>
+                                        </div>
+                                    );
+                                })
+                                :
+                                null
+                        }
+                    </div>
                 </div>
             );
         }

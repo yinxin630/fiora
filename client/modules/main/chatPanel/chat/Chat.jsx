@@ -169,12 +169,12 @@ class Chat extends Component {
     }
     render() {
         const { groupInfoDialog, userInfoDialog, userInfo } = this.state;
-        const { userId, creator, avatar, type, to, name } = this.props;
+        const { userId, creator, avatar, type, to, name, members } = this.props;
         return (
             <div className="module-main-chat">
                 <HeaderBar onShowInfo={type === 'group' ? this.groupInfoDialog : this.showUserInfoDialog.bind(this, { _id: to, username: name, avatar })} />
                 <MessageList showUserInfoDialog={this.showUserInfoDialog} />
-                <ChatInput />
+                <ChatInput members={members} />
                 <div className={`float-panel group-info ${groupInfoDialog ? 'show' : 'hide'}`}>
                     <p>群组信息</p>
                     <div>

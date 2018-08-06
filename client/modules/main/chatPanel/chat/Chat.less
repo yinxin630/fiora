@@ -583,6 +583,37 @@
         }
     }
 }
+.aite-panel {
+    background-color: white;
+    position: absolute;
+    left: 120px;
+    bottom: 60px;
+    padding: 6px 0;
+    border-radius: 3px;
+    max-height: 266px;
+    overflow: auto;
+
+    & > div {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        margin-bottom: 2px;
+        height: 30px;
+        padding: 0 8px;
+        min-width: 120px;
+        & > p {
+            font-size: 14px;
+            margin-left: 6px;
+            margin-top: 4px;
+        }
+        &:last-child {
+            margin-bottom: 0px;
+        }
+        &:hover {
+            background-color: var(--primary-color-4);
+        }
+    }
+}
 
 .react-viewer-toolbar {
     height: 38px !important;
