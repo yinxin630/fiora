@@ -81,6 +81,11 @@ class ChatInput extends Component {
         };
         this.lockEnter = false;
     }
+    componentDidUpdate(prevProps) {
+        if (this.props.focus !== prevProps.focus) {
+            this.message.focus();
+        }
+    }
     @autobind
     handleVisibleChange(visible) {
         this.setState({
@@ -445,6 +450,7 @@ class ChatInput extends Component {
                         type="text"
                         placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~"
                         maxLength="2048"
+                        autofoucus="true"
                         ref={i => this.message = i}
                         onKeyDown={this.handleInputKeyDown}
                         onPaste={this.handlePaste}
