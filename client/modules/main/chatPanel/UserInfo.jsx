@@ -13,6 +13,7 @@ import action from '@/state/action';
 import fetch from 'utils/fetch';
 import getFriendId from 'utils/getFriendId';
 
+@autobind
 class UserInfo extends Component {
     static propTypes = {
         visible: PropTypes.bool,
@@ -22,13 +23,14 @@ class UserInfo extends Component {
         userId: PropTypes.string,
         isAdmin: PropTypes.bool.isRequired,
     }
-    @autobind
+    state = {
+        showLargeAvatar: false,
+    }
     handleFocusUser() {
         const { userInfo, userId, onClose } = this.props;
         onClose();
         action.setFocus(getFriendId(userInfo._id, userId));
     }
-    @autobind
     async handleAddFriend() {
         const { userInfo, userId, linkmans, onClose } = this.props;
         const [err, res] = await fetch('addFriend', { userId: userInfo._id });
@@ -60,7 +62,6 @@ class UserInfo extends Component {
             }
         }
     }
-    @autobind
     async handleDeleteFriend() {
         const { userInfo, userId, onClose } = this.props;
         const [err] = await fetch('deleteFriend', { userId: userInfo._id });
@@ -70,12 +71,21 @@ class UserInfo extends Component {
             Message.success('删除好友成功');
         }
     }
-    @autobind
     async handleSeal() {
         const [err] = await fetch('sealUser', { username: this.props.userInfo.username });
         if (!err) {
             Message.success('封禁用户成功');
         }
+    }
+    mouseEnterAvatar() {
+        this.setState({
+            showLargeAvatar: true,
+        });
+    }
+    mouseLeaveAvatar() {
+        this.setState({
+            showLargeAvatar: false,
+        });
     }
     render() {
         const { visible, userInfo, onClose, linkmans, isAdmin } = this.props;
@@ -87,7 +97,16 @@ class UserInfo extends Component {
                         visible && userInfo ?
                             <div className="content">
                                 <div className="header">
-                                    <Avatar size={60} src={userInfo.avatar} />
+                                    <Avatar
+                                        size={60}
+                                        src={userInfo.avatar}
+                                        onMouseEnter={this.mouseEnterAvatar}
+                                        onMouseLeave={this.mouseLeaveAvatar}
+                                    />
+                                    <img
+                                        className={`large-avatar ${this.state.showLargeAvatar ? 'show' : 'hide'}`}
+                                        src={userInfo.avatar}
+                                    />
                                     <p>{userInfo.username}</p>
                                 </div>
                                 {
