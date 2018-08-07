@@ -263,13 +263,16 @@
     .avatar-preview {
         position: relative;
         .blur {
-            filter: blur(3px);
+            filter: blur(2px);
+        }
+        .cropper > div {
+            margin-bottom: 8px;
         }
     }
     .loading {
         position: absolute;
-        top: 10px;
-        left: 10px;
+        top: 170px;
+        left: 170px;
         pointer-events: none;
     }
     .change-password {
@@ -277,10 +280,10 @@
             height: 36px;
             margin-bottom: 8px;
         }
-        .component-button {
-            width: 100px;
-            height: 36px;
-        }
+    }
+    .component-button {
+        width: 100px;
+        height: 36px;
     }
 }
 .reward {

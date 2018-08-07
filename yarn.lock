@@ -2056,6 +2056,10 @@ create-react-class@15.x, create-react-class@^15.5.2, create-react-class@^15.6.0:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
+cropperjs@v1.0.0-rc.3:
+  version "1.0.0-rc.3"
+  resolved "http://registry.npm.taobao.org/cropperjs/download/cropperjs-1.0.0-rc.3.tgz#50a7c7611befc442702f845ede77d7df4572e82b"
+
 cross-env@^5.1.6:
   version "5.2.0"
   resolved "http://registry.npm.taobao.org/cross-env/download/cross-env-5.2.0.tgz#6ecd4c015d5773e614039ee529076669b9d126f2"
@@ -6049,6 +6053,13 @@ react-copy-to-clipboard@^5.0.1:
   resolved "http://registry.npm.taobao.org/react-copy-to-clipboard/download/react-copy-to-clipboard-5.0.1.tgz#8eae107bb400be73132ed3b6a7b4fb156090208e"
   dependencies:
     copy-to-clipboard "^3"
+    prop-types "^15.5.8"
+
+react-cropper@^1.0.1:
+  version "1.0.1"
+  resolved "http://registry.npm.taobao.org/react-cropper/download/react-cropper-1.0.1.tgz#6e5595abb8576088ab3e51ecfdcfe5f865d0340f"
+  dependencies:
+    cropperjs v1.0.0-rc.3
     prop-types "^15.5.8"
 
 react-dom@^15.3.2:

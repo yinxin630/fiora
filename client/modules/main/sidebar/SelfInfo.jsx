@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as qiniu from 'qiniu-js';
 import autobind from 'autobind-decorator';
+import Cropper from 'react-cropper';
+import 'cropperjs/dist/cropper.css';
 
 import Input from '@/components/Input';
 import Dialog from '@/components/Dialog';
@@ -27,51 +29,61 @@ class SelfInfo extends Component {
         primaryColor: PropTypes.string.isRequired,
     }
     state = {
-        avatarLoading: false,
+        loading: false,
+        cropper: false,
+        cropperSrc: '',
     }
     toggleAvatarLoading() {
         this.setState({
-            avatarLoading: !this.state.avatarLoading,
+            loading: !this.state.loading,
         });
     }
     /**
      * 修改头像
      */
     async selectAvatar() {
-        const file = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
+        const file = await readDiskFile('base64', 'image/png,image/jpeg,image/gif');
         if (!file) {
             return;
         }
-        if (file.length > config.maxImageSize) {
+        if (file.length > config.maxAvatarSize) {
             return Message.error('设置头像失败, 请选择小于1MB的图片');
         }
 
-        this.toggleAvatarLoading();
-        const [getTokenErr, tokenRes] = await fetch('uploadToken');
-        if (getTokenErr) {
-            Message.error(getTokenErr);
-            return;
-        }
+        this.setState({
+            cropper: true,
+            cropperSrc: file.result,
+        });
+    }
+    changeAvatar() {
+        this.cropper.getCroppedCanvas().toBlob(async (blob) => {
+            this.toggleAvatarLoading();
+            const [getTokenErr, tokenRes] = await fetch('uploadToken');
+            if (getTokenErr) {
+                Message.error(getTokenErr);
+            }
 
-        const result = qiniu.upload(file.result, `Avatar/${this.props.userId}_${Date.now()}`, tokenRes.token, { useCdnDomain: true }, {});
-        result.subscribe({
-            error: (qiniuErr) => {
-                console.error(qiniuErr);
-                Message.error('上传头像失败');
-                this.toggleAvatarLoading();
-            },
-            complete: async (info) => {
-                const imageUrl = `${tokenRes.urlPrefix + info.key}`;
-                const [changeAvatarErr] = await fetch('changeAvatar', { avatar: imageUrl });
-                if (changeAvatarErr) {
-                    Message.error(changeAvatarErr);
+            const result = qiniu.upload(blob, `Avatar/${this.props.userId}_${Date.now()}`, tokenRes.token, { useCdnDomain: true }, {});
+            result.subscribe({
+                error: (qiniuErr) => {
+                    console.error(qiniuErr);
+                    Message.error('上传头像失败');
                     this.toggleAvatarLoading();
-                } else {
-                    action.setAvatar(URL.createObjectURL(file.result));
-                    Message.success('修改头像成功');
-                    this.toggleAvatarLoading();
-                }
-            },
+                },
+                complete: async (info) => {
+                    const imageUrl = `${tokenRes.urlPrefix + info.key}`;
+                    const [changeAvatarErr] = await fetch('changeAvatar', { avatar: imageUrl });
+                    if (changeAvatarErr) {
+                        Message.error(changeAvatarErr);
+                        this.toggleAvatarLoading();
+                    } else {
+                        action.setAvatar(URL.createObjectURL(blob));
+                        Message.success('修改头像成功');
+                        this.toggleAvatarLoading();
+                        this.setState({ cropper: false });
+                    }
+                },
+            });
         });
     }
     /**
@@ -93,15 +105,29 @@ class SelfInfo extends Component {
     }
     render() {
         const { visible, onClose, avatar, primaryColor } = this.props;
-        const { avatarLoading } = this.state;
+        const { loading, cropper, cropperSrc } = this.state;
         return (
             <Dialog className="dialog selfInfo" visible={visible} title="个人信息设置" onClose={onClose}>
                 <div className="content">
                     <div>
                         <p>修改头像</p>
                         <div className="avatar-preview">
-                            <img className={avatarLoading ? 'blur' : ''} src={avatar} onClick={this.selectAvatar} />
-                            <ReactLoading className={`loading ${avatarLoading ? 'show' : 'hide'}`} type="spinningBubbles" color={`rgb(${primaryColor}`} height={80} width={80} />
+                            {
+                                cropper ?
+                                    <div className="cropper">
+                                        <Cropper
+                                            className={loading ? 'blur' : ''}
+                                            ref={i => this.cropper = i}
+                                            src={cropperSrc}
+                                            style={{ height: 460, width: 460 }}
+                                            aspectRatio={1}
+                                        />
+                                        <Button onClick={this.changeAvatar}>修改头像</Button>
+                                    </div>
+                                    :
+                                    <img src={avatar} onClick={this.selectAvatar} />
+                            }
+                            <ReactLoading className={`loading ${loading ? 'show' : 'hide'}`} type="spinningBubbles" color={`rgb(${primaryColor}`} height={120} width={120} />
                         </div>
                     </div>
                     <div>
