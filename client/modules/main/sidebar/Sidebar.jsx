@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { TwitterPicker } from 'react-color';
-import * as qiniu from 'qiniu-js';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import Switch from 'react-switch';
 import ReactLoading from 'react-loading';
@@ -15,14 +14,13 @@ import IconButton from '@/components/IconButton';
 import Dialog from '@/components/Dialog';
 import Button from '@/components/Button';
 import Message from '@/components/Message';
-import Input from '@/components/Input';
-import fetch from 'utils/fetch';
 import setCssVariable from 'utils/setCssVariable';
 import readDiskFile from 'utils/readDiskFile';
 import playSound from 'utils/sound';
 import OnlineStatus from './OnlineStatus';
 import AppDownload from './AppDownload';
 import AdminDialog from './AdminDialog';
+import SelfInfo from './SelfInfo';
 import config from '../../../../config/client';
 
 import './Sidebar.less';
@@ -63,7 +61,6 @@ class Sidebar extends Component {
         primaryColor: PropTypes.string,
         primaryTextColor: PropTypes.string,
         backgroundImage: PropTypes.string,
-        userId: PropTypes.string,
         sound: PropTypes.string,
         soundSwitch: PropTypes.bool,
         notificationSwitch: PropTypes.bool,
@@ -78,7 +75,6 @@ class Sidebar extends Component {
             rewardDialog: false,
             infoDialog: false,
             appDownloadDialog: false,
-            avatarLoading: false,
             backgroundLoading: false,
             adminDialog: false,
         };
@@ -155,49 +151,6 @@ class Sidebar extends Component {
         action.setPrimaryTextColor(`${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`);
         setCssVariable(primaryColor, primaryTextColor);
     }
-    toggleAvatarLoading() {
-        this.setState({
-            avatarLoading: !this.state.avatarLoading,
-        });
-    }
-    async selectAvatar() {
-        const file = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
-        if (!file) {
-            return;
-        }
-        if (file.length > config.maxImageSize) {
-            return Message.error('设置头像失败, 请选择小于1MB的图片');
-        }
-
-        this.toggleAvatarLoading();
-        socket.emit('uploadToken', {}, (tokenRes) => {
-            if (typeof tokenRes === 'string') {
-                Message.error(tokenRes);
-            } else {
-                const result = qiniu.upload(file.result, `Avatar/${this.props.userId}_${Date.now()}`, tokenRes.token, { useCdnDomain: true }, {});
-                result.subscribe({
-                    error: (err) => {
-                        console.error(err);
-                        Message.error('上传头像失败');
-                        this.toggleAvatarLoading();
-                    },
-                    complete: (info) => {
-                        const imageUrl = `${tokenRes.urlPrefix + info.key}`;
-                        socket.emit('changeAvatar', { avatar: imageUrl }, (avatarRes) => {
-                            if (typeof avatarRes === 'string') {
-                                Message.error(avatarRes);
-                                this.toggleAvatarLoading();
-                            } else {
-                                action.setAvatar(URL.createObjectURL(file.result));
-                                Message.success('修改头像成功');
-                                this.toggleAvatarLoading();
-                            }
-                        });
-                    },
-                });
-            }
-        });
-    }
     toggleBackgroundLoading() {
         this.setState({
             backgroundLoading: !this.state.backgroundLoading,
@@ -218,23 +171,9 @@ class Sidebar extends Component {
             this.toggleBackgroundLoading();
         }
     }
-    async changePassword() {
-        const [err] = await fetch('changePassword', {
-            oldPassword: this.oldPassword.getValue(),
-            newPassword: this.newPassword.getValue(),
-        });
-        if (!err) {
-            action.logout();
-            window.localStorage.removeItem('token');
-            Message.success('修改密码成功, 请重新登录');
-            socket.disconnect();
-            socket.connect();
-            this.closeUserDialog();
-        }
-    }
     render() {
         const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound, soundSwitch, notificationSwitch, voiceSwitch, isAdmin } = this.props;
-        const { settingDialog, userDialog, rewardDialog, infoDialog, appDownloadDialog, avatarLoading, backgroundLoading, adminDialog } = this.state;
+        const { settingDialog, userDialog, rewardDialog, infoDialog, appDownloadDialog, backgroundLoading, adminDialog } = this.state;
         if (isLogin) {
             return (
                 <div className="module-main-sidebar">
@@ -323,25 +262,7 @@ class Sidebar extends Component {
                             </div>
                         </div>
                     </Dialog>
-                    <Dialog className="dialog selfInfo" visible={userDialog} title="个人信息设置" onClose={this.closeUserDialog}>
-                        <div className="content">
-                            <div>
-                                <p>修改头像</p>
-                                <div className="avatar-preview">
-                                    <img className={avatarLoading ? 'blur' : ''} src={avatar} onClick={this.selectAvatar} />
-                                    <ReactLoading className={`loading ${avatarLoading ? 'show' : 'hide'}`} type="spinningBubbles" color={`rgb(${primaryColor}`} height={80} width={80} />
-                                </div>
-                            </div>
-                            <div>
-                                <p>修改密码</p>
-                                <div className="change-password">
-                                    <Input ref={i => this.oldPassword = i} type="password" placeholder="旧密码" />
-                                    <Input ref={i => this.newPassword = i} type="password" placeholder="新密码" />
-                                    <Button onClick={this.changePassword}>修改密码</Button>
-                                </div>
-                            </div>
-                        </div>
-                    </Dialog>
+                    <SelfInfo visible={userDialog} onClose={this.closeUserDialog} />
                     <Dialog className="dialog reward " visible={rewardDialog} title="打赏" onClose={this.closeReward}>
                         <div className="content">
                             <p>如果你觉得这个聊天室代码对你有帮助, 希望打赏下给个鼓励~~<br />作者大多数时间在线, 欢迎提问, 有问必答</p>
@@ -385,7 +306,6 @@ export default connect(state => ({
     isLogin: !!state.getIn(['user', '_id']),
     isConnect: state.get('connect'),
     avatar: state.getIn(['user', 'avatar']),
-    userId: state.getIn(['user', '_id']),
     isAdmin: state.getIn(['user', 'isAdmin']),
     primaryColor: state.getIn(['ui', 'primaryColor']),
     primaryTextColor: state.getIn(['ui', 'primaryTextColor']),
