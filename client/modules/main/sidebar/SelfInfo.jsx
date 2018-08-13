@@ -42,7 +42,7 @@ class SelfInfo extends Component {
      * 修改头像
      */
     async selectAvatar() {
-        const file = await readDiskFile('base64', 'image/png,image/jpeg,image/gif');
+        const file = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
         if (!file) {
             return;
         }
@@ -50,40 +50,53 @@ class SelfInfo extends Component {
             return Message.error('设置头像失败, 请选择小于1MB的图片');
         }
 
-        this.setState({
-            cropper: true,
-            cropperSrc: file.result,
+        // gif头像不需要裁剪
+        if (file.ext === 'gif') {
+            this.uploadAvatar(file.result);
+        } else {
+            // 显示头像裁剪
+            const reader = new FileReader();
+            reader.readAsDataURL(file.result);
+            reader.onloadend = () => {
+                this.setState({
+                    cropper: true,
+                    cropperSrc: reader.result,
+                });
+            };
+        }
+    }
+    async uploadAvatar(blob) {
+        this.toggleAvatarLoading();
+        const [getTokenErr, tokenRes] = await fetch('uploadToken');
+        if (getTokenErr) {
+            Message.error(getTokenErr);
+        }
+
+        const result = qiniu.upload(blob, `Avatar/${this.props.userId}_${Date.now()}`, tokenRes.token, { useCdnDomain: true }, {});
+        result.subscribe({
+            error: (qiniuErr) => {
+                console.error(qiniuErr);
+                Message.error('上传头像失败');
+                this.toggleAvatarLoading();
+            },
+            complete: async (info) => {
+                const imageUrl = `${tokenRes.urlPrefix + info.key}`;
+                const [changeAvatarErr] = await fetch('changeAvatar', { avatar: imageUrl });
+                if (changeAvatarErr) {
+                    Message.error(changeAvatarErr);
+                    this.toggleAvatarLoading();
+                } else {
+                    action.setAvatar(URL.createObjectURL(blob));
+                    Message.success('修改头像成功');
+                    this.toggleAvatarLoading();
+                    this.setState({ cropper: false });
+                }
+            },
         });
     }
     changeAvatar() {
         this.cropper.getCroppedCanvas().toBlob(async (blob) => {
-            this.toggleAvatarLoading();
-            const [getTokenErr, tokenRes] = await fetch('uploadToken');
-            if (getTokenErr) {
-                Message.error(getTokenErr);
-            }
-
-            const result = qiniu.upload(blob, `Avatar/${this.props.userId}_${Date.now()}`, tokenRes.token, { useCdnDomain: true }, {});
-            result.subscribe({
-                error: (qiniuErr) => {
-                    console.error(qiniuErr);
-                    Message.error('上传头像失败');
-                    this.toggleAvatarLoading();
-                },
-                complete: async (info) => {
-                    const imageUrl = `${tokenRes.urlPrefix + info.key}`;
-                    const [changeAvatarErr] = await fetch('changeAvatar', { avatar: imageUrl });
-                    if (changeAvatarErr) {
-                        Message.error(changeAvatarErr);
-                        this.toggleAvatarLoading();
-                    } else {
-                        action.setAvatar(URL.createObjectURL(blob));
-                        Message.success('修改头像成功');
-                        this.toggleAvatarLoading();
-                        this.setState({ cropper: false });
-                    }
-                },
-            });
+            this.uploadAvatar(blob);
         });
     }
     /**
@@ -123,11 +136,14 @@ class SelfInfo extends Component {
                                             aspectRatio={1}
                                         />
                                         <Button onClick={this.changeAvatar}>修改头像</Button>
+                                        <ReactLoading className={`loading ${loading ? 'show' : 'hide'}`} type="spinningBubbles" color={`rgb(${primaryColor}`} height={120} width={120} />
                                     </div>
                                     :
-                                    <img src={avatar} onClick={this.selectAvatar} />
+                                    <div className="preview">
+                                        <img className={loading ? 'blur' : ''} src={avatar} onClick={this.selectAvatar} />
+                                        <ReactLoading className={`loading ${loading ? 'show' : 'hide'}`} type="spinningBubbles" color={`rgb(${primaryColor}`} height={80} width={80} />
+                                    </div>
                             }
-                            <ReactLoading className={`loading ${loading ? 'show' : 'hide'}`} type="spinningBubbles" color={`rgb(${primaryColor}`} height={120} width={120} />
                         </div>
                     </div>
                     <div>

@@ -5,7 +5,7 @@ export default {
 
     maxImageSize: MB * 3,
     maxBackgroundImageSize: MB * 5,
-    maxAvatarSize: MB * 1,
+    maxAvatarSize: MB * 1.5,
 
     // client default system setting
     primaryColor: '74, 144, 226',

@@ -193,17 +193,6 @@
                     pointer-events: none;
                 }
             }
-            & > .avatar-preview {
-                & >img {
-                    width: 100px;
-                    height: 100px;
-                    cursor: pointer;
-
-                    &:hover {
-                        filter: blur(3px);
-                    }
-                }
-            }
             & > .switch {
                 display: flex;
                 align-items: center;
@@ -265,14 +254,33 @@
         .blur {
             filter: blur(2px);
         }
-        .cropper > div {
-            margin-bottom: 8px;
+        .cropper {
+            & > div {
+                margin-bottom: 8px;
+            }
+            .loading {
+                top: 170px;
+                left: 170px;
+            }
+        }
+        .preview {
+            & >img {
+                width: 100px;
+                height: 100px;
+                cursor: pointer;
+    
+                &:hover {
+                    filter: blur(3px);
+                }
+            }
+            .loading {
+                top: 10px;
+                left: 10px;
+            }
         }
     }
     .loading {
         position: absolute;
-        top: 170px;
-        left: 170px;
         pointer-events: none;
     }
     .change-password {
