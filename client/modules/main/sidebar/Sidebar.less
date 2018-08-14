@@ -72,48 +72,6 @@
     }
 }
 
-.module-main-sidebar-singleCheckGroup {
-
-}
-
-.module-main-sidebar-singleCheckButton {
-    @height: 80px;
-    width: 80px;
-    height: @height;
-    text-align: center;
-    cursor: pointer;
-
-    .iconfont {
-        font-size: 36px;
-        line-height: @height;
-        color: var(--primary-text-color-6);
-        transition: color 0.2s;
-    }
-    &.focus {
-        background-color: var(--primary-color-6);
-        position: relative;
-        .iconfont {
-            color: var(--primary-text-color-10);
-        }
-        .line {
-            position: absolute;
-            width: 5px;
-            height: 100%;
-            left: 0;
-            top: 0;
-            background-color: rgba(91, 211, 141, 1);
-        }
-        &:hover {
-            background-color: var(--primary-color-6);
-        }
-    }
-    &:hover {
-        .iconfont {
-            color: var(--primary-text-color-9);
-        }
-    }
-}
-
 .dialog {
     width: 500px !important;
     height: 80% !important;
