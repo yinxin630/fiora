@@ -13,8 +13,8 @@ import action from '@/state/action';
 import fetch from 'utils/fetch';
 import getFriendId from 'utils/getFriendId';
 
-@autobind
 @immutableRenderDecorator
+@autobind
 class UserInfo extends Component {
     static propTypes = {
         visible: PropTypes.bool,

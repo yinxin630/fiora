@@ -19,7 +19,7 @@ const Avatar = ({ src, size = 60, className = '', ...props }) => (
     <img
         className={`component-avatar ${className}`}
         style={{ width: size, height: size, borderRadius: size / 2 }}
-        src={`${src}?imageView2/3/w/${size}/h/${size}`}
+        src={`${src}?imageView2/3/w/${size * 2}/h/${size * 2}`}
         onError={handleError}
         {...props}
     />
