@@ -19,7 +19,6 @@ module.exports = {
         let userId = '';
         if (isValid(to)) {
             groupId = to;
-            assert(isValid(groupId), '无效的群组ID');
             const group = await Group.findOne({ _id: to });
             assert(group, '群组不存在');
         } else {
@@ -45,7 +44,6 @@ module.exports = {
             });
         }
 
-        const user = await User.findOne({ _id: ctx.socket.user }, { username: 1, avatar: 1 });
         let message;
         try {
             message = await Message.create({
@@ -58,6 +56,7 @@ module.exports = {
             throw err;
         }
 
+        const user = await User.findOne({ _id: ctx.socket.user }, { username: 1, avatar: 1 });
         const messageData = {
             _id: message._id,
             createTime: message.createTime,
