@@ -13,7 +13,8 @@
     ],
     "parser": "babel-eslint",
     "globals": {
-
+        "importScripts": true,
+        "workbox": true
     }, 
     "rules": {
         "indent": [2, 4],

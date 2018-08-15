@@ -53,7 +53,7 @@ app.use(devMiddleware);
 app.use(hotMiddleware);
 
 const staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory);
-app.use(staticPath, express.static('./static'));
+app.use(staticPath, express.static('./public'));
 
 const uri = `http://${host}:${port}`;
 
