@@ -15,10 +15,11 @@ function handleError(e) {
     failTimes.set(e.target, times + 1);
 }
 
-const Avatar = ({ size = 60, className = '', ...props }) => (
+const Avatar = ({ src, size = 60, className = '', ...props }) => (
     <img
         className={`component-avatar ${className}`}
         style={{ width: size, height: size, borderRadius: size / 2 }}
+        src={`${src}?imageView2/3/w/${size}/h/${size}`}
         onError={handleError}
         {...props}
     />

@@ -103,6 +103,7 @@ class Message extends Component {
                 }
                 $image.width = width * scale;
                 $image.height = height * scale;
+                $image.src = /^(blob|data):/.test(content) ? content.split('?')[0] : `${content}&imageView2/3/w/${$image.width}/h/${$image.height}`;
             }
         }
         if (shouldScroll || isSelf) {
@@ -185,7 +186,7 @@ class Message extends Component {
         // 设置高度宽度为1防止被原图撑起来
         return (
             <div className={`image ${loading ? 'loading' : ''} ${/huaji=true/.test(content) ? 'huaji' : ''}`}>
-                <img className="img" src={src} width="1" height="1" onDoubleClick={this.showImageViewer} />
+                <img className="img" src={transparentImage} width="1" height="1" onDoubleClick={this.showImageViewer} />
                 <Circle className="progress" percent={percent} strokeWidth="5" strokeColor="#a0c672" trailWidth="5" />
                 <div className="progress-number">{Math.ceil(percent)}%</div>
                 <Viewer
