@@ -21,7 +21,7 @@ if (workbox) {
     );
 
     workbox.routing.registerRoute(
-        new RegExp('https://fiora.suisuijiang.com/'),
+        new RegExp('https://cdn.suisuijiang.com/'),
         workbox.strategies.cacheFirst(),
     );
 }
