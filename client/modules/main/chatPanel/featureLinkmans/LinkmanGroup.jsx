@@ -3,10 +3,12 @@ import { connect } from 'react-redux';
 import immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
+import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 
 import action from '@/state/action';
 import Linkman from './Linkman';
 
+@immutableRenderDecorator
 class LinkmanGroup extends Component {
     static propTypes = {
         linkmans: ImmutablePropTypes.list,

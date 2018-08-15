@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
+import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 
 import Dialog from '@/components/Dialog';
 import Input from '@/components/Input';
@@ -8,6 +9,7 @@ import Button from '@/components/Button';
 import Message from '@/components/Message';
 import fetch from '../../../../utils/fetch';
 
+@immutableRenderDecorator
 class AdminDialog extends Component {
     static propTypes = {
         visible: PropTypes.bool.isRequired,

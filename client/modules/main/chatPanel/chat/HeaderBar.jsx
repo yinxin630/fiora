@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import immutable from 'immutable';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -13,24 +12,25 @@ class HeaderBar extends Component {
         Message.success('已复制邀请信息到粘贴板, 去邀请其它人加群吧');
     }
     static propTypes = {
-        linkman: ImmutablePropTypes.map,
+        linkmanType: PropTypes.string,
+        linkmanName: PropTypes.string,
         onShowInfo: PropTypes.func,
         isLogin: PropTypes.bool.isRequired,
     }
     render() {
-        const { linkman, onShowInfo, isLogin } = this.props;
-        if (!linkman) {
+        const { linkmanType, linkmanName, onShowInfo, isLogin } = this.props;
+        if (!linkmanName) {
             return <div />;
         }
         return (
             <div className="chat-headerBar">
-                <h2>{linkman && linkman.get('name')}</h2>
+                <h2>{linkmanName}</h2>
                 {
                     isLogin ?
                         <div>
                             {
-                                linkman.get('type') === 'group' ?
-                                    <CopyToClipboard text={`invite::${linkman.get('name')}`}>
+                                linkmanType === 'group' ?
+                                    <CopyToClipboard text={`invite::${linkmanName}`}>
                                         <IconButton width={40} height={40} icon="share" iconSize={24} onClick={HeaderBar.handleShareGroup} />
                                     </CopyToClipboard>
 
@@ -53,6 +53,7 @@ export default connect((state) => {
     const linkman = linkmans.find(l => l.get('_id') === focus);
     return {
         isLogin: !!state.getIn(['user', '_id']),
-        linkman,
+        linkmanType: linkman && linkman.get('type'),
+        linkmanName: linkman && linkman.get('name'),
     };
 })(HeaderBar);

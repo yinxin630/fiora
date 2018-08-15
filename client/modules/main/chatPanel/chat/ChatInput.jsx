@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import * as qiniu from 'qiniu-js';
 import autobind from 'autobind-decorator';
+import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 
 import action from '@/state/action';
 import socket from '@/socket';
@@ -28,6 +29,7 @@ import config from '../../../../../config/client';
 const xss = require('utils/xss');
 const Url = require('utils/url');
 
+@immutableRenderDecorator
 @autobind
 class ChatInput extends Component {
     static handleLogin() {
@@ -69,9 +71,11 @@ class ChatInput extends Component {
     static propTypes = {
         isLogin: PropTypes.bool.isRequired,
         focus: PropTypes.string,
-        user: ImmutablePropTypes.map,
         connect: PropTypes.bool,
         members: ImmutablePropTypes.list,
+        userId: PropTypes.string,
+        userName: PropTypes.string,
+        userAvatar: PropTypes.string,
     }
     constructor(...args) {
         super(...args);
@@ -228,7 +232,7 @@ class ChatInput extends Component {
         if (/^invite::/.test(message)) {
             const groupName = message.replace('invite::', '');
             const id = this.addSelfMessage('invite', JSON.stringify({
-                inviter: this.props.user.get('username'),
+                inviter: this.props.userName,
                 groupId: '',
                 groupName,
             }));
@@ -240,7 +244,7 @@ class ChatInput extends Component {
         this.message.value = '';
     }
     addSelfMessage(type, content) {
-        const { user, focus } = this.props;
+        const { userId, userName, userAvatar, focus } = this.props;
         const _id = focus + Date.now();
         const message = {
             _id,
@@ -248,9 +252,9 @@ class ChatInput extends Component {
             content,
             createTime: Date.now(),
             from: {
-                _id: user.get('_id'),
-                username: user.get('username'),
-                avatar: user.get('avatar'),
+                _id: userId,
+                username: userName,
+                avatar: userAvatar,
             },
             loading: true,
         };
@@ -285,7 +289,7 @@ class ChatInput extends Component {
             return Message.warning('要发送的图片过大', 3);
         }
 
-        const { user, focus } = this.props;
+        const { userId, focus } = this.props;
         const ext = image.type.split('/').pop().toLowerCase();
         const url = URL.createObjectURL(image.result);
 
@@ -296,7 +300,7 @@ class ChatInput extends Component {
                 if (typeof res === 'string') {
                     Message.error(res);
                 } else {
-                    const result = qiniu.upload(image.result, `ImageMessage/${user.get('_id')}_${Date.now()}.${ext}`, res.token, { useCdnDomain: true }, {});
+                    const result = qiniu.upload(image.result, `ImageMessage/${userId}_${Date.now()}.${ext}`, res.token, { useCdnDomain: true }, {});
                     result.subscribe({
                         next(info) {
                             action.updateSelfMessage(focus, id, { percent: info.total.percent });
@@ -539,6 +543,8 @@ export default connect(state => ({
     isLogin: !!state.getIn(['user', '_id']),
     connect: state.get('connect'),
     focus: state.get('focus'),
-    user: state.get('user'),
+    userId: state.getIn(['user', '_id']),
+    userName: state.getIn(['user', 'username']),
+    userAvatar: state.getIn(['user', 'avatar']),
 }))(ChatInput);
 

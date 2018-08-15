@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import autobind from 'autobind-decorator';
-import immutable from 'immutable';
+import { immutableRenderDecorator } from 'react-immutable-render-mixin';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import Dialog from '@/components/Dialog';
 import Avatar from '@/components/Avatar';
@@ -14,12 +14,13 @@ import fetch from 'utils/fetch';
 import getFriendId from 'utils/getFriendId';
 
 @autobind
+@immutableRenderDecorator
 class UserInfo extends Component {
     static propTypes = {
         visible: PropTypes.bool,
         userInfo: PropTypes.object,
         onClose: PropTypes.func,
-        linkmans: ImmutablePropTypes.list,
+        linkman: ImmutablePropTypes.map,
         userId: PropTypes.string,
         isAdmin: PropTypes.bool.isRequired,
     }
@@ -32,13 +33,12 @@ class UserInfo extends Component {
         action.setFocus(getFriendId(userInfo._id, userId));
     }
     async handleAddFriend() {
-        const { userInfo, userId, linkmans, onClose } = this.props;
+        const { userInfo, userId, linkman, onClose } = this.props;
         const [err, res] = await fetch('addFriend', { userId: userInfo._id });
         if (!err) {
             onClose();
             const _id = getFriendId(userId, res._id);
             let existCount = 0;
-            const linkman = linkmans.find(l => l.get('_id') === _id && l.get('type') === 'temporary');
             if (linkman) {
                 existCount = linkman.get('messages').size;
                 action.setFriend(_id, userId, userInfo._id);
@@ -88,8 +88,8 @@ class UserInfo extends Component {
         });
     }
     render() {
-        const { visible, userInfo, onClose, linkmans, isAdmin } = this.props;
-        const isFriend = linkmans.find(l => l.get('to') === userInfo._id && l.get('type') === 'friend');
+        const { visible, userInfo, onClose, linkman, isAdmin } = this.props;
+        const isFriend = linkman !== null;
         return (
             <Dialog className="info-dialog" visible={visible} onClose={onClose}>
                 <div>
@@ -140,8 +140,23 @@ class UserInfo extends Component {
     }
 }
 
-export default connect(state => ({
-    linkmans: state.getIn(['user', 'linkmans']) || immutable.fromJS([]),
-    userId: state.getIn(['user', '_id']),
-    isAdmin: state.getIn(['user', 'isAdmin']),
-}))(UserInfo);
+export default connect((state, props) => {
+    const userId = state.getIn(['user', '_id']);
+    const isAdmin = state.getIn(['user', 'isAdmin']);
+    if (!props.visible) {
+        return {
+            linkman: null,
+            userId,
+            isAdmin,
+        };
+    }
+
+    const linkman = state
+        .getIn(['user', 'linkmans'])
+        .find(l => l.get('to') === props.userInfo._id && l.get('type') === 'friend');
+    return {
+        linkman,
+        userId: state.getIn(['user', '_id']),
+        isAdmin: state.getIn(['user', 'isAdmin']),
+    };
+})(UserInfo);
