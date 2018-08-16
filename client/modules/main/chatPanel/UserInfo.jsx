@@ -89,7 +89,7 @@ class UserInfo extends Component {
     }
     render() {
         const { visible, userInfo, onClose, linkman, isAdmin } = this.props;
-        const isFriend = linkman !== null;
+        const isFriend = !!linkman;
         return (
             <Dialog className="info-dialog" visible={visible} onClose={onClose}>
                 <div>
