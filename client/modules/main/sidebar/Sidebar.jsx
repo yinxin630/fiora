@@ -14,6 +14,7 @@ import IconButton from '@/components/IconButton';
 import Dialog from '@/components/Dialog';
 import Button from '@/components/Button';
 import Message from '@/components/Message';
+import Tooltip from '@/components/Tooltip';
 import setCssVariable from 'utils/setCssVariable';
 import readDiskFile from 'utils/readDiskFile';
 import playSound from 'utils/sound';
@@ -171,6 +172,15 @@ class Sidebar extends Component {
             this.toggleBackgroundLoading();
         }
     }
+    static renderTooltip(text, component) {
+        return (
+            <Tooltip placement="right" mouseEnterDelay={0.3} overlay={<span>{text}</span>}>
+                <div>
+                    {component}
+                </div>
+            </Tooltip>
+        );
+    }
     render() {
         const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound, soundSwitch, notificationSwitch, voiceSwitch, isAdmin } = this.props;
         const { settingDialog, userDialog, rewardDialog, infoDialog, appDownloadDialog, backgroundLoading, adminDialog } = this.state;
@@ -182,18 +192,20 @@ class Sidebar extends Component {
                     <div className="buttons">
                         {
                             isAdmin ?
-                                <IconButton width={40} height={40} icon="administrator" iconSize={28} onClick={this.openAdmin} />
+                                Sidebar.renderTooltip('管理员', <IconButton width={40} height={40} icon="administrator" iconSize={28} onClick={this.openAdmin} />)
                                 :
                                 null
                         }
-                        <a href="https://github.com/yinxin630/fiora" target="_black" rel="noopener noreferrer">
-                            <IconButton width={40} height={40} icon="github" iconSize={26} />
-                        </a>
-                        <IconButton width={40} height={40} icon="app" iconSize={28} onClick={this.openAppDownload} />
-                        <IconButton width={40} height={40} icon="dashang" iconSize={26} onClick={this.openReward} />
-                        <IconButton width={40} height={40} icon="about" iconSize={26} onClick={this.openInfo} />
-                        <IconButton width={40} height={40} icon="setting" iconSize={26} onClick={this.openSettingDialog} />
-                        <IconButton width={40} height={40} icon="logout" iconSize={26} onClick={Sidebar.logout} />
+                        <Tooltip placement="right" mouseEnterDelay={0.3} overlay={<span>源码</span>}>
+                            <a href="https://github.com/yinxin630/fiora" target="_black" rel="noopener noreferrer">
+                                <IconButton width={40} height={40} icon="github" iconSize={26} />
+                            </a>
+                        </Tooltip>
+                        {Sidebar.renderTooltip('下载APP', <IconButton width={40} height={40} icon="app" iconSize={28} onClick={this.openAppDownload} />)}
+                        {Sidebar.renderTooltip('打赏', <IconButton width={40} height={40} icon="dashang" iconSize={26} onClick={this.openReward} />)}
+                        {Sidebar.renderTooltip('关于', <IconButton width={40} height={40} icon="about" iconSize={26} onClick={this.openInfo} />)}
+                        {Sidebar.renderTooltip('设置', <IconButton width={40} height={40} icon="setting" iconSize={26} onClick={this.openSettingDialog} />)}
+                        {Sidebar.renderTooltip('退出登录', <IconButton width={40} height={40} icon="logout" iconSize={26} onClick={Sidebar.logout} />)}
                     </div>
                     <Dialog className="dialog system-setting" visible={settingDialog} title="系统设置" onClose={this.closeSettingDialog}>
                         <div className="content">
