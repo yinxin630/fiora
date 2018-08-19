@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import * as qiniu from 'qiniu-js';
 import autobind from 'autobind-decorator';
 import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 
 import action from '@/state/action';
-import socket from '@/socket';
 import IconButton from '@/components/IconButton';
 import Dropdown from '@/components/Dropdown';
 import { Menu, MenuItem } from '@/components/Menu';
@@ -21,6 +19,7 @@ import Avatar from '@/components/Avatar';
 import getRandomHuaji from 'utils/getRandomHuaji';
 import readDiskFile from 'utils/readDiskFile';
 import fetch from 'utils/fetch';
+import uploadFile from 'utils/uploadFile';
 
 import Expression from './Expression';
 import CodeEditor from './CodeEditor';
@@ -294,28 +293,22 @@ class ChatInput extends Component {
         const url = URL.createObjectURL(image.result);
 
         const img = new Image();
-        img.onload = () => {
+        img.onload = async () => {
             const id = this.addSelfMessage('image', `${url}?width=${img.width}&height=${img.height}`);
-            socket.emit('uploadToken', {}, (res) => {
-                if (typeof res === 'string') {
-                    Message.error(res);
-                } else {
-                    const result = qiniu.upload(image.result, `ImageMessage/${userId}_${Date.now()}.${ext}`, res.token, { useCdnDomain: true }, {});
-                    result.subscribe({
-                        next(info) {
-                            action.updateSelfMessage(focus, id, { percent: info.total.percent });
-                        },
-                        error(err) {
-                            console.error(err);
-                            Message.error('上传图片失败');
-                        },
-                        complete: (info) => {
-                            const imageUrl = `${res.urlPrefix + info.key}?width=${img.width}&height=${img.height}`;
-                            this.sendMessage(id, 'image', imageUrl);
-                        },
-                    });
-                }
-            });
+            try {
+                const imageUrl = await uploadFile(
+                    image.result,
+                    `ImageMessage/${userId}_${Date.now()}.${ext}`,
+                    `ImageMessage_${userId}_${Date.now()}.${ext}`,
+                    (info) => {
+                        action.updateSelfMessage(focus, id, { percent: info.total.percent });
+                    },
+                );
+                this.sendMessage(id, 'image', `${imageUrl}?width=${img.width}&height=${img.height}`);
+            } catch (err) {
+                console.error(err);
+                Message.error('上传图片失败');
+            }
         };
         img.src = url;
     }

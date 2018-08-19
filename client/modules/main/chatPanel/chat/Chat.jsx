@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import immutable from 'immutable';
-import * as qiniu from 'qiniu-js';
 
 import fetch from 'utils/fetch';
 import readDiskFile from 'utils/readDiskFile';
+import uploadFile from 'utils/uploadFile';
 import config from 'root/config/client';
 import action from '@/state/action';
 import Avatar from '@/components/Avatar';
@@ -107,23 +107,16 @@ class Chat extends Component {
             return Message.error('设置群头像失败, 请选择小于1MB的图片');
         }
 
-        const [err, tokenRes] = await fetch('uploadToken', {});
-        if (!err) {
-            const result = qiniu.upload(image.result, `GroupAvatar/${userId}_${Date.now()}`, tokenRes.token, { useCdnDomain: true }, {});
-            result.subscribe({
-                error(e) {
-                    console.error(e);
-                    Message.error('上传群头像失败');
-                },
-                async complete(info) {
-                    const imageUrl = `${tokenRes.urlPrefix + info.key}`;
-                    const [changeGroupAvatarError] = await fetch('changeGroupAvatar', { groupId: focus, avatar: imageUrl });
-                    if (!changeGroupAvatarError) {
-                        action.setGroupAvatar(focus, URL.createObjectURL(image.result));
-                        Message.success('修改群头像成功');
-                    }
-                },
-            });
+        try {
+            const imageUrl = await uploadFile(image.result, `GroupAvatar/${userId}_${Date.now()}`, `GroupAvatar_${userId}_${Date.now()}.${image.ext}`);
+            const [changeGroupAvatarError] = await fetch('changeGroupAvatar', { groupId: focus, avatar: imageUrl });
+            if (!changeGroupAvatarError) {
+                action.setGroupAvatar(focus, URL.createObjectURL(image.result));
+                Message.success('修改群头像成功');
+            }
+        } catch (err) {
+            console.error(err);
+            Message.error('上传群头像失败');
         }
     }
     @autobind

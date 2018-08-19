@@ -1,7 +1,7 @@
 import * as qiniu from 'qiniu-js';
 import fetch from './fetch';
 
-export default function uploadFile(blob, qiniuKey, fileName) {
+export default function uploadFile(blob, qiniuKey, fileName, qiniuNextEventCallback) {
     return new Promise(async (resolve, reject) => {
         const [getTokenErr, tokenRes] = await fetch('uploadToken');
         if (getTokenErr) {
@@ -20,6 +20,11 @@ export default function uploadFile(blob, qiniuKey, fileName) {
         } else {
             const result = qiniu.upload(blob, qiniuKey, tokenRes.token, { useCdnDomain: true }, {});
             result.subscribe({
+                next: (info) => {
+                    if (qiniuNextEventCallback) {
+                        qiniuNextEventCallback(info);
+                    }
+                },
                 error: (qiniuErr) => {
                     reject(qiniuErr);
                 },
