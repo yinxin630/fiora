@@ -1,5 +1,9 @@
+const bluebird = require('bluebird');
+const fs = bluebird.promisifyAll(require('fs'), { suffix: '$' });
+const path = require('path');
 const axios = require('axios');
 const assert = require('assert');
+const ip = require('ip');
 const User = require('../models/user');
 const Group = require('../models/group');
 const config = require('../../config/server');
@@ -90,5 +94,16 @@ module.exports = {
         const users = await User.find({ _id: { $in: userIds } });
         const result = users.map(user => user.username);
         return result;
+    },
+    async uploadFile(ctx) {
+        try {
+            await fs.writeFile$(path.resolve(__dirname, `../../public/${ctx.data.fileName}`), ctx.data.file);
+            return {
+                url: `http://${ip.address()}:${config.port}/${ctx.data.fileName}`,
+            };
+        } catch (err) {
+            console.error(err);
+            return `上传文件失败:${err.message}`;
+        }
     },
 };

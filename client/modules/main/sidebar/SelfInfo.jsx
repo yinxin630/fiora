@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactLoading from 'react-loading';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import * as qiniu from 'qiniu-js';
 import autobind from 'autobind-decorator';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
@@ -12,6 +11,7 @@ import Dialog from '@/components/Dialog';
 import Button from '@/components/Button';
 import Message from '@/components/Message';
 import fetch from 'utils/fetch';
+import uploadFile from 'utils/uploadFile';
 import action from '@/state/action';
 import socket from '@/socket';
 
@@ -32,6 +32,7 @@ class SelfInfo extends Component {
         loading: false,
         cropper: false,
         cropperSrc: '',
+        cropperExt: 'png',
     }
     toggleAvatarLoading() {
         this.setState({
@@ -52,7 +53,7 @@ class SelfInfo extends Component {
 
         // gif头像不需要裁剪
         if (file.ext === 'gif') {
-            this.uploadAvatar(file.result);
+            this.uploadAvatar(file.result, file.ext);
         } else {
             // 显示头像裁剪
             const reader = new FileReader();
@@ -61,42 +62,34 @@ class SelfInfo extends Component {
                 this.setState({
                     cropper: true,
                     cropperSrc: reader.result,
+                    cropperExt: file.ext,
                 });
             };
         }
     }
-    async uploadAvatar(blob) {
+    async uploadAvatar(blob, ext = 'png') {
         this.toggleAvatarLoading();
-        const [getTokenErr, tokenRes] = await fetch('uploadToken');
-        if (getTokenErr) {
-            Message.error(getTokenErr);
-        }
 
-        const result = qiniu.upload(blob, `Avatar/${this.props.userId}_${Date.now()}`, tokenRes.token, { useCdnDomain: true }, {});
-        result.subscribe({
-            error: (qiniuErr) => {
-                console.error(qiniuErr);
-                Message.error('上传头像失败');
-                this.toggleAvatarLoading();
-            },
-            complete: async (info) => {
-                const imageUrl = `${tokenRes.urlPrefix + info.key}`;
-                const [changeAvatarErr] = await fetch('changeAvatar', { avatar: imageUrl });
-                if (changeAvatarErr) {
-                    Message.error(changeAvatarErr);
-                    this.toggleAvatarLoading();
-                } else {
-                    action.setAvatar(URL.createObjectURL(blob));
-                    Message.success('修改头像成功');
-                    this.toggleAvatarLoading();
-                    this.setState({ cropper: false });
-                }
-            },
-        });
+        try {
+            const avatarUrl = await uploadFile(blob, `Avatar/${this.props.userId}_${Date.now()}`, `Avatar_${this.props.userId}_${Date.now()}.${ext}`);
+            const [changeAvatarErr] = await fetch('changeAvatar', { avatar: avatarUrl });
+            if (changeAvatarErr) {
+                Message.error(changeAvatarErr);
+            } else {
+                action.setAvatar(URL.createObjectURL(blob));
+                Message.success('修改头像成功');
+                this.setState({ cropper: false });
+            }
+        } catch (err) {
+            console.error(err);
+            Message.error('上传头像失败');
+        } finally {
+            this.toggleAvatarLoading();
+        }
     }
     changeAvatar() {
         this.cropper.getCroppedCanvas().toBlob(async (blob) => {
-            this.uploadAvatar(blob);
+            this.uploadAvatar(blob, this.state.cropperExt);
         });
     }
     /**
