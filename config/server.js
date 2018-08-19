@@ -24,5 +24,9 @@ module.exports = {
     // token expires time
     tokenExpiresTime: 1000 * 60 * 60 * 24 * 7,
 
+    // administrator user id
     administrator: options.administrator || '',
+
+    // default group name
+    defaultGroupName: 'fiora',
 };

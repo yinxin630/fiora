@@ -30,9 +30,8 @@ mongoose.connect(config.database, async (err) => {
     const group = await Group.findOne({ isDefault: true });
     if (!group) {
         const defaultGroup = await Group.create({
-            name: 'fiora',
+            name: config.defaultGroupName,
             avatar: getRandomAvatar(),
-            announcement: '欢迎光临Fiora, 这是一个开源/自由的聊天室',
             isDefault: true,
         });
         if (!defaultGroup) {
