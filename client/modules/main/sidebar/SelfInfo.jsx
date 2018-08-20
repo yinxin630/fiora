@@ -11,10 +11,10 @@ import Input from '@/components/Input';
 import Dialog from '@/components/Dialog';
 import Button from '@/components/Button';
 import Message from '@/components/Message';
-import fetch from 'utils/fetch';
 import action from '@/state/action';
 import socket from '@/socket';
 
+import fetch from 'utils/fetch';
 import readDiskFile from 'utils/readDiskFile';
 import config from '../../../../config/client';
 
