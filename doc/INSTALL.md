@@ -1,6 +1,6 @@
 # Precondition
 
-To run Fiora, you need to have Node.js (>= version 8.9.0) environment, MongoDB database, and qiniu.com cloud storage account (send picture and change avatar function neew use qiniu.com)
+To run Fiora, you need to have Node.js (>= version 8.9.0) environment, MongoDB database
 
 # Run on local
 
@@ -24,7 +24,7 @@ Modify the configuration file:
 - client config: `config/client.js`
 - webpack config: `config/webpack.js`
 
-Most configuration items can be used with default values. Only qiniu.com related configurations need to be modified. Otherwise, picture cannot be sent, and user/group avatar cannot be modified
+In the server config, the picture is stored in the server if the qiniu.com CDN is not configured. will increase service bandwidth pressure and flow consumption, so it is more recommended to use qiniu.com CDN
 
 qiniu.com config introduce:
 * `qiniuAccessKey` get from qiniu.com 个人面板 - 密钥管理 page
@@ -60,6 +60,8 @@ Link run on local
 build client `npm run build`
 
 move build result to public directory `mv dist/fiora/* public`
+
+Or if you use qiniu.com CDN, you can upload the build result to qiniu.com, and then just put `index.html` in the public directory, so the performance will be better
 
 ## Step5
 

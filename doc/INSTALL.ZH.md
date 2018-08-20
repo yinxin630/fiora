@@ -1,6 +1,6 @@
 # 前置条件
 
-要运行Fiora, 你需要具备Node.js(>= 8.9.0版本)环境, Mongodb数据库, 以及七牛云存储账号(发送图片和修改头像会用到七牛)
+要运行Fiora, 你需要具备Node.js(>= 8.9.0版本)环境, Mongodb数据库
 
 # 在本地运行
 
@@ -24,9 +24,9 @@
 - 客户端配置: `config/client.js`
 - webpack配置: `config/webpack.js`
 
-大部分配置项用默认值即可, 只有七牛相关配置需要修改, 否则将会导致无法发送图片消息, 无法修改个人/群组头像
+服务端配置中, 如果不配置七牛CDN的话, 图片会存储到服务端中. 会增加服务端带宽压力和流量消耗, 因此更推荐使用七牛CDN
 
-七牛配置说明:
+七牛CDN配置说明:
 * `qiniuAccessKey` 从七牛 个人面板 - 密钥管理 页面获取
 * `qiniuSecretKey` 从七牛 个人面板 - 密钥管理 页面获取
 * `qiniuBucket` 存储空间的名称
@@ -59,7 +59,9 @@
 
 构建客户端 `npm run build`
 
-移动构建产物到publish目录 `mv dist/fiora/* public`
+移动构建产物到 public 目录 `mv dist/fiora/* public`
+
+或者如果你使用了七牛CDN的话, 可以把所以构建产物上次到七牛CDN, 然后仅将 `index.html` 放到 public 目录, 这样性能会更好
 
 ## 第五步
 
