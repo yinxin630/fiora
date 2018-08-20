@@ -18,6 +18,7 @@ import Tooltip from '@/components/Tooltip';
 import setCssVariable from 'utils/setCssVariable';
 import readDiskFile from 'utils/readDiskFile';
 import playSound from 'utils/sound';
+import booleanStateDecorator from 'utils/booleanStateDecorator';
 import OnlineStatus from './OnlineStatus';
 import AppDownload from './AppDownload';
 import AdminDialog from './AdminDialog';
@@ -27,7 +28,18 @@ import config from '../../../../config/client';
 import './Sidebar.less';
 
 
+/**
+ * 页面左边侧栏
+ */
 @autobind
+@booleanStateDecorator({
+    settingDialog: false, // 设置
+    userDialog: false, // 个人信息设置
+    rewardDialog: false, // 打赏
+    infoDialog: false, // 关于
+    appDownloadDialog: false, // APP下载
+    adminDialog: false, // 管理员
+})
 class Sidebar extends Component {
     static logout() {
         action.logout();
@@ -71,74 +83,8 @@ class Sidebar extends Component {
     constructor(...args) {
         super(...args);
         this.state = {
-            settingDialog: false,
-            userDialog: false,
-            rewardDialog: false,
-            infoDialog: false,
-            appDownloadDialog: false,
             backgroundLoading: false,
-            adminDialog: false,
         };
-    }
-    openSettingDialog() {
-        this.setState({
-            settingDialog: true,
-        });
-    }
-    closeSettingDialog() {
-        this.setState({
-            settingDialog: false,
-        });
-    }
-    openUserDialog() {
-        this.setState({
-            userDialog: true,
-        });
-    }
-    closeUserDialog() {
-        this.setState({
-            userDialog: false,
-        });
-    }
-    openReward() {
-        this.setState({
-            rewardDialog: true,
-        });
-    }
-    closeReward() {
-        this.setState({
-            rewardDialog: false,
-        });
-    }
-    openInfo() {
-        this.setState({
-            infoDialog: true,
-        });
-    }
-    closeInfo() {
-        this.setState({
-            infoDialog: false,
-        });
-    }
-    openAppDownload() {
-        this.setState({
-            appDownloadDialog: true,
-        });
-    }
-    closeAppDownload() {
-        this.setState({
-            appDownloadDialog: false,
-        });
-    }
-    openAdmin() {
-        this.setState({
-            adminDialog: true,
-        });
-    }
-    closeAdmin() {
-        this.setState({
-            adminDialog: false,
-        });
     }
     handlePrimaryColorChange(color) {
         const primaryColor = `${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`;
@@ -187,12 +133,12 @@ class Sidebar extends Component {
         if (isLogin) {
             return (
                 <div className="module-main-sidebar">
-                    <Avatar className="avatar" src={avatar} onClick={this.openUserDialog} />
+                    <Avatar className="avatar" src={avatar} onClick={this.toggleUserDialog} />
                     <OnlineStatus className="status" status={isConnect ? 'online' : 'offline'} />
                     <div className="buttons">
                         {
                             isAdmin ?
-                                Sidebar.renderTooltip('管理员', <IconButton width={40} height={40} icon="administrator" iconSize={28} onClick={this.openAdmin} />)
+                                Sidebar.renderTooltip('管理员', <IconButton width={40} height={40} icon="administrator" iconSize={28} onClick={this.toggleAdminDialog} />)
                                 :
                                 null
                         }
@@ -201,13 +147,13 @@ class Sidebar extends Component {
                                 <IconButton width={40} height={40} icon="github" iconSize={26} />
                             </a>
                         </Tooltip>
-                        {Sidebar.renderTooltip('下载APP', <IconButton width={40} height={40} icon="app" iconSize={28} onClick={this.openAppDownload} />)}
-                        {Sidebar.renderTooltip('打赏', <IconButton width={40} height={40} icon="dashang" iconSize={26} onClick={this.openReward} />)}
-                        {Sidebar.renderTooltip('关于', <IconButton width={40} height={40} icon="about" iconSize={26} onClick={this.openInfo} />)}
-                        {Sidebar.renderTooltip('设置', <IconButton width={40} height={40} icon="setting" iconSize={26} onClick={this.openSettingDialog} />)}
+                        {Sidebar.renderTooltip('下载APP', <IconButton width={40} height={40} icon="app" iconSize={28} onClick={this.toggleAppDownloadDialog} />)}
+                        {Sidebar.renderTooltip('打赏', <IconButton width={40} height={40} icon="dashang" iconSize={26} onClick={this.toggleRewardDialog} />)}
+                        {Sidebar.renderTooltip('关于', <IconButton width={40} height={40} icon="about" iconSize={26} onClick={this.toggleInfoDialog} />)}
+                        {Sidebar.renderTooltip('设置', <IconButton width={40} height={40} icon="setting" iconSize={26} onClick={this.toggleSettingDialog} />)}
                         {Sidebar.renderTooltip('退出登录', <IconButton width={40} height={40} icon="logout" iconSize={26} onClick={Sidebar.logout} />)}
                     </div>
-                    <Dialog className="dialog system-setting" visible={settingDialog} title="系统设置" onClose={this.closeSettingDialog}>
+                    <Dialog className="dialog system-setting" visible={settingDialog} title="系统设置" onClose={this.toggleSettingDialog}>
                         <div className="content">
                             <div>
                                 <p>恢复</p>
@@ -274,8 +220,8 @@ class Sidebar extends Component {
                             </div>
                         </div>
                     </Dialog>
-                    <SelfInfo visible={userDialog} onClose={this.closeUserDialog} />
-                    <Dialog className="dialog reward " visible={rewardDialog} title="打赏" onClose={this.closeReward}>
+                    <SelfInfo visible={userDialog} onClose={this.toggleUserDialog} />
+                    <Dialog className="dialog reward " visible={rewardDialog} title="打赏" onClose={this.toggleRewardDialog}>
                         <div className="content">
                             <p>如果你觉得这个聊天室代码对你有帮助, 希望打赏下给个鼓励~~<br />作者大多数时间在线, 欢迎提问, 有问必答</p>
                             <div>
@@ -284,7 +230,7 @@ class Sidebar extends Component {
                             </div>
                         </div>
                     </Dialog>
-                    <Dialog className="dialog fiora-info " visible={infoDialog} title="关于" onClose={this.closeInfo}>
+                    <Dialog className="dialog fiora-info " visible={infoDialog} title="关于" onClose={this.toggleInfoDialog}>
                         <div className="content">
                             <div>
                                 <p>作者主页</p>
@@ -307,8 +253,8 @@ class Sidebar extends Component {
                             </div>
                         </div>
                     </Dialog>
-                    <AppDownload visible={appDownloadDialog} onClose={this.closeAppDownload} />
-                    <AdminDialog visible={adminDialog} onClose={this.closeAdmin} />
+                    <AppDownload visible={appDownloadDialog} onClose={this.toggleAppDownloadDialog} />
+                    <AdminDialog visible={adminDialog} onClose={this.toggleAdminDialog} />
                 </div>
             );
         }

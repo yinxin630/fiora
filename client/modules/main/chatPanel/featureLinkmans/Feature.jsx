@@ -10,29 +10,34 @@ import { Tabs, TabPane, TabContent, ScrollableInkTabBar } from '@/components/Tab
 import socket from '@/socket';
 import action from '@/state/action';
 import fetch from 'utils/fetch';
+import booleanStateDecorator from 'utils/booleanStateDecorator';
 import GroupInfo from '../GroupInfo';
 import UserInfo from '../UserInfo';
 
+
+@booleanStateDecorator({
+    groupInfoDialog: false,
+    userInfoDialog: false,
+    createGroupDialog: false,
+})
+@autobind
 class Feature extends Component {
     constructor(...args) {
         super(...args);
         this.state = {
             showAddButton: true,
-            showCreateGroupDialog: false,
             showSearchResult: false,
             searchResultActiveKey: 'all',
             searchResult: {
                 users: [],
                 groups: [],
             },
-            showGroupInfo: false,
             groupInfo: {},
-            showUserInfo: false,
             userInfo: {},
         };
     }
     componentDidMount() {
-        document.body.addEventListener('click', this.handleBodyClick.bind(this), false);
+        document.body.addEventListener('click', this.handleBodyClick, false);
     }
     resetSearchView() {
         this.setState({
@@ -46,7 +51,7 @@ class Feature extends Component {
         });
         this.searchInput.value = '';
     }
-    handleBodyClick(e) {
+    handleBodyClick = (e) => {
         if (e.target === this.searchInput || !this.state.showSearchResult) {
             return;
         }
@@ -61,26 +66,12 @@ class Feature extends Component {
         } while (target !== currentTarget);
         this.resetSearchView();
     }
-    @autobind
     handleFocus() {
         this.setState({
             showAddButton: false,
             showSearchResult: true,
         });
     }
-    @autobind
-    showCreateGroupDialog() {
-        this.setState({
-            showCreateGroupDialog: true,
-        });
-    }
-    @autobind
-    closeCreateGroupDialog() {
-        this.setState({
-            showCreateGroupDialog: false,
-        });
-    }
-    @autobind
     handleCreateGroup() {
         const name = this.groupName.getValue();
         socket.emit('createGroup', { name }, (res) => {
@@ -107,7 +98,6 @@ class Feature extends Component {
             });
         }
     }
-    @autobind
     handleInputKeyDown(e) {
         if (e.key === 'Enter') {
             setTimeout(() => {
@@ -116,19 +106,16 @@ class Feature extends Component {
             }, 0);
         }
     }
-    @autobind
     handleActiveKeyChange(key) {
         this.setState({
             searchResultActiveKey: key,
         });
     }
-    @autobind
     switchTabToUser() {
         this.setState({
             searchResultActiveKey: 'user',
         });
     }
-    @autobind
     switchTabToGroup() {
         this.setState({
             searchResultActiveKey: 'group',
@@ -136,31 +123,18 @@ class Feature extends Component {
     }
     openGroupInfoDialog(groupInfo) {
         this.setState({
-            showGroupInfo: true,
+            groupInfoDialog: true,
             groupInfo,
         });
         this.resetSearchView();
     }
-    @autobind
-    closeGroupInfoDialog() {
-        this.setState({
-            showGroupInfo: false,
-        });
-    }
     openUserInfoDialog(userInfo) {
         this.setState({
-            showUserInfo: true,
+            userInfoDialog: true,
             userInfo,
         });
         this.resetSearchView();
     }
-    @autobind
-    closeUserInfoDialog() {
-        this.setState({
-            showUserInfo: false,
-        });
-    }
-    @autobind
     renderSearchUsers(count = Infinity) {
         const { users } = this.state.searchResult;
         count = Math.min(count, users.length);
@@ -176,7 +150,6 @@ class Feature extends Component {
         }
         return usersDom;
     }
-    @autobind
     renderSearchGroups(count = Infinity) {
         const { groups } = this.state.searchResult;
         count = Math.min(count, groups.length);
@@ -198,20 +171,20 @@ class Feature extends Component {
     render() {
         const {
             showAddButton,
-            showCreateGroupDialog,
+            createGroupDialog,
             searchResult, showSearchResult,
             searchResultActiveKey,
-            showGroupInfo,
+            groupInfoDialog,
             groupInfo,
-            showUserInfo,
+            userInfoDialog,
             userInfo,
         } = this.state;
         return (
             <div className="chatPanel-feature">
                 <input className={showSearchResult ? 'focus' : 'blur'} type="text" placeholder="搜索群组/用户" autoComplete="false" ref={i => this.searchInput = i} onFocus={this.handleFocus} onKeyDown={this.handleInputKeyDown} />
                 <i className="iconfont icon-search" />
-                <IconButton style={{ display: showAddButton ? 'block' : 'none' }} width={40} height={40} icon="add" iconSize={38} onClick={this.showCreateGroupDialog} />
-                <Dialog className="create-group-dialog" title="创建群组" visible={showCreateGroupDialog} onClose={this.closeCreateGroupDialog}>
+                <IconButton style={{ display: showAddButton ? 'block' : 'none' }} width={40} height={40} icon="add" iconSize={38} onClick={this.toggleCreateGroupDialog} />
+                <Dialog className="create-group-dialog" title="创建群组" visible={createGroupDialog} onClose={this.closeCreateGroupDialog}>
                     <div className="content">
                         <h3>请输入群组名</h3>
                         <Input ref={i => this.groupName = i} />
@@ -268,8 +241,8 @@ class Feature extends Component {
                         }
                     </TabPane>
                 </Tabs>
-                <GroupInfo visible={showGroupInfo} groupInfo={groupInfo} onClose={this.closeGroupInfoDialog} />
-                <UserInfo visible={showUserInfo} userInfo={userInfo} onClose={this.closeUserInfoDialog} />
+                <GroupInfo visible={groupInfoDialog} groupInfo={groupInfo} onClose={this.toggleGroupInfoDialog} />
+                <UserInfo visible={userInfoDialog} userInfo={userInfo} onClose={this.toggleUserInfoDialog} />
             </div>
         );
     }
