@@ -31,7 +31,6 @@ import './Sidebar.less';
 /**
  * 页面左边侧栏
  */
-@autobind
 @booleanStateDecorator({
     settingDialog: false, // 设置
     userDialog: false, // 个人信息设置
@@ -40,6 +39,7 @@ import './Sidebar.less';
     appDownloadDialog: false, // APP下载
     adminDialog: false, // 管理员
 })
+@autobind
 class Sidebar extends Component {
     static logout() {
         action.logout();

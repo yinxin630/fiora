@@ -103,7 +103,7 @@ class Message extends Component {
                 }
                 $image.width = width * scale;
                 $image.height = height * scale;
-                $image.src = /^(blob|data):/.test(content) ? content.split('?')[0] : `${content}&imageView2/3/w/${$image.width * 1.2}/h/${$image.height * 1.2}`;
+                $image.src = /^(blob|data):/.test(content) ? content.split('?')[0] : `${content}&imageView2/3/w/${Math.floor($image.width * 1.2)}/h/${Math.floor($image.height * 1.2)}`;
             }
         }
         if (shouldScroll || isSelf) {
