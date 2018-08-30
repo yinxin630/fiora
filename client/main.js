@@ -1,7 +1,7 @@
 /* eslint-disable import/first */
 if (
-    (window.location.protocol === 'https' || window.location.hostname === 'localhost')
-    && 'serviceWorker' in navigator
+    (window.location.protocol === 'https:' || window.location.hostname === 'localhost')
+    && navigator.serviceWorker
 ) {
     window.addEventListener('load', () => {
         const sw = process.env.NODE_ENV === 'development' ? 'http://localhost:8080/static/fiora-sw.js' : 'https://fiora.suisuijiang.com/fiora-sw.js';
