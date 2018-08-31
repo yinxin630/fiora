@@ -4,7 +4,7 @@ if (
     && navigator.serviceWorker
 ) {
     window.addEventListener('load', () => {
-        const sw = process.env.NODE_ENV === 'development' ? 'http://localhost:8080/static/fiora-sw.js' : 'https://fiora.suisuijiang.com/fiora-sw.js';
+        const sw = process.env.NODE_ENV === 'development' ? '/static/fiora-sw.js' : '/fiora-sw.js';
         navigator.serviceWorker.register(sw);
     });
 }
