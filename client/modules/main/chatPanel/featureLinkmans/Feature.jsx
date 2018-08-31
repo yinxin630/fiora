@@ -184,7 +184,7 @@ class Feature extends Component {
                 <input className={showSearchResult ? 'focus' : 'blur'} type="text" placeholder="搜索群组/用户" autoComplete="false" ref={i => this.searchInput = i} onFocus={this.handleFocus} onKeyDown={this.handleInputKeyDown} />
                 <i className="iconfont icon-search" />
                 <IconButton style={{ display: showAddButton ? 'block' : 'none' }} width={40} height={40} icon="add" iconSize={38} onClick={this.toggleCreateGroupDialog} />
-                <Dialog className="create-group-dialog" title="创建群组" visible={createGroupDialog} onClose={this.closeCreateGroupDialog}>
+                <Dialog className="create-group-dialog" title="创建群组" visible={createGroupDialog} onClose={this.toggleCreateGroupDialog}>
                     <div className="content">
                         <h3>请输入群组名</h3>
                         <Input ref={i => this.groupName = i} />
