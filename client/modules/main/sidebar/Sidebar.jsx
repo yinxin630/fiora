@@ -245,6 +245,16 @@ class Sidebar extends Component {
                                 <a href="https://github.com/yinxin630/blog/issues/3" target="_black" rel="noopener noreferrer">https://github.com/yinxin630/blog/issues/3</a>
                             </div>
                             <div>
+                                <p>将fiora安装到主屏(PWA)</p>
+                                <ul>
+                                    <li>地址栏输入: Chrome://flags</li>
+                                    <li>搜索并启用以下项目: Desktop PWAs(桌面PWAs)、App Banners(应用横幅)、Experimental App Banners(实验性应用横幅)</li>
+                                    <li>重启浏览器使修改的设置生效</li>
+                                    <li>点击地址栏最右边按钮</li>
+                                    <li>选择&quot;安装 fiora&quot;</li>
+                                </ul>
+                            </div>
+                            <div>
                                 <p>输入框快捷键</p>
                                 <ul>
                                     <li>Alt + S: 发送滑稽</li>
