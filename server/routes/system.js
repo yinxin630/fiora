@@ -99,7 +99,7 @@ module.exports = {
         try {
             await fs.writeFile$(path.resolve(__dirname, `../../public/${ctx.data.fileName}`), ctx.data.file);
             return {
-                url: `http://${ip.address()}:${config.port}/${ctx.data.fileName}`,
+                url: `${process.env.NODE_ENV === 'production' ? '' : `http://${ip.address()}:${config.port}`}/${ctx.data.fileName}`,
             };
         } catch (err) {
             console.error(err);
