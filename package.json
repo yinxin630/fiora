@@ -56,6 +56,7 @@
     "react-viewer": "^2.3.9",
     "redux": "^3.7.2",
     "redux-immutable": "^4.0.0",
+    "script-ext-html-webpack-plugin": "^2.0.1",
     "socket.io-client": "^2.1.0",
     "xss": "^0.3.7"
   },

@@ -1,13 +1,15 @@
 const path = require('path');
-const utils = require('./utils');
 const webpack = require('webpack');
-const config = require('../config/webpack');
 const merge = require('webpack-merge');
-const baseWebpackConfig = require('./webpack.base.conf');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
+const ScriptExtHtmlPlugin = require('script-ext-html-webpack-plugin');
+
+const utils = require('./utils');
+const config = require('../config/webpack');
+const baseWebpackConfig = require('./webpack.base.conf');
 const pages = require('../config//pages');
 
 const htmlPlugins = pages.map(page => (
@@ -65,6 +67,15 @@ const webpackConfig = merge(baseWebpackConfig, {
             },
         ]),
         ...htmlPlugins,
+        new ScriptExtHtmlPlugin({
+            custom: [
+                {
+                    test: /\.js$/,
+                    attribute: 'crossorigin',
+                    value: 'anonymous',
+                },
+            ],
+        }),
     ],
 });
 
