@@ -17,16 +17,27 @@ document.body.appendChild($audio);
 
 let isPlaying = false;
 
+function play() {
+    if (!isPlaying) {
+        isPlaying = true;
+        const playPromise = $audio.play();
+        if (playPromise) {
+            playPromise.then(() => {
+                isPlaying = false;
+            }).catch(() => {
+                isPlaying = false;
+                $audio.load();
+                play();
+            });
+        }
+    }
+}
+
 export default function sound(type = 'default') {
     if (type !== prevType) {
         $source.setAttribute('src', sounds[type]);
         $audio.load();
         prevType = type;
     }
-    if (!isPlaying) {
-        isPlaying = true;
-        $audio.play().then(() => {
-            isPlaying = false;
-        });
-    }
+    play();
 }
