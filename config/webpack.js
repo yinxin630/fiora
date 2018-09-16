@@ -3,7 +3,7 @@ const options = require('../utils/commandOptions');
 
 const { env } = process;
 
-function getFirstNotUndefined(values) {
+function getFirstNotUndefined(...values) {
     for (const v of values) {
         if (v !== undefined) {
             return v;
