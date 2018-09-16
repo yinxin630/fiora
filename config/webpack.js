@@ -1,6 +1,16 @@
 const path = require('path');
 const options = require('../utils/commandOptions');
 
+const { env } = process;
+
+function getFirstNotUndefined(values) {
+    for (const v of values) {
+        if (v !== undefined) {
+            return v;
+        }
+    }
+}
+
 module.exports = {
     commonn: {
         convertPxToRem: {
@@ -25,8 +35,8 @@ module.exports = {
         },
         index: path.resolve(__dirname, '../dist/index.html'),
         assetsRoot: path.resolve(__dirname, '../dist/fiora'),
-        assetsSubDirectory: options.subDirectory !== undefined ? options.subDirectory : '.',
-        assetsPublicPath: options.publicPath !== undefined ? options.publicPath : '/',
+        assetsSubDirectory: getFirstNotUndefined(options.subDirectory, env.SubDirectory, '.'),
+        assetsPublicPath: getFirstNotUndefined(options.publicPath, env.PublicPath, '/'),
         productionSourceMap: false,
         productionGzip: false,
         productionGzipExtensions: ['js', 'css'],
