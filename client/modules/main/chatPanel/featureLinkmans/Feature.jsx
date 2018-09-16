@@ -81,7 +81,7 @@ class Feature extends Component {
                 res.type = 'group';
                 action.addLinkman(res, true);
                 this.groupName.clear();
-                this.closeCreateGroupDialog();
+                this.toggleCreateGroupDialog();
                 Message.success('创建群组成功');
             }
         });
