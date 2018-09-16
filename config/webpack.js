@@ -49,7 +49,7 @@ module.exports = {
         host: 'localhost',
         port: 8080,
         autoOpenBrowser: true,
-        assetsSubDirectory: 'static',
+        assetsSubDirectory: '.',
         assetsPublicPath: '/',
         proxyTable: {},
         cssSourceMap: false,
