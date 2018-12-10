@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import autobind from 'autobind-decorator';
 import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 
 import Dialog from '@/components/Dialog';
@@ -18,8 +17,7 @@ class GroupInfo extends Component {
         onClose: PropTypes.func,
         hasLinkman: PropTypes.bool.isRequired,
     }
-    @autobind
-    async handleJoinGroup() {
+    handleJoinGroup = async () => {
         const { groupInfo, onClose } = this.props;
         onClose();
         const [err, res] = await fetch('joinGroup', { groupId: groupInfo._id });
@@ -32,8 +30,7 @@ class GroupInfo extends Component {
             }
         }
     }
-    @autobind
-    handleFocusGroup() {
+    handleFocusGroup = () => {
         const { groupInfo, onClose } = this.props;
         onClose();
         action.setFocus(groupInfo._id);

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import autobind from 'autobind-decorator';
 import platform from 'platform';
 
 import socket from '@/socket';
@@ -10,8 +9,7 @@ import Message from '@/components/Message';
 import './Login.less';
 
 class Login extends Component {
-    @autobind
-    handleLogin() {
+    handleLogin = () => {
         socket.emit('login', {
             username: this.loginUsername.getValue(),
             password: this.loginPassword.getValue(),
@@ -28,8 +26,7 @@ class Login extends Component {
             }
         });
     }
-    @autobind
-    handleRegister() {
+    handleRegister = () => {
         socket.emit('register', {
             username: this.registerUsername.getValue(),
             password: this.registerPassword.getValue(),

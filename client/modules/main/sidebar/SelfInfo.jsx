@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactLoading from 'react-loading';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import autobind from 'autobind-decorator';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 
@@ -19,7 +18,6 @@ import uploadFile from 'utils/uploadFile';
 import config from '../../../../config/client';
 
 
-@autobind
 class SelfInfo extends Component {
     static propTypes = {
         visible: PropTypes.bool.isRequired,
@@ -34,7 +32,7 @@ class SelfInfo extends Component {
         cropperSrc: '',
         cropperExt: 'png',
     }
-    toggleAvatarLoading() {
+    toggleAvatarLoading = () => {
         this.setState({
             loading: !this.state.loading,
         });
@@ -42,7 +40,7 @@ class SelfInfo extends Component {
     /**
      * 修改头像
      */
-    async selectAvatar() {
+    selectAvatar = async () => {
         const file = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
         if (!file) {
             return;
@@ -67,7 +65,7 @@ class SelfInfo extends Component {
             };
         }
     }
-    async uploadAvatar(blob, ext = 'png') {
+    uploadAvatar = async (blob, ext = 'png') => {
         this.toggleAvatarLoading();
 
         try {
@@ -87,7 +85,7 @@ class SelfInfo extends Component {
             this.toggleAvatarLoading();
         }
     }
-    changeAvatar() {
+    changeAvatar = () => {
         this.cropper.getCroppedCanvas().toBlob(async (blob) => {
             this.uploadAvatar(blob, this.state.cropperExt);
         });
@@ -95,7 +93,7 @@ class SelfInfo extends Component {
     /**
      * 修改密码
      */
-    async changePassword() {
+    changePassword = async () => {
         const [err] = await fetch('changePassword', {
             oldPassword: this.oldPassword.getValue(),
             newPassword: this.newPassword.getValue(),

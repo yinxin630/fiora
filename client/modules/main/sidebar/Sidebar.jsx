@@ -5,7 +5,6 @@ import { TwitterPicker } from 'react-color';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import Switch from 'react-switch';
 import ReactLoading from 'react-loading';
-import autobind from 'autobind-decorator';
 
 import action from '@/state/action';
 import socket from '@/socket';
@@ -39,7 +38,6 @@ import './Sidebar.less';
     appDownloadDialog: false, // APP下载
     adminDialog: false, // 管理员
 })
-@autobind
 class Sidebar extends Component {
     static logout() {
         action.logout();
@@ -86,24 +84,24 @@ class Sidebar extends Component {
             backgroundLoading: false,
         };
     }
-    handlePrimaryColorChange(color) {
+    handlePrimaryColorChange = (color) => {
         const primaryColor = `${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`;
         const { primaryTextColor } = this.props;
         action.setPrimaryColor(`${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`);
         setCssVariable(primaryColor, primaryTextColor);
     }
-    handlePrimaryTextColorChange(color) {
+    handlePrimaryTextColorChange = (color) => {
         const primaryTextColor = `${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`;
         const { primaryColor } = this.props;
         action.setPrimaryTextColor(`${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`);
         setCssVariable(primaryColor, primaryTextColor);
     }
-    toggleBackgroundLoading() {
+    toggleBackgroundLoading = () => {
         this.setState({
             backgroundLoading: !this.state.backgroundLoading,
         });
     }
-    async selectBackgroundImage() {
+    selectBackgroundImage = async () => {
         this.toggleBackgroundLoading();
         try {
             const file = await readDiskFile('base64', 'image/png,image/jpeg,image/gif');

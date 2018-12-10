@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import autobind from 'autobind-decorator';
 import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 
 import Dialog from '@/components/Dialog';
@@ -26,8 +25,7 @@ class AdminDialog extends Component {
             this.getSealList();
         }
     }
-    @autobind
-    async getSealList() {
+    getSealList = async () => {
         const [err, res] = await fetch('getSealList');
         if (!err) {
             this.setState({
@@ -35,8 +33,7 @@ class AdminDialog extends Component {
             });
         }
     }
-    @autobind
-    async handleSeal() {
+    handleSeal = async () => {
         const [err] = await fetch('sealUser', { username: this.seatUsername.getValue() });
         if (!err) {
             Message.success('封禁用户成功');

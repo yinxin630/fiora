@@ -3,7 +3,6 @@ import { shouldComponentUpdate } from 'react-immutable-render-mixin';
 import PropTypes from 'prop-types';
 
 import { Select, Option } from '@/components/Select';
-import autobind from 'autobind-decorator';
 
 const languages = [
     'javascript',
@@ -182,17 +181,14 @@ class CodeEditor extends Component {
             value: '',
         });
     }
-    @autobind
-    handleSelectLanguage(lang) {
+    handleSelectLanguage = (lang) => {
         this.setState({
             lang,
         });
     }
-    @autobind
-    handleChange(newValue) {
+    handleChange = (newValue) => {
         this.setState({ value: newValue });
     }
-    @autobind
     renderEditor() {
         const { value, lang } = this.state;
         const editorProps = {

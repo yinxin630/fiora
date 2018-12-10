@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import autobind from 'autobind-decorator';
 import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
@@ -14,7 +13,6 @@ import fetch from 'utils/fetch';
 import getFriendId from 'utils/getFriendId';
 
 @immutableRenderDecorator
-@autobind
 class UserInfo extends Component {
     static propTypes = {
         visible: PropTypes.bool,
@@ -27,12 +25,12 @@ class UserInfo extends Component {
     state = {
         showLargeAvatar: false,
     }
-    handleFocusUser() {
+    handleFocusUser = () => {
         const { userInfo, userId, onClose } = this.props;
         onClose();
         action.setFocus(getFriendId(userInfo._id, userId));
     }
-    async handleAddFriend() {
+    handleAddFriend = async () => {
         const { userInfo, userId, linkman, onClose } = this.props;
         const [err, res] = await fetch('addFriend', { userId: userInfo._id });
         if (!err) {
@@ -62,7 +60,7 @@ class UserInfo extends Component {
             }
         }
     }
-    async handleDeleteFriend() {
+    handleDeleteFriend = async () => {
         const { userInfo, userId, onClose } = this.props;
         const [err] = await fetch('deleteFriend', { userId: userInfo._id });
         if (!err) {
@@ -71,18 +69,18 @@ class UserInfo extends Component {
             Message.success('删除好友成功');
         }
     }
-    async handleSeal() {
+    handleSeal = async () => {
         const [err] = await fetch('sealUser', { username: this.props.userInfo.username });
         if (!err) {
             Message.success('封禁用户成功');
         }
     }
-    mouseEnterAvatar() {
+    mouseEnterAvatar = () => {
         this.setState({
             showLargeAvatar: true,
         });
     }
-    mouseLeaveAvatar() {
+    mouseLeaveAvatar = () => {
         this.setState({
             showLargeAvatar: false,
         });

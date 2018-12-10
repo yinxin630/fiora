@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import autobind from 'autobind-decorator';
 
 import IconButton from '@/components/IconButton';
 import Dialog from '@/components/Dialog';
@@ -20,7 +19,6 @@ import UserInfo from '../UserInfo';
     userInfoDialog: false,
     createGroupDialog: false,
 })
-@autobind
 class Feature extends Component {
     constructor(...args) {
         super(...args);
@@ -39,7 +37,7 @@ class Feature extends Component {
     componentDidMount() {
         document.body.addEventListener('click', this.handleBodyClick, false);
     }
-    resetSearchView() {
+    resetSearchView = () => {
         this.setState({
             showSearchResult: false,
             showAddButton: true,
@@ -66,13 +64,13 @@ class Feature extends Component {
         } while (target !== currentTarget);
         this.resetSearchView();
     }
-    handleFocus() {
+    handleFocus = () => {
         this.setState({
             showAddButton: false,
             showSearchResult: true,
         });
     }
-    handleCreateGroup() {
+    handleCreateGroup = () => {
         const name = this.groupName.getValue();
         socket.emit('createGroup', { name }, (res) => {
             if (typeof res === 'string') {
@@ -86,7 +84,7 @@ class Feature extends Component {
             }
         });
     }
-    async search() {
+    search = async () => {
         const keywords = this.searchInput.value.trim();
         const [searchError, searchResult] = await fetch('search', { keywords });
         if (!searchError) {
@@ -98,7 +96,7 @@ class Feature extends Component {
             });
         }
     }
-    handleInputKeyDown(e) {
+    handleInputKeyDown = (e) => {
         if (e.key === 'Enter') {
             setTimeout(() => {
                 this.search();
@@ -106,29 +104,29 @@ class Feature extends Component {
             }, 0);
         }
     }
-    handleActiveKeyChange(key) {
+    handleActiveKeyChange = (key) => {
         this.setState({
             searchResultActiveKey: key,
         });
     }
-    switchTabToUser() {
+    switchTabToUser = () => {
         this.setState({
             searchResultActiveKey: 'user',
         });
     }
-    switchTabToGroup() {
+    switchTabToGroup = () => {
         this.setState({
             searchResultActiveKey: 'group',
         });
     }
-    openGroupInfoDialog(groupInfo) {
+    openGroupInfoDialog = (groupInfo) => {
         this.setState({
             groupInfoDialog: true,
             groupInfo,
         });
         this.resetSearchView();
     }
-    openUserInfoDialog(userInfo) {
+    openUserInfoDialog = (userInfo) => {
         this.setState({
             userInfoDialog: true,
             userInfo,

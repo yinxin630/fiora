@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import autobind from 'autobind-decorator';
 import Viewer from 'react-viewer';
 import Prism from 'prismjs';
 import 'react-viewer/dist/index.css';
@@ -119,39 +118,33 @@ class Message extends Component {
             this.state.showImage === nextState.showImage
         );
     }
-    @autobind
-    showCode() {
+    showCode = () => {
         this.setState({
             showCode: true,
         });
     }
-    @autobind
-    hideCode() {
+    hideCode = () => {
         this.setState({
             showCode: false,
         });
     }
-    @autobind
-    showImageViewer() {
+    showImageViewer = () => {
         this.setState({
             showImage: true,
         });
     }
-    @autobind
-    hideImageViewer() {
+    hideImageViewer = () => {
         this.setState({
             showImage: false,
         });
     }
-    @autobind
-    handleClickAvatar() {
+    handleClickAvatar = () => {
         const { isSelf, openUserInfoDialog } = this.props;
         if (!isSelf) {
             openUserInfoDialog();
         }
     }
-    @autobind
-    async joinGroup() {
+    joinGroup = async () => {
         const inviteInfo = JSON.parse(this.props.content);
 
         const [err, res] = await fetch('joinGroup', { groupId: inviteInfo.groupId });
