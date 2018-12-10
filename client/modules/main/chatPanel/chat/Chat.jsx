@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import autobind from 'autobind-decorator';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -57,8 +56,7 @@ class Chat extends Component {
         } while (target !== currentTarget);
         this.closeGroupInfo();
     }
-    @autobind
-    async groupInfoDialog(e) {
+    groupInfoDialog = async (e) => {
         const { focus, userId } = this.props;
         this.setState({
             groupInfoDialog: true,
@@ -77,27 +75,23 @@ class Chat extends Component {
             action.setGroupMembers(focus, result);
         }
     }
-    @autobind
-    closeGroupInfo() {
+    closeGroupInfo = () => {
         this.setState({
             groupInfoDialog: false,
         });
     }
-    @autobind
-    showUserInfoDialog(userInfo) {
+    showUserInfoDialog = (userInfo) => {
         this.setState({
             userInfoDialog: true,
             userInfo,
         });
     }
-    @autobind
-    closeUserInfoDialog() {
+    closeUserInfoDialog = () => {
         this.setState({
             userInfoDialog: false,
         });
     }
-    @autobind
-    async changeGroupAvatar() {
+    changeGroupAvatar = async () => {
         const { userId, focus } = this.props;
         const image = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
         if (!image) {
@@ -119,8 +113,7 @@ class Chat extends Component {
             Message.error('上传群头像失败');
         }
     }
-    @autobind
-    async leaveGroup() {
+    leaveGroup = async () => {
         const { focus } = this.props;
         const [err] = await fetch('leaveGroup', { groupId: focus });
         if (!err) {
