@@ -158,7 +158,11 @@ class ChatInput extends Component {
         const code = `@language=${language}@${rawCode}`;
         const id = this.addSelfMessage('code', code);
         this.sendMessage(id, 'code', code);
-        this.handleCodeEditorClose();
+        this.codeEditor.clear();
+        // 不加延时就清不掉内容
+        setTimeout(() => {
+            this.handleCodeEditorClose();
+        }, 0);
     }
     async handleInputKeyDown(e) {
         if (e.key === 'Tab') {
