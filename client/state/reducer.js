@@ -121,7 +121,7 @@ function reducer(state = initialState, action) {
                 const messages2 = linkman2.get('messages');
                 const time1 = messages1.size > 0 ? messages1.get(messages1.size - 1).get('createTime') : linkman1.get('createTime');
                 const time2 = messages2.size > 0 ? messages2.get(messages2.size - 1).get('createTime') : linkman2.get('createTime');
-                return new Date(time1) < new Date(time2);
+                return new Date(time1) < new Date(time2) ? 1 : -1;
             });
         return state
             .setIn(['user', 'linkmans'], newLinkmans)
