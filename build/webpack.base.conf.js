@@ -34,7 +34,6 @@ module.exports = {
             {
                 test: /\.jsx?$/,
                 loader: 'babel-loader',
-                include: [resolve('client')],
                 exclude: /node_modules/,
             },
             {

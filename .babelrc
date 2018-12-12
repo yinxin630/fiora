@@ -4,9 +4,8 @@
         [
             "env",
             {
-                "targets": {
-                    "browsers": ["last 3 versions"]
-                },
+                "targets": "> 0.5%, last 3 versions, Firefox ESR, not dead",
+                "useBuiltIns": "entry",
                 "modules": false
             }
         ],
