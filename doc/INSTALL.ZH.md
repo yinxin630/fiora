@@ -10,6 +10,8 @@
 
 ## 第二步
 
+修改eslint配置文件，如果你是在unix下开发，将规则`"linebreak-style: ["error","windows"]"`替换为`"linebreak-style: ["error","unix"]"`
+
 安装依赖, 推荐使用yarn `yarn` 或者 `npm install`
 
 ![](./screenshots/yarn.png)

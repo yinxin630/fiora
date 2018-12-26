@@ -10,6 +10,8 @@ Clone the project to the local `git clone https://github.com/yinxin630/fiora.git
 
 ## Step 2
 
+modify eslint config, if your system is Unix, replace rule `"linebreak-style: ["error","windows"]"` as `"linebreak-style: ["error","unix"]"` 
+
 Installation dependencies, recommended yarn `yarn` or `npm install`
 
 ![](./screenshots/yarn.png)
