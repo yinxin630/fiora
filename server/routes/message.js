@@ -85,6 +85,7 @@ module.exports = {
     },
     async getLinkmansLastMessages(ctx) {
         const { linkmans } = ctx.data;
+        assert(Array.isArray(linkmans), '参数linkmans应该是Array');
 
         const promises = linkmans.map(linkmanId =>
             Message

@@ -2,6 +2,20 @@ import axios from 'axios';
 import fetch from './fetch';
 import sleep from './sleep';
 
+const taskQueue = [];
+let isWorking = false;
+async function handleTaskQueue() {
+    isWorking = true;
+    const task = taskQueue.shift();
+    if (task) {
+        await voice.read(task.text, task.cuid);
+        await sleep(200);
+        await handleTaskQueue();
+    } else {
+        isWorking = false;
+    }
+}
+
 let baiduToken = '';
 const voice = {
     async read(text, cuid) {
@@ -17,11 +31,6 @@ const voice = {
         const blob = res.data;
         if (blob.type === 'application/json') {
             console.warn('合成语言失败');
-            const reader = new FileReader();
-            reader.onload = function () {
-                console.warn(JSON.parse(this.result));
-            };
-            reader.readAsText(blob);
         } else {
             $source.setAttribute('src', URL.createObjectURL(blob));
             $audio.load();
@@ -34,6 +43,9 @@ const voice = {
     },
     push(text, cuid) {
         taskQueue.push({ text, cuid });
+        if (!isWorking) {
+            handleTaskQueue();
+        }
     },
 };
 
@@ -43,20 +55,6 @@ $source.setAttribute('type', 'audio/mp3');
 $source.setAttribute('src', '');
 $audio.appendChild($source);
 document.body.appendChild($audio);
-
-const taskQueue = [];
-
-async function handleTaskQueue() {
-    const task = taskQueue.shift();
-    if (task) {
-        await voice.read(task.text, task.cuid);
-        await sleep(200);
-        await handleTaskQueue();
-    } else {
-        setTimeout(handleTaskQueue, 500);
-    }
-}
-handleTaskQueue();
 
 export default voice;
 
