@@ -1,3 +1,8 @@
+/**
+ * 读取本地文件
+ * @param {string} resultType 数据类型, {blob|base64}, 默认blob
+ * @param {string} accept 可选文件类型, 默认 * / *
+ */
 export default async function readDiskFIle(resultType = 'blob', accept = '*/*') {
     const result = await new Promise((resolve) => {
         const $input = document.createElement('input');
