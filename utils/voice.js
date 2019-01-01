@@ -1,6 +1,5 @@
 import axios from 'axios';
 import fetch from './fetch';
-import sleep from './sleep';
 
 const taskQueue = [];
 let isWorking = false;
@@ -9,7 +8,6 @@ async function handleTaskQueue() {
     const task = taskQueue.shift();
     if (task) {
         await voice.read(task.text, task.cuid);
-        await sleep(200);
         await handleTaskQueue();
     } else {
         isWorking = false;
