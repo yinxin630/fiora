@@ -18,6 +18,7 @@ import setCssVariable from 'utils/setCssVariable';
 import readDiskFile from 'utils/readDiskFile';
 import playSound from 'utils/sound';
 import booleanStateDecorator from 'utils/booleanStateDecorator';
+import uploadFile from 'utils/uploadFile';
 import OnlineStatus from './OnlineStatus';
 import AppDownload from './AppDownload';
 import AdminDialog from './AdminDialog';
@@ -77,6 +78,7 @@ class Sidebar extends Component {
         notificationSwitch: PropTypes.bool,
         voiceSwitch: PropTypes.bool,
         isAdmin: PropTypes.bool,
+        userId: PropTypes.string,
     }
     constructor(...args) {
         super(...args);
@@ -104,14 +106,20 @@ class Sidebar extends Component {
     selectBackgroundImage = async () => {
         this.toggleBackgroundLoading();
         try {
-            const file = await readDiskFile('base64', 'image/png,image/jpeg,image/gif');
-            if (!file) {
+            const image = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
+            if (!image) {
                 return;
             }
-            if (file.length > config.maxBackgroundImageSize) {
+            if (image.length > config.maxBackgroundImageSize) {
                 return Message.error('设置背景图失败, 请选择小于3MB的图片');
             }
-            action.setBackgroundImage(file.result);
+            const { userId } = this.props;
+            const imageUrl = await uploadFile(
+                image.result,
+                `BackgroundImage/${userId}_${Date.now()}`,
+                `BackgroundImage_${userId}_${Date.now()}.${image.ext}`,
+            );
+            action.setBackgroundImage(imageUrl);
         } finally {
             this.toggleBackgroundLoading();
         }
@@ -284,4 +292,5 @@ export default connect(state => ({
     soundSwitch: state.getIn(['ui', 'soundSwitch']),
     notificationSwitch: state.getIn(['ui', 'notificationSwitch']),
     voiceSwitch: state.getIn(['ui', 'voiceSwitch']),
+    userId: state.getIn(['user', '_id']),
 }))(Sidebar);
