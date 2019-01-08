@@ -164,10 +164,15 @@ class Chat extends Component {
                 <div className={`float-panel group-info ${groupInfoDialog ? 'show' : 'hide'}`}>
                     <p>群组信息</p>
                     <div>
-                        <div className="avatar" style={{ display: !!userId && userId === creator ? 'block' : 'none' }}>
-                            <p>群头像</p>
-                            <img src={avatar} onClick={this.changeGroupAvatar} />
-                        </div>
+                        {
+                            !!userId && userId === creator ?
+                                <div className="avatar">
+                                    <p>群头像</p>
+                                    <img src={avatar} onClick={this.changeGroupAvatar} />
+                                </div>
+                                :
+                                null
+                        }
                         <div className="feature" style={{ display: !!userId && userId === creator ? 'none' : 'block' }}>
                             <p>功能</p>
                             <Button type="danger" onClick={this.leaveGroup}>退出群组</Button>
