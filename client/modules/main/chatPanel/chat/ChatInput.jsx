@@ -265,8 +265,7 @@ class ChatInput extends Component {
 
         return _id;
     }
-    sendMessage = async (localId, type, content) => {
-        const { focus } = this.props;
+    sendMessage = async (localId, type, content, focus = this.props.focus) => {
         const [err, res] = await fetch('sendMessage', {
             to: focus,
             type,
@@ -288,7 +287,6 @@ class ChatInput extends Component {
             return Message.warning('要发送的图片过大', 3);
         }
 
-        const { userId, focus } = this.props;
         const ext = image.type.split('/').pop().toLowerCase();
         const url = URL.createObjectURL(image.result);
 
@@ -296,6 +294,7 @@ class ChatInput extends Component {
         img.onload = async () => {
             const id = this.addSelfMessage('image', `${url}?width=${img.width}&height=${img.height}`);
             try {
+                const { userId, focus } = this.props;
                 const imageUrl = await uploadFile(
                     image.result,
                     `ImageMessage/${userId}_${Date.now()}.${ext}`,
@@ -304,7 +303,7 @@ class ChatInput extends Component {
                         action.updateSelfMessage(focus, id, { percent: info.total.percent });
                     },
                 );
-                this.sendMessage(id, 'image', `${imageUrl}?width=${img.width}&height=${img.height}`);
+                this.sendMessage(id, 'image', `${imageUrl}?width=${img.width}&height=${img.height}`, focus);
             } catch (err) {
                 console.error(err);
                 Message.error('上传图片失败');
