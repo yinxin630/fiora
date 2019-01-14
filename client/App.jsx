@@ -22,7 +22,6 @@ class App extends Component {
         this.state = {
             width: App.getWidth(),
             height: 0.85,
-            resize: 0,
             backgroundWidth: window.innerWidth,
             backgroundHeight: window.innerHeight,
         };
@@ -38,11 +37,12 @@ class App extends Component {
         img.src = this.props.backgroundImage;
 
         window.onresize = () => {
-            // 触发rerender
-            this.setState({
-                resize: this.state.resize + 1,
-                width: App.getWidth(),
-            });
+            const currentWidth = App.getWidth();
+            if (currentWidth !== this.state.width) {
+                this.setState({
+                    width: App.getWidth(),
+                });
+            }
         };
     }
     get style() {
