@@ -53,7 +53,7 @@ class Chat extends Component {
                 return;
             }
             target = target.parentElement;
-        } while (target !== currentTarget);
+        } while (target && target !== currentTarget);
         this.closeGroupInfo();
     }
     groupInfoDialog = async (e) => {

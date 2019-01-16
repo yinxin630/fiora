@@ -61,7 +61,7 @@ class Feature extends Component {
                 return;
             }
             target = target.parentElement;
-        } while (target !== currentTarget);
+        } while (target && target !== currentTarget);
         this.resetSearchView();
     }
     handleFocus = () => {
@@ -133,7 +133,7 @@ class Feature extends Component {
         });
         this.resetSearchView();
     }
-    renderSearchUsers(count = Infinity) {
+    renderSearchUsers(count = 999) {
         const { users } = this.state.searchResult;
         count = Math.min(count, users.length);
 
@@ -148,7 +148,7 @@ class Feature extends Component {
         }
         return usersDom;
     }
-    renderSearchGroups(count = Infinity) {
+    renderSearchGroups(count = 999) {
         const { groups } = this.state.searchResult;
         count = Math.min(count, groups.length);
 
