@@ -33,7 +33,7 @@ const voice = {
             $source.setAttribute('src', URL.createObjectURL(blob));
             $audio.load();
             const promise = new Promise((resolve) => {
-                $audio.addEventListener('ended', resolve);
+                $audio.onended = resolve;
             });
             $audio.play();
             await promise;

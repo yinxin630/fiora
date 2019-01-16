@@ -37,6 +37,9 @@ class Feature extends Component {
     componentDidMount() {
         document.body.addEventListener('click', this.handleBodyClick, false);
     }
+    componentWillUnmount() {
+        document.body.removeEventListener('click', this.handleBodyClick, false);
+    }
     resetSearchView = () => {
         this.setState({
             showSearchResult: false,

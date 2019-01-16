@@ -24,7 +24,7 @@ import socket from './socket';
 import notification from '../utils/notification';
 import sound from '../utils/sound';
 import getFriendId from '../utils/getFriendId';
-import convertRobot10Message from '../utils/convertRobot10Message';
+// import convertRobot10Message from '../utils/convertRobot10Message';
 import voice from '../utils/voice';
 
 if (window.Notification && (window.Notification.permission === 'default' || window.Notification.permission === 'denied')) {
@@ -72,7 +72,7 @@ socket.on('disconnect', () => {
 let prevFrom = '';
 socket.on('message', (message) => {
     // robot10
-    convertRobot10Message(message);
+    // convertRobot10Message(message);
 
     const state = store.getState();
     const isSelfMessage = message.from._id === state.getIn(['user', '_id']);
@@ -134,7 +134,7 @@ socket.on('message', (message) => {
         const text = message.content
             .replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g, '')
             .replace(/#/g, '');
-        // The maximum number of words is 200
+
         if (text.length > 100) {
             return;
         }

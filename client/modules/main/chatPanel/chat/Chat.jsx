@@ -39,9 +39,12 @@ class Chat extends Component {
         };
     }
     componentDidMount() {
-        document.body.addEventListener('click', this.handleBodyClick.bind(this), false);
+        document.body.addEventListener('click', this.handleBodyClick, false);
     }
-    handleBodyClick(e) {
+    componentWillUnmount() {
+        document.body.removeEventListener('click', this.handleBodyClick, false);
+    }
+    handleBodyClick = (e) => {
         if (!this.state.groupInfoDialog) {
             return;
         }
