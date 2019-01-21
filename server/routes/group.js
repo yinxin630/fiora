@@ -132,7 +132,7 @@ module.exports = {
 
         const group = await Group.findOne({ _id: groupId });
         assert(group, '群组不存在');
-        assert(group.creator === ctx.socket.user.toString(), '只有群主才能修改头像');
+        assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能修改头像');
 
         await Group.update({ _id: groupId }, { avatar });
         return {};
