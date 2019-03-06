@@ -59,9 +59,9 @@ class Login extends Component {
         return (
             <div className="pane">
                 <h3>用户名</h3>
-                <Input ref={i => this.registerUsername = i} onEnter={this.handleRegister} placeholder="用户名即昵称, 请慎重, 不可修改" />
+                <Input ref={i => this.registerUsername = i} onEnter={this.handleRegister} placeholder="用户名即昵称, 支持中文, 请慎重填写, 不可修改" />
                 <h3>密码</h3>
-                <Input type="password" ref={i => this.registerPassword = i} onEnter={this.handleRegister} placeholder="暂时也不支持修改" />
+                <Input type="password" ref={i => this.registerPassword = i} onEnter={this.handleRegister} placeholder="暂时也不支持修改密码" />
                 <button onClick={this.handleRegister}>注册</button>
             </div>
         );
