@@ -87,7 +87,7 @@ class UserInfo extends Component {
     }
     render() {
         const { visible, userInfo, onClose, linkman, isAdmin } = this.props;
-        const isFriend = !!linkman;
+        const isFriend = linkman && linkman.get('type') === 'friend';
         return (
             <Dialog className="info-dialog" visible={visible} onClose={onClose}>
                 <div>
@@ -149,9 +149,10 @@ export default connect((state, props) => {
         };
     }
 
+    const friendId = getFriendId(props.userInfo._id, userId);
     const linkman = state
         .getIn(['user', 'linkmans'])
-        .find(l => l.get('to') === props.userInfo._id && l.get('type') === 'friend');
+        .find(l => l.get('_id') === friendId);
     return {
         linkman,
         userId: state.getIn(['user', '_id']),

@@ -26,7 +26,6 @@ class Chat extends Component {
         userId: PropTypes.string,
         creator: PropTypes.string,
         avatar: PropTypes.string,
-        to: PropTypes.string,
         name: PropTypes.string,
         type: PropTypes.string,
     }
@@ -158,10 +157,10 @@ class Chat extends Component {
     }
     render() {
         const { groupInfoDialog, userInfoDialog, userInfo } = this.state;
-        const { userId, creator, avatar, type, to, name, members } = this.props;
+        const { userId, creator, avatar, type, focus = '', name, members } = this.props;
         return (
             <div className="module-main-chat">
-                <HeaderBar onShowInfo={type === 'group' ? this.groupInfoDialog : this.showUserInfoDialog.bind(this, { _id: to, username: name, avatar })} />
+                <HeaderBar onShowInfo={type === 'group' ? this.groupInfoDialog : this.showUserInfoDialog.bind(this, { _id: focus.replace(userId, ''), username: name, avatar })} />
                 <MessageList showUserInfoDialog={this.showUserInfoDialog} />
                 <ChatInput members={members} />
                 <div className={`float-panel group-info ${groupInfoDialog ? 'show' : 'hide'}`}>
@@ -212,7 +211,6 @@ export default connect((state) => {
         focus,
         type: linkman.get('type'),
         creator: linkman.get('creator'),
-        to: linkman.get('to'),
         name: linkman.get('name'),
         avatar: linkman.get('avatar'),
         members: linkman.get('members') || immutable.fromJS([]),
