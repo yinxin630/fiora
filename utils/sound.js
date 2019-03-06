@@ -17,18 +17,16 @@ document.body.appendChild($audio);
 
 let isPlaying = false;
 
-function play() {
+async function play() {
     if (!isPlaying) {
         isPlaying = true;
-        const playPromise = $audio.play();
-        if (playPromise) {
-            playPromise.then(() => {
-                isPlaying = false;
-            }).catch(() => {
-                isPlaying = false;
-                $audio.load();
-                play();
-            });
+
+        try {
+            await $audio.play();
+        } catch (err) {
+            console.warn('播放新消息提示音失败', err.message);
+        } finally {
+            isPlaying = false;
         }
     }
 }

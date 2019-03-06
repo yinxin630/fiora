@@ -32,11 +32,16 @@ const voice = {
         } else {
             $source.setAttribute('src', URL.createObjectURL(blob));
             $audio.load();
-            const promise = new Promise((resolve) => {
-                $audio.onended = resolve;
-            });
-            $audio.play();
-            await promise;
+
+            try {
+                const playEndPromise = new Promise((resolve) => {
+                    $audio.onended = resolve;
+                });
+                await $audio.play();
+                return playEndPromise;
+            } catch (err) {
+                console.warn('语言朗读消息失败', err.message);
+            }
         }
     },
     push(text, cuid) {
