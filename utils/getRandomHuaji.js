@@ -4,7 +4,7 @@ const huaji = {
     2: `${require('@/assets/images/huaji/2.jpeg')}?width=245&height=206&huaji=true`,
     3: `${require('@/assets/images/huaji/3.jpeg')}?width=225&height=225&huaji=true`,
     4: `${require('@/assets/images/huaji/4.jpeg')}?width=224&height=225&huaji=true`,
-    5: `${require('@/assets/images/huaji/5.jpg')}?width=400&height=400&huaji=true`,
+    5: `${require('@/assets/images/huaji/5.jpg')}?width=200&height=200&huaji=true`,
     6: `${require('@/assets/images/huaji/6.jpeg')}?width=284&height=177&huaji=true7`,
     7: `${require('@/assets/images/huaji/7.jpg')}?width=300&height=300&huaji=true`,
     8: `${require('@/assets/images/huaji/8.jpeg')}?width=225&height=225&huaji=true`,
@@ -17,7 +17,7 @@ const huaji = {
     15: `${require('@/assets/images/huaji/15.jpeg')}?width=224&height=224&huaji=true`,
     16: `${require('@/assets/images/huaji/16.jpeg')}?width=225&height=225&huaji=true`,
     17: `${require('@/assets/images/huaji/17.jpeg')}?width=225&height=225&huaji=true`,
-    18: `${require('@/assets/images/huaji/18.jpeg')}?width=224&height=224&huaji=true`,
+    18: `${require('@/assets/images/huaji/18.gif')}?width=100&height=110&huaji=true`,
     19: `${require('@/assets/images/huaji/19.jpeg')}?width=225&height=225&huaji=true`,
     20: `${require('@/assets/images/huaji/20.jpeg')}?width=225&height=225&huaji=true`,
     21: `${require('@/assets/images/huaji/21.jpeg')}?width=225&height=225&huaji=true`,
@@ -31,6 +31,11 @@ const huaji = {
     29: `${require('@/assets/images/huaji/29.jpeg')}?width=278&height=182&huaji=true`,
     30: `${require('@/assets/images/huaji/30.jpeg')}?width=228&height=221&huaji=true`,
     31: `${require('@/assets/images/huaji/31.jpeg')}?width=239&height=211&huaji=true`,
+    32: `${require('@/assets/images/huaji/32.jpg')}?width=220&height=220&huaji=true`,
+    33: `${require('@/assets/images/huaji/33.gif')}?width=220&height=220&huaji=true`,
+    34: `${require('@/assets/images/huaji/34.gif')}?width=164&height=192&huaji=true`,
+    35: `${require('@/assets/images/huaji/35.gif')}?width=130&height=62&huaji=true`,
+    36: `${require('@/assets/images/huaji/36.gif')}?width=187&height=144&huaji=true`,
 };
 const HuajiaCount = Object.keys(huaji).length;
 

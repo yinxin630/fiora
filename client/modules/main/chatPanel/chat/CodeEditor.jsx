@@ -3,7 +3,6 @@ import { shouldComponentUpdate } from 'react-immutable-render-mixin';
 import PropTypes from 'prop-types';
 
 import { Select, Option } from '@/components/Select';
-import autobind from 'autobind-decorator';
 
 const languages = [
     'javascript',
@@ -62,8 +61,9 @@ function createLanguage(lang, loadFun) {
                     </span>
                 );
             }
+
             return (
-                <AceEditor mode={lang} {...this.props} />
+                <AceEditor mode={lang} ref={i => this.aceEditor = i} {...this.props} />
             );
         }
     };
@@ -172,17 +172,23 @@ class CodeEditor extends Component {
     getLanguage() {
         return this.state.lang;
     }
-    @autobind
-    handleSelectLanguage(lang) {
+    /**
+     * 清空编辑器内容
+     * @memberof CodeEditor
+     */
+    clear() {
+        this.setState({
+            value: '',
+        });
+    }
+    handleSelectLanguage = (lang) => {
         this.setState({
             lang,
         });
     }
-    @autobind
-    handleChange(newValue) {
+    handleChange = (newValue) => {
         this.setState({ value: newValue });
     }
-    @autobind
     renderEditor() {
         const { value, lang } = this.state;
         const editorProps = {
@@ -201,6 +207,7 @@ class CodeEditor extends Component {
                 showLineNumbers: true,
                 tabSize: 4,
             },
+            ref: i => this.editor = i,
         };
         switch (lang) {
         case 'javascript':

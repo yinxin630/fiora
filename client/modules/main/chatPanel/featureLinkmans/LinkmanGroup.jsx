@@ -3,10 +3,12 @@ import { connect } from 'react-redux';
 import immutable from 'immutable';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
+import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 
 import action from '@/state/action';
 import Linkman from './Linkman';
 
+@immutableRenderDecorator
 class LinkmanGroup extends Component {
     static propTypes = {
         linkmans: ImmutablePropTypes.list,
@@ -26,7 +28,8 @@ class LinkmanGroup extends Component {
         let preview = '暂无消息';
         if (lastMessage) {
             time = new Date(lastMessage.get('createTime'));
-            preview = `${lastMessage.get('content')}`;
+            const type = lastMessage.get('type');
+            preview = type === 'text' ? `${lastMessage.get('content')}` : `[${type}]`;
             if (linkman.get('type') === 'group') {
                 preview = `${lastMessage.getIn(['from', 'username'])}: ${preview}`;
             }

@@ -17,23 +17,11 @@ class App extends Component {
         showLoginDialog: PropTypes.bool,
         backgroundImage: PropTypes.string,
     }
-    static getWidth() {
-        let width = 0.6;
-        if (window.innerWidth < 1000) {
-            width = 0.9;
-        } else if (window.innerWidth < 1300) {
-            width = 0.8;
-        } else if (window.innerWidth < 1600) {
-            width = 0.7;
-        }
-        return width;
-    }
     constructor(props) {
         super(props);
         this.state = {
             width: App.getWidth(),
             height: 0.85,
-            resize: 0,
             backgroundWidth: window.innerWidth,
             backgroundHeight: window.innerHeight,
         };
@@ -49,11 +37,12 @@ class App extends Component {
         img.src = this.props.backgroundImage;
 
         window.onresize = () => {
-            // 触发rerender
-            this.setState({
-                resize: this.state.resize + 1,
-                width: App.getWidth(),
-            });
+            const currentWidth = App.getWidth();
+            if (currentWidth !== this.state.width) {
+                this.setState({
+                    width: App.getWidth(),
+                });
+            }
         };
     }
     get style() {
@@ -84,6 +73,17 @@ class App extends Component {
             left: `${(1 - width) / 2 * 100}%`,
             top: `${(1 - height) / 2 * 100}%`,
         };
+    }
+    static getWidth() {
+        let width = 0.6;
+        if (window.innerWidth < 1000) {
+            width = 0.9;
+        } else if (window.innerWidth < 1300) {
+            width = 0.8;
+        } else if (window.innerWidth < 1600) {
+            width = 0.7;
+        }
+        return width;
     }
     render() {
         const { showLoginDialog } = this.props;

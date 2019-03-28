@@ -1,0 +1,15 @@
+{
+    "name": "fiora",
+    "short_name": "fiora",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#FAFAFA",
+    "description": "一个神奇的聊天室",
+    "orientation": "portrait-primary",
+    "theme_color": "#4a90e2",
+    "icons": [{
+        "src": "https://cdn.suisuijiang.com/fiora/favicon.png?v=1",
+        "sizes": "144x144",
+        "type": "image/png"
+    }]
+}

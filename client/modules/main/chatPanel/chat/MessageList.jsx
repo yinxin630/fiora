@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import immutable from 'immutable';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import autobind from 'autobind-decorator';
 
 import fetch from 'utils/fetch';
 import action from '@/state/action';
@@ -22,8 +21,7 @@ class MessageList extends Component {
         super(...args);
         this.isFetching = false;
     }
-    @autobind
-    async handleScroll(e) {
+    handleScroll = async (e) => {
         // Don't know why the code-view dialog will also trigger when scrolling
         if (e.target !== this.$list) {
             return;

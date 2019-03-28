@@ -96,7 +96,11 @@ module.exports = {
 
         const group = await Group.findOne({ _id: groupId });
         assert(group, '群组不存在');
-        assert(group.creator.toString() !== ctx.socket.user.toString(), '群主不可以退出自己创建的群');
+
+        // 默认群组没有creator
+        if (group.creator) {
+            assert(group.creator.toString() !== ctx.socket.user.toString(), '群主不可以退出自己创建的群');
+        }
 
         const index = group.members.indexOf(ctx.socket.user);
         assert(index !== -1, '你不在群组中');
@@ -125,6 +129,10 @@ module.exports = {
         const { groupId, avatar } = ctx.data;
         assert(isValid(groupId), '无效的群组ID');
         assert(avatar, '头像地址不能为空');
+
+        const group = await Group.findOne({ _id: groupId });
+        assert(group, '群组不存在');
+        assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能修改头像');
 
         await Group.update({ _id: groupId }, { avatar });
         return {};

@@ -6,20 +6,21 @@ function noop() {}
  * @param {Object} routes 路由
  */
 module.exports = function (io, _io, routes) {
-    const router = Object.keys(routes).reduce((result, route) => {
-        io.on(route, noop);
-        result[route] = routes[route];
-        return result;
-    }, {});
+    Object.keys(routes).forEach((route) => {
+        io.on(route, noop); // 注册事件
+    });
+
     return async (ctx) => {
-        if (router[ctx.event]) {
+        // 判断路由是否存在
+        if (routes[ctx.event]) {
             const { event, data, socket } = ctx;
-            ctx.res = await router[ctx.event]({
-                event,
-                data,
-                socket,
-                io,
-                _io,
+            // 执行路由并获取返回数据
+            ctx.res = await routes[ctx.event]({
+                event, // 事件名
+                data, // 请求数据
+                socket, // 用户socket实例
+                io, // koa-socket实例
+                _io, // socket.io实例
             });
         }
     };

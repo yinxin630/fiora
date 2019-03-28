@@ -14,6 +14,13 @@ const getRandomAvatar = require('../../utils/getRandomAvatar');
 
 const saltRounds = 10;
 
+const OneDay = 1000 * 60 * 60 * 24;
+
+/**
+ * 生成token
+ * @param {User} user 用户
+ * @param {Object} environment 客户端信息
+ */
 function generateToken(user, environment) {
     return jwt.encode(
         {
@@ -23,6 +30,21 @@ function generateToken(user, environment) {
         },
         config.jwtSecret,
     );
+}
+
+/**
+ * 处理注册时间不满24小时的用户
+ * @param {User} user 用户
+ */
+function handleNewUser(user) {
+    // 将用户添加到新用户列表, 24小时后删除
+    if (Date.now() - user.createTime.getTime() < OneDay) {
+        const newUserList = global.mdb.get('newUserList');
+        newUserList.add(user._id.toString());
+        setTimeout(() => {
+            newUserList.delete(user._id.toString());
+        }, OneDay);
+    }
 }
 
 module.exports = {
@@ -49,7 +71,6 @@ module.exports = {
                 salt,
                 password: hash,
                 avatar: getRandomAvatar(),
-                groups: [defaultGroup],
             });
         } catch (err) {
             if (err.name === 'ValidationError') {
@@ -57,6 +78,8 @@ module.exports = {
             }
             throw err;
         }
+
+        handleNewUser(newUser);
 
         defaultGroup.members.push(newUser);
         await defaultGroup.save();
@@ -85,9 +108,12 @@ module.exports = {
             }],
             friends: [],
             token,
+            isAdmin: false,
         };
     },
     async login(ctx) {
+        assert(!ctx.socket.user, '你已经登录了');
+
         const {
             username, password, os, browser, environment,
         } = ctx.data;
@@ -100,15 +126,14 @@ module.exports = {
         const isPasswordCorrect = bcrypt.compareSync(password, user.password);
         assert(isPasswordCorrect, '密码错误');
 
+        handleNewUser(user);
+
         user.lastLoginTime = Date.now();
         await user.save();
 
-        const groups = await Group.find({ members: user }, {
-            _id: 1, name: 1, avatar: 1, creator: 1, createTime: 1,
-        });
+        const groups = await Group.find({ members: user }, { _id: 1, name: 1, avatar: 1, creator: 1, createTime: 1 });
         groups.forEach((group) => {
             ctx.socket.socket.join(group._id);
-            return group;
         });
 
         const friends = await Friend
@@ -132,9 +157,12 @@ module.exports = {
             groups,
             friends,
             token,
+            isAdmin: user._id.toString() === config.administrator,
         };
     },
     async loginByToken(ctx) {
+        assert(!ctx.socket.user, '你已经登录了');
+
         const {
             token, os, browser, environment,
         } = ctx.data;
@@ -150,8 +178,10 @@ module.exports = {
         assert(Date.now() < payload.expires, 'token已过期');
         assert.equal(environment, payload.environment, '非法登录');
 
-        const user = await User.findOne({ _id: payload.user }, { _id: 1, avatar: 1, username: 1 });
+        const user = await User.findOne({ _id: payload.user }, { _id: 1, avatar: 1, username: 1, createTime: 1 });
         assert(user, '用户不存在');
+
+        handleNewUser(user);
 
         user.lastLoginTime = Date.now();
         await user.save();
@@ -159,7 +189,6 @@ module.exports = {
         const groups = await Group.find({ members: user }, { _id: 1, name: 1, avatar: 1, creator: 1, createTime: 1 });
         groups.forEach((group) => {
             ctx.socket.socket.join(group._id);
-            return group;
         });
 
         const friends = await Friend
@@ -180,6 +209,7 @@ module.exports = {
             username: user.username,
             groups,
             friends,
+            isAdmin: user._id.toString() === config.administrator,
         };
     },
     async guest(ctx) {
@@ -247,5 +277,27 @@ module.exports = {
 
         await Friend.remove({ from: ctx.socket.user, to: user._id });
         return {};
+    },
+    /**
+     * 修改用户密码
+     */
+    async changePassword(ctx) {
+        const { oldPassword, newPassword } = ctx.data;
+        assert(newPassword, '新密码不能为空');
+        assert(oldPassword !== newPassword, '新密码不能与旧密码相同');
+
+        const user = await User.findOne({ _id: ctx.socket.user });
+        const isPasswordCorrect = bcrypt.compareSync(oldPassword, user.password);
+        assert(isPasswordCorrect, '旧密码不正确');
+
+        const salt = await bcrypt.genSalt$(saltRounds);
+        const hash = await bcrypt.hash$(newPassword, salt);
+
+        user.password = hash;
+        await user.save();
+
+        return {
+            msg: 'ok',
+        };
     },
 };

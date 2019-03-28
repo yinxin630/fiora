@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import autobind from 'autobind-decorator';
 import platform from 'platform';
 
 import socket from '@/socket';
@@ -10,11 +9,10 @@ import Message from '@/components/Message';
 import './Login.less';
 
 class Login extends Component {
-    @autobind
-    handleLogin() {
+    handleLogin = () => {
         socket.emit('login', {
-            username: this.username.getValue(),
-            password: this.password.getValue(),
+            username: this.loginUsername.getValue(),
+            password: this.loginPassword.getValue(),
             os: platform.os.family,
             browser: platform.name,
             environment: platform.description,
@@ -28,11 +26,10 @@ class Login extends Component {
             }
         });
     }
-    @autobind
-    handleRegister() {
+    handleRegister = () => {
         socket.emit('register', {
-            username: this.username.getValue(),
-            password: this.password.getValue(),
+            username: this.registerUsername.getValue(),
+            password: this.registerPassword.getValue(),
             os: platform.os.family,
             browser: platform.name,
             environment: platform.description,
@@ -51,9 +48,9 @@ class Login extends Component {
         return (
             <div className="pane">
                 <h3>用户名</h3>
-                <Input ref={i => this.username = i} />
+                <Input ref={i => this.loginUsername = i} onEnter={this.handleLogin} />
                 <h3>密码</h3>
-                <Input type="password" ref={i => this.password = i} />
+                <Input type="password" ref={i => this.loginPassword = i} onEnter={this.handleLogin} />
                 <button onClick={this.handleLogin}>登录</button>
             </div>
         );
@@ -62,9 +59,9 @@ class Login extends Component {
         return (
             <div className="pane">
                 <h3>用户名</h3>
-                <Input ref={i => this.username = i} />
+                <Input ref={i => this.registerUsername = i} onEnter={this.handleRegister} placeholder="用户名即昵称, 支持中文, 请慎重填写, 不可修改" />
                 <h3>密码</h3>
-                <Input type="password" ref={i => this.password = i} />
+                <Input type="password" ref={i => this.registerPassword = i} onEnter={this.handleRegister} placeholder="暂时也不支持修改密码" />
                 <button onClick={this.handleRegister}>注册</button>
             </div>
         );

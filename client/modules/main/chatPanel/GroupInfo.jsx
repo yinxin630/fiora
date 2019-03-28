@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import autobind from 'autobind-decorator';
+import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 
 import Dialog from '@/components/Dialog';
 import Avatar from '@/components/Avatar';
@@ -10,15 +9,15 @@ import Button from '@/components/Button';
 import action from '@/state/action';
 import fetch from 'utils/fetch';
 
+@immutableRenderDecorator
 class GroupInfo extends Component {
     static propTypes = {
         visible: PropTypes.bool,
         groupInfo: PropTypes.object,
         onClose: PropTypes.func,
-        linkmans: ImmutablePropTypes.list,
+        hasLinkman: PropTypes.bool.isRequired,
     }
-    @autobind
-    async handleJoinGroup() {
+    handleJoinGroup = async () => {
         const { groupInfo, onClose } = this.props;
         onClose();
         const [err, res] = await fetch('joinGroup', { groupId: groupInfo._id });
@@ -31,14 +30,13 @@ class GroupInfo extends Component {
             }
         }
     }
-    @autobind
-    handleFocusGroup() {
+    handleFocusGroup = () => {
         const { groupInfo, onClose } = this.props;
         onClose();
         action.setFocus(groupInfo._id);
     }
     render() {
-        const { visible, groupInfo, onClose, linkmans } = this.props;
+        const { visible, groupInfo, onClose, hasLinkman } = this.props;
         return (
             <Dialog className="info-dialog" visible={visible} onClose={onClose}>
                 {
@@ -54,7 +52,7 @@ class GroupInfo extends Component {
                                     <div>{groupInfo.members}人</div>
                                 </div>
                                 {
-                                    linkmans.find(l => l.get('_id') === groupInfo._id) ?
+                                    hasLinkman ?
                                         <Button onClick={this.handleFocusGroup}>发送消息</Button>
                                         :
                                         <Button onClick={this.handleJoinGroup}>加入群组</Button>
@@ -69,6 +67,16 @@ class GroupInfo extends Component {
     }
 }
 
-export default connect(state => ({
-    linkmans: state.getIn(['user', 'linkmans']),
-}))(GroupInfo);
+export default connect((state, props) => {
+    if (!props.visible) {
+        return {
+            hasLinkman: false,
+        };
+    }
+    const hasLinkman = state
+        .getIn(['user', 'linkmans'])
+        .findIndex(l => l.get('_id') === props.groupInfo._id) !== -1;
+    return {
+        hasLinkman,
+    };
+})(GroupInfo);

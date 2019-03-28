@@ -4,9 +4,8 @@
         [
             "env",
             {
-                "targets": {
-                    "browsers": ["last 3 versions"]
-                },
+                "targets": "> 0.5%, last 3 versions, Firefox ESR, not dead",
+                "useBuiltIns": "entry",
                 "modules": false
             }
         ],
@@ -24,6 +23,14 @@
                         "transform": "react-transform-style"
                     }
                 ]
+            }
+        ],
+        [
+            "prismjs", {
+                "languages": ["clike", "javascript", "typescript", "java", "c", "cpp", "python", "ruby", "markup", "markup-templating", "php", "go", "csharp", "css", "markdown", "sql", "json" ],
+                "plugins": ["line-numbers"],
+                "theme": "default",
+                "css": true
             }
         ]
     ],

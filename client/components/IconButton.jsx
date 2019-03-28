@@ -1,20 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import Button from './Button';
 import './components.less';
 
 
-class IconButton extends Button {
-    render() {
-        const {
-            width, height, icon, iconSize, onClick, style,
-        } = this.props;
-        return (
-            <div className="component-iconButton" style={Object.assign({ width, height }, style)} onClick={onClick}>
-                <i className={`iconfont icon-${icon}`} style={{ fontSize: iconSize, lineHeight: `${height}px` }} />
-            </div>
-        );
-    }
-}
+const IconButton = ({ width, height, icon, iconSize, onClick, style }) => (
+    <div className="component-iconButton" style={Object.assign({ width, height }, style)} onClick={onClick}>
+        <i className={`iconfont icon-${icon}`} style={{ fontSize: iconSize, lineHeight: `${height}px` }} />
+    </div>
+);
+IconButton.propTypes = {
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    icon: PropTypes.string.isRequired,
+    iconSize: PropTypes.number.isRequired,
+    onClick: PropTypes.func,
+    style: PropTypes.object,
+};
 
 export default IconButton;

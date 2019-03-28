@@ -1,9 +1,27 @@
+/**
+ * 读取本地文件
+ * @param {string} resultType 数据类型, {blob|base64}, 默认blob
+ * @param {string} accept 可选文件类型, 默认 * / *
+ */
 export default async function readDiskFIle(resultType = 'blob', accept = '*/*') {
     const result = await new Promise((resolve) => {
         const $input = document.createElement('input');
         $input.style.display = 'none';
         $input.setAttribute('type', 'file');
         $input.setAttribute('accept', accept);
+        // 判断用户是否点击取消, 原生没有提供专门事件, 用hack的方法实现
+        $input.onclick = () => {
+            $input.value = null;
+            document.body.onfocus = () => {
+                // onfocus事件会比$input.onchange事件先触发, 因此需要延迟一段时间
+                setTimeout(() => {
+                    if ($input.value.length === 0) {
+                        resolve(null);
+                    }
+                    document.body.onfocus = null;
+                }, 500);
+            };
+        };
         $input.onchange = (e) => {
             const file = e.target.files[0];
             if (!file) {
@@ -38,7 +56,7 @@ export default async function readDiskFIle(resultType = 'blob', accept = '*/*') 
         $input.click();
     });
 
-    if (resultType === 'blob') {
+    if (result && resultType === 'blob') {
         result.result = new Blob([new Uint8Array(result.result)], { type: result.type });
     }
     return result;

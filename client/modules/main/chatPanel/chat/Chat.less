@@ -8,7 +8,7 @@
     overflow: hidden;
     position: relative;
 
-    .info {
+    .group-info {
         height: 100%;
         width: 300px;
         position: absolute;
@@ -33,6 +33,7 @@
         & > div {
             flex: 1;
             padding: 12px;
+            overflow: auto;
 
             & > div {
                 margin-bottom: 10px;
@@ -69,6 +70,7 @@
                         & > div {
                             display: flex;
                             align-items: center;
+                            cursor: pointer;
                             & > p {
                                 margin-left: 10px;
                                 color: #333;
@@ -78,7 +80,6 @@
                             }
                         }
                         & > p {
-                            flex: 1;
                             color: #666;
                             font-size: 12px;
                             overflow: hidden;
@@ -112,6 +113,9 @@
         font-size: 16px;
         color: #333;
     }
+    & > div {
+        display: flex;
+    }
     .iconfont {
         color: var(--primary-color-10);
         &:hover {
@@ -138,7 +142,9 @@
         margin-left: 12px;
     }
     .nickname-time {
-        
+        height: 20px;
+        display: flex;
+        align-items: flex-end;
     }
     .tag {
         height: 18px;
@@ -180,7 +186,7 @@
         border-width: 0px 7px 15px 0;
         border-color: transparent rgba(255, 255, 255, 0.8) transparent transparent;
         position: absolute;
-        top: 21px;
+        top: 23px;
         left: 49px;
     }
     &.self {
@@ -201,6 +207,7 @@
         }
         .tag {
             display: none;
+            margin-left: 6px;
         }
         .time {
             transform: translateY(2px);
@@ -216,7 +223,7 @@
             border-color: transparent transparent transparent var(--primary-color-10);
             left: initial;
             right: 49px;
-            top: 17px;
+            top: 23px;
         }
         .text {
             color: var(--primary-text-color-10);
@@ -233,7 +240,10 @@
     .text {
         user-select: text;
         word-break: break-word;
-        & > img {
+        & img {
+            user-select: text;
+        }
+        & a {
             user-select: text;
         }
     }
@@ -309,19 +319,45 @@
             }
         }
     }
+    .invite {
+        width: 160px;
+        padding: 0 4px;
+        text-align: center;
+        cursor: pointer;
+        color: var(--primary-text-color-10);
+        & > div {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+            & > span {
+                line-height: 18px;
+            }
+        }
+        & > p {
+            display: inline-block;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 6px;
+        }
+    }
 }
 .code-viewer {
     width: 800px !important;
-    height: 80% !important;
+    max-height: 90%;
+    display: flex;
 
     .rc-dialog-content {
-        height: 100%;
+        flex: 1;
+        min-height: 300px;
         display: flex;
         flex-direction: column;
+        // overflow: hidden;
     }
     .rc-dialog-body {
+        padding: 0 8px;
         overflow: auto;
         max-width: 900px;
+        position: relative;
         flex: 1;
         * {
             user-select: text;
@@ -329,9 +365,20 @@
     }
     .pre {
         color: black;
-        padding: 6px 10px;
         margin: 0;
         font-size: 14px;
+        background-color: white !important;
+        position: static !important;
+
+        & > code {
+            position: static !important;
+        }
+        .line-numbers-rows {
+            position: absolute;
+            left: 0;
+            top: 14px;
+            background-color: white;
+        }
     }
 }
 
@@ -348,10 +395,12 @@
         margin: 0 10px;
         padding: 0px 8px;
         height: 32px;
+        line-height: 32px;
         outline: none;
         border: 1px solid rgba(208, 208, 208, 0.5);
         font-size: 14px;
         color: #666;
+        user-select: auto;
 
         &::placeholder {
             color: #999;
@@ -500,8 +549,9 @@
             display: flex;
 
             &.input-container {
-                .component-chat {
+                .component-input {
                     flex: 1;
+                    height: 40px;
                 }
                 .component-button {
                     width: 80px;
@@ -530,6 +580,38 @@
                     }
                 }
             }
+        }
+    }
+}
+.aite-panel {
+    background-color: white;
+    position: absolute;
+    left: 120px;
+    bottom: 60px;
+    padding: 6px 0;
+    border-radius: 3px;
+    max-height: 266px;
+    overflow: auto;
+
+    & > div {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        margin-bottom: 2px;
+        height: 30px;
+        padding: 0 8px;
+        min-width: 120px;
+        & > p {
+            font-size: 14px;
+            margin-left: 6px;
+            margin-top: 4px;
+            color: #444;
+        }
+        &:last-child {
+            margin-bottom: 0px;
+        }
+        &:hover {
+            background-color: var(--primary-color-4);
         }
     }
 }

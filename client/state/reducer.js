@@ -9,18 +9,7 @@ setCssVariable(primaryColor, primaryTextColor);
 let backgroundImage = window.localStorage.getItem('backgroundImage');
 if (!backgroundImage) {
     backgroundImage = config.backgroundImage; // eslint-disable-line
-    const img = new Image();
-    img.crossOrigin = 'Anonymous';
-    img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        const base64 = canvas.toDataURL('image/png');
-        window.localStorage.setItem('backgroundImage', base64);
-    };
-    img.src = backgroundImage;
+    window.localStorage.setItem('backgroundImage', backgroundImage);
 }
 const sound = window.localStorage.getItem('sound') || config.sound;
 
@@ -80,9 +69,35 @@ function reducer(state = initialState, action) {
     }
 
     case 'SetUser': {
-        return state
-            .set('user', immutable.fromJS(action.user))
-            .set('focus', action.user.linkmans[0]._id);
+        let newState = state;
+        if (state.getIn(['user', '_id']) === undefined) {
+            newState = newState
+                .set('user', immutable.fromJS(action.user))
+                .set('focus', state.get('focus') || action.user.linkmans[0]._id);
+        } else {
+            newState = newState.updateIn(['user', 'linkmans'], (linkmans) => {
+                let newLinkmans = linkmans;
+                action.user.linkmans.forEach((linkman) => {
+                    const index = linkmans.findIndex(l => l.get('_id') === linkman._id);
+                    if (index === -1) {
+                        newLinkmans = newLinkmans.push(immutable.fromJS(linkman));
+                    }
+                });
+                newLinkmans.forEach((linkman, linkmanIndex) => {
+                    const index = action.user.linkmans.findIndex(l => l._id === linkman.get('_id'));
+                    if (index === -1) {
+                        newLinkmans = newLinkmans.splice(linkmanIndex, 1);
+                    }
+                });
+                return newLinkmans;
+            });
+
+            const focusIndex = newState.getIn(['user', 'linkmans']).findIndex(l => l.get('_id') === newState.get('focus'));
+            if (focusIndex === -1) {
+                newState = newState.set('focus', newState.getIn(['user', 'linkmans', 0, '_id']));
+            }
+        }
+        return newState;
     }
     case 'SetLinkmanMessages': {
         const newLinkmans = state
@@ -95,11 +110,11 @@ function reducer(state = initialState, action) {
                 const messages2 = linkman2.get('messages');
                 const time1 = messages1.size > 0 ? messages1.get(messages1.size - 1).get('createTime') : linkman1.get('createTime');
                 const time2 = messages2.size > 0 ? messages2.get(messages2.size - 1).get('createTime') : linkman2.get('createTime');
-                return new Date(time1) < new Date(time2);
+                return new Date(time1) < new Date(time2) ? 1 : -1;
             });
         return state
             .setIn(['user', 'linkmans'], newLinkmans)
-            .set('focus', newLinkmans.getIn([0, '_id']));
+            .set('focus', state.get('focus') || newLinkmans.getIn([0, '_id']));
     }
     case 'SetGroupMembers': {
         const linkmanIndex = state
@@ -168,9 +183,17 @@ function reducer(state = initialState, action) {
                 linkmans
                     .delete(linkmanIndex)
                     .unshift(linkman
-                        .update('messages', messages => (
-                            messages.push(immutable.fromJS(action.message))
-                        ))
+                        .update('messages', (messages) => {
+                            const newMessages = messages.push(immutable.fromJS(action.message));
+                            const MAX_MESSAGE_COUNT = 300;
+                            if (
+                                action.message.from._id === state.getIn(['user', '_id']) &&
+                                 newMessages.size > MAX_MESSAGE_COUNT
+                            ) {
+                                return newMessages.splice(0, Math.floor(MAX_MESSAGE_COUNT * 2 / 3));
+                            }
+                            return newMessages;
+                        })
                         .set('unread', unread))
             ));
     }
@@ -193,6 +216,15 @@ function reducer(state = initialState, action) {
         return state.updateIn(['user', 'linkmans', linkmanIndex, 'messages'], (messages) => {
             const messageIndex = messages.findLastIndex(m => m.get('_id') === action.messageId);
             return messages.update(messageIndex, message => message.mergeDeep(immutable.fromJS(action.message)));
+        });
+    }
+    case 'DeleteSelfMessage': {
+        const linkmanIndex = state
+            .getIn(['user', 'linkmans'])
+            .findIndex(l => l.get('_id') === action.linkmanId);
+        return state.updateIn(['user', 'linkmans', linkmanIndex, 'messages'], (messages) => {
+            const messageIndex = messages.findLastIndex(m => m.get('_id') === action.messageId);
+            return messages.delete(messageIndex);
         });
     }
     case 'SetAvatar': {

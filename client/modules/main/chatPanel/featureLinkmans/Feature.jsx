@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import autobind from 'autobind-decorator';
 
 import IconButton from '@/components/IconButton';
 import Dialog from '@/components/Dialog';
@@ -10,31 +9,38 @@ import { Tabs, TabPane, TabContent, ScrollableInkTabBar } from '@/components/Tab
 import socket from '@/socket';
 import action from '@/state/action';
 import fetch from 'utils/fetch';
+import booleanStateDecorator from 'utils/booleanStateDecorator';
 import GroupInfo from '../GroupInfo';
 import UserInfo from '../UserInfo';
 
+
+@booleanStateDecorator({
+    groupInfoDialog: false,
+    userInfoDialog: false,
+    createGroupDialog: false,
+})
 class Feature extends Component {
     constructor(...args) {
         super(...args);
         this.state = {
             showAddButton: true,
-            showCreateGroupDialog: false,
             showSearchResult: false,
             searchResultActiveKey: 'all',
             searchResult: {
                 users: [],
                 groups: [],
             },
-            showGroupInfo: false,
             groupInfo: {},
-            showUserInfo: false,
             userInfo: {},
         };
     }
     componentDidMount() {
-        document.body.addEventListener('click', this.handleBodyClick.bind(this), false);
+        document.body.addEventListener('click', this.handleBodyClick, false);
     }
-    resetSearchView() {
+    componentWillUnmount() {
+        document.body.removeEventListener('click', this.handleBodyClick, false);
+    }
+    resetSearchView = () => {
         this.setState({
             showSearchResult: false,
             showAddButton: true,
@@ -46,7 +52,7 @@ class Feature extends Component {
         });
         this.searchInput.value = '';
     }
-    handleBodyClick(e) {
+    handleBodyClick = (e) => {
         if (e.target === this.searchInput || !this.state.showSearchResult) {
             return;
         }
@@ -58,30 +64,16 @@ class Feature extends Component {
                 return;
             }
             target = target.parentElement;
-        } while (target !== currentTarget);
+        } while (target && target !== currentTarget);
         this.resetSearchView();
     }
-    @autobind
-    handleFocus() {
+    handleFocus = () => {
         this.setState({
             showAddButton: false,
             showSearchResult: true,
         });
     }
-    @autobind
-    showCreateGroupDialog() {
-        this.setState({
-            showCreateGroupDialog: true,
-        });
-    }
-    @autobind
-    closeCreateGroupDialog() {
-        this.setState({
-            showCreateGroupDialog: false,
-        });
-    }
-    @autobind
-    handleCreateGroup() {
+    handleCreateGroup = () => {
         const name = this.groupName.getValue();
         socket.emit('createGroup', { name }, (res) => {
             if (typeof res === 'string') {
@@ -90,12 +82,12 @@ class Feature extends Component {
                 res.type = 'group';
                 action.addLinkman(res, true);
                 this.groupName.clear();
-                this.closeCreateGroupDialog();
+                this.toggleCreateGroupDialog();
                 Message.success('创建群组成功');
             }
         });
     }
-    async search() {
+    search = async () => {
         const keywords = this.searchInput.value.trim();
         const [searchError, searchResult] = await fetch('search', { keywords });
         if (!searchError) {
@@ -107,8 +99,7 @@ class Feature extends Component {
             });
         }
     }
-    @autobind
-    handleInputKeyDown(e) {
+    handleInputKeyDown = (e) => {
         if (e.key === 'Enter') {
             setTimeout(() => {
                 this.search();
@@ -116,52 +107,36 @@ class Feature extends Component {
             }, 0);
         }
     }
-    @autobind
-    handleActiveKeyChange(key) {
+    handleActiveKeyChange = (key) => {
         this.setState({
             searchResultActiveKey: key,
         });
     }
-    @autobind
-    switchTabToUser() {
+    switchTabToUser = () => {
         this.setState({
             searchResultActiveKey: 'user',
         });
     }
-    @autobind
-    switchTabToGroup() {
+    switchTabToGroup = () => {
         this.setState({
             searchResultActiveKey: 'group',
         });
     }
-    openGroupInfoDialog(groupInfo) {
+    openGroupInfoDialog = (groupInfo) => {
         this.setState({
-            showGroupInfo: true,
+            groupInfoDialog: true,
             groupInfo,
         });
         this.resetSearchView();
     }
-    @autobind
-    closeGroupInfoDialog() {
+    openUserInfoDialog = (userInfo) => {
         this.setState({
-            showGroupInfo: false,
-        });
-    }
-    openUserInfoDialog(userInfo) {
-        this.setState({
-            showUserInfo: true,
+            userInfoDialog: true,
             userInfo,
         });
         this.resetSearchView();
     }
-    @autobind
-    closeUserInfoDialog() {
-        this.setState({
-            showUserInfo: false,
-        });
-    }
-    @autobind
-    renderSearchUsers(count = Infinity) {
+    renderSearchUsers(count = 999) {
         const { users } = this.state.searchResult;
         count = Math.min(count, users.length);
 
@@ -176,8 +151,7 @@ class Feature extends Component {
         }
         return usersDom;
     }
-    @autobind
-    renderSearchGroups(count = Infinity) {
+    renderSearchGroups(count = 999) {
         const { groups } = this.state.searchResult;
         count = Math.min(count, groups.length);
 
@@ -198,20 +172,20 @@ class Feature extends Component {
     render() {
         const {
             showAddButton,
-            showCreateGroupDialog,
+            createGroupDialog,
             searchResult, showSearchResult,
             searchResultActiveKey,
-            showGroupInfo,
+            groupInfoDialog,
             groupInfo,
-            showUserInfo,
+            userInfoDialog,
             userInfo,
         } = this.state;
         return (
             <div className="chatPanel-feature">
                 <input className={showSearchResult ? 'focus' : 'blur'} type="text" placeholder="搜索群组/用户" autoComplete="false" ref={i => this.searchInput = i} onFocus={this.handleFocus} onKeyDown={this.handleInputKeyDown} />
                 <i className="iconfont icon-search" />
-                <IconButton style={{ display: showAddButton ? 'block' : 'none' }} width={40} height={40} icon="add" iconSize={38} onClick={this.showCreateGroupDialog} />
-                <Dialog className="create-group-dialog" title="创建群组" visible={showCreateGroupDialog} onClose={this.closeCreateGroupDialog}>
+                <IconButton style={{ display: showAddButton ? 'block' : 'none' }} width={40} height={40} icon="add" iconSize={38} onClick={this.toggleCreateGroupDialog} />
+                <Dialog className="create-group-dialog" title="创建群组" visible={createGroupDialog} onClose={this.toggleCreateGroupDialog}>
                     <div className="content">
                         <h3>请输入群组名</h3>
                         <Input ref={i => this.groupName = i} />
@@ -268,8 +242,8 @@ class Feature extends Component {
                         }
                     </TabPane>
                 </Tabs>
-                <GroupInfo visible={showGroupInfo} groupInfo={groupInfo} onClose={this.closeGroupInfoDialog} />
-                <UserInfo visible={showUserInfo} userInfo={userInfo} onClose={this.closeUserInfoDialog} />
+                <GroupInfo visible={groupInfoDialog} groupInfo={groupInfo} onClose={this.toggleGroupInfoDialog} />
+                <UserInfo visible={userInfoDialog} userInfo={userInfo} onClose={this.toggleUserInfoDialog} />
             </div>
         );
     }

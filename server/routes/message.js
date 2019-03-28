@@ -19,7 +19,6 @@ module.exports = {
         let userId = '';
         if (isValid(to)) {
             groupId = to;
-            assert(isValid(groupId), '无效的群组ID');
             const group = await Group.findOne({ _id: to });
             assert(group, '群组不存在');
         } else {
@@ -33,9 +32,18 @@ module.exports = {
         if (type === 'text') {
             assert(messageContent.length <= 2048, '消息长度过长');
             messageContent = xss(content);
+        } else if (type === 'invite') {
+            const group = await Group.findOne({ name: content });
+            assert(group, '目标群组不存在');
+
+            const user = await User.findOne({ _id: ctx.socket.user });
+            messageContent = JSON.stringify({
+                inviter: user.username,
+                groupId: group._id,
+                groupName: group.name,
+            });
         }
 
-        const user = await User.findOne({ _id: ctx.socket.user }, { username: 1, avatar: 1 });
         let message;
         try {
             message = await Message.create({
@@ -48,6 +56,7 @@ module.exports = {
             throw err;
         }
 
+        const user = await User.findOne({ _id: ctx.socket.user }, { username: 1, avatar: 1 });
         const messageData = {
             _id: message._id,
             createTime: message.createTime,
@@ -62,8 +71,13 @@ module.exports = {
         } else {
             const sockets = await Socket.find({ user: userId });
             sockets.forEach((socket) => {
-                console.log(socket.id);
                 ctx._io.to(socket.id).emit('message', messageData);
+            });
+            const selfSockets = await Socket.find({ user: ctx.socket.user });
+            selfSockets.forEach((socket) => {
+                if (socket.id !== ctx.socket.id) {
+                    ctx._io.to(socket.id).emit('message', messageData);
+                }
             });
         }
 
@@ -71,6 +85,7 @@ module.exports = {
     },
     async getLinkmansLastMessages(ctx) {
         const { linkmans } = ctx.data;
+        assert(Array.isArray(linkmans), '参数linkmans应该是Array');
 
         const promises = linkmans.map(linkmanId =>
             Message

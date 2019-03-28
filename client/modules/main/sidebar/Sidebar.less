@@ -72,48 +72,6 @@
     }
 }
 
-.module-main-sidebar-singleCheckGroup {
-
-}
-
-.module-main-sidebar-singleCheckButton {
-    @height: 80px;
-    width: 80px;
-    height: @height;
-    text-align: center;
-    cursor: pointer;
-
-    .iconfont {
-        font-size: 36px;
-        line-height: @height;
-        color: var(--primary-text-color-6);
-        transition: color 0.2s;
-    }
-    &.focus {
-        background-color: var(--primary-color-6);
-        position: relative;
-        .iconfont {
-            color: var(--primary-text-color-10);
-        }
-        .line {
-            position: absolute;
-            width: 5px;
-            height: 100%;
-            left: 0;
-            top: 0;
-            background-color: rgba(91, 211, 141, 1);
-        }
-        &:hover {
-            background-color: var(--primary-color-6);
-        }
-    }
-    &:hover {
-        .iconfont {
-            color: var(--primary-text-color-9);
-        }
-    }
-}
-
 .dialog {
     width: 500px !important;
     height: 80% !important;
@@ -151,7 +109,7 @@
                 padding-left: 26px;
                 font-size: 14px;
                 & > li {
-                    height: 20px;
+                    line-height: 22px;
                 }
             }
             & > .color-info {
@@ -191,17 +149,6 @@
                     top: 70px;
                     left: 175px;
                     pointer-events: none;
-                }
-            }
-            & > .avatar-preview {
-                & >img {
-                    width: 100px;
-                    height: 100px;
-                    cursor: pointer;
-
-                    &:hover {
-                        filter: blur(3px);
-                    }
                 }
             }
             & > .switch {
@@ -263,14 +210,46 @@
     .avatar-preview {
         position: relative;
         .blur {
-            filter: blur(3px);
+            filter: blur(2px);
+        }
+        .cropper {
+            & > div {
+                margin-bottom: 8px;
+            }
+            .loading {
+                top: 170px;
+                left: 170px;
+            }
+        }
+        .preview {
+            & >img {
+                width: 100px;
+                height: 100px;
+                cursor: pointer;
+    
+                &:hover {
+                    filter: blur(3px);
+                }
+            }
+            .loading {
+                top: 10px;
+                left: 10px;
+            }
         }
     }
     .loading {
         position: absolute;
-        top: 10px;
-        left: 10px;
         pointer-events: none;
+    }
+    .change-password {
+        .component-input {
+            height: 36px;
+            margin-bottom: 8px;
+        }
+    }
+    .component-button {
+        width: 100px;
+        height: 36px;
     }
 }
 .reward {
@@ -298,4 +277,52 @@
 .fiora-info {
     width: 600px !important;
     height: initial !important;
+    p, li {
+        user-select: text;
+    }
+}
+.app-download {
+    .android {
+        p, a {
+            font-size: 14px;
+        }
+        img {
+            margin-top: 8px;
+        }
+    }
+    .ios {
+        p {
+            font-size: 14px;
+            line-height: 20px;
+        }
+        img {
+            width: 400px;
+            height: auto;
+            margin-top: 8px;
+        }
+    }
+}
+.dialog {
+    &.admin {
+        height: 50% !important;
+        .seal {
+            display: flex;
+            .component-input {
+                flex: 1;
+                height: 36px;
+            }
+            .component-button {
+                width: 100px;
+                height: 36px;
+                margin-left: 10px;
+            }
+        }
+        .seal-list {
+            & > span {
+                margin-right: 10px;
+                line-height: 22px;
+                font-size: 14px;
+            }
+        }
+    }
 }

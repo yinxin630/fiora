@@ -10,17 +10,18 @@ Language: [English](README.md) | [简体中文](./doc/README.ZH.md)
 Fiora is a web chat application. It is written by node.js, mongodb, socket.io and react
 
 Online address: [https://fiora.suisuijiang.com/](https://fiora.suisuijiang.com/)
+Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/yinxin630/fiora-app)
 
 ## Functions
 
-0. Users, groups, private chat, group chat
-0. Text, pictures, code, URL and many other types of messages
-0. Create/Search/Join group, Search/Add friend
-0. Desktop notification, sound reminder
-0. Custom desktop background, theme color, and text color
-0. Display group online members
-0. Send huaji expression, Search expression
-0. New message voice broadcast
+1. Friends, groups, private chat, group chat
+2. Text, pictures, code, URL and many other types of messages
+3. Tieba expression, huaji expression, search expression image
+4. Desktop notification, sound reminder, voice broadcast
+5. Custom desktop background, theme color, and text color
+6. Display online users, @ function
+7. Little black room shut up
+8. Service Worker
 
 ## Screenshot
 
@@ -28,7 +29,7 @@ Online address: [https://fiora.suisuijiang.com/](https://fiora.suisuijiang.com/)
 
 ## Install
 
-[See how to run Fiora locally](./doc/INSTALL.md)
+[See how to run Fiora](./doc/INSTALL.md)
 
 ## Directory
 

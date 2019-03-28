@@ -29,13 +29,15 @@ async function setUser(user) {
     });
 
     const linkmans = [...user.groups, ...user.friends];
+    const { _id, avatar, username, isAdmin } = user;
     dispatch({
         type: 'SetUser',
         user: {
-            _id: user._id,
-            avatar: user.avatar,
-            username: user.username,
+            _id,
+            avatar,
+            username,
             linkmans,
+            isAdmin,
         },
     });
 
@@ -117,6 +119,18 @@ function updateSelfMessage(linkmanId, messageId, message) {
         linkmanId,
         messageId,
         message,
+    });
+}
+/**
+ * 删除自己的临时消息
+ * @param {String} linkmanId 联系人id
+ * @param {String} messageId 临时消息id
+ */
+function deleteSelfMessage(linkmanId, messageId) {
+    dispatch({
+        type: 'DeleteSelfMessage',
+        linkmanId,
+        messageId,
     });
 }
 
@@ -259,6 +273,7 @@ export default {
     addLinkmanMessage,
     addLinkmanMessages,
     updateSelfMessage,
+    deleteSelfMessage,
 
     showLoginDialog,
     closeLoginDialog,

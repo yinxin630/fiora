@@ -1,36 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import autobind from 'autobind-decorator';
 import Viewer from 'react-viewer';
+import Prism from 'prismjs';
 import 'react-viewer/dist/index.css';
 
 import Avatar from '@/components/Avatar';
 import { Circle } from '@/components/Progress';
 import Dialog from '@/components/Dialog';
+import MessageBox from '@/components/Message';
 import Time from 'utils/time';
 import expressions from 'utils/expressions';
+import fetch from 'utils/fetch';
+import action from '../../../../state/action';
 
-const Prism = require('prismjs/components/prism-core.js');
-require('prismjs/themes/prism.css');
-
-/* 要使用的语言及其前置语言 */
-require('prismjs/components/prism-clike');
-require('prismjs/components/prism-javascript');
-require('prismjs/components/prism-typescript');
-require('prismjs/components/prism-java');
-require('prismjs/components/prism-c');
-require('prismjs/components/prism-cpp');
-require('prismjs/components/prism-python');
-require('prismjs/components/prism-ruby');
-require('prismjs/components/prism-markup');
-require('prismjs/components/prism-markup-templating');
-require('prismjs/components/prism-php');
-require('prismjs/components/prism-go');
-require('prismjs/components/prism-csharp');
-require('prismjs/components/prism-css');
-require('prismjs/components/prism-markdown');
-require('prismjs/components/prism-sql');
-require('prismjs/components/prism-json');
 
 const transparentImage = 'data:image/png;base64,R0lGODlhFAAUAIAAAP///wAAACH5BAEAAAAALAAAAAAUABQAAAIRhI+py+0Po5y02ouz3rz7rxUAOw==';
 const languagesMap = {
@@ -51,22 +33,6 @@ const languagesMap = {
 };
 
 class Message extends Component {
-    static propTypes = {
-        avatar: PropTypes.string.isRequired,
-        nickname: PropTypes.string.isRequired,
-        time: PropTypes.object.isRequired,
-        type: PropTypes.oneOf(['text', 'image', 'url', 'code']),
-        content: PropTypes.string.isRequired,
-        isSelf: PropTypes.bool,
-        loading: PropTypes.bool,
-        percent: PropTypes.number,
-        openUserInfoDialog: PropTypes.func,
-        shouldScroll: PropTypes.bool,
-        tag: PropTypes.string,
-    }
-    static defaultProps = {
-        isSelf: false,
-    }
     static formatTime(time) {
         const nowTime = new Date();
         if (Time.isToday(nowTime, time)) {
@@ -88,6 +54,22 @@ class Message extends Component {
                 return r;
             },
         );
+    }
+    static propTypes = {
+        avatar: PropTypes.string.isRequired,
+        nickname: PropTypes.string.isRequired,
+        time: PropTypes.object.isRequired,
+        type: PropTypes.oneOf(['text', 'image', 'url', 'code', 'invite']),
+        content: PropTypes.string.isRequired,
+        isSelf: PropTypes.bool,
+        loading: PropTypes.bool,
+        percent: PropTypes.number,
+        openUserInfoDialog: PropTypes.func,
+        shouldScroll: PropTypes.bool,
+        tag: PropTypes.string,
+    }
+    static defaultProps = {
+        isSelf: false,
     }
     constructor(props) {
         super(props);
@@ -120,6 +102,7 @@ class Message extends Component {
                 }
                 $image.width = width * scale;
                 $image.height = height * scale;
+                $image.src = /^(blob|data):/.test(content) ? content.split('?')[0] : `${content}&imageView2/3/w/${Math.floor($image.width * 1.2)}/h/${Math.floor($image.height * 1.2)}`;
             }
         }
         if (shouldScroll || isSelf) {
@@ -128,41 +111,51 @@ class Message extends Component {
     }
     shouldComponentUpdate(nextProps, nextState) {
         return !(
+            this.props.avatar === nextProps.avatar &&
             this.props.loading === nextProps.loading &&
             this.props.percent === nextProps.percent &&
             this.state.showCode === nextState.showCode &&
             this.state.showImage === nextState.showImage
         );
     }
-    @autobind
-    showCode() {
+    showCode = () => {
         this.setState({
             showCode: true,
         });
     }
-    @autobind
-    hideCode() {
+    hideCode = () => {
         this.setState({
             showCode: false,
         });
     }
-    @autobind
-    showImageViewer() {
+    showImageViewer = () => {
         this.setState({
             showImage: true,
         });
     }
-    @autobind
-    hideImageViewer() {
+    hideImageViewer = () => {
         this.setState({
             showImage: false,
         });
     }
-    @autobind
-    handleClickAvatar() {
+    handleClickAvatar = () => {
         const { isSelf, openUserInfoDialog } = this.props;
         if (!isSelf) {
             openUserInfoDialog();
+        }
+    }
+    joinGroup = async () => {
+        const inviteInfo = JSON.parse(this.props.content);
+
+        const [err, res] = await fetch('joinGroup', { groupId: inviteInfo.groupId });
+        if (!err) {
+            res.type = 'group';
+            action.addLinkman(res, true);
+            MessageBox.success('加入群组成功');
+            const [err2, messages] = await fetch('getLinkmanHistoryMessages', { linkmanId: res._id, existCount: 0 });
+            if (!err2) {
+                action.addLinkmanMessages(res._id, messages);
+            }
         }
     }
     renderText() {
@@ -186,7 +179,7 @@ class Message extends Component {
         // 设置高度宽度为1防止被原图撑起来
         return (
             <div className={`image ${loading ? 'loading' : ''} ${/huaji=true/.test(content) ? 'huaji' : ''}`}>
-                <img className="img" src={src} width="1" height="1" onDoubleClick={this.showImageViewer} />
+                <img className="img" src={transparentImage} width="1" height="1" onDoubleClick={this.showImageViewer} />
                 <Circle className="progress" percent={percent} strokeWidth="5" strokeColor="#a0c672" trailWidth="5" />
                 <div className="progress-number">{Math.ceil(percent)}%</div>
                 <Viewer
@@ -211,7 +204,8 @@ class Message extends Component {
         const language = languagesMap[parseResult[1]];
         const transferContent = content;
         const rawCode = transferContent.replace(/@language=[_a-z]+@/, '');
-        const html = Prism.highlight(rawCode, Prism.languages[language], language);
+        const html = Prism.highlight(rawCode, Prism.languages[language]);
+        setTimeout(Prism.highlightAll.bind(Prism), 0); // https://github.com/PrismJS/prism/issues/1487
         let size = `${rawCode.length}B`;
         if (rawCode.length > 1024) {
             size = `${Math.ceil(rawCode.length / 1024 * 100) / 100}KB`;
@@ -231,7 +225,9 @@ class Message extends Component {
                     <p>查看</p>
                 </div>
                 <Dialog className="code-viewer" title="查看代码" visible={this.state.showCode} onClose={this.hideCode}>
-                    <pre className="pre" dangerouslySetInnerHTML={{ __html: html }} />
+                    <pre className="pre line-numbers">
+                        <code className={`language-${language}`} dangerouslySetInnerHTML={{ __html: html }} />
+                    </pre>
                 </Dialog>
             </div>
         );
@@ -240,6 +236,17 @@ class Message extends Component {
         const { content } = this.props;
         return (
             <a href={content} target="_black" rel="noopener noreferrer" >{content}</a>
+        );
+    }
+    renderInvite() {
+        const inviteInfo = JSON.parse(this.props.content);
+        return (
+            <div className="invite" onClick={this.joinGroup}>
+                <div>
+                    <span>&quot;{inviteInfo.inviter}&quot; 邀请你加入群组「{inviteInfo.groupName}」</span>
+                </div>
+                <p>加入</p>
+            </div>
         );
     }
     renderContent() {
@@ -256,6 +263,9 @@ class Message extends Component {
         }
         case 'url': {
             return this.renderUrl();
+        }
+        case 'invite': {
+            return this.renderInvite();
         }
         default:
             return (

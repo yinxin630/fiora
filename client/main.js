@@ -1,4 +1,15 @@
-import 'regenerator-runtime/runtime';
+/* eslint-disable import/first */
+if (
+    (window.location.protocol === 'https:' || window.location.hostname === 'localhost')
+    && navigator.serviceWorker
+) {
+    window.addEventListener('load', () => {
+        const sw = process.env.NODE_ENV === 'development' ? '/static/fiora-sw.js' : '/fiora-sw.js';
+        navigator.serviceWorker.register(sw);
+    });
+}
+
+import 'babel-polyfill';
 
 import React from 'react';
 import ReactDom from 'react-dom';
@@ -13,7 +24,7 @@ import socket from './socket';
 import notification from '../utils/notification';
 import sound from '../utils/sound';
 import getFriendId from '../utils/getFriendId';
-import convertRobot10Message from '../utils/convertRobot10Message';
+// import convertRobot10Message from '../utils/convertRobot10Message';
 import voice from '../utils/voice';
 
 if (window.Notification && (window.Notification.permission === 'default' || window.Notification.permission === 'denied')) {
@@ -57,11 +68,14 @@ socket.on('connect', async () => {
 socket.on('disconnect', () => {
     action.disconnect();
 });
+
+let prevFrom = '';
 socket.on('message', (message) => {
     // robot10
-    convertRobot10Message(message);
+    // convertRobot10Message(message);
 
     const state = store.getState();
+    const isSelfMessage = message.from._id === state.getIn(['user', '_id']);
     const linkman = state.getIn(['user', 'linkmans']).find(l => l.get('_id') === message.to);
     let title = '';
     if (linkman) {
@@ -72,6 +86,10 @@ socket.on('message', (message) => {
             title = `${message.from.username} 对你说:`;
         }
     } else {
+        // 联系人不存在并且是自己发的消息, 不创建新联系人
+        if (isSelfMessage) {
+            return;
+        }
         const newLinkman = {
             _id: getFriendId(
                 state.getIn(['user', '_id']),
@@ -94,11 +112,15 @@ socket.on('message', (message) => {
         });
     }
 
+    if (isSelfMessage) {
+        return;
+    }
+
     if (windowStatus === 'blur' && state.getIn(['ui', 'notificationSwitch'])) {
         notification(
             title,
             message.from.avatar,
-            message.type === 'text' ? message.content : `[${message.type}]`,
+            message.type === 'text' ? message.content.replace(/&lt;/g, '<').replace(/&gt;/g, '>') : `[${message.type}]`,
             Math.random(),
         );
     }
@@ -112,8 +134,8 @@ socket.on('message', (message) => {
         const text = message.content
             .replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g, '')
             .replace(/#/g, '');
-        // The maximum number of words is 200
-        if (text.length > 200) {
+
+        if (text.length > 100) {
             return;
         }
 
@@ -122,8 +144,9 @@ socket.on('message', (message) => {
             :
             `${message.from.username}对你说`;
         if (text) {
-            voice.push(from + text, message.from.username);
+            voice.push(from !== prevFrom ? from + text : text, message.from.username);
         }
+        prevFrom = from;
     }
 });
 

@@ -17,16 +17,25 @@ document.body.appendChild($audio);
 
 let isPlaying = false;
 
+async function play() {
+    if (!isPlaying) {
+        isPlaying = true;
+
+        try {
+            await $audio.play();
+        } catch (err) {
+            console.warn('播放新消息提示音失败', err.message);
+        } finally {
+            isPlaying = false;
+        }
+    }
+}
+
 export default function sound(type = 'default') {
     if (type !== prevType) {
         $source.setAttribute('src', sounds[type]);
         $audio.load();
         prevType = type;
     }
-    if (!isPlaying) {
-        isPlaying = true;
-        $audio.play().then(() => {
-            isPlaying = false;
-        });
-    }
+    play();
 }

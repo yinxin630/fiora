@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import autobind from 'autobind-decorator';
 import { TwitterPicker } from 'react-color';
-import * as qiniu from 'qiniu-js';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import Switch from 'react-switch';
 import ReactLoading from 'react-loading';
@@ -15,28 +13,33 @@ import IconButton from '@/components/IconButton';
 import Dialog from '@/components/Dialog';
 import Button from '@/components/Button';
 import Message from '@/components/Message';
+import Tooltip from '@/components/Tooltip';
+import setCssVariable from 'utils/setCssVariable';
+import readDiskFile from 'utils/readDiskFile';
+import playSound from 'utils/sound';
+import booleanStateDecorator from 'utils/booleanStateDecorator';
+import uploadFile from 'utils/uploadFile';
 import OnlineStatus from './OnlineStatus';
-import setCssVariable from '../../../../utils/setCssVariable';
-import readDiskFile from '../../../../utils/readDiskFile';
-import playSound from '../../../../utils/sound';
+import AppDownload from './AppDownload';
+import AdminDialog from './AdminDialog';
+import SelfInfo from './SelfInfo';
 import config from '../../../../config/client';
+
 import './Sidebar.less';
 
 
+/**
+ * 页面左边侧栏
+ */
+@booleanStateDecorator({
+    settingDialog: false, // 设置
+    userDialog: false, // 个人信息设置
+    rewardDialog: false, // 打赏
+    infoDialog: false, // 关于
+    appDownloadDialog: false, // APP下载
+    adminDialog: false, // 管理员
+})
 class Sidebar extends Component {
-    static propTypes = {
-        isLogin: PropTypes.bool.isRequired,
-        isConnect: PropTypes.bool.isRequired,
-        avatar: PropTypes.string,
-        primaryColor: PropTypes.string,
-        primaryTextColor: PropTypes.string,
-        backgroundImage: PropTypes.string,
-        userId: PropTypes.string,
-        sound: PropTypes.string,
-        soundSwitch: PropTypes.bool,
-        notificationSwitch: PropTypes.bool,
-        voiceSwitch: PropTypes.bool,
-    }
     static logout() {
         action.logout();
         window.localStorage.removeItem('token');
@@ -63,153 +66,100 @@ class Sidebar extends Component {
         playSound(sound);
         action.setSound(sound);
     }
+    static propTypes = {
+        isLogin: PropTypes.bool.isRequired,
+        isConnect: PropTypes.bool.isRequired,
+        avatar: PropTypes.string,
+        primaryColor: PropTypes.string,
+        primaryTextColor: PropTypes.string,
+        backgroundImage: PropTypes.string,
+        sound: PropTypes.string,
+        soundSwitch: PropTypes.bool,
+        notificationSwitch: PropTypes.bool,
+        voiceSwitch: PropTypes.bool,
+        isAdmin: PropTypes.bool,
+        userId: PropTypes.string,
+    }
     constructor(...args) {
         super(...args);
         this.state = {
-            settingDialog: false,
-            userDialog: false,
-            rewardDialog: false,
-            infoDialog: false,
-            avatarLoading: false,
             backgroundLoading: false,
         };
     }
-    @autobind
-    openSettingDialog() {
-        this.setState({
-            settingDialog: true,
-        });
-    }
-    @autobind
-    closeSettingDialog() {
-        this.setState({
-            settingDialog: false,
-        });
-    }
-    @autobind
-    openUserDialog() {
-        this.setState({
-            userDialog: true,
-        });
-    }
-    @autobind
-    closeUserDialog() {
-        this.setState({
-            userDialog: false,
-        });
-    }
-    @autobind
-    openReward() {
-        this.setState({
-            rewardDialog: true,
-        });
-    }
-    @autobind
-    closeReward() {
-        this.setState({
-            rewardDialog: false,
-        });
-    }
-    @autobind
-    openInfo() {
-        this.setState({
-            infoDialog: true,
-        });
-    }
-    @autobind
-    closeInfo() {
-        this.setState({
-            infoDialog: false,
-        });
-    }
-    @autobind
-    handlePrimaryColorChange(color) {
+    handlePrimaryColorChange = (color) => {
         const primaryColor = `${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`;
         const { primaryTextColor } = this.props;
         action.setPrimaryColor(`${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`);
         setCssVariable(primaryColor, primaryTextColor);
     }
-    @autobind
-    handlePrimaryTextColorChange(color) {
+    handlePrimaryTextColorChange = (color) => {
         const primaryTextColor = `${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`;
         const { primaryColor } = this.props;
         action.setPrimaryTextColor(`${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`);
         setCssVariable(primaryColor, primaryTextColor);
     }
-    toggleAvatarLoading() {
-        this.setState({
-            avatarLoading: !this.state.avatarLoading,
-        });
-    }
-    @autobind
-    async selectAvatar() {
-        const file = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
-        if (file.length > config.maxImageSize) {
-            return Message.error('设置头像失败, 请选择小于1MB的图片');
-        }
-
-        this.toggleAvatarLoading();
-        socket.emit('uploadToken', {}, (tokenRes) => {
-            if (typeof tokenRes === 'string') {
-                Message.error(tokenRes);
-            } else {
-                const result = qiniu.upload(file.result, `Avatar/${this.props.userId}_${Date.now()}`, tokenRes.token, { useCdnDomain: true }, {});
-                result.subscribe({
-                    error: (err) => {
-                        console.error(err);
-                        Message.error('上传头像失败');
-                        this.toggleAvatarLoading();
-                    },
-                    complete: (info) => {
-                        const imageUrl = `${tokenRes.urlPrefix + info.key}`;
-                        socket.emit('changeAvatar', { avatar: imageUrl }, (avatarRes) => {
-                            if (typeof avatarRes === 'string') {
-                                Message.error(avatarRes);
-                                this.toggleAvatarLoading();
-                            } else {
-                                action.setAvatar(URL.createObjectURL(file.result));
-                                Message.success('修改头像成功');
-                                this.toggleAvatarLoading();
-                            }
-                        });
-                    },
-                });
-            }
-        });
-    }
-    toggleBackgroundLoading() {
+    toggleBackgroundLoading = () => {
         this.setState({
             backgroundLoading: !this.state.backgroundLoading,
         });
     }
-    @autobind
-    async selectBackgroundImage() {
+    selectBackgroundImage = async () => {
         this.toggleBackgroundLoading();
-        const file = await readDiskFile('base64', 'image/png,image/jpeg,image/gif');
-        if (file.length > config.maxBackgroundImageSize) {
-            return Message.error('设置背景图失败, 请选择小于3MB的图片');
+        try {
+            const image = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
+            if (!image) {
+                return;
+            }
+            if (image.length > config.maxBackgroundImageSize) {
+                return Message.error('设置背景图失败, 请选择小于3MB的图片');
+            }
+            const { userId } = this.props;
+            const imageUrl = await uploadFile(
+                image.result,
+                `BackgroundImage/${userId}_${Date.now()}`,
+                `BackgroundImage_${userId}_${Date.now()}.${image.ext}`,
+            );
+            action.setBackgroundImage(imageUrl);
+        } finally {
+            this.toggleBackgroundLoading();
         }
-        action.setBackgroundImage(file.result);
-        this.toggleBackgroundLoading();
+    }
+    static renderTooltip(text, component) {
+        return (
+            <Tooltip placement="right" mouseEnterDelay={0.3} overlay={<span>{text}</span>}>
+                <div>
+                    {component}
+                </div>
+            </Tooltip>
+        );
     }
     render() {
-        const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound, soundSwitch, notificationSwitch, voiceSwitch } = this.props;
-        const { settingDialog, userDialog, rewardDialog, infoDialog, avatarLoading, backgroundLoading } = this.state;
+        const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound, soundSwitch, notificationSwitch, voiceSwitch, isAdmin } = this.props;
+        const { settingDialog, userDialog, rewardDialog, infoDialog, appDownloadDialog, backgroundLoading, adminDialog } = this.state;
         if (isLogin) {
             return (
                 <div className="module-main-sidebar">
-                    <Avatar className="avatar" src={avatar} onClick={this.openUserDialog} />
+                    <Avatar className="avatar" src={avatar} onClick={this.toggleUserDialog} />
                     <OnlineStatus className="status" status={isConnect ? 'online' : 'offline'} />
                     <div className="buttons">
-                        <a href="https://github.com/yinxin630/fiora" target="_black" rel="noopener noreferrer">
-                            <IconButton width={40} height={40} icon="github" iconSize={26} />
-                        </a>
-                        <IconButton width={40} height={40} icon="dashang" iconSize={26} onClick={this.openReward} />
-                        <IconButton width={40} height={40} icon="about" iconSize={26} onClick={this.openInfo} />
-                        <IconButton width={40} height={40} icon="setting" iconSize={26} onClick={this.openSettingDialog} />
-                        <IconButton width={40} height={40} icon="logout" iconSize={26} onClick={Sidebar.logout} />
+                        {
+                            isAdmin ?
+                                Sidebar.renderTooltip('管理员', <IconButton width={40} height={40} icon="administrator" iconSize={28} onClick={this.toggleAdminDialog} />)
+                                :
+                                null
+                        }
+                        <Tooltip placement="right" mouseEnterDelay={0.3} overlay={<span>源码</span>}>
+                            <a href="https://github.com/yinxin630/fiora" target="_black" rel="noopener noreferrer">
+                                <IconButton width={40} height={40} icon="github" iconSize={26} />
+                            </a>
+                        </Tooltip>
+                        {Sidebar.renderTooltip('下载APP', <IconButton width={40} height={40} icon="app" iconSize={28} onClick={this.toggleAppDownloadDialog} />)}
+                        {Sidebar.renderTooltip('打赏', <IconButton width={40} height={40} icon="dashang" iconSize={26} onClick={this.toggleRewardDialog} />)}
+                        {Sidebar.renderTooltip('关于', <IconButton width={40} height={40} icon="about" iconSize={26} onClick={this.toggleInfoDialog} />)}
+                        {Sidebar.renderTooltip('设置', <IconButton width={40} height={40} icon="setting" iconSize={26} onClick={this.toggleSettingDialog} />)}
+                        {Sidebar.renderTooltip('退出登录', <IconButton width={40} height={40} icon="logout" iconSize={26} onClick={Sidebar.logout} />)}
                     </div>
-                    <Dialog className="dialog system-setting" visible={settingDialog} title="系统设置" onClose={this.closeSettingDialog}>
+                    <Dialog className="dialog system-setting" visible={settingDialog} title="系统设置" onClose={this.toggleSettingDialog}>
                         <div className="content">
                             <div>
                                 <p>恢复</p>
@@ -276,18 +226,8 @@ class Sidebar extends Component {
                             </div>
                         </div>
                     </Dialog>
-                    <Dialog className="dialog selfInfo" visible={userDialog} title="个人信息设置" onClose={this.closeUserDialog}>
-                        <div className="content">
-                            <div>
-                                <p>头像</p>
-                                <div className="avatar-preview">
-                                    <img className={avatarLoading ? 'blur' : ''} src={avatar} onClick={this.selectAvatar} />
-                                    <ReactLoading className={`loading ${avatarLoading ? 'show' : 'hide'}`} type="spinningBubbles" color={`rgb(${primaryColor}`} height={80} width={80} />
-                                </div>
-                            </div>
-                        </div>
-                    </Dialog>
-                    <Dialog className="dialog reward " visible={rewardDialog} title="打赏" onClose={this.closeReward}>
+                    <SelfInfo visible={userDialog} onClose={this.toggleUserDialog} />
+                    <Dialog className="dialog reward " visible={rewardDialog} title="打赏" onClose={this.toggleRewardDialog}>
                         <div className="content">
                             <p>如果你觉得这个聊天室代码对你有帮助, 希望打赏下给个鼓励~~<br />作者大多数时间在线, 欢迎提问, 有问必答</p>
                             <div>
@@ -296,32 +236,41 @@ class Sidebar extends Component {
                             </div>
                         </div>
                     </Dialog>
-                    <Dialog className="dialog fiora-info " visible={infoDialog} title="关于" onClose={this.closeInfo}>
+                    <Dialog className="dialog fiora-info " visible={infoDialog} title="关于" onClose={this.toggleInfoDialog}>
                         <div className="content">
                             <div>
                                 <p>作者主页</p>
                                 <a href="https://suisuijiang.com" target="_black" rel="noopener noreferrer">https://suisuijiang.com</a>
                             </div>
                             <div>
-                                <p>如何在本地运行</p>
+                                <p>如何运行</p>
                                 <a href="https://github.com/yinxin630/fiora/blob/master/doc/INSTALL.ZH.md" target="_black" rel="noopener noreferrer">https://github.com/yinxin630/fiora/blob/master/doc/INSTALL.ZH.md</a>
+                            </div>
+                            <div>
+                                <p>架构 / 设计思路</p>
+                                <a href="https://github.com/yinxin630/blog/issues/3" target="_black" rel="noopener noreferrer">https://github.com/yinxin630/blog/issues/3</a>
+                            </div>
+                            <div>
+                                <p>将fiora安装到主屏(PWA)</p>
+                                <ul>
+                                    <li>地址栏输入: Chrome://flags</li>
+                                    <li>搜索并启用以下项目: Desktop PWAs(桌面PWAs)、App Banners(应用横幅)、Experimental App Banners(实验性应用横幅)</li>
+                                    <li>重启浏览器使修改的设置生效</li>
+                                    <li>点击地址栏最右边按钮</li>
+                                    <li>选择&quot;安装 fiora&quot;</li>
+                                </ul>
                             </div>
                             <div>
                                 <p>输入框快捷键</p>
                                 <ul>
                                     <li>Alt + S: 发送滑稽</li>
                                     <li>Alt + D: 发送表情包</li>
-                                    <li>Alt + 1: 表情阴险</li>
-                                    <li>Alt + 2: 表情乖</li>
-                                    <li>Alt + 3: 表情滑稽</li>
-                                    <li>Alt + 4: 表情呵呵</li>
-                                    <li>Alt + 5: 表情委屈</li>
-                                    <li>Alt + 6: 表情笑眼</li>
-                                    <li>Alt + 7: 表情吐舌</li>
                                 </ul>
                             </div>
                         </div>
                     </Dialog>
+                    <AppDownload visible={appDownloadDialog} onClose={this.toggleAppDownloadDialog} />
+                    <AdminDialog visible={adminDialog} onClose={this.toggleAdminDialog} />
                 </div>
             );
         }
@@ -335,7 +284,7 @@ export default connect(state => ({
     isLogin: !!state.getIn(['user', '_id']),
     isConnect: state.get('connect'),
     avatar: state.getIn(['user', 'avatar']),
-    userId: state.getIn(['user', '_id']),
+    isAdmin: state.getIn(['user', 'isAdmin']),
     primaryColor: state.getIn(['ui', 'primaryColor']),
     primaryTextColor: state.getIn(['ui', 'primaryTextColor']),
     backgroundImage: state.getIn(['ui', 'backgroundImage']),
@@ -343,4 +292,5 @@ export default connect(state => ({
     soundSwitch: state.getIn(['ui', 'soundSwitch']),
     notificationSwitch: state.getIn(['ui', 'notificationSwitch']),
     voiceSwitch: state.getIn(['ui', 'voiceSwitch']),
+    userId: state.getIn(['user', '_id']),
 }))(Sidebar);
