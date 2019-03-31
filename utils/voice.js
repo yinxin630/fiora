@@ -54,6 +54,7 @@ const voice = {
 
 const $audio = document.createElement('audio');
 const $source = document.createElement('source');
+$audio.volume = 0.3;
 $source.setAttribute('type', 'audio/mp3');
 $source.setAttribute('src', '');
 $audio.appendChild($source);
