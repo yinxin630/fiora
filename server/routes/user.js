@@ -81,6 +81,9 @@ module.exports = {
 
         handleNewUser(newUser);
 
+        if (!defaultGroup.creator) {
+            defaultGroup.creator = newUser;
+        }
         defaultGroup.members.push(newUser);
         await defaultGroup.save();
 
@@ -102,7 +105,7 @@ module.exports = {
                 _id: defaultGroup._id,
                 name: defaultGroup.name,
                 avatar: defaultGroup.avatar,
-                creator: defaultGroup.creator,
+                creator: defaultGroup.creator._id,
                 createTime: defaultGroup.createTime,
                 messages: [],
             }],
