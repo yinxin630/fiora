@@ -38,6 +38,9 @@ mongoose.connect(config.database, async (err) => {
             console.error('create default group fail');
             return process.exit(1);
         }
+    } else if (group.name !== config.defaultGroupName) {
+        group.name = config.defaultGroupName;
+        await group.save();
     }
 
     app.listen(config.port, async () => {
