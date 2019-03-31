@@ -182,7 +182,7 @@ class Feature extends Component {
         } = this.state;
         return (
             <div className="chatPanel-feature">
-                <form autoComplete="off">
+                <form autoComplete="off" action="javascript:void(0);">
                     <input className={showSearchResult ? 'focus' : 'blur'} type="text" placeholder="搜索群组/用户" ref={i => this.searchInput = i} onFocus={this.handleFocus} onKeyDown={this.handleInputKeyDown} />
                 </form>
                 <i className="iconfont icon-search" />

@@ -458,7 +458,7 @@ class ChatInput extends Component {
                     >
                         <IconButton className="feature" width={44} height={44} icon="feature" iconSize={32} />
                     </Dropdown>
-                    <form autoComplete="off">
+                    <form autoComplete="off" action="javascript:void(0);">
                         <input
                             type="text"
                             placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~"
