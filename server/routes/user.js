@@ -1,6 +1,6 @@
 const assert = require('assert');
 const bluebird = require('bluebird');
-const bcrypt = bluebird.promisifyAll(require('bcrypt'), { suffix: '$' });
+const bcrypt = bluebird.promisifyAll(require('bcryptjs'), { suffix: '$' });
 const jwt = require('jwt-simple');
 const { isValid } = require('mongoose').Types.ObjectId;
 
