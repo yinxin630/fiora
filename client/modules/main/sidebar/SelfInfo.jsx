@@ -19,6 +19,17 @@ import config from '../../../../config/client';
 
 
 class SelfInfo extends Component {
+    /**
+     * 让用户重新登录
+     * @param {string} message 提示消息
+     */
+    static reLogin(message) {
+        action.logout();
+        window.localStorage.removeItem('token');
+        Message.success(message);
+        socket.disconnect();
+        socket.connect();
+    }
     static propTypes = {
         visible: PropTypes.bool.isRequired,
         onClose: PropTypes.func.isRequired,
@@ -99,12 +110,20 @@ class SelfInfo extends Component {
             newPassword: this.newPassword.getValue(),
         });
         if (!err) {
-            action.logout();
-            window.localStorage.removeItem('token');
-            Message.success('修改密码成功, 请重新登录');
-            socket.disconnect();
-            socket.connect();
-            this.closeUserDialog();
+            this.props.onClose();
+            SelfInfo.reLogin('修改密码成功, 请使用新密码重新登录');
+        }
+    }
+    /**
+     * 修改用户名
+     */
+    changeUsername = async () => {
+        const [err] = await fetch('changeUsername', {
+            username: this.username.getValue(),
+        });
+        if (!err) {
+            this.props.onClose();
+            SelfInfo.reLogin('修改用户名成功, 请使用新用户名重新登录');
         }
     }
     render() {
@@ -143,6 +162,13 @@ class SelfInfo extends Component {
                             <Input ref={i => this.oldPassword = i} type="password" placeholder="旧密码" />
                             <Input ref={i => this.newPassword = i} type="password" placeholder="新密码" />
                             <Button onClick={this.changePassword}>修改密码</Button>
+                        </div>
+                    </div>
+                    <div>
+                        <p>修改用户名</p>
+                        <div className="change-username">
+                            <Input ref={i => this.username = i} type="text" placeholder="用户名" />
+                            <Button onClick={this.changeUsername}>修改用户名</Button>
                         </div>
                     </div>
                 </div>

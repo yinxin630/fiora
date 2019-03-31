@@ -304,6 +304,25 @@ module.exports = {
         };
     },
     /**
+     * 修改用户名
+     */
+    async changeUsername(ctx) {
+        const { username } = ctx.data;
+        assert(username, '新用户名不能为空');
+
+        const user = await User.findOne({ username });
+        assert(!user, '该用户名已存在, 换一个试试吧');
+
+        const self = await User.findOne({ _id: ctx.socket.user });
+
+        self.username = username;
+        await self.save();
+
+        return {
+            msg: 'ok',
+        };
+    },
+    /**
      * 重置用户密码
      */
     async resetUserPassword(ctx) {
