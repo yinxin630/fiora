@@ -182,7 +182,9 @@ class Feature extends Component {
         } = this.state;
         return (
             <div className="chatPanel-feature">
-                <input className={showSearchResult ? 'focus' : 'blur'} type="text" placeholder="搜索群组/用户" autoComplete="false" ref={i => this.searchInput = i} onFocus={this.handleFocus} onKeyDown={this.handleInputKeyDown} />
+                <form autoComplete="off">
+                    <input className={showSearchResult ? 'focus' : 'blur'} type="text" placeholder="搜索群组/用户" ref={i => this.searchInput = i} onFocus={this.handleFocus} onKeyDown={this.handleInputKeyDown} />
+                </form>
                 <i className="iconfont icon-search" />
                 <IconButton style={{ display: showAddButton ? 'block' : 'none' }} width={40} height={40} icon="add" iconSize={38} onClick={this.toggleCreateGroupDialog} />
                 <Dialog className="create-group-dialog" title="创建群组" visible={createGroupDialog} onClose={this.toggleCreateGroupDialog}>

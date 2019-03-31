@@ -390,20 +390,24 @@
     padding: 0px 20px;
     border-bottom-right-radius: 10px;
 
-    input {
+    form {
         flex: 1;
-        margin: 0 10px;
-        padding: 0px 8px;
-        height: 32px;
-        line-height: 32px;
-        outline: none;
-        border: 1px solid rgba(208, 208, 208, 0.5);
-        font-size: 14px;
-        color: #666;
-        user-select: auto;
-
-        &::placeholder {
-            color: #999;
+        display: flex;
+        input {
+            flex: 1;
+            margin: 0 10px;
+            padding: 0px 8px;
+            height: 32px;
+            line-height: 32px;
+            outline: none;
+            border: 1px solid rgba(208, 208, 208, 0.5);
+            font-size: 14px;
+            color: #666;
+            user-select: auto;
+    
+            &::placeholder {
+                color: #999;
+            }
         }
     }
     div {

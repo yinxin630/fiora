@@ -458,17 +458,20 @@ class ChatInput extends Component {
                     >
                         <IconButton className="feature" width={44} height={44} icon="feature" iconSize={32} />
                     </Dropdown>
-                    <input
-                        type="text"
-                        placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~"
-                        maxLength="2048"
-                        autofoucus="true"
-                        ref={i => this.message = i}
-                        onKeyDown={this.handleInputKeyDown}
-                        onPaste={this.handlePaste}
-                        onCompositionStart={this.handleIMEStart}
-                        onCompositionEnd={this.handleIMEEnd}
-                    />
+                    <form autoComplete="off">
+                        <input
+                            type="text"
+                            placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~"
+                            maxLength="2048"
+                            autofoucus="true"
+                            ref={i => this.message = i}
+                            onKeyDown={this.handleInputKeyDown}
+                            onPaste={this.handlePaste}
+                            onCompositionStart={this.handleIMEStart}
+                            onCompositionEnd={this.handleIMEEnd}
+                        />
+                    </form>
+
                     <IconButton className="send" width={44} height={44} icon="send" iconSize={32} onClick={this.sendTextMessage} />
                     <Dialog
                         className="codeEditor-dialog"

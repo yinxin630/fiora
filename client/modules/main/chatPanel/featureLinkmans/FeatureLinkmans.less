@@ -82,20 +82,24 @@
     padding: 0 12px;
     position: relative;
 
-    & > input {
+    & > form {
         flex: 1;
-        height: 36px;
-        border-radius: 18px;
-        border: none;
-        background-color: rgba(255, 255, 255, 0.5);
-        padding-left: 35px;
-        padding-right: 15px;
-        padding-top: 2px;
-        font-size: 14px;
-        color: #333;
-
-        &.focus {
-            background-color: rgba(255, 255, 255, 0.9);
+        display: flex;
+        input {
+            flex: 1;
+            height: 36px;
+            border-radius: 18px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.5);
+            padding-left: 35px;
+            padding-right: 15px;
+            padding-top: 2px;
+            font-size: 14px;
+            color: #333;
+    
+            &.focus {
+                background-color: rgba(255, 255, 255, 0.9);
+            }
         }
     }
     & > .iconfont {
