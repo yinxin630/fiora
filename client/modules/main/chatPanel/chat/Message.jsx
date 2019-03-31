@@ -84,7 +84,7 @@ class Message extends Component {
         const { type, content, shouldScroll, isSelf } = this.props;
         if (type === 'image') {
             let maxWidth = this.dom.clientWidth - 100;
-            const maxHeight = 400;
+            const maxHeight = 200;
             if (maxWidth > 500) {
                 maxWidth = 500;
             }
