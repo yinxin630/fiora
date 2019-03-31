@@ -303,4 +303,26 @@ module.exports = {
             msg: 'ok',
         };
     },
+    /**
+     * 重置用户密码
+     */
+    async resetUserPassword(ctx) {
+        const { username } = ctx.data;
+        assert(username !== '', 'username不能为空');
+
+        const user = await User.findOne({ username });
+        assert(user, '用户不存在');
+
+        const newPassword = 'helloworld';
+        const salt = await bcrypt.genSalt$(saltRounds);
+        const hash = await bcrypt.hash$(newPassword, salt);
+
+        user.salt = salt;
+        user.password = hash;
+        await user.save();
+
+        return {
+            newPassword,
+        };
+    },
 };

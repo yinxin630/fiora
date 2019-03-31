@@ -65,8 +65,6 @@ module.exports = {
         return { token: baiduToken };
     },
     async sealUser(ctx) {
-        assert(ctx.socket.user.toString() === config.administrator, '你不是管理员');
-
         const { username } = ctx.data;
         assert(username !== '', 'username不能为空');
 
@@ -86,9 +84,7 @@ module.exports = {
             msg: 'ok',
         };
     },
-    async getSealList(ctx) {
-        assert(ctx.socket.user.toString() === config.administrator, '你不是管理员');
-
+    async getSealList() {
         const sealList = global.mdb.get('sealList');
         const userIds = [...sealList.keys()];
         const users = await User.find({ _id: { $in: userIds } });

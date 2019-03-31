@@ -11,6 +11,7 @@ const seal = require('./middlewares/seal');
 const frequency = require('./middlewares/frequency');
 const isLogin = require('./middlewares/isLogin');
 const route = require('./middlewares/route');
+const isAdmin = require('./middlewares/isAdmin');
 
 const userRoutes = require('./routes/user');
 const groupRoutes = require('./routes/group');
@@ -73,6 +74,7 @@ io.use(catchError());
 io.use(seal());
 io.use(frequency());
 io.use(isLogin());
+io.use(isAdmin());
 io.use(route(
     app.io,
     app._io,
