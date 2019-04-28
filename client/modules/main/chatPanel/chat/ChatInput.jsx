@@ -10,9 +10,9 @@ import Dropdown from '@/components/Dropdown';
 import { Menu, MenuItem } from '@/components/Menu';
 import Dialog from '@/components/Dialog';
 import Message from '@/components/Message';
-import Input from '@/components/Input';
-import Button from '@/components/Button';
-import Loading from '@/components/Loading';
+// import Input from '@/components/Input';
+// import Button from '@/components/Button';
+// import Loading from '@/components/Loading';
 import Avatar from '@/components/Avatar';
 
 import getRandomHuaji from 'utils/getRandomHuaji';
@@ -25,7 +25,7 @@ import CodeEditor from './CodeEditor';
 import config from '../../../../../config/client';
 
 const xss = require('utils/xss');
-const Url = require('utils/url');
+// const Url = require('utils/url');
 
 @immutableRenderDecorator
 class ChatInput extends Component {
@@ -79,9 +79,9 @@ class ChatInput extends Component {
         this.state = {
             expressionVisible: false,
             codeInputVisible: false,
-            expressionSearchVisible: false,
-            expressionSearchLoading: false,
-            expressionSearchResults: [],
+            // expressionSearchVisible: false,
+            // expressionSearchLoading: false,
+            // expressionSearchResults: [],
 
             at: false, // 是否处于@输入中
             atContent: '', // @内容
@@ -121,12 +121,12 @@ class ChatInput extends Component {
             });
             break;
         }
-        case 'expression': {
-            this.setState({
-                expressionSearchVisible: true,
-            });
-            break;
-        }
+        // case 'expression': {
+        //     this.setState({
+        //         expressionSearchVisible: true,
+        //     });
+        //     break;
+        // }
         default:
         }
     }
@@ -135,11 +135,11 @@ class ChatInput extends Component {
             codeInputVisible: false,
         });
     }
-    closeExpressionSearch = () => {
-        this.setState({
-            expressionSearchVisible: false,
-        });
-    }
+    // closeExpressionSearch = () => {
+    //     this.setState({
+    //         expressionSearchVisible: false,
+    //     });
+    // }
     handleSendCode = () => {
         if (!this.props.connect) {
             return Message.error('发送消息失败, 您当前处于离线状态');
@@ -169,9 +169,9 @@ class ChatInput extends Component {
             this.sendHuaji();
             e.preventDefault();
         } else if (e.altKey && (e.key === 'd' || e.key === '∂')) {
-            this.setState({
-                expressionSearchVisible: true,
-            });
+            // this.setState({
+            //     expressionSearchVisible: true,
+            // });
         } else if (e.key === '@') { // 如果按下@建, 则进入@计算模式
             if (!/@/.test(this.message.value)) {
                 this.setState({
@@ -369,26 +369,26 @@ class ChatInput extends Component {
     handleIMEEnd = () => {
         this.ime = false;
     }
-    searchExpression = async (keywords) => {
-        if (keywords) {
-            this.setState({
-                expressionSearchLoading: true,
-            });
-            const [err, result] = await fetch('searchExpression', { keywords });
-            if (!err) {
-                if (result.length !== 0) {
-                    this.setState({
-                        expressionSearchResults: result,
-                    });
-                } else {
-                    Message.info('没有相关表情, 换个关键字试试吧');
-                }
-            }
-            this.setState({
-                expressionSearchLoading: false,
-            });
-        }
-    }
+    // searchExpression = async (keywords) => {
+    //     if (keywords) {
+    //         this.setState({
+    //             expressionSearchLoading: true,
+    //         });
+    //         const [err, result] = await fetch('searchExpression', { keywords });
+    //         if (!err) {
+    //             if (result.length !== 0) {
+    //                 this.setState({
+    //                     expressionSearchResults: result,
+    //                 });
+    //             } else {
+    //                 Message.info('没有相关表情, 换个关键字试试吧');
+    //             }
+    //         }
+    //         this.setState({
+    //             expressionSearchLoading: false,
+    //         });
+    //     }
+    // }
     handleSearchExpressionButtonClick = () => {
         const keywords = this.expressionSearchKeyword.getValue();
         this.searchExpression(keywords);
@@ -396,20 +396,20 @@ class ChatInput extends Component {
     handleSearchExpressionInputEnter = (keywords) => {
         this.searchExpression(keywords);
     }
-    handleClickExpression = (e) => {
-        const $target = e.target;
-        if ($target.tagName === 'IMG') {
-            const url = Url.addParam($target.src, {
-                width: $target.naturalWidth,
-                height: $target.naturalHeight,
-            });
-            const id = this.addSelfMessage('image', url);
-            this.sendMessage(id, 'image', url);
-            this.setState({
-                expressionSearchVisible: false,
-            });
-        }
-    }
+    // handleClickExpression = (e) => {
+    //     const $target = e.target;
+    //     if ($target.tagName === 'IMG') {
+    //         const url = Url.addParam($target.src, {
+    //             width: $target.naturalWidth,
+    //             height: $target.naturalHeight,
+    //         });
+    //         const id = this.addSelfMessage('image', url);
+    //         this.sendMessage(id, 'image', url);
+    //         this.setState({
+    //             expressionSearchVisible: false,
+    //         });
+    //     }
+    // }
     replaceAt = (username) => {
         this.message.value = this.message.value.replace(`@${this.state.atContent}`, `@${username} `);
         this.setState({
@@ -426,7 +426,7 @@ class ChatInput extends Component {
     featureDropdown = (
         <div className="feature-dropdown">
             <Menu onClick={this.handleFeatureMenuClick}>
-                <MenuItem key="expression">发送表情包</MenuItem>
+                {/* <MenuItem key="expression">发送表情包</MenuItem> */}
                 <MenuItem key="huaji">发送滑稽</MenuItem>
                 <MenuItem key="image">发送图片</MenuItem>
                 <MenuItem key="code">发送代码</MenuItem>
@@ -434,7 +434,7 @@ class ChatInput extends Component {
         </div>
     )
     render() {
-        const { expressionVisible, codeInputVisible, expressionSearchVisible, expressionSearchResults, expressionSearchLoading, at } = this.state;
+        const { expressionVisible, codeInputVisible, /* expressionSearchVisible, expressionSearchResults, expressionSearchLoading, */ at } = this.state;
         const { isLogin } = this.props;
 
         if (isLogin) {
@@ -484,7 +484,7 @@ class ChatInput extends Component {
                             <button className="codeEditor-button" onClick={this.handleSendCode}>发送</button>
                         </div>
                     </Dialog>
-                    <Dialog
+                    {/* <Dialog
                         className="expressionSearch-dialog"
                         title="搜索表情包"
                         visible={expressionSearchVisible}
@@ -501,12 +501,12 @@ class ChatInput extends Component {
                             <div className="expression-list" onClick={this.handleClickExpression}>
                                 {
                                     expressionSearchResults.map((image, i) => (
-                                        <img src={image} key={i + image} />
+                                        <img src={image} key={i + image} referrerPolicy="no-referrer" />
                                     ))
                                 }
                             </div>
                         </div>
-                    </Dialog>
+                    </Dialog> */}
                     <div className="aite-panel">
                         {
                             at ?
