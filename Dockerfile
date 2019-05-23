@@ -1,16 +1,12 @@
 FROM node:alpine
 
-WORKDIR /usr/src/app
+WORKDIR /usr/app/fiora
 
 Run wget -q -O - https://api.github.com/repos/yinxin630/fiora/tarball/master | tar xz --strip=1
 
-Run  apk add --no-cache python build-base
-
-COPY package.json .
+COPY . .
 
 RUN yarn install
-
-COPY . .
 
 RUN yarn build && rm -rf public/* && mv dist/fiora/* public
 

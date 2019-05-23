@@ -1,13 +1,15 @@
 version: '3.2'
 
 services:
+  mongodb:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
   fiora:
     build: .
     restart: always
     ports:
       - "9200:9200"
     environment:
-      - "DATABASE=mongodb"
-  mongodb:
-    image: mongo
-    restart: always
+      - "Database=mongodb://mongoDB/fiora"
