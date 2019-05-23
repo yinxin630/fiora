@@ -21,7 +21,6 @@ Fiora是一款web聊天应用. 使用node.js, mongodb, socket.io和react编写
 5. 自定义桌面背景, 主题颜色, 文本颜色
 6. 查看在线用户, @功能
 7. 小黑屋禁言
-8. Service Worker
 
 ## 运行截图
 

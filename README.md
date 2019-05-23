@@ -9,7 +9,7 @@ Language: [English](README.md) | [简体中文](./doc/README.ZH.md)
 
 Fiora is a web chat application. It is written by node.js, mongodb, socket.io and react
 
-Online address: [https://fiora.suisuijiang.com/](https://fiora.suisuijiang.com/)
+Online address: [https://fiora.suisuijiang.com/](https://fiora.suisuijiang.com/)   
 Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/yinxin630/fiora-app)
 
 ## Functions
@@ -21,7 +21,6 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
 5. Custom desktop background, theme color, and text color
 6. Display online users, @ function
 7. Little black room shut up
-8. Service Worker
 
 ## Screenshot
 
