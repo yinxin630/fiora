@@ -20,6 +20,7 @@ class MessageList extends Component {
     constructor(...args) {
         super(...args);
         this.isFetching = false;
+        this.$list = React.createRef();
     }
     handleScroll = async (e) => {
         // Don't know why the code-view dialog will also trigger when scrolling
@@ -75,7 +76,7 @@ class MessageList extends Component {
     render() {
         const { messages } = this.props;
         return (
-            <div className="chat-messageList" onScroll={this.handleScroll} ref={i => this.$list = i}>
+            <div className="chat-messageList" onScroll={this.handleScroll} ref={this.$list}>
                 {
                     messages.map(message => (
                         this.renderMessage(message)
