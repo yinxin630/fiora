@@ -158,6 +158,18 @@ class Chat extends Component {
     render() {
         const { groupInfoDialog, userInfoDialog, userInfo } = this.state;
         const { userId, creator, avatar, type, focus = '', name, members } = this.props;
+
+        if (!focus) {
+            return (
+                <div className="module-main-chat">
+                    <div className="no-linkman">
+                        <div />
+                        <h2>加个群或者好友呀, 不然怎么聊天~~</h2>
+                    </div>
+                </div>
+            );
+        }
+
         return (
             <div className="module-main-chat">
                 <HeaderBar onShowInfo={type === 'group' ? this.groupInfoDialog : this.showUserInfoDialog.bind(this, { _id: focus.replace(userId, ''), username: name, avatar })} />
@@ -204,8 +216,14 @@ export default connect((state) => {
     }
 
     const focus = state.get('focus');
-    const linkman = state.getIn(['user', 'linkmans']).find(g => g.get('_id') === focus);
+    if (!focus) {
+        return {
+            userId: state.getIn(['user', '_id']),
+            focus,
+        };
+    }
 
+    const linkman = state.getIn(['user', 'linkmans']).find(g => g.get('_id') === focus);
     return {
         userId: state.getIn(['user', '_id']),
         focus,
