@@ -150,6 +150,10 @@ socket.on('message', (message) => {
     }
 });
 
+socket.on('changeGroupName', ({ groupId, name }) => {
+    action.setGroupName(groupId, name);
+});
+
 ReactDom.render(
     <Provider store={store}>
         <App />

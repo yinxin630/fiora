@@ -125,6 +125,15 @@ module.exports = {
         assert(group, '群组不存在');
         return getGroupOnlineMembers(group);
     },
+
+    /**
+     * Modify the group avatar, only the group owner is available
+     * @param {Object} ctx context
+     * @param {Object} ctx.data interface params
+     * @param {string} ctx.data.groupId to change the group id of the avatar
+     * @param {string} ctx.data.avatar new avatar url
+     * @returns {Object}
+     */
     async changeGroupAvatar(ctx) {
         const { groupId, avatar } = ctx.data;
         assert(isValid(groupId), '无效的群组ID');
@@ -135,6 +144,34 @@ module.exports = {
         assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能修改头像');
 
         await Group.update({ _id: groupId }, { avatar });
+        return {};
+    },
+
+    /**
+     * Modify the group name, only the group owner is available
+     * @param {Object} ctx context
+     * @param {Object} ctx.data interface params
+     * @param {string} ctx.data.groupId to change the group id of the avatar
+     * @param {string} ctx.data.name new name
+     * @returns {Object}
+     */
+    async changeGroupName(ctx) {
+        const { groupId, name } = ctx.data;
+        assert(isValid(groupId), '无效的群组ID');
+        assert(name, '群组名称不能为空');
+
+        const group = await Group.findOne({ _id: groupId });
+        assert(group, '群组不存在');
+        assert(group.name !== name, '新群组名不能和之前一致');
+        assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能修改头像');
+
+        const targetGroup = await Group.findOne({ name });
+        assert(!targetGroup, '该群组名已存在');
+
+        await Group.update({ _id: groupId }, { name });
+
+        ctx.socket.to(groupId).emit('changeGroupName', { groupId, name });
+
         return {};
     },
 };

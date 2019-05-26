@@ -123,11 +123,11 @@ function reducer(state = initialState, action) {
             .findIndex(l => l.get('_id') === action.groupId);
         return state.setIn(['user', 'linkmans', linkmanIndex, 'members'], immutable.fromJS(action.members));
     }
-    case 'SetGroupAvatar': {
+    case 'SetGroupInfo': {
         const linkmanIndex = state
             .getIn(['user', 'linkmans'])
             .findIndex(l => l.get('_id') === action.groupId);
-        return state.setIn(['user', 'linkmans', linkmanIndex, 'avatar'], action.avatar);
+        return state.setIn(['user', 'linkmans', linkmanIndex, action.key], action.value);
     }
     case 'SetFocus': {
         const linkmanIndex = state

@@ -13,6 +13,8 @@ import Avatar from '@/components/Avatar';
 import Tooltip from '@/components/Tooltip';
 import Message from '@/components/Message';
 import Button from '@/components/Button';
+import Input from '@/components/Input';
+
 import HeaderBar from './HeaderBar';
 import MessageList from './MessageList';
 import ChatInput from './ChatInput';
@@ -115,6 +117,18 @@ class Chat extends Component {
             Message.error('上传群头像失败');
         }
     }
+    changeGroupName = async () => {
+        const { focus: groupId } = this.props;
+        const newName = this.groupNameInput.getValue();
+        const [error] = await fetch('changeGroupName', {
+            groupId,
+            name: this.groupNameInput.getValue(),
+        });
+        if (!error) {
+            Message.success('修改群名称成功');
+            action.setGroupName(groupId, newName);
+        }
+    }
     leaveGroup = async () => {
         const { focus } = this.props;
         const [err] = await fetch('leaveGroup', { groupId: focus });
@@ -180,8 +194,18 @@ class Chat extends Component {
                     <div>
                         {
                             !!userId && userId === creator ?
+                                <div className="name">
+                                    <p>修改群名称</p>
+                                    <Input ref={i => this.groupNameInput = i} />
+                                    <Button onClick={this.changeGroupName}>确认修改</Button>
+                                </div>
+                                :
+                                null
+                        }
+                        {
+                            !!userId && userId === creator ?
                                 <div className="avatar">
-                                    <p>群头像</p>
+                                    <p>修改群头像</p>
                                     <img src={avatar} onClick={this.changeGroupAvatar} />
                                 </div>
                                 :

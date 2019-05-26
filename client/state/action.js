@@ -150,9 +150,23 @@ function setGroupMembers(groupId, members) {
 }
 function setGroupAvatar(groupId, avatar) {
     dispatch({
-        type: 'SetGroupAvatar',
+        type: 'SetGroupInfo',
         groupId,
-        avatar,
+        key: 'avatar',
+        value: avatar,
+    });
+}
+/**
+ * Update the avatar of the specified group in the store
+ * @param {string} groupId group id
+ * @param {string} name group new name
+ */
+function setGroupName(groupId, name) {
+    dispatch({
+        type: 'SetGroupInfo',
+        groupId,
+        key: 'name',
+        value: name,
     });
 }
 function addLinkman(linkman, focus = false) {
@@ -266,6 +280,7 @@ export default {
     setFocus,
     setGroupMembers,
     setGroupAvatar,
+    setGroupName,
     addLinkman,
     removeLinkman,
     setFriend,
