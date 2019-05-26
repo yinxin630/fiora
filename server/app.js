@@ -1,5 +1,5 @@
 const Koa = require('koa');
-const IO = require('koa-socket');
+const IO = require('koa-socket-2');
 const koaSend = require('koa-send');
 const koaStatic = require('koa-static');
 const path = require('path');

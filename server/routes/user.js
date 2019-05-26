@@ -136,7 +136,7 @@ module.exports = {
 
         const groups = await Group.find({ members: user }, { _id: 1, name: 1, avatar: 1, creator: 1, createTime: 1 });
         groups.forEach((group) => {
-            ctx.socket.socket.join(group._id);
+            ctx.socket.join(group._id);
         });
 
         const friends = await Friend
@@ -191,7 +191,7 @@ module.exports = {
 
         const groups = await Group.find({ members: user }, { _id: 1, name: 1, avatar: 1, creator: 1, createTime: 1 });
         groups.forEach((group) => {
-            ctx.socket.socket.join(group._id);
+            ctx.socket.join(group._id);
         });
 
         const friends = await Friend
@@ -225,7 +225,7 @@ module.exports = {
         });
 
         const group = await Group.findOne({ isDefault: true }, { _id: 1, name: 1, avatar: 1, createTime: 1 });
-        ctx.socket.socket.join(group._id);
+        ctx.socket.join(group._id);
 
         const messages = await Message
             .find(

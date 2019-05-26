@@ -50,7 +50,7 @@ module.exports = {
             throw err;
         }
 
-        ctx.socket.socket.join(newGroup._id);
+        ctx.socket.join(newGroup._id);
         return {
             _id: newGroup._id,
             name: newGroup.name,
@@ -79,7 +79,7 @@ module.exports = {
             .populate('from', { username: 1, avatar: 1 });
         messages.reverse();
 
-        ctx.socket.socket.join(group._id);
+        ctx.socket.join(group._id);
 
         return {
             _id: group._id,
@@ -108,7 +108,7 @@ module.exports = {
         group.members.splice(index, 1);
         await group.save();
 
-        ctx.socket.socket.leave(group._id);
+        ctx.socket.leave(group._id);
 
         return {};
     },

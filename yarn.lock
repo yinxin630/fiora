@@ -242,6 +242,14 @@ accepts@^1.3.5, accepts@~1.3.5:
     mime-types "~2.1.18"
     negotiator "0.6.1"
 
+accepts@~1.3.4:
+  version "1.3.7"
+  resolved "https://registry.npm.taobao.org/accepts/download/accepts-1.3.7.tgz#531bc726517a3b2b41f850021c6cc15eaab507cd"
+  integrity sha1-UxvHJlF6OytB+FACHGzBXqq1B80=
+  dependencies:
+    mime-types "~2.1.24"
+    negotiator "0.6.2"
+
 acorn-dynamic-import@^4.0.0:
   version "4.0.0"
   resolved "http://registry.npm.taobao.org/acorn-dynamic-import/download/acorn-dynamic-import-4.0.0.tgz#482210140582a36b83c3e342e1cfebcaa9240948"
@@ -1321,6 +1329,11 @@ base64id@0.1.0:
   version "0.1.0"
   resolved "http://registry.npm.taobao.org/base64id/download/base64id-0.1.0.tgz#02ce0fdeee0cef4f40080e1e73e834f0b1bfce3f"
 
+base64id@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npm.taobao.org/base64id/download/base64id-1.0.0.tgz#47688cb99bb6804f0e06d3e763b1c32e57d8e6b6"
+  integrity sha1-R2iMuZu2gE8OBtPnY7HDLlfY5rY=
+
 base@^0.11.1:
   version "0.11.2"
   resolved "http://registry.npm.taobao.org/base/download/base-0.11.2.tgz#7bde5ced145b6d551a90db87f83c558b4eb48a8f"
@@ -2305,7 +2318,7 @@ debug@^3.1.0, debug@^3.2.6:
   dependencies:
     ms "^2.1.1"
 
-debug@^4.1.0:
+debug@^4.1.0, debug@~4.1.0:
   version "4.1.1"
   resolved "http://registry.npm.taobao.org/debug/download/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
   dependencies:
@@ -2617,7 +2630,7 @@ engine.io-parser@1.2.4:
     has-binary "0.1.6"
     utf8 "2.1.0"
 
-engine.io-parser@~2.1.1:
+engine.io-parser@~2.1.0, engine.io-parser@~2.1.1:
   version "2.1.3"
   resolved "http://registry.npm.taobao.org/engine.io-parser/download/engine.io-parser-2.1.3.tgz#757ab970fbf2dfb32c7b74b033216d5739ef79a6"
   dependencies:
@@ -2636,6 +2649,18 @@ engine.io@1.6.8:
     debug "2.2.0"
     engine.io-parser "1.2.4"
     ws "1.0.1"
+
+engine.io@~3.3.1:
+  version "3.3.2"
+  resolved "https://registry.npm.taobao.org/engine.io/download/engine.io-3.3.2.tgz#18cbc8b6f36e9461c5c0f81df2b830de16058a59"
+  integrity sha1-GMvItvNulGHFwPgd8rgw3hYFilk=
+  dependencies:
+    accepts "~1.3.4"
+    base64id "1.0.0"
+    cookie "0.3.1"
+    debug "~3.1.0"
+    engine.io-parser "~2.1.0"
+    ws "~6.1.0"
 
 enhanced-resolve@^4.1.0:
   version "4.1.0"
@@ -4258,6 +4283,14 @@ koa-send@^4.1.3:
     mz "^2.6.0"
     resolve-path "^1.4.0"
 
+koa-socket-2@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npm.taobao.org/koa-socket-2/download/koa-socket-2-1.1.0.tgz#8d7dadb86bc4ae4166d40b5346a9589ad82e02d0"
+  integrity sha1-jX2tuGvErkFm1AtTRqlYmtguAtA=
+  dependencies:
+    koa-compose "^4.1.0"
+    socket.io "^2.2.0"
+
 koa-socket@^4.4.0:
   version "4.4.0"
   resolved "http://registry.npm.taobao.org/koa-socket/download/koa-socket-4.4.0.tgz#e651a003980d96d96fce3955116dfbc563665097"
@@ -4603,6 +4636,11 @@ miller-rabin@^4.0.0:
     bn.js "^4.0.0"
     brorand "^1.0.1"
 
+mime-db@1.40.0:
+  version "1.40.0"
+  resolved "https://registry.npm.taobao.org/mime-db/download/mime-db-1.40.0.tgz#a65057e998db090f732a68f6c276d387d4126c32"
+  integrity sha1-plBX6ZjbCQ9zKmj2wnbTh9QSbDI=
+
 mime-db@~1.12.0:
   version "1.12.0"
   resolved "http://registry.npm.taobao.org/mime-db/download/mime-db-1.12.0.tgz#3d0c63180f458eb10d325aaa37d7c58ae312e9d7"
@@ -4622,6 +4660,13 @@ mime-types@~2.0.4:
   resolved "http://registry.npm.taobao.org/mime-types/download/mime-types-2.0.14.tgz#310e159db23e077f8bb22b748dabfa4957140aa6"
   dependencies:
     mime-db "~1.12.0"
+
+mime-types@~2.1.24:
+  version "2.1.24"
+  resolved "https://registry.npm.taobao.org/mime-types/download/mime-types-2.1.24.tgz#b6f8d0b3e951efb77dedeca194cff6d16f676f81"
+  integrity sha1-tvjQs+lR77d97eyhlM/20W9nb4E=
+  dependencies:
+    mime-db "1.40.0"
 
 mime@1.3.x:
   version "1.3.6"
@@ -4866,6 +4911,11 @@ negotiator@0.4.9:
 negotiator@0.6.1:
   version "0.6.1"
   resolved "http://registry.npm.taobao.org/negotiator/download/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
+
+negotiator@0.6.2:
+  version "0.6.2"
+  resolved "https://registry.npm.taobao.org/negotiator/download/negotiator-0.6.2.tgz#feacf7ccf525a77ae9634436a64883ffeca346fb"
+  integrity sha1-/qz3zPUlp3rpY0Q2pkiD/+yjRvs=
 
 neo-async@^2.5.0:
   version "2.6.0"
@@ -6782,6 +6832,11 @@ socket.io-adapter@0.4.0:
     debug "2.2.0"
     socket.io-parser "2.2.2"
 
+socket.io-adapter@~1.1.0:
+  version "1.1.1"
+  resolved "https://registry.npm.taobao.org/socket.io-adapter/download/socket.io-adapter-1.1.1.tgz#2a805e8a14d6372124dd9159ad4502f8cb07f06b"
+  integrity sha1-KoBeihTWNyEk3ZFZrUUC+MsH8Gs=
+
 socket.io-client@1.4.5:
   version "1.4.5"
   resolved "http://registry.npm.taobao.org/socket.io-client/download/socket.io-client-1.4.5.tgz#400d630c31e7c9579e45173f977e4f5bd8dc7d2e"
@@ -6855,6 +6910,18 @@ socket.io@1.4.5:
     socket.io-adapter "0.4.0"
     socket.io-client "1.4.5"
     socket.io-parser "2.2.6"
+
+socket.io@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.npm.taobao.org/socket.io/download/socket.io-2.2.0.tgz#f0f633161ef6712c972b307598ecd08c9b1b4d5b"
+  integrity sha1-8PYzFh72cSyXKzB1mOzQjJsbTVs=
+  dependencies:
+    debug "~4.1.0"
+    engine.io "~3.3.1"
+    has-binary2 "~1.0.2"
+    socket.io-adapter "~1.1.0"
+    socket.io-client "2.2.0"
+    socket.io-parser "~3.3.0"
 
 sort-keys@^1.0.0:
   version "1.1.2"
