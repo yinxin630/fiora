@@ -24,7 +24,7 @@ class MessageList extends Component {
     }
     handleScroll = async (e) => {
         // Don't know why the code-view dialog will also trigger when scrolling
-        if (e.target !== this.$list) {
+        if (e.target !== this.$list.current) {
             return;
         }
         if (this.isFetching) {
@@ -48,8 +48,20 @@ class MessageList extends Component {
             this.isFetching = false;
         }
     }
+
     renderMessage(message) {
         const { self } = this.props;
+
+        let shouldScroll = true;
+        if (this.$list.current) {
+            const $list = this.$list.current;
+            shouldScroll = (
+                $list.scrollHeight === $list.clientHeight
+                || $list.scrollTop === 0
+                || $list.scrollTop > $list.scrollHeight - $list.clientHeight * 2
+            );
+        }
+
         const props = {
             key: message.get('_id'),
             avatar: message.getIn(['from', 'avatar']),
@@ -60,7 +72,7 @@ class MessageList extends Component {
             isSelf: self === message.getIn(['from', '_id']),
             tag: message.getIn(['from', 'tag']),
             openUserInfoDialog: noop,
-            shouldScroll: this.$list.scrollHeight === this.$list.clientHeight || this.$list.scrollTop === 0 || this.$list.scrollTop > this.$list.scrollHeight - this.$list.clientHeight * 2,
+            shouldScroll,
         };
         if (props.type === 'image') {
             props.loading = message.get('loading');
