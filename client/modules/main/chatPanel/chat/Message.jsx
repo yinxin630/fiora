@@ -102,7 +102,14 @@ class Message extends Component {
                 }
                 $image.width = width * scale;
                 $image.height = height * scale;
-                $image.src = /^(blob|data):/.test(content) ? content.split('?')[0] : `${content}&imageView2/3/w/${Math.floor($image.width * 1.2)}/h/${Math.floor($image.height * 1.2)}`;
+
+                let src = content;
+                if (/^(blob|data):/.test(src)) {
+                    [src] = src.split('?');
+                } else {
+                    src = `${src.startsWith('http://') ? src.substr(5) : src}&imageView2/3/w/${Math.floor($image.width * 1.2)}/h/${Math.floor($image.height * 1.2)}`;
+                }
+                $image.src = src;
             }
         }
         if (shouldScroll || isSelf) {
@@ -175,6 +182,9 @@ class Message extends Component {
         let src = content;
         if (src.startsWith('blob')) {
             [src] = src.split('?');
+        }
+        if (src.startsWith('http://')) {
+            src = src.substr(5);
         }
         // 设置高度宽度为1防止被原图撑起来
         return (
