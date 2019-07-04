@@ -161,14 +161,14 @@ class SelfInfo extends Component {
                         <div className="change-password">
                             <Input ref={i => this.oldPassword = i} type="password" placeholder="旧密码" />
                             <Input ref={i => this.newPassword = i} type="password" placeholder="新密码" />
-                            <Button onClick={this.changePassword}>修改密码</Button>
+                            <Button onClick={this.changePassword}>确认修改</Button>
                         </div>
                     </div>
                     <div>
                         <p>修改用户名</p>
                         <div className="change-username">
                             <Input ref={i => this.username = i} type="text" placeholder="用户名" />
-                            <Button onClick={this.changeUsername}>修改用户名</Button>
+                            <Button onClick={this.changeUsername}>确认修改</Button>
                         </div>
                     </div>
                 </div>
