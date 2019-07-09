@@ -105,7 +105,9 @@ class ChatInput extends Component {
             expressionVisible: visible,
         });
     }
-    handleFeatureMenuClick = ({ key }) => {
+    handleFeatureMenuClick = ({ key, domEvent }) => {
+        domEvent.target.blur(); // 预防连击
+
         switch (key) {
         case 'image': {
             this.handleSelectFile();
