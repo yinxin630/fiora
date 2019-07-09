@@ -9,7 +9,7 @@ import uploadFile from 'utils/uploadFile';
 import fetch from 'utils/fetch';
 
 import config from 'root/config/client';
-import { Input, Message, Button, Avatar, Tooltip } from '../../../../components';
+import { Input, Message, Button, Avatar, Tooltip, Dialog } from '../../../../components';
 
 GroupManagePanel.propTypes = {
     visible: PropTypes.bool,
@@ -37,6 +37,7 @@ export default function GroupManagePanel({
     onClose,
 }) {
     const nameInput = React.useRef();
+    const [deleteConfirmDialog, setDialogStatus] = React.useState(false);
 
     async function changeGroupName() {
         const newName = this.groupNameInput.getValue();
@@ -76,6 +77,7 @@ export default function GroupManagePanel({
         const [err] = await fetch('deleteGroup', { groupId });
         if (!err) {
             onClose();
+            setDialogStatus(false);
             action.removeLinkman(groupId);
             Message.success('解散群组成功');
         }
@@ -117,7 +119,7 @@ export default function GroupManagePanel({
                     userId === creator ?
                         <div className="feature">
                             <p>解散群组</p>
-                            <Button type="danger" onClick={deleteGroup}>确认解散</Button>
+                            <Button type="danger" onClick={() => setDialogStatus(true)}>确认解散</Button>
                         </div>
                         :
                         <div className="feature">
@@ -147,6 +149,15 @@ export default function GroupManagePanel({
                         }
                     </div>
                 </div>
+                <Dialog
+                    className="delete-gourp-confirm-dialog"
+                    title="再次确认解散群组?"
+                    visible={deleteConfirmDialog}
+                    onClose={() => setDialogStatus(false)}
+                >
+                    <Button type="danger" onClick={deleteGroup}>确认</Button>
+                    <Button onClick={() => setDialogStatus(false)}>取消</Button>
+                </Dialog>
             </div>
         </div>
     );
