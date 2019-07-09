@@ -193,6 +193,8 @@ module.exports = {
 
         await group.remove();
 
+        ctx.socket.to(groupId).emit('deleteGroup', { groupId });
+
         return {};
     },
 };

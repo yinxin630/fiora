@@ -154,6 +154,10 @@ socket.on('changeGroupName', ({ groupId, name }) => {
     action.setGroupName(groupId, name);
 });
 
+socket.on('deleteGroup', ({ groupId }) => {
+    action.removeLinkman(groupId);
+});
+
 ReactDom.render(
     <Provider store={store}>
         <App />
