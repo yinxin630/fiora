@@ -8,6 +8,27 @@
     overflow: hidden;
     position: relative;
 
+    .no-linkman {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        div {
+            border-radius: 8px;
+            width: 170px;
+            height: 180px;
+            background-image: url('../../../../assets//images//no-linkman.jpeg');
+            background-position-y: 180px;
+        }
+        h2 {
+            margin-top: 16px;
+            font-size: 14px;
+            color: #666;
+        }
+    }
+
     .group-info {
         height: 100%;
         width: 300px;
@@ -42,6 +63,16 @@
                     font-size: 14px;
                     color: #333;
                     font-weight: bold;
+                }
+                &.name {
+                    & > .component-input {
+                        height: 36px;
+                    }
+                    & > .component-button {
+                        height: 36px;
+                        line-height: 36px;
+                        margin-top: 8px;
+                    }
                 }
                 &.avatar {
                     & > img {
@@ -97,6 +128,20 @@
         }
         &.hide {
             transform: translateX(301px);
+        }
+    }
+}
+
+.rc-dialog {
+    &.delete-gourp-confirm-dialog {
+        .rc-dialog-body {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .component-button {
+            width: 60px;
+            height: 36px;
+            margin-right: 12px;
         }
     }
 }

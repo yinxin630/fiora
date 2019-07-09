@@ -50,7 +50,7 @@ module.exports = {
             throw err;
         }
 
-        ctx.socket.socket.join(newGroup._id);
+        ctx.socket.join(newGroup._id);
         return {
             _id: newGroup._id,
             name: newGroup.name,
@@ -79,7 +79,7 @@ module.exports = {
             .populate('from', { username: 1, avatar: 1 });
         messages.reverse();
 
-        ctx.socket.socket.join(group._id);
+        ctx.socket.join(group._id);
 
         return {
             _id: group._id,
@@ -108,7 +108,7 @@ module.exports = {
         group.members.splice(index, 1);
         await group.save();
 
-        ctx.socket.socket.leave(group._id);
+        ctx.socket.leave(group._id);
 
         return {};
     },
@@ -125,6 +125,15 @@ module.exports = {
         assert(group, '群组不存在');
         return getGroupOnlineMembers(group);
     },
+
+    /**
+     * Modify the group avatar, only the group owner is available
+     * @param {Object} ctx context
+     * @param {Object} ctx.data interface params
+     * @param {string} ctx.data.groupId to change the group id of the avatar
+     * @param {string} ctx.data.avatar new avatar url
+     * @returns {Object}
+     */
     async changeGroupAvatar(ctx) {
         const { groupId, avatar } = ctx.data;
         assert(isValid(groupId), '无效的群组ID');
@@ -135,6 +144,57 @@ module.exports = {
         assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能修改头像');
 
         await Group.update({ _id: groupId }, { avatar });
+        return {};
+    },
+
+    /**
+     * Modify the group name, only the group owner is available
+     * @param {Object} ctx context
+     * @param {Object} ctx.data interface params
+     * @param {string} ctx.data.groupId to change the group id of the avatar
+     * @param {string} ctx.data.name new name
+     * @returns {Object}
+     */
+    async changeGroupName(ctx) {
+        const { groupId, name } = ctx.data;
+        assert(isValid(groupId), '无效的群组ID');
+        assert(name, '群组名称不能为空');
+
+        const group = await Group.findOne({ _id: groupId });
+        assert(group, '群组不存在');
+        assert(group.name !== name, '新群组名不能和之前一致');
+        assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能修改头像');
+
+        const targetGroup = await Group.findOne({ name });
+        assert(!targetGroup, '该群组名已存在');
+
+        await Group.update({ _id: groupId }, { name });
+
+        ctx.socket.to(groupId).emit('changeGroupName', { groupId, name });
+
+        return {};
+    },
+
+    /**
+     * Delete group, only the group owner is available
+     * @param {Object} ctx context
+     * @param {Object} ctx.data interface params
+     * @param {string} ctx.data.groupId to change the group id of the avatar
+     * @returns {Object}
+     */
+    async deleteGroup(ctx) {
+        const { groupId } = ctx.data;
+        assert(isValid(groupId), '无效的群组ID');
+
+        const group = await Group.findOne({ _id: groupId });
+        assert(group, '群组不存在');
+        assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能解散群组');
+        assert(group.isDefault !== true, '默认群组不允许解散');
+
+        await group.remove();
+
+        ctx.socket.to(groupId).emit('deleteGroup', { groupId });
+
         return {};
     },
 };

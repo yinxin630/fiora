@@ -6,7 +6,6 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import 'react-viewer/dist/index.css';
 
 import Avatar from '@/components/Avatar';
-import { Circle } from '@/components/Progress';
 import Dialog from '@/components/Dialog';
 import MessageBox from '@/components/Message';
 import Button from '@/components/Button';
@@ -14,6 +13,7 @@ import Time from 'utils/time';
 import expressions from 'utils/expressions';
 import fetch from 'utils/fetch';
 import action from '../../../../state/action';
+import { CircleProgress } from '../../../../components';
 
 
 const transparentImage = 'data:image/png;base64,R0lGODlhFAAUAIAAAP///wAAACH5BAEAAAAALAAAAAAUABQAAAIRhI+py+0Po5y02ouz3rz7rxUAOw==';
@@ -182,7 +182,7 @@ class Message extends Component {
         return (
             <div className={`image ${loading ? 'loading' : ''} ${/huaji=true/.test(content) ? 'huaji' : ''}`}>
                 <img className="img" src={transparentImage} width="1" height="1" onDoubleClick={this.showImageViewer} referrerPolicy="no-referrer" />
-                <Circle className="progress" percent={percent} strokeWidth="5" strokeColor="#a0c672" trailWidth="5" />
+                <CircleProgress className="progress" percent={percent} strokeWidth="5" strokeColor="#a0c672" trailWidth="5" />
                 <div className="progress-number">{Math.ceil(percent)}%</div>
                 <Viewer
                     visible={this.state.showImage}

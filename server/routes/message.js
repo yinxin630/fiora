@@ -67,7 +67,7 @@ module.exports = {
         };
 
         if (groupId) {
-            ctx.socket.socket.to(groupId).emit('message', messageData);
+            ctx.socket.to(groupId).emit('message', messageData);
         } else {
             const sockets = await Socket.find({ user: userId });
             sockets.forEach((socket) => {

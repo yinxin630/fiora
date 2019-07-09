@@ -71,9 +71,10 @@ function reducer(state = initialState, action) {
     case 'SetUser': {
         let newState = state;
         if (state.getIn(['user', '_id']) === undefined) {
+            const firstLinkman = (action.user.linkmans[0] && action.user.linkmans[0]._id) || '';
             newState = newState
                 .set('user', immutable.fromJS(action.user))
-                .set('focus', state.get('focus') || action.user.linkmans[0]._id);
+                .set('focus', state.get('focus') || firstLinkman);
         } else {
             newState = newState.updateIn(['user', 'linkmans'], (linkmans) => {
                 let newLinkmans = linkmans;
@@ -122,11 +123,11 @@ function reducer(state = initialState, action) {
             .findIndex(l => l.get('_id') === action.groupId);
         return state.setIn(['user', 'linkmans', linkmanIndex, 'members'], immutable.fromJS(action.members));
     }
-    case 'SetGroupAvatar': {
+    case 'SetGroupInfo': {
         const linkmanIndex = state
             .getIn(['user', 'linkmans'])
             .findIndex(l => l.get('_id') === action.groupId);
-        return state.setIn(['user', 'linkmans', linkmanIndex, 'avatar'], action.avatar);
+        return state.setIn(['user', 'linkmans', linkmanIndex, action.key], action.value);
     }
     case 'SetFocus': {
         const linkmanIndex = state
