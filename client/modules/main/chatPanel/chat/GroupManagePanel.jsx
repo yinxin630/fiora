@@ -115,18 +115,16 @@ export default function GroupManagePanel({
                         :
                         null
                 }
-                {
-                    userId === creator ?
-                        <div className="feature">
-                            <p>解散群组</p>
-                            <Button type="danger" onClick={() => setDialogStatus(true)}>确认解散</Button>
-                        </div>
-                        :
-                        <div className="feature">
-                            <p>退出群组</p>
-                            <Button type="danger" onClick={leaveGroup}>确认退出</Button>
-                        </div>
-                }
+
+                <div className="feature">
+                    <p>功能</p>
+                    {
+                        userId === creator ?
+                            <Button type="danger" onClick={() => setDialogStatus(true)}>解散群组</Button>
+                            :
+                            <Button type="danger" onClick={leaveGroup}>退出群组</Button>
+                    }
+                </div>
                 <div className="online-members">
                     <p>在线成员 &nbsp;<span>{members.size}</span></p>
                     <div>
