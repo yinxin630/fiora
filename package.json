@@ -26,7 +26,6 @@
     "jwt-simple": "^0.5.1",
     "koa": "^2.5.0",
     "koa-send": "^4.1.3",
-    "koa-socket": "^4.4.0",
     "koa-socket-2": "^1.1.0",
     "koa-static": "^4.0.2",
     "mongoose": "^5.0.13",

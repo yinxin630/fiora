@@ -6,8 +6,9 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import action from '@/state/action';
 import readDiskFIle from 'utils/readDiskFile';
 import uploadFile from 'utils/uploadFile';
+import fetch from 'utils/fetch';
 
-import config from '../../../../../config/client';
+import config from 'root/config/client';
 import { Input, Message, Button, Avatar, Tooltip } from '../../../../components';
 
 GroupManagePanel.propTypes = {
@@ -18,6 +19,7 @@ GroupManagePanel.propTypes = {
     avatar: PropTypes.string,
     members: ImmutablePropTypes.list,
     showGroupUser: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
 };
 
 /**
@@ -32,6 +34,7 @@ export default function GroupManagePanel({
     avatar = '',
     members = Immutable.List(),
     showGroupUser,
+    onClose,
 }) {
     const nameInput = React.useRef();
 
@@ -69,10 +72,19 @@ export default function GroupManagePanel({
         }
     }
 
+    async function deleteGroup() {
+        const [err] = await fetch('deleteGroup', { groupId });
+        if (!err) {
+            onClose();
+            action.removeLinkman(groupId);
+            Message.success('解散群组成功');
+        }
+    }
+
     async function leaveGroup() {
         const [err] = await fetch('leaveGroup', { groupId });
         if (!err) {
-            this.closeGroupInfo();
+            onClose();
             action.removeLinkman(groupId);
             Message.success('退出群组成功');
         }
@@ -101,10 +113,18 @@ export default function GroupManagePanel({
                         :
                         null
                 }
-                <div className="feature" style={{ display: !!userId && userId === creator ? 'none' : 'block' }}>
-                    <p>退出群组</p>
-                    <Button type="danger" onClick={leaveGroup}>确认退出</Button>
-                </div>
+                {
+                    userId === creator ?
+                        <div className="feature">
+                            <p>解散群组</p>
+                            <Button type="danger" onClick={deleteGroup}>确认解散</Button>
+                        </div>
+                        :
+                        <div className="feature">
+                            <p>退出群组</p>
+                            <Button type="danger" onClick={leaveGroup}>确认退出</Button>
+                        </div>
+                }
                 <div className="online-members">
                     <p>在线成员 &nbsp;<span>{members.size}</span></p>
                     <div>

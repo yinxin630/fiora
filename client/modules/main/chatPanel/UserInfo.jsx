@@ -20,7 +20,7 @@ class UserInfo extends Component {
         onClose: PropTypes.func,
         linkman: ImmutablePropTypes.map,
         userId: PropTypes.string,
-        isAdmin: PropTypes.bool.isRequired,
+        isAdmin: PropTypes.bool,
     }
     state = {
         showLargeAvatar: false,

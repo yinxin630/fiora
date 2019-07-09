@@ -130,8 +130,14 @@ class Chat extends Component {
                     avatar={avatar}
                     members={members}
                     showGroupUser={this.showGroupUser}
+                    onClose={this.closeGroupInfo}
                 />
-                { userInfoDialog ? <UserInfo visible={userInfoDialog} userInfo={userInfo} onClose={this.closeUserInfoDialog} /> : ''}
+
+                <UserInfo
+                    visible={userInfoDialog}
+                    userInfo={userInfo}
+                    onClose={this.closeUserInfoDialog}
+                />
             </div>
         );
     }

@@ -174,4 +174,25 @@ module.exports = {
 
         return {};
     },
+
+    /**
+     * Delete group, only the group owner is available
+     * @param {Object} ctx context
+     * @param {Object} ctx.data interface params
+     * @param {string} ctx.data.groupId to change the group id of the avatar
+     * @returns {Object}
+     */
+    async deleteGroup(ctx) {
+        const { groupId } = ctx.data;
+        assert(isValid(groupId), '无效的群组ID');
+
+        const group = await Group.findOne({ _id: groupId });
+        assert(group, '群组不存在');
+        assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能解散群组');
+        assert(group.isDefault !== true, '默认群组不允许解散');
+
+        await group.remove();
+
+        return {};
+    },
 };
