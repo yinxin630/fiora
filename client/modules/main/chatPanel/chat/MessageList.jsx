@@ -66,6 +66,7 @@ class MessageList extends Component {
             key: message.get('_id'),
             avatar: message.getIn(['from', 'avatar']),
             nickname: message.getIn(['from', 'username']),
+            originNickname: message.getIn(['from', 'originUsername']),
             time: new Date(message.get('createTime')),
             type: message.get('type'),
             content: message.get('content'),

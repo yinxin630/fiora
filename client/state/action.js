@@ -1,5 +1,5 @@
 import fetch from 'utils/fetch';
-import convertRobot10Message from 'utils/convertRobot10Message';
+import convertMessage from 'utils/convertMessage';
 import store from './store';
 
 const getFriendId = require('utils/getFriendId');
@@ -49,7 +49,7 @@ async function setUser(user) {
     ];
     const [err, messages] = await fetch('getLinkmansLastMessages', { linkmans: linkmanIds });
     for (const key in messages) {
-        messages[key].forEach(m => convertRobot10Message(m));
+        messages[key].forEach(m => convertMessage(m));
     }
     if (!err) {
         dispatch({
@@ -59,7 +59,7 @@ async function setUser(user) {
     }
 }
 async function setGuest(defaultGroup) {
-    defaultGroup.messages.forEach(m => convertRobot10Message(m));
+    defaultGroup.messages.forEach(m => convertMessage(m));
     dispatch({
         type: 'SetDeepValue',
         keys: ['user'],
@@ -106,7 +106,7 @@ function addLinkmanMessage(linkmanId, message) {
     });
 }
 function addLinkmanMessages(linkmanId, messages) {
-    messages.forEach(m => convertRobot10Message(m));
+    messages.forEach(m => convertMessage(m));
     dispatch({
         type: 'AddLinkmanMessages',
         linkmanId,
@@ -114,6 +114,7 @@ function addLinkmanMessages(linkmanId, messages) {
     });
 }
 function updateSelfMessage(linkmanId, messageId, message) {
+    convertMessage(message);
     dispatch({
         type: 'UpdateSelfMessage',
         linkmanId,

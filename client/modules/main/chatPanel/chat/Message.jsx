@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Viewer from 'react-viewer';
 import Prism from 'prismjs';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import randomColor from 'randomcolor';
 import 'react-viewer/dist/index.css';
 
 import Avatar from '@/components/Avatar';
@@ -34,6 +35,16 @@ const languagesMap = {
     json: 'json',
 };
 
+const getRandomColor = (() => {
+    const cache = {};
+    return function (key) {
+        if (!cache[key]) {
+            cache[key] = randomColor();
+        }
+        return cache[key];
+    };
+})();
+
 class Message extends Component {
     static formatTime(time) {
         const nowTime = new Date();
@@ -60,8 +71,9 @@ class Message extends Component {
     static propTypes = {
         avatar: PropTypes.string.isRequired,
         nickname: PropTypes.string.isRequired,
+        originNickname: PropTypes.string,
         time: PropTypes.object.isRequired,
-        type: PropTypes.oneOf(['text', 'image', 'url', 'code', 'invite']),
+        type: PropTypes.oneOf(['text', 'image', 'url', 'code', 'invite', 'system']),
         content: PropTypes.string.isRequired,
         isSelf: PropTypes.bool,
         loading: PropTypes.bool,
@@ -72,6 +84,7 @@ class Message extends Component {
     }
     static defaultProps = {
         isSelf: false,
+        originNickname: '',
     }
     constructor(props) {
         super(props);
@@ -254,6 +267,15 @@ class Message extends Component {
             </div>
         );
     }
+    renderSystem() {
+        const { content, originNickname } = this.props;
+        return (
+            <div className="system">
+                <span style={{ color: getRandomColor(originNickname) }}>{originNickname}</span>&nbsp;
+                {content}
+            </div>
+        );
+    }
     renderContent() {
         const { type } = this.props;
         switch (type) {
@@ -272,6 +294,9 @@ class Message extends Component {
         case 'invite': {
             return this.renderInvite();
         }
+        case 'system': {
+            return this.renderSystem();
+        }
         default:
             return (
                 <div className="unknown">不支持的消息类型</div>
@@ -279,9 +304,8 @@ class Message extends Component {
         }
     }
     render() {
-        const {
-            avatar, nickname, time, type, isSelf, tag,
-        } = this.props;
+        const { avatar, nickname, isSelf, time, type, tag } = this.props;
+
         return (
             <div className={`chat-message ${isSelf ? 'self' : ''} ${type}`} ref={i => this.dom = i}>
                 <Avatar className="avatar" src={avatar} size={44} onClick={this.handleClickAvatar} />

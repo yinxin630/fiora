@@ -14,7 +14,8 @@ const RPS = ['石头', '剪刀', '布'];
 
 module.exports = {
     async sendMessage(ctx) {
-        const { to, type, content } = ctx.data;
+        const { to, content } = ctx.data;
+        let { type } = ctx.data;
         assert(to, 'to不能为空');
 
         let groupId = '';
@@ -42,10 +43,19 @@ module.exports = {
                         number = '99999';
                     }
                     number = parseInt(number, 10);
-                    messageContent = `掷出了${Math.floor(Math.random() * (number + 1))}点 (上限${number}点)`;
+                    type = 'system';
+                    messageContent = JSON.stringify({
+                        command: 'roll',
+                        value: Math.floor(Math.random() * (number + 1)),
+                        top: number,
+                    });
                 }
             } else if (messageContent.startsWith('-rps')) {
-                messageContent = RPS[Math.floor(Math.random() * RPS.length)];
+                type = 'system';
+                messageContent = JSON.stringify({
+                    command: 'rps',
+                    value: RPS[Math.floor(Math.random() * RPS.length)],
+                });
             }
             messageContent = xss(messageContent);
         } else if (type === 'invite') {
