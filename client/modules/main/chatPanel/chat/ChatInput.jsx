@@ -38,7 +38,7 @@ class ChatInput extends Component {
             const sel = document.selection.createRange();
             sel.text = value;
             sel.select();
-        } else if (input.selectionStart || input.selectionStart === '0') {
+        } else if (input.selectionStart || input.selectionStart === 0) {
             const startPos = input.selectionStart;
             const endPos = input.selectionEnd;
             const restoreTop = input.scrollTop;
