@@ -154,8 +154,8 @@ class Message extends Component {
         });
     }
     handleClickAvatar = () => {
-        const { isSelf, openUserInfoDialog } = this.props;
-        if (!isSelf) {
+        const { isSelf, openUserInfoDialog, type } = this.props;
+        if (!isSelf && type !== 'system') {
             openUserInfoDialog();
         }
     }
