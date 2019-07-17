@@ -87,11 +87,12 @@ app.io.on('connection', async (ctx) => {
         id: ctx.socket.id,
         ip: ctx.socket.request.connection.remoteAddress,
     });
-});
-app.io.on('disconnect', async (ctx) => {
-    console.log(`  >>>> disconnect ${ctx.socket.id}`);
-    await Socket.remove({
-        id: ctx.socket.id,
+
+    ctx.socket.on('disconnect', async () => {
+        console.log(`  >>>> disconnect ${ctx.socket.id}`);
+        await Socket.remove({
+            id: ctx.socket.id,
+        });
     });
 });
 
