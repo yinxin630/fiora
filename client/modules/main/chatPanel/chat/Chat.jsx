@@ -105,7 +105,7 @@ class Chat extends Component {
         const { groupInfoDialog, userInfoDialog, userInfo } = this.state;
         const { userId, creator, avatar, type, focus = '', name, members } = this.props;
 
-        if (!focus) {
+        if (!focus && !!userId) {
             return (
                 <div className="module-main-chat">
                     <div className="no-linkman">
