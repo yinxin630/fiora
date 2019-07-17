@@ -267,6 +267,13 @@ class Sidebar extends Component {
                                     <li>Alt + D: 发送表情包</li>
                                 </ul>
                             </div>
+                            <div>
+                                <p>命令消息</p>
+                                <ul>
+                                    <li>-roll [number]: 掷点</li>
+                                    <li>-rps: 石头剪刀布</li>
+                                </ul>
+                            </div>
                         </div>
                     </Dialog>
                     <AppDownload visible={appDownloadDialog} onClose={this.toggleAppDownloadDialog} />
