@@ -10,6 +10,8 @@ const xss = require('../../utils/xss');
 const FirstTimeMessagesCount = 15;
 const EachFetchMessagesCount = 30;
 
+const RPS = ['石头', '剪刀', '布'];
+
 module.exports = {
     async sendMessage(ctx) {
         const { to, type, content } = ctx.data;
@@ -31,7 +33,21 @@ module.exports = {
         let messageContent = content;
         if (type === 'text') {
             assert(messageContent.length <= 2048, '消息长度过长');
-            messageContent = xss(content);
+
+            if (messageContent.startsWith('-roll')) {
+                const regexResult = /-roll( ([0-9]*))?/.exec(messageContent);
+                if (regexResult) {
+                    let number = regexResult[1] || '100';
+                    if (number.length > 5) {
+                        number = '99999';
+                    }
+                    number = parseInt(number, 10);
+                    messageContent = `掷出了${Math.floor(Math.random() * (number + 1))}点 (上限${number}点)`;
+                }
+            } else if (messageContent.startsWith('-rps')) {
+                messageContent = RPS[Math.floor(Math.random() * RPS.length)];
+            }
+            messageContent = xss(messageContent);
         } else if (type === 'invite') {
             const group = await Group.findOne({ name: content });
             assert(group, '目标群组不存在');
