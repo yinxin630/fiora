@@ -19,9 +19,9 @@ export default class AppDownload extends Component {
                         <p>Android</p>
                         <div className="android">
                             <p>点击链接或者扫码下载APK</p>
-                            <a href="http://cdn.suisuijiang.com/fiora-v0.4.0.apk" download>http://cdn.suisuijiang.com/fiora-v0.4.0.apk</a>
+                            <a href={`https://cdn.suisuijiang.com/fiora.apk?v=${Date.now()}`} download>https://cdn.suisuijiang.com/fiora.apk</a>
                             <br />
-                            <img src="https://qr.api.cli.im/qr?data=http%253A%252F%252Fcdn.suisuijiang.com%252Ffiora-v0.4.0.apk&level=H&transparent=false&bgcolor=%23ffffff&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&size=280&kid=cliim&key=1d772963649f10d1eff6b28642cc6eb3" />
+                            <img src="https://cdn.suisuijiang.com/ImageMessage/5adad39555703565e7903f78_1560177623684.png" />
                         </div>
                     </div>
                     <div>

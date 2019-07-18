@@ -92,6 +92,14 @@ module.exports = {
         return result;
     },
     async uploadFile(ctx) {
+        assert(
+            config.qiniuAccessKey === ''
+            || config.qiniuBucket === ''
+            || config.qiniuBucket === ''
+            || config.qiniuUrlPrefix === '',
+            '已配置七牛, 请使用七牛文件上传',
+        );
+
         try {
             await fs.writeFile$(path.resolve(__dirname, `../../public/${ctx.data.fileName}`), ctx.data.file);
             return {
