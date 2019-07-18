@@ -21,7 +21,7 @@ class App extends Component {
         super(props);
         this.state = {
             width: App.getWidth(),
-            height: window.innerHeight >= 1000 ? 0.8 : 0.9,
+            height: 0.85,
             backgroundWidth: window.innerWidth,
             backgroundHeight: window.innerHeight,
         };

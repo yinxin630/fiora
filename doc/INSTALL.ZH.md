@@ -1,12 +1,6 @@
 # 前置条件
 
-要运行Fiora, 你需要 Node.js(>= 8.9.0版本), Mongodb数据库, 或者 docker
-
-# 在docker中运行
-
-克隆项目到本地 `git clone https://github.com/yinxin630/fiora.git -b master`
-
-执行 `docker-compose up`
+要运行Fiora, 你需要具备Node.js(>= 8.9.0版本)环境, Mongodb数据库
 
 # 在本地运行
 

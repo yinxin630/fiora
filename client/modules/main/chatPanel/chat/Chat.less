@@ -343,7 +343,7 @@
 }
 .code-viewer {
     width: 800px !important;
-    max-height: 800px;
+    max-height: 90%;
     display: flex;
 
     .rc-dialog-content {
@@ -351,31 +351,24 @@
         min-height: 300px;
         display: flex;
         flex-direction: column;
+        // overflow: hidden;
     }
     .rc-dialog-body {
         padding: 0 8px;
         overflow: auto;
-        max-width: 800px;
+        max-width: 900px;
         position: relative;
         flex: 1;
         * {
             user-select: text;
         }
     }
-    .component-button {
-        height: 26px;
-        position: fixed;
-        top: 58px;
-        right: 18px;
-        z-index: 999;
-        font-size: 13px;
-    }
     .pre {
         color: black;
         margin: 0;
         font-size: 14px;
         background-color: white !important;
-        position: relative !important;
+        position: static !important;
 
         & > code {
             position: static !important;
