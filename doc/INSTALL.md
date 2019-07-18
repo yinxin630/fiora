@@ -1,6 +1,12 @@
 # Precondition
 
-To run Fiora, you need to have Node.js (>= version 8.9.0) environment, MongoDB database
+To run Fiora, you need to have Node.js (>= version 8.9.0), MongoDB database. Or docker
+
+# Run on docker
+
+Clone the project to the local `git clone https://github.com/yinxin630/fiora.git -b master`
+
+execute `docker-compose up`
 
 # Run on local
 
