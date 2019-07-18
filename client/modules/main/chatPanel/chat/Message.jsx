@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Viewer from 'react-viewer';
 import Prism from 'prismjs';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import 'react-viewer/dist/index.css';
 
 import Avatar from '@/components/Avatar';
 import { Circle } from '@/components/Progress';
 import Dialog from '@/components/Dialog';
 import MessageBox from '@/components/Message';
-import Button from '@/components/Button';
 import Time from 'utils/time';
 import expressions from 'utils/expressions';
 import fetch from 'utils/fetch';
@@ -181,7 +179,7 @@ class Message extends Component {
         // 设置高度宽度为1防止被原图撑起来
         return (
             <div className={`image ${loading ? 'loading' : ''} ${/huaji=true/.test(content) ? 'huaji' : ''}`}>
-                <img className="img" src={transparentImage} width="1" height="1" onDoubleClick={this.showImageViewer} referrerPolicy="no-referrer" />
+                <img className="img" src={transparentImage} width="1" height="1" onDoubleClick={this.showImageViewer} />
                 <Circle className="progress" percent={percent} strokeWidth="5" strokeColor="#a0c672" trailWidth="5" />
                 <div className="progress-number">{Math.ceil(percent)}%</div>
                 <Viewer
@@ -227,9 +225,6 @@ class Message extends Component {
                     <p>查看</p>
                 </div>
                 <Dialog className="code-viewer" title="查看代码" visible={this.state.showCode} onClose={this.hideCode}>
-                    <CopyToClipboard text={rawCode}>
-                        <Button onClick={() => MessageBox.success('已复制代码到粘贴板')}>复制</Button>
-                    </CopyToClipboard>
                     <pre className="pre line-numbers">
                         <code className={`language-${language}`} dangerouslySetInnerHTML={{ __html: html }} />
                     </pre>
