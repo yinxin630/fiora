@@ -35,8 +35,9 @@ module.exports = {
         if (type === 'text') {
             assert(messageContent.length <= 2048, '消息长度过长');
 
-            if (messageContent.startsWith('-roll')) {
-                const regexResult = /-roll( ([0-9]*))?/.exec(messageContent);
+            const rollRegex = /^-roll( ([0-9]*))?$/;
+            if (rollRegex.test(messageContent)) {
+                const regexResult = rollRegex.exec(messageContent);
                 if (regexResult) {
                     let number = regexResult[1] || '100';
                     if (number.length > 5) {
@@ -50,7 +51,7 @@ module.exports = {
                         top: number,
                     });
                 }
-            } else if (messageContent.startsWith('-rps')) {
+            } else if (/^-rps$/.test(messageContent)) {
                 type = 'system';
                 messageContent = JSON.stringify({
                     command: 'rps',
