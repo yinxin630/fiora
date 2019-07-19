@@ -8,6 +8,6 @@ COPY . .
 
 RUN yarn install
 
-RUN yarn build && rm -rf public/* && mv dist/fiora/* public
+RUN yarn build && mv -f dist/fiora/* public
 
 CMD [ "node", "server/main.js" ]
