@@ -1,3 +1,7 @@
+# 第三方安装教程
+
+<https://www.moerats.com/archives/978/>
+
 # 前置条件
 
 要运行Fiora, 你需要 Node.js(>= 8.9.0版本), Mongodb数据库, 或者 docker
