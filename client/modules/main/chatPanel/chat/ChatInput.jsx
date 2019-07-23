@@ -106,7 +106,10 @@ class ChatInput extends Component {
         });
     }
     handleFeatureMenuClick = ({ key, domEvent }) => {
-        domEvent.target.blur(); // 预防连击
+        // Quickly hitting the Enter key causes the button to repeatedly trigger the problem
+        if (domEvent.keyCode === 13) {
+            domEvent.target.blur();
+        }
 
         switch (key) {
         case 'image': {
