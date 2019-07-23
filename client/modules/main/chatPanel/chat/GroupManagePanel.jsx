@@ -40,10 +40,10 @@ export default function GroupManagePanel({
     const [deleteConfirmDialog, setDialogStatus] = React.useState(false);
 
     async function changeGroupName() {
-        const newName = this.groupNameInput.getValue();
+        const newName = nameInput.current.getValue();
         const [error] = await fetch('changeGroupName', {
             groupId,
-            name: this.groupNameInput.current.getValue(),
+            name: nameInput.current.getValue(),
         });
         if (!error) {
             Message.success('修改群名称成功');
