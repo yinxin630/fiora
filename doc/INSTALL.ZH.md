@@ -69,7 +69,7 @@
 
 构建客户端 `npm run build`
 
-移动构建产物到 public 目录 `mv dist/fiora/* public`
+移动构建产物到 public 目录 `npm run move-dist`
 
 或者如果你使用了七牛CDN的话, 可以把所以构建产物上次到七牛CDN, 然后仅将 `index.html` 放到 public 目录, 这样性能会更好
 

@@ -65,7 +65,7 @@ Link run on local
 
 build client `npm run build`
 
-move build result to public directory `mv dist/fiora/* public`
+move build result to public directory `npm run move-dist`
 
 Or if you use qiniu.com CDN, you can upload the build result to qiniu.com, and then just put `index.html` in the public directory, so the performance will be better
 

@@ -8,8 +8,6 @@ COPY . .
 
 RUN yarn install
 
-RUN yarn build
-
-RUN rm -rf public/audio && rm -rf public/avatar && rm -rf public/css && rm -rf public/fonts && rm -rf public/img && rm -rf public/js && mv -f dist/fiora/* public
+RUN yarn build && yarn run move-dist
 
 CMD [ "node", "server/main.js" ]

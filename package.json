@@ -8,7 +8,8 @@
     "server": "./node_modules/.bin/cross-env NODE_ENV=development && nodemon server/main.js --config .nodemonrc",
     "client": "node build/dev-server.js",
     "build": "node build/build.js",
-    "lint": "./node_modules/.bin/eslint ./ --ext js,jsx --ignore-pattern .eslintignore --cache --fix"
+    "lint": "./node_modules/.bin/eslint ./ --ext js,jsx --ignore-pattern .eslintignore --cache --fix",
+    "move-dist": "rm -rf public/audio && rm -rf public/avatar && rm -rf public/css && rm -rf public/fonts && rm -rf public/img && rm -rf public/js && mv -f dist/fiora/* public"
   },
   "pre-commit": [
     "lint"
