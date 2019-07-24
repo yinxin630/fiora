@@ -90,7 +90,7 @@ app.io.on('connection', async (ctx) => {
 
     ctx.socket.on('disconnect', async () => {
         console.log(`  >>>> disconnect ${ctx.socket.id}`);
-        await Socket.remove({
+        await Socket.deleteOne({
             id: ctx.socket.id,
         });
     });

@@ -143,7 +143,7 @@ module.exports = {
         assert(group, '群组不存在');
         assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能修改头像');
 
-        await Group.update({ _id: groupId }, { avatar });
+        await Group.updateOne({ _id: groupId }, { avatar });
         return {};
     },
 
@@ -168,7 +168,7 @@ module.exports = {
         const targetGroup = await Group.findOne({ name });
         assert(!targetGroup, '该群组名已存在');
 
-        await Group.update({ _id: groupId }, { name });
+        await Group.updateOne({ _id: groupId }, { name });
 
         ctx.socket.to(groupId).emit('changeGroupName', { groupId, name });
 
