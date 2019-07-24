@@ -5,6 +5,7 @@ const { SealText, SealTimeout } = require('./const');
 
 /** 用户是否被封禁 */
 let isSeal = false;
+
 export default function fetch(event, data = {}, {
     toast = true,
 } = {}) {
