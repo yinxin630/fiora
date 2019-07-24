@@ -108,7 +108,7 @@ class ChatInput extends Component {
     handleFeatureMenuClick = ({ key, domEvent }) => {
         // Quickly hitting the Enter key causes the button to repeatedly trigger the problem
         if (domEvent.keyCode === 13) {
-            domEvent.target.blur();
+            return;
         }
 
         switch (key) {
