@@ -18,7 +18,7 @@ global.mdb.set('newUserList', new Set()); // 新注册用户列表
 
 mongoose.Promise = Promise;
 
-
+mongoose.set('useCreateIndex', true);
 mongoose.connect(config.database, { useNewUrlParser: true }, async (err) => {
     if (err) {
         console.error('connect database error!');
