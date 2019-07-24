@@ -37,7 +37,14 @@ function convertSystemMessage(message) {
     }
 }
 
+function convertHttpImageUrl(message) {
+    if (message.type === 'image' && message.content.startsWith('http:')) {
+        message.content = message.content.replace(/^http:/, '');
+    }
+}
+
 export default function convertMessage(message) {
     // convertRobot10Message(message);
     convertSystemMessage(message);
+    convertHttpImageUrl(message);
 }
