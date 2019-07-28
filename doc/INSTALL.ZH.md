@@ -71,7 +71,7 @@
 
 移动构建产物到 public 目录 `npm run move-dist`
 
-或者如果你使用了七牛CDN的话, 可以把所以构建产物上传到七牛CDN, 然后仅将 `index.html` 放到 public 目录, 这样性能会更好
+或者如果你使用了七牛CDN的话, 可以把所有构建产物上传到七牛CDN, 然后仅将 `index.html` 放到 public 目录, 这样性能会更好
 
 ## 第五步
 
