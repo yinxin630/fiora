@@ -75,8 +75,34 @@
 
 ## 第五步
 
-使用 pm2 启动服务端 `export NODE_ENV=production && pm2 start server/main.js --name="fiora"`
+ - 服务端：部署目录和源码
+ 
+    安装必备包 `npm install -g pm2 yarn`
+    
+    在服务器建立文件夹 `mkdir -p /root/projects/fiora`
 
+    把源码导入到source文件夹 
+    
+    示例: `git clone -b master git@github.com:yinxin630/fiora.git /root/projects/fiora/source`
+
+    文件结构如下
+
+    ![](./screenshots/pm2-deploy-00.png)
+    
+ - 开发机：
+ 
+    复制一份配置然后修改成你自己的 
+    
+    `cp ecosystem.config.js.example ecosystem.config.js`
+    
+    `vim ecosystem.config.js`
+    
+    ![](./screenshots/pm2-deploy-01.png)
+    
+ - 首次部署/每次更新 仅需要执行 `./deploy.sh`
+    
+    ![](./screenshots/pm2-deploy-02.png)
+    
 ## 第六步
 
 访问地址 `http://[服务端ip]:[fiora端口号]`
