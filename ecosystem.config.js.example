@@ -1,0 +1,24 @@
+module.exports = {
+    apps: [
+        {
+            name: 'fiora',
+            script: 'server/main.js',
+            env: {
+                COMMON_VARIABLE: 'true',
+            },
+            env_production: {
+                NODE_ENV: 'production',
+            },
+        },
+    ],
+    deploy: {
+        production: {
+            user: 'root',
+            host: '你的服务器地址',
+            ref: 'origin/master',
+            repo: 'git@github.com:yinxin630/fiora.git',
+            path: '/root/projects/fiora',
+            'post-deploy': 'yarn && pm2 startOrRestart ecosystem.config.js --env production',
+        },
+    },
+};
