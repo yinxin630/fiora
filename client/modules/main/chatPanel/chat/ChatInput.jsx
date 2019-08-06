@@ -506,7 +506,7 @@ class ChatInput extends Component {
                             <div className="expression-list" onClick={this.handleClickExpression}>
                                 {
                                     expressionSearchResults.map((image, i) => (
-                                        <img src={image} key={i + image} />
+                                        <img src={image} key={i + image} referrerPolicy="no-referrer" />
                                     ))
                                 }
                             </div>
