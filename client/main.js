@@ -111,10 +111,6 @@ socket.on('message', (message) => {
         });
     }
 
-    if (isSelfMessage) {
-        return;
-    }
-
     if (windowStatus === 'blur' && state.getIn(['ui', 'notificationSwitch'])) {
         notification(
             title,

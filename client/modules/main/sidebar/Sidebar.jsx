@@ -77,6 +77,7 @@ class Sidebar extends Component {
         soundSwitch: PropTypes.bool,
         notificationSwitch: PropTypes.bool,
         voiceSwitch: PropTypes.bool,
+        selfVoiceSwitch: PropTypes.bool,
         isAdmin: PropTypes.bool,
         userId: PropTypes.string,
     }
@@ -134,7 +135,7 @@ class Sidebar extends Component {
         );
     }
     render() {
-        const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound, soundSwitch, notificationSwitch, voiceSwitch, isAdmin } = this.props;
+        const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound, soundSwitch, notificationSwitch, voiceSwitch, selfVoiceSwitch, isAdmin } = this.props;
         const { settingDialog, userDialog, rewardDialog, infoDialog, appDownloadDialog, backgroundLoading, adminDialog } = this.state;
         return (
             <div className="module-main-sidebar">
@@ -167,24 +168,37 @@ class Sidebar extends Component {
                                 <Button onClick={Sidebar.resetSound}>恢复默认提示音</Button>
                             </div>
                         </div>
-                        <div>
+                        <div className="switch-container">
                             <p>开关</p>
                             <div className="switch">
-                                <p>声音提醒</p>
-                                <Switch
-                                    onChange={action.setSoundSwitch}
-                                    checked={soundSwitch}
-                                />
-                                <p>桌面提醒</p>
-                                <Switch
-                                    onChange={action.setNotificationSwitch}
-                                    checked={notificationSwitch}
-                                />
-                                <p>语音播报</p>
-                                <Switch
-                                    onChange={action.setVoiceSwitch}
-                                    checked={voiceSwitch}
-                                />
+                                <div>
+                                    <p>声音提醒</p>
+                                    <Switch
+                                        onChange={action.setSoundSwitch}
+                                        checked={soundSwitch}
+                                    />
+                                </div>
+                                <div>
+                                    <p>桌面提醒</p>
+                                    <Switch
+                                        onChange={action.setNotificationSwitch}
+                                        checked={notificationSwitch}
+                                    />
+                                </div>
+                                <div>
+                                    <p>语音播报</p>
+                                    <Switch
+                                        onChange={action.setVoiceSwitch}
+                                        checked={voiceSwitch}
+                                    />
+                                </div>
+                                <div>
+                                    <p>播报自己消息</p>
+                                    <Switch
+                                        onChange={action.setSelfVoiceSwitch}
+                                        checked={selfVoiceSwitch}
+                                    />
+                                </div>
                             </div>
                         </div>
                         <div>
@@ -294,5 +308,6 @@ export default connect(state => ({
     soundSwitch: state.getIn(['ui', 'soundSwitch']),
     notificationSwitch: state.getIn(['ui', 'notificationSwitch']),
     voiceSwitch: state.getIn(['ui', 'voiceSwitch']),
+    selfVoiceSwitch: state.getIn(['ui', 'selfVoiceSwitch']),
     userId: state.getIn(['user', '_id']),
 }))(Sidebar);

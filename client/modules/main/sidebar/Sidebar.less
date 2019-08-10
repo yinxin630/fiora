@@ -90,6 +90,9 @@
     .content {
         & > div {
             margin-bottom: 14px;
+            &.switch-container {
+                margin-bottom: 4px;
+            }
             & > p {
                 line-height: 33px;
                 font-size: 14px;
@@ -153,14 +156,20 @@
             }
             & > .switch {
                 display: flex;
-                align-items: center;
+                flex-wrap: wrap;
 
-                & > p {
-                    color: #444;
-                    margin-right: 8px;
-                    font-size: 14px;
-                    &:nth-child(3), &:nth-child(5) {
-                        margin-left: 20px;
+                & > div {
+                    display: flex;
+                    align-items: center;
+                    margin-right: 10px;
+                    margin-bottom: 8px;
+                    & > p {
+                        color: #444;
+                        margin-right: 8px;
+                        font-size: 14px;
+                        &:nth-child(3), &:nth-child(5) {
+                            margin-left: 20px;
+                        }
                     }
                 }
             }

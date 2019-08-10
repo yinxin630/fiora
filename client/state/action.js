@@ -268,6 +268,14 @@ function setVoiceSwitch(value) {
     });
     window.localStorage.setItem('voiceSwitch', value);
 }
+function setSelfVoiceSwitch(value) {
+    dispatch({
+        type: 'SetDeepValue',
+        keys: ['ui', 'selfVoiceSwitch'],
+        value,
+    });
+    window.localStorage.setItem('selfVoiceSwitch', value);
+}
 
 
 export default {
@@ -300,4 +308,5 @@ export default {
     setSoundSwitch,
     setNotificationSwitch,
     setVoiceSwitch,
+    setSelfVoiceSwitch,
 };

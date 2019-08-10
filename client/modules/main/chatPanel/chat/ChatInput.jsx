@@ -23,6 +23,7 @@ import uploadFile from 'utils/uploadFile';
 import Expression from './Expression';
 import CodeEditor from './CodeEditor';
 import config from '../../../../../config/client';
+import voice from '../../../../../utils/voice';
 
 const xss = require('utils/xss');
 const Url = require('utils/url');
@@ -73,6 +74,7 @@ class ChatInput extends Component {
         userId: PropTypes.string,
         userName: PropTypes.string,
         userAvatar: PropTypes.string,
+        selfVoiceSwitch: PropTypes.bool,
     }
     constructor(...args) {
         super(...args);
@@ -248,7 +250,7 @@ class ChatInput extends Component {
         this.message.value = '';
     }
     addSelfMessage = (type, content) => {
-        const { userId, userName, userAvatar, focus } = this.props;
+        const { userId, userName, userAvatar, focus, selfVoiceSwitch } = this.props;
         const _id = focus + Date.now();
         const message = {
             _id,
@@ -267,6 +269,16 @@ class ChatInput extends Component {
             message.percent = 0;
         }
         action.addLinkmanMessage(focus, message);
+
+        if (selfVoiceSwitch && type === 'text') {
+            const text = content
+                .replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g, '')
+                .replace(/#/g, '');
+
+            if (text.length > 0 && text.length <= 100) {
+                voice.read(text);
+            }
+        }
 
         return _id;
     }
@@ -546,5 +558,6 @@ export default connect(state => ({
     userId: state.getIn(['user', '_id']),
     userName: state.getIn(['user', 'username']),
     userAvatar: state.getIn(['user', 'avatar']),
+    selfVoiceSwitch: state.getIn(['ui', 'selfVoiceSwitch']),
 }))(ChatInput);
 

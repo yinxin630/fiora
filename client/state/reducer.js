@@ -31,6 +31,12 @@ if (voiceSwitch === 'true') {
 } else {
     voiceSwitch = false;
 }
+let selfVoiceSwitch = window.localStorage.getItem('selfVoiceSwitch') || 'false';
+if (selfVoiceSwitch === 'true') {
+    selfVoiceSwitch = true;
+} else {
+    selfVoiceSwitch = false;
+}
 
 const initialState = immutable.fromJS({
     user: null,
@@ -45,6 +51,7 @@ const initialState = immutable.fromJS({
         soundSwitch,
         notificationSwitch,
         voiceSwitch,
+        selfVoiceSwitch,
     },
 });
 
