@@ -136,153 +136,148 @@ class Sidebar extends Component {
     render() {
         const { isLogin, isConnect, avatar, primaryColor, primaryTextColor, backgroundImage, sound, soundSwitch, notificationSwitch, voiceSwitch, isAdmin } = this.props;
         const { settingDialog, userDialog, rewardDialog, infoDialog, appDownloadDialog, backgroundLoading, adminDialog } = this.state;
-        if (isLogin) {
-            return (
-                <div className="module-main-sidebar">
-                    <Avatar className="avatar" src={avatar} onClick={this.toggleUserDialog} />
-                    <OnlineStatus className="status" status={isConnect ? 'online' : 'offline'} />
-                    <div className="buttons">
-                        {
-                            isAdmin ?
-                                Sidebar.renderTooltip('管理员', <IconButton width={40} height={40} icon="administrator" iconSize={28} onClick={this.toggleAdminDialog} />)
-                                :
-                                null
-                        }
-                        <Tooltip placement="right" mouseEnterDelay={0.3} overlay={<span>源码</span>}>
-                            <a href="https://github.com/yinxin630/fiora" target="_black" rel="noopener noreferrer">
-                                <IconButton width={40} height={40} icon="github" iconSize={26} />
-                            </a>
-                        </Tooltip>
-                        {Sidebar.renderTooltip('下载APP', <IconButton width={40} height={40} icon="app" iconSize={28} onClick={this.toggleAppDownloadDialog} />)}
-                        {Sidebar.renderTooltip('打赏', <IconButton width={40} height={40} icon="dashang" iconSize={26} onClick={this.toggleRewardDialog} />)}
-                        {Sidebar.renderTooltip('关于', <IconButton width={40} height={40} icon="about" iconSize={26} onClick={this.toggleInfoDialog} />)}
-                        {Sidebar.renderTooltip('设置', <IconButton width={40} height={40} icon="setting" iconSize={26} onClick={this.toggleSettingDialog} />)}
-                        {Sidebar.renderTooltip('退出登录', <IconButton width={40} height={40} icon="logout" iconSize={26} onClick={Sidebar.logout} />)}
-                    </div>
-                    <Dialog className="dialog system-setting" visible={settingDialog} title="系统设置" onClose={this.toggleSettingDialog}>
-                        <div className="content">
-                            <div>
-                                <p>恢复</p>
-                                <div className="buttons">
-                                    <Button onClick={Sidebar.resetThume}>恢复默认主题</Button>
-                                    <Button onClick={Sidebar.resetSound}>恢复默认提示音</Button>
-                                </div>
-                            </div>
-                            <div>
-                                <p>开关</p>
-                                <div className="switch">
-                                    <p>声音提醒</p>
-                                    <Switch
-                                        onChange={action.setSoundSwitch}
-                                        checked={soundSwitch}
-                                    />
-                                    <p>桌面提醒</p>
-                                    <Switch
-                                        onChange={action.setNotificationSwitch}
-                                        checked={notificationSwitch}
-                                    />
-                                    <p>语音播报</p>
-                                    <Switch
-                                        onChange={action.setVoiceSwitch}
-                                        checked={voiceSwitch}
-                                    />
-                                </div>
-                            </div>
-                            <div>
-                                <p>提示音</p>
-                                <div className="sounds">
-                                    <RadioGroup value={sound} onChange={Sidebar.handleSelectSound} horizontal>
-                                        <RadioButton value="default">默认</RadioButton>
-                                        <RadioButton value="apple">苹果</RadioButton>
-                                        <RadioButton value="pcqq">电脑QQ</RadioButton>
-                                        <RadioButton value="mobileqq">手机QQ</RadioButton>
-                                        <RadioButton value="momo">陌陌</RadioButton>
-                                        <RadioButton value="huaji">滑稽</RadioButton>
-                                    </RadioGroup>
-                                </div>
-                            </div>
-                            <div>
-                                <p>背景图 <span className="background-tip">背景图会被拉伸到浏览器窗口大小, 合理的比例会取得更好的效果</span></p>
-                                <div className="image-preview">
-                                    <img className={backgroundLoading ? 'blur' : ''} src={backgroundImage} onClick={this.selectBackgroundImage} />
-                                    <ReactLoading className={`loading ${backgroundLoading ? 'show' : 'hide'}`} type="spinningBubbles" color={`rgb(${primaryColor}`} height={100} width={100} />
-                                </div>
-                            </div>
-                            <div>
-                                <p>主题颜色</p>
-                                <div className="color-info">
-                                    <div style={{ backgroundColor: `rgb(${primaryColor})` }} />
-                                    <span>{`rgb(${primaryColor})`}</span>
-                                </div>
-                                <TwitterPicker className="color-picker" color={`rgb(${primaryColor})`} onChange={this.handlePrimaryColorChange} />
-                            </div>
-                            <div>
-                                <p>文字颜色</p>
-                                <div className="color-info">
-                                    <div style={{ backgroundColor: `rgb(${primaryTextColor})` }} />
-                                    <span>{`rgb(${primaryTextColor})`}</span>
-                                </div>
-                                <TwitterPicker className="color-picker" color={`rgb(${primaryTextColor})`} onChange={this.handlePrimaryTextColorChange} />
-                            </div>
-                        </div>
-                    </Dialog>
-                    <SelfInfo visible={userDialog} onClose={this.toggleUserDialog} />
-                    <Dialog className="dialog reward " visible={rewardDialog} title="打赏" onClose={this.toggleRewardDialog}>
-                        <div className="content">
-                            <p>如果你觉得这个聊天室代码对你有帮助, 希望打赏下给个鼓励~~<br />作者大多数时间在线, 欢迎提问, 有问必答</p>
-                            <div>
-                                <img src={require('@/assets/images/alipay.jpg')} />
-                                <img src={require('@/assets/images/wxpay.jpg')} />
-                            </div>
-                        </div>
-                    </Dialog>
-                    <Dialog className="dialog fiora-info " visible={infoDialog} title="关于" onClose={this.toggleInfoDialog}>
-                        <div className="content">
-                            <div>
-                                <p>作者主页</p>
-                                <a href="https://suisuijiang.com" target="_black" rel="noopener noreferrer">https://suisuijiang.com</a>
-                            </div>
-                            <div>
-                                <p>如何运行</p>
-                                <a href="https://github.com/yinxin630/fiora/blob/master/doc/INSTALL.ZH.md" target="_black" rel="noopener noreferrer">https://github.com/yinxin630/fiora/blob/master/doc/INSTALL.ZH.md</a>
-                            </div>
-                            <div>
-                                <p>架构 / 设计思路</p>
-                                <a href="https://github.com/yinxin630/blog/issues/3" target="_black" rel="noopener noreferrer">https://github.com/yinxin630/blog/issues/3</a>
-                            </div>
-                            <div>
-                                <p>将fiora安装到主屏(PWA)</p>
-                                <ul>
-                                    <li>地址栏输入: Chrome://flags</li>
-                                    <li>搜索并启用以下项目: Desktop PWAs(桌面PWAs)、App Banners(应用横幅)、Experimental App Banners(实验性应用横幅)</li>
-                                    <li>重启浏览器使修改的设置生效</li>
-                                    <li>点击地址栏最右边按钮</li>
-                                    <li>选择&quot;安装 fiora&quot;</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <p>输入框快捷键</p>
-                                <ul>
-                                    <li>Alt + S: 发送滑稽</li>
-                                    <li>Alt + D: 发送表情包</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <p>命令消息</p>
-                                <ul>
-                                    <li>-roll [number]: 掷点</li>
-                                    <li>-rps: 石头剪刀布</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </Dialog>
-                    <AppDownload visible={appDownloadDialog} onClose={this.toggleAppDownloadDialog} />
-                    <AdminDialog visible={adminDialog} onClose={this.toggleAdminDialog} />
-                </div>
-            );
-        }
         return (
-            <div className="module-main-sidebar" />
+            <div className="module-main-sidebar">
+                { isLogin && <Avatar className="avatar" src={avatar} onClick={this.toggleUserDialog} /> }
+                { isLogin && <OnlineStatus className="status" status={isConnect ? 'online' : 'offline'} /> }
+                <div className="buttons">
+                    {
+                        isLogin && isAdmin ?
+                            Sidebar.renderTooltip('管理员', <IconButton width={40} height={40} icon="administrator" iconSize={28} onClick={this.toggleAdminDialog} />)
+                            :
+                            null
+                    }
+                    <Tooltip placement="right" mouseEnterDelay={0.3} overlay={<span>源码</span>}>
+                        <a href="https://github.com/yinxin630/fiora" target="_black" rel="noopener noreferrer">
+                            <IconButton width={40} height={40} icon="github" iconSize={26} />
+                        </a>
+                    </Tooltip>
+                    {Sidebar.renderTooltip('下载APP', <IconButton width={40} height={40} icon="app" iconSize={28} onClick={this.toggleAppDownloadDialog} />)}
+                    {Sidebar.renderTooltip('打赏', <IconButton width={40} height={40} icon="dashang" iconSize={26} onClick={this.toggleRewardDialog} />)}
+                    {Sidebar.renderTooltip('关于', <IconButton width={40} height={40} icon="about" iconSize={26} onClick={this.toggleInfoDialog} />)}
+                    {Sidebar.renderTooltip('设置', <IconButton width={40} height={40} icon="setting" iconSize={26} onClick={this.toggleSettingDialog} />)}
+                    {isLogin && Sidebar.renderTooltip('退出登录', <IconButton width={40} height={40} icon="logout" iconSize={26} onClick={Sidebar.logout} />)}
+                </div>
+                <Dialog className="dialog system-setting" visible={settingDialog} title="系统设置" onClose={this.toggleSettingDialog}>
+                    <div className="content">
+                        <div>
+                            <p>恢复</p>
+                            <div className="buttons">
+                                <Button onClick={Sidebar.resetThume}>恢复默认主题</Button>
+                                <Button onClick={Sidebar.resetSound}>恢复默认提示音</Button>
+                            </div>
+                        </div>
+                        <div>
+                            <p>开关</p>
+                            <div className="switch">
+                                <p>声音提醒</p>
+                                <Switch
+                                    onChange={action.setSoundSwitch}
+                                    checked={soundSwitch}
+                                />
+                                <p>桌面提醒</p>
+                                <Switch
+                                    onChange={action.setNotificationSwitch}
+                                    checked={notificationSwitch}
+                                />
+                                <p>语音播报</p>
+                                <Switch
+                                    onChange={action.setVoiceSwitch}
+                                    checked={voiceSwitch}
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <p>提示音</p>
+                            <div className="sounds">
+                                <RadioGroup value={sound} onChange={Sidebar.handleSelectSound} horizontal>
+                                    <RadioButton value="default">默认</RadioButton>
+                                    <RadioButton value="apple">苹果</RadioButton>
+                                    <RadioButton value="pcqq">电脑QQ</RadioButton>
+                                    <RadioButton value="mobileqq">手机QQ</RadioButton>
+                                    <RadioButton value="momo">陌陌</RadioButton>
+                                    <RadioButton value="huaji">滑稽</RadioButton>
+                                </RadioGroup>
+                            </div>
+                        </div>
+                        <div>
+                            <p>背景图 <span className="background-tip">背景图会被拉伸到浏览器窗口大小, 合理的比例会取得更好的效果</span></p>
+                            <div className="image-preview">
+                                <img className={backgroundLoading ? 'blur' : ''} src={backgroundImage} onClick={this.selectBackgroundImage} />
+                                <ReactLoading className={`loading ${backgroundLoading ? 'show' : 'hide'}`} type="spinningBubbles" color={`rgb(${primaryColor}`} height={100} width={100} />
+                            </div>
+                        </div>
+                        <div>
+                            <p>主题颜色</p>
+                            <div className="color-info">
+                                <div style={{ backgroundColor: `rgb(${primaryColor})` }} />
+                                <span>{`rgb(${primaryColor})`}</span>
+                            </div>
+                            <TwitterPicker className="color-picker" color={`rgb(${primaryColor})`} onChange={this.handlePrimaryColorChange} />
+                        </div>
+                        <div>
+                            <p>文字颜色</p>
+                            <div className="color-info">
+                                <div style={{ backgroundColor: `rgb(${primaryTextColor})` }} />
+                                <span>{`rgb(${primaryTextColor})`}</span>
+                            </div>
+                            <TwitterPicker className="color-picker" color={`rgb(${primaryTextColor})`} onChange={this.handlePrimaryTextColorChange} />
+                        </div>
+                    </div>
+                </Dialog>
+                <SelfInfo visible={userDialog} onClose={this.toggleUserDialog} />
+                <Dialog className="dialog reward " visible={rewardDialog} title="打赏" onClose={this.toggleRewardDialog}>
+                    <div className="content">
+                        <p>如果你觉得这个聊天室代码对你有帮助, 希望打赏下给个鼓励~~<br />作者大多数时间在线, 欢迎提问, 有问必答</p>
+                        <div>
+                            <img src={require('@/assets/images/alipay.jpg')} />
+                            <img src={require('@/assets/images/wxpay.jpg')} />
+                        </div>
+                    </div>
+                </Dialog>
+                <Dialog className="dialog fiora-info " visible={infoDialog} title="关于" onClose={this.toggleInfoDialog}>
+                    <div className="content">
+                        <div>
+                            <p>作者主页</p>
+                            <a href="https://suisuijiang.com" target="_black" rel="noopener noreferrer">https://suisuijiang.com</a>
+                        </div>
+                        <div>
+                            <p>如何运行</p>
+                            <a href="https://github.com/yinxin630/fiora/blob/master/doc/INSTALL.ZH.md" target="_black" rel="noopener noreferrer">https://github.com/yinxin630/fiora/blob/master/doc/INSTALL.ZH.md</a>
+                        </div>
+                        <div>
+                            <p>架构 / 设计思路</p>
+                            <a href="https://github.com/yinxin630/blog/issues/3" target="_black" rel="noopener noreferrer">https://github.com/yinxin630/blog/issues/3</a>
+                        </div>
+                        <div>
+                            <p>将fiora安装到主屏(PWA)</p>
+                            <ul>
+                                <li>地址栏输入: Chrome://flags</li>
+                                <li>搜索并启用以下项目: Desktop PWAs(桌面PWAs)、App Banners(应用横幅)、Experimental App Banners(实验性应用横幅)</li>
+                                <li>重启浏览器使修改的设置生效</li>
+                                <li>点击地址栏最右边按钮</li>
+                                <li>选择&quot;安装 fiora&quot;</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p>输入框快捷键</p>
+                            <ul>
+                                <li>Alt + S: 发送滑稽</li>
+                                <li>Alt + D: 发送表情包</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p>命令消息</p>
+                            <ul>
+                                <li>-roll [number]: 掷点</li>
+                                <li>-rps: 石头剪刀布</li>
+                            </ul>
+                        </div>
+                    </div>
+                </Dialog>
+                <AppDownload visible={appDownloadDialog} onClose={this.toggleAppDownloadDialog} />
+                <AdminDialog visible={adminDialog} onClose={this.toggleAdminDialog} />
+            </div>
         );
     }
 }
