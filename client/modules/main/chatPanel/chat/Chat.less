@@ -192,20 +192,20 @@
         align-items: flex-end;
     }
     .tag {
-        height: 18px;
-        line-height: 18px;
+        height: 20px;
+        line-height: 20px;
         border-radius: 8px;
         padding: 0 6px;
         display: inline-block;
         font-size: 10px;
         background-color: var(--primary-color-9);
         color: var(--primary-text-color-10);
-        transform: translateY(-1px);
+        transform: translateY(0px) scale(0.9);
     }
     .nickname {
         color: #333;
         font-size: 13px;
-        margin-left: 6px;
+        margin-left: 0px;
         user-select: text;
     }
     .time {
@@ -256,6 +256,9 @@
         }
         .time {
             transform: translateY(2px);
+        }
+        .nickname {
+            margin-left: 6px;
         }
         .content {
             color: rgba(255, 255, 255, 0.9);

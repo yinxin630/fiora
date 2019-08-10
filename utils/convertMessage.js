@@ -19,6 +19,7 @@ function convertSystemMessage(message) {
         message.from.originUsername = message.from.username;
         message.from.username = '乌贼娘殿下';
         message.from.avatar = require('../client/assets/images/wuzeiniang.gif');
+        message.from.tag = 'system';
 
         const content = JSON.parse(message.content);
         switch (content.command) {
