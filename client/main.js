@@ -70,6 +70,7 @@ socket.on('disconnect', () => {
 });
 
 let prevFrom = '';
+let prevName = '';
 socket.on('message', (message) => {
     convertMessage(message);
 
@@ -136,13 +137,14 @@ socket.on('message', (message) => {
             }
 
             const from = linkman && linkman.get('type') === 'group' ?
-                `${message.from.username}在${linkman.get('name')}说`
+                `${message.from.username}${linkman.get('name') === prevName ? '' : `在${linkman.get('name')}`}说`
                 :
                 `${message.from.username}对你说`;
             if (text) {
                 voice.push(from !== prevFrom ? from + text : text, message.from.username);
             }
             prevFrom = from;
+            prevName = linkman.get('name');
         } else if (message.type === 'system') {
             voice.push(message.from.originUsername + message.content);
             prevFrom = null;
