@@ -57,7 +57,6 @@ export default connect((state) => {
     const focus = state.get('focus');
     const linkmans = state.getIn(['user', 'linkmans']) || immutable.fromJS([]);
     const linkman = linkmans.find(l => l.get('_id') === focus);
-    console.log(linkman && linkman.toJS());
     return {
         isLogin: !!state.getIn(['user', '_id']),
         linkmanType: linkman && linkman.get('type'),
