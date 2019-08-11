@@ -23,6 +23,7 @@
     "chalk": "^2.3.2",
     "command-line-args": "^5.0.2",
     "immutable": "^3.8.2",
+    "inobounce": "^0.1.6",
     "ip": "^1.1.5",
     "jwt-simple": "^0.5.1",
     "koa": "^2.5.0",

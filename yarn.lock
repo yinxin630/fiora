@@ -3693,6 +3693,11 @@ ini@^1.3.4, ini@~1.3.0:
   version "1.3.5"
   resolved "http://registry.npm.taobao.org/ini/download/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
 
+inobounce@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.npm.taobao.org/inobounce/download/inobounce-0.1.6.tgz#b3912e63cdb2eacbcbfcdce6a0681a105b49a8d2"
+  integrity sha1-s5EuY82y6svL/NzmoGgaEFtJqNI=
+
 inquirer@^3.0.6:
   version "3.3.0"
   resolved "http://registry.npm.taobao.org/inquirer/download/inquirer-3.3.0.tgz#9dd2f2ad765dcab1ff0443b491442a20ba227dc9"
