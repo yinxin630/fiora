@@ -276,6 +276,20 @@ function setSelfVoiceSwitch(value) {
     });
     window.localStorage.setItem('selfVoiceSwitch', value);
 }
+function toggleFeaturePanel(visible) {
+    dispatch({
+        type: 'SetDeepValue',
+        keys: ['ui', 'featurePanelVisible'],
+        value: visible,
+    });
+}
+function toggleSideInfo(visible) {
+    dispatch({
+        type: 'SetDeepValue',
+        keys: ['ui', 'sideInfoVisible'],
+        value: visible,
+    });
+}
 
 
 export default {
@@ -309,4 +323,6 @@ export default {
     setNotificationSwitch,
     setVoiceSwitch,
     setSelfVoiceSwitch,
+    toggleFeaturePanel,
+    toggleSideInfo,
 };

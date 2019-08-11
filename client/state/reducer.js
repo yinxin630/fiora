@@ -1,6 +1,7 @@
 import immutable from 'immutable';
 import setCssVariable from '../../utils/setCssVariable';
 import config from '../../config/client';
+import { isMobile } from '../../utils/ua';
 
 const primaryColor = window.localStorage.getItem('primaryColor') || config.primaryColor;
 const primaryTextColor = window.localStorage.getItem('primaryTextColor') || config.primaryTextColor;
@@ -52,6 +53,8 @@ const initialState = immutable.fromJS({
         notificationSwitch,
         voiceSwitch,
         selfVoiceSwitch,
+        featurePanelVisible: !isMobile,
+        sideInfoVisible: !isMobile,
     },
 });
 

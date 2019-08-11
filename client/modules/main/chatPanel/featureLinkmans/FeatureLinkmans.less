@@ -1,10 +1,31 @@
 .module-main-feature {
     width: 300px;
     height: 100%;
-    background-color: var(--primary-color-5);
     position: relative;
     display: flex;
-    flex-direction: column;
+    background-color: unset;
+
+    .container {
+        background-color: var(--primary-color-5);
+        flex: 1;
+        max-width: 300px;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media (orientation : portrait) {
+    .module-main-feature {
+        position: absolute;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        background-color: rgba(37, 37, 37, 0.5);
+
+        .container {
+            background-color: var(--primary-color-8);
+        }
+    }
 }
 
 .chatPanel-linkman-group {
