@@ -132,6 +132,13 @@
     }
 }
 
+@media (orientation : portrait) {
+    .module-main-chat {
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+}
+
 .rc-dialog {
     &.delete-gourp-confirm-dialog {
         .rc-dialog-body {
@@ -165,6 +172,18 @@
         color: var(--primary-color-10);
         &:hover {
             color: var(--primary-color-8);
+        }
+    }
+}
+
+@media (orientation : portrait) {
+    .chat-headerBar {
+        height: 50px;
+        padding: 0 6px;
+
+        & > h2 {
+            flex: 1;
+            text-align: center;
         }
     }
 }
@@ -492,6 +511,14 @@
                 font-size: 16px;
             }
         }
+    }
+}
+
+@media (orientation : portrait) {
+    .chat-chatInput {
+        height: 50px;
+        padding: 0 6px;
+        border-bottom-right-radius: 0px;
     }
 }
 

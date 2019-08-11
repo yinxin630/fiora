@@ -1,5 +1,6 @@
 .module-main-sidebar {
     width: 80px;
+    min-width: min-content;
     background-color: var(--primary-color-8);
     display: flex;
     flex-direction: column;
@@ -54,6 +55,13 @@
         & > a {
             text-decoration: none;
         }
+    }
+}
+
+@media (orientation : portrait) {
+    .module-main-sidebar {
+        width: 60px;
+        padding: 0 3px;
     }
 }
 

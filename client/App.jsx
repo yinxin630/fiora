@@ -10,6 +10,7 @@ import Main from './modules/main/Main';
 import Login from './modules/main/login/Login';
 
 import './App.less';
+import { isMobile } from '../utils/ua';
 
 // App can't be stateless component
 class App extends Component {
@@ -19,9 +20,13 @@ class App extends Component {
     }
     constructor(props) {
         super(props);
+        let height = 1;
+        if (!isMobile) {
+            height = window.innerHeight >= 1000 ? 0.8 : 0.9;
+        }
         this.state = {
             width: App.getWidth(),
-            height: window.innerHeight >= 1000 ? 0.8 : 0.9,
+            height,
             backgroundWidth: window.innerWidth,
             backgroundHeight: window.innerHeight,
         };
@@ -75,6 +80,10 @@ class App extends Component {
         };
     }
     static getWidth() {
+        if (isMobile) {
+            return 1;
+        }
+
         let width = 0.6;
         if (window.innerWidth < 1000) {
             width = 0.9;
