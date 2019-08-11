@@ -8,7 +8,7 @@
     "orientation": "portrait-primary",
     "theme_color": "#4a90e2",
     "icons": [{
-        "src": "https://cdn.suisuijiang.com/fiora/favicon.png?v=1",
+        "src": "/favicon.png",
         "sizes": "144x144",
         "type": "image/png"
     }]

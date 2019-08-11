@@ -8,6 +8,27 @@
     overflow: hidden;
     position: relative;
 
+    .no-linkman {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        div {
+            border-radius: 8px;
+            width: 170px;
+            height: 180px;
+            background-image: url('../../../../assets//images//no-linkman.jpeg');
+            background-position-y: 180px;
+        }
+        h2 {
+            margin-top: 16px;
+            font-size: 14px;
+            color: #666;
+        }
+    }
+
     .group-info {
         height: 100%;
         width: 300px;
@@ -34,6 +55,7 @@
             flex: 1;
             padding: 12px;
             overflow: auto;
+            -webkit-overflow-scrolling: touch;
 
             & > div {
                 margin-bottom: 10px;
@@ -42,6 +64,16 @@
                     font-size: 14px;
                     color: #333;
                     font-weight: bold;
+                }
+                &.name {
+                    & > .component-input {
+                        height: 36px;
+                    }
+                    & > .component-button {
+                        height: 36px;
+                        line-height: 36px;
+                        margin-top: 8px;
+                    }
                 }
                 &.avatar {
                     & > img {
@@ -101,6 +133,27 @@
     }
 }
 
+@media (orientation : portrait) {
+    .module-main-chat {
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+}
+
+.rc-dialog {
+    &.delete-gourp-confirm-dialog {
+        .rc-dialog-body {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .component-button {
+            width: 60px;
+            height: 36px;
+            margin-right: 12px;
+        }
+    }
+}
+
 .chat-headerBar {
     height: 70px;
     border-bottom: 1px solid rgba(208, 208, 208, 0.6);
@@ -124,10 +177,23 @@
     }
 }
 
+@media (orientation : portrait) {
+    .chat-headerBar {
+        height: 50px;
+        padding: 0 6px;
+
+        & > h2 {
+            flex: 1;
+            text-align: center;
+        }
+    }
+}
+
 .chat-messageList {
     flex: 1;
     padding: 8px 10px 0 10px;
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
 }
 .chat-message {
     display: flex;
@@ -147,20 +213,20 @@
         align-items: flex-end;
     }
     .tag {
-        height: 18px;
-        line-height: 18px;
+        height: 20px;
+        line-height: 20px;
         border-radius: 8px;
         padding: 0 6px;
         display: inline-block;
         font-size: 10px;
         background-color: var(--primary-color-9);
         color: var(--primary-text-color-10);
-        transform: translateY(-1px);
+        transform: translateY(0px) scale(0.9);
     }
     .nickname {
         color: #333;
         font-size: 13px;
-        margin-left: 6px;
+        margin-left: 0px;
         user-select: text;
     }
     .time {
@@ -211,6 +277,9 @@
         }
         .time {
             transform: translateY(2px);
+        }
+        .nickname {
+            margin-left: 6px;
         }
         .content {
             color: rgba(255, 255, 255, 0.9);
@@ -351,15 +420,22 @@
         min-height: 300px;
         display: flex;
         flex-direction: column;
+        @media (orientation : portrait) {
+            max-width: 100%;
+        }
     }
     .rc-dialog-body {
         padding: 0 8px;
         overflow: auto;
+        -webkit-overflow-scrolling: touch;
         max-width: 800px;
         position: relative;
         flex: 1;
         * {
             user-select: text;
+        }
+        @media (orientation : portrait) {
+            max-width: 100%;
         }
     }
     .component-button {
@@ -447,6 +523,14 @@
     }
 }
 
+@media (orientation : portrait) {
+    .chat-chatInput {
+        height: 50px;
+        padding: 0 6px;
+        border-bottom-right-radius: 0px;
+    }
+}
+
 .chat-expression {
     height: 100%;
     .default-expression {
@@ -455,6 +539,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
+        padding: 0 7px;
 
         & > div {
             width: 40px;
@@ -473,6 +558,11 @@
                 background-size: 30px auto;
                 background-image: url('../../../../assets/images/baidu.png');
             }
+
+            @media (orientation : portrait) {
+                width: 10%;
+                height: auto;
+            }
         }
     }
     .rc-tabs {
@@ -489,6 +579,10 @@
     height: 240px;
     background-color: white;
     transform: translateY(-8px);
+
+    @media (orientation : portrait) {
+        width: 100%;
+    }
 }
 
 .feature-dropdown {
@@ -530,8 +624,14 @@
     width: 600px !important;
 
     .container {
+        width: 100%;
         display: flex;
         flex-direction: column;
+
+        @media (orientation : portrait) {
+            width: 100%;
+            height: 410px;
+        }
     }
     .codeEditor-button {
         width: 100px;
@@ -553,8 +653,13 @@
     width: 600px !important;
 
     .container {
+        flex: 1;
         display: flex;
         flex-direction: column;
+
+        @media (orientation : portrait) {
+            height: 410px;
+        }
         
         & > div {
             display: flex;
@@ -575,19 +680,27 @@
                 margin-top: 18px;
             }
             &.expression-list {
+                flex: 1;
                 flex-wrap: wrap;
                 margin-top: 16px;
                 overflow: auto;
+                -webkit-overflow-scrolling: touch;
                 max-height: 140px * 4;
 
                 & > img {
                     width: 130px;
-                    height: auto;
+                    height: 130px;
                     max-height: 130px;
                     margin: 5px;
                     cursor: pointer;
                     &:hover {
                         box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.15);
+                    }
+
+                    @media (orientation : portrait) {
+                        width: 155px;
+                        height: 155px;
+                        max-height: 155px;
                     }
                 }
             }
@@ -603,6 +716,7 @@
     border-radius: 3px;
     max-height: 266px;
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
 
     & > div {
         display: flex;

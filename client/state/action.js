@@ -1,5 +1,5 @@
 import fetch from 'utils/fetch';
-import convertRobot10Message from 'utils/convertRobot10Message';
+import convertMessage from 'utils/convertMessage';
 import store from './store';
 
 const getFriendId = require('utils/getFriendId');
@@ -49,7 +49,7 @@ async function setUser(user) {
     ];
     const [err, messages] = await fetch('getLinkmansLastMessages', { linkmans: linkmanIds });
     for (const key in messages) {
-        messages[key].forEach(m => convertRobot10Message(m));
+        messages[key].forEach(m => convertMessage(m));
     }
     if (!err) {
         dispatch({
@@ -59,7 +59,7 @@ async function setUser(user) {
     }
 }
 async function setGuest(defaultGroup) {
-    defaultGroup.messages.forEach(m => convertRobot10Message(m));
+    defaultGroup.messages.forEach(m => convertMessage(m));
     dispatch({
         type: 'SetDeepValue',
         keys: ['user'],
@@ -70,6 +70,11 @@ async function setGuest(defaultGroup) {
                 members: [],
             }),
         ] },
+    });
+    dispatch({
+        type: 'SetDeepValue',
+        keys: ['focus'],
+        value: defaultGroup._id,
     });
 }
 function connect() {
@@ -106,7 +111,7 @@ function addLinkmanMessage(linkmanId, message) {
     });
 }
 function addLinkmanMessages(linkmanId, messages) {
-    messages.forEach(m => convertRobot10Message(m));
+    messages.forEach(m => convertMessage(m));
     dispatch({
         type: 'AddLinkmanMessages',
         linkmanId,
@@ -114,6 +119,7 @@ function addLinkmanMessages(linkmanId, messages) {
     });
 }
 function updateSelfMessage(linkmanId, messageId, message) {
+    convertMessage(message);
     dispatch({
         type: 'UpdateSelfMessage',
         linkmanId,
@@ -150,9 +156,23 @@ function setGroupMembers(groupId, members) {
 }
 function setGroupAvatar(groupId, avatar) {
     dispatch({
-        type: 'SetGroupAvatar',
+        type: 'SetGroupInfo',
         groupId,
-        avatar,
+        key: 'avatar',
+        value: avatar,
+    });
+}
+/**
+ * Update the avatar of the specified group in the store
+ * @param {string} groupId group id
+ * @param {string} name group new name
+ */
+function setGroupName(groupId, name) {
+    dispatch({
+        type: 'SetGroupInfo',
+        groupId,
+        key: 'name',
+        value: name,
     });
 }
 function addLinkman(linkman, focus = false) {
@@ -253,6 +273,28 @@ function setVoiceSwitch(value) {
     });
     window.localStorage.setItem('voiceSwitch', value);
 }
+function setSelfVoiceSwitch(value) {
+    dispatch({
+        type: 'SetDeepValue',
+        keys: ['ui', 'selfVoiceSwitch'],
+        value,
+    });
+    window.localStorage.setItem('selfVoiceSwitch', value);
+}
+function toggleFeaturePanel(visible) {
+    dispatch({
+        type: 'SetDeepValue',
+        keys: ['ui', 'featurePanelVisible'],
+        value: visible,
+    });
+}
+function toggleSideInfo(visible) {
+    dispatch({
+        type: 'SetDeepValue',
+        keys: ['ui', 'sideInfoVisible'],
+        value: visible,
+    });
+}
 
 
 export default {
@@ -266,6 +308,7 @@ export default {
     setFocus,
     setGroupMembers,
     setGroupAvatar,
+    setGroupName,
     addLinkman,
     removeLinkman,
     setFriend,
@@ -284,4 +327,7 @@ export default {
     setSoundSwitch,
     setNotificationSwitch,
     setVoiceSwitch,
+    setSelfVoiceSwitch,
+    toggleFeaturePanel,
+    toggleSideInfo,
 };

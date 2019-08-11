@@ -7,6 +7,7 @@ const ip = require('ip');
 const User = require('../models/user');
 const Group = require('../models/group');
 const config = require('../../config/server');
+const { SealTimeout } = require('../../utils/const');
 
 let baiduToken = '';
 let lastBaiduTokenTime = Date.now();
@@ -78,7 +79,7 @@ module.exports = {
         sealList.add(userId);
         setTimeout(() => {
             sealList.delete(userId);
-        }, 1000 * 60 * 10);
+        }, SealTimeout);
 
         return {
             msg: 'ok',

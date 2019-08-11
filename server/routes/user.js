@@ -90,7 +90,7 @@ module.exports = {
         const token = generateToken(newUser._id, environment);
 
         ctx.socket.user = newUser._id;
-        await Socket.update({ id: ctx.socket.id }, {
+        await Socket.updateOne({ id: ctx.socket.id }, {
             user: newUser._id,
             os,
             browser,
@@ -136,7 +136,7 @@ module.exports = {
 
         const groups = await Group.find({ members: user }, { _id: 1, name: 1, avatar: 1, creator: 1, createTime: 1 });
         groups.forEach((group) => {
-            ctx.socket.socket.join(group._id);
+            ctx.socket.join(group._id);
         });
 
         const friends = await Friend
@@ -146,7 +146,7 @@ module.exports = {
         const token = generateToken(user._id, environment);
 
         ctx.socket.user = user._id;
-        await Socket.update({ id: ctx.socket.id }, {
+        await Socket.updateOne({ id: ctx.socket.id }, {
             user: user._id,
             os,
             browser,
@@ -191,7 +191,7 @@ module.exports = {
 
         const groups = await Group.find({ members: user }, { _id: 1, name: 1, avatar: 1, creator: 1, createTime: 1 });
         groups.forEach((group) => {
-            ctx.socket.socket.join(group._id);
+            ctx.socket.join(group._id);
         });
 
         const friends = await Friend
@@ -199,7 +199,7 @@ module.exports = {
             .populate('to', { avatar: 1, username: 1 });
 
         ctx.socket.user = user._id;
-        await Socket.update({ id: ctx.socket.id }, {
+        await Socket.updateOne({ id: ctx.socket.id }, {
             user: user._id,
             os,
             browser,
@@ -218,14 +218,14 @@ module.exports = {
     async guest(ctx) {
         const { os, browser, environment } = ctx.data;
 
-        await Socket.update({ id: ctx.socket.id }, {
+        await Socket.updateOne({ id: ctx.socket.id }, {
             os,
             browser,
             environment,
         });
 
         const group = await Group.findOne({ isDefault: true }, { _id: 1, name: 1, avatar: 1, createTime: 1 });
-        ctx.socket.socket.join(group._id);
+        ctx.socket.join(group._id);
 
         const messages = await Message
             .find(
@@ -242,7 +242,7 @@ module.exports = {
         const { avatar } = ctx.data;
         assert(avatar, '新头像链接不能为空');
 
-        await User.update({ _id: ctx.socket.user }, {
+        await User.updateOne({ _id: ctx.socket.user }, {
             avatar,
         });
 
@@ -278,7 +278,7 @@ module.exports = {
         const user = await User.findOne({ _id: userId });
         assert(user, '用户不存在');
 
-        await Friend.remove({ from: ctx.socket.user, to: user._id });
+        await Friend.deleteOne({ from: ctx.socket.user, to: user._id });
         return {};
     },
     /**

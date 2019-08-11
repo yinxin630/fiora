@@ -6,6 +6,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import IconButton from '@/components/IconButton';
 import Message from '@/components/Message';
+import { isMobile } from '../../../../../utils/ua';
+import action from '../../../../state/action';
 
 class HeaderBar extends Component {
     static handleShareGroup() {
@@ -16,31 +18,35 @@ class HeaderBar extends Component {
         linkmanName: PropTypes.string,
         onShowInfo: PropTypes.func,
         isLogin: PropTypes.bool.isRequired,
+        sideInfoVisible: PropTypes.bool,
     }
     render() {
-        const { linkmanType, linkmanName, onShowInfo, isLogin } = this.props;
+        const { linkmanType, linkmanName, onShowInfo, isLogin, sideInfoVisible } = this.props;
         if (!linkmanName) {
             return <div />;
         }
         return (
             <div className="chat-headerBar">
+                { isMobile &&
+                    <div>
+                        <IconButton width={40} height={40} icon="feature" iconSize={24} onClick={() => action.toggleSideInfo(!sideInfoVisible)} />
+                        <IconButton width={40} height={40} icon="friends" iconSize={24} onClick={() => action.toggleFeaturePanel(true)} />
+                    </div>
+                }
                 <h2>{linkmanName}</h2>
                 {
-                    isLogin ?
-                        <div>
-                            {
-                                linkmanType === 'group' ?
-                                    <CopyToClipboard text={`invite::${linkmanName}`}>
-                                        <IconButton width={40} height={40} icon="share" iconSize={24} onClick={HeaderBar.handleShareGroup} />
-                                    </CopyToClipboard>
+                    <div style={{ visibility: isLogin ? 'visible' : 'hidden' }}>
+                        {
+                            linkmanType === 'group' ?
+                                <CopyToClipboard text={`invite::${linkmanName}`}>
+                                    <IconButton width={40} height={40} icon="share" iconSize={24} onClick={HeaderBar.handleShareGroup} />
+                                </CopyToClipboard>
 
-                                    :
-                                    null
-                            }
-                            <IconButton width={40} height={40} icon="gongneng" iconSize={24} onClick={onShowInfo} />
-                        </div>
-                        :
-                        null
+                                :
+                                null
+                        }
+                        <IconButton width={40} height={40} icon="gongneng" iconSize={24} onClick={onShowInfo} />
+                    </div>
                 }
             </div>
         );
@@ -55,5 +61,6 @@ export default connect((state) => {
         isLogin: !!state.getIn(['user', '_id']),
         linkmanType: linkman && linkman.get('type'),
         linkmanName: linkman && linkman.get('name'),
+        sideInfoVisible: state.getIn(['ui', 'sideInfoVisible']),
     };
 })(HeaderBar);

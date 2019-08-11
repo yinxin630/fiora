@@ -9,3 +9,5 @@ yarn-error.log
 runServer.sh
 build.sh
 .qiniurc
+
+.idea/

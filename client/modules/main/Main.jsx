@@ -1,20 +1,19 @@
-import React, { Component } from 'react';
-import { immutableRenderDecorator } from 'react-immutable-render-mixin';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 import Sidebar from './sidebar/Sidebar';
 import ChatPanel from './chatPanel/ChatPanel';
 import './Main.less';
 
-@immutableRenderDecorator
-class Main extends Component {
-    render() {
-        return (
-            <div className="module-main">
-                <Sidebar />
-                <ChatPanel />
-            </div>
-        );
-    }
+function Main() {
+    const sideInfoVisible = useSelector(state => state.getIn(['ui', 'sideInfoVisible']));
+
+    return (
+        <div className="module-main">
+            { sideInfoVisible && <Sidebar /> }
+            <ChatPanel />
+        </div>
+    );
 }
 
 export default Main;

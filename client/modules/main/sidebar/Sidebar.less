@@ -1,5 +1,6 @@
 .module-main-sidebar {
     width: 80px;
+    min-width: min-content;
     background-color: var(--primary-color-8);
     display: flex;
     flex-direction: column;
@@ -57,6 +58,15 @@
     }
 }
 
+@media (orientation : portrait) {
+    .module-main-sidebar {
+        width: 60px;
+        padding: 0 3px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+}
+
 .module-main-sidebar-onlineStatus {
     width: 16px;
     height: 16px;
@@ -78,7 +88,11 @@
     .rc-dialog-content {
         display: flex;
         flex-direction: column;
-        height: 100%;;
+        height: 100%;
+
+        @media (orientation : portrait) {
+            word-break: break-word;
+        }
     }
     .rc-dialog-body {
         flex: 1;
@@ -90,6 +104,9 @@
     .content {
         & > div {
             margin-bottom: 14px;
+            &.switch-container {
+                margin-bottom: 4px;
+            }
             & > p {
                 line-height: 33px;
                 font-size: 14px;
@@ -153,14 +170,20 @@
             }
             & > .switch {
                 display: flex;
-                align-items: center;
+                flex-wrap: wrap;
 
-                & > p {
-                    color: #444;
-                    margin-right: 8px;
-                    font-size: 14px;
-                    &:nth-child(3), &:nth-child(5) {
-                        margin-left: 20px;
+                & > div {
+                    display: flex;
+                    align-items: center;
+                    margin-right: 10px;
+                    margin-bottom: 8px;
+                    & > p {
+                        color: #444;
+                        margin-right: 8px;
+                        font-size: 14px;
+                        &:nth-child(3), &:nth-child(5) {
+                            margin-left: 20px;
+                        }
                     }
                 }
             }
@@ -207,6 +230,9 @@
 .selfInfo {
     height: initial !important;
 
+    .content {
+        width: 100%;
+    }
     .avatar-preview {
         position: relative;
         .blur {
@@ -251,9 +277,10 @@
     }
 }
 .reward {
-    width: 800px !important;
+    width: 700px !important;
     height: initial !important;
     .content {
+        width: 100%;
         & > p {
             color: #333;
             text-align: center;
@@ -268,6 +295,12 @@
             & > img {
                 width: 250px;
                 height: auto;
+            }
+            @media (orientation : portrait) {
+                flex-wrap: wrap;
+                & > img {
+                    margin-bottom: 10px;
+                }
             }
         }
     }

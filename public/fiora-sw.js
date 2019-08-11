@@ -12,4 +12,6 @@ if (workbox) {
     workbox.routing.registerRoute(new RegExp('.*.(?:js|css)'), workbox.strategies.staleWhileRevalidate());
 
     workbox.routing.registerRoute(new RegExp('https://cdn.suisuijiang.com/'), workbox.strategies.cacheFirst());
+
+    workbox.routing.registerRoute(new RegExp('/(avatar|img)'), workbox.strategies.cacheFirst());
 }

@@ -10,9 +10,12 @@ const xss = require('../../utils/xss');
 const FirstTimeMessagesCount = 15;
 const EachFetchMessagesCount = 30;
 
+const RPS = ['石头', '剪刀', '布'];
+
 module.exports = {
     async sendMessage(ctx) {
-        const { to, type, content } = ctx.data;
+        const { to, content } = ctx.data;
+        let { type } = ctx.data;
         assert(to, 'to不能为空');
 
         let groupId = '';
@@ -31,7 +34,31 @@ module.exports = {
         let messageContent = content;
         if (type === 'text') {
             assert(messageContent.length <= 2048, '消息长度过长');
-            messageContent = xss(content);
+
+            const rollRegex = /^-roll( ([0-9]*))?$/;
+            if (rollRegex.test(messageContent)) {
+                const regexResult = rollRegex.exec(messageContent);
+                if (regexResult) {
+                    let number = regexResult[1] || '100';
+                    if (number.length > 5) {
+                        number = '99999';
+                    }
+                    number = parseInt(number, 10);
+                    type = 'system';
+                    messageContent = JSON.stringify({
+                        command: 'roll',
+                        value: Math.floor(Math.random() * (number + 1)),
+                        top: number,
+                    });
+                }
+            } else if (/^-rps$/.test(messageContent)) {
+                type = 'system';
+                messageContent = JSON.stringify({
+                    command: 'rps',
+                    value: RPS[Math.floor(Math.random() * RPS.length)],
+                });
+            }
+            messageContent = xss(messageContent);
         } else if (type === 'invite') {
             const group = await Group.findOne({ name: content });
             assert(group, '目标群组不存在');
@@ -67,7 +94,7 @@ module.exports = {
         };
 
         if (groupId) {
-            ctx.socket.socket.to(groupId).emit('message', messageData);
+            ctx.socket.to(groupId).emit('message', messageData);
         } else {
             const sockets = await Socket.find({ user: userId });
             sockets.forEach((socket) => {

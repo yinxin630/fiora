@@ -21,7 +21,7 @@ export default class AppDownload extends Component {
                             <p>点击链接或者扫码下载APK</p>
                             <a href={`https://cdn.suisuijiang.com/fiora.apk?v=${Date.now()}`} download>https://cdn.suisuijiang.com/fiora.apk</a>
                             <br />
-                            <img src="https://cdn.suisuijiang.com/ImageMessage/5adad39555703565e7903f78_1560177623684.png" />
+                            <img src={require('../../../assets/images/android-apk.png')} />
                         </div>
                     </div>
                     <div>
@@ -30,7 +30,7 @@ export default class AppDownload extends Component {
                             <p>1. Apple Store 搜索 expo 并下载 Expo Client</p>
                             <p>2. 打开 expo, 并使用碎碎酱的 expo 账号登录(suisuijiang / fiora123456)</p>
                             <p>3. 登录成功后点击 fiora 启动应用</p>
-                            <img src="https://cdn.suisuijiang.com/ImageMessage/5adad39555703565e7903f78_1528384800528.png?width=850&height=644" />
+                            <img src={require('../../../assets/images/ios-expo.png')} />
                         </div>
                     </div>
                 </div>

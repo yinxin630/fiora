@@ -85,3 +85,30 @@ body:hover {overflow-y:scroll;}
         box-shadow: 0px 0px 60px rgba(0, 0, 0, 0.5);;
     }
 }
+
+.rc-dialog {
+    width: 450px;
+}
+
+.rc-dialog-body {
+    overflow: hidden;
+    display: flex;
+}
+
+.rc-dropdown {
+    max-width: 100%;
+}
+
+@media (orientation : portrait) {
+    .rc-dialog {
+        width: 94% !important;
+        margin: 0 auto;
+    }
+    .rc-dialog-body {
+        padding: 10px 10px;
+        max-height: 88%;
+    }
+    .rc-dialog-content {
+        max-height: 500px;
+    }
+}
