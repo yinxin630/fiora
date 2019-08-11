@@ -35,19 +35,18 @@ class HeaderBar extends Component {
                 }
                 <h2>{linkmanName}</h2>
                 {
-                    isLogin &&
-                        <div>
-                            {
-                                linkmanType === 'group' ?
-                                    <CopyToClipboard text={`invite::${linkmanName}`}>
-                                        <IconButton width={40} height={40} icon="share" iconSize={24} onClick={HeaderBar.handleShareGroup} />
-                                    </CopyToClipboard>
+                    <div style={{ visibility: isLogin ? 'visible' : 'hidden' }}>
+                        {
+                            linkmanType === 'group' ?
+                                <CopyToClipboard text={`invite::${linkmanName}`}>
+                                    <IconButton width={40} height={40} icon="share" iconSize={24} onClick={HeaderBar.handleShareGroup} />
+                                </CopyToClipboard>
 
-                                    :
-                                    null
-                            }
-                            <IconButton width={40} height={40} icon="gongneng" iconSize={24} onClick={onShowInfo} />
-                        </div>
+                                :
+                                null
+                        }
+                        <IconButton width={40} height={40} icon="gongneng" iconSize={24} onClick={onShowInfo} />
+                    </div>
                 }
             </div>
         );
@@ -58,6 +57,7 @@ export default connect((state) => {
     const focus = state.get('focus');
     const linkmans = state.getIn(['user', 'linkmans']) || immutable.fromJS([]);
     const linkman = linkmans.find(l => l.get('_id') === focus);
+    console.log(linkman && linkman.toJS());
     return {
         isLogin: !!state.getIn(['user', '_id']),
         linkmanType: linkman && linkman.get('type'),

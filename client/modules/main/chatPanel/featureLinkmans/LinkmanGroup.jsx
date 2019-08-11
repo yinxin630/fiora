@@ -14,11 +14,6 @@ class LinkmanGroup extends Component {
         linkmans: ImmutablePropTypes.list,
         focus: PropTypes.string,
     }
-    componentWillReceiveProps(nextProps) {
-        if (this.props.linkmans.size === 0 && nextProps.linkmans.size !== 0) {
-            action.setFocus(nextProps.linkmans.getIn(['0', '_id']));
-        }
-    }
     renderLinkman(linkman) {
         const linkmanId = linkman.get('_id');
         const unread = linkman.get('unread');
