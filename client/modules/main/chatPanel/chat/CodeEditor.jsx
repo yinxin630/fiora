@@ -195,6 +195,7 @@ class CodeEditor extends Component {
             theme: 'tomorrow',
             onChange: this.handleChange,
             fontSize: 12,
+            width: '100%',
             height: '100%',
             showPrintMargin: true,
             showGutter: true,
