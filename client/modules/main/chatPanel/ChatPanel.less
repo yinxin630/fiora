@@ -6,8 +6,17 @@
 
 .info-dialog {
     width: 300px !important;
+    @media (orientation : portrait) {
+        &.rc-dialog {
+            width: 80% !important;
+        }
+    }
+
     .rc-dialog-body {
         padding: 0;
+        & > div {
+            width: 100%;
+        }
     }
     .content {
         text-align: center;

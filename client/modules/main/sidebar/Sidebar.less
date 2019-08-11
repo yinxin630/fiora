@@ -89,7 +89,6 @@
         height: 100%;
 
         @media (orientation : portrait) {
-            flex-wrap: wrap;
             word-break: break-word;
         }
     }
@@ -229,6 +228,9 @@
 .selfInfo {
     height: initial !important;
 
+    .content {
+        width: 100%;
+    }
     .avatar-preview {
         position: relative;
         .blur {
@@ -273,9 +275,10 @@
     }
 }
 .reward {
-    width: 800px !important;
+    width: 700px !important;
     height: initial !important;
     .content {
+        width: 100%;
         & > p {
             color: #333;
             text-align: center;

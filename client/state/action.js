@@ -71,6 +71,11 @@ async function setGuest(defaultGroup) {
             }),
         ] },
     });
+    dispatch({
+        type: 'SetDeepValue',
+        keys: ['focus'],
+        value: defaultGroup._id,
+    });
 }
 function connect() {
     dispatch({
