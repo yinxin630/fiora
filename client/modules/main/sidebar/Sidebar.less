@@ -86,7 +86,12 @@
     .rc-dialog-content {
         display: flex;
         flex-direction: column;
-        height: 100%;;
+        height: 100%;
+
+        @media (orientation : portrait) {
+            flex-wrap: wrap;
+            word-break: break-word;
+        }
     }
     .rc-dialog-body {
         flex: 1;
@@ -285,6 +290,12 @@
             & > img {
                 width: 250px;
                 height: auto;
+            }
+            @media (orientation : portrait) {
+                flex-wrap: wrap;
+                & > img {
+                    margin-bottom: 10px;
+                }
             }
         }
     }
