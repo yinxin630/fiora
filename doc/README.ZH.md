@@ -7,7 +7,7 @@
 
 语言: [English](../README.md) | [简体中文](README.ZH.md)
 
-Fiora是一款web聊天应用. 使用node.js, mongodb, socket.io和react编写
+Fiora是一款有趣的在线聊天应用. 使用node.js, mongodb, socket.io和react编写
 
 在线地址: [https://fiora.suisuijiang.com/](https://fiora.suisuijiang.com/)
 安卓/iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/yinxin630/fiora-app)
@@ -24,7 +24,8 @@ Fiora是一款web聊天应用. 使用node.js, mongodb, socket.io和react编写
 
 ## 运行截图
 
-![](./screenshots/runtime.png)
+<img src="./screenshots/runtime.jpeg" alt="桌面" style="max-width:800px" />
+<img src="./screenshots/mobile-runtime.png" alt="手机" style="max-height:667px" />
 
 ## 安装运行
 
@@ -37,8 +38,9 @@ Fiora是一款web聊天应用. 使用node.js, mongodb, socket.io和react编写
     |-- [config]                  // 配置
     |-- [dist]                    // 打包输出目录
     |-- [doc]                     // 文档
-    |-- [public]                  // 静态资源
+    |-- [public]                  // 服务端静态资源
     |-- [server]                  // 服务端代码
+    |-- [static]                  // 客户端静态资源
     |-- [utils]                   // 工具方法
     |-- .babelrc                  // babel配置
     |-- .eslintignore             // eslint忽略配置

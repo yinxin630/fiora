@@ -24,7 +24,8 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
 
 ## Screenshot
 
-![](./doc/screenshots/runtime.png)
+<img src="./doc/screenshots/runtime.jpeg" alt="PC" style="max-width:800px" />
+<img src="./doc/screenshots/mobile-runtime.png" alt="Mobile" style="max-height:667px" />
 
 ## Install
 
@@ -37,8 +38,9 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
     |-- [config]                  // Config
     |-- [dist]                    // Packaging output directory
     |-- [doc]                     // Document
-    |-- [public]                  // Static resources
+    |-- [public]                  // Server static resources
     |-- [server]                  // Server code
+    |-- [static]                  // Client static resources
     |-- [utils]                   // Util method
     |-- .babelrc                  // Babel config
     |-- .eslintignore             // Eslint ignore config
