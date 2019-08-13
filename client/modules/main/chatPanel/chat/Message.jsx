@@ -13,6 +13,7 @@ import Button from '@/components/Button';
 import Time from 'utils/time';
 import expressions from 'utils/expressions';
 import fetch from 'utils/fetch';
+import { isMobile } from 'utils/ua';
 import action from '../../../../state/action';
 import { CircleProgress } from '../../../../components';
 
@@ -194,7 +195,7 @@ class Message extends Component {
         // 设置高度宽度为1防止被原图撑起来
         return (
             <div className={`image ${loading ? 'loading' : ''} ${/huaji=true/.test(content) ? 'huaji' : ''}`}>
-                <img className="img" src={transparentImage} width="1" height="1" onDoubleClick={this.showImageViewer} referrerPolicy="no-referrer" />
+                <img className="img" src={transparentImage} width="1" height="1" onClick={() => isMobile && this.showImageViewer()} onDoubleClick={() => !isMobile && this.showImageViewer()} referrerPolicy="no-referrer" />
                 <CircleProgress className="progress" percent={percent} strokeWidth="5" strokeColor="#a0c672" trailWidth="5" />
                 <div className="progress-number">{Math.ceil(percent)}%</div>
                 <Viewer
