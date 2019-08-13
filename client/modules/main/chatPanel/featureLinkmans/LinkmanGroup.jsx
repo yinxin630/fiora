@@ -7,12 +7,20 @@ import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 
 import action from '@/state/action';
 import Linkman from './Linkman';
+import { isMobile } from '../../../../../utils/ua';
 
 @immutableRenderDecorator
 class LinkmanGroup extends Component {
     static propTypes = {
         linkmans: ImmutablePropTypes.list,
         focus: PropTypes.string,
+    }
+    handleClickLinkman = (linkmanId) => {
+        action.setFocus(linkmanId);
+
+        if (isMobile) {
+            action.toggleFeaturePanel(false);
+        }
     }
     renderLinkman(linkman) {
         const linkmanId = linkman.get('_id');
@@ -38,7 +46,7 @@ class LinkmanGroup extends Component {
                 time={time}
                 unread={unread}
                 focus={this.props.focus === linkmanId}
-                onClick={action.setFocus.bind(null, linkmanId)}
+                onClick={() => this.handleClickLinkman(linkmanId)}
             />
         );
     }
