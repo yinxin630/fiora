@@ -26,6 +26,7 @@ import SelfInfo from './SelfInfo';
 import config from '../../../../config/client';
 
 import './Sidebar.less';
+import { isMobile } from '../../../../utils/ua';
 
 
 /**
@@ -126,11 +127,17 @@ class Sidebar extends Component {
         }
     }
     static renderTooltip(text, component) {
+        const children = (
+            <div>
+                {component}
+            </div>
+        );
+        if (isMobile) {
+            return children;
+        }
         return (
             <Tooltip placement="right" mouseEnterDelay={0.3} overlay={<span>{text}</span>}>
-                <div>
-                    {component}
-                </div>
+                {children}
             </Tooltip>
         );
     }
