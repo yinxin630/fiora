@@ -92,70 +92,78 @@ export default function GroupManagePanel({
         }
     }
 
-    return (
-        <div className={`float-panel group-info ${visible ? 'show' : 'hide'}`}>
-            <p>群组信息</p>
-            <div>
-                {
-                    !!userId && userId === creator ?
-                        <div className="name">
-                            <p>修改群名称</p>
-                            <Input ref={nameInput} />
-                            <Button onClick={changeGroupName}>确认修改</Button>
-                        </div>
-                        :
-                        null
-                }
-                {
-                    !!userId && userId === creator ?
-                        <div className="avatar">
-                            <p>修改群头像</p>
-                            <img src={avatar} onClick={changeGroupAvatar} />
-                        </div>
-                        :
-                        null
-                }
+    function handleClickMask(e) {
+        if (e.target === e.currentTarget) {
+            onClose();
+        }
+    }
 
-                <div className="feature">
-                    <p>功能</p>
+    return (
+        <div className={`float-panel group-info ${visible ? 'show' : 'hide'}`} onClick={handleClickMask}>
+            <div className="container">
+                <p>群组信息</p>
+                <div>
                     {
-                        userId === creator ?
-                            <Button type="danger" onClick={() => setDialogStatus(true)}>解散群组</Button>
+                        !!userId && userId === creator ?
+                            <div className="name">
+                                <p>修改群名称</p>
+                                <Input ref={nameInput} />
+                                <Button onClick={changeGroupName}>确认修改</Button>
+                            </div>
                             :
-                            <Button type="danger" onClick={leaveGroup}>退出群组</Button>
+                            null
                     }
-                </div>
-                <div className="online-members">
-                    <p>在线成员 &nbsp;<span>{members.size}</span></p>
-                    <div>
+                    {
+                        !!userId && userId === creator ?
+                            <div className="avatar">
+                                <p>修改群头像</p>
+                                <img src={avatar} onClick={changeGroupAvatar} />
+                            </div>
+                            :
+                            null
+                    }
+
+                    <div className="feature">
+                        <p>功能</p>
                         {
-                            members.map(member => (
-                                <div key={member.get('_id')}>
-                                    <div onClick={() => showGroupUser(member)}>
-                                        <Avatar size={24} src={member.getIn(['user', 'avatar'])} />
-                                        <p>{member.getIn(['user', 'username'])}</p>
-                                    </div>
-                                    <Tooltip placement="top" trigger={['hover']} overlay={<span>{member.get('environment')}</span>}>
-                                        <p>
-                                            {member.get('browser')}
-                                            &nbsp;&nbsp;
-                                            {member.get('os') === 'Windows Server 2008 R2 / 7' ? 'Windows 7' : member.get('os')}
-                                        </p>
-                                    </Tooltip>
-                                </div>
-                            ))
+                            userId === creator ?
+                                <Button type="danger" onClick={() => setDialogStatus(true)}>解散群组</Button>
+                                :
+                                <Button type="danger" onClick={leaveGroup}>退出群组</Button>
                         }
                     </div>
+                    <div className="online-members">
+                        <p>在线成员 &nbsp;<span>{members.size}</span></p>
+                        <div>
+                            {
+                                members.map(member => (
+                                    <div key={member.get('_id')}>
+                                        <div onClick={() => showGroupUser(member)}>
+                                            <Avatar size={24} src={member.getIn(['user', 'avatar'])} />
+                                            <p>{member.getIn(['user', 'username'])}</p>
+                                        </div>
+                                        <Tooltip placement="top" trigger={['hover']} overlay={<span>{member.get('environment')}</span>}>
+                                            <p>
+                                                {member.get('browser')}
+                                            &nbsp;&nbsp;
+                                                {member.get('os') === 'Windows Server 2008 R2 / 7' ? 'Windows 7' : member.get('os')}
+                                            </p>
+                                        </Tooltip>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+                    <Dialog
+                        className="delete-gourp-confirm-dialog"
+                        title="再次确认解散群组?"
+                        visible={deleteConfirmDialog}
+                        onClose={() => setDialogStatus(false)}
+                    >
+                        <Button type="danger" onClick={deleteGroup}>确认</Button>
+                        <Button onClick={() => setDialogStatus(false)}>取消</Button>
+                    </Dialog>
                 </div>
-                <Dialog
-                    className="delete-gourp-confirm-dialog"
-                    title="再次确认解散群组?"
-                    visible={deleteConfirmDialog}
-                    onClose={() => setDialogStatus(false)}
-                >
-                    <Button type="danger" onClick={deleteGroup}>确认</Button>
-                    <Button onClick={() => setDialogStatus(false)}>取消</Button>
-                </Dialog>
             </div>
         </div>
     );

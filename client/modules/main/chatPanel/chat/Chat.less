@@ -34,91 +34,98 @@
         width: 300px;
         position: absolute;
         right: 0;
-        background-color: rgba(250, 250, 250, 0.95);
-        border-top-right-radius: 10px;
-        border-bottom-right-radius: 10px;
-        display: flex;
-        flex-direction: column;
         transition: transform 0.5s;
 
-        & > p {
-            height: 70px;
-            border-bottom: 1px solid #e8e8e8;
-            box-sizing: border-box;
-            text-align: center;
-            line-height: 70px;
-            font-size: 14px;
-            color: #666;
-            font-weight: bold;
-        }
-        & > div {
-            flex: 1;
-            padding: 12px;
-            overflow: auto;
-            -webkit-overflow-scrolling: touch;
+        .container {
+            width: 300px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(250, 250, 250, 0.95);
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            position: absolute;
+            right: 0;
 
+            & > p {
+                height: 70px;
+                border-bottom: 1px solid #e8e8e8;
+                box-sizing: border-box;
+                text-align: center;
+                line-height: 70px;
+                font-size: 14px;
+                color: #666;
+                font-weight: bold;
+            }
             & > div {
-                margin-bottom: 10px;
-                & > p {
-                    line-height: 33px;
-                    font-size: 14px;
-                    color: #333;
-                    font-weight: bold;
-                }
-                &.name {
-                    & > .component-input {
-                        height: 36px;
+                flex: 1;
+                padding: 12px;
+                overflow: auto;
+                -webkit-overflow-scrolling: touch;
+    
+                & > div {
+                    margin-bottom: 10px;
+                    & > p {
+                        line-height: 33px;
+                        font-size: 14px;
+                        color: #333;
+                        font-weight: bold;
                     }
-                    & > .component-button {
-                        height: 36px;
-                        line-height: 36px;
-                        margin-top: 8px;
-                    }
-                }
-                &.avatar {
-                    & > img {
-                        width: 100px;
-                        height: 100px;
-                        cursor: pointer;
-                        &:hover {
-                            filter: blur(3px);
+                    &.name {
+                        & > .component-input {
+                            height: 36px;
+                        }
+                        & > .component-button {
+                            height: 36px;
+                            line-height: 36px;
+                            margin-top: 8px;
                         }
                     }
-                }
-                &.feature {
-                    & > .component-button {
-                        width: 160px;
-                        height: 34px;
-                        line-height: 34px;
-                    }
-                }
-                &.online-members {
-                    & > div > div {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        margin-bottom: 6px;
-                        cursor: default;
-                        & > div {
-                            display: flex;
-                            align-items: center;
+                    &.avatar {
+                        & > img {
+                            width: 100px;
+                            height: 100px;
                             cursor: pointer;
-                            & > p {
-                                margin-left: 10px;
-                                color: #333;
-                                font-size: 14px;
-                                word-break: keep-all;
-                                max-width: 120px;
+                            &:hover {
+                                filter: blur(3px);
                             }
                         }
-                        & > p {
-                            color: #666;
-                            font-size: 12px;
-                            overflow: hidden;
-                            white-space: nowrap;
-                            text-overflow: ellipsis;
-                            margin-left: 12px;
-                            text-align: right;
+                    }
+                    &.feature {
+                        & > .component-button {
+                            width: 160px;
+                            height: 34px;
+                            line-height: 34px;
+                        }
+                    }
+                    &.online-members {
+                        & > div > div {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            margin-bottom: 6px;
+                            cursor: default;
+                            & > div {
+                                display: flex;
+                                align-items: center;
+                                cursor: pointer;
+                                & > p {
+                                    margin-left: 10px;
+                                    color: #333;
+                                    font-size: 14px;
+                                    word-break: keep-all;
+                                    max-width: 120px;
+                                }
+                            }
+                            & > p {
+                                color: #666;
+                                font-size: 12px;
+                                overflow: hidden;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                                margin-left: 12px;
+                                text-align: right;
+                            }
                         }
                     }
                 }
@@ -129,6 +136,16 @@
         }
         &.hide {
             transform: translateX(301px);
+        }
+
+        @media (orientation : portrait) {
+            width: 100%;
+            background-color: rgba(37, 37, 37, 0.5);
+
+            .container {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
         }
     }
 }
