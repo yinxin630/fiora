@@ -19,9 +19,11 @@ class HeaderBar extends Component {
         onShowInfo: PropTypes.func,
         isLogin: PropTypes.bool.isRequired,
         sideInfoVisible: PropTypes.bool,
+        connect: PropTypes.bool,
     }
     render() {
-        const { linkmanType, linkmanName, onShowInfo, isLogin, sideInfoVisible } = this.props;
+        const { linkmanType, linkmanName, onShowInfo, isLogin, sideInfoVisible, connect: connectStatus } = this.props;
+        console.log(connectStatus);
         if (!linkmanName) {
             return <div />;
         }
@@ -48,6 +50,12 @@ class HeaderBar extends Component {
                         <IconButton width={40} height={40} icon="gongneng" iconSize={24} onClick={onShowInfo} />
                     </div>
                 }
+                {isMobile &&
+                    <span className="status">
+                        <div className={connectStatus ? 'online' : 'offline'} />
+                        {connectStatus ? '在线' : '离线'}
+                    </span>
+                }
             </div>
         );
     }
@@ -62,5 +70,6 @@ export default connect((state) => {
         linkmanType: linkman && linkman.get('type'),
         linkmanName: linkman && linkman.get('name'),
         sideInfoVisible: state.getIn(['ui', 'sideInfoVisible']),
+        connect: state.get('connect'),
     };
 })(HeaderBar);

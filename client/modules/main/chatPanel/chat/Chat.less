@@ -178,6 +178,7 @@
     align-items: center;
     padding: 0px 18px;
     justify-content: space-between;
+    position: relative;
 
     & > h2 {
         font-size: 16px;
@@ -192,6 +193,22 @@
             color: var(--primary-color-8);
         }
     }
+    .status {
+        color: #999;
+        font-size: 12px;
+        position: absolute;
+        bottom: 3px;
+        left: 50%;
+        transform: translateX(-50%) scale(0.8);
+    }
+    .online, .offline {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 4px;
+        transform: translateY(1px);
+    }
 }
 
 @media (orientation : portrait) {
@@ -202,6 +219,7 @@
         & > h2 {
             flex: 1;
             text-align: center;
+            transform: translateY(-5px);
         }
     }
 }
