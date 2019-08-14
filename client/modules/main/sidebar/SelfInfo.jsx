@@ -34,9 +34,14 @@ class SelfInfo extends Component {
     static propTypes = {
         visible: PropTypes.bool.isRequired,
         onClose: PropTypes.func.isRequired,
-        userId: PropTypes.string.isRequired,
-        avatar: PropTypes.string.isRequired,
+        userId: PropTypes.string,
+        avatar: PropTypes.string,
         primaryColor: PropTypes.string.isRequired,
+    }
+
+    static defaultProps = {
+        userId: '',
+        avatar: '',
     }
 
     constructor(...args) {

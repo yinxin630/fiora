@@ -2,7 +2,6 @@
 /* eslint-disable max-classes-per-file */
 import React, { Component } from 'react';
 import { shouldComponentUpdate } from 'react-immutable-render-mixin';
-import PropTypes from 'prop-types';
 
 import { Select, Option } from '../../../../components/Select';
 
@@ -160,10 +159,6 @@ const Json = createLanguage('json', function createJson() {
 });
 
 class CodeEditor extends Component {
-    static propTypes = {
-        onSend: PropTypes.func.isRequired,
-    }
-
     constructor(...args) {
         super(...args);
         this.state = {

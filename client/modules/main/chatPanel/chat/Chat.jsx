@@ -16,13 +16,21 @@ import GroupManagePanel from './GroupManagePanel';
 
 class Chat extends Component {
     static propTypes = {
-        focus: PropTypes.string.isRequired,
+        focus: PropTypes.string,
         members: ImmutablePropTypes.list.isRequired,
         userId: PropTypes.string.isRequired,
-        creator: PropTypes.string.isRequired,
-        avatar: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
+        creator: PropTypes.string,
+        avatar: PropTypes.string,
+        name: PropTypes.string,
+        type: PropTypes.string,
+    }
+
+    static defaultProps = {
+        focus: '',
+        creator: '',
+        avatar: '',
+        name: '',
+        type: 'group',
     }
 
     constructor(...args) {

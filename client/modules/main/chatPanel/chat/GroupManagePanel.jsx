@@ -166,9 +166,13 @@ GroupManagePanel.propTypes = {
     visible: PropTypes.bool.isRequired,
     groupId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
-    creator: PropTypes.string.isRequired,
+    creator: PropTypes.string,
     avatar: PropTypes.string.isRequired,
     members: ImmutablePropTypes.list.isRequired,
     showGroupUser: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
+};
+
+GroupManagePanel.defaultProps = {
+    creator: '',
 };

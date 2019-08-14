@@ -75,28 +75,17 @@ class ChatInput extends Component {
         focus: PropTypes.string.isRequired,
         connect: PropTypes.bool.isRequired,
         members: ImmutablePropTypes.list.isRequired,
-        userId: PropTypes.string.isRequired,
-        userName: PropTypes.string.isRequired,
-        userAvatar: PropTypes.string.isRequired,
+        userId: PropTypes.string,
+        userName: PropTypes.string,
+        userAvatar: PropTypes.string,
         selfVoiceSwitch: PropTypes.bool.isRequired,
     };
 
-    expressionDropdown = (
-        <div className="expression-dropdown">
-            <Expression onSelect={this.handleSelectExpression} />
-        </div>
-    );
-
-    featureDropdown = (
-        <div className="feature-dropdown">
-            <Menu onClick={this.handleFeatureMenuClick}>
-                <MenuItem key="expression">发送表情包</MenuItem>
-                <MenuItem key="huaji">发送滑稽</MenuItem>
-                <MenuItem key="image">发送图片</MenuItem>
-                <MenuItem key="code">发送代码</MenuItem>
-            </Menu>
-        </div>
-    );
+    static defaultProps = {
+        userId: '',
+        userName: '',
+        userAvatar: '',
+    }
 
     constructor(...args) {
         super(...args);
@@ -544,7 +533,11 @@ class ChatInput extends Component {
                         trigger={['click']}
                         visible={expressionVisible}
                         onVisibleChange={this.handleVisibleChange}
-                        overlay={this.expressionDropdown}
+                        overlay={(
+                            <div className="expression-dropdown">
+                                <Expression onSelect={this.handleSelectExpression} />
+                            </div>
+                        )}
                         animation="slide-up"
                         placement="topLeft"
                     >
@@ -558,7 +551,16 @@ class ChatInput extends Component {
                     </Dropdown>
                     <Dropdown
                         trigger={['click']}
-                        overlay={this.featureDropdown}
+                        overlay={(
+                            <div className="feature-dropdown">
+                                <Menu onClick={this.handleFeatureMenuClick}>
+                                    <MenuItem key="expression">发送表情包</MenuItem>
+                                    <MenuItem key="huaji">发送滑稽</MenuItem>
+                                    <MenuItem key="image">发送图片</MenuItem>
+                                    <MenuItem key="code">发送代码</MenuItem>
+                                </Menu>
+                            </div>
+                        )}
                         animation="slide-up"
                         placement="topLeft"
                     >
