@@ -77,12 +77,18 @@ class Message extends Component {
         type: PropTypes.oneOf(['text', 'image', 'url', 'code', 'invite', 'system']).isRequired,
         content: PropTypes.string.isRequired,
         isSelf: PropTypes.bool,
-        loading: PropTypes.bool.isRequired,
-        percent: PropTypes.number.isRequired,
+        loading: PropTypes.bool,
+        percent: PropTypes.number,
         openUserInfoDialog: PropTypes.func.isRequired,
         shouldScroll: PropTypes.bool.isRequired,
-        tag: PropTypes.string.isRequired,
+        tag: PropTypes.string,
     };
+
+    static defaultProps = {
+        loading: false,
+        percent: 0,
+        tag: '',
+    }
 
     static defaultProps = {
         isSelf: false,

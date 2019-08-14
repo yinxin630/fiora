@@ -8,12 +8,14 @@ import './components.less';
 class Input extends Component {
     static propTypes = {
         type: PropTypes.string,
-        onEnter: PropTypes.func.isRequired,
-        placeholder: PropTypes.string.isRequired,
+        onEnter: PropTypes.func,
+        placeholder: PropTypes.string,
     }
 
     static defaultProps = {
         type: 'text',
+        onEnter: () => {},
+        placeholder: '',
     }
 
     constructor(...args) {

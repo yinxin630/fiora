@@ -16,7 +16,7 @@ function handleError(e) {
 }
 
 const Avatar = ({
-    src, size = 60, className = '', ...props
+    src, size, className, ...props
 }) => (
     <img
         className={`component-avatar ${className}`}
@@ -28,11 +28,18 @@ const Avatar = ({
         {...props}
     />
 );
+
 Avatar.propTypes = {
     src: PropTypes.string.isRequired,
-    size: PropTypes.number.isRequired,
-    className: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
+    size: PropTypes.number,
+    className: PropTypes.string,
+    onClick: PropTypes.func,
+};
+
+Avatar.defaultProps = {
+    size: 60,
+    className: '',
+    onClick: () => {},
 };
 
 export default Avatar;

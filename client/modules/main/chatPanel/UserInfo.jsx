@@ -19,10 +19,16 @@ class UserInfo extends Component {
         // eslint-disable-next-line react/forbid-prop-types
         userInfo: PropTypes.object.isRequired,
         onClose: PropTypes.func.isRequired,
-        linkman: ImmutablePropTypes.map.isRequired,
-        userId: PropTypes.string.isRequired,
-        isAdmin: PropTypes.bool.isRequired,
+        linkman: ImmutablePropTypes.map,
+        userId: PropTypes.string,
+        isAdmin: PropTypes.bool,
     };
+
+    static defaultProps = {
+        linkman: null,
+        userId: '',
+        isAdmin: false,
+    }
 
     constructor(...args) {
         super(...args);

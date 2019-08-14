@@ -10,7 +10,11 @@ const baidu = require('../../../../assets/images/baidu.png');
 
 class Expression extends Component {
     static propTypes = {
-        onSelect: PropTypes.func.isRequired,
+        onSelect: PropTypes.func,
+    }
+
+    static defaultProps = {
+        onSelect: () => {},
     }
 
     handleClick = (e) => {

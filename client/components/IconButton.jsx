@@ -23,9 +23,13 @@ IconButton.propTypes = {
     height: PropTypes.number.isRequired,
     icon: PropTypes.string.isRequired,
     iconSize: PropTypes.number.isRequired,
-    onClick: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
     // eslint-disable-next-line react/forbid-prop-types
-    style: PropTypes.object.isRequired,
+    style: PropTypes.object,
+};
+IconButton.defaultProps = {
+    onClick: () => {},
+    style: {},
 };
 
 export default IconButton;

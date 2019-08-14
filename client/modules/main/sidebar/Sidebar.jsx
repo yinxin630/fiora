@@ -73,7 +73,7 @@ class Sidebar extends Component {
     static propTypes = {
         isLogin: PropTypes.bool.isRequired,
         isConnect: PropTypes.bool.isRequired,
-        avatar: PropTypes.string.isRequired,
+        avatar: PropTypes.string,
         primaryColor: PropTypes.string.isRequired,
         primaryTextColor: PropTypes.string.isRequired,
         backgroundImage: PropTypes.string.isRequired,
@@ -82,9 +82,15 @@ class Sidebar extends Component {
         notificationSwitch: PropTypes.bool.isRequired,
         voiceSwitch: PropTypes.bool.isRequired,
         selfVoiceSwitch: PropTypes.bool.isRequired,
-        isAdmin: PropTypes.bool.isRequired,
-        userId: PropTypes.string.isRequired,
+        isAdmin: PropTypes.bool,
+        userId: PropTypes.string,
     };
+
+    static defaultProps = {
+        avatar: '',
+        isAdmin: false,
+        userId: '',
+    }
 
     constructor(...args) {
         super(...args);

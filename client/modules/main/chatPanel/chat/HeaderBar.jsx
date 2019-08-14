@@ -15,12 +15,17 @@ class HeaderBar extends Component {
     }
 
     static propTypes = {
-        linkmanType: PropTypes.string.isRequired,
-        linkmanName: PropTypes.string.isRequired,
+        linkmanType: PropTypes.string,
+        linkmanName: PropTypes.string,
         onShowInfo: PropTypes.func.isRequired,
         isLogin: PropTypes.bool.isRequired,
         sideInfoVisible: PropTypes.bool.isRequired,
         connect: PropTypes.bool.isRequired,
+    }
+
+    static defaultProps = {
+        linkmanType: 'group',
+        linkmanName: '',
     }
 
     render() {
@@ -28,7 +33,7 @@ class HeaderBar extends Component {
             linkmanType, linkmanName, onShowInfo, isLogin, sideInfoVisible, connect: connectStatus,
         } = this.props;
         if (!linkmanName) {
-            return <div />;
+            return <div className="chat-headerBar" />;
         }
         return (
             <div className="chat-headerBar">

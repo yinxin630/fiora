@@ -14,8 +14,12 @@ class MessageList extends Component {
     static propTypes = {
         self: PropTypes.string.isRequired,
         messages: ImmutablePropTypes.list.isRequired,
-        focus: PropTypes.string.isRequired,
+        focus: PropTypes.string,
         showUserInfoDialog: PropTypes.func.isRequired,
+    }
+
+    static defaultProps = {
+        focus: '',
     }
 
     constructor(...args) {
