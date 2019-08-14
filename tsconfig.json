@@ -2,7 +2,6 @@
     "compilerOptions": {
         "target": "esnext",
         "strict": true,
-        "module": "esnext",
         "moduleResolution": "node",
         "experimentalDecorators": true,
         "jsx": "react",
@@ -10,6 +9,6 @@
         "esModuleInterop": true,
         "lib": ["es2015", "es2016", "es2017", "dom"]
     },
-    "include": ["client/**/*", "utils/**/*"],
+    "include": ["server/**/*", "client/**/*", "utils/**/*"],
     "exclude": ["node_modules"]
 }
