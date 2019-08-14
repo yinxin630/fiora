@@ -23,7 +23,6 @@ class HeaderBar extends Component {
     }
     render() {
         const { linkmanType, linkmanName, onShowInfo, isLogin, sideInfoVisible, connect: connectStatus } = this.props;
-        console.log(connectStatus);
         if (!linkmanName) {
             return <div />;
         }

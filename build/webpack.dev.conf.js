@@ -15,6 +15,9 @@ Object.keys(baseWebpackConfig.entry).forEach((name) => {
 
 module.exports = merge(baseWebpackConfig, {
     mode: 'development',
+    output: {
+        publicPath: config.dev.assetsPublicPath,
+    },
     module: {
         rules: utils.getStyleLoaders(),
     },
