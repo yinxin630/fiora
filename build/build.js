@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 require('./check-versions')();
 
 process.env.NODE_ENV = 'production';

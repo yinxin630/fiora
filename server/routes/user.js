@@ -134,7 +134,9 @@ module.exports = {
         user.lastLoginTime = Date.now();
         await user.save();
 
-        const groups = await Group.find({ members: user }, { _id: 1, name: 1, avatar: 1, creator: 1, createTime: 1 });
+        const groups = await Group.find({ members: user }, {
+            _id: 1, name: 1, avatar: 1, creator: 1, createTime: 1,
+        });
         groups.forEach((group) => {
             ctx.socket.join(group._id);
         });
@@ -181,7 +183,9 @@ module.exports = {
         assert(Date.now() < payload.expires, 'token已过期');
         assert.equal(environment, payload.environment, '非法登录');
 
-        const user = await User.findOne({ _id: payload.user }, { _id: 1, avatar: 1, username: 1, createTime: 1 });
+        const user = await User.findOne({ _id: payload.user }, {
+            _id: 1, avatar: 1, username: 1, createTime: 1,
+        });
         assert(user, '用户不存在');
 
         handleNewUser(user);
@@ -189,7 +193,9 @@ module.exports = {
         user.lastLoginTime = Date.now();
         await user.save();
 
-        const groups = await Group.find({ members: user }, { _id: 1, name: 1, avatar: 1, creator: 1, createTime: 1 });
+        const groups = await Group.find({ members: user }, {
+            _id: 1, name: 1, avatar: 1, creator: 1, createTime: 1,
+        });
         groups.forEach((group) => {
             ctx.socket.join(group._id);
         });
@@ -224,19 +230,23 @@ module.exports = {
             environment,
         });
 
-        const group = await Group.findOne({ isDefault: true }, { _id: 1, name: 1, avatar: 1, createTime: 1 });
+        const group = await Group.findOne({ isDefault: true }, {
+            _id: 1, name: 1, avatar: 1, createTime: 1,
+        });
         ctx.socket.join(group._id);
 
         const messages = await Message
             .find(
                 { to: group._id },
-                { type: 1, content: 1, from: 1, createTime: 1 },
+                {
+                    type: 1, content: 1, from: 1, createTime: 1,
+                },
                 { sort: { createTime: -1 }, limit: 15 },
             )
             .populate('from', { username: 1, avatar: 1 });
         messages.reverse();
 
-        return Object.assign({ messages }, group.toObject());
+        return { messages, ...group.toObject() };
     },
     async changeAvatar(ctx) {
         const { avatar } = ctx.data;

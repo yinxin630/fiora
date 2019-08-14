@@ -5,9 +5,9 @@ function noop() {}
  * @param {IO} io koa socket io实例
  * @param {Object} routes 路由
  */
-module.exports = function (io, _io, routes) {
-    Object.keys(routes).forEach((route) => {
-        io.on(route, noop); // 注册事件
+module.exports = function route(io, _io, routes) {
+    Object.keys(routes).forEach((routeName) => {
+        io.on(routeName, noop); // 注册事件
     });
 
     return async (ctx) => {

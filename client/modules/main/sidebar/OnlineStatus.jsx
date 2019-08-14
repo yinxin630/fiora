@@ -8,9 +8,10 @@ class OnlineStatus extends Component {
         status: PropTypes.oneOf([
             'online',
             'offline',
-        ]),
-        className: PropTypes.string,
+        ]).isRequired,
+        className: PropTypes.string.isRequired,
     }
+
     render() {
         const { status, className } = this.props;
         return (

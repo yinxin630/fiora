@@ -1,12 +1,31 @@
-import fetch from 'utils/fetch';
-import convertMessage from 'utils/convertMessage';
+import fetch from '../../utils/fetch';
+import convertMessage from '../../utils/convertMessage';
 import store from './store';
 
-const getFriendId = require('utils/getFriendId');
+const getFriendId = require('../../utils/getFriendId');
 
 const { dispatch } = store;
 
 /* ===== 用户 ===== */
+function connect() {
+    dispatch({
+        type: 'SetDeepValue',
+        keys: ['connect'],
+        value: true,
+    });
+}
+function disconnect() {
+    dispatch({
+        type: 'SetDeepValue',
+        keys: ['connect'],
+        value: false,
+    });
+}
+function logout() {
+    dispatch({
+        type: 'Logout',
+    });
+}
 async function setUser(user) {
     user.groups.forEach((group) => {
         Object.assign(group, {
@@ -29,7 +48,9 @@ async function setUser(user) {
     });
 
     const linkmans = [...user.groups, ...user.friends];
-    const { _id, avatar, username, isAdmin } = user;
+    const {
+        _id, avatar, username, isAdmin,
+    } = user;
     dispatch({
         type: 'SetUser',
         user: {
@@ -44,13 +65,13 @@ async function setUser(user) {
     connect();
 
     const linkmanIds = [
-        ...user.groups.map(g => g._id),
-        ...user.friends.map(f => f._id),
+        ...user.groups.map((g) => g._id),
+        ...user.friends.map((f) => f._id),
     ];
     const [err, messages] = await fetch('getLinkmansLastMessages', { linkmans: linkmanIds });
-    for (const key in messages) {
-        messages[key].forEach(m => convertMessage(m));
-    }
+    Object.keys(messages).forEach((key) => {
+        messages[key].forEach((m) => convertMessage(m));
+    });
     if (!err) {
         dispatch({
             type: 'SetLinkmanMessages',
@@ -59,41 +80,24 @@ async function setUser(user) {
     }
 }
 async function setGuest(defaultGroup) {
-    defaultGroup.messages.forEach(m => convertMessage(m));
+    defaultGroup.messages.forEach((m) => convertMessage(m));
     dispatch({
         type: 'SetDeepValue',
         keys: ['user'],
-        value: { linkmans: [
-            Object.assign(defaultGroup, {
-                type: 'group',
-                unread: 0,
-                members: [],
-            }),
-        ] },
+        value: {
+            linkmans: [
+                Object.assign(defaultGroup, {
+                    type: 'group',
+                    unread: 0,
+                    members: [],
+                }),
+            ],
+        },
     });
     dispatch({
         type: 'SetDeepValue',
         keys: ['focus'],
         value: defaultGroup._id,
-    });
-}
-function connect() {
-    dispatch({
-        type: 'SetDeepValue',
-        keys: ['connect'],
-        value: true,
-    });
-}
-function disconnect() {
-    dispatch({
-        type: 'SetDeepValue',
-        keys: ['connect'],
-        value: false,
-    });
-}
-function logout() {
-    dispatch({
-        type: 'Logout',
     });
 }
 function setAvatar(avatar) {
@@ -111,7 +115,7 @@ function addLinkmanMessage(linkmanId, message) {
     });
 }
 function addLinkmanMessages(linkmanId, messages) {
-    messages.forEach(m => convertMessage(m));
+    messages.forEach((m) => convertMessage(m));
     dispatch({
         type: 'AddLinkmanMessages',
         linkmanId,

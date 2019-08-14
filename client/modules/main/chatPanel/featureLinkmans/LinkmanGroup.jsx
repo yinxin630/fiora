@@ -5,16 +5,17 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 
-import action from '@/state/action';
+import action from '../../../../state/action';
 import Linkman from './Linkman';
 import { isMobile } from '../../../../../utils/ua';
 
 @immutableRenderDecorator
 class LinkmanGroup extends Component {
     static propTypes = {
-        linkmans: ImmutablePropTypes.list,
-        focus: PropTypes.string,
+        linkmans: ImmutablePropTypes.list.isRequired,
+        focus: PropTypes.string.isRequired,
     }
+
     handleClickLinkman = (linkmanId) => {
         action.setFocus(linkmanId);
 
@@ -22,6 +23,7 @@ class LinkmanGroup extends Component {
             action.toggleFeaturePanel(false);
         }
     }
+
     renderLinkman(linkman) {
         const linkmanId = linkman.get('_id');
         const unread = linkman.get('unread');
@@ -45,17 +47,19 @@ class LinkmanGroup extends Component {
                 preview={preview}
                 time={time}
                 unread={unread}
+                // eslint-disable-next-line react/destructuring-assignment
                 focus={this.props.focus === linkmanId}
                 onClick={() => this.handleClickLinkman(linkmanId)}
             />
         );
     }
+
     render() {
         const { linkmans } = this.props;
         return (
             <div className="chatPanel-linkman-group">
                 {
-                    linkmans.map(linkman => (
+                    linkmans.map((linkman) => (
                         this.renderLinkman(linkman)
                     ))
                 }
@@ -64,7 +68,7 @@ class LinkmanGroup extends Component {
     }
 }
 
-export default connect(state => ({
+export default connect((state) => ({
     linkmans: state.getIn(['user', 'linkmans']) || immutable.List(),
     focus: state.get('focus'),
 }))(LinkmanGroup);

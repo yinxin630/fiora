@@ -6,7 +6,7 @@ import Chat from './chat/Chat';
 import './ChatPanel.less';
 
 function ChatPanel() {
-    const featurePanelVisible = useSelector(state => state.getIn(['ui', 'featurePanelVisible']));
+    const featurePanelVisible = useSelector((state) => state.getIn(['ui', 'featurePanelVisible']));
 
     return (
         <div className="module-main-chatPanel">

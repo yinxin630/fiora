@@ -5,6 +5,6 @@ const myXss = new xss.FilterXSS({
     },
 });
 
-module.exports = function (text) {
+module.exports = function processXss(text) {
     return myXss.process(text);
 };

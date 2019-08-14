@@ -1,9 +1,8 @@
+const mongoose = require('mongoose');
+
 const checkVersion = require('../build/check-versions');
 
 checkVersion(); // 检查node.js和npm版本
-
-
-const mongoose = require('mongoose');
 
 const app = require('./app');
 const config = require('../config/server');
@@ -47,4 +46,6 @@ mongoose.connect(config.database, { useNewUrlParser: true }, async (err) => {
         await Socket.deleteMany({}); // 删除Socket表所有历史数据
         console.log(` >>> server listen on http://localhost:${config.port}`);
     });
+
+    return null;
 });

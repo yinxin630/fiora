@@ -1,7 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
-const config = require('../config/webpack');
 const LessPluginAutoPrefix = require('less-plugin-autoprefix');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const config = require('../config/webpack');
 
 exports.assetsPath = (_path) => {
     const assetsSubDirectory = process.env.NODE_ENV === 'production'

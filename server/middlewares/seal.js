@@ -3,13 +3,14 @@
  */
 const { SealText } = require('../../utils/const');
 
-module.exports = function () {
+module.exports = function seal() {
     return async (ctx, next) => {
         const sealList = global.mdb.get('sealList');
         if (ctx.socket.user && sealList.has(ctx.socket.user.toString())) {
-            return ctx.res = SealText;
+            ctx.res = SealText;
+            return null;
         }
 
-        await next();
+        return next();
     };
 };

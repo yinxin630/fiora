@@ -10,6 +10,6 @@ export default {
     // client default system setting
     primaryColor: '74, 144, 226',
     primaryTextColor: '247, 247, 247',
-    backgroundImage: require('@/assets/images/background.jpg'),
+    backgroundImage: require('../client/assets/images/background.jpg'),
     sound: 'default',
 };

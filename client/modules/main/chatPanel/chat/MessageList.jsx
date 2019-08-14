@@ -4,24 +4,26 @@ import immutable from 'immutable';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import fetch from 'utils/fetch';
-import action from '@/state/action';
+import fetch from '../../../../../utils/fetch';
+import action from '../../../../state/action';
 import Message from './Message';
 
 function noop() {}
 
 class MessageList extends Component {
     static propTypes = {
-        self: PropTypes.string,
-        messages: ImmutablePropTypes.list,
-        focus: PropTypes.string,
-        showUserInfoDialog: PropTypes.func,
+        self: PropTypes.string.isRequired,
+        messages: ImmutablePropTypes.list.isRequired,
+        focus: PropTypes.string.isRequired,
+        showUserInfoDialog: PropTypes.func.isRequired,
     }
+
     constructor(...args) {
         super(...args);
         this.isFetching = false;
         this.$list = React.createRef();
     }
+
     handleScroll = async (e) => {
         // Don't know why the code-view dialog will also trigger when scrolling
         if (e.target !== this.$list.current) {
@@ -80,18 +82,21 @@ class MessageList extends Component {
             props.percent = message.get('percent');
         }
         if (!props.isSelf && self) {
+            // eslint-disable-next-line react/destructuring-assignment
             props.openUserInfoDialog = this.props.showUserInfoDialog.bind(this, message.get('from').toJS());
         }
         return (
+            // eslint-disable-next-line react/jsx-props-no-spreading
             <Message {...props} />
         );
     }
+
     render() {
         const { messages } = this.props;
         return (
             <div className="chat-messageList" onScroll={this.handleScroll} ref={this.$list}>
                 {
-                    messages.map(message => (
+                    messages.map((message) => (
                         this.renderMessage(message)
                     ))
                 }
@@ -113,7 +118,7 @@ export default connect((state) => {
 
     const self = state.getIn(['user', '_id']);
     const focus = state.get('focus');
-    const linkman = state.getIn(['user', 'linkmans']).find(g => g.get('_id') === focus);
+    const linkman = state.getIn(['user', 'linkmans']).find((g) => g.get('_id') === focus);
     if (linkman) {
         messages = linkman.get('messages');
     }

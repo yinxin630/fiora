@@ -6,14 +6,16 @@ import './components.less';
 const Button = ({ children, type, ...props }) => (
     <button
         className={`component-button ${type}`}
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...props}
+        type="button"
     >
         {children}
     </button>
 );
 Button.propTypes = {
-    onClick: PropTypes.func,
-    children: PropTypes.string,
+    onClick: PropTypes.func.isRequired,
+    children: PropTypes.string.isRequired,
     type: PropTypes.string,
 };
 Button.defaultProps = {

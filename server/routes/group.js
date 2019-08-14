@@ -11,7 +11,9 @@ async function getGroupOnlineMembers(group) {
     const sockets = await Socket
         .find(
             { user: group.members },
-            { os: 1, browser: 1, environment: 1, user: 1 },
+            {
+                os: 1, browser: 1, environment: 1, user: 1,
+            },
         )
         .populate(
             'user',
@@ -73,7 +75,9 @@ module.exports = {
         const messages = await Message
             .find(
                 { toGroup: groupId },
-                { type: 1, content: 1, from: 1, createTime: 1 },
+                {
+                    type: 1, content: 1, from: 1, createTime: 1,
+                },
                 { sort: { createTime: -1 }, limit: 3 },
             )
             .populate('from', { username: 1, avatar: 1 });

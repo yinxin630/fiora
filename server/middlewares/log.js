@@ -1,7 +1,7 @@
 /**
  * 请求日志
  */
-module.exports = function () {
+module.exports = function log() {
     return async (ctx, next) => {
         if (ctx.event === 'disconnect') {
             return next();
@@ -14,5 +14,7 @@ module.exports = function () {
 
         const after = Date.now();
         console.log(`  --> ${ctx.event}  ${after - before}ms ${typeof ctx.res === 'string' ? ctx.res : ''}`);
+
+        return null;
     };
 };

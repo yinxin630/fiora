@@ -11,15 +11,17 @@ class FeatureLinkmans extends Component {
     static propTypes = {
         isLogin: PropTypes.bool.isRequired,
     }
+
     handleClick = (e) => {
         if (e.target === e.currentTarget) {
             action.toggleFeaturePanel(false);
         }
     }
+
     render() {
         const { isLogin } = this.props;
         return (
-            <div className="module-main-feature" onClick={this.handleClick}>
+            <div className="module-main-feature" onClick={this.handleClick} role="button">
                 <div className="container">
                     { isLogin ? <Feature /> : null}
                     <LinkmanGroup />
@@ -29,6 +31,6 @@ class FeatureLinkmans extends Component {
     }
 }
 
-export default connect(state => ({
+export default connect((state) => ({
     isLogin: !!state.getIn(['user', '_id']),
 }))(FeatureLinkmans);

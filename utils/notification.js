@@ -8,7 +8,7 @@ export default function notification(title, icon, body, tag = 'tag', duration = 
                 tag,
             },
         );
-        n.onclick = function () {
+        n.onclick = function handleClick() {
             window.focus();
             this.close();
         };

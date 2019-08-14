@@ -33,7 +33,7 @@ module.exports = {
 
         return {
             users,
-            groups: groups.map(group => ({
+            groups: groups.map((group) => ({
                 _id: group._id,
                 avatar: group.avatar,
                 name: group.name,
@@ -51,7 +51,7 @@ module.exports = {
         assert(res.status === 200, '搜索表情包失败, 请重试');
 
         const images = res.data.match(/data-original="[^ "]+"/g) || [];
-        return images.map(i => i.substring(15, i.length - 1));
+        return images.map((i) => i.substring(15, i.length - 1));
     },
     async getBaiduToken() {
         if (baiduToken && Date.now() < lastBaiduTokenTime) {
@@ -89,7 +89,7 @@ module.exports = {
         const sealList = global.mdb.get('sealList');
         const userIds = [...sealList.keys()];
         const users = await User.find({ _id: { $in: userIds } });
-        const result = users.map(user => user.username);
+        const result = users.map((user) => user.username);
         return result;
     },
     async uploadFile(ctx) {

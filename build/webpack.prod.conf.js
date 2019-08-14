@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
@@ -12,7 +13,7 @@ const config = require('../config/webpack');
 const baseWebpackConfig = require('./webpack.base.conf');
 const pages = require('../config//pages');
 
-const htmlPlugins = pages.map(page => (
+const htmlPlugins = pages.map((page) => (
     new HtmlWebpackPlugin(Object.assign(page, {
         chunks: ['vendor', 'manifest', ...page.chunks],
         minify: {
@@ -76,18 +77,6 @@ const webpackConfig = merge(baseWebpackConfig, {
         }),
     ],
 });
-
-if (config.build.productionGzip) {
-    const CompressionWebpackPlugin = require('compression-webpack-plugin');
-
-    webpackConfig.plugins.push(new CompressionWebpackPlugin({
-        asset: '[path].gz[query]',
-        algorithm: 'gzip',
-        test: new RegExp(`\\.(${config.build.productionGzipExtensions.join('|')})$`),
-        threshold: 10240,
-        minRatio: 0.8,
-    }));
-}
 
 if (config.build.bundleAnalyzerReport) {
     const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
