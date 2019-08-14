@@ -26,27 +26,25 @@ const htmlPlugins = pages.map(page => (
 
 const webpackConfig = merge(baseWebpackConfig, {
     mode: 'production',
+    output: {
+        publicPath: config.build.assetsPublicPath,
+    },
     module: {
         rules: utils.getStyleLoaders(),
     },
     devtool: config.build.productionSourceMap ? '#source-map' : false,
-    output: {
-        path: config.build.assetsRoot,
-        filename: utils.assetsPath('js/[name].[chunkhash:8].js'),
-        chunkFilename: utils.assetsPath('js/[name].[chunkhash:8].js'),
-    },
-    optimization: {
-        splitChunks: {
-            cacheGroups: {
-                vendor: {
-                    test: module => /node_modules/.test(module.context),
-                    chunks: 'initial',
-                    name: 'vendor',
-                    enforce: true,
-                },
-            },
-        },
-    },
+    // optimization: {
+    //     splitChunks: {
+    //         cacheGroups: {
+    //             vendor: {
+    //                 test: module => /node_modules/.test(module.context),
+    //                 chunks: 'initial',
+    //                 name: 'vendor',
+    //                 enforce: true,
+    //             },
+    //         },
+    //     },
+    // },
     plugins: [
         new webpack.DefinePlugin({
             'process.env': config.build.env,
