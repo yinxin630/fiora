@@ -16,10 +16,10 @@ module.exports = {
     entry,
     output: {
         path: config.build.assetsRoot,
-        filename: utils.assetsPath('js/[name].[chunkhash:8].js'),
+        filename: utils.assetsPath('js/[name].[hash:8].js'),
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.json'],
+        extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
         alias: {
             '@': resolve('client'),
             root: resolve(''),
@@ -32,6 +32,14 @@ module.exports = {
                 test: /\.jsx?$/,
                 loader: 'babel-loader',
                 exclude: /node_modules/,
+            },
+            {
+                test: /\.tsx?$/,
+                exclude: /node_modules/,
+                use: [
+                    'babel-loader',
+                    'ts-loader',
+                ],
             },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
