@@ -11,13 +11,26 @@ exports.assetsPath = (_path) => {
     return path.posix.join(assetsSubDirectory, _path);
 };
 
+const cssLoader = {
+    loader: 'css-loader',
+    options: {
+        url: false,
+        modules: true,
+        /**
+         * 为了兼容之前没有用 css module 的代码, 暂时不能设置为 [name]__[local]--[hash:base64:5]
+         * [local] 其实就是原本的名称
+         */
+        localIdentName: '[local]',
+    },
+};
+
 exports.getStyleLoaders = () => {
     const rules = [{
         test: /\.less$/,
-        use: ['css-loader'],
+        use: [cssLoader],
     }, {
         test: /\.css$/,
-        use: ['css-loader'],
+        use: [cssLoader],
     }];
 
     if (config.commonn.convertPxToRem.enable) {
