@@ -3,20 +3,22 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 
-import Dialog from '@/components/Dialog';
-import Avatar from '@/components/Avatar';
-import Button from '@/components/Button';
-import action from '@/state/action';
-import fetch from 'utils/fetch';
+import fetch from '../../../../utils/fetch';
+import Dialog from '../../../components/Dialog';
+import Avatar from '../../../components/Avatar';
+import Button from '../../../components/Button';
+import action from '../../../state/action';
 
 @immutableRenderDecorator
 class GroupInfo extends Component {
     static propTypes = {
-        visible: PropTypes.bool,
-        groupInfo: PropTypes.object,
-        onClose: PropTypes.func,
+        visible: PropTypes.bool.isRequired,
+        // eslint-disable-next-line react/forbid-prop-types
+        groupInfo: PropTypes.object.isRequired,
+        onClose: PropTypes.func.isRequired,
         hasLinkman: PropTypes.bool.isRequired,
     }
+
     handleJoinGroup = async () => {
         const { groupInfo, onClose } = this.props;
         onClose();
@@ -30,37 +32,41 @@ class GroupInfo extends Component {
             }
         }
     }
+
     handleFocusGroup = () => {
         const { groupInfo, onClose } = this.props;
         onClose();
         action.setFocus(groupInfo._id);
     }
+
     render() {
-        const { visible, groupInfo, onClose, hasLinkman } = this.props;
+        const {
+            visible, groupInfo, onClose, hasLinkman,
+        } = this.props;
         return (
             <Dialog className="info-dialog" visible={visible} onClose={onClose}>
                 {
-                    visible && groupInfo ?
-                        <div className="content">
-                            <div className="header">
-                                <Avatar size={60} src={groupInfo.avatar} />
-                                <p>{groupInfo.name}</p>
-                            </div>
-                            <div className="info">
-                                <div>
-                                    <p>成员:</p>
-                                    <div>{groupInfo.members}人</div>
+                    visible && groupInfo
+                        ? (
+                            <div className="content">
+                                <div className="header">
+                                    <Avatar size={60} src={groupInfo.avatar} />
+                                    <p>{groupInfo.name}</p>
                                 </div>
-                                {
-                                    hasLinkman ?
-                                        <Button onClick={this.handleFocusGroup}>发送消息</Button>
-                                        :
-                                        <Button onClick={this.handleJoinGroup}>加入群组</Button>
-                                }
+                                <div className="info">
+                                    <div>
+                                        <p>成员:</p>
+                                        <div>{groupInfo.members}人</div>
+                                    </div>
+                                    {
+                                        hasLinkman
+                                            ? <Button onClick={this.handleFocusGroup}>发送消息</Button>
+                                            : <Button onClick={this.handleJoinGroup}>加入群组</Button>
+                                    }
+                                </div>
                             </div>
-                        </div>
-                        :
-                        null
+                        )
+                        : null
                 }
             </Dialog>
         );
@@ -75,7 +81,7 @@ export default connect((state, props) => {
     }
     const hasLinkman = state
         .getIn(['user', 'linkmans'])
-        .findIndex(l => l.get('_id') === props.groupInfo._id) !== -1;
+        .findIndex((l) => l.get('_id') === props.groupInfo._id) !== -1;
     return {
         hasLinkman,
     };

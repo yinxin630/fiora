@@ -1,7 +1,7 @@
 /**
  * 拦截未登录请求
  */
-module.exports = function () {
+module.exports = function isLogin() {
     const noUseLoginEvent = {
         register: true,
         login: true,

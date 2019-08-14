@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import immutable from 'immutable';
 
-import fetch from 'utils/fetch';
-import action from '@/state/action';
+import fetch from '../../../../../utils/fetch';
+import action from '../../../../state/action';
 
 import HeaderBar from './HeaderBar';
 import MessageList from './MessageList';
@@ -16,14 +16,15 @@ import GroupManagePanel from './GroupManagePanel';
 
 class Chat extends Component {
     static propTypes = {
-        focus: PropTypes.string,
-        members: ImmutablePropTypes.list,
-        userId: PropTypes.string,
-        creator: PropTypes.string,
-        avatar: PropTypes.string,
-        name: PropTypes.string,
-        type: PropTypes.string,
+        focus: PropTypes.string.isRequired,
+        members: ImmutablePropTypes.list.isRequired,
+        userId: PropTypes.string.isRequired,
+        creator: PropTypes.string.isRequired,
+        avatar: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
     }
+
     constructor(...args) {
         super(...args);
         this.state = {
@@ -32,13 +33,17 @@ class Chat extends Component {
             userInfo: {},
         };
     }
+
     componentDidMount() {
         document.body.addEventListener('click', this.handleBodyClick, false);
     }
+
     componentWillUnmount() {
         document.body.removeEventListener('click', this.handleBodyClick, false);
     }
+
     handleBodyClick = (e) => {
+        // eslint-disable-next-line react/destructuring-assignment
         if (!this.state.groupInfoDialog) {
             return;
         }
@@ -53,6 +58,7 @@ class Chat extends Component {
         } while (target && target !== currentTarget);
         this.closeGroupInfo();
     }
+
     groupInfoDialog = async (e) => {
         const { focus, userId } = this.props;
         this.setState({
@@ -72,17 +78,20 @@ class Chat extends Component {
             action.setGroupMembers(focus, result);
         }
     }
+
     closeGroupInfo = () => {
         this.setState({
             groupInfoDialog: false,
         });
     }
+
     showUserInfoDialog = (userInfo) => {
         this.setState({
             userInfoDialog: true,
             userInfo,
         });
     }
+
     closeUserInfoDialog = () => {
         this.setState({
             userInfoDialog: false,
@@ -95,6 +104,7 @@ class Chat extends Component {
      */
     showGroupUser = (member) => {
         // 如果是自己, 则不展示
+        // eslint-disable-next-line react/destructuring-assignment
         if (member.getIn(['user', '_id']) === this.props.userId) {
             return;
         }
@@ -103,7 +113,9 @@ class Chat extends Component {
 
     render() {
         const { groupInfoDialog, userInfoDialog, userInfo } = this.state;
-        const { userId, creator, avatar, type, focus = '', name, members } = this.props;
+        const {
+            userId, creator, avatar, type, focus = '', name, members,
+        } = this.props;
 
         if (!focus && !!userId) {
             return (
@@ -118,7 +130,10 @@ class Chat extends Component {
 
         return (
             <div className="module-main-chat">
-                <HeaderBar onShowInfo={type === 'group' ? this.groupInfoDialog : this.showUserInfoDialog.bind(this, { _id: focus.replace(userId, ''), username: name, avatar })} />
+                <HeaderBar
+                    // eslint-disable-next-line react/jsx-no-bind
+                    onShowInfo={type === 'group' ? this.groupInfoDialog : this.showUserInfoDialog.bind(this, { _id: focus.replace(userId, ''), username: name, avatar })}
+                />
                 <MessageList showUserInfoDialog={this.showUserInfoDialog} />
                 <ChatInput members={members} />
 
@@ -163,7 +178,7 @@ export default connect((state) => {
         };
     }
 
-    const linkman = state.getIn(['user', 'linkmans']).find(g => g.get('_id') === focus);
+    const linkman = state.getIn(['user', 'linkmans']).find((g) => g.get('_id') === focus);
     return {
         userId: state.getIn(['user', '_id']),
         focus,

@@ -5,4 +5,6 @@ import 'rc-tabs/assets/index.css';
 
 import './components.less';
 
-export { Tabs, TabPane, TabContent, ScrollableInkTabBar };
+export {
+    Tabs, TabPane, TabContent, ScrollableInkTabBar,
+};
