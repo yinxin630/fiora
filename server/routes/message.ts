@@ -1,10 +1,12 @@
-const assert = require('assert');
+import assert from 'assert';
+
+import User from '../models/user';
+import Group from '../models/group';
+import Message from '../models/message';
+import Socket from '../models/socket';
+
 const { isValid } = require('mongoose').Types.ObjectId;
 
-const User = require('../models/user');
-const Group = require('../models/group');
-const Message = require('../models/message');
-const Socket = require('../models/socket');
 const xss = require('../../utils/xss');
 
 const FirstTimeMessagesCount = 15;

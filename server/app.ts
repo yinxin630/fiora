@@ -1,3 +1,7 @@
+import Socket from './models/socket';
+
+import config from '../config/server';
+
 const Koa = require('koa');
 const IO = require('koa-socket-2');
 const koaSend = require('koa-send');
@@ -18,10 +22,6 @@ const groupRoutes = require('./routes/group');
 const messageRoutes = require('./routes/message');
 const qiniuRoutes = require('./routes/qiniu');
 const systemRoutes = require('./routes/system');
-
-const Socket = require('./models/socket');
-
-const config = require('../config/server');
 
 const app = new Koa();
 

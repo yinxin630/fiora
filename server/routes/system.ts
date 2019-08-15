@@ -2,14 +2,15 @@ import {
     getMemoryData, MemoryDataStorageKey, existMemoryData, addMemoryData, deleteMemoryData,
 } from '../memoryData';
 
+import User from '../models/user';
+import Group from '../models/group';
+
 const bluebird = require('bluebird');
 const fs = bluebird.promisifyAll(require('fs'), { suffix: '$' });
 const path = require('path');
 const axios = require('axios');
 const assert = require('assert');
 const ip = require('ip');
-const User = require('../models/user');
-const Group = require('../models/group');
 const config = require('../../config/server');
 const { SealTimeout } = require('../../utils/const');
 

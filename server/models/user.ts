@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
 
 const UserSchema = new Schema({
     createTime: { type: Date, default: Date.now },
@@ -13,9 +13,7 @@ const UserSchema = new Schema({
     },
     salt: String,
     password: String,
-    avatar: {
-        type: String,
-    },
+    avatar: String,
     expressions: [
         {
             type: String,
@@ -23,5 +21,29 @@ const UserSchema = new Schema({
     ],
 });
 
-const User = model('User', UserSchema);
-module.exports = User;
+export interface UserDocument extends Document {
+    /** 数据库 id */
+    _id: Schema.Types.ObjectId;
+    /** 用户名 */
+    username: string;
+    /** 密码加密盐 */
+    salt: string;
+    /** 加密的密码 */
+    password: string;
+    /** 头像 */
+    avatar:string;
+    /** 表情收藏 */
+    expressions: string[];
+    /** 创建时间 */
+    createTime: Date;
+    /** 最后登录时间 */
+    lastLoginTime: Date;
+}
+
+/**
+ * User Model
+ * 用户信息
+ */
+const User = model<UserDocument>('User', UserSchema);
+
+export default User;

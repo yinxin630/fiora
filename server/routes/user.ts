@@ -1,16 +1,17 @@
 import { addMemoryData, MemoryDataStorageKey, deleteMemoryData } from '../memoryData';
 
+import User from '../models/user';
+import Group from '../models/group';
+import Friend from '../models/friend';
+import Socket from '../models/socket';
+import Message from '../models/message';
+
 const assert = require('assert');
 const bluebird = require('bluebird');
 const bcrypt = bluebird.promisifyAll(require('bcryptjs'), { suffix: '$' });
 const jwt = require('jwt-simple');
 const { isValid } = require('mongoose').Types.ObjectId;
 
-const User = require('../models/user');
-const Group = require('../models/group');
-const Socket = require('../models/socket');
-const Friend = require('../models/friend');
-const Message = require('../models/message');
 const config = require('../../config/server');
 const getRandomAvatar = require('../../utils/getRandomAvatar');
 
@@ -133,7 +134,7 @@ module.exports = {
 
         handleNewUser(user);
 
-        user.lastLoginTime = Date.now();
+        user.lastLoginTime = new Date();
         await user.save();
 
         const groups = await Group.find({ members: user }, {
@@ -192,7 +193,7 @@ module.exports = {
 
         handleNewUser(user);
 
-        user.lastLoginTime = Date.now();
+        user.lastLoginTime = new Date();
         await user.save();
 
         const groups = await Group.find({ members: user }, {

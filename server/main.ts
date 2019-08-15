@@ -2,11 +2,11 @@ import mongoose from 'mongoose';
 
 import app from './app';
 
-const config = require('../config/server');
+import config from '../config/server';
 
-const Socket = require('./models/socket');
-const Group = require('./models/group');
-const getRandomAvatar = require('../utils/getRandomAvatar');
+import Socket from './models/socket';
+import Group from './models/group';
+import getRandomAvatar from '../utils/getRandomAvatar';
 
 mongoose.Promise = Promise;
 

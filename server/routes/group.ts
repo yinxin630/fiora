@@ -1,10 +1,11 @@
 import assert from 'assert';
 
+import Group from '../models/group';
+import Socket from '../models/socket';
+import Message from '../models/message';
+
 const { isValid } = require('mongoose').Types.ObjectId;
 
-const Group = require('../models/group');
-const Socket = require('../models/socket');
-const Message = require('../models/message');
 const config = require('../../config/server');
 const getRandomAvatar = require('../../utils/getRandomAvatar');
 
@@ -21,7 +22,7 @@ async function getGroupOnlineMembers(group) {
             { username: 1, avatar: 1 },
         );
     const filterSockets = sockets.reduce((result, socket) => {
-        result[socket.user] = socket;
+        result[socket.user.toString()] = socket;
         return result;
     }, {});
     return Object.values(filterSockets);
