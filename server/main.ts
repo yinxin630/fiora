@@ -1,22 +1,12 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const checkVersion = require('../build/check-versions');
+import app from './app';
 
-checkVersion(); // 检查node.js和npm版本
-
-const app = require('./app');
 const config = require('../config/server');
 
 const Socket = require('./models/socket');
 const Group = require('./models/group');
 const getRandomAvatar = require('../utils/getRandomAvatar');
-
-// @ts-ignore
-global.mdb = new Map(); // 作为内存数据库使用
-// @ts-ignore
-global.mdb.set('sealList', new Set()); // 封禁用户列表
-// @ts-ignore
-global.mdb.set('newUserList', new Set()); // 新注册用户列表
 
 mongoose.Promise = Promise;
 

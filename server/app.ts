@@ -98,4 +98,4 @@ app.io.on('connection', async (ctx) => {
     });
 });
 
-module.exports = app;
+export default app;

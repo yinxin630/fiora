@@ -1,6 +1,4 @@
-const mongoose = require('mongoose');
-
-const { Schema } = mongoose;
+import { Schema, model } from 'mongoose';
 
 const GroupSchema = new Schema({
     createTime: { type: Date, default: Date.now },
@@ -35,5 +33,5 @@ const GroupSchema = new Schema({
     ],
 });
 
-const Group = mongoose.model('Group', GroupSchema);
+const Group = model('Group', GroupSchema);
 module.exports = Group;

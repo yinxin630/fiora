@@ -1,4 +1,5 @@
-const config = require('../../config/server');
+import config from '../../config/server';
+
 /**
  * 管理员功能控制器
  */

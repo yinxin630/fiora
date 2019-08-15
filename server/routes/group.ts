@@ -1,4 +1,5 @@
-const assert = require('assert');
+import assert from 'assert';
+
 const { isValid } = require('mongoose').Types.ObjectId;
 
 const Group = require('../models/group');

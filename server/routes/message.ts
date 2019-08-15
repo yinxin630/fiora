@@ -39,11 +39,11 @@ module.exports = {
             if (rollRegex.test(messageContent)) {
                 const regexResult = rollRegex.exec(messageContent);
                 if (regexResult) {
-                    let number = regexResult[1] || '100';
-                    if (number.length > 5) {
-                        number = '99999';
+                    let numberStr = regexResult[1] || '100';
+                    if (numberStr.length > 5) {
+                        numberStr = '99999';
                     }
-                    number = parseInt(number, 10);
+                    const number = parseInt(numberStr, 10);
                     type = 'system';
                     messageContent = JSON.stringify({
                         command: 'roll',
@@ -121,7 +121,7 @@ module.exports = {
                 .populate('from', { username: 1, avatar: 1 }));
         const results = await Promise.all(promises);
         const messages = linkmans.reduce((result, linkmanId, index) => {
-            result[linkmanId] = (results[index] || []).reverse();
+            result[linkmanId] = ((results[index] || []) as Array<unknown>).reverse();
             return result;
         }, {});
 

@@ -1,3 +1,7 @@
+import {
+    getMemoryData, MemoryDataStorageKey, existMemoryData, addMemoryData, deleteMemoryData,
+} from '../memoryData';
+
 const bluebird = require('bluebird');
 const fs = bluebird.promisifyAll(require('fs'), { suffix: '$' });
 const path = require('path');
@@ -73,12 +77,11 @@ module.exports = {
         assert(user, '用户不存在');
 
         const userId = user._id.toString();
-        const sealList = global.mdb.get('sealList');
-        assert(!sealList.has(userId), '用户已在封禁名单');
+        assert(!existMemoryData(MemoryDataStorageKey.SealList, userId), '用户已在封禁名单');
 
-        sealList.add(userId);
+        addMemoryData(MemoryDataStorageKey.SealList, userId);
         setTimeout(() => {
-            sealList.delete(userId);
+            deleteMemoryData(MemoryDataStorageKey.SealList, userId);
         }, SealTimeout);
 
         return {
@@ -86,7 +89,7 @@ module.exports = {
         };
     },
     async getSealList() {
-        const sealList = global.mdb.get('sealList');
+        const sealList = getMemoryData(MemoryDataStorageKey.SealList);
         const userIds = [...sealList.keys()];
         const users = await User.find({ _id: { $in: userIds } });
         const result = users.map((user) => user.username);

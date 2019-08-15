@@ -1,10 +1,14 @@
+import { existMemoryData, MemoryDataStorageKey } from '../memoryData';
+
 const MaxCallPerMinutes = 20;
 /**
  * Limiting the frequency of interface calls
  */
 module.exports = function frequency() {
     let callTimes = {};
-    setInterval(() => { callTimes = {}; }, 60000); // Emptying every 60 seconds
+    setInterval(() => {
+        callTimes = {};
+    }, 60000); // Emptying every 60 seconds
 
     return async (ctx, next) => {
         const { user } = ctx.socket;
@@ -13,12 +17,15 @@ module.exports = function frequency() {
             return next();
         }
 
-        const newUserList = global.mdb.get('newUserList');
         const socketId = ctx.socket.id;
         const count = callTimes[socketId] || 0;
 
         // 萌新限制
-        if (user && newUserList.has(user.toString()) && count > 5) {
+        if (
+            user
+            && existMemoryData(MemoryDataStorageKey.NewUserList, user.toString())
+            && count > 5
+        ) {
             ctx.res = '接口调用失败, 你正处于萌新限制期, 请不要频繁操作';
             return null;
         }

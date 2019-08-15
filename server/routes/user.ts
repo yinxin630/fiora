@@ -1,3 +1,5 @@
+import { addMemoryData, MemoryDataStorageKey, deleteMemoryData } from '../memoryData';
+
 const assert = require('assert');
 const bluebird = require('bluebird');
 const bcrypt = bluebird.promisifyAll(require('bcryptjs'), { suffix: '$' });
@@ -39,10 +41,10 @@ function generateToken(user, environment) {
 function handleNewUser(user) {
     // 将用户添加到新用户列表, 24小时后删除
     if (Date.now() - user.createTime.getTime() < OneDay) {
-        const newUserList = global.mdb.get('newUserList');
-        newUserList.add(user._id.toString());
+        const userId = user._id.toString();
+        addMemoryData(MemoryDataStorageKey.NewUserList, userId);
         setTimeout(() => {
-            newUserList.delete(user._id.toString());
+            deleteMemoryData(MemoryDataStorageKey.NewUserList, userId);
         }, OneDay);
     }
 }

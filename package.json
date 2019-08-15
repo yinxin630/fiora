@@ -67,6 +67,7 @@
     "xss": "^0.3.7"
   },
   "devDependencies": {
+    "@types/mongoose": "^5.5.12",
     "@types/node": "^12.7.1",
     "@types/react": "^16.9.1",
     "@types/react-dom": "^16.8.5",

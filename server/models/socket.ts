@@ -1,6 +1,4 @@
-const mongoose = require('mongoose');
-
-const { Schema } = mongoose;
+import { Schema, model } from 'mongoose';
 
 const SocketSchema = new Schema({
     createTime: { type: Date, default: Date.now },
@@ -32,5 +30,5 @@ const SocketSchema = new Schema({
     },
 });
 
-const Socket = mongoose.model('Socket', SocketSchema);
+const Socket = model('Socket', SocketSchema);
 module.exports = Socket;
