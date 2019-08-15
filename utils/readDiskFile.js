@@ -29,7 +29,7 @@ export default async function readDiskFIle(resultType = 'blob', accept = '*/*') 
             }
 
             const reader = new FileReader();
-            reader.onloadend = function () {
+            reader.onloadend = function handleLoad() {
                 resolve({
                     filename: file.name,
                     ext: file.name.split('.').pop().toLowerCase(),
@@ -40,17 +40,17 @@ export default async function readDiskFIle(resultType = 'blob', accept = '*/*') 
             };
 
             switch (resultType) {
-            case 'blob': {
-                reader.readAsArrayBuffer(file);
-                break;
-            }
-            case 'base64': {
-                reader.readAsDataURL(file);
-                break;
-            }
-            default: {
-                reader.readAsArrayBuffer(file);
-            }
+                case 'blob': {
+                    reader.readAsArrayBuffer(file);
+                    break;
+                }
+                case 'base64': {
+                    reader.readAsDataURL(file);
+                    break;
+                }
+                default: {
+                    reader.readAsArrayBuffer(file);
+                }
             }
         };
         $input.click();

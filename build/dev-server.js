@@ -1,5 +1,9 @@
+/* eslint-disable import/order */
+/* eslint-disable import/no-extraneous-dependencies */
 require('./check-versions')();
+
 const config = require('../config/webpack');
+const webpackConfig = require('./webpack.dev.conf');
 
 if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV);
@@ -10,7 +14,6 @@ const path = require('path');
 const express = require('express');
 const webpack = require('webpack');
 const proxyMiddleware = require('http-proxy-middleware');
-const webpackConfig = require('./webpack.dev.conf');
 
 const host = process.env.HOST || config.dev.host;
 const port = process.env.PORT || config.dev.port;
@@ -29,6 +32,7 @@ const devMiddleware = require('webpack-dev-middleware')(compiler, {
 const hotMiddleware = require('webpack-hot-middleware')(compiler, {
     log: () => { },
 });
+
 
 compiler.plugin('compilation', (compilation) => {
     compilation.plugin('html-webpack-plugin-after-emit', (data, cb) => {

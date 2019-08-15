@@ -4,11 +4,12 @@ const options = require('../utils/commandOptions');
 const { env } = process;
 
 function getFirstNotUndefined(...values) {
-    for (const v of values) {
-        if (v !== undefined) {
-            return v;
+    for (let i = 0; i < values.length; i++) {
+        if (values[i] !== undefined) {
+            return values[i];
         }
     }
+    return null;
 }
 
 module.exports = {

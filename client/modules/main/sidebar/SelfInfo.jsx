@@ -5,16 +5,16 @@ import { connect } from 'react-redux';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 
-import Input from '@/components/Input';
-import Dialog from '@/components/Dialog';
-import Button from '@/components/Button';
-import Message from '@/components/Message';
-import action from '@/state/action';
-import socket from '@/socket';
+import fetch from '../../../../utils/fetch';
+import readDiskFile from '../../../../utils/readDiskFile';
+import uploadFile from '../../../../utils/uploadFile';
+import Input from '../../../components/Input';
+import Dialog from '../../../components/Dialog';
+import Button from '../../../components/Button';
+import Message from '../../../components/Message';
+import action from '../../../state/action';
+import socket from '../../../socket';
 
-import fetch from 'utils/fetch';
-import readDiskFile from 'utils/readDiskFile';
-import uploadFile from 'utils/uploadFile';
 import config from '../../../../config/client';
 
 
@@ -30,6 +30,7 @@ class SelfInfo extends Component {
         socket.disconnect();
         socket.connect();
     }
+
     static propTypes = {
         visible: PropTypes.bool.isRequired,
         onClose: PropTypes.func.isRequired,
@@ -37,17 +38,29 @@ class SelfInfo extends Component {
         avatar: PropTypes.string,
         primaryColor: PropTypes.string.isRequired,
     }
-    state = {
-        loading: false,
-        cropper: false,
-        cropperSrc: '',
-        cropperExt: 'png',
+
+    static defaultProps = {
+        userId: '',
+        avatar: '',
     }
+
+    constructor(...args) {
+        super(...args);
+        this.state = {
+            loading: false,
+            cropper: false,
+            cropperSrc: '',
+            cropperExt: 'png',
+        };
+    }
+
     toggleAvatarLoading = () => {
+        const { loading } = this.state;
         this.setState({
-            loading: !this.state.loading,
+            loading: !loading,
         });
     }
+
     /**
      * 修改头像
      */
@@ -57,6 +70,7 @@ class SelfInfo extends Component {
             return;
         }
         if (file.length > config.maxAvatarSize) {
+            // eslint-disable-next-line consistent-return
             return Message.error('设置头像失败, 请选择小于1MB的图片');
         }
 
@@ -76,11 +90,13 @@ class SelfInfo extends Component {
             };
         }
     }
+
     uploadAvatar = async (blob, ext = 'png') => {
         this.toggleAvatarLoading();
 
         try {
-            const avatarUrl = await uploadFile(blob, `Avatar/${this.props.userId}_${Date.now()}`, `Avatar_${this.props.userId}_${Date.now()}.${ext}`);
+            const { userId } = this.props;
+            const avatarUrl = await uploadFile(blob, `Avatar/${userId}_${Date.now()}`, `Avatar_${userId}_${Date.now()}.${ext}`);
             const [changeAvatarErr] = await fetch('changeAvatar', { avatar: avatarUrl });
             if (changeAvatarErr) {
                 Message.error(changeAvatarErr);
@@ -96,11 +112,14 @@ class SelfInfo extends Component {
             this.toggleAvatarLoading();
         }
     }
+
     changeAvatar = () => {
         this.cropper.getCroppedCanvas().toBlob(async (blob) => {
-            this.uploadAvatar(blob, this.state.cropperExt);
+            const { cropperExt } = this.state;
+            this.uploadAvatar(blob, cropperExt);
         });
     }
+
     /**
      * 修改密码
      */
@@ -110,10 +129,12 @@ class SelfInfo extends Component {
             newPassword: this.newPassword.getValue(),
         });
         if (!err) {
+            // eslint-disable-next-line react/destructuring-assignment
             this.props.onClose();
             SelfInfo.reLogin('修改密码成功, 请使用新密码重新登录');
         }
     }
+
     /**
      * 修改用户名
      */
@@ -122,12 +143,16 @@ class SelfInfo extends Component {
             username: this.username.getValue(),
         });
         if (!err) {
+            // eslint-disable-next-line react/destructuring-assignment
             this.props.onClose();
             SelfInfo.reLogin('修改用户名成功, 请使用新用户名重新登录');
         }
     }
+
     render() {
-        const { visible, onClose, avatar, primaryColor } = this.props;
+        const {
+            visible, onClose, avatar, primaryColor,
+        } = this.props;
         const { loading, cropper, cropperSrc } = this.state;
         return (
             <Dialog className="dialog selfInfo" visible={visible} title="个人信息设置" onClose={onClose}>
@@ -136,38 +161,41 @@ class SelfInfo extends Component {
                         <p>修改头像</p>
                         <div className="avatar-preview">
                             {
-                                cropper ?
-                                    <div className="cropper">
-                                        <Cropper
-                                            className={loading ? 'blur' : ''}
-                                            ref={i => this.cropper = i}
-                                            src={cropperSrc}
-                                            style={{ height: 460, width: 460 }}
-                                            aspectRatio={1}
-                                        />
-                                        <Button onClick={this.changeAvatar}>修改头像</Button>
-                                        <ReactLoading className={`loading ${loading ? 'show' : 'hide'}`} type="spinningBubbles" color={`rgb(${primaryColor}`} height={120} width={120} />
-                                    </div>
-                                    :
-                                    <div className="preview">
-                                        <img className={loading ? 'blur' : ''} src={avatar} onClick={this.selectAvatar} />
-                                        <ReactLoading className={`loading ${loading ? 'show' : 'hide'}`} type="spinningBubbles" color={`rgb(${primaryColor}`} height={80} width={80} />
-                                    </div>
+                                cropper
+                                    ? (
+                                        <div className="cropper">
+                                            <Cropper
+                                                className={loading ? 'blur' : ''}
+                                                ref={(i) => { this.cropper = i; }}
+                                                src={cropperSrc}
+                                                style={{ height: 460, width: 460 }}
+                                                aspectRatio={1}
+                                            />
+                                            <Button onClick={this.changeAvatar}>修改头像</Button>
+                                            <ReactLoading className={`loading ${loading ? 'show' : 'hide'}`} type="spinningBubbles" color={`rgb(${primaryColor}`} height={120} width={120} />
+                                        </div>
+                                    )
+                                    : (
+                                        <div className="preview">
+                                            <img className={loading ? 'blur' : ''} alt="头像预览" src={avatar} onClick={this.selectAvatar} />
+                                            <ReactLoading className={`loading ${loading ? 'show' : 'hide'}`} type="spinningBubbles" color={`rgb(${primaryColor}`} height={80} width={80} />
+                                        </div>
+                                    )
                             }
                         </div>
                     </div>
                     <div>
                         <p>修改密码</p>
                         <div className="change-password">
-                            <Input ref={i => this.oldPassword = i} type="password" placeholder="旧密码" />
-                            <Input ref={i => this.newPassword = i} type="password" placeholder="新密码" />
+                            <Input ref={(i) => { this.oldPassword = i; }} type="password" placeholder="旧密码" />
+                            <Input ref={(i) => { this.newPassword = i; }} type="password" placeholder="新密码" />
                             <Button onClick={this.changePassword}>确认修改</Button>
                         </div>
                     </div>
                     <div>
                         <p>修改用户名</p>
                         <div className="change-username">
-                            <Input ref={i => this.username = i} type="text" placeholder="用户名" />
+                            <Input ref={(i) => { this.username = i; }} type="text" placeholder="用户名" />
                             <Button onClick={this.changeUsername}>确认修改</Button>
                         </div>
                     </div>
@@ -177,7 +205,7 @@ class SelfInfo extends Component {
     }
 }
 
-export default connect(state => ({
+export default connect((state) => ({
     avatar: state.getIn(['user', 'avatar']),
     primaryColor: state.getIn(['ui', 'primaryColor']),
     userId: state.getIn(['user', '_id']),

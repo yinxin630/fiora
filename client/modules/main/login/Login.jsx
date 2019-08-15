@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import platform from 'platform';
 
-import socket from '@/socket';
-import action from '@/state/action';
-import { Tabs, TabPane, TabContent, ScrollableInkTabBar } from '@/components/Tabs';
-import Input from '@/components/Input';
-import Message from '@/components/Message';
+import socket from '../../../socket';
+import action from '../../../state/action';
+import {
+    Tabs, TabPane, TabContent, ScrollableInkTabBar,
+} from '../../../components/Tabs';
+import Input from '../../../components/Input';
+import Message from '../../../components/Message';
 import './Login.less';
 
 class Login extends Component {
@@ -26,6 +28,7 @@ class Login extends Component {
             }
         });
     }
+
     handleRegister = () => {
         socket.emit('register', {
             username: this.registerUsername.getValue(),
@@ -44,28 +47,31 @@ class Login extends Component {
             }
         });
     }
+
     renderLogin() {
         return (
             <div className="pane">
                 <h3>用户名</h3>
-                <Input ref={i => this.loginUsername = i} onEnter={this.handleLogin} />
+                <Input ref={(i) => { this.loginUsername = i; }} onEnter={this.handleLogin} />
                 <h3>密码</h3>
-                <Input type="password" ref={i => this.loginPassword = i} onEnter={this.handleLogin} />
-                <button onClick={this.handleLogin}>登录</button>
+                <Input type="password" ref={(i) => { this.loginPassword = i; }} onEnter={this.handleLogin} />
+                <button onClick={this.handleLogin} type="button">登录</button>
             </div>
         );
     }
+
     renderRegister() {
         return (
             <div className="pane">
                 <h3>用户名</h3>
-                <Input ref={i => this.registerUsername = i} onEnter={this.handleRegister} placeholder="用户名即昵称, 支持中文, 请慎重填写, 不可修改" />
+                <Input ref={(i) => { this.registerUsername = i; }} onEnter={this.handleRegister} placeholder="用户名即昵称, 支持中文, 请慎重填写, 不可修改" />
                 <h3>密码</h3>
-                <Input type="password" ref={i => this.registerPassword = i} onEnter={this.handleRegister} placeholder="暂时也不支持修改密码" />
-                <button onClick={this.handleRegister}>注册</button>
+                <Input type="password" ref={(i) => { this.registerPassword = i; }} onEnter={this.handleRegister} placeholder="暂时也不支持修改密码" />
+                <button onClick={this.handleRegister} type="button">注册</button>
             </div>
         );
     }
+
     render() {
         return (
             <Tabs

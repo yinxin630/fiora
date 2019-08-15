@@ -78,7 +78,9 @@ io.use(isAdmin());
 io.use(route(
     app.io,
     app._io,
-    Object.assign({}, userRoutes, groupRoutes, messageRoutes, qiniuRoutes, systemRoutes),
+    {
+        ...userRoutes, ...groupRoutes, ...messageRoutes, ...qiniuRoutes, ...systemRoutes,
+    },
 ));
 
 app.io.on('connection', async (ctx) => {

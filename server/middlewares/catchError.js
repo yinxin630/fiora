@@ -3,7 +3,7 @@ const assert = require('assert');
 /**
  * 全局异常捕获
  */
-module.exports = function () {
+module.exports = function catchError() {
     return async (ctx, next) => {
         try {
             await next();

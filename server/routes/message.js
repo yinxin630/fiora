@@ -71,17 +71,12 @@ module.exports = {
             });
         }
 
-        let message;
-        try {
-            message = await Message.create({
-                from: ctx.socket.user,
-                to,
-                type,
-                content: messageContent,
-            });
-        } catch (err) {
-            throw err;
-        }
+        const message = await Message.create({
+            from: ctx.socket.user,
+            to,
+            type,
+            content: messageContent,
+        });
 
         const user = await User.findOne({ _id: ctx.socket.user }, { username: 1, avatar: 1 });
         const messageData = {
@@ -114,11 +109,13 @@ module.exports = {
         const { linkmans } = ctx.data;
         assert(Array.isArray(linkmans), '参数linkmans应该是Array');
 
-        const promises = linkmans.map(linkmanId =>
+        const promises = linkmans.map((linkmanId) =>
             Message
                 .find(
                     { to: linkmanId },
-                    { type: 1, content: 1, from: 1, createTime: 1 },
+                    {
+                        type: 1, content: 1, from: 1, createTime: 1,
+                    },
                     { sort: { createTime: -1 }, limit: FirstTimeMessagesCount },
                 )
                 .populate('from', { username: 1, avatar: 1 }));
@@ -136,7 +133,9 @@ module.exports = {
         const messages = await Message
             .find(
                 { to: linkmanId },
-                { type: 1, content: 1, from: 1, createTime: 1 },
+                {
+                    type: 1, content: 1, from: 1, createTime: 1,
+                },
                 { sort: { createTime: -1 }, limit: EachFetchMessagesCount + existCount },
             )
             .populate('from', { username: 1, avatar: 1 });
@@ -150,7 +149,9 @@ module.exports = {
         const messages = await Message
             .find(
                 { to: group._id },
-                { type: 1, content: 1, from: 1, createTime: 1 },
+                {
+                    type: 1, content: 1, from: 1, createTime: 1,
+                },
                 { sort: { createTime: -1 }, limit: EachFetchMessagesCount + existCount },
             )
             .populate('from', { username: 1, avatar: 1 });

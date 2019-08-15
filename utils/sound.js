@@ -1,10 +1,10 @@
 const sounds = {
-    default: require('@/assets/audios/default.mp3'),
-    apple: require('@/assets/audios/apple.mp3'),
-    pcqq: require('@/assets/audios/pcqq.mp3'),
-    mobileqq: require('@/assets/audios/mobileqq.mp3'),
-    momo: require('@/assets/audios/momo.mp3'),
-    huaji: require('@/assets/audios/huaji.mp3'),
+    default: require('../client/assets/audios/default.mp3'),
+    apple: require('../client/assets/audios/apple.mp3'),
+    pcqq: require('../client/assets/audios/pcqq.mp3'),
+    mobileqq: require('../client/assets/audios/mobileqq.mp3'),
+    momo: require('../client/assets/audios/momo.mp3'),
+    huaji: require('../client/assets/audios/huaji.mp3'),
 };
 
 let prevType = 'default';

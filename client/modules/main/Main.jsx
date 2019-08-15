@@ -6,7 +6,7 @@ import ChatPanel from './chatPanel/ChatPanel';
 import './Main.less';
 
 function Main() {
-    const sideInfoVisible = useSelector(state => state.getIn(['ui', 'sideInfoVisible']));
+    const sideInfoVisible = useSelector((state) => state.getIn(['ui', 'sideInfoVisible']));
 
     return (
         <div className="module-main">

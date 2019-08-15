@@ -16,7 +16,7 @@ import ReactDom from 'react-dom';
 import { Provider } from 'react-redux';
 import platform from 'platform';
 
-import fetch from 'utils/fetch';
+import fetch from '../utils/fetch';
 import App from './App';
 import store from './state/store';
 import action from './state/action';
@@ -32,8 +32,8 @@ if (window.Notification && (window.Notification.permission === 'default' || wind
 }
 
 let windowStatus = 'focus';
-window.onfocus = () => windowStatus = 'focus';
-window.onblur = () => windowStatus = 'blur';
+window.onfocus = () => { windowStatus = 'focus'; };
+window.onblur = () => { windowStatus = 'blur'; };
 
 
 async function guest() {
@@ -76,7 +76,7 @@ socket.on('message', (message) => {
 
     const state = store.getState();
     const isSelfMessage = message.from._id === state.getIn(['user', '_id']);
-    const linkman = state.getIn(['user', 'linkmans']).find(l => l.get('_id') === message.to);
+    const linkman = state.getIn(['user', 'linkmans']).find((l) => l.get('_id') === message.to);
     let title = '';
     if (linkman) {
         action.addLinkmanMessage(message.to, message);
@@ -136,10 +136,9 @@ socket.on('message', (message) => {
                 return;
             }
 
-            const from = linkman && linkman.get('type') === 'group' ?
-                `${message.from.username}${linkman.get('name') === prevName ? '' : `在${linkman.get('name')}`}说`
-                :
-                `${message.from.username}对你说`;
+            const from = linkman && linkman.get('type') === 'group'
+                ? `${message.from.username}${linkman.get('name') === prevName ? '' : `在${linkman.get('name')}`}说`
+                : `${message.from.username}对你说`;
             if (text) {
                 voice.push(from !== prevFrom ? from + text : text, message.from.username);
             }

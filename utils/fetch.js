@@ -1,4 +1,4 @@
-import Message from '@/components/Message';
+import Message from '../client/components/Message';
 import socket from '../client/socket';
 
 const { SealText, SealTimeout } = require('./const');
@@ -21,7 +21,7 @@ export default function fetch(event, data = {}, {
                 }
                 if (res === SealText) {
                     isSeal = true;
-                    setTimeout(() => isSeal = false, SealTimeout);
+                    setTimeout(() => { isSeal = false; }, SealTimeout);
                 }
                 resolve([res, null]);
             } else {

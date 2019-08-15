@@ -11,46 +11,60 @@ class Input extends Component {
         onEnter: PropTypes.func,
         placeholder: PropTypes.string,
     }
+
     static defaultProps = {
         type: 'text',
+        onEnter: () => {},
+        placeholder: '',
     }
+
     constructor(...args) {
         super(...args);
         this.state = {
             value: '',
         };
     }
+
     getValue() {
+        // eslint-disable-next-line react/destructuring-assignment
         return this.state.value.trim();
     }
-    clear() {
-        this.setState({
-            value: '',
-        });
-    }
+
     handleInput = (e) => {
         this.setState({
             value: e.target.value,
         });
     }
+
     handleClickClear = () => {
         this.setState({
             value: '',
         });
         this.input.focus();
     }
+
     handleKeyDown = (e) => {
         const { onEnter } = this.props;
         if (e.key === 'Enter' && onEnter) {
+            // eslint-disable-next-line react/destructuring-assignment
             onEnter(this.state.value);
         }
     }
+
     handleIMEStart = () => {
         this.lockEnter = true;
     }
+
     handleIMEEnd = () => {
         this.lockEnter = false;
     }
+
+    clear() {
+        this.setState({
+            value: '',
+        });
+    }
+
     render() {
         const { type, placeholder } = this.props;
         const { value } = this.state;
@@ -62,7 +76,7 @@ class Input extends Component {
                     onChange={this.handleInput}
                     onInput={this.handleInput}
                     placeholder={placeholder}
-                    ref={i => this.input = i}
+                    ref={(i) => { this.input = i; }}
                     onKeyDown={this.handleKeyDown}
                     onCompositionStart={this.handleIMEStart}
                     onCompositionEnd={this.handleIMEEnd}

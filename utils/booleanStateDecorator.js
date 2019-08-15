@@ -4,13 +4,13 @@
  * @param {Object} values key: state键名 value: state默认值
  */
 export default function booleanStateDecorator(values) {
-    return function (target) {
+    return function wrapper(target) {
         class BooleanStateDecoratorWrap extends target {
             constructor(...args) {
                 super(...args);
                 this.state = this.state || {};
 
-                for (const key in values) {
+                Object.keys(values).forEach((key) => {
                     // 忽略非boolean类型
                     if (typeof values[key] !== 'boolean') {
                         return;
@@ -22,11 +22,13 @@ export default function booleanStateDecorator(values) {
                         if (typeof value === 'boolean') {
                             this.setState({ [key]: value });
                         } else {
+                            // eslint-disable-next-line react/no-access-state-in-setstate
                             this.setState({ [key]: !this.state[key] });
                         }
                     };
-                }
+                });
             }
+
             render() {
                 return super.render();
             }

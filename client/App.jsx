@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import 'normalize.css';
 
-import action from '@/state/action';
-import Dialog from '@/components/Dialog';
+import action from './state/action';
+import Dialog from './components/Dialog';
 import Main from './modules/main/Main';
 import Login from './modules/main/login/Login';
 
@@ -15,9 +15,10 @@ import { isMobile } from '../utils/ua';
 // App can't be stateless component
 class App extends Component {
     static propTypes = {
-        showLoginDialog: PropTypes.bool,
-        backgroundImage: PropTypes.string,
-    }
+        showLoginDialog: PropTypes.bool.isRequired,
+        backgroundImage: PropTypes.string.isRequired,
+    };
+
     constructor(props) {
         super(props);
         let height = 1;
@@ -31,6 +32,7 @@ class App extends Component {
             backgroundHeight: window.innerHeight,
         };
     }
+
     componentDidMount() {
         const img = new Image();
         img.onload = () => {
@@ -39,10 +41,12 @@ class App extends Component {
                 backgroundHeight: Math.max(img.height, window.innerHeight),
             });
         };
+        // eslint-disable-next-line react/destructuring-assignment
         img.src = this.props.backgroundImage;
 
         window.onresize = () => {
             const currentWidth = App.getWidth();
+            // eslint-disable-next-line react/destructuring-assignment
             if (currentWidth !== this.state.width) {
                 this.setState({
                     width: App.getWidth(),
@@ -50,35 +54,40 @@ class App extends Component {
             }
         };
     }
+
     get style() {
         const { backgroundWidth, backgroundHeight } = this.state;
         return {
+            // eslint-disable-next-line react/destructuring-assignment
             backgroundImage: `url(${this.props.backgroundImage})`,
             backgroundSize: `${backgroundWidth}px ${backgroundHeight}px`,
             backgroundRepeat: 'no-repeat',
         };
     }
+
     get blurStyle() {
         const { width, height } = this.state;
         const { innerWidth, innerHeight } = window;
-        return Object.assign(
-            {
-                backgroundPosition: `${-(1 - width) * innerWidth / 2}px ${-(1 - height) * innerHeight / 2}px`,
-            },
-            this.childStyle,
-            this.style,
-        );
+        return {
+            backgroundPosition: `${(-(1 - width) * innerWidth) / 2}px ${(-(1 - height)
+                * innerHeight)
+                / 2}px`,
+            ...this.childStyle,
+            ...this.style,
+        };
     }
+
     get childStyle() {
         const { width, height } = this.state;
         return {
             width: `${width * 100}%`,
             height: `${height * 100}%`,
             position: 'absolute',
-            left: `${(1 - width) / 2 * 100}%`,
-            top: `${(1 - height) / 2 * 100}%`,
+            left: `${((1 - width) / 2) * 100}%`,
+            top: `${((1 - height) / 2) * 100}%`,
         };
     }
+
     static getWidth() {
         if (isMobile) {
             return 1;
@@ -94,6 +103,7 @@ class App extends Component {
         }
         return width;
     }
+
     render() {
         const { showLoginDialog } = this.props;
         return (
@@ -102,7 +112,11 @@ class App extends Component {
                 <div className="child" style={this.childStyle}>
                     <Main />
                 </div>
-                <Dialog visible={showLoginDialog} closable={false} onClose={action.closeLoginDialog}>
+                <Dialog
+                    visible={showLoginDialog}
+                    closable={false}
+                    onClose={action.closeLoginDialog}
+                >
                     <Login />
                 </Dialog>
             </div>
@@ -110,7 +124,7 @@ class App extends Component {
     }
 }
 
-export default connect(state => ({
+export default connect((state) => ({
     showLoginDialog: state.getIn(['ui', 'showLoginDialog']),
     backgroundImage: state.getIn(['ui', 'backgroundImage']),
 }))(hot(module)(App));

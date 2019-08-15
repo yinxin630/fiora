@@ -1,18 +1,18 @@
 export default {
     isToday(time1, time2) {
         return (
-            time1.getFullYear() === time2.getFullYear() &&
-            time1.getMonth() === time2.getMonth() &&
-            time1.getDate() === time2.getDate()
+            time1.getFullYear() === time2.getFullYear()
+            && time1.getMonth() === time2.getMonth()
+            && time1.getDate() === time2.getDate()
         );
     },
     isYesterday(time1, time2) {
         const prevDate = new Date(time1);
         prevDate.setDate(time1.getDate() - 1);
         return (
-            prevDate.getFullYear() === time2.getFullYear() &&
-            prevDate.getMonth() === time2.getMonth() &&
-            prevDate.getDate() === time2.getDate()
+            prevDate.getFullYear() === time2.getFullYear()
+            && prevDate.getMonth() === time2.getMonth()
+            && prevDate.getDate() === time2.getDate()
         );
     },
     getHourMinute(time) {

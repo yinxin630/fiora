@@ -406,6 +406,11 @@ are-we-there-yet@~1.1.2:
     delegates "^1.0.0"
     readable-stream "^2.0.6"
 
+arg@^4.1.0:
+  version "4.1.1"
+  resolved "https://registry.npm.taobao.org/arg/download/arg-4.1.1.tgz#485f8e7c390ce4c5f78257dbea80d4be11feda4c"
+  integrity sha1-SF+OfDkM5MX3glfb6oDUvhH+2kw=
+
 argparse@^1.0.7:
   version "1.0.10"
   resolved "http://registry.npm.taobao.org/argparse/download/argparse-1.0.10.tgz#bcd6791ea5ae09725e17e5ad988134cd40b3d911"
@@ -2085,6 +2090,10 @@ create-react-class@15.x, create-react-class@^15.5.2, create-react-class@^15.6.0:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
+cropperjs@^1.5.5:
+  version "1.5.5"
+  resolved "https://registry.npm.taobao.org/cropperjs/download/cropperjs-1.5.5.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcropperjs%2Fdownload%2Fcropperjs-1.5.5.tgz#07d04c64244ab88c1bfc382a848ec346ef50b7b9"
+
 cropperjs@v1.0.0-rc.3:
   version "1.0.0-rc.3"
   resolved "http://registry.npm.taobao.org/cropperjs/download/cropperjs-1.0.0-rc.3.tgz#50a7c7611befc442702f845ede77d7df4572e82b"
@@ -2387,6 +2396,11 @@ detect-libc@^1.0.2:
   version "1.0.3"
   resolved "http://registry.npm.taobao.org/detect-libc/download/detect-libc-1.0.3.tgz#fa137c4bd698edf55cd5cd02ac559f91a4c4ba9b"
 
+diff@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.npm.taobao.org/diff/download/diff-4.0.1.tgz#0c667cb467ebbb5cea7f14f135cc2dba7780a8ff"
+  integrity sha1-DGZ8tGfru1zqfxTxNcwtuneAqP8=
+
 diffie-hellman@^5.0.0:
   version "5.0.3"
   resolved "http://registry.npm.taobao.org/diffie-hellman/download/diffie-hellman-5.0.3.tgz#40e8ee98f55a2149607146921c63e1ae5f3d2875"
@@ -2449,7 +2463,7 @@ dom-serializer@0:
 
 dom-walk@^0.1.0:
   version "0.1.1"
-  resolved "http://registry.npm.taobao.org/dom-walk/download/dom-walk-0.1.1.tgz#672226dc74c8f799ad35307df936aba11acd6018"
+  resolved "https://registry.npm.taobao.org/dom-walk/download/dom-walk-0.1.1.tgz#672226dc74c8f799ad35307df936aba11acd6018"
 
 domain-browser@^1.1.1:
   version "1.2.0"
@@ -3323,11 +3337,11 @@ global-dirs@^0.1.0:
     ini "^1.3.4"
 
 global@^4.3.0:
-  version "4.3.2"
-  resolved "http://registry.npm.taobao.org/global/download/global-4.3.2.tgz#e76989268a6c74c38908b1305b10fc0e394e9d0f"
+  version "4.4.0"
+  resolved "https://registry.npm.taobao.org/global/download/global-4.4.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fglobal%2Fdownload%2Fglobal-4.4.0.tgz#3e7b105179006a323ed71aafca3e9c57a5cc6406"
   dependencies:
     min-document "^2.19.0"
-    process "~0.5.1"
+    process "^0.11.10"
 
 globals@^11.7.0:
   version "11.12.0"
@@ -4428,6 +4442,11 @@ make-dir@^2.0.0:
     pify "^4.0.1"
     semver "^5.6.0"
 
+make-error@^1.1.1:
+  version "1.3.5"
+  resolved "https://registry.npm.taobao.org/make-error/download/make-error-1.3.5.tgz#efe4e81f6db28cadd605c70f29c831b58ef776c8"
+  integrity sha1-7+ToH22yjK3WBccPKcgxtY73dsg=
+
 mamacro@^0.0.3:
   version "0.0.3"
   resolved "http://registry.npm.taobao.org/mamacro/download/mamacro-0.0.3.tgz#ad2c9576197c9f1abf308d0787865bd975a3f3e4"
@@ -4585,7 +4604,7 @@ mimic-fn@^2.1.0:
 
 min-document@^2.19.0:
   version "2.19.0"
-  resolved "http://registry.npm.taobao.org/min-document/download/min-document-2.19.0.tgz#7bd282e3f5842ed295bb748cdd9f1ffa2c824685"
+  resolved "https://registry.npm.taobao.org/min-document/download/min-document-2.19.0.tgz#7bd282e3f5842ed295bb748cdd9f1ffa2c824685"
   dependencies:
     dom-walk "^0.1.0"
 
@@ -5683,10 +5702,6 @@ process@^0.11.10:
   version "0.11.10"
   resolved "http://registry.npm.taobao.org/process/download/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
 
-process@~0.5.1:
-  version "0.5.2"
-  resolved "http://registry.npm.taobao.org/process/download/process-0.5.2.tgz#1638d8a8e34c2f440a91db95ab9aeb677fc185cf"
-
 progress@^2.0.0:
   version "2.0.3"
   resolved "http://registry.npm.taobao.org/progress/download/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
@@ -6065,32 +6080,32 @@ react-dom@^15.3.2:
     object-assign "^4.1.0"
     prop-types "^15.5.10"
 
-react-dom@^16.8.6:
-  version "16.8.6"
-  resolved "https://registry.npm.taobao.org/react-dom/download/react-dom-16.8.6.tgz#71d6303f631e8b0097f56165ef608f051ff6e10f"
+react-dom@^16.9.0:
+  version "16.9.0"
+  resolved "https://registry.npm.taobao.org/react-dom/download/react-dom-16.9.0.tgz#5e65527a5e26f22ae3701131bcccaee9fb0d3962"
+  integrity sha1-XmVSel4m8irjcBExvMyu6fsNOWI=
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
-    scheduler "^0.13.6"
+    scheduler "^0.15.0"
 
-react-hot-loader@^4.0.0:
-  version "4.8.2"
-  resolved "http://registry.npm.taobao.org/react-hot-loader/download/react-hot-loader-4.8.2.tgz#21a00cfca7fc848c53d78c34f6081f5ae3737dda"
+react-hot-loader@^4.12.11:
+  version "4.12.11"
+  resolved "https://registry.npm.taobao.org/react-hot-loader/download/react-hot-loader-4.12.11.tgz#06bd618d0a7343c8afa4a31206844f651193bae5"
   dependencies:
     fast-levenshtein "^2.0.6"
     global "^4.3.0"
     hoist-non-react-statics "^3.3.0"
     loader-utils "^1.1.0"
-    lodash "^4.17.11"
     prop-types "^15.6.1"
     react-lifecycles-compat "^3.0.4"
-    shallowequal "^1.0.2"
+    shallowequal "^1.1.0"
     source-map "^0.7.3"
 
 react-immutable-proptypes@^2.1.0:
   version "2.1.0"
-  resolved "http://registry.npm.taobao.org/react-immutable-proptypes/download/react-immutable-proptypes-2.1.0.tgz#023d6f39bb15c97c071e9e60d00d136eac5fa0b4"
+  resolved "https://registry.npm.taobao.org/react-immutable-proptypes/download/react-immutable-proptypes-2.1.0.tgz#023d6f39bb15c97c071e9e60d00d136eac5fa0b4"
 
 react-immutable-render-mixin@^0.9.7:
   version "0.9.7"
@@ -6166,6 +6181,7 @@ react@^15.6.1:
 react@^16.9.0:
   version "16.9.0"
   resolved "https://registry.npm.taobao.org/react/download/react-16.9.0.tgz?cache=0&sync_timestamp=1565317892814&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact%2Fdownload%2Freact-16.9.0.tgz#40ba2f9af13bc1a38d75dbf2f4359a5185c4f7aa"
+  integrity sha1-QLovmvE7waONddvy9DWaUYXE96o=
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -6512,9 +6528,10 @@ sax@^1.2.4, sax@~1.2.1:
   version "1.2.4"
   resolved "http://registry.npm.taobao.org/sax/download/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
 
-scheduler@^0.13.6:
-  version "0.13.6"
-  resolved "https://registry.npm.taobao.org/scheduler/download/scheduler-0.13.6.tgz#466a4ec332467b31a91b9bf74e5347072e4cd889"
+scheduler@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.npm.taobao.org/scheduler/download/scheduler-0.15.0.tgz#6bfcf80ff850b280fed4aeecc6513bc0b4f17f8e"
+  integrity sha1-a/z4D/hQsoD+1K7sxlE7wLTxf44=
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -6636,7 +6653,7 @@ shallowequal@^0.2.2:
   dependencies:
     lodash.keys "^3.1.2"
 
-shallowequal@^1.0.2:
+shallowequal@^1.0.2, shallowequal@^1.1.0:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/shallowequal/download/shallowequal-1.1.0.tgz#188d521de95b9087404fd4dcb68b13df0ae4e7f8"
 
@@ -6797,6 +6814,14 @@ source-map-support@^0.4.15:
   dependencies:
     source-map "^0.5.6"
 
+source-map-support@^0.5.6:
+  version "0.5.13"
+  resolved "https://registry.npm.taobao.org/source-map-support/download/source-map-support-0.5.13.tgz#31b24a9c2e73c2de85066c0feb7d44767ed52932"
+  integrity sha1-MbJKnC5zwt6FBmwP631Edn7VKTI=
+  dependencies:
+    buffer-from "^1.0.0"
+    source-map "^0.6.0"
+
 source-map-support@~0.5.10:
   version "0.5.11"
   resolved "http://registry.npm.taobao.org/source-map-support/download/source-map-support-0.5.11.tgz#efac2ce0800355d026326a0ca23e162aeac9a4e2"
@@ -6822,7 +6847,7 @@ source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.0, source-map@~0.6.1:
 
 source-map@^0.7.3:
   version "0.7.3"
-  resolved "http://registry.npm.taobao.org/source-map/download/source-map-0.7.3.tgz#5302f8169031735226544092e64981f751750383"
+  resolved "https://registry.npm.taobao.org/source-map/download/source-map-0.7.3.tgz#5302f8169031735226544092e64981f751750383"
 
 sourcemapped-stacktrace@^1.1.6:
   version "1.1.9"
@@ -7259,6 +7284,17 @@ ts-loader@^6.0.4:
     loader-utils "^1.0.2"
     micromatch "^4.0.0"
     semver "^6.0.0"
+
+ts-node@^8.3.0:
+  version "8.3.0"
+  resolved "https://registry.npm.taobao.org/ts-node/download/ts-node-8.3.0.tgz#e4059618411371924a1fb5f3b125915f324efb57"
+  integrity sha1-5AWWGEETcZJKH7XzsSWRXzJO+1c=
+  dependencies:
+    arg "^4.1.0"
+    diff "^4.0.1"
+    make-error "^1.1.1"
+    source-map-support "^0.5.6"
+    yn "^3.0.0"
 
 tslib@^1.8.1:
   version "1.10.0"
@@ -7749,3 +7785,8 @@ yeast@0.1.2:
 ylru@^1.2.0:
   version "1.2.1"
   resolved "http://registry.npm.taobao.org/ylru/download/ylru-1.2.1.tgz#f576b63341547989c1de7ba288760923b27fe84f"
+
+yn@^3.0.0:
+  version "3.1.1"
+  resolved "https://registry.npm.taobao.org/yn/download/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
+  integrity sha1-HodAGgnXZ8HV6rJqbkwYUYLS61A=

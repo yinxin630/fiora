@@ -32,4 +32,3 @@ export default {
         showMessage(text, duration, 'info');
     },
 };
-

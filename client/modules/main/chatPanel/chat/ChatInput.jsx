@@ -4,35 +4,35 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { immutableRenderDecorator } from 'react-immutable-render-mixin';
 
-import action from '@/state/action';
-import IconButton from '@/components/IconButton';
-import Dropdown from '@/components/Dropdown';
-import { Menu, MenuItem } from '@/components/Menu';
-import Dialog from '@/components/Dialog';
-import Message from '@/components/Message';
-import Input from '@/components/Input';
-import Button from '@/components/Button';
-import Loading from '@/components/Loading';
-import Avatar from '@/components/Avatar';
-
-import getRandomHuaji from 'utils/getRandomHuaji';
-import readDiskFile from 'utils/readDiskFile';
-import fetch from 'utils/fetch';
-import uploadFile from 'utils/uploadFile';
+import getRandomHuaji from '../../../../../utils/getRandomHuaji';
+import readDiskFile from '../../../../../utils/readDiskFile';
+import fetch from '../../../../../utils/fetch';
+import uploadFile from '../../../../../utils/uploadFile';
+import action from '../../../../state/action';
+import IconButton from '../../../../components/IconButton';
+import Dropdown from '../../../../components/Dropdown';
+import { Menu, MenuItem } from '../../../../components/Menu';
+import Dialog from '../../../../components/Dialog';
+import Message from '../../../../components/Message';
+import Input from '../../../../components/Input';
+import Button from '../../../../components/Button';
+import Loading from '../../../../components/Loading';
+import Avatar from '../../../../components/Avatar';
 
 import Expression from './Expression';
 import CodeEditor from './CodeEditor';
 import config from '../../../../../config/client';
 import voice from '../../../../../utils/voice';
 
-const xss = require('utils/xss');
-const Url = require('utils/url');
+const xss = require('../../../../../utils/xss');
+const Url = require('../../../../../utils/url');
 
 @immutableRenderDecorator
 class ChatInput extends Component {
     static handleLogin() {
         action.showLoginDialog();
     }
+
     static insertAtCursor(input, value) {
         if (document.selection) {
             input.focus();
@@ -43,7 +43,9 @@ class ChatInput extends Component {
             const startPos = input.selectionStart;
             const endPos = input.selectionEnd;
             const restoreTop = input.scrollTop;
-            input.value = input.value.substring(0, startPos) + value + input.value.substring(endPos, input.value.length);
+            input.value = input.value.substring(0, startPos)
+                + value
+                + input.value.substring(endPos, input.value.length);
             if (restoreTop > 0) {
                 input.scrollTop = restoreTop;
             }
@@ -55,6 +57,7 @@ class ChatInput extends Component {
             input.focus();
         }
     }
+
     static compressImage(image, mimeType, quality = 1) {
         return new Promise((resolve) => {
             const canvas = document.createElement('canvas');
@@ -66,16 +69,24 @@ class ChatInput extends Component {
             canvas.toBlob(resolve, mimeType, quality);
         });
     }
+
     static propTypes = {
         isLogin: PropTypes.bool.isRequired,
-        focus: PropTypes.string,
-        connect: PropTypes.bool,
-        members: ImmutablePropTypes.list,
+        focus: PropTypes.string.isRequired,
+        connect: PropTypes.bool.isRequired,
+        members: ImmutablePropTypes.list.isRequired,
         userId: PropTypes.string,
         userName: PropTypes.string,
         userAvatar: PropTypes.string,
-        selfVoiceSwitch: PropTypes.bool,
+        selfVoiceSwitch: PropTypes.bool.isRequired,
+    };
+
+    static defaultProps = {
+        userId: '',
+        userName: '',
+        userAvatar: '',
     }
+
     constructor(...args) {
         super(...args);
         this.state = {
@@ -90,23 +101,31 @@ class ChatInput extends Component {
         };
         this.ime = false;
     }
+
     componentDidUpdate(prevProps) {
+        // eslint-disable-next-line react/destructuring-assignment
         if (this.props.focus !== prevProps.focus && this.message) {
             this.message.focus();
         }
     }
-    getSuggestion = () => this.props.members.filter((member) => {
-        const regex = new RegExp(`^${this.state.atContent}`);
-        if (regex.test(member.getIn(['user', 'username']))) {
-            return true;
-        }
-        return false;
-    })
+
+    getSuggestion = () =>
+        // eslint-disable-next-line react/destructuring-assignment
+        this.props.members.filter((member) => {
+            // eslint-disable-next-line react/destructuring-assignment
+            const regex = new RegExp(`^${this.state.atContent}`);
+            if (regex.test(member.getIn(['user', 'username']))) {
+                return true;
+            }
+            return false;
+        });
+
     handleVisibleChange = (visible) => {
         this.setState({
             expressionVisible: visible,
         });
-    }
+    };
+
     handleFeatureMenuClick = ({ key, domEvent }) => {
         // Quickly hitting the Enter key causes the button to repeatedly trigger the problem
         if (domEvent.keyCode === 13) {
@@ -114,40 +133,44 @@ class ChatInput extends Component {
         }
 
         switch (key) {
-        case 'image': {
-            this.handleSelectFile();
-            break;
+            case 'image': {
+                this.handleSelectFile();
+                break;
+            }
+            case 'huaji': {
+                this.sendHuaji();
+                break;
+            }
+            case 'code': {
+                this.setState({
+                    codeInputVisible: true,
+                });
+                break;
+            }
+            case 'expression': {
+                this.setState({
+                    expressionSearchVisible: true,
+                });
+                break;
+            }
+            default:
         }
-        case 'huaji': {
-            this.sendHuaji();
-            break;
-        }
-        case 'code': {
-            this.setState({
-                codeInputVisible: true,
-            });
-            break;
-        }
-        case 'expression': {
-            this.setState({
-                expressionSearchVisible: true,
-            });
-            break;
-        }
-        default:
-        }
-    }
+    };
+
     handleCodeEditorClose = () => {
         this.setState({
             codeInputVisible: false,
         });
-    }
+    };
+
     closeExpressionSearch = () => {
         this.setState({
             expressionSearchVisible: false,
         });
-    }
+    };
+
     handleSendCode = () => {
+        // eslint-disable-next-line react/destructuring-assignment
         if (!this.props.connect) {
             return Message.error('发送消息失败, 您当前处于离线状态');
         }
@@ -166,7 +189,10 @@ class ChatInput extends Component {
         setTimeout(() => {
             this.handleCodeEditorClose();
         }, 0);
-    }
+
+        return null;
+    };
+
     handleInputKeyDown = async (e) => {
         if (e.key === 'Tab') {
             e.preventDefault();
@@ -179,7 +205,8 @@ class ChatInput extends Component {
             this.setState({
                 expressionSearchVisible: true,
             });
-        } else if (e.key === '@') { // 如果按下@建, 则进入@计算模式
+        } else if (e.key === '@') {
+            // 如果按下@建, 则进入@计算模式
             if (!/@/.test(this.message.value)) {
                 this.setState({
                     at: true,
@@ -191,7 +218,9 @@ class ChatInput extends Component {
                     action.setGroupMembers(focus, result);
                 }
             }
-        } else if (this.state.at) { // 如果处于@计算模式
+        // eslint-disable-next-line react/destructuring-assignment
+        } else if (this.state.at) {
+            // 如果处于@计算模式
             const { key } = e;
             // 延时, 以便拿到新的value和ime状态
             setTimeout(() => {
@@ -224,33 +253,42 @@ class ChatInput extends Component {
                 }
             }, 100);
         }
-    }
+    };
+
     sendTextMessage = () => {
-        if (!this.props.connect) {
+        const { connect: connectStatus, userName } = this.props;
+        if (!connectStatus) {
             return Message.error('发送消息失败, 您当前处于离线状态');
         }
 
         const message = this.message.value.trim();
         if (message.length === 0) {
-            return;
+            return null;
         }
 
         if (/^invite::/.test(message)) {
             const groupName = message.replace('invite::', '');
-            const id = this.addSelfMessage('invite', JSON.stringify({
-                inviter: this.props.userName,
-                groupId: '',
-                groupName,
-            }));
+            const id = this.addSelfMessage(
+                'invite',
+                JSON.stringify({
+                    inviter: userName,
+                    groupId: '',
+                    groupName,
+                }),
+            );
             this.sendMessage(id, 'invite', groupName);
         } else {
             const id = this.addSelfMessage('text', xss(message));
             this.sendMessage(id, 'text', message);
         }
         this.message.value = '';
-    }
+        return null;
+    };
+
     addSelfMessage = (type, content) => {
-        const { userId, userName, userAvatar, focus, selfVoiceSwitch } = this.props;
+        const {
+            userId, userName, userAvatar, focus, selfVoiceSwitch,
+        } = this.props;
         const _id = focus + Date.now();
         const message = {
             _id,
@@ -272,16 +310,21 @@ class ChatInput extends Component {
 
         if (selfVoiceSwitch && type === 'text') {
             const text = content
-                .replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g, '')
+                .replace(
+                    /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g,
+                    '',
+                )
                 .replace(/#/g, '');
 
             if (text.length > 0 && text.length <= 100) {
-                voice.read(text);
+                voice.push(text);
             }
         }
 
         return _id;
-    }
+    };
+
+    // eslint-disable-next-line react/destructuring-assignment
     sendMessage = async (localId, type, content, focus = this.props.focus) => {
         const [err, res] = await fetch('sendMessage', {
             to: focus,
@@ -294,22 +337,30 @@ class ChatInput extends Component {
             res.loading = false;
             action.updateSelfMessage(focus, localId, res);
         }
-    }
+    };
+
     handleSelectExpression = (expression) => {
         this.handleVisibleChange(false);
         ChatInput.insertAtCursor(this.message, `#(${expression})`);
-    }
+    };
+
     sendImageMessage = (image) => {
         if (image.length > config.maxImageSize) {
             return Message.warning('要发送的图片过大', 3);
         }
 
-        const ext = image.type.split('/').pop().toLowerCase();
+        const ext = image.type
+            .split('/')
+            .pop()
+            .toLowerCase();
         const url = URL.createObjectURL(image.result);
 
         const img = new Image();
         img.onload = async () => {
-            const id = this.addSelfMessage('image', `${url}?width=${img.width}&height=${img.height}`);
+            const id = this.addSelfMessage(
+                'image',
+                `${url}?width=${img.width}&height=${img.height}`,
+            );
             try {
                 const { userId, focus } = this.props;
                 const imageUrl = await uploadFile(
@@ -320,35 +371,47 @@ class ChatInput extends Component {
                         action.updateSelfMessage(focus, id, { percent: info.total.percent });
                     },
                 );
-                this.sendMessage(id, 'image', `${imageUrl}?width=${img.width}&height=${img.height}`, focus);
+                this.sendMessage(
+                    id,
+                    'image',
+                    `${imageUrl}?width=${img.width}&height=${img.height}`,
+                    focus,
+                );
             } catch (err) {
                 console.error(err);
                 Message.error('上传图片失败');
             }
         };
         img.src = url;
-    }
+        return null;
+    };
+
     handleSelectFile = async () => {
+        // eslint-disable-next-line react/destructuring-assignment
         if (!this.props.connect) {
             return Message.error('发送消息失败, 您当前处于离线状态');
         }
         const image = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
         if (!image) {
-            return;
+            return null;
         }
         this.sendImageMessage(image);
-    }
+        return null;
+    };
+
     sendHuaji = async () => {
         const huaji = getRandomHuaji();
         const id = this.addSelfMessage('image', huaji);
         this.sendMessage(id, 'image', huaji);
-    }
+    };
+
     handlePaste = (e) => {
+        // eslint-disable-next-line react/destructuring-assignment
         if (!this.props.connect) {
             e.preventDefault();
             return Message.error('发送消息失败, 您当前处于离线状态');
         }
-        const { items, types } = (e.clipboardData || e.originalEvent.clipboardData);
+        const { items, types } = e.clipboardData || e.originalEvent.clipboardData;
 
         // 如果包含文件内容
         if (types.indexOf('Files') > -1) {
@@ -359,10 +422,14 @@ class ChatInput extends Component {
                     if (file) {
                         const that = this;
                         const reader = new FileReader();
-                        reader.onloadend = function () {
+                        reader.onloadend = function handleLoad() {
                             const image = new Image();
                             image.onload = async () => {
-                                const imageBlob = await ChatInput.compressImage(image, file.type, 0.8);
+                                const imageBlob = await ChatInput.compressImage(
+                                    image,
+                                    file.type,
+                                    0.8,
+                                );
                                 that.sendImageMessage({
                                     filename: file.name,
                                     ext: imageBlob.type.split('/').pop(),
@@ -379,13 +446,17 @@ class ChatInput extends Component {
             }
             e.preventDefault();
         }
-    }
+        return null;
+    };
+
     handleIMEStart = () => {
         this.ime = true;
-    }
+    };
+
     handleIMEEnd = () => {
         this.ime = false;
-    }
+    };
+
     searchExpression = async (keywords) => {
         if (keywords) {
             this.setState({
@@ -405,14 +476,17 @@ class ChatInput extends Component {
                 expressionSearchLoading: false,
             });
         }
-    }
+    };
+
     handleSearchExpressionButtonClick = () => {
         const keywords = this.expressionSearchKeyword.getValue();
         this.searchExpression(keywords);
-    }
+    };
+
     handleSearchExpressionInputEnter = (keywords) => {
         this.searchExpression(keywords);
-    }
+    };
+
     handleClickExpression = (e) => {
         const $target = e.target;
         if ($target.tagName === 'IMG') {
@@ -426,32 +500,30 @@ class ChatInput extends Component {
                 expressionSearchVisible: false,
             });
         }
-    }
+    };
+
     replaceAt = (username) => {
-        this.message.value = this.message.value.replace(`@${this.state.atContent}`, `@${username} `);
+        this.message.value = this.message.value.replace(
+            // eslint-disable-next-line react/destructuring-assignment
+            `@${this.state.atContent}`,
+            `@${username} `,
+        );
         this.setState({
             at: false,
             atContent: '',
         });
         this.message.focus();
-    }
-    expressionDropdown = (
-        <div className="expression-dropdown">
-            <Expression onSelect={this.handleSelectExpression} />
-        </div>
-    )
-    featureDropdown = (
-        <div className="feature-dropdown">
-            <Menu onClick={this.handleFeatureMenuClick}>
-                <MenuItem key="expression">发送表情包</MenuItem>
-                <MenuItem key="huaji">发送滑稽</MenuItem>
-                <MenuItem key="image">发送图片</MenuItem>
-                <MenuItem key="code">发送代码</MenuItem>
-            </Menu>
-        </div>
-    )
+    };
+
     render() {
-        const { expressionVisible, codeInputVisible, expressionSearchVisible, expressionSearchResults, expressionSearchLoading, at } = this.state;
+        const {
+            expressionVisible,
+            codeInputVisible,
+            expressionSearchVisible,
+            expressionSearchResults,
+            expressionSearchLoading,
+            at,
+        } = this.state;
         const { isLogin } = this.props;
 
         if (isLogin) {
@@ -461,19 +533,44 @@ class ChatInput extends Component {
                         trigger={['click']}
                         visible={expressionVisible}
                         onVisibleChange={this.handleVisibleChange}
-                        overlay={this.expressionDropdown}
+                        overlay={(
+                            <div className="expression-dropdown">
+                                <Expression onSelect={this.handleSelectExpression} />
+                            </div>
+                        )}
                         animation="slide-up"
                         placement="topLeft"
                     >
-                        <IconButton className="expression" width={44} height={44} icon="expression" iconSize={32} />
+                        <IconButton
+                            className="expression"
+                            width={44}
+                            height={44}
+                            icon="expression"
+                            iconSize={32}
+                        />
                     </Dropdown>
                     <Dropdown
                         trigger={['click']}
-                        overlay={this.featureDropdown}
+                        overlay={(
+                            <div className="feature-dropdown">
+                                <Menu onClick={this.handleFeatureMenuClick}>
+                                    <MenuItem key="expression">发送表情包</MenuItem>
+                                    <MenuItem key="huaji">发送滑稽</MenuItem>
+                                    <MenuItem key="image">发送图片</MenuItem>
+                                    <MenuItem key="code">发送代码</MenuItem>
+                                </Menu>
+                            </div>
+                        )}
                         animation="slide-up"
                         placement="topLeft"
                     >
-                        <IconButton className="feature" width={44} height={44} icon="feature" iconSize={32} />
+                        <IconButton
+                            className="feature"
+                            width={44}
+                            height={44}
+                            icon="feature"
+                            iconSize={32}
+                        />
                     </Dropdown>
                     <form autoComplete="off" action="javascript:void(0);">
                         <input
@@ -481,7 +578,7 @@ class ChatInput extends Component {
                             placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~"
                             maxLength="2048"
                             autofoucus="true"
-                            ref={i => this.message = i}
+                            ref={(i) => { this.message = i; }}
                             onKeyDown={this.handleInputKeyDown}
                             onPaste={this.handlePaste}
                             onCompositionStart={this.handleIMEStart}
@@ -489,7 +586,14 @@ class ChatInput extends Component {
                         />
                     </form>
 
-                    <IconButton className="send" width={44} height={44} icon="send" iconSize={32} onClick={this.sendTextMessage} />
+                    <IconButton
+                        className="send"
+                        width={44}
+                        height={44}
+                        icon="send"
+                        iconSize={32}
+                        onClick={this.sendTextMessage}
+                    />
                     <Dialog
                         className="codeEditor-dialog"
                         title="请输入要发送的代码"
@@ -497,8 +601,10 @@ class ChatInput extends Component {
                         onClose={this.handleCodeEditorClose}
                     >
                         <div className="container">
-                            <CodeEditor ref={i => this.codeEditor = i} />
-                            <button className="codeEditor-button" onClick={this.handleSendCode}>发送</button>
+                            <CodeEditor ref={(i) => { this.codeEditor = i; }} />
+                            <button className="codeEditor-button" onClick={this.handleSendCode} type="button">
+                                发送
+                            </button>
                         </div>
                     </Dialog>
                     <Dialog
@@ -509,49 +615,63 @@ class ChatInput extends Component {
                     >
                         <div className="container">
                             <div className="input-container">
-                                <Input ref={i => this.expressionSearchKeyword = i} onEnter={this.handleSearchExpressionInputEnter} />
-                                <Button onClick={this.handleSearchExpressionButtonClick}>搜索</Button>
+                                <Input
+                                    ref={(i) => { this.expressionSearchKeyword = i; }}
+                                    onEnter={this.handleSearchExpressionInputEnter}
+                                />
+                                <Button onClick={this.handleSearchExpressionButtonClick}>
+                                    搜索
+                                </Button>
                             </div>
                             <div className={`loading ${expressionSearchLoading ? 'show' : 'hide'}`}>
-                                <Loading type="spinningBubbles" color="#4A90E2" height={100} width={100} />
+                                <Loading
+                                    type="spinningBubbles"
+                                    color="#4A90E2"
+                                    height={100}
+                                    width={100}
+                                />
                             </div>
-                            <div className="expression-list" onClick={this.handleClickExpression}>
-                                {
-                                    expressionSearchResults.map((image, i) => (
-                                        <img src={image} key={i + image} referrerPolicy="no-referrer" />
-                                    ))
-                                }
+                            <div className="expression-list" onClick={this.handleClickExpression} role="button">
+                                {expressionSearchResults.map((image) => (
+                                    <img src={image} alt="表情" key={image} referrerPolicy="no-referrer" />
+                                ))}
                             </div>
                         </div>
                     </Dialog>
                     <div className="aite-panel">
-                        {
-                            at ?
-                                this.getSuggestion().map((member) => {
-                                    const username = member.getIn(['user', 'username']);
-                                    return (
-                                        <div key={member.getIn(['user', '_id'])} onClick={this.replaceAt.bind(this, username)}>
-                                            <Avatar size={24} src={member.getIn(['user', 'avatar'])} />
-                                            <p>{username}</p>
-                                        </div>
-                                    );
-                                })
-                                :
-                                null
-                        }
+                        {at
+                            ? this.getSuggestion().map((member) => {
+                                const username = member.getIn(['user', 'username']);
+                                return (
+                                    <div
+                                        key={member.getIn(['user', '_id'])}
+                                        onClick={this.replaceAt.bind(this, username)}
+                                        role="button"
+                                    >
+                                        <Avatar
+                                            size={24}
+                                            src={member.getIn(['user', 'avatar'])}
+                                        />
+                                        <p>{username}</p>
+                                    </div>
+                                );
+                            })
+                            : null}
                     </div>
                 </div>
             );
         }
         return (
             <div className="chat-chatInput guest">
-                <p>游客朋友你好, 请<b onClick={ChatInput.handleLogin}>登录</b>后参与聊天</p>
+                <p>
+                    游客朋友你好, 请<b onClick={ChatInput.handleLogin} role="button">登录</b>后参与聊天
+                </p>
             </div>
         );
     }
 }
 
-export default connect(state => ({
+export default connect((state) => ({
     isLogin: !!state.getIn(['user', '_id']),
     connect: state.get('connect'),
     focus: state.get('focus'),
@@ -560,4 +680,3 @@ export default connect(state => ({
     userAvatar: state.getIn(['user', 'avatar']),
     selfVoiceSwitch: state.getIn(['ui', 'selfVoiceSwitch']),
 }))(ChatInput);
-
