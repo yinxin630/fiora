@@ -12,7 +12,7 @@
     "move-dist": "rm -rf public/audio && rm -rf public/avatar && rm -rf public/css && rm -rf public/fonts && rm -rf public/img && rm -rf public/js && mv -f dist/fiora/* public"
   },
   "pre-commit": [
-
+    "lint"
   ],
   "dependencies": {
     "axios": "^0.18.0",
