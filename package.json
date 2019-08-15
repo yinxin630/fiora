@@ -67,6 +67,9 @@
     "xss": "^0.3.7"
   },
   "devDependencies": {
+    "@types/koa": "^2.0.49",
+    "@types/koa-send": "^4.1.2",
+    "@types/koa-static": "^4.0.1",
     "@types/mongoose": "^5.5.12",
     "@types/node": "^12.7.1",
     "@types/react": "^16.9.1",

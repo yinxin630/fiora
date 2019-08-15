@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import 'normalize.css';
 
+import '../types/koa';
+
 import action from './state/action';
 import Dialog from './components/Dialog';
 import Main from './modules/main/Main';

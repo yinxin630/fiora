@@ -1,27 +1,30 @@
-import Socket from './models/socket';
+import Koa from 'koa';
+import IO from 'koa-socket-2';
+import koaSend from 'koa-send';
+import koaStatic from 'koa-static';
+import path from 'path';
 
+import Socket from './models/socket';
 import config from '../config/server';
 
-const Koa = require('koa');
-const IO = require('koa-socket-2');
-const koaSend = require('koa-send');
-const koaStatic = require('koa-static');
-const path = require('path');
-
-const enhanceContext = require('./middlewares/enhanceContext');
-const log = require('./middlewares/log');
-const catchError = require('./middlewares/catchError');
-const seal = require('./middlewares/seal');
-const frequency = require('./middlewares/frequency');
-const isLogin = require('./middlewares/isLogin');
-const route = require('./middlewares/route');
-const isAdmin = require('./middlewares/isAdmin');
+import enhanceContext from './middlewares/enhanceContext';
+import log from './middlewares/log';
+import catchError from './middlewares/catchError';
+import seal from './middlewares/seal';
+import frequency from './middlewares/frequency';
+import isLogin from './middlewares/isLogin';
+import route from './middlewares/route';
+import isAdmin from './middlewares/isAdmin';
 
 const userRoutes = require('./routes/user');
 const groupRoutes = require('./routes/group');
 const messageRoutes = require('./routes/message');
 const qiniuRoutes = require('./routes/qiniu');
 const systemRoutes = require('./routes/system');
+
+interface App {
+    _io: string;
+}
 
 const app = new Koa();
 
@@ -63,6 +66,7 @@ const io = new IO({
 io.attach(app);
 
 if (process.env.NODE_ENV === 'production' && config.allowOrigin) {
+    // @ts-ignore
     app._io.origins(config.allowOrigin);
 }
 
@@ -76,13 +80,16 @@ io.use(frequency());
 io.use(isLogin());
 io.use(isAdmin());
 io.use(route(
+    // @ts-ignore
     app.io,
+    // @ts-ignore
     app._io,
     {
         ...userRoutes, ...groupRoutes, ...messageRoutes, ...qiniuRoutes, ...systemRoutes,
     },
 ));
 
+// @ts-ignore
 app.io.on('connection', async (ctx) => {
     console.log(`  <<<< connection ${ctx.socket.id} ${ctx.socket.request.connection.remoteAddress}`);
     await Socket.create({

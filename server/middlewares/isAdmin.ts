@@ -1,9 +1,10 @@
 import config from '../../config/server';
+import { KoaContext } from '../../types/koa';
 
 /**
- * 管理员功能控制器
+ * 拦截非管理员用户请求需要管理员权限的接口
  */
-module.exports = function isAdmin() {
+export default function isAdmin() {
     /**
      * 需要管理员权限的接口
      */
@@ -12,7 +13,7 @@ module.exports = function isAdmin() {
         getSealList: true,
         resetUserPassword: true,
     };
-    return async (ctx, next) => {
+    return async (ctx: KoaContext, next: Function) => {
         if (
             adminEvent[ctx.event]
                 && ctx.socket.user.toString() !== config.administrator
@@ -22,4 +23,4 @@ module.exports = function isAdmin() {
         }
         await next();
     };
-};
+}

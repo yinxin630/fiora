@@ -1,7 +1,9 @@
+import { KoaContext } from '../../types/koa';
+
 /**
- * 拦截未登录请求
+ * 拦截未登录用户请求需要登录态的接口
  */
-module.exports = function isLogin() {
+export default function isLogin() {
     const noUseLoginEvent = {
         register: true,
         login: true,
@@ -10,11 +12,11 @@ module.exports = function isLogin() {
         getDefalutGroupHistoryMessages: true,
         getDefaultGroupOnlineMembers: true,
     };
-    return async (ctx, next) => {
+    return async (ctx: KoaContext, next: Function) => {
         if (!noUseLoginEvent[ctx.event] && !ctx.socket.user) {
             ctx.res = '请登录后再试';
             return;
         }
         await next();
     };
-};
+}

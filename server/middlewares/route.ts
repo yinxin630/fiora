@@ -1,20 +1,23 @@
+import { Context } from 'koa';
+import { KoaRoutes } from '../../types/koa';
+
 function noop() {}
 
 /**
  * 路由处理
- * @param {IO} io koa socket io实例
- * @param {Object} routes 路由
+ * @param io koa socket io实例
+ * @param _io socket.io 实例
+ * @param routes 路由
  */
-module.exports = function route(io, _io, routes) {
+export default function route(io, _io, routes: KoaRoutes) {
+    // 注册事件, 不然该接口是不走所有中间件的
     Object.keys(routes).forEach((routeName) => {
-        io.on(routeName, noop); // 注册事件
+        io.on(routeName, noop);
     });
 
-    return async (ctx) => {
-        // 判断路由是否存在
+    return async (ctx: Context) => {
         if (routes[ctx.event]) {
             const { event, data, socket } = ctx;
-            // 执行路由并获取返回数据
             ctx.res = await routes[ctx.event]({
                 event, // 事件名
                 data, // 请求数据
@@ -24,4 +27,4 @@ module.exports = function route(io, _io, routes) {
             });
         }
     };
-};
+}
