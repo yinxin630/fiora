@@ -11,8 +11,11 @@ const Socket = require('./models/socket');
 const Group = require('./models/group');
 const getRandomAvatar = require('../utils/getRandomAvatar');
 
+// @ts-ignore
 global.mdb = new Map(); // 作为内存数据库使用
+// @ts-ignore
 global.mdb.set('sealList', new Set()); // 封禁用户列表
+// @ts-ignore
 global.mdb.set('newUserList', new Set()); // 新注册用户列表
 
 mongoose.Promise = Promise;

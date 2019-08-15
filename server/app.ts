@@ -4,7 +4,7 @@ const koaSend = require('koa-send');
 const koaStatic = require('koa-static');
 const path = require('path');
 
-const enhanceContext = require('./middlewares/enhanceContext.js');
+const enhanceContext = require('./middlewares/enhanceContext');
 const log = require('./middlewares/log');
 const catchError = require('./middlewares/catchError');
 const seal = require('./middlewares/seal');
