@@ -6,9 +6,9 @@ const { SealText, SealTimeout } = require('./const');
 /** 用户是否被封禁 */
 let isSeal = false;
 
-export default function fetch(event, data = {}, {
+export default function fetch<T = any>(event: string, data = {}, {
     toast = true,
-} = {}) {
+} = {}): Promise<[string, T]> {
     if (isSeal) {
         Message.error(SealText);
         return Promise.resolve([SealText, null]);

@@ -1,10 +1,23 @@
+interface ReadFileResult {
+    /** 文件名 */
+    filename: string;
+    /** 文件拓展名 */
+    ext: string;
+    /** 文件类型 */
+    type: string;
+    /** 文件内容 */
+    result: Blob | ArrayBuffer | string;
+    /** 文件长度 */
+    length: number;
+}
+
 /**
  * 读取本地文件
  * @param {string} resultType 数据类型, {blob|base64}, 默认blob
  * @param {string} accept 可选文件类型, 默认 * / *
  */
 export default async function readDiskFIle(resultType = 'blob', accept = '*/*') {
-    const result = await new Promise((resolve) => {
+    const result: ReadFileResult = await new Promise((resolve) => {
         const $input = document.createElement('input');
         $input.style.display = 'none';
         $input.setAttribute('type', 'file');
@@ -22,7 +35,7 @@ export default async function readDiskFIle(resultType = 'blob', accept = '*/*') 
                 }, 500);
             };
         };
-        $input.onchange = (e) => {
+        $input.onchange = (e: Event) => {
             const file = e.target.files[0];
             if (!file) {
                 return;
@@ -32,10 +45,16 @@ export default async function readDiskFIle(resultType = 'blob', accept = '*/*') 
             reader.onloadend = function handleLoad() {
                 resolve({
                     filename: file.name,
-                    ext: file.name.split('.').pop().toLowerCase(),
+                    ext: file.name
+                        .split('.')
+                        .pop()
+                        .toLowerCase(),
                     type: file.type,
                     result: this.result,
-                    length: resultType === 'blob' ? this.result.byteLength : this.result.length,
+                    length:
+                        resultType === 'blob'
+                            ? (this.result as ArrayBuffer).byteLength
+                            : (this.result as string).length,
                 });
             };
 
@@ -57,7 +76,9 @@ export default async function readDiskFIle(resultType = 'blob', accept = '*/*') 
     });
 
     if (result && resultType === 'blob') {
-        result.result = new Blob([new Uint8Array(result.result)], { type: result.type });
+        result.result = new Blob([new Uint8Array(result.result as ArrayBuffer)], {
+            type: result.type,
+        });
     }
     return result;
 }

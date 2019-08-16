@@ -8,6 +8,7 @@ export default function booleanStateDecorator(values) {
         class BooleanStateDecoratorWrap extends target {
             constructor(...args) {
                 super(...args);
+                // @ts-ignore
                 this.state = this.state || {};
 
                 Object.keys(values).forEach((key) => {
