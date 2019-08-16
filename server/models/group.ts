@@ -32,7 +32,7 @@ const GroupSchema = new Schema({
     ],
 });
 
-declare interface GroupDocument extends Document {
+export declare interface GroupDocument extends Document {
     /** 数据库 id */
     _id: Schema.Types.ObjectId;
     /** 群组名 */

@@ -1,26 +1,30 @@
 import assert from 'assert';
+import { Types } from 'mongoose';
 
-import Group from '../models/group';
+import Group, { GroupDocument } from '../models/group';
 import Socket from '../models/socket';
 import Message from '../models/message';
 
-const { isValid } = require('mongoose').Types.ObjectId;
+import config from '../../config/server';
+import getRandomAvatar from '../../utils/getRandomAvatar';
+import { KoaContext } from '../../types/koa';
 
-const config = require('../../config/server');
-const getRandomAvatar = require('../../utils/getRandomAvatar');
+const { isValid } = Types.ObjectId;
 
-async function getGroupOnlineMembers(group) {
-    const sockets = await Socket
-        .find(
-            { user: group.members },
-            {
-                os: 1, browser: 1, environment: 1, user: 1,
-            },
-        )
-        .populate(
-            'user',
-            { username: 1, avatar: 1 },
-        );
+/**
+ * 获取指定群组的在线用户辅助方法
+ * @param group 群组
+ */
+async function getGroupOnlineMembersHelper(group: GroupDocument) {
+    const sockets = await Socket.find(
+        { user: group.members },
+        {
+            os: 1,
+            browser: 1,
+            environment: 1,
+            user: 1,
+        },
+    ).populate('user', { username: 1, avatar: 1 });
     const filterSockets = sockets.reduce((result, socket) => {
         result[socket.user.toString()] = socket;
         return result;
@@ -28,179 +32,236 @@ async function getGroupOnlineMembers(group) {
     return Object.values(filterSockets);
 }
 
-module.exports = {
-    async createGroup(ctx) {
-        const ownGroupCount = await Group.count({ creator: ctx.socket.user });
-        assert(ownGroupCount < config.maxGroupsCount, `创建群组失败, 你已经创建了${config.maxGroupsCount}个群组`);
+interface CreateGroupData {
+    /** 群组名 */
+    name: string;
+}
 
-        const { name } = ctx.data;
-        assert(name, '群组名不能为空');
+/**
+ * 创建群组
+ * @param ctx Context
+ */
+export async function createGroup(ctx: KoaContext<CreateGroupData>) {
+    const ownGroupCount = await Group.count({ creator: ctx.socket.user });
+    assert(
+        ownGroupCount < config.maxGroupsCount,
+        `创建群组失败, 你已经创建了${config.maxGroupsCount}个群组`,
+    );
 
-        const group = await Group.findOne({ name });
-        assert(!group, '该群组已存在');
+    const { name } = ctx.data;
+    assert(name, '群组名不能为空');
 
-        let newGroup = null;
-        try {
-            newGroup = await Group.create({
-                name,
-                avatar: getRandomAvatar(),
-                creator: ctx.socket.user,
-                members: [ctx.socket.user],
-            });
-        } catch (err) {
-            if (err.name === 'ValidationError') {
-                return '群组名包含不支持的字符或者长度超过限制';
-            }
-            throw err;
+    const group = await Group.findOne({ name });
+    assert(!group, '该群组已存在');
+
+    let newGroup = null;
+    try {
+        newGroup = await Group.create({
+            name,
+            avatar: getRandomAvatar(),
+            creator: ctx.socket.user,
+            members: [ctx.socket.user],
+        });
+    } catch (err) {
+        if (err.name === 'ValidationError') {
+            return '群组名包含不支持的字符或者长度超过限制';
         }
+        throw err;
+    }
 
-        ctx.socket.join(newGroup._id);
-        return {
-            _id: newGroup._id,
-            name: newGroup.name,
-            avatar: newGroup.avatar,
-            createTime: newGroup.createTime,
-            creator: newGroup.creator,
-        };
-    },
-    async joinGroup(ctx) {
-        const { groupId } = ctx.data;
-        assert(isValid(groupId), '无效的群组ID');
+    ctx.socket.join(newGroup._id);
+    return {
+        _id: newGroup._id,
+        name: newGroup.name,
+        avatar: newGroup.avatar,
+        createTime: newGroup.createTime,
+        creator: newGroup.creator,
+    };
+}
 
-        const group = await Group.findOne({ _id: groupId });
-        assert(group, '加入群组失败, 群组不存在');
-        assert(group.members.indexOf(ctx.socket.user) === -1, '你已经在群组中');
+interface JoinGroupData {
+    /** 目标群id */
+    groupId: string;
+}
 
-        group.members.push(ctx.socket.user);
-        await group.save();
+/**
+ * 加入群组
+ * @param ctx Context
+ */
+export async function joinGroup(ctx: KoaContext<JoinGroupData>) {
+    const { groupId } = ctx.data;
+    assert(isValid(groupId), '无效的群组ID');
 
-        const messages = await Message
-            .find(
-                { toGroup: groupId },
-                {
-                    type: 1, content: 1, from: 1, createTime: 1,
-                },
-                { sort: { createTime: -1 }, limit: 3 },
-            )
-            .populate('from', { username: 1, avatar: 1 });
-        messages.reverse();
+    const group = await Group.findOne({ _id: groupId });
+    assert(group, '加入群组失败, 群组不存在');
+    assert(group.members.indexOf(ctx.socket.user) === -1, '你已经在群组中');
 
-        ctx.socket.join(group._id);
+    group.members.push(ctx.socket.user);
+    await group.save();
 
-        return {
-            _id: group._id,
-            name: group.name,
-            avatar: group.avatar,
-            createTime: group.createTime,
-            creator: group.creator,
-            messages,
-        };
-    },
-    async leaveGroup(ctx) {
-        const { groupId } = ctx.data;
-        assert(isValid(groupId), '无效的群组ID');
+    const messages = await Message.find(
+        { toGroup: groupId },
+        {
+            type: 1,
+            content: 1,
+            from: 1,
+            createTime: 1,
+        },
+        { sort: { createTime: -1 }, limit: 3 },
+    ).populate('from', { username: 1, avatar: 1 });
+    messages.reverse();
 
-        const group = await Group.findOne({ _id: groupId });
-        assert(group, '群组不存在');
+    ctx.socket.join(group._id.toString());
 
-        // 默认群组没有creator
-        if (group.creator) {
-            assert(group.creator.toString() !== ctx.socket.user.toString(), '群主不可以退出自己创建的群');
-        }
+    return {
+        _id: group._id,
+        name: group.name,
+        avatar: group.avatar,
+        createTime: group.createTime,
+        creator: group.creator,
+        messages,
+    };
+}
 
-        const index = group.members.indexOf(ctx.socket.user);
-        assert(index !== -1, '你不在群组中');
+interface LeaveGroupData {
+    /** 目标群id */
+    groupId: string;
+}
 
-        group.members.splice(index, 1);
-        await group.save();
+/**
+ * 退出群组
+ * @param ctx Context
+ */
+export async function leaveGroup(ctx: KoaContext<LeaveGroupData>) {
+    const { groupId } = ctx.data;
+    assert(isValid(groupId), '无效的群组ID');
 
-        ctx.socket.leave(group._id);
+    const group = await Group.findOne({ _id: groupId });
+    assert(group, '群组不存在');
 
-        return {};
-    },
-    async getGroupOnlineMembers(ctx) {
-        const { groupId } = ctx.data;
-        assert(isValid(groupId), '无效的群组ID');
+    // 默认群组没有creator
+    if (group.creator) {
+        assert(
+            group.creator.toString() !== ctx.socket.user.toString(),
+            '群主不可以退出自己创建的群',
+        );
+    }
 
-        const group = await Group.findOne({ _id: groupId });
-        assert(group, '群组不存在');
-        return getGroupOnlineMembers(group);
-    },
-    async getDefaultGroupOnlineMembers() {
-        const group = await Group.findOne({ isDefault: true });
-        assert(group, '群组不存在');
-        return getGroupOnlineMembers(group);
-    },
+    const index = group.members.indexOf(ctx.socket.user);
+    assert(index !== -1, '你不在群组中');
 
-    /**
-     * Modify the group avatar, only the group owner is available
-     * @param {Object} ctx context
-     * @param {Object} ctx.data interface params
-     * @param {string} ctx.data.groupId to change the group id of the avatar
-     * @param {string} ctx.data.avatar new avatar url
-     * @returns {Object}
-     */
-    async changeGroupAvatar(ctx) {
-        const { groupId, avatar } = ctx.data;
-        assert(isValid(groupId), '无效的群组ID');
-        assert(avatar, '头像地址不能为空');
+    group.members.splice(index, 1);
+    await group.save();
 
-        const group = await Group.findOne({ _id: groupId });
-        assert(group, '群组不存在');
-        assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能修改头像');
+    ctx.socket.leave(group._id.toString());
 
-        await Group.updateOne({ _id: groupId }, { avatar });
-        return {};
-    },
+    return {};
+}
 
-    /**
-     * Modify the group name, only the group owner is available
-     * @param {Object} ctx context
-     * @param {Object} ctx.data interface params
-     * @param {string} ctx.data.groupId to change the group id of the avatar
-     * @param {string} ctx.data.name new name
-     * @returns {Object}
-     */
-    async changeGroupName(ctx) {
-        const { groupId, name } = ctx.data;
-        assert(isValid(groupId), '无效的群组ID');
-        assert(name, '群组名称不能为空');
+interface GetGroupOnlineMembersData {
+    /** 目标群id */
+    groupId: string;
+}
 
-        const group = await Group.findOne({ _id: groupId });
-        assert(group, '群组不存在');
-        assert(group.name !== name, '新群组名不能和之前一致');
-        assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能修改头像');
+/**
+ * 获取群组在线成员
+ * @param ctx Context
+ */
+export async function getGroupOnlineMembers(ctx: KoaContext<GetGroupOnlineMembersData>) {
+    const { groupId } = ctx.data;
+    assert(isValid(groupId), '无效的群组ID');
 
-        const targetGroup = await Group.findOne({ name });
-        assert(!targetGroup, '该群组名已存在');
+    const group = await Group.findOne({ _id: groupId });
+    assert(group, '群组不存在');
+    return getGroupOnlineMembersHelper(group);
+}
 
-        await Group.updateOne({ _id: groupId }, { name });
+/**
+ * 获取默认群组的在线成员
+ * 无需登录态
+ */
+export async function getDefaultGroupOnlineMembers() {
+    const group = await Group.findOne({ isDefault: true });
+    assert(group, '群组不存在');
+    return getGroupOnlineMembersHelper(group);
+}
 
-        ctx.socket.to(groupId).emit('changeGroupName', { groupId, name });
+interface ChangeGroupAvatarData {
+    /** 目标群组id */
+    groupId: string;
+    /** 新头像 */
+    avatar: string;
+}
 
-        return {};
-    },
+/**
+ * 修改群头像, 只有群创建者有权限
+ * @param ctx Context
+ */
+export async function changeGroupAvatar(ctx: KoaContext<ChangeGroupAvatarData>) {
+    const { groupId, avatar } = ctx.data;
+    assert(isValid(groupId), '无效的群组ID');
+    assert(avatar, '头像地址不能为空');
 
-    /**
-     * Delete group, only the group owner is available
-     * @param {Object} ctx context
-     * @param {Object} ctx.data interface params
-     * @param {string} ctx.data.groupId to change the group id of the avatar
-     * @returns {Object}
-     */
-    async deleteGroup(ctx) {
-        const { groupId } = ctx.data;
-        assert(isValid(groupId), '无效的群组ID');
+    const group = await Group.findOne({ _id: groupId });
+    assert(group, '群组不存在');
+    assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能修改头像');
 
-        const group = await Group.findOne({ _id: groupId });
-        assert(group, '群组不存在');
-        assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能解散群组');
-        assert(group.isDefault !== true, '默认群组不允许解散');
+    await Group.updateOne({ _id: groupId }, { avatar });
+    return {};
+}
 
-        await group.remove();
+interface ChangeGroupNameData {
+    /** 目标群组id */
+    groupId: string;
+    /** 新名称 */
+    name: string;
+}
 
-        ctx.socket.to(groupId).emit('deleteGroup', { groupId });
+/**
+ * 修改群组头像, 只有群创建者有权限
+ * @param ctx Context
+ */
+export async function changeGroupName(ctx: KoaContext<ChangeGroupNameData>) {
+    const { groupId, name } = ctx.data;
+    assert(isValid(groupId), '无效的群组ID');
+    assert(name, '群组名称不能为空');
 
-        return {};
-    },
-};
+    const group = await Group.findOne({ _id: groupId });
+    assert(group, '群组不存在');
+    assert(group.name !== name, '新群组名不能和之前一致');
+    assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能修改头像');
+
+    const targetGroup = await Group.findOne({ name });
+    assert(!targetGroup, '该群组名已存在');
+
+    await Group.updateOne({ _id: groupId }, { name });
+
+    ctx.socket.to(groupId).emit('changeGroupName', { groupId, name });
+
+    return {};
+}
+
+interface DeleteGroupData {
+    /** 目标群组id */
+    groupId: string;
+}
+
+/**
+ * 删除群组, 只有群创建者有权限
+ * @param ctx Context
+ */
+export async function deleteGroup(ctx: KoaContext<DeleteGroupData>) {
+    const { groupId } = ctx.data;
+    assert(isValid(groupId), '无效的群组ID');
+
+    const group = await Group.findOne({ _id: groupId });
+    assert(group, '群组不存在');
+    assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能解散群组');
+    assert(group.isDefault !== true, '默认群组不允许解散');
+
+    await group.remove();
+
+    ctx.socket.to(groupId).emit('deleteGroup', { groupId });
+
+    return {};
+}

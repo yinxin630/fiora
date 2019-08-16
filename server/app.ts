@@ -16,15 +16,11 @@ import isLogin from './middlewares/isLogin';
 import route from './middlewares/route';
 import isAdmin from './middlewares/isAdmin';
 
-const userRoutes = require('./routes/user');
-const groupRoutes = require('./routes/group');
-const messageRoutes = require('./routes/message');
-const qiniuRoutes = require('./routes/qiniu');
-const systemRoutes = require('./routes/system');
-
-interface App {
-    _io: string;
-}
+import * as userRoutes from './routes/user';
+import * as groupRoutes from './routes/group';
+import * as messageRoutes from './routes/message';
+import * as qiniuRoutes from './routes/qiniu';
+import * as systemRoutes from './routes/system';
 
 const app = new Koa();
 

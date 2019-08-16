@@ -98,6 +98,13 @@
   resolved "https://registry.npm.taobao.org/@types/http-assert/download/@types/http-assert-1.5.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fhttp-assert%2Fdownload%2F%40types%2Fhttp-assert-1.5.0.tgz#56c95c69b51e7168b0d6727005d1fb2a00aaef94"
   integrity sha1-VslcabUecWiw1nJwBdH7KgCq75Q=
 
+"@types/ip@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.npm.taobao.org/@types/ip/download/@types/ip-1.1.0.tgz#aec4f5bfd49e4a4c53b590d88c36eb078827a7c0"
+  integrity sha1-rsT1v9SeSkxTtZDYjDbrB4gnp8A=
+  dependencies:
+    "@types/node" "*"
+
 "@types/json-schema@^7.0.3":
   version "7.0.3"
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.3.tgz#bdfd69d61e464dcc81b25159c270d75a73c1a636"

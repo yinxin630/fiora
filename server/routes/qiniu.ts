@@ -1,25 +1,30 @@
-const qiniu = require('qiniu');
-const config = require('../../config/server');
+import qiniu from 'qiniu';
+import config from '../../config/server';
 
 const mac = new qiniu.auth.digest.Mac(config.qiniuAccessKey, config.qiniuSecretKey);
 const options = {
     scope: config.qiniuBucket,
     expires: 60,
 };
-const configNotEmpty = config.qiniuAccessKey !== '' && config.qiniuSecretKey !== '' && config.qiniuBucket !== '' && config.qiniuUrlPrefix !== '';
+const configNotEmpty = config.qiniuAccessKey !== ''
+    && config.qiniuSecretKey !== ''
+    && config.qiniuBucket !== ''
+    && config.qiniuUrlPrefix !== '';
 
-module.exports = {
-    async uploadToken() {
-        if (configNotEmpty) {
-            const putPolicy = new qiniu.rs.PutPolicy(options);
-            const uploadToken = putPolicy.uploadToken(mac);
-            return {
-                token: uploadToken,
-                urlPrefix: config.qiniuUrlPrefix,
-            };
-        }
+/**
+ * 获取七牛上传token
+ */
+// eslint-disable-next-line import/prefer-default-export
+export async function uploadToken() {
+    if (configNotEmpty) {
+        const putPolicy = new qiniu.rs.PutPolicy(options);
+        const token = putPolicy.uploadToken(mac);
         return {
-            useUploadFile: true,
+            token,
+            urlPrefix: config.qiniuUrlPrefix,
         };
-    },
-};
+    }
+    return {
+        useUploadFile: true,
+    };
+}

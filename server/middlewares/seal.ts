@@ -1,7 +1,6 @@
 import { existMemoryData, MemoryDataStorageKey } from '../memoryData';
 import { KoaContext } from '../../types/koa';
-
-const { SealText } = require('../../utils/const');
+import { SealText } from '../../utils/const';
 
 /**
  * 拦截被封禁用户的请求
