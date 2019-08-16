@@ -2,7 +2,7 @@ const options = require('../utils/commandOptions');
 
 const { env } = process;
 
-module.exports = {
+export default {
     // service port
     port: options.port || env.Port || 9200,
 
