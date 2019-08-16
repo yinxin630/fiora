@@ -5,7 +5,7 @@
   "author": "碎碎酱 <yinxin630@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "server": "./node_modules/.bin/cross-env NODE_ENV=development && nodemon server/main.ts --exec 'ts-node' --config .nodemonrc",
+    "server": "./node_modules/.bin/cross-env NODE_ENV=development && nodemon server/main.ts --exec './node_modules/.bin/ts-node' --config .nodemonrc",
     "client": "node build/dev-server.js",
     "build": "node build/build.js",
     "lint": "./node_modules/.bin/eslint ./ --ext js,jsx,ts,tsx --ignore-pattern .eslintignore --cache",
