@@ -23,9 +23,8 @@ import Expression from './Expression';
 import CodeEditor from './CodeEditor';
 import config from '../../../../../config/client';
 import voice from '../../../../../utils/voice';
-
-const xss = require('../../../../../utils/xss');
-const Url = require('../../../../../utils/url');
+import xss from '../../../../../utils/xss';
+import { addParam } from '../../../../../utils/url';
 
 @immutableRenderDecorator
 class ChatInput extends Component {
@@ -490,7 +489,7 @@ class ChatInput extends Component {
     handleClickExpression = (e) => {
         const $target = e.target;
         if ($target.tagName === 'IMG') {
-            const url = Url.addParam($target.src, {
+            const url = addParam($target.src, {
                 width: $target.naturalWidth,
                 height: $target.naturalHeight,
             });

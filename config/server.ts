@@ -1,4 +1,4 @@
-const options = require('../utils/commandOptions');
+import options from '../utils/commandOptions';
 
 const { env } = process;
 

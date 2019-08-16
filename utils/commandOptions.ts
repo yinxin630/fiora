@@ -1,4 +1,4 @@
-const commandLineArgs = require('command-line-args');
+import commandLineArgs from 'command-line-args';
 
 const optionDefinitions = [
     { name: 'database', type: String },
@@ -13,4 +13,21 @@ const optionDefinitions = [
     { name: 'port', type: Number },
     { name: 'administrator', type: String },
 ];
-module.exports = commandLineArgs(optionDefinitions);
+
+interface CommandArgs {
+    database: string;
+    jwtSecret: string;
+    qiniuAccessKey: string;
+    qiniuSecretKey: string;
+    qiniuBucket: string;
+    qiniuUrlPrefix: string;
+    allowOrigin: string[];
+    publicPath: string;
+    subDirectory: string;
+    port: number;
+    administrator: string;
+}
+
+const args: CommandArgs = commandLineArgs(optionDefinitions);
+
+export default args;
