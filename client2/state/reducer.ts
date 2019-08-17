@@ -1,9 +1,43 @@
 import { isMobile } from '../../utils/ua';
 import getData from '../localStorage';
-import { Action, ActionTypes } from './action';
+import { Action, ActionTypes, SetUserPayload } from './action';
 
+/** 聊天消息 */
+export interface Message {
+
+}
+
+export interface MessagesMap {
+    [messageId: string]: Message;
+}
+
+/** 群组 */
+export interface Group {
+    _id: string;
+    name: string;
+    avatar: string;
+    messages: MessagesMap;
+}
+
+/** 好友 */
+export interface Friend {
+    _id: string;
+}
+
+/** 联系人 */
+export type Linkman = Group | Friend;
+
+export interface LinkmansMap {
+    [linkmanId: string]: Linkman;
+}
+
+/** 用户信息 */
 export interface User {
-
+    _id: string;
+    username: string;
+    avatar: string;
+    isAdmin: boolean;
+    linkmans: LinkmansMap;
 }
 
 /** 声音提醒类型 */
@@ -16,7 +50,7 @@ export interface State {
     /** 用户信息 */
     user: User;
     /** 聚焦的联系人 */
-    focus: '';
+    focus: string;
     /** 客户端连接状态 */
     connect: boolean;
     /** 客户端的一些状态值 */
@@ -46,13 +80,20 @@ export interface State {
     }
 }
 
+function getLinkmansMap(linkmans: Linkman[]) {
+    return linkmans.reduce((map: LinkmansMap, linkman) => {
+        map[linkman._id] = linkman;
+        return map;
+    }, {});
+}
+
 const localStorage = getData();
 const initialState: State = {
     user: null,
     focus: '',
     connect: true,
     status: {
-        showLoginDialog: false,
+        showLoginDialog: true,
         primaryColor: localStorage.primaryColor,
         primaryTextColor: localStorage.primaryTextColor,
         backgroundImage: localStorage.backgroundImage,
@@ -66,10 +107,42 @@ const initialState: State = {
     },
 };
 
-function reducer(state: State = initialState, action: Action) {
+function reducer(state: State = initialState, action: Action): State {
     switch (action.type) {
+        case ActionTypes.SetGuest: {
+            const group = action.payload as Group;
+            return {
+                ...state,
+                user: {
+                    _id: '',
+                    username: '',
+                    avatar: '',
+                    isAdmin: false,
+                    linkmans: {
+                        [group._id]: group,
+                    },
+                },
+                focus: group._id,
+            };
+        }
+
         case ActionTypes.SetUser: {
-            return state;
+            const {
+                _id, username, avatar, groups, friends, isAdmin,
+            } = action.payload as SetUserPayload;
+            const linkmans: Linkman[] = [...groups, ...friends];
+            const focus = linkmans.length > 0 ? linkmans[0]._id : '';
+            return {
+                ...state,
+                user: {
+                    _id,
+                    username,
+                    avatar,
+                    linkmans: getLinkmansMap(linkmans),
+                    isAdmin,
+                },
+                focus,
+            };
         }
 
         default:

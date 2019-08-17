@@ -11,6 +11,8 @@ import './assets/styles/iconfont.less';
 import Style from './App.less';
 import { isMobile } from '../utils/ua';
 import { State } from './state/reducer';
+import Dialog from './components/Dialog';
+import Login from '../client/modules/main/login/Login';
 
 /**
  * 获取窗口宽度百分比
@@ -96,7 +98,13 @@ function App() {
             <div className={Style.child} style={childStyle}>
                 {/* <Main /> */}
             </div>
-            {showLoginDialog}
+            <Dialog
+                visible={showLoginDialog}
+                closable={false}
+                onClose={() => console.log('action.closeLoginDialog')}
+            >
+                <Login />
+            </Dialog>
         </div>
     );
 }

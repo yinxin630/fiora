@@ -1,0 +1,32 @@
+.rc-notification {
+    top: 5px !important;
+    z-index: 1100 !important;
+}
+
+.component-message {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 1px;
+
+    .iconfont {
+        font-size: 22px;
+
+        &.icon-success {
+            color: green;
+        }
+        &.icon-error {
+            color: #d82e2e;
+        }
+        &.icon-warning {
+            color: orange;
+        }
+        &.icon-info {
+            color: #2773ef;
+        }
+    }
+    & > span {
+        margin-left: 8px;
+        font-size: 16px;
+    }
+}
