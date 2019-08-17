@@ -1,0 +1,29 @@
+:global {
+    .rc-dialog {
+        width: 450px;
+    }
+    
+    .rc-dialog-body {
+        overflow: hidden;
+        display: flex;
+        max-height: 70vh;
+    }
+    
+    .rc-dropdown {
+        max-width: 100%;
+    }
+    
+    @media (orientation : portrait) {
+        .rc-dialog {
+            width: 94% !important;
+            margin: 0 auto;
+        }
+        .rc-dialog-body {
+            padding: 10px 10px;
+            max-height: 88%;
+        }
+        .rc-dialog-content {
+            max-height: 500px;
+        }
+    }
+}
