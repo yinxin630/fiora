@@ -6,8 +6,8 @@
   "license": "MIT",
   "scripts": {
     "server": "./node_modules/.bin/cross-env NODE_ENV=development && nodemon server/main.ts --exec './node_modules/.bin/ts-node' --config .nodemonrc",
-    "client": "node build/dev-server.js",
-    "build": "node build/build.js",
+    "client": "./node_modules/.bin/ts-node build/dev-server.ts",
+    "build": "./node_modules/.bin/ts-node build/build.ts",
     "lint": "./node_modules/.bin/eslint ./ --ext js,jsx,ts,tsx --ignore-pattern .eslintignore --cache",
     "move-dist": "rm -rf public/audio && rm -rf public/avatar && rm -rf public/css && rm -rf public/fonts && rm -rf public/img && rm -rf public/js && mv -f dist/fiora/* public"
   },

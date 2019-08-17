@@ -1,6 +1,6 @@
-const path = require('path');
+import path from 'path';
 
-module.exports = [
+const pages = [
     {
         filename: 'index.html',
         template: path.resolve(__dirname, '../client/templates/index.html'),
@@ -12,3 +12,5 @@ module.exports = [
         },
     },
 ];
+
+export default pages;

@@ -2,7 +2,7 @@ import fetch from '../../utils/fetch';
 import convertMessage from '../../utils/convertMessage';
 import store from './store';
 
-const getFriendId = require('../../utils/getFriendId');
+import getFriendId from '../../utils/getFriendId';
 
 const { dispatch } = store;
 

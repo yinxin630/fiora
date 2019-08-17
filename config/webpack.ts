@@ -1,5 +1,5 @@
-const path = require('path');
-const options = require('../utils/commandOptions');
+import path from 'path';
+import options from '../utils/commandOptions';
 
 const { env } = process;
 
@@ -12,17 +12,8 @@ function getFirstNotUndefined(...values) {
     return null;
 }
 
-module.exports = {
+export default {
     commonn: {
-        convertPxToRem: {
-            enable: false,
-            options: {
-                rootValue: 108, // 设计稿为3倍图
-                propList: ['*', '!border'],
-                unitPrecision: 4,
-                replace: true,
-            },
-        },
         autoPrefix: {
             enable: true,
             options: {

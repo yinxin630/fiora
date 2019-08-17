@@ -1,26 +1,29 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const chalk = require('chalk');
-const semver = require('semver');
-const packageConfig = require('../package.json');
+
+import chalk from 'chalk';
+import semver from 'semver';
+import cp from 'child_process';
+
+import packageJson from '../package.json';
 
 function exec(cmd) {
-    return require('child_process').execSync(cmd).toString().trim();
+    return cp.execSync(cmd).toString().trim();
 }
 
 const versionRequirements = [
     {
         name: 'node',
         currentVersion: semver.clean(process.version),
-        versionRequirement: packageConfig.engines.node,
+        versionRequirement: packageJson.engines.node,
     },
     {
         name: 'npm',
         currentVersion: exec('npm --version'),
-        versionRequirement: packageConfig.engines.npm,
+        versionRequirement: packageJson.engines.npm,
     },
 ];
 
-module.exports = () => {
+(() => {
     const warnings = [];
     for (let i = 0; i < versionRequirements.length; i++) {
         const mod = versionRequirements[i];
@@ -40,4 +43,4 @@ module.exports = () => {
         console.log();
         process.exit(1);
     }
-};
+})();

@@ -1,19 +1,21 @@
-/* eslint-disable import/order */
 /* eslint-disable import/no-extraneous-dependencies */
-require('./check-versions')();
+import './check-versions';
 
-const config = require('../config/webpack');
-const webpackConfig = require('./webpack.dev.conf');
+import opn from 'opn';
+import path from 'path';
+import express from 'express';
+import webpack from 'webpack';
+import proxyMiddleware from 'http-proxy-middleware';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
+import connectionHistoryApiFallback from 'connect-history-api-fallback';
+
+import config from '../config/webpack';
+import webpackConfig from './webpack.dev.conf';
 
 if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV);
 }
-
-const opn = require('opn');
-const path = require('path');
-const express = require('express');
-const webpack = require('webpack');
-const proxyMiddleware = require('http-proxy-middleware');
 
 const host = process.env.HOST || config.dev.host;
 const port = process.env.PORT || config.dev.port;
@@ -23,13 +25,13 @@ const { proxyTable } = config.dev;
 const app = express();
 const compiler = webpack(webpackConfig);
 
-const devMiddleware = require('webpack-dev-middleware')(compiler, {
+const devMiddleware = webpackDevMiddleware(compiler, {
     publicPath: webpackConfig.output.publicPath,
     quiet: true,
     logLevel: 'error',
 });
 
-const hotMiddleware = require('webpack-hot-middleware')(compiler, {
+const hotMiddleware = webpackHotMiddleware(compiler, {
     log: () => { },
 });
 
@@ -50,7 +52,7 @@ Object.keys(proxyTable).forEach((context) => {
     app.use(proxyMiddleware(options.filter || context, options));
 });
 
-app.use(require('connect-history-api-fallback')());
+app.use(connectionHistoryApiFallback());
 
 app.use(devMiddleware);
 
@@ -65,13 +67,13 @@ devMiddleware.waitUntilValid(() => {
     console.log(`> Listening at ${uri}\n`);
 });
 
-module.exports = app.listen(port, (err) => {
+// @ts-ignore
+app.listen(port, (err) => {
     if (err) {
         console.log(err);
         return;
     }
 
-    // when env is testing, don't need open it
     if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
         opn(uri);
     }

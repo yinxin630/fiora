@@ -1,7 +1,7 @@
 import Message from '../client/components/Message';
 import socket from '../client/socket';
 
-const { SealText, SealTimeout } = require('./const');
+import { SealText, SealTimeout } from './const';
 
 /** 用户是否被封禁 */
 let isSeal = false;

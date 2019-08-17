@@ -5,8 +5,7 @@ import {
     Tabs, TabPane, TabContent, ScrollableInkTabBar,
 } from '../../../../components/Tabs';
 import expressions from '../../../../../utils/expressions';
-
-const baidu = require('../../../../assets/images/baidu.png');
+import baidu from '../../../../assets/images/baidu.png';
 
 class Expression extends Component {
     static propTypes = {

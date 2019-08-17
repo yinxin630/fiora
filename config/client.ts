@@ -1,3 +1,5 @@
+import backgroundImage from '../client/assets/images/background.jpg';
+
 const MB = 1024 * 1024;
 
 export default {
@@ -10,6 +12,6 @@ export default {
     // client default system setting
     primaryColor: '74, 144, 226',
     primaryTextColor: '247, 247, 247',
-    backgroundImage: require('../client/assets/images/background.jpg'),
+    backgroundImage,
     sound: 'default',
 };

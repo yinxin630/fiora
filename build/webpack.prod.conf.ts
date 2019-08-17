@@ -1,17 +1,18 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const path = require('path');
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
-const ScriptExtHtmlPlugin = require('script-ext-html-webpack-plugin');
+import path from 'path';
+import webpack from 'webpack';
+import merge from 'webpack-merge';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import OptimizeCSSPlugin from 'optimize-css-assets-webpack-plugin';
+import ScriptExtHtmlPlugin from 'script-ext-html-webpack-plugin';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
-const utils = require('./utils');
-const config = require('../config/webpack');
-const baseWebpackConfig = require('./webpack.base.conf');
-const pages = require('../config//pages');
+import * as utils from './utils';
+import config from '../config/webpack';
+import baseWebpackConfig from './webpack.base.conf';
+import pages from '../config/pages';
 
 const htmlPlugins = pages.map((page) => (
     new HtmlWebpackPlugin(Object.assign(page, {
@@ -47,6 +48,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     //     },
     // },
     plugins: [
+        // @ts-ignore
         new webpack.DefinePlugin({
             'process.env': config.build.env,
         }),
@@ -58,6 +60,7 @@ const webpackConfig = merge(baseWebpackConfig, {
                 safe: true,
             },
         }),
+        // @ts-ignore
         new CopyWebpackPlugin([
             {
                 from: path.resolve(__dirname, '../static'),
@@ -79,8 +82,7 @@ const webpackConfig = merge(baseWebpackConfig, {
 });
 
 if (config.build.bundleAnalyzerReport) {
-    const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
     webpackConfig.plugins.push(new BundleAnalyzerPlugin());
 }
 
-module.exports = webpackConfig;
+export default webpackConfig;

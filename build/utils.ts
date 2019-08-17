@@ -1,15 +1,16 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const path = require('path');
-const LessPluginAutoPrefix = require('less-plugin-autoprefix');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const config = require('../config/webpack');
+import path from 'path';
 
-exports.assetsPath = (_path) => {
+import LessPluginAutoPrefix from 'less-plugin-autoprefix';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import config from '../config/webpack';
+
+export function assetsPath(_path) {
     const assetsSubDirectory = process.env.NODE_ENV === 'production'
         ? config.build.assetsSubDirectory
         : config.dev.assetsSubDirectory;
     return path.posix.join(assetsSubDirectory, _path);
-};
+}
 
 const cssLoader = {
     loader: 'css-loader',
@@ -23,7 +24,7 @@ const cssLoader = {
     },
 };
 
-exports.getStyleLoaders = () => {
+export function getStyleLoaders() {
     const rules = [{
         test: /\.less$/,
         use: [cssLoader],
@@ -32,22 +33,18 @@ exports.getStyleLoaders = () => {
         use: [cssLoader],
     }];
 
-    if (config.commonn.convertPxToRem.enable) {
-        rules[0].use.push({
-            loader: 'pxrem-loader',
-            options: config.commonn.convertPxToRem.options,
-        });
-    }
     if (config.commonn.autoPrefix.enable) {
         rules[0].use.push({
             loader: 'less-loader',
             options: {
+                // @ts-ignore
                 plugins: [
                     new LessPluginAutoPrefix(config.commonn.autoPrefix.options),
                 ],
             },
         });
     } else {
+        // @ts-ignore
         rules[0].use.push('less-loader');
     }
     if (process.env.NODE_ENV === 'production') {
@@ -60,8 +57,10 @@ exports.getStyleLoaders = () => {
             use: rules[1].use,
         });
     } else {
+        // @ts-ignore
         rules[0].use.unshift('style-loader');
+        // @ts-ignore
         rules[1].use.unshift('style-loader');
     }
     return rules;
-};
+}

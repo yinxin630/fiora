@@ -1,7 +1,7 @@
-const path = require('path');
-const utils = require('./utils');
-const config = require('../config/webpack');
-const pages = require('../config/pages');
+import path from 'path';
+import * as utils from './utils';
+import config from '../config/webpack';
+import pages from '../config/pages';
 
 const entry = {};
 pages.forEach((page) => {
@@ -12,7 +12,7 @@ function resolve(dir) {
     return path.join(__dirname, '..', dir);
 }
 
-module.exports = {
+export default {
     entry,
     output: {
         path: config.build.assetsRoot,
