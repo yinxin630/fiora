@@ -36,6 +36,7 @@ export default async function readDiskFIle(resultType = 'blob', accept = '*/*') 
             };
         };
         $input.onchange = (e: Event) => {
+            // @ts-ignore
             const file = e.target.files[0];
             if (!file) {
                 return;
