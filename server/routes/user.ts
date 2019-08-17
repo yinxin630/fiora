@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import assert from 'assert';
 import jwt from 'jwt-simple';
 import { Types } from 'mongoose';
+import { promisify } from 'util';
 
 import { addMemoryData, MemoryDataStorageKey, deleteMemoryData } from '../memoryData';
 
@@ -87,8 +88,8 @@ export async function register(ctx: KoaContext<RegisterData>) {
     const defaultGroup = await Group.findOne({ isDefault: true });
     assert(defaultGroup, '默认群组不存在');
 
-    const salt = await bcrypt.genSalt$(saltRounds);
-    const hash = await bcrypt.hash$(password, salt);
+    const salt = await promisify(bcrypt.genSalt)(saltRounds);
+    const hash = await promisify(bcrypt.hash)(password, salt);
 
     let newUser = null;
     try {
@@ -434,8 +435,8 @@ export async function changePassword(ctx: KoaContext<ChangePasswordData>) {
     const isPasswordCorrect = bcrypt.compareSync(oldPassword, user.password);
     assert(isPasswordCorrect, '旧密码不正确');
 
-    const salt = await bcrypt.genSalt$(saltRounds);
-    const hash = await bcrypt.hash$(newPassword, salt);
+    const salt = await promisify(bcrypt.genSalt)(saltRounds);
+    const hash = await promisify(bcrypt.hash)(newPassword, salt);
 
     user.password = hash;
     await user.save();
@@ -485,8 +486,8 @@ export async function resetUserPassword(ctx: KoaContext<ResetUserPasswordData>) 
     assert(user, '用户不存在');
 
     const newPassword = 'helloworld';
-    const salt = await bcrypt.genSalt$(saltRounds);
-    const hash = await bcrypt.hash$(newPassword, salt);
+    const salt = await promisify(bcrypt.genSalt)(saltRounds);
+    const hash = await promisify(bcrypt.hash)(newPassword, salt);
 
     user.salt = salt;
     user.password = hash;

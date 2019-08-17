@@ -3,7 +3,7 @@ import path from 'path';
 import axios from 'axios';
 import assert from 'assert';
 import ip from 'ip';
-import util from 'util';
+import { promisify } from 'util';
 
 import {
     getMemoryData,
@@ -159,7 +159,7 @@ export async function uploadFile(ctx) {
     );
 
     try {
-        await util.promisify(fs.writeFile)(
+        await promisify(fs.writeFile)(
             path.resolve(__dirname, `../../public/${ctx.data.fileName}`),
             ctx.data.file,
         );
