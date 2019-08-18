@@ -1,6 +1,4 @@
-import React, {
-    useMemo, useState, useEffect,
-} from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { hot } from 'react-hot-loader';
 import { useSelector } from 'react-redux';
 
@@ -11,8 +9,13 @@ import './assets/styles/iconfont.less';
 import Style from './App.less';
 import { isMobile } from '../utils/ua';
 import { State } from './state/reducer';
+
 import LoginAndRegister from './modules/LoginAndRegister/LoginAndRegister';
 import Sidebar from './modules/Sidebar/Sidebar';
+import FunctionBarAndLinkmanList from './modules/FunctionBarAndLinkmanList/FunctionBarAndLinkmanList';
+import UserInfo from './modules/UserInfo';
+import GroupInfo from './modules/GroupInfo';
+import { ShowUserOrGroupInfoContext } from './context';
 
 /**
  * 获取窗口宽度百分比
@@ -70,34 +73,75 @@ function App() {
     }, [backgroundImage]);
 
     // 主体样式
-    const style = useMemo(() => ({
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: `${backgroundWidth}px ${backgroundHeight}px`,
-        backgroundRepeat: 'no-repeat',
-    }), [backgroundImage, backgroundWidth, backgroundHeight]);
+    const style = useMemo(
+        () => ({
+            backgroundImage: `url(${backgroundImage})`,
+            backgroundSize: `${backgroundWidth}px ${backgroundHeight}px`,
+            backgroundRepeat: 'no-repeat',
+        }),
+        [backgroundImage, backgroundWidth, backgroundHeight],
+    );
 
     // 聊天窗口样式
-    const childStyle = useMemo(() => ({
-        width: `${width * 100}%`,
-        height: `${height * 100}%`,
-        left: `${((1 - width) / 2) * 100}%`,
-        top: `${((1 - height) / 2) * 100}%`,
-    }), [width, height]);
+    const childStyle = useMemo(
+        () => ({
+            width: `${width * 100}%`,
+            height: `${height * 100}%`,
+            left: `${((1 - width) / 2) * 100}%`,
+            top: `${((1 - height) / 2) * 100}%`,
+        }),
+        [width, height],
+    );
 
     // 模糊背景样式
-    const blurStyle = useMemo(() => ({
-        backgroundPosition: `${(-(1 - width) * window.innerWidth) / 2}px ${(-(1 - height) * window.innerHeight) / 2}px`,
-        ...style,
-        ...childStyle,
-    }), [width, height, style, childStyle]);
+    const blurStyle = useMemo(
+        () => ({
+            backgroundPosition: `${(-(1 - width) * window.innerWidth) / 2}px ${(-(1 - height)
+                * window.innerHeight)
+                / 2}px`,
+            ...style,
+            ...childStyle,
+        }),
+        [width, height, style, childStyle],
+    );
+
+    const [userInfoDialog, toggleUserInfoDialog] = useState(false);
+    const [userInfo, setUserInfo] = useState(null);
+
+    const [groupInfoDialog, toggleGroupInfoDialog] = useState(false);
+    const [groupInfo, setGroupInfo] = useState(null);
+
+    const contextValue = useMemo(() => ({
+        showUserInfo(user) {
+            setUserInfo(user);
+            toggleUserInfoDialog(true);
+        },
+        showGroupInfo(group) {
+            setGroupInfo(group);
+            toggleGroupInfoDialog(true);
+        },
+    }), []);
 
     return (
         <div className={Style.app} style={style}>
             <div className={Style.blur} style={blurStyle} />
             <div className={Style.child} style={childStyle}>
-                <Sidebar />
+                <ShowUserOrGroupInfoContext.Provider value={contextValue}>
+                    <Sidebar />
+                    <FunctionBarAndLinkmanList />
+                </ShowUserOrGroupInfoContext.Provider>
             </div>
             <LoginAndRegister />
+            <UserInfo
+                visible={userInfoDialog}
+                onClose={() => toggleUserInfoDialog(false)}
+                user={userInfo}
+            />
+            <GroupInfo
+                visible={groupInfoDialog}
+                onClose={() => toggleGroupInfoDialog(false)}
+                group={groupInfo}
+            />
         </div>
     );
 }

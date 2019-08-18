@@ -1,10 +1,17 @@
 import { isMobile } from '../../utils/ua';
 import getData from '../localStorage';
-import { Action, ActionTypes, SetUserPayload, SetStatusPayload } from './action';
+import {
+    Action,
+    ActionTypes,
+    SetUserPayload,
+    SetStatusPayload,
+    AddLinkmanPayload,
+    AddLinkmanMessagesPayload,
+} from './action';
 
 /** 聊天消息 */
 export interface Message {
-
+    _id: string;
 }
 
 export interface MessagesMap {
@@ -16,7 +23,7 @@ export interface Group {
     _id: string;
     name: string;
     avatar: string;
-    messages: MessagesMap;
+    members: {}[];
 }
 
 /** 好友 */
@@ -25,7 +32,11 @@ export interface Friend {
 }
 
 /** 联系人 */
-export type Linkman = Group | Friend;
+export interface Linkman extends Group, User {
+    type: string;
+    unread: number;
+    messages: MessagesMap;
+}
 
 export interface LinkmansMap {
     [linkmanId: string]: Linkman;
@@ -36,19 +47,21 @@ export interface User {
     _id: string;
     username: string;
     avatar: string;
-    isAdmin: boolean;
-    linkmans: LinkmansMap;
 }
 
 /** 声音提醒类型 */
-export enum SoundType {
-
-}
+export enum SoundType {}
 
 /** redux store state */
 export interface State {
     /** 用户信息 */
-    user?: User;
+    user?: {
+        _id: string;
+        username: string;
+        avatar: string;
+        isAdmin: boolean;
+        linkmans: LinkmansMap;
+    };
     /** 聚焦的联系人 */
     focus: string;
     /** 客户端连接状态 */
@@ -76,13 +89,20 @@ export interface State {
         /** 是否展示侧边栏 */
         sidebarVisible: boolean;
         /** 是否展示搜索+联系人列表栏 */
-        featurePanelVisible: boolean;
-    }
+        functionBarAndLinkmanListVisible: boolean;
+    };
 }
 
 function getLinkmansMap(linkmans: Linkman[]) {
     return linkmans.reduce((map: LinkmansMap, linkman) => {
         map[linkman._id] = linkman;
+        return map;
+    }, {});
+}
+
+function getMessagesMap(messages: Message[]) {
+    return messages.reduce((map: MessagesMap, message) => {
+        map[message._id] = message;
         return map;
     }, {});
 }
@@ -98,19 +118,19 @@ const initialState: State = {
         primaryTextColor: localStorage.primaryTextColor,
         backgroundImage: localStorage.backgroundImage,
         soundSwitch: localStorage.soundSwitch,
-        sound: localStorage.sound as unknown as SoundType,
+        sound: (localStorage.sound as unknown) as SoundType,
         notificationSwitch: localStorage.notificationSwitch,
         voiceSwitch: localStorage.voiceSwitch,
         selfVoiceSwitch: localStorage.selfVoiceSwitch,
         sidebarVisible: !isMobile,
-        featurePanelVisible: !isMobile,
+        functionBarAndLinkmanListVisible: !isMobile,
     },
 };
 
 function reducer(state: State = initialState, action: Action): State {
     switch (action.type) {
         case ActionTypes.SetGuest: {
-            const group = action.payload as Group;
+            const group = action.payload as Linkman;
             return {
                 ...state,
                 user: {
@@ -128,8 +148,14 @@ function reducer(state: State = initialState, action: Action): State {
 
         case ActionTypes.SetUser: {
             const {
-                _id, username, avatar, groups, friends, isAdmin,
+                _id,
+                username,
+                avatar,
+                groups,
+                friends,
+                isAdmin,
             } = action.payload as SetUserPayload;
+            // @ts-ignore
             const linkmans: Linkman[] = [...groups, ...friends];
             const focus = linkmans.length > 0 ? linkmans[0]._id : '';
             return {
@@ -160,6 +186,85 @@ function reducer(state: State = initialState, action: Action): State {
                 user: {
                     ...state.user,
                     avatar: action.payload as string,
+                },
+            };
+        }
+
+        case ActionTypes.SetFocus: {
+            return {
+                ...state,
+                focus: action.payload as string,
+            };
+        }
+
+        case ActionTypes.AddLinkman: {
+            const payload = action.payload as AddLinkmanPayload;
+            const { linkman } = payload;
+            if (linkman.type === 'group') {
+                linkman.members = [];
+                linkman.messages = {};
+                linkman.unread = 0;
+            }
+            const focus = payload.focus ? linkman._id : state.focus;
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    linkmans: {
+                        ...state.user.linkmans,
+                        [linkman._id]: linkman,
+                    },
+                },
+                focus,
+            };
+        }
+
+        case ActionTypes.RemoveLinkman: {
+            const linkmans = { ...state.user.linkmans };
+            delete linkmans[action.payload as string];
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    linkmans,
+                },
+            };
+        }
+
+        case ActionTypes.AddLinkmanMessages: {
+            const payload = action.payload as AddLinkmanMessagesPayload;
+            const messagesMap = getMessagesMap(payload.messages);
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    linkmans: {
+                        ...state.user.linkmans,
+                        [payload.linkmanId]: {
+                            ...state.user.linkmans[payload.linkmanId],
+                            messages: {
+                                ...state.user.linkmans[payload.linkmanId].messages,
+                                ...messagesMap,
+                            },
+                        },
+                    },
+                },
+            };
+        }
+
+        case ActionTypes.SetFriend: {
+            const payload = action.payload as string;
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    linkmans: {
+                        ...state.user.linkmans,
+                        [payload]: {
+                            ...state.user.linkmans[payload],
+                            type: 'friend',
+                        },
+                    },
                 },
             };
         }

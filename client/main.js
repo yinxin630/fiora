@@ -22,7 +22,7 @@ import store from './state/store';
 import action from './state/action';
 import socket from './socket';
 import notification from '../utils/notification';
-import sound from '../utils/sound';
+import sound from '../utils/playSound';
 import getFriendId from '../utils/getFriendId';
 import convertMessage from '../utils/convertMessage';
 import voice from '../utils/voice';

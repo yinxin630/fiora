@@ -25,10 +25,21 @@ interface AvatarProps {
     className?: string;
     /** 点击事件 */
     onClick?: () => void;
+    onMouseEnter?: () => void;
+    onMouseLeave?: () => void;
 }
 
+const noop = () => {};
+
 function Avatar(props: AvatarProps) {
-    const { src, size = 60, className = '', onClick = () => {}, ...otherProps } = props;
+    const {
+        src,
+        size = 60,
+        className = '',
+        onClick = noop,
+        onMouseEnter = noop,
+        onMouseLeave = noop,
+    } = props;
     return (
         <img
             className={className}
@@ -37,7 +48,8 @@ function Avatar(props: AvatarProps) {
             alt="头像图"
             onClick={onClick}
             onError={handleError}
-            {...otherProps}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
         />
     );
 }

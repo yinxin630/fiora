@@ -1,4 +1,5 @@
 import fetch from '../utils/fetch';
+import { User } from './state/reducer';
 
 /**
  * 使用token登录
@@ -75,4 +76,68 @@ export async function changeUsername(username: string) {
         username,
     });
     return !error;
+}
+
+/**
+ * 创建群组
+ * @param groupName 群组名
+ */
+export async function createGroup(groupName: string) {
+    const [, group] = await fetch('createGroup', { groupName });
+    return group;
+}
+
+/**
+ * 加入群组
+ * @param groupId 群组id
+ */
+export async function joinGroup(groupId: string) {
+    const [, group] = await fetch('joinGroup', { groupId });
+    return group;
+}
+
+/**
+ * 添加好友
+ * @param userId 目标用户id
+ */
+export async function addFriend(userId: string) {
+    const [, user] = await fetch<User>('addFriend', { userId });
+    return user;
+}
+
+/**
+ * 删除好友
+ * @param userId 目标用户id
+ */
+export async function deleteFriend(userId: string) {
+    const [err] = await fetch('deleteFriend', { userId });
+    return !err;
+}
+
+/**
+ * 获取联系人历史消息
+ * @param linkmanId 联系人id
+ * @param existCount 客户端已有消息条数
+ */
+export async function getLinkmanHistoryMessages(linkmanId: string, existCount: number) {
+    const [, messages] = await fetch('getLinkmanHistoryMessages', { linkmanId, existCount });
+    return messages;
+}
+
+/**
+ * 搜索用户和群组
+ * @param keywords 关键字
+ */
+export async function search(keywords: string) {
+    const [, result] = await fetch('search', { keywords });
+    return result;
+}
+
+/**
+ * 封禁用户
+ * @param username 目标用户名
+ */
+export async function sealUser(username: string) {
+    const [err] = await fetch('sealUser', { username });
+    return !err;
 }

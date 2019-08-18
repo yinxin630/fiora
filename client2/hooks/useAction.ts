@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { User } from '../state/reducer';
+import { User, Linkman, Message } from '../state/reducer';
 import { ActionTypes } from '../state/action';
 
 /**
@@ -26,6 +26,47 @@ export default function useAction() {
             dispatch({
                 type: ActionTypes.SetAvatar,
                 payload: avatar,
+            });
+        },
+
+        setFocus(linkmanId: string) {
+            dispatch({
+                type: ActionTypes.SetFocus,
+                plyload: linkmanId,
+            });
+        },
+
+        addLinkman(linkman: Linkman, focus = false) {
+            dispatch({
+                type: ActionTypes.AddLinkman,
+                payload: {
+                    linkman,
+                    focus,
+                },
+            });
+        },
+
+        removeLinkman(linkmanId) {
+            dispatch({
+                type: ActionTypes.RemoveLinkman,
+                payload: linkmanId,
+            });
+        },
+
+        addLinkmanMessages(linkmanId: string, messages: Message[]) {
+            dispatch({
+                type: ActionTypes.AddLinkmanMessages,
+                payload: {
+                    linkmanId,
+                    messages,
+                },
+            });
+        },
+
+        setFriend(linkmanId: string) {
+            dispatch({
+                type: ActionTypes.SetFriend,
+                payload: linkmanId,
             });
         },
 
