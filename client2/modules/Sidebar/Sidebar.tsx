@@ -125,27 +125,28 @@ function Sidebar() {
                         onClick={() => toggleAboutDialogVisible(true)}
                     />,
                 )}
-                {renderTooltip(
-                    '设置',
-                    <IconButton
-                        width={40}
-                        height={40}
-                        icon="setting"
-                        iconSize={26}
-                        onClick={() => toggleSettingDialogVisible(true)}
-                    />,
-                )}
                 {isLogin
-                && renderTooltip(
-                    '退出登录',
-                    <IconButton
-                        width={40}
-                        height={40}
-                        icon="logout"
-                        iconSize={26}
-                        onClick={logout}
-                    />,
-                )}
+                    && renderTooltip(
+                        '设置',
+                        <IconButton
+                            width={40}
+                            height={40}
+                            icon="setting"
+                            iconSize={26}
+                            onClick={() => toggleSettingDialogVisible(true)}
+                        />,
+                    )}
+                {isLogin
+                    && renderTooltip(
+                        '退出登录',
+                        <IconButton
+                            width={40}
+                            height={40}
+                            icon="logout"
+                            iconSize={26}
+                            onClick={logout}
+                        />,
+                    )}
             </div>
 
             {/* 弹窗 */}
@@ -170,10 +171,12 @@ function Sidebar() {
                 onClose={() => toggleRewardDialogVisible(false)}
             />
             <About visible={aboutDialogVisible} onClose={() => toggleAboutDialogVisible(false)} />
-            <Setting
-                visible={settingDialogVisible}
-                onClose={() => toggleSettingDialogVisible(false)}
-            />
+            {isLogin && (
+                <Setting
+                    visible={settingDialogVisible}
+                    onClose={() => toggleSettingDialogVisible(false)}
+                />
+            )}
         </div>
     );
 }

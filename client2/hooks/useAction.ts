@@ -29,6 +29,17 @@ export default function useAction() {
             });
         },
 
+        setStatus(key: string, value: any) {
+            dispatch({
+                type: ActionTypes.SetStatus,
+                payload: {
+                    key,
+                    value,
+                },
+            });
+            window.localStorage.setItem(key, value);
+        },
+
         toggleLoginRegisterDialog(visible) {
             dispatch({
                 type: ActionTypes.SetStatus,

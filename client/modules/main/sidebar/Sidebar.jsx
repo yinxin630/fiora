@@ -8,7 +8,7 @@ import ReactLoading from 'react-loading';
 
 import setCssVariable from '../../../../utils/setCssVariable';
 import readDiskFile from '../../../../utils/readDiskFile';
-import playSound from '../../../../utils/sound';
+import playSound from '../../../../utils/playSound';
 import booleanStateDecorator from '../../../../utils/booleanStateDecorator';
 import uploadFile from '../../../../utils/uploadFile';
 import action from '../../../state/action';

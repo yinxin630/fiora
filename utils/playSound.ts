@@ -32,7 +32,7 @@ async function play() {
     }
 }
 
-export default function sound(type = 'default') {
+export default function playSound(type = 'default') {
     if (type !== prevType) {
         $source.setAttribute('src', sounds[type]);
         $audio.load();

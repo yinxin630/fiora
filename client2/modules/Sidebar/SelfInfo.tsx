@@ -17,6 +17,7 @@ import useAction from '../../hooks/useAction';
 import socket from '../../socket';
 
 import Style from './SelfInfo.less';
+import Common from './Common.less';
 
 interface SelfInfoProps {
     visible: boolean;
@@ -128,9 +129,9 @@ function SelfInfo(props: SelfInfoProps) {
 
     return (
         <Dialog className={Style.selfInfo} visible={visible} title="个人信息设置" onClose={onClose}>
-            <div className={Style.container}>
-                <div className={Style.block}>
-                    <p className={Style.title}>修改头像</p>
+            <div className={Common.container}>
+                <div className={Common.block}>
+                    <p className={Common.title}>修改头像</p>
                     <div className={Style.changeAvatar}>
                         {cropper.enable ? (
                             <div className={Style.cropper}>
@@ -171,9 +172,9 @@ function SelfInfo(props: SelfInfoProps) {
                         )}
                     </div>
                 </div>
-                <div className={Style.block}>
-                    <p className={Style.title}>修改密码</p>
-                    <div className="change-password">
+                <div className={Common.block}>
+                    <p className={Common.title}>修改密码</p>
+                    <div>
                         <Input
                             className={Style.input}
                             value={oldPassword}
@@ -193,9 +194,9 @@ function SelfInfo(props: SelfInfoProps) {
                         </Button>
                     </div>
                 </div>
-                <div className={Style.block}>
-                    <p className={Style.title}>修改用户名</p>
-                    <div className="change-username">
+                <div className={Common.block}>
+                    <p className={Common.title}>修改用户名</p>
+                    <div>
                         <Input
                             className={Style.input}
                             value={username}
