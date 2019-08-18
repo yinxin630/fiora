@@ -43,3 +43,36 @@ export async function guest(os: string, browser: string, environment: string) {
     }
     return res;
 }
+
+/**
+ * 修用户头像
+ * @param avatar 新头像链接
+ */
+export async function changeAvatar(avatar) {
+    const [error] = await fetch('changeAvatar', { avatar });
+    return !error;
+}
+
+/**
+ * 修改用户密码
+ * @param oldPassword 旧密码
+ * @param newPassword 新密码
+ */
+export async function changePassword(oldPassword: string, newPassword: string) {
+    const [error] = await fetch('changePassword', {
+        oldPassword,
+        newPassword,
+    });
+    return !error;
+}
+
+/**
+ * 修改用户名
+ * @param username 新用户名
+ */
+export async function changeUsername(username: string) {
+    const [error] = await fetch('changeUsername', {
+        username,
+    });
+    return !error;
+}

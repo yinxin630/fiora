@@ -5,6 +5,8 @@ export enum ActionTypes {
     SetGuest = 'SetGuest',
     SetUser = 'SetUser',
     SetStatus = 'SetStatus',
+    Logout = 'Logout',
+    SetAvatar = 'SetAvatar',
 }
 
 export type SetGuestPayload = Group;
@@ -23,7 +25,9 @@ export interface SetStatusPayload {
     value: any;
 }
 
+export type SetAvatarPayload = string;
+
 export interface Action {
     type: ActionTypes;
-    payload: SetUserPayload | SetGuestPayload | SetStatusPayload;
+    payload: SetUserPayload | SetGuestPayload | SetStatusPayload | SetAvatarPayload;
 }

@@ -63,7 +63,7 @@ function Input(props: InputProps) {
                 onCompositionEnd={handleIMEEnd}
             />
             <IconButton
-                classname={Style.inputIconButton}
+                className={Style.inputIconButton}
                 width={32}
                 height={32}
                 iconSize={18}

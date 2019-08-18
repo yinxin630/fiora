@@ -28,23 +28,18 @@ interface AvatarProps {
 }
 
 function Avatar(props: AvatarProps) {
-    const { src, size, className, ...otherProps } = props;
+    const { src, size = 60, className = '', onClick = () => {}, ...otherProps } = props;
     return (
         <img
             className={className}
             style={{ width: size, height: size, borderRadius: size / 2 }}
             src={/(blob|data):/.test(src) ? src : `${src}?imageView2/3/w/${size * 2}/h/${size * 2}`}
             alt="头像图"
+            onClick={onClick}
             onError={handleError}
             {...otherProps}
         />
     );
 }
-
-Avatar.defaultProps = {
-    size: 60,
-    className: '',
-    onClick: () => {},
-};
 
 export default Avatar;

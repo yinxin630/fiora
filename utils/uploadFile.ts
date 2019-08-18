@@ -1,14 +1,23 @@
 import * as qiniu from 'qiniu-js';
 import fetch from './fetch';
 
+interface QiniuUploadInfo {
+    key: string;
+}
+
 /**
  * 上传文件到七牛
- * @param {string} blob 文件blob数据
- * @param {string} qiniuKey 七牛文件key
- * @param {string} fileName 文件名
- * @param {Function} qiniuNextEventCallback 七牛上传进度回调
+ * @param blob 文件blob数据
+ * @param qiniuKey 七牛文件key
+ * @param fileName 文件名
+ * @param qiniuNextEventCallback 七牛上传进度回调
  */
-export default async function uploadFile(blob, qiniuKey, fileName, qiniuNextEventCallback) {
+export default async function uploadFile(
+    blob: Blob,
+    qiniuKey: string,
+    fileName: string,
+    qiniuNextEventCallback?: (info: QiniuUploadInfo) => void,
+): Promise<string> {
     // 获取七牛上传token
     const [getTokenErr, tokenRes] = await fetch('uploadToken');
     if (getTokenErr) {
@@ -31,7 +40,7 @@ export default async function uploadFile(blob, qiniuKey, fileName, qiniuNextEven
     return new Promise((resolve, reject) => {
         const result = qiniu.upload(blob, qiniuKey, tokenRes.token, { useCdnDomain: true }, {});
         result.subscribe({
-            next: (info) => {
+            next: (info:QiniuUploadInfo) => {
                 if (qiniuNextEventCallback) {
                     qiniuNextEventCallback(info);
                 }
@@ -39,7 +48,7 @@ export default async function uploadFile(blob, qiniuKey, fileName, qiniuNextEven
             error: (qiniuErr) => {
                 reject(qiniuErr);
             },
-            complete: async (info) => {
+            complete: async (info: QiniuUploadInfo) => {
                 const imageUrl = `${tokenRes.urlPrefix + info.key}`;
                 resolve(imageUrl);
             },

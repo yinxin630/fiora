@@ -48,7 +48,7 @@ export enum SoundType {
 /** redux store state */
 export interface State {
     /** 用户信息 */
-    user: User;
+    user?: User;
     /** 聚焦的联系人 */
     focus: string;
     /** 客户端连接状态 */
@@ -74,7 +74,7 @@ export interface State {
         /** 是否朗读个人发送的消息开关 */
         selfVoiceSwitch: boolean;
         /** 是否展示侧边栏 */
-        sideInfoVisible: boolean;
+        sidebarVisible: boolean;
         /** 是否展示搜索+联系人列表栏 */
         featurePanelVisible: boolean;
     }
@@ -102,8 +102,8 @@ const initialState: State = {
         notificationSwitch: localStorage.notificationSwitch,
         voiceSwitch: localStorage.voiceSwitch,
         selfVoiceSwitch: localStorage.selfVoiceSwitch,
+        sidebarVisible: !isMobile,
         featurePanelVisible: !isMobile,
-        sideInfoVisible: !isMobile,
     },
 };
 
@@ -142,6 +142,25 @@ function reducer(state: State = initialState, action: Action): State {
                     isAdmin,
                 },
                 focus,
+            };
+        }
+
+        case ActionTypes.Logout: {
+            return {
+                ...initialState,
+                status: {
+                    ...state.status,
+                },
+            };
+        }
+
+        case ActionTypes.SetAvatar: {
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    avatar: action.payload as string,
+                },
             };
         }
 

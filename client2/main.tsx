@@ -58,7 +58,6 @@ socket.on('connect', async () => {
             platform.description,
         );
         if (user) {
-            console.log(user);
             dispatch({
                 type: ActionTypes.SetUser,
                 payload: user,

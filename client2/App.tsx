@@ -12,6 +12,7 @@ import Style from './App.less';
 import { isMobile } from '../utils/ua';
 import { State } from './state/reducer';
 import LoginAndRegister from './modules/LoginAndRegister/LoginAndRegister';
+import Sidebar from './modules/Sidebar/Sidebar';
 
 /**
  * 获取窗口宽度百分比
@@ -94,7 +95,7 @@ function App() {
         <div className={Style.app} style={style}>
             <div className={Style.blur} style={blurStyle} />
             <div className={Style.child} style={childStyle}>
-                {/* <Main /> */}
+                <Sidebar />
             </div>
             <LoginAndRegister />
         </div>
