@@ -51,7 +51,7 @@ function GroupInfo(props: GroupInfoProps) {
     }
 
     return (
-        <Dialog className={Style.groupInfo} visible={visible} onClose={onClose}>
+        <Dialog className={Style.infoDialog} visible={visible} onClose={onClose}>
             <div className={Style.coantainer}>
                 <div className={Style.header}>
                     <Avatar

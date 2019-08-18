@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 
 import IconButton from '../../components/IconButton';
 import Avatar from '../../components/Avatar';
@@ -18,6 +18,39 @@ function FunctionBar() {
     const [searchResult, setSearchResult] = useState({ users: [], groups: [] });
 
     const context = useContext(ShowUserOrGroupInfoContext);
+    const $input = useRef(null);
+
+    function resetSearch() {
+        toggleSearchResultVisible(false);
+        toggleAddButtonVisible(true);
+        setSearchResultActiveKey('all');
+        setSearchResult({ users: [], groups: [] });
+        setKeywords('');
+    }
+
+    function handleBodyClick(e) {
+        // eslint-disable-next-line react/destructuring-assignment
+        if (e.target === $input.current || !searchResultVisible) {
+            return;
+        }
+
+        const { currentTarget } = e;
+        let { target } = e;
+        do {
+            if (target.className.indexOf(Style.searchResult) > -1) {
+                return;
+            }
+            target = target.parentElement;
+        } while (target && target !== currentTarget);
+
+        resetSearch();
+    }
+    useEffect(() => {
+        document.body.addEventListener('click', handleBodyClick, false);
+        return () => {
+            document.body.removeEventListener('click', handleBodyClick, false);
+        };
+    });
 
     function handleFocus() {
         toggleAddButtonVisible(false);
@@ -39,12 +72,17 @@ function FunctionBar() {
         const { users } = searchResult;
         count = Math.min(count, users.length);
 
+        function handleClick(targetUser) {
+            context.showUserInfo(targetUser);
+            resetSearch();
+        }
+
         const usersDom = [];
         for (let i = 0; i < count; i++) {
             usersDom.push(
                 <div
                     key={users[i]._id}
-                    onClick={() => context.showUserInfo(users[i])}
+                    onClick={() => handleClick(users[i])}
                     role="button"
                 >
                     <Avatar size={40} src={users[i].avatar} />
@@ -59,12 +97,17 @@ function FunctionBar() {
         const { groups } = searchResult;
         count = Math.min(count, groups.length);
 
+        function handleClick(targetGroup) {
+            context.showGroupInfo(targetGroup);
+            resetSearch();
+        }
+
         const groupsDom = [];
         for (let i = 0; i < count; i++) {
             groupsDom.push(
                 <div
                     key={groups[i]._id}
-                    onClick={() => context.showGroupInfo(groups[i])}
+                    onClick={() => handleClick(groups[i])}
                     role="button"
                 >
                     <Avatar size={40} src={groups[i].avatar} />
@@ -83,6 +126,7 @@ function FunctionBar() {
             <form className={Style.form} autoComplete="off" action="javascript:void(0);">
                 <input
                     className={`${Style.input} ${searchResultVisible ? 'focus' : 'blur'}`}
+                    ref={$input}
                     type="text"
                     placeholder="搜索群组/用户"
                     value={keywords}
