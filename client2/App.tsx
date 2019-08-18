@@ -11,8 +11,7 @@ import './assets/styles/iconfont.less';
 import Style from './App.less';
 import { isMobile } from '../utils/ua';
 import { State } from './state/reducer';
-import Dialog from './components/Dialog';
-import Login from '../client/modules/main/login/Login';
+import LoginAndRegister from './modules/LoginAndRegister/LoginAndRegister';
 
 /**
  * 获取窗口宽度百分比
@@ -45,7 +44,6 @@ function getHeightPercent() {
 }
 
 function App() {
-    const showLoginDialog = useSelector((state: State) => state.status.showLoginDialog);
     const backgroundImage = useSelector((state: State) => state.status.backgroundImage);
 
     // 计算窗口高度/宽度百分比
@@ -98,13 +96,7 @@ function App() {
             <div className={Style.child} style={childStyle}>
                 {/* <Main /> */}
             </div>
-            <Dialog
-                visible={showLoginDialog}
-                closable={false}
-                onClose={() => console.log('action.closeLoginDialog')}
-            >
-                <Login />
-            </Dialog>
+            <LoginAndRegister />
         </div>
     );
 }

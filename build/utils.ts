@@ -15,12 +15,13 @@ export function assetsPath(_path) {
 const cssLoader = {
     loader: 'css-loader',
     options: {
+        importLoaders: 2,
         modules: true,
         /**
          * 为了兼容之前没有用 css module 的代码, 暂时不能设置为 [name]__[local]--[hash:base64:5]
          * [local] 其实就是原本的名称
          */
-        localIdentName: '[local]',
+        localIdentName: '[local]--[hash:base64:5]',
     },
 };
 
@@ -30,7 +31,7 @@ export function getStyleLoaders() {
         use: [cssLoader],
     }, {
         test: /\.css$/,
-        use: [cssLoader],
+        use: ['css-loader'],
     }];
 
     if (config.commonn.autoPrefix.enable) {

@@ -1,6 +1,6 @@
 import { isMobile } from '../../utils/ua';
 import getData from '../localStorage';
-import { Action, ActionTypes, SetUserPayload } from './action';
+import { Action, ActionTypes, SetUserPayload, SetStatusPayload } from './action';
 
 /** 聊天消息 */
 export interface Message {
@@ -55,8 +55,8 @@ export interface State {
     connect: boolean;
     /** 客户端的一些状态值 */
     status: {
-        /** 是否显示登陆框 */
-        showLoginDialog: boolean;
+        /** 是否显示登陆注册框 */
+        loginRegisterDialogVisible: boolean;
         /** 主题主色调 */
         primaryColor: string;
         /** 主题文字主色调 */
@@ -93,7 +93,7 @@ const initialState: State = {
     focus: '',
     connect: true,
     status: {
-        showLoginDialog: true,
+        loginRegisterDialogVisible: false,
         primaryColor: localStorage.primaryColor,
         primaryTextColor: localStorage.primaryTextColor,
         backgroundImage: localStorage.backgroundImage,
@@ -142,6 +142,17 @@ function reducer(state: State = initialState, action: Action): State {
                     isAdmin,
                 },
                 focus,
+            };
+        }
+
+        case ActionTypes.SetStatus: {
+            const payload = action.payload as SetStatusPayload;
+            return {
+                ...state,
+                status: {
+                    ...state.status,
+                    [payload.key]: payload.value,
+                },
             };
         }
 

@@ -3,7 +3,7 @@ import Notification from 'rc-notification';
 
 import 'rc-notification/assets/index.css';
 
-function showMessage(text, duration = 1.5, type = 'success') {
+function showMessage(text: string, duration = 1.5, type = 'success') {
     Notification.newInstance({}, (notification) => {
         notification.notice({
             content: (
@@ -18,16 +18,16 @@ function showMessage(text, duration = 1.5, type = 'success') {
 }
 
 export default {
-    success(text, duration) {
+    success(text: string, duration = 1.5) {
         showMessage(text, duration, 'success');
     },
-    error(text, duration) {
+    error(text: string, duration = 1.5) {
         showMessage(text, duration, 'error');
     },
-    warning(text, duration) {
+    warning(text: string, duration = 1.5) {
         showMessage(text, duration, 'warning');
     },
-    info(text, duration) {
+    info(text: string, duration = 1.5) {
         showMessage(text, duration, 'info');
     },
 };

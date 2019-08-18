@@ -1,102 +1,77 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { useRef, useState } from 'react';
 
 import IconButton from './IconButton';
+import Style from './Input.less';
 
 interface InputProps {
+    value?: string;
     type?: string;
     placeholder?: string;
+    className?: string;
+    onChange: (value: string) => void;
     onEnter?: (value: string) => void;
 }
 
-interface InputState {
-    value: string;
-}
+function Input(props: InputProps) {
+    const {
+        value,
+        type = 'text',
+        placeholder = '',
+        className = '',
+        onChange,
+        onEnter = () => {},
+    } = props;
 
-class Input extends Component<InputProps, InputState> {
-    static propTypes = {
-        type: PropTypes.string,
-        onEnter: PropTypes.func,
-        placeholder: PropTypes.string,
+    function handleInput(e) {
+        onChange(e.target.value);
     }
 
-    static defaultProps = {
-        type: 'text',
-        onEnter: () => {},
-        placeholder: '',
+    const [lockEnter, setLockEnter] = useState(false);
+    function handleIMEStart() {
+        setLockEnter(true);
     }
-
-    private lockEnter = false;
-
-    private input = null;
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: '',
-        };
+    function handleIMEEnd() {
+        setLockEnter(false);
     }
-
-    getValue() {
-        // eslint-disable-next-line react/destructuring-assignment
-        return this.state.value.trim();
-    }
-
-    handleInput = (e) => {
-        this.setState({
-            value: e.target.value,
-        });
-    }
-
-    handleClickClear = () => {
-        this.setState({
-            value: '',
-        });
-        this.input.focus();
-    }
-
-    handleKeyDown = (e) => {
-        const { onEnter } = this.props;
-        if (e.key === 'Enter' && onEnter) {
-            // eslint-disable-next-line react/destructuring-assignment
-            onEnter(this.state.value);
+    function handleKeyDown(e) {
+        if (lockEnter) {
+            return;
+        }
+        if (e.key === 'Enter') {
+            onEnter(value);
         }
     }
 
-    handleIMEStart = () => {
-        this.lockEnter = true;
+    const $input = useRef(null);
+    function handleClickClear() {
+        onChange('');
+        $input.current.focus();
     }
 
-    handleIMEEnd = () => {
-        this.lockEnter = false;
-    }
-
-    clear() {
-        this.setState({
-            value: '',
-        });
-    }
-
-    render() {
-        const { type, placeholder } = this.props;
-        const { value } = this.state;
-        return (
-            <div className="component-input">
-                <input
-                    type={type}
-                    value={value}
-                    onChange={this.handleInput}
-                    onInput={this.handleInput}
-                    placeholder={placeholder}
-                    ref={(i) => { this.input = i; }}
-                    onKeyDown={this.handleKeyDown}
-                    onCompositionStart={this.handleIMEStart}
-                    onCompositionEnd={this.handleIMEEnd}
-                />
-                <IconButton width={32} height={32} iconSize={18} icon="clear" onClick={this.handleClickClear} />
-            </div>
-        );
-    }
+    return (
+        <div className={`${Style.inputContainer} ${className}`}>
+            <input
+                className={Style.input}
+                type={type}
+                value={value}
+                onChange={handleInput}
+                onInput={handleInput}
+                placeholder={placeholder}
+                ref={$input}
+                onKeyDown={handleKeyDown}
+                onCompositionStart={handleIMEStart}
+                onCompositionEnd={handleIMEEnd}
+            />
+            <IconButton
+                classname={Style.inputIconButton}
+                width={32}
+                height={32}
+                iconSize={18}
+                icon="clear"
+                onClick={handleClickClear}
+            />
+        </div>
+    );
 }
 
 export default Input;

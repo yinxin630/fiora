@@ -4,6 +4,7 @@ import { Group, Friend } from './reducer';
 export enum ActionTypes {
     SetGuest = 'SetGuest',
     SetUser = 'SetUser',
+    SetStatus = 'SetStatus',
 }
 
 export type SetGuestPayload = Group;
@@ -17,7 +18,12 @@ export type SetUserPayload = {
     isAdmin: boolean;
 };
 
+export interface SetStatusPayload {
+    key: string;
+    value: any;
+}
+
 export interface Action {
     type: ActionTypes;
-    payload: SetUserPayload | SetGuestPayload;
+    payload: SetUserPayload | SetGuestPayload | SetStatusPayload;
 }
