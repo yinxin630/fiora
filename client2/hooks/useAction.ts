@@ -32,7 +32,7 @@ export default function useAction() {
         setFocus(linkmanId: string) {
             dispatch({
                 type: ActionTypes.SetFocus,
-                plyload: linkmanId,
+                payload: linkmanId,
             });
         },
 

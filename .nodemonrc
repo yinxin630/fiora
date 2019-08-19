@@ -2,6 +2,7 @@
     "verbose": true,
     "ignore": [
         "client/**/*",
+        "client2/**/*",
         "build/**/*",
         "test/**/*",
         "public/**/*",

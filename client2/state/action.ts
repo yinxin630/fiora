@@ -2,15 +2,27 @@ import { Group, Friend, Message, Linkman } from './reducer';
 
 // eslint-disable-next-line import/prefer-default-export
 export enum ActionTypes {
+    /** 设置游客信息 */
     SetGuest = 'SetGuest',
+    /** 设置用户信息 */
     SetUser = 'SetUser',
+    /** 更新客户端状态 */
     SetStatus = 'SetStatus',
+    /** 退出登录 */
     Logout = 'Logout',
+    /** 设置用户头像 */
     SetAvatar = 'SetAvatar',
+    /** 添加新联系人 */
     AddLinkman = 'AddLinkman',
+    /** 移除指定联系人 */
     RemoveLinkman = 'RemoveLinkman',
+    /** 设置聚焦的联系人 */
     SetFocus = 'SetFocus',
+    /** 设置各联系人历史消息 */
+    SetLinkmansLastMessages = 'SetLinkmansLastMessages',
+    /** 添加联系人历史消息 */
     AddLinkmanMessages = 'AddLinkmanMessages',
+    /** 将临时联系人类的型修改为好友 */
     SetFriend = 'SetFriend',
 }
 
@@ -39,6 +51,10 @@ export interface AddLinkmanPayload {
 
 export type SetFocusPayload = string;
 
+export interface SetLinkmansLastMessagesPayload {
+    [linkmanId: string]: Message[];
+}
+
 export interface AddLinkmanMessagesPayload {
     linkmanId: string;
     messages: Message[];
@@ -59,5 +75,6 @@ export interface Action {
         | SetFocusPayload
         | AddLinkmanMessagesPayload
         | SetFriendPayload
-        | RemoveLinkmanPayload;
+        | RemoveLinkmanPayload
+        | SetLinkmansLastMessagesPayload;
 }

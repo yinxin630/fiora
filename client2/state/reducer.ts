@@ -7,11 +7,21 @@ import {
     SetStatusPayload,
     AddLinkmanPayload,
     AddLinkmanMessagesPayload,
+    SetLinkmansLastMessagesPayload,
 } from './action';
+import getFriendId from '../../utils/getFriendId';
 
 /** 聊天消息 */
 export interface Message {
     _id: string;
+    type: string;
+    content: string;
+    from: {
+        _id: string;
+        username: string;
+        avatar: string;
+    },
+    createTime: string;
 }
 
 export interface MessagesMap {
@@ -98,6 +108,10 @@ export interface State {
     };
 }
 
+/**
+ * 将联系人以_id为键转为对象结构
+ * @param linkmans 联系人数组
+ */
 function getLinkmansMap(linkmans: Linkman[]) {
     return linkmans.reduce((map: LinkmansMap, linkman) => {
         map[linkman._id] = linkman;
@@ -105,6 +119,10 @@ function getLinkmansMap(linkmans: Linkman[]) {
     }, {});
 }
 
+/**
+ * 将消息以_id为键转为对象结构
+ * @param messages 消息数组
+ */
 function getMessagesMap(messages: Message[]) {
     return messages.reduce((map: MessagesMap, message) => {
         map[message._id] = message;
@@ -112,32 +130,51 @@ function getMessagesMap(messages: Message[]) {
     }, {});
 }
 
+/**
+ * 删除对象中的某个键值
+ * 直接调用delete删除键值据说性能差(我没验证)
+ * @param obj 目标对象
+ * @param key 要删除的键
+ */
 function deleteObjectKey<T>(obj: T, key: string): T {
     let entries = Object.entries(obj);
     entries = entries.filter((entry) => entry[0] !== key);
     return entries.reduce((result: any, entry) => {
-        // eslint-disable-next-line prefer-destructuring
-        result[entry[0]] = entry[1];
+        const [k, v] = entry;
+        result[k] = v;
         return result;
     }, {});
 }
 
+/**
+ * 初始化联系人部分公共字段
+ * @param linkman 联系人
+ * @param type 联系人类型
+ */
 function initLinkmanFields(linkman: Linkman, type: string) {
     linkman.type = type;
     linkman.unread = 0;
     linkman.messages = {};
 }
 
+/**
+ * 转换群组数据结构
+ * @param group 群组
+ */
 function transformGroup(group: Linkman): Linkman {
     initLinkmanFields(group, 'group');
     return group;
 }
 
+/**
+ * 转换好友数据结构
+ * @param friend 好友
+ */
 function transformFriend(friend: Linkman): Linkman {
     // @ts-ignore
-    const { to } = friend;
+    const { from, to } = friend;
     const transformedFriend = {
-        _id: to._id,
+        _id: getFriendId(from, to._id),
         name: to.username,
         avatar: to.avatar,
         // @ts-ignore
@@ -262,6 +299,16 @@ function reducer(state: State = initialState, action: Action): State {
                 ...state,
                 ...linkmans,
             };
+        }
+
+        case ActionTypes.SetLinkmansLastMessages: {
+            const linkmanMessages = action.payload as SetLinkmansLastMessagesPayload;
+            const newState = { ...state };
+            Object.keys(linkmanMessages).forEach((linkmanId) => {
+                const linkman = newState.linkmans[linkmanId];
+                linkman.messages = getMessagesMap(linkmanMessages[linkmanId]);
+            });
+            return newState;
         }
 
         case ActionTypes.AddLinkmanMessages: {

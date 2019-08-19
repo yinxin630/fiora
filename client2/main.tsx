@@ -10,8 +10,9 @@ import store from './state/store';
 import getData from './localStorage';
 import setCssVariable from '../utils/setCssVariable';
 import socket from '../client/socket';
-import { loginByToken, guest } from './service';
+import { loginByToken, guest, getLinkmansLastMessages } from './service';
 import { ActionTypes } from './state/action';
+import getFriendId from '../utils/getFriendId';
 
 // 注册 Service Worker
 if (
@@ -61,6 +62,15 @@ socket.on('connect', async () => {
             dispatch({
                 type: ActionTypes.SetUser,
                 payload: user,
+            });
+            const linkmanIds = [
+                ...user.groups.map((group) => group._id),
+                ...user.friends.map((friend) => getFriendId(friend.from, friend.to._id)),
+            ];
+            const linkmanMessages = await getLinkmansLastMessages(linkmanIds);
+            dispatch({
+                type: ActionTypes.SetLinkmansLastMessages,
+                payload: linkmanMessages,
             });
             return null;
         }
