@@ -23,12 +23,17 @@ export interface Group {
     _id: string;
     name: string;
     avatar: string;
+    createTime: string;
+    creator: string;
     members: {}[];
 }
 
 /** 好友 */
 export interface Friend {
     _id: string;
+    name: string;
+    avatar: string;
+    createTime: string;
 }
 
 /** 联系人 */
@@ -60,8 +65,8 @@ export interface State {
         username: string;
         avatar: string;
         isAdmin: boolean;
-        linkmans: LinkmansMap;
     };
+    linkmans: LinkmansMap;
     /** 聚焦的联系人 */
     focus: string;
     /** 客户端连接状态 */
@@ -107,9 +112,45 @@ function getMessagesMap(messages: Message[]) {
     }, {});
 }
 
+function deleteObjectKey<T>(obj: T, key: string): T {
+    let entries = Object.entries(obj);
+    entries = entries.filter((entry) => entry[0] !== key);
+    return entries.reduce((result: any, entry) => {
+        // eslint-disable-next-line prefer-destructuring
+        result[entry[0]] = entry[1];
+        return result;
+    }, {});
+}
+
+function initLinkmanFields(linkman: Linkman, type: string) {
+    linkman.type = type;
+    linkman.unread = 0;
+    linkman.messages = {};
+}
+
+function transformGroup(group: Linkman): Linkman {
+    initLinkmanFields(group, 'group');
+    return group;
+}
+
+function transformFriend(friend: Linkman): Linkman {
+    // @ts-ignore
+    const { to } = friend;
+    const transformedFriend = {
+        _id: to._id,
+        name: to.username,
+        avatar: to.avatar,
+        // @ts-ignore
+        createTime: friend.createTime,
+    };
+    initLinkmanFields(transformedFriend as unknown as Linkman, 'friend');
+    return transformedFriend as Linkman;
+}
+
 const localStorage = getData();
 const initialState: State = {
     user: null,
+    linkmans: {},
     focus: '',
     connect: true,
     status: {
@@ -131,6 +172,7 @@ function reducer(state: State = initialState, action: Action): State {
     switch (action.type) {
         case ActionTypes.SetGuest: {
             const group = action.payload as Linkman;
+            initLinkmanFields(group, 'group');
             return {
                 ...state,
                 user: {
@@ -138,9 +180,9 @@ function reducer(state: State = initialState, action: Action): State {
                     username: '',
                     avatar: '',
                     isAdmin: false,
-                    linkmans: {
-                        [group._id]: group,
-                    },
+                },
+                linkmans: {
+                    [group._id]: group,
                 },
                 focus: group._id,
             };
@@ -156,7 +198,10 @@ function reducer(state: State = initialState, action: Action): State {
                 isAdmin,
             } = action.payload as SetUserPayload;
             // @ts-ignore
-            const linkmans: Linkman[] = [...groups, ...friends];
+            const linkmans: Linkman[] = [
+                ...groups.map(transformGroup),
+                ...friends.map(transformFriend),
+            ];
             const focus = linkmans.length > 0 ? linkmans[0]._id : '';
             return {
                 ...state,
@@ -164,9 +209,9 @@ function reducer(state: State = initialState, action: Action): State {
                     _id,
                     username,
                     avatar,
-                    linkmans: getLinkmansMap(linkmans),
                     isAdmin,
                 },
+                linkmans: getLinkmansMap(linkmans),
                 focus,
             };
         }
@@ -200,34 +245,22 @@ function reducer(state: State = initialState, action: Action): State {
         case ActionTypes.AddLinkman: {
             const payload = action.payload as AddLinkmanPayload;
             const { linkman } = payload;
-            if (linkman.type === 'group') {
-                linkman.members = [];
-                linkman.messages = {};
-                linkman.unread = 0;
-            }
             const focus = payload.focus ? linkman._id : state.focus;
             return {
                 ...state,
-                user: {
-                    ...state.user,
-                    linkmans: {
-                        ...state.user.linkmans,
-                        [linkman._id]: linkman,
-                    },
+                linkmans: {
+                    ...state.linkmans,
+                    [linkman._id]: (linkman.type === 'group' ? transformGroup : transformFriend)(linkman),
                 },
                 focus,
             };
         }
 
         case ActionTypes.RemoveLinkman: {
-            const linkmans = { ...state.user.linkmans };
-            delete linkmans[action.payload as string];
+            const linkmans = deleteObjectKey(state.linkmans, action.payload as string);
             return {
                 ...state,
-                user: {
-                    ...state.user,
-                    linkmans,
-                },
+                ...linkmans,
             };
         }
 
@@ -236,16 +269,13 @@ function reducer(state: State = initialState, action: Action): State {
             const messagesMap = getMessagesMap(payload.messages);
             return {
                 ...state,
-                user: {
-                    ...state.user,
-                    linkmans: {
-                        ...state.user.linkmans,
-                        [payload.linkmanId]: {
-                            ...state.user.linkmans[payload.linkmanId],
-                            messages: {
-                                ...state.user.linkmans[payload.linkmanId].messages,
-                                ...messagesMap,
-                            },
+                linkmans: {
+                    ...state.linkmans,
+                    [payload.linkmanId]: {
+                        ...state.linkmans[payload.linkmanId],
+                        messages: {
+                            ...state.linkmans[payload.linkmanId].messages,
+                            ...messagesMap,
                         },
                     },
                 },
@@ -256,14 +286,11 @@ function reducer(state: State = initialState, action: Action): State {
             const payload = action.payload as string;
             return {
                 ...state,
-                user: {
-                    ...state.user,
-                    linkmans: {
-                        ...state.user.linkmans,
-                        [payload]: {
-                            ...state.user.linkmans[payload],
-                            type: 'friend',
-                        },
+                linkmans: {
+                    ...state.linkmans,
+                    [payload]: {
+                        ...state.linkmans[payload],
+                        type: 'friend',
                     },
                 },
             };

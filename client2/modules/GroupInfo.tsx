@@ -28,7 +28,7 @@ function GroupInfo(props: GroupInfoProps) {
     }
 
     const action = useAction();
-    const hasLinkman = useSelector((state: State) => !!state.user.linkmans[group._id]);
+    const hasLinkman = useSelector((state: State) => !!state.linkmans[group._id]);
     const [largerAvatar, toggleLargetAvatar] = useState(false);
 
     async function handleJoinGroup() {

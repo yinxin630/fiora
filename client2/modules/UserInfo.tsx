@@ -30,7 +30,7 @@ function UserInfo(props: UserInfoProps) {
 
     const action = useAction();
     const selfId = useSelector((state: State) => state.user._id);
-    const linkman = useSelector((state: State) => state.user.linkmans[user._id]);
+    const linkman = useSelector((state: State) => state.linkmans[user._id]);
     const isFriend = linkman && linkman.type === 'friend';
     const isAdmin = useSelector((state: State) => state.user.isAdmin);
     const [largerAvatar, toggleLargetAvatar] = useState(false);
@@ -55,13 +55,9 @@ function UserInfo(props: UserInfoProps) {
                     type: 'friend',
                     createTime: Date.now(),
                     avatar: friend.avatar,
-                    username: friend.username,
+                    name: friend.username,
                     messages: [],
                     unread: 0,
-                    // @ts-ignore
-                    from: friend.from,
-                    // @ts-ignore
-                    to: friend.to,
                 };
                 action.addLinkman(newLinkman as unknown as Linkman, true);
             }

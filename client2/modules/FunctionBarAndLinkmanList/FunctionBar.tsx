@@ -123,7 +123,7 @@ function FunctionBar() {
 
     return (
         <div className={Style.functionBar}>
-            <form className={Style.form} autoComplete="off" action="javascript:void(0);">
+            <form className={Style.form} autoComplete="off" onSubmit={(e) => e.preventDefault()}>
                 <input
                     className={`${Style.input} ${searchResultVisible ? 'focus' : 'blur'}`}
                     ref={$input}
