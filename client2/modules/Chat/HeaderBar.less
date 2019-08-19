@@ -1,0 +1,57 @@
+.headerBar {
+    height: 70px;
+    border-bottom: 1px solid rgba(208, 208, 208, 0.6);
+    display: flex;
+    align-items: center;
+    padding: 0px 18px;
+    justify-content: space-between;
+    position: relative;
+
+    @media (orientation : portrait) {
+        height: 50px;
+        padding: 0 6px;
+    }
+
+    :global {
+        .iconfont {
+            color: var(--primary-color-10);
+            &:hover {
+                color: var(--primary-color-8);
+            }
+        }
+    }
+}
+
+.buttonContainer {
+    display: flex;
+}
+
+.name {
+    font-size: 16px;
+    color: #333;
+
+    @media (orientation : portrait) {
+        font-size: 14px;
+        flex: 1;
+        text-align: center;
+        transform: translateY(-4px);
+    }
+}
+
+.status {
+    color: #999;
+    font-size: 12px;
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.6);
+}
+
+.online, .offline {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 4px;
+    transform: translateY(1px);
+}

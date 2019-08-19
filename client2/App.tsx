@@ -16,6 +16,7 @@ import FunctionBarAndLinkmanList from './modules/FunctionBarAndLinkmanList/Funct
 import UserInfo from './modules/UserInfo';
 import GroupInfo from './modules/GroupInfo';
 import { ShowUserOrGroupInfoContext } from './context';
+import Chat from './modules/Chat/Chat';
 
 /**
  * 获取窗口宽度百分比
@@ -129,6 +130,7 @@ function App() {
                 <ShowUserOrGroupInfoContext.Provider value={contextValue}>
                     <Sidebar />
                     <FunctionBarAndLinkmanList />
+                    <Chat />
                 </ShowUserOrGroupInfoContext.Provider>
             </div>
             <LoginAndRegister />
