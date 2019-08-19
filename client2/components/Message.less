@@ -5,30 +5,33 @@
     }
 }
 
-.component-message {
+.componentMessage {
     height: 100%;
     display: flex;
     align-items: center;
     margin-top: 1px;
 
-    .iconfont {
-        font-size: 22px;
+    :global {
+        .iconfont {
+            font-size: 22px;
+    
+            &.icon-success {
+                color: green;
+            }
+            &.icon-error {
+                color: #d82e2e;
+            }
+            &.icon-warning {
+                color: orange;
+            }
+            &.icon-info {
+                color: #2773ef;
+            }
+        }
+    }
+}
 
-        &.icon-success {
-            color: green;
-        }
-        &.icon-error {
-            color: #d82e2e;
-        }
-        &.icon-warning {
-            color: orange;
-        }
-        &.icon-info {
-            color: #2773ef;
-        }
-    }
-    & > span {
-        margin-left: 8px;
-        font-size: 16px;
-    }
+.messageText {
+    margin-left: 8px;
+    font-size: 16px;
 }

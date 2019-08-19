@@ -1,15 +1,16 @@
 import React from 'react';
 import Notification from 'rc-notification';
 
-import 'rc-notification/assets/index.css';
+import 'rc-notification/dist/rc-notification.min.css';
+import Style from './Message.less';
 
 function showMessage(text: string, duration = 1.5, type = 'success') {
     Notification.newInstance({}, (notification) => {
         notification.notice({
             content: (
-                <div className="component-message">
+                <div className={Style.componentMessage}>
                     <i className={`iconfont icon-${type}`} />
-                    <span>{text}</span>
+                    <span className={Style.messageText}>{text}</span>
                 </div>
             ),
             duration,
