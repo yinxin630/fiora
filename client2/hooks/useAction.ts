@@ -63,13 +63,34 @@ export default function useAction() {
             });
         },
 
-        SetLinkmanProperty(linkmanId: string, key: string, value: any) {
+        setLinkmanProperty(linkmanId: string, key: string, value: any) {
             dispatch({
                 type: ActionTypes.SetLinkmanProperty,
                 payload: {
                     linkmanId,
                     key,
                     value,
+                },
+            });
+        },
+
+        updateMessage(linkmanId: string, messageId: string, value: any) {
+            dispatch({
+                type: ActionTypes.UpdateMessage,
+                payload: {
+                    linkmanId,
+                    messageId,
+                    value,
+                },
+            });
+        },
+
+        deleteMessage(linkmanId: string, messageId: string) {
+            dispatch({
+                type: ActionTypes.DeleteMessage,
+                payload: {
+                    linkmanId,
+                    messageId,
                 },
             });
         },

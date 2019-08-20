@@ -48,7 +48,7 @@ function UserInfo(props: UserInfoProps) {
             let existCount = 0;
             if (linkman) {
                 existCount = Object.keys(linkman.messages).length;
-                action.SetLinkmanProperty(_id, 'type', 'friend');
+                action.setLinkmanProperty(_id, 'type', 'friend');
             } else {
                 const newLinkman = {
                     _id,

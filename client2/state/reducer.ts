@@ -9,6 +9,7 @@ import {
     AddLinkmanMessagesPayload,
     SetLinkmansLastMessagesPayload,
     SetLinkmanPropertyPayload,
+    UpdateMessagePayload,
 } from './action';
 import getFriendId from '../../utils/getFriendId';
 
@@ -355,6 +356,26 @@ function reducer(state: State = initialState, action: Action): State {
                     [payload.linkmanId]: {
                         ...state.linkmans[payload.linkmanId],
                         [payload.key]: payload.value,
+                    },
+                },
+            };
+        }
+
+        case ActionTypes.UpdateMessage: {
+            const payload = action.payload as UpdateMessagePayload;
+            return {
+                ...state,
+                linkmans: {
+                    ...state.linkmans,
+                    [payload.linkmanId]: {
+                        ...state.linkmans[payload.linkmanId],
+                        messages: {
+                            ...state.linkmans[payload.linkmanId].messages,
+                            [payload.messageId]: {
+                                ...state.linkmans[payload.linkmanId].messages,
+                                ...payload.value,
+                            },
+                        },
                     },
                 },
             };

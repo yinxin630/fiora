@@ -39,7 +39,7 @@ function GroupManagePanel(props: GroupManagePanelProps) {
         const isSuccess = await changeGroupName(groupId, groupName);
         if (isSuccess) {
             Message.success('修改群名称成功');
-            action.SetLinkmanProperty(groupId, 'name', groupName);
+            action.setLinkmanProperty(groupId, 'name', groupName);
         }
     }
 
@@ -61,7 +61,7 @@ function GroupManagePanel(props: GroupManagePanelProps) {
             );
             const isSuccess = await changeGroupAvatar(groupId, imageUrl);
             if (isSuccess) {
-                action.SetLinkmanProperty(groupId, 'avatar', URL.createObjectURL(image.result));
+                action.setLinkmanProperty(groupId, 'avatar', URL.createObjectURL(image.result));
                 Message.success('修改群头像成功');
             }
         } catch (err) {

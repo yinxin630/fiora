@@ -197,3 +197,13 @@ export async function sealUser(username: string) {
     const [err] = await fetch('sealUser', { username });
     return !err;
 }
+
+/**
+ * 发送消息
+ * @param to 目标
+ * @param type 消息类型
+ * @param content 消息内容
+ */
+export async function sendMessage(to: string, type: string, content: string) {
+    return fetch('sendMessage', { to, type, content });
+}
