@@ -63,10 +63,14 @@ export default function useAction() {
             });
         },
 
-        setFriend(linkmanId: string) {
+        SetLinkmanProperty(linkmanId: string, key: string, value: any) {
             dispatch({
-                type: ActionTypes.SetFriend,
-                payload: linkmanId,
+                type: ActionTypes.SetLinkmanProperty,
+                payload: {
+                    linkmanId,
+                    key,
+                    value,
+                },
             });
         },
 

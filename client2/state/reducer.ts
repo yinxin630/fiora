@@ -8,6 +8,7 @@ import {
     AddLinkmanPayload,
     AddLinkmanMessagesPayload,
     SetLinkmansLastMessagesPayload,
+    SetLinkmanPropertyPayload,
 } from './action';
 import getFriendId from '../../utils/getFriendId';
 
@@ -32,6 +33,17 @@ export interface MessagesMap {
     [messageId: string]: Message;
 }
 
+export interface GroupMember {
+    user: {
+        _id: string;
+        username: string;
+        avatar: string;
+    },
+    os: string;
+    browser: string;
+    environment: string;
+}
+
 /** 群组 */
 export interface Group {
     _id: string;
@@ -39,7 +51,7 @@ export interface Group {
     avatar: string;
     createTime: string;
     creator: string;
-    members: {}[];
+    onlineMembers: GroupMember[];
 }
 
 /** 好友 */
@@ -167,6 +179,7 @@ function initLinkmanFields(linkman: Linkman, type: string) {
  */
 function transformGroup(group: Linkman): Linkman {
     initLinkmanFields(group, 'group');
+    group.onlineMembers = [];
     return group;
 }
 
@@ -333,15 +346,15 @@ function reducer(state: State = initialState, action: Action): State {
             };
         }
 
-        case ActionTypes.SetFriend: {
-            const payload = action.payload as string;
+        case ActionTypes.SetLinkmanProperty: {
+            const payload = action.payload as SetLinkmanPropertyPayload;
             return {
                 ...state,
                 linkmans: {
                     ...state.linkmans,
-                    [payload]: {
-                        ...state.linkmans[payload],
-                        type: 'friend',
+                    [payload.linkmanId]: {
+                        ...state.linkmans[payload.linkmanId],
+                        [payload.key]: payload.value,
                     },
                 },
             };

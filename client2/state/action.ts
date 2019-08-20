@@ -23,7 +23,7 @@ export enum ActionTypes {
     /** 添加联系人历史消息 */
     AddLinkmanMessages = 'AddLinkmanMessages',
     /** 将临时联系人类的型修改为好友 */
-    SetFriend = 'SetFriend',
+    SetLinkmanProperty = 'SetLinkmanProperty',
 }
 
 export type SetGuestPayload = Group;
@@ -60,7 +60,11 @@ export interface AddLinkmanMessagesPayload {
     messages: Message[];
 }
 
-export type SetFriendPayload = string;
+export interface SetLinkmanPropertyPayload {
+    linkmanId: string;
+    key: string;
+    value: any;
+}
 
 export type RemoveLinkmanPayload = string;
 
@@ -74,7 +78,7 @@ export interface Action {
         | AddLinkmanPayload
         | SetFocusPayload
         | AddLinkmanMessagesPayload
-        | SetFriendPayload
+        | SetLinkmanPropertyPayload
         | RemoveLinkmanPayload
         | SetLinkmansLastMessagesPayload;
 }

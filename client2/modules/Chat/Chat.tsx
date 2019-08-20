@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import HeaderBar from './HeaderBar';
@@ -15,6 +15,25 @@ function Chat() {
     const linkman = useSelector((state: State) => state.linkmans[focus]);
     const [groupManagePanel, toggleGroupManagePanel] = useState(false);
     const context = useContext(ShowUserOrGroupInfoContext);
+
+    function handleBodyClick(e: MouseEvent) {
+        const { currentTarget } = e;
+        let target = e.target as HTMLDivElement;
+        do {
+            if (target.getAttribute('data-float-panel') === 'true') {
+                return;
+            }
+            // @ts-ignore
+            target = target.parentElement;
+        } while (target && target !== currentTarget);
+        toggleGroupManagePanel(false);
+    }
+    useEffect(() => {
+        document.body.addEventListener('click', handleBodyClick, false);
+        return () => {
+            document.body.removeEventListener('click', handleBodyClick, false);
+        };
+    }, []);
 
     if (!linkman) {
         return <div className={Style.chat} />;
@@ -38,7 +57,16 @@ function Chat() {
             <MessageList />
             <ChatInput />
 
-            <GroupManagePanel visible={groupManagePanel} />
+            {linkman.type === 'group' && (
+                <GroupManagePanel
+                    visible={groupManagePanel}
+                    onClose={() => toggleGroupManagePanel(false)}
+                    groupId={linkman._id}
+                    avatar={linkman.avatar}
+                    creator={linkman.creator}
+                    onlineMembers={linkman.onlineMembers}
+                />
+            )}
         </div>
     );
 }

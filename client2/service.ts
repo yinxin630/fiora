@@ -79,6 +79,26 @@ export async function changeUsername(username: string) {
 }
 
 /**
+ * 修改群组名
+ * @param groupId 目标群组
+ * @param name 新名字
+ */
+export async function changeGroupName(groupId: string, name: string) {
+    const [error] = await fetch('changeGroupName', { groupId, name });
+    return !error;
+}
+
+/**
+ * 修改群头像
+ * @param groupId 目标群组
+ * @param name 新头像
+ */
+export async function changeGroupAvatar(groupId: string, avatar: string) {
+    const [error] = await fetch('changeGroupAvatar', { groupId, avatar });
+    return !error;
+}
+
+/**
  * 创建群组
  * @param groupName 群组名
  */
@@ -88,12 +108,30 @@ export async function createGroup(groupName: string) {
 }
 
 /**
+ * 删除群组
+ * @param groupId 群组id
+ */
+export async function deleteGroup(groupId: string) {
+    const [error] = await fetch('deleteGroup', { groupId });
+    return !error;
+}
+
+/**
  * 加入群组
  * @param groupId 群组id
  */
 export async function joinGroup(groupId: string) {
     const [, group] = await fetch('joinGroup', { groupId });
     return group;
+}
+
+/**
+ * 离开群组
+ * @param groupId 群组id
+ */
+export async function leaveGroup(groupId: string) {
+    const [error] = await fetch('leaveGroup', { groupId });
+    return !error;
 }
 
 /**
