@@ -20,7 +20,11 @@ export interface Message {
         _id: string;
         username: string;
         avatar: string;
+        originUsername: string;
+        tag: string;
     },
+    loading: boolean;
+    percent: number;
     createTime: string;
 }
 

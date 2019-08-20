@@ -11,6 +11,7 @@ import Message from '../../components/Message';
 
 import Style from './HeaderBar.less';
 
+
 interface HeaderBarProps {
     /** 联系人名称 */
     name: string;

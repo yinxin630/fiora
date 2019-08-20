@@ -134,6 +134,15 @@ export async function getLinkmanHistoryMessages(linkmanId: string, existCount: n
 }
 
 /**
+ * 获取默认群组的历史消息
+ * @param existCount 客户端已有消息条数
+ */
+export async function getDefalutGroupHistoryMessages(existCount: number) {
+    const [, messages] = await fetch('getDefalutGroupHistoryMessages', { existCount });
+    return messages;
+}
+
+/**
  * 搜索用户和群组
  * @param keywords 关键字
  */
