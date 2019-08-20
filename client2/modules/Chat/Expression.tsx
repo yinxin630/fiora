@@ -1,35 +1,40 @@
 import React from 'react';
 
-import {
-    Tabs, TabPane, TabContent, ScrollableInkTabBar,
-} from '../../components/Tabs';
+import { Tabs, TabPane, TabContent, ScrollableInkTabBar } from '../../components/Tabs';
 import expressions from '../../../utils/expressions';
 
+import Style from './Expression.less';
+
 interface ExpressionProps {
-    onSelect: (expression: string) => void
+    onSelect: (expression: string) => void;
 }
 
 function Expression(props: ExpressionProps) {
     const { onSelect } = props;
     const defaultExpression = (
-        <div className="default-expression">
-            {
-                expressions.default.map((e, index) => (
+        <div className={Style.defaultExpression}>
+            {expressions.default.map((e, index) => (
+                <div
+                    className={Style.defaultExpressionBlock}
+                    key={e}
+                    data-name={e}
+                    onClick={(event) => onSelect(event.currentTarget.dataset.name)}
+                    role="button"
+                >
                     <div
-                        key={e}
-                        data-name={e}
-                        onClick={(event) => onSelect(event.currentTarget.dataset.name)}
-                        role="button"
-                    >
-                        <div className="image" style={{ backgroundPosition: `left ${-30 * index}px`, backgroundImage: `url(${require('../../assets/images/baidu.png')})` }} />
-                    </div>
-                ))
-            }
+                        className={Style.defaultExpressionItem}
+                        style={{
+                            backgroundPosition: `left ${-30 * index}px`,
+                            backgroundImage: `url(${require('../../assets/images/baidu.png')})`,
+                        }}
+                    />
+                </div>
+            ))}
         </div>
     );
 
     return (
-        <div className="chat-expression">
+        <div className={Style.expression}>
             <Tabs
                 defaultActiveKey="default"
                 renderTabBar={() => <ScrollableInkTabBar />}

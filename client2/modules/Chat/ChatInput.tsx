@@ -368,7 +368,7 @@ function ChatInput() {
                 visible={expressionDialog}
                 onVisibleChange={toggleExpressionDialog}
                 overlay={(
-                    <div className="expression-dropdown">
+                    <div className={Style.expressionDropdown}>
                         <Expression onSelect={handleSelectExpression} />
                     </div>
                 )}
@@ -386,7 +386,7 @@ function ChatInput() {
             <Dropdown
                 trigger={['click']}
                 overlay={(
-                    <div className="feature-dropdown">
+                    <div className={Style.featureDropdown}>
                         <Menu onClick={handleFeatureMenuClick}>
                             <MenuItem key="expression">发送表情包</MenuItem>
                             <MenuItem key="huaji">发送滑稽</MenuItem>

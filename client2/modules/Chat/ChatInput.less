@@ -68,3 +68,28 @@
     cursor: pointer;
     font-size: 16px;
 }
+
+.expressionDropdown {
+    width: 415px;
+    height: 240px;
+    background-color: white;
+    transform: translateY(-8px);
+
+    @media (orientation : portrait) {
+        width: 100%;
+    }
+}
+
+.featureDropdown {
+    background-color: white;
+
+    :global {
+        .rc-menu {
+            padding: 6px 0;
+        }
+        .rc-menu-item {
+            padding-left: 18px;
+            padding-right: 18px;
+        }
+    }
+}
