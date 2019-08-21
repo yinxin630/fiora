@@ -375,7 +375,8 @@ function ChatInput() {
 
         const code = `@language=${language}@${rawCode}`;
         const id = addSelfMessage('code', code);
-        sendMessage(id, 'code', code);
+        handleSendMessage(id, 'code', code);
+        toggleCodeEditorDialog(false);
         return null;
     }
 

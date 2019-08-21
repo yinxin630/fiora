@@ -45,6 +45,12 @@ function CodeEditor(props: CodeEditorProps) {
     const [timestamp, setTimestamp] = useState(0);
 
     useEffect(() => {
+        if (visible) {
+            setValue('');
+        }
+    }, [visible]);
+
+    useEffect(() => {
         (async () => {
             // 动态加载编辑器
             if (!AceEditor) {
