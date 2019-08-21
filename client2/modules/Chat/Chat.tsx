@@ -5,12 +5,17 @@ import HeaderBar from './HeaderBar';
 import MessageList from './MessageList';
 import ChatInput from './ChatInput';
 import GroupManagePanel from './GroupManagePanel';
-import { State } from '../../state/reducer';
+import { State, GroupMember } from '../../state/reducer';
 import { ShowUserOrGroupInfoContext } from '../../context';
+import useIsLogin from '../../hooks/useIsLogin';
 
 import Style from './Chat.less';
+import { getGroupOnlineMembers, getDefaultGroupOnlineMembers } from '../../service';
+import useAction from '../../hooks/useAction';
 
 function Chat() {
+    const isLogin = useIsLogin();
+    const action = useAction();
     const focus = useSelector((state: State) => state.focus);
     const linkman = useSelector((state: State) => state.linkmans[focus]);
     const [groupManagePanel, toggleGroupManagePanel] = useState(false);
@@ -39,8 +44,15 @@ function Chat() {
         return <div className={Style.chat} />;
     }
 
-    function handleClickFunction() {
+    async function handleClickFunction() {
+        let onlineMembers: GroupMember[] = [];
         if (linkman.type === 'group') {
+            if (isLogin) {
+                onlineMembers = await getGroupOnlineMembers(focus);
+            } else {
+                onlineMembers = await getDefaultGroupOnlineMembers();
+            }
+            action.setLinkmanProperty(focus, 'onlineMembers', onlineMembers);
             toggleGroupManagePanel(true);
         } else {
             context.showUserDialog(linkman);

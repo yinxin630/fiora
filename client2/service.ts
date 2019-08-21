@@ -207,3 +207,20 @@ export async function sealUser(username: string) {
 export async function sendMessage(to: string, type: string, content: string) {
     return fetch('sendMessage', { to, type, content });
 }
+
+/**
+ * 获取目标群组的在线用户列表
+ * @param groupId 目标群id
+ */
+export async function getGroupOnlineMembers(groupId: string) {
+    const [, members] = await fetch('getGroupOnlineMembers', { groupId });
+    return members;
+}
+
+/**
+ * 获取默认群组的在线用户列表
+ */
+export async function getDefaultGroupOnlineMembers() {
+    const [, members] = await fetch('getDefaultGroupOnlineMembers');
+    return members;
+}

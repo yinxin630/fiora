@@ -16,7 +16,7 @@ import compressImage from '../../../utils/compressImage';
 import config from '../../../config/client';
 import getRandomHuaji from '../../../utils/getRandomHuaji';
 import uploadFile from '../../../utils/uploadFile';
-import { sendMessage } from '../../service';
+import { sendMessage, getGroupOnlineMembers } from '../../service';
 import voice from '../../../utils/voice';
 
 import Style from './ChatInput.less';
@@ -305,11 +305,8 @@ function ChatInput() {
                     enable: true,
                     content: '',
                 });
-                // TODO:
-                // const [err, result] = await fetch('getGroupOnlineMembers', { groupId: focus });
-                // if (!err) {
-                //     action.setGroupMembers(focus, result);
-                // }
+                const onlineMembers = await getGroupOnlineMembers(focus);
+                action.setLinkmanProperty(focus, 'onlineMembers', onlineMembers);
             }
             // eslint-disable-next-line react/destructuring-assignment
         } else if (at.enable) {
@@ -318,31 +315,27 @@ function ChatInput() {
             // 延时, 以便拿到新的value和ime状态
             setTimeout(() => {
                 // 如果@已经被删掉了, 退出@计算模式
-                if (!/@/.test(this.message.value)) {
-                    this.setState({
-                        at: false,
-                        atContent: '',
-                    });
+                if (!/@/.test($input.current.value)) {
+                    setAt({ enable: false, content: '' });
                     return;
                 }
                 // 如果是输入中文, 并且不是空格键, 忽略输入
-                if (this.ime && key !== ' ') {
+                if (IME && key !== ' ') {
                     return;
                 }
                 // 如果是不是输入中文, 并且是空格键, 则@计算模式结束
-                if (!this.ime && key === ' ') {
-                    this.at = false;
-                    this.setState({ at: false });
+                if (!IME && key === ' ') {
+                    setAt({ enable: false, content: '' });
                     return;
                 }
 
                 // 如果是正在输入中文, 则直接返回, 避免取到拼音字母
-                if (this.ime) {
+                if (IME) {
                     return;
                 }
-                const regexResult = /@([^ ]*)/.exec(this.message.value);
+                const regexResult = /@([^ ]*)/.exec($input.current.value);
                 if (regexResult) {
-                    this.setState({ atContent: regexResult[1] });
+                    setAt({ enable: true, content: regexResult[1] });
                 }
             }, 100);
         }
@@ -359,6 +352,18 @@ function ChatInput() {
             }
             return false;
         });
+    }
+
+    function replaceAt(targetUsername) {
+        $input.current.value = $input.current.value.replace(
+            `@${at.content}`,
+            `@${targetUsername} `,
+        );
+        setAt({
+            enable: false,
+            content: '',
+        });
+        $input.current.focus();
     }
 
     return (
@@ -428,16 +433,17 @@ function ChatInput() {
                 onClick={sendTextMessage}
             />
 
-            <div className="aite-panel">
+            <div className={Style.atPanel}>
                 {at.enable
                     ? getSuggestion().map((member) => (
                         <div
+                            className={Style.atUserList}
                             key={member.user._id}
-                            onClick={this.replaceAt.bind(this, member.user.username)}
+                            onClick={() => replaceAt(member.user.username)}
                             role="button"
                         >
                             <Avatar size={24} src={member.user.avatar} />
-                            <p>{member.user.username}</p>
+                            <p className={Style.atText}>{member.user.username}</p>
                         </div>
                     ))
                     : null}
