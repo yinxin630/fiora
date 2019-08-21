@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
+import Style from './ChatInput.less';
 import useIsLogin from '../../hooks/useIsLogin';
 import useAction from '../../hooks/useAction';
 import Dropdown from '../../components/Dropdown';
@@ -18,8 +19,7 @@ import getRandomHuaji from '../../../utils/getRandomHuaji';
 import uploadFile from '../../../utils/uploadFile';
 import { sendMessage, getGroupOnlineMembers } from '../../service';
 import voice from '../../../utils/voice';
-
-import Style from './ChatInput.less';
+import CodeEditor from './CodeEditor';
 
 function ChatInput() {
     const action = useAction();
@@ -32,6 +32,7 @@ function ChatInput() {
     const linkman = useSelector((state: State) => state.linkmans[focus]);
     const selfVoiceSwitch = useSelector((state: State) => state.status.voiceSwitch);
     const [expressionDialog, toggleExpressionDialog] = useState(false);
+    const [codeEditorDialog, toggleCodeEditorDialog] = useState(false);
     const [IME, toggleIME] = useState(false);
     const [at, setAt] = useState({ enable: false, content: '' });
     const $input = useRef(null);
@@ -209,10 +210,7 @@ function ChatInput() {
                 break;
             }
             case 'code': {
-                // TODO:
-                // this.setState({
-                //     codeInputVisible: true,
-                // });
+                toggleCodeEditorDialog(true);
                 break;
             }
             default:
@@ -366,6 +364,21 @@ function ChatInput() {
         $input.current.focus();
     }
 
+    function handleSendCode(language: string, rawCode: string) {
+        if (!connect) {
+            return Message.error('发送消息失败, 您当前处于离线状态');
+        }
+
+        if (rawCode === '') {
+            return Message.warning('请输入内容');
+        }
+
+        const code = `@language=${language}@${rawCode}`;
+        const id = addSelfMessage('code', code);
+        sendMessage(id, 'code', code);
+        return null;
+    }
+
     return (
         <div className={Style.chatInput}>
             <Dropdown
@@ -437,7 +450,7 @@ function ChatInput() {
 
             <div className={Style.atPanel}>
                 {at.enable
-                    ? getSuggestion().map((member) => (
+                    && getSuggestion().map((member) => (
                         <div
                             className={Style.atUserList}
                             key={member.user._id}
@@ -447,9 +460,14 @@ function ChatInput() {
                             <Avatar size={24} src={member.user.avatar} />
                             <p className={Style.atText}>{member.user.username}</p>
                         </div>
-                    ))
-                    : null}
+                    ))}
             </div>
+
+            <CodeEditor
+                visible={codeEditorDialog}
+                onClose={() => toggleCodeEditorDialog(false)}
+                onSend={handleSendCode}
+            />
         </div>
     );
 }

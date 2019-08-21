@@ -1,0 +1,44 @@
+.codeEditor {
+    width: 600px;
+
+    @media (orientation : portrait) {
+        width: 100%;
+        height: 410px;
+    }
+}
+
+.container {
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.selectContainer {
+    display: flex;
+    align-items: center;
+}
+
+.languageSelect {
+    width: 150px;
+    margin-left: 10px;
+}
+
+.title {
+    font-size: 14px;
+    font-weight: normal;
+    color: #666;
+}
+
+.editorContainer {
+    flex: 1;
+    margin-top: 10px;
+    border: 1px solid #f1f1f1;
+    border-radius: 2px;
+}
+
+.sendButton {
+    width: 100px;
+    height: 36px;
+    margin-top: 8px;
+    align-self: flex-end;
+}
