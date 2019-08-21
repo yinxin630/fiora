@@ -66,7 +66,7 @@ function About(props: AboutProps) {
                     <p className={Common.title}>输入框快捷键</p>
                     <ul>
                         <li>Alt + S: 发送滑稽</li>
-                        <li>Alt + D: 发送表情包</li>
+                        <li>Alt + D: 发送表情</li>
                     </ul>
                 </div>
                 <div className={Common.block}>

@@ -1,4 +1,4 @@
-interface ReadFileResult {
+export interface ReadFileResult {
     /** 文件名 */
     filename: string;
     /** 文件拓展名 */

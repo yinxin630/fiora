@@ -190,6 +190,15 @@ export async function search(keywords: string) {
 }
 
 /**
+ * 搜索表情包
+ * @param keywords 关键字
+ */
+export async function searchExpression(keywords: string) {
+    const [, result] = await fetch('searchExpression', { keywords });
+    return result;
+}
+
+/**
  * 封禁用户
  * @param username 目标用户名
  */

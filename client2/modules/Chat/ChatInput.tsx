@@ -10,7 +10,7 @@ import Message from '../../components/Message';
 import { Menu, MenuItem } from '../../components/Menu';
 import Expression from './Expression';
 import { State } from '../../state/reducer';
-import readDiskFile from '../../../utils/readDiskFile';
+import readDiskFile, { ReadFileResult } from '../../../utils/readDiskFile';
 import xss from '../../../utils/xss';
 import compressImage from '../../../utils/compressImage';
 import config from '../../../config/client';
@@ -129,9 +129,19 @@ function ChatInput() {
         }
     }
 
-    function sendImageMessage(image) {
+    function sendImageMessage(image: string): void;
+    function sendImageMessage(image: ReadFileResult): void;
+    function sendImageMessage(image: string | ReadFileResult) {
+        if (typeof image === 'string') {
+            const id = addSelfMessage('image', image);
+            handleSendMessage(id, 'image', image);
+            toggleExpressionDialog(false);
+            return;
+        }
+
         if (image.length > config.maxImageSize) {
-            return Message.warning('要发送的图片过大', 3);
+            Message.warning('要发送的图片过大', 3);
+            return;
         }
 
         const ext = image.type
@@ -145,7 +155,7 @@ function ChatInput() {
             const id = addSelfMessage('image', `${url}?width=${img.width}&height=${img.height}`);
             try {
                 const imageUrl = await uploadFile(
-                    image.result,
+                    image.result as Blob,
                     `ImageMessage/${selfId}_${Date.now()}.${ext}`,
                     `ImageMessage_${selfId}_${Date.now()}.${ext}`,
                     (info: any) => {
@@ -164,7 +174,6 @@ function ChatInput() {
             }
         };
         img.src = url;
-        return null;
     }
 
     async function handleSelectFile() {
@@ -203,13 +212,6 @@ function ChatInput() {
                 // TODO:
                 // this.setState({
                 //     codeInputVisible: true,
-                // });
-                break;
-            }
-            case 'expression': {
-                // TODO:
-                // this.setState({
-                //     expressionSearchVisible: true,
                 // });
                 break;
             }
@@ -295,9 +297,7 @@ function ChatInput() {
             sendHuaji();
             e.preventDefault();
         } else if (e.altKey && (e.key === 'd' || e.key === '∂')) {
-            // setState({
-            //     expressionSearchVisible: true,
-            // });
+            toggleExpressionDialog(true);
         } else if (e.key === '@') {
             // 如果按下@建, 则进入@计算模式
             if (!/@/.test($input.current.value)) {
@@ -374,7 +374,10 @@ function ChatInput() {
                 onVisibleChange={toggleExpressionDialog}
                 overlay={(
                     <div className={Style.expressionDropdown}>
-                        <Expression onSelect={handleSelectExpression} />
+                        <Expression
+                            onSelectText={handleSelectExpression}
+                            onSelectImage={sendImageMessage}
+                        />
                     </div>
                 )}
                 animation="slide-up"
@@ -393,7 +396,6 @@ function ChatInput() {
                 overlay={(
                     <div className={Style.featureDropdown}>
                         <Menu onClick={handleFeatureMenuClick}>
-                            <MenuItem key="expression">发送表情包</MenuItem>
                             <MenuItem key="huaji">发送滑稽</MenuItem>
                             <MenuItem key="image">发送图片</MenuItem>
                             <MenuItem key="code">发送代码</MenuItem>
