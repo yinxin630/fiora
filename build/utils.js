@@ -14,7 +14,7 @@ exports.assetsPath = (_path) => {
 const cssLoader = {
     loader: 'css-loader',
     options: {
-        modules: true,
+        modules: false,
         /**
          * 为了兼容之前没有用 css module 的代码, 暂时不能设置为 [name]__[local]--[hash:base64:5]
          * [local] 其实就是原本的名称
