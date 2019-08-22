@@ -9,6 +9,8 @@ import { ShowUserOrGroupInfoContext } from '../../../context';
 import Style from './Message.less';
 import ImageMessage from './ImageMessage';
 import CodeMessage from './CodeMessage';
+import UrlMessage from './UrlMessage';
+import InviteMessage from './InviteMessage';
 
 interface MessageProps {
     userId: string;
@@ -81,10 +83,10 @@ function Message(props: MessageProps) {
                 return <CodeMessage code={content} />;
             }
             case 'url': {
-                return <TextMessage content={content} />;
+                return <UrlMessage url={content} />;
             }
             case 'invite': {
-                return <TextMessage content={content} />;
+                return <InviteMessage inviteInfo={content} />;
             }
             case 'system': {
                 return <TextMessage content={content} />;

@@ -219,7 +219,7 @@ function ChatInput() {
 
     async function handlePaste(e) {
         // eslint-disable-next-line react/destructuring-assignment
-        if (!this.props.connect) {
+        if (!connect) {
             e.preventDefault();
             return Message.error('发送消息失败, 您当前处于离线状态');
         }

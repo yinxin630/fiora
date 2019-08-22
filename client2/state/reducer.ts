@@ -180,6 +180,7 @@ function initLinkmanFields(linkman: Linkman, type: string) {
  */
 function transformGroup(group: Linkman): Linkman {
     initLinkmanFields(group, 'group');
+    group.creator = group.creator || '';
     group.onlineMembers = [];
     return group;
 }
@@ -227,7 +228,7 @@ function reducer(state: State = initialState, action: Action): State {
     switch (action.type) {
         case ActionTypes.SetGuest: {
             const group = action.payload as Linkman;
-            initLinkmanFields(group, 'group');
+            transformGroup(group);
             return {
                 ...state,
                 user: {

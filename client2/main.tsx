@@ -10,7 +10,7 @@ import store from './state/store';
 import getData from './localStorage';
 import setCssVariable from '../utils/setCssVariable';
 import socket from '../client/socket';
-import { loginByToken, guest, getLinkmansLastMessages } from './service';
+import { loginByToken, guest, getLinkmansLastMessages, getDefalutGroupHistoryMessages } from './service';
 import { ActionTypes } from './state/action';
 import getFriendId from '../utils/getFriendId';
 
@@ -45,6 +45,14 @@ async function loginFailback() {
         dispatch({
             type: ActionTypes.SetGuest,
             payload: defaultGroup,
+        });
+        const messages = await getDefalutGroupHistoryMessages(0);
+        dispatch({
+            type: ActionTypes.AddLinkmanMessages,
+            payload: {
+                linkmanId: defaultGroup._id,
+                messages,
+            },
         });
     }
 }

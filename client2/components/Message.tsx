@@ -4,7 +4,7 @@ import Notification from 'rc-notification';
 import 'rc-notification/dist/rc-notification.min.css';
 import Style from './Message.less';
 
-function showMessage(text: string, duration = 1.5, type = 'success') {
+function showMessage(text: string, duration = 1500, type = 'success') {
     Notification.newInstance({}, (notification) => {
         notification.notice({
             content: (
