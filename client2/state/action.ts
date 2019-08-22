@@ -28,6 +28,10 @@ export enum ActionTypes {
     UpdateMessage = 'UpdateMessage',
     /** 删除消息 */
     DeleteMessage = 'DeleteMessage',
+    /** socket连接成功 */
+    Connect = 'Connect',
+    /** socket断开连接 */
+    Disconnect = 'Disconnect',
 }
 
 export type SetGuestPayload = Group;

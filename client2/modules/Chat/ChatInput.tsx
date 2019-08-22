@@ -30,7 +30,7 @@ function ChatInput() {
     const avatar = useSelector((state: State) => state.user.avatar);
     const focus = useSelector((state: State) => state.focus);
     const linkman = useSelector((state: State) => state.linkmans[focus]);
-    const selfVoiceSwitch = useSelector((state: State) => state.status.voiceSwitch);
+    const selfVoiceSwitch = useSelector((state: State) => state.status.selfVoiceSwitch);
     const [expressionDialog, toggleExpressionDialog] = useState(false);
     const [codeEditorDialog, toggleCodeEditorDialog] = useState(false);
     const [IME, toggleIME] = useState(false);

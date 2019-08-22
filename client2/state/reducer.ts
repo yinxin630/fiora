@@ -81,9 +81,6 @@ export interface User {
     avatar: string;
 }
 
-/** 声音提醒类型 */
-export enum SoundType {}
-
 /** redux store state */
 export interface State {
     /** 用户信息 */
@@ -111,7 +108,7 @@ export interface State {
         /** 新消息声音提示开关 */
         soundSwitch: boolean;
         /** 声音类型 */
-        sound: SoundType;
+        sound: string;
         /** 新消息桌面提醒开关 */
         notificationSwitch: boolean;
         /** 新消息语言朗读开关 */
@@ -203,19 +200,24 @@ function transformFriend(friend: Linkman): Linkman {
     return transformedFriend as Linkman;
 }
 
+function transformTemporary(temporary: Linkman): Linkman {
+    initLinkmanFields(temporary, 'temporary');
+    return temporary;
+}
+
 const localStorage = getData();
 const initialState: State = {
     user: null,
     linkmans: {},
     focus: '',
-    connect: true,
+    connect: false,
     status: {
         loginRegisterDialogVisible: false,
         primaryColor: localStorage.primaryColor,
         primaryTextColor: localStorage.primaryTextColor,
         backgroundImage: localStorage.backgroundImage,
         soundSwitch: localStorage.soundSwitch,
-        sound: (localStorage.sound as unknown) as SoundType,
+        sound: localStorage.sound,
         notificationSwitch: localStorage.notificationSwitch,
         voiceSwitch: localStorage.voiceSwitch,
         selfVoiceSwitch: localStorage.selfVoiceSwitch,
@@ -226,6 +228,19 @@ const initialState: State = {
 
 function reducer(state: State = initialState, action: Action): State {
     switch (action.type) {
+        case ActionTypes.Connect: {
+            return {
+                ...state,
+                connect: true,
+            };
+        }
+        case ActionTypes.Disconnect: {
+            return {
+                ...state,
+                connect: false,
+            };
+        }
+
         case ActionTypes.SetGuest: {
             const group = action.payload as Linkman;
             transformGroup(group);
@@ -302,11 +317,31 @@ function reducer(state: State = initialState, action: Action): State {
             const payload = action.payload as AddLinkmanPayload;
             const { linkman } = payload;
             const focus = payload.focus ? linkman._id : state.focus;
+
+            let transformedLinkman = linkman;
+            switch (linkman.type) {
+                case 'group': {
+                    transformedLinkman = transformGroup(linkman);
+                    break;
+                }
+                case 'friend': {
+                    transformedLinkman = transformFriend(linkman);
+                    break;
+                }
+                case 'temporary': {
+                    transformedLinkman = transformTemporary(linkman);
+                    break;
+                }
+                default: {
+                    return state;
+                }
+            }
+
             return {
                 ...state,
                 linkmans: {
                     ...state.linkmans,
-                    [linkman._id]: (linkman.type === 'group' ? transformGroup : transformFriend)(linkman),
+                    [linkman._id]: transformedLinkman,
                 },
                 focus,
             };

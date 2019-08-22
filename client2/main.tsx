@@ -3,32 +3,19 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDom from 'react-dom';
 import { Provider } from 'react-redux';
-import platform from 'platform';
 
 import App from './App';
 import store from './state/store';
 import getData from './localStorage';
 import setCssVariable from '../utils/setCssVariable';
-import socket from '../client/socket';
-import {
-    loginByToken,
-    guest,
-    getLinkmansLastMessages,
-    getDefalutGroupHistoryMessages,
-} from './service';
-import { ActionTypes } from './state/action';
-import getFriendId from '../utils/getFriendId';
-import convertMessage from '../utils/convertMessage';
-import { Message } from './state/reducer';
 
 // 注册 Service Worker
 if (
-    (window.location.protocol === 'https:' || window.location.hostname === 'localhost')
+    (window.location.protocol === 'https:')
     && navigator.serviceWorker
 ) {
     window.addEventListener('load', () => {
-        const sw = process.env.NODE_ENV === 'development' ? '/static/fiora-sw.js' : '/fiora-sw.js';
-        navigator.serviceWorker.register(sw);
+        navigator.serviceWorker.register('/fiora-sw.js');
     });
 }
 
@@ -43,60 +30,6 @@ if (
 ) {
     Notification.requestPermission();
 }
-
-const { dispatch } = store;
-
-async function loginFailback() {
-    const defaultGroup = await guest(platform.os.family, platform.name, platform.description);
-    if (defaultGroup) {
-        dispatch({
-            type: ActionTypes.SetGuest,
-            payload: defaultGroup,
-        });
-        const messages = await getDefalutGroupHistoryMessages(0);
-        messages.forEach(convertMessage);
-        dispatch({
-            type: ActionTypes.AddLinkmanMessages,
-            payload: {
-                linkmanId: defaultGroup._id,
-                messages,
-            },
-        });
-    }
-}
-
-socket.on('connect', async () => {
-    const token = window.localStorage.getItem('token');
-    if (token) {
-        const user = await loginByToken(
-            token,
-            platform.os.family,
-            platform.name,
-            platform.description,
-        );
-        if (user) {
-            dispatch({
-                type: ActionTypes.SetUser,
-                payload: user,
-            });
-            const linkmanIds = [
-                ...user.groups.map((group) => group._id),
-                ...user.friends.map((friend) => getFriendId(friend.from, friend.to._id)),
-            ];
-            const linkmanMessages = await getLinkmansLastMessages(linkmanIds);
-            Object.values(linkmanMessages).forEach(
-                (messages: Message[]) => messages.forEach(convertMessage),
-            );
-            dispatch({
-                type: ActionTypes.SetLinkmansLastMessages,
-                payload: linkmanMessages,
-            });
-            return null;
-        }
-    }
-    loginFailback();
-    return null;
-});
 
 ReactDom.render(
     <Provider store={store}>
