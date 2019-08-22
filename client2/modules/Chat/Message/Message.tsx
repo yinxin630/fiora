@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { State } from '../../../state/reducer';
 import Avatar from '../../../components/Avatar';
@@ -7,6 +7,7 @@ import TextMessage from './TextMessage';
 import { ShowUserOrGroupInfoContext } from '../../../context';
 
 import Style from './Message.less';
+import ImageMessage from './ImageMessage';
 
 interface MessageProps {
     userId: string;
@@ -23,10 +24,28 @@ interface MessageProps {
 }
 
 function Message(props: MessageProps) {
-    const { userId, type, content, avatar, tag, username, time } = props;
+    const {
+        userId,
+        type,
+        content,
+        avatar,
+        tag,
+        username,
+        time,
+        loading,
+        percent,
+        shouldScroll,
+    } = props;
 
     const isSelf = useSelector((state: State) => state.user._id === userId);
     const context = useContext(ShowUserOrGroupInfoContext);
+    const $container = useRef(null);
+
+    useEffect(() => {
+        if (shouldScroll) {
+            $container.current.scrollIntoView();
+        }
+    }, []);
 
     function formatTime() {
         const nowTime = new Date();
@@ -55,7 +74,7 @@ function Message(props: MessageProps) {
                 return <TextMessage content={content} />;
             }
             case 'image': {
-                return <TextMessage content={content} />;
+                return <ImageMessage src={content} loading={loading} percent={percent} />;
             }
             case 'code': {
                 return <TextMessage content={content} />;
@@ -75,15 +94,8 @@ function Message(props: MessageProps) {
     }
 
     return (
-        <div
-            className={`${Style.message} ${isSelf ? Style.self : ''}`}
-        >
-            <Avatar
-                className={Style.avatar}
-                src={avatar}
-                size={44}
-                onClick={handleClickAvatar}
-            />
+        <div className={`${Style.message} ${isSelf ? Style.self : ''}`} ref={$container}>
+            <Avatar className={Style.avatar} src={avatar} size={44} onClick={handleClickAvatar} />
             <div className={Style.right}>
                 <div className={Style.nicknameTimeBlock}>
                     <span className={Style.tag} style={{ display: tag ? 'inline-block' : 'none' }}>

@@ -372,7 +372,7 @@ function reducer(state: State = initialState, action: Action): State {
                         messages: {
                             ...state.linkmans[payload.linkmanId].messages,
                             [payload.messageId]: {
-                                ...state.linkmans[payload.linkmanId].messages,
+                                ...state.linkmans[payload.linkmanId].messages[payload.messageId],
                                 ...payload.value,
                             },
                         },

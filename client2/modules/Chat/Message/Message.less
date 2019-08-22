@@ -72,6 +72,51 @@
     word-break: break-word;
 }
 
+.imageMessage {
+    position: relative;
+}
+
+.imageProgress {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+}
+
+.imageProgressNumber {
+    color: var(--primary-text-color-10);
+    text-align: center;
+    line-height: 80px;
+    font-size: 18px;
+}
+
+.image {
+    max-width: 500px;
+    max-height: 400px;
+}
+
+.iamgeLoading {
+    .image {
+        filter: blur(5px);
+    }
+    .imageProgress {
+        display: block;
+    }
+    .imageProgressNumber {
+        display: block;
+    }
+}
+
+.huaji {
+    .image {
+        width: auto;
+        max-height: 150px;
+    }
+}
+
 .selecteAble {
     user-select: text;
 }

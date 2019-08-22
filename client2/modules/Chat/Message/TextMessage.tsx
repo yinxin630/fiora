@@ -1,9 +1,8 @@
 import React from 'react';
 
-import expressions from '../../../../utils/expressions';
 import Style from './Message.less';
-
-const transparentImage = 'data:image/png;base64,R0lGODlhFAAUAIAAAP///wAAACH5BAEAAAAALAAAAAAUABQAAAIRhI+py+0Po5y02ouz3rz7rxUAOw==';
+import expressions from '../../../../utils/expressions';
+import { transparentImage } from '../../../../utils/const';
 
 interface TextMessageProps {
     content: string;

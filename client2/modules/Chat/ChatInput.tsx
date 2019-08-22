@@ -98,7 +98,7 @@ function ChatInput() {
                 avatar,
             },
             loading: true,
-            percent: type === 'image' ? 0 : 1,
+            percent: type === 'image' ? 0 : 100,
         };
         // @ts-ignore
         action.addLinkmanMessages(focus, [message]);
