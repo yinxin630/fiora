@@ -2,6 +2,70 @@ import fetch from '../utils/fetch';
 import { User } from './state/reducer';
 
 /**
+ * 注册新用户
+ * @param username 用户名
+ * @param password 密码
+ * @param os 系统
+ * @param browser 浏览器
+ * @param environment 环境信息
+ */
+export async function register(
+    username: string,
+    password: string,
+    os: string,
+    browser: string,
+    environment: string,
+) {
+    const [err, user] = await fetch(
+        'register',
+        {
+            username,
+            password,
+            os,
+            browser,
+            environment,
+        },
+    );
+
+    if (err) {
+        return null;
+    }
+    return user;
+}
+
+/**
+ * 使用账密登录
+ * @param username 用户名
+ * @param password 密码
+ * @param os 系统
+ * @param browser 浏览器
+ * @param environment 环境信息
+ */
+export async function login(
+    username: string,
+    password: string,
+    os: string,
+    browser: string,
+    environment: string,
+) {
+    const [err, user] = await fetch(
+        'login',
+        {
+            username,
+            password,
+            os,
+            browser,
+            environment,
+        },
+    );
+
+    if (err) {
+        return null;
+    }
+    return user;
+}
+
+/**
  * 使用token登录
  * @param token 登录token
  * @param os 系统
@@ -14,7 +78,7 @@ export async function loginByToken(
     browser: string,
     environment: string,
 ) {
-    const [err, res] = await fetch(
+    const [err, user] = await fetch(
         'loginByToken',
         {
             token,
@@ -28,7 +92,7 @@ export async function loginByToken(
     if (err) {
         return null;
     }
-    return res;
+    return user;
 }
 
 /**

@@ -1,39 +1,49 @@
 import React, { useState } from 'react';
 import platform from 'platform';
-
-import Input from '../../components/Input';
-import socket from '../../socket';
-import Message from '../../components/Message';
-import useAction from '../../hooks/useAction';
+import { useDispatch } from 'react-redux';
 
 import Style from './LoginRegister.less';
+import Input from '../../components/Input';
+import useAction from '../../hooks/useAction';
+import { getLinkmansLastMessages, register } from '../../service';
+import getFriendId from '../../../utils/getFriendId';
+import { Message } from '../../state/reducer';
+import convertMessage from '../../../utils/convertMessage';
+import { ActionTypes } from '../../state/action';
 
 /** 登录框 */
 function Register() {
     const action = useAction();
+    const dispatch = useDispatch();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    function handleRegister() {
-        socket.emit(
-            'register',
-            {
-                username,
-                password,
-                os: platform.os.family,
-                browser: platform.name,
-                environment: platform.description,
-            },
-            (res) => {
-                if (typeof res === 'string') {
-                    Message.error(res);
-                } else {
-                    action.setUser(res);
-                    action.toggleLoginRegisterDialog(false);
-                    window.localStorage.setItem('token', res.token);
-                }
-            },
+    async function handleRegister() {
+        const user = await register(
+            username,
+            password,
+            platform.os.family,
+            platform.name,
+            platform.description,
         );
+        if (user) {
+            action.setUser(user);
+            action.toggleLoginRegisterDialog(false);
+            window.localStorage.setItem('token', user.token);
+
+            const linkmanIds = [
+                ...user.groups.map((group) => group._id),
+                ...user.friends.map((friend) => getFriendId(friend.from, friend.to._id)),
+            ];
+            const linkmanMessages = await getLinkmansLastMessages(linkmanIds);
+            Object.values(linkmanMessages).forEach(
+                (messages: Message[]) => messages.forEach(convertMessage),
+            );
+            dispatch({
+                type: ActionTypes.SetLinkmansLastMessages,
+                payload: linkmanMessages,
+            });
+        }
     }
 
     return (
