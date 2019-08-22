@@ -4,8 +4,7 @@ if (
     && navigator.serviceWorker
 ) {
     window.addEventListener('load', () => {
-        const sw = process.env.NODE_ENV === 'development' ? '/static/fiora-sw.js' : '/fiora-sw.js';
-        navigator.serviceWorker.register(sw);
+        navigator.serviceWorker.register('/fiora-sw.js');
     });
 }
 
