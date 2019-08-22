@@ -10,9 +10,16 @@ import store from './state/store';
 import getData from './localStorage';
 import setCssVariable from '../utils/setCssVariable';
 import socket from '../client/socket';
-import { loginByToken, guest, getLinkmansLastMessages, getDefalutGroupHistoryMessages } from './service';
+import {
+    loginByToken,
+    guest,
+    getLinkmansLastMessages,
+    getDefalutGroupHistoryMessages,
+} from './service';
 import { ActionTypes } from './state/action';
 import getFriendId from '../utils/getFriendId';
+import convertMessage from '../utils/convertMessage';
+import { Message } from './state/reducer';
 
 // 注册 Service Worker
 if (
@@ -47,6 +54,7 @@ async function loginFailback() {
             payload: defaultGroup,
         });
         const messages = await getDefalutGroupHistoryMessages(0);
+        messages.forEach(convertMessage);
         dispatch({
             type: ActionTypes.AddLinkmanMessages,
             payload: {
@@ -76,6 +84,9 @@ socket.on('connect', async () => {
                 ...user.friends.map((friend) => getFriendId(friend.from, friend.to._id)),
             ];
             const linkmanMessages = await getLinkmansLastMessages(linkmanIds);
+            Object.values(linkmanMessages).forEach(
+                (messages: Message[]) => messages.forEach(convertMessage),
+            );
             dispatch({
                 type: ActionTypes.SetLinkmansLastMessages,
                 payload: linkmanMessages,

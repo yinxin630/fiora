@@ -11,6 +11,7 @@ import ImageMessage from './ImageMessage';
 import CodeMessage from './CodeMessage';
 import UrlMessage from './UrlMessage';
 import InviteMessage from './InviteMessage';
+import SystemMessage from './SystemMessage';
 
 interface MessageProps {
     userId: string;
@@ -34,6 +35,7 @@ function Message(props: MessageProps) {
         avatar,
         tag,
         username,
+        originUsername,
         time,
         loading,
         percent,
@@ -89,7 +91,7 @@ function Message(props: MessageProps) {
                 return <InviteMessage inviteInfo={content} />;
             }
             case 'system': {
-                return <TextMessage content={content} />;
+                return <SystemMessage message={content} username={originUsername} />;
             }
             default:
                 return <div className="unknown">不支持的消息类型</div>;

@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { User, Linkman, Message } from '../state/reducer';
 import { ActionTypes } from '../state/action';
+import convertMessage from '../../utils/convertMessage';
 
 /**
  * 获取 redux action
@@ -54,6 +55,7 @@ export default function useAction() {
         },
 
         addLinkmanMessages(linkmanId: string, messages: Message[]) {
+            messages.forEach((message) => convertMessage(message));
             dispatch({
                 type: ActionTypes.AddLinkmanMessages,
                 payload: {
@@ -75,6 +77,7 @@ export default function useAction() {
         },
 
         updateMessage(linkmanId: string, messageId: string, value: any) {
+            convertMessage(value);
             dispatch({
                 type: ActionTypes.UpdateMessage,
                 payload: {
