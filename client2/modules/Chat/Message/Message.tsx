@@ -8,6 +8,7 @@ import { ShowUserOrGroupInfoContext } from '../../../context';
 
 import Style from './Message.less';
 import ImageMessage from './ImageMessage';
+import CodeMessage from './CodeMessage';
 
 interface MessageProps {
     userId: string;
@@ -77,7 +78,7 @@ function Message(props: MessageProps) {
                 return <ImageMessage src={content} loading={loading} percent={percent} />;
             }
             case 'code': {
-                return <TextMessage content={content} />;
+                return <CodeMessage code={content} />;
             }
             case 'url': {
                 return <TextMessage content={content} />;
