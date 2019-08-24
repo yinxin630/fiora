@@ -1,0 +1,37 @@
+:global {
+    .rc-notification {
+        top: 5px !important;
+        z-index: 1100 !important;
+    }
+}
+
+.componentMessage {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 1px;
+
+    :global {
+        .iconfont {
+            font-size: 22px;
+    
+            &.icon-success {
+                color: green;
+            }
+            &.icon-error {
+                color: #d82e2e;
+            }
+            &.icon-warning {
+                color: orange;
+            }
+            &.icon-info {
+                color: #2773ef;
+            }
+        }
+    }
+}
+
+.messageText {
+    margin-left: 8px;
+    font-size: 16px;
+}

@@ -1,0 +1,33 @@
+.reward {
+    width: 700px !important;
+}
+
+.text {
+    color: #333;
+    text-align: center;
+    line-height: 34px;
+}
+
+.imageContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 30px;
+    height: 375px;
+
+    @media (orientation: portrait) {
+        flex-wrap: wrap;
+        & > img {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+.image {
+    width: 250px;
+    height: auto;
+
+    @media (orientation: portrait) {
+        margin-bottom: 10px;
+    }
+}

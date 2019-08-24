@@ -1,0 +1,74 @@
+@import '../../../node_modules/normalize.css/normalize.css';
+
+@font-face {
+    font-family: 'local-file';
+    src: url('../fonts/font.woff');
+}
+
+:global {
+    * {
+        user-select: none;
+    }
+    
+    html, body, #app {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+    
+    html {
+        font-family: 'local-file', 'Arial', 'Verdana', '微软雅黑', '黑体', 'serif';
+    }
+    
+    p, h1, h2, h3, h4 {
+        margin: 0;
+    }
+    
+    div {
+        box-sizing: border-box;
+    }
+    
+    button, input, textarea {
+        outline: none;
+    }
+    
+    button {
+        cursor: pointer;
+    }
+    
+    div, p, span {
+        color: #333;
+    }
+    
+    body {overflow-y:hidden;}
+    body:hover {overflow-y:scroll;}
+    
+    ::-webkit-scrollbar {
+        display: none;
+    }
+    .show-scrollbar::-webkit-scrollbar {
+        display: block;
+        width: 6px;
+        height: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+    ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .online {
+        background-color: rgba(94, 212, 92, 1);
+    }
+    .offline {
+        background-color: rgba(206, 12, 35, 1);
+    }
+    
+    .show {
+        display: block;
+    }
+    .hide {
+        display: none !important;
+    }
+}

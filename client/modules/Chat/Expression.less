@@ -1,0 +1,93 @@
+.expression {
+    height: 100%;
+    
+    :global {
+        .rc-tabs {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .rc-tabs-content {
+            flex: 1;
+        }
+    }
+}
+
+.defaultExpression {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0 7px;
+}
+
+.defaultExpressionBlock {
+    width: 40px;
+    height: 40px;;
+    padding: 5px;
+    transition: all 0.3s;
+
+    &:hover {
+        background-color: #e9e9e9;
+        cursor: pointer;
+    }
+
+    @media (orientation : portrait) {
+        width: 10%;
+        height: auto;
+    }
+}
+
+.defaultExpressionItem {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-size: 30px auto;
+    background-image: url('../../assets/images/baidu.png');
+}
+
+.searchExpression {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+    position: relative;
+}
+
+.searchExpressionInputBlock {
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.searchExpressionInput {
+    height: 34px;
+    flex: 1;
+}
+
+.searchExpressionButton {
+    height: 34px;
+    width: 100px;
+    margin-left: 12px;
+}
+
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.searchResult {
+    height: 155px;
+    overflow: auto;
+    padding: 0 2px;
+}
+
+.searchImage {
+    width: 120px;
+    height: 120px;
+    margin: 0 5px;
+}

@@ -1,0 +1,99 @@
+.switchContainer {
+    margin-bottom: 4px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.button {
+    margin-right: 10px;
+    width: 130px;
+    height: 34px;
+}
+
+.switch {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    margin-bottom: 8px;
+}
+
+.switchText {
+    color: #444;
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+.radioGroup {
+    display: flex !important;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    & > div {
+        width: 120px !important;
+        flex: initial !important;
+        padding: 12px !important;
+        margin-bottom: 6px !important;
+        & > div {
+            display: flex;
+            align-items: center;
+        }
+        & > div > div {
+            padding: 0 !important;
+            font-size: 14px;
+        }
+        & > div > div > div {
+            transform: translate(-2px, -2px);
+        }
+    }
+}
+
+.backgroundTip {
+    font-size: 12px;
+    color: #777;
+}
+
+.backgroundImageContainer {
+    text-align: center;
+    position: relative;
+}
+
+.backgroundImage {
+    width: 98%;
+    height: auto;
+    cursor: pointer;
+
+    &:hover {
+        filter: blur(3px);
+    }
+
+    &.blur {
+        filter: blur(3px);
+    }
+}
+
+.backgroundImageLoading {
+    position: absolute;
+    top: 70px;
+    left: 175px;
+    pointer-events: none;
+}
+
+.colorInfo {
+    display: flex;
+    align-items: center;
+
+    & > div {
+        width: 30px;
+        height: 30px;
+        border-radius: 4px;
+        margin-left: 6px;
+    }
+    & > span {
+        margin-left: 12px;
+        color: #666;
+    }
+}
+
+.colorPicker {
+    margin-top: 20px;
+}

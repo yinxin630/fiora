@@ -1,0 +1,31 @@
+.inputContainer {
+    position: relative;
+}
+
+.input {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 0 34px 0 8px;
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box;
+    user-select: auto;
+
+    &:focus {
+        border-color: var(--primary-color-10);
+    }
+}
+
+.inputIconButton {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    right: 5px;
+
+    &:hover {
+        color: var(--primary-color-10);
+    }
+}

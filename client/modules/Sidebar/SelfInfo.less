@@ -1,0 +1,52 @@
+.selfInfo {
+    height: initial !important;
+    width: 500px;
+}
+
+.changeAvatar {
+    position: relative;
+    .blur {
+        filter: blur(2px);
+    }
+}
+
+.cropper {
+    & > div {
+        margin-bottom: 8px;
+    }
+    .loading {
+        top: 170px;
+        left: 170px;
+    }
+}
+
+.preview {
+    & >img {
+        width: 100px;
+        height: 100px;
+        cursor: pointer;
+
+        &:hover {
+            filter: blur(3px);
+        }
+    }
+    .loading {
+        top: 10px;
+        left: 10px;
+    }
+}
+
+.loading {
+    position: absolute;
+    pointer-events: none;
+}
+
+.input {
+    height: 36px;
+    margin-bottom: 8px;
+}
+
+.button {
+    width: 100px;
+    height: 36px;
+}

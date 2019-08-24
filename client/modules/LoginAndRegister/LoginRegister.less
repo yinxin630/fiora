@@ -1,0 +1,35 @@
+.loginRegister {
+    height: 260px;
+    display: flex;
+    flex-direction: column;
+    padding: 0 30px;
+}
+
+.title {
+    font-size: 14px;
+        font-weight: normal;
+        line-height: 27px;
+        margin-top: 20px;
+        color: #666;
+}
+
+.input {
+    height: 40px;
+    & > input {
+        line-height: 40px;
+    }
+}
+
+.button {
+    background-color: var(--primary-color-10);
+    color: var(--primary-text-color-10);
+    height: 40px;
+    border: none;
+    margin-top: 30px;
+    transition: background-color 0.2s;
+    border-radius: 6px;
+
+    &:hover {
+        background-color: var(--primary-color-9);
+    }
+}

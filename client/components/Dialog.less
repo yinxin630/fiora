@@ -1,0 +1,40 @@
+:global {
+    .rc-dialog {
+        width: 450px;
+        top: 45% !important;
+        transform: translateY(-50%) !important;
+    }
+    .rc-dialog-title {
+        font-size: 16px !important;
+    }
+    .rc-dialog-wrap {
+        overflow: hidden !important;
+    }
+    .rc-dialog-close {
+        top: 0 !important;
+        right: 10px !important;
+    
+        .rc-dialog-close-x {
+            font-size: 32px !important;
+        }
+    }
+    
+    .rc-dialog-body {
+        overflow: auto;
+        max-height: 60vh;
+    }
+    
+    @media (orientation : portrait) {
+        .rc-dialog {
+            width: 94% !important;
+            margin: 0 auto;
+        }
+        .rc-dialog-body {
+            padding: 10px 10px;
+            max-height: 88%;
+        }
+        .rc-dialog-content {
+            max-height: 500px;
+        }
+    }
+}
