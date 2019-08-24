@@ -308,9 +308,17 @@ function reducer(state: State = initialState, action: Action): State {
         }
 
         case ActionTypes.SetFocus: {
+            const focus = action.payload as string;
             return {
                 ...state,
-                focus: action.payload as string,
+                linkmans: {
+                    ...state.linkmans,
+                    [focus]: {
+                        ...state.linkmans[focus],
+                        unread: 0,
+                    },
+                },
+                focus,
             };
         }
 
@@ -331,6 +339,7 @@ function reducer(state: State = initialState, action: Action): State {
                 }
                 case 'temporary': {
                     transformedLinkman = transformTemporary(linkman);
+                    transformedLinkman.unread = 1;
                     break;
                 }
                 default: {
@@ -391,6 +400,10 @@ function reducer(state: State = initialState, action: Action): State {
 
         case ActionTypes.AddLinkmanMessage: {
             const payload = action.payload as AddLinkmanMessagePayload;
+            let { unread } = state.linkmans[payload.linkmanId];
+            if (state.focus !== payload.linkmanId) {
+                unread++;
+            }
             return {
                 ...state,
                 linkmans: {
@@ -401,6 +414,7 @@ function reducer(state: State = initialState, action: Action): State {
                             ...state.linkmans[payload.linkmanId].messages,
                             [payload.message._id]: payload.message,
                         },
+                        unread,
                     },
                 },
             };

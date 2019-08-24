@@ -36,9 +36,22 @@ function LinkmanList() {
         );
     }
 
+    function getLinkmanLastTime(linkman: Linkman): number {
+        let time = linkman.createTime;
+        const messages = Object.values(linkman.messages);
+        if (messages.length > 0) {
+            time = messages[messages.length - 1].createTime;
+        }
+        return new Date(time).getTime();
+    }
+
+    function sort(linkman1: Linkman, linkman2: Linkman): number {
+        return getLinkmanLastTime(linkman1) < getLinkmanLastTime(linkman2) ? 1 : -1;
+    }
+
     return (
         <div className={Style.linkmanList}>
-            { Object.values(linkmans).map((linkman) => renderLinkman(linkman)) }
+            { Object.values(linkmans).sort(sort).map((linkman) => renderLinkman(linkman)) }
         </div>
     );
 }
