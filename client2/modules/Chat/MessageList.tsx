@@ -11,6 +11,7 @@ import Style from './MessageList.less';
 
 function MessageList() {
     const action = useAction();
+    const selfId = useSelector((state: State) => state.user._id);
     const focus = useSelector((state: State) => state.focus);
     const messages = useSelector((state: State) => state.linkmans[focus].messages);
     const isLogin = useIsLogin();
@@ -49,10 +50,12 @@ function MessageList() {
     }
 
     function renderMessage(message: Message) {
+        const isSelf = message.from._id === selfId;
         let shouldScroll = true;
         if ($list.current) {
             const { scrollHeight, clientHeight, scrollTop } = $list.current;
-            shouldScroll = scrollHeight === clientHeight
+            shouldScroll = isSelf
+                || scrollHeight === clientHeight
                 || scrollTop === 0
                 || scrollTop > scrollHeight - clientHeight * 2;
         }
@@ -60,11 +63,12 @@ function MessageList() {
         return (
             <MessageComponent
                 key={message._id}
+                isSelf={isSelf}
                 userId={message.from._id}
                 avatar={message.from.avatar}
                 username={message.from.username}
                 originUsername={message.from.originUsername}
-                time={new Date(message.createTime)}
+                time={message.createTime}
                 type={message.type}
                 content={message.content}
                 tag={message.from.tag}

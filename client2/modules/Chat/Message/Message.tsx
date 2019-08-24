@@ -1,12 +1,11 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import { State } from '../../../state/reducer';
+import React, { Component, createRef } from 'react';
+import pureRender from 'pure-render-decorator';
+
+import Style from './Message.less';
 import Avatar from '../../../components/Avatar';
 import Time from '../../../../utils/time';
 import TextMessage from './TextMessage';
 import { ShowUserOrGroupInfoContext } from '../../../context';
-
-import Style from './Message.less';
 import ImageMessage from './ImageMessage';
 import CodeMessage from './CodeMessage';
 import UrlMessage from './UrlMessage';
@@ -14,12 +13,13 @@ import InviteMessage from './InviteMessage';
 import SystemMessage from './SystemMessage';
 
 interface MessageProps {
+    isSelf: boolean;
     userId: string;
     avatar: string;
     username: string;
     originUsername: string;
     tag: string;
-    time: Date;
+    time: string;
     type: string;
     content: string;
     loading: boolean;
@@ -27,45 +27,26 @@ interface MessageProps {
     shouldScroll: boolean;
 }
 
-function Message(props: MessageProps) {
-    const {
-        userId,
-        type,
-        content,
-        avatar,
-        tag,
-        username,
-        originUsername,
-        time,
-        loading,
-        percent,
-        shouldScroll,
-    } = props;
+/**
+ * Message组件用hooks实现有些问题
+ * 功能上要求Message组件渲染后触发滚动, 实测中发现在useEffect中触发滚动会比在componentDidMount中晚
+ * 具体表现就是会先看到历史消息, 然后一闪而过再滚动到合适的位置
+ */
+@pureRender
+class Message extends Component<MessageProps> {
+    $container = createRef<HTMLDivElement>();
 
-    const isSelf = useSelector((state: State) => state.user._id === userId);
-    const context = useContext(ShowUserOrGroupInfoContext);
-    const $container = useRef(null);
-
-    useEffect(() => {
+    componentDidMount() {
+        const { shouldScroll } = this.props;
         if (shouldScroll) {
-            $container.current.scrollIntoView();
+            this.$container.current.scrollIntoView();
         }
-    }, []);
-
-    function formatTime() {
-        const nowTime = new Date();
-        if (Time.isToday(nowTime, time)) {
-            return Time.getHourMinute(time);
-        }
-        if (Time.isYesterday(nowTime, time)) {
-            return `昨天 ${Time.getHourMinute(time)}`;
-        }
-        return `${Time.getMonthDate(time)} ${Time.getHourMinute(time)}`;
     }
 
-    function handleClickAvatar() {
+    handleClickAvatar(showUserInfo: (userinfo: any) => void) {
+        const { isSelf, userId, type, username, avatar } = this.props;
         if (!isSelf && type !== 'system') {
-            context.showUserInfo({
+            showUserInfo({
                 _id: userId,
                 username,
                 avatar,
@@ -73,7 +54,21 @@ function Message(props: MessageProps) {
         }
     }
 
-    function renderContent() {
+    formatTime() {
+        const { time } = this.props;
+        const messageTime = new Date(time);
+        const nowTime = new Date();
+        if (Time.isToday(nowTime, messageTime)) {
+            return Time.getHourMinute(messageTime);
+        }
+        if (Time.isYesterday(nowTime, messageTime)) {
+            return `昨天 ${Time.getHourMinute(messageTime)}`;
+        }
+        return `${Time.getMonthDate(messageTime)} ${Time.getHourMinute(messageTime)}`;
+    }
+
+    renderContent() {
+        const { type, content, loading, percent, originUsername } = this.props;
         switch (type) {
             case 'text': {
                 return <TextMessage content={content} />;
@@ -98,22 +93,37 @@ function Message(props: MessageProps) {
         }
     }
 
-    return (
-        <div className={`${Style.message} ${isSelf ? Style.self : ''}`} ref={$container}>
-            <Avatar className={Style.avatar} src={avatar} size={44} onClick={handleClickAvatar} />
-            <div className={Style.right}>
-                <div className={Style.nicknameTimeBlock}>
-                    <span className={Style.tag} style={{ display: tag ? 'inline-block' : 'none' }}>
-                        {tag}
-                    </span>
-                    <span className={Style.nickname}>{username}</span>
-                    <span className={Style.time}>{formatTime()}</span>
+    render() {
+        const { isSelf, avatar, tag, username } = this.props;
+        return (
+            <div className={`${Style.message} ${isSelf ? Style.self : ''}`} ref={this.$container}>
+                <ShowUserOrGroupInfoContext.Consumer>
+                    {(context) => (
+                        <Avatar
+                            className={Style.avatar}
+                            src={avatar}
+                            size={44}
+                            onClick={() => this.handleClickAvatar(context.showUserInfo)}
+                        />
+                    )}
+                </ShowUserOrGroupInfoContext.Consumer>
+                <div className={Style.right}>
+                    <div className={Style.nicknameTimeBlock}>
+                        <span
+                            className={Style.tag}
+                            style={{ display: tag ? 'inline-block' : 'none' }}
+                        >
+                            {tag}
+                        </span>
+                        <span className={Style.nickname}>{username}</span>
+                        <span className={Style.time}>{this.formatTime()}</span>
+                    </div>
+                    <div className={Style.content}>{this.renderContent()}</div>
+                    <div className={Style.arrow} />
                 </div>
-                <div className={Style.content}>{renderContent()}</div>
-                <div className={Style.arrow} />
             </div>
-        </div>
-    );
+        );
+    }
 }
 
 export default Message;

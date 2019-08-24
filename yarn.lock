@@ -5972,6 +5972,13 @@ punycode@^2.1.0:
   version "2.1.1"
   resolved "http://registry.npm.taobao.org/punycode/download/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
 
+pure-render-decorator@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.npm.taobao.org/pure-render-decorator/download/pure-render-decorator-1.2.1.tgz#568870eeca17a1cee536b4fe94a3477fcd31eeb9"
+  integrity sha1-Vohw7soXoc7lNrT+lKNHf80x7rk=
+  dependencies:
+    fbjs "^0.8.0"
+
 pxrem-loader@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/pxrem-loader/download/pxrem-loader-1.0.0.tgz#e8ac26d5b92686a0eefbbecaa4184e8d4aa0f482"
