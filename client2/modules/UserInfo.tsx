@@ -69,7 +69,7 @@ function UserInfo(props: UserInfoProps) {
             }
             const messages = await getLinkmanHistoryMessages(_id, existCount);
             if (messages) {
-                action.addLinkmanMessages(_id, messages);
+                action.addLinkmanHistoryMessages(_id, messages);
             }
             handleFocusUser();
         }

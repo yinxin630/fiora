@@ -23,7 +23,7 @@ function InviteMessage(props: InviteMessageProps) {
             Message.success('加入群组成功');
             const messages = await getLinkmanHistoryMessages(invite.groupId, 0);
             if (messages) {
-                action.addLinkmanMessages(invite.groupId, messages);
+                action.addLinkmanHistoryMessages(invite.groupId, messages);
             }
         }
     }

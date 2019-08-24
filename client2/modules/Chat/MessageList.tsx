@@ -42,7 +42,7 @@ function MessageList() {
                 );
             }
             if (historyMessages && historyMessages.length > 0) {
-                action.addLinkmanMessages(focus, historyMessages);
+                action.addLinkmanHistoryMessages(focus, historyMessages);
             }
             isFetching = false;
         }
@@ -76,7 +76,7 @@ function MessageList() {
     }
 
     return (
-        <div className={Style.messageList} onScroll={handleScroll} ref={$list}>
+        <div className={`${Style.messageList} show-scrollbar`} onScroll={handleScroll} ref={$list}>
             {Object.values(messages).map((message) => renderMessage(message))}
         </div>
     );

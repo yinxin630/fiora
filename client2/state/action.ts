@@ -21,7 +21,9 @@ export enum ActionTypes {
     /** 设置各联系人历史消息 */
     SetLinkmansLastMessages = 'SetLinkmansLastMessages',
     /** 添加联系人历史消息 */
-    AddLinkmanMessages = 'AddLinkmanMessages',
+    AddLinkmanHistoryMessages = 'AddLinkmanHistoryMessages',
+    /** 添加联系人新消息 */
+    AddLinkmanMessage = 'AddLinkmanMessage',
     /** 设置联系人指定属性值 */
     SetLinkmanProperty = 'SetLinkmanProperty',
     /** 更新消息 */
@@ -63,9 +65,14 @@ export interface SetLinkmansLastMessagesPayload {
     [linkmanId: string]: Message[];
 }
 
-export interface AddLinkmanMessagesPayload {
+export interface AddLinkmanHistoryMessagesPayload {
     linkmanId: string;
     messages: Message[];
+}
+
+export interface AddLinkmanMessagePayload {
+    linkmanId: string;
+    message: Message;
 }
 
 export interface SetLinkmanPropertyPayload {
@@ -96,7 +103,8 @@ export interface Action {
         | SetAvatarPayload
         | AddLinkmanPayload
         | SetFocusPayload
-        | AddLinkmanMessagesPayload
+        | AddLinkmanHistoryMessagesPayload
+        | AddLinkmanMessagePayload
         | SetLinkmanPropertyPayload
         | RemoveLinkmanPayload
         | SetLinkmansLastMessagesPayload

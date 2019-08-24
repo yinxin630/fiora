@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import Style from './CreateGroup.less';
 import Dialog from '../../components/Dialog';
 import Input from '../../components/Input';
 import Message from '../../components/Message';
@@ -29,18 +30,18 @@ function CreateGroup(props: CreateGroupProps) {
 
     return (
         <Dialog
-            className="create-group-dialog"
             title="创建群组"
             visible={visible}
             onClose={onClose}
         >
-            <div className="content">
-                <h3>请输入群组名</h3>
+            <div className={Style.container}>
+                <h3 className={Style.text}>请输入群组名</h3>
                 <Input
+                    className={Style.input}
                     value={groupName}
                     onChange={setGroupName}
                 />
-                <button onClick={handleCreateGroup} type="button">
+                <button className={Style.button} onClick={handleCreateGroup} type="button">
                     创建
                 </button>
             </div>

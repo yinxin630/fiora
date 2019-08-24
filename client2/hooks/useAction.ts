@@ -54,13 +54,24 @@ export default function useAction() {
             });
         },
 
-        addLinkmanMessages(linkmanId: string, messages: Message[]) {
+        addLinkmanHistoryMessages(linkmanId: string, messages: Message[]) {
             messages.forEach((message) => convertMessage(message));
             dispatch({
-                type: ActionTypes.AddLinkmanMessages,
+                type: ActionTypes.AddLinkmanHistoryMessages,
                 payload: {
                     linkmanId,
                     messages,
+                },
+            });
+        },
+
+        addLinkmanMessage(linkmanId: string, message: Message) {
+            convertMessage(message);
+            dispatch({
+                type: ActionTypes.AddLinkmanMessage,
+                payload: {
+                    linkmanId,
+                    message,
                 },
             });
         },

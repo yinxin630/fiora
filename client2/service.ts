@@ -164,10 +164,10 @@ export async function changeGroupAvatar(groupId: string, avatar: string) {
 
 /**
  * 创建群组
- * @param groupName 群组名
+ * @param name 群组名
  */
-export async function createGroup(groupName: string) {
-    const [, group] = await fetch('createGroup', { groupName });
+export async function createGroup(name: string) {
+    const [, group] = await fetch('createGroup', { name });
     return group;
 }
 

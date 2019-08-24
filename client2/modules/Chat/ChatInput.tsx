@@ -101,7 +101,7 @@ function ChatInput() {
             percent: type === 'image' ? 0 : 100,
         };
         // @ts-ignore
-        action.addLinkmanMessages(focus, [message]);
+        action.addLinkmanMessage(focus, message);
 
         if (selfVoiceSwitch && type === 'text') {
             const text = content
@@ -296,6 +296,7 @@ function ChatInput() {
             e.preventDefault();
         } else if (e.altKey && (e.key === 'd' || e.key === '∂')) {
             toggleExpressionDialog(true);
+            e.preventDefault();
         } else if (e.key === '@') {
             // 如果按下@建, 则进入@计算模式
             if (!/@/.test($input.current.value)) {

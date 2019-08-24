@@ -40,7 +40,7 @@ function GroupInfo(props: GroupInfoProps) {
 
             const messages = await getLinkmanHistoryMessages(group._id, 0);
             if (messages) {
-                action.addLinkmanMessages(group._id, messages);
+                action.addLinkmanHistoryMessages(group._id, messages);
             }
         }
     }
