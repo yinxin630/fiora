@@ -169,7 +169,7 @@ socket.on('message', async (message) => {
                 voice.push(from !== prevFrom ? from + text : text, message.from.username);
             }
             prevFrom = from;
-            prevName = linkman.name;
+            prevName = message.from.username;
         } else if (message.type === 'system') {
             voice.push(message.from.originUsername + message.content, null);
             prevFrom = null;

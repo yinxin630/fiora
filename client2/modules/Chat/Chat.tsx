@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import Style from './Chat.less';
 import HeaderBar from './HeaderBar';
 import MessageList from './MessageList';
 import ChatInput from './ChatInput';
@@ -8,8 +9,6 @@ import GroupManagePanel from './GroupManagePanel';
 import { State, GroupMember } from '../../state/reducer';
 import { ShowUserOrGroupInfoContext } from '../../context';
 import useIsLogin from '../../hooks/useIsLogin';
-
-import Style from './Chat.less';
 import { getGroupOnlineMembers, getDefaultGroupOnlineMembers } from '../../service';
 import useAction from '../../hooks/useAction';
 
@@ -55,7 +54,7 @@ function Chat() {
             action.setLinkmanProperty(focus, 'onlineMembers', onlineMembers);
             toggleGroupManagePanel(true);
         } else {
-            context.showUserDialog(linkman);
+            context.showUserInfo(linkman);
         }
     }
 

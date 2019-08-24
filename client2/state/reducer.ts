@@ -351,7 +351,9 @@ function reducer(state: State = initialState, action: Action): State {
             const linkmans = deleteObjectKey(state.linkmans, action.payload as string);
             return {
                 ...state,
-                ...linkmans,
+                linkmans: {
+                    ...linkmans,
+                },
             };
         }
 

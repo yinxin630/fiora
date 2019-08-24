@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-
 import { useSelector } from 'react-redux';
+
+import Style from './InfoDialog.less';
 import Dialog from '../components/Dialog';
 import Avatar from '../components/Avatar';
 import Button from '../components/Button';
@@ -9,8 +10,6 @@ import { State, Linkman } from '../state/reducer';
 import getFriendId from '../../utils/getFriendId';
 import useAction from '../hooks/useAction';
 import { addFriend, getLinkmanHistoryMessages, deleteFriend, sealUser } from '../service';
-
-import Style from './InfoDialog.less';
 
 interface UserInfoProps {
     visible: boolean;
@@ -30,6 +29,11 @@ function UserInfo(props: UserInfoProps) {
 
     const action = useAction();
     const selfId = useSelector((state: State) => state.user._id);
+    if (user._id.length === selfId.length) {
+        user._id = getFriendId(selfId, user._id);
+    }
+    const originUserId = user._id.replace(selfId, '');
+
     const linkman = useSelector((state: State) => state.linkmans[user._id]);
     const isFriend = linkman && linkman.type === 'friend';
     const isAdmin = useSelector((state: State) => state.user.isAdmin);
@@ -37,14 +41,14 @@ function UserInfo(props: UserInfoProps) {
 
     function handleFocusUser() {
         onClose();
-        action.setFocus(getFriendId(user._id, selfId));
+        action.setFocus(user._id);
     }
 
     async function handleAddFriend() {
-        const friend = await addFriend(user._id);
+        const friend = await addFriend(originUserId);
         if (friend) {
             onClose();
-            const _id = getFriendId(selfId, friend._id);
+            const { _id } = user;
             let existCount = 0;
             if (linkman) {
                 existCount = Object.keys(linkman.messages).length;
@@ -52,12 +56,14 @@ function UserInfo(props: UserInfoProps) {
             } else {
                 const newLinkman = {
                     _id,
+                    from: selfId,
+                    to: {
+                        _id: originUserId,
+                        username: friend.username,
+                        avatar: friend.avatar,
+                    },
                     type: 'friend',
                     createTime: Date.now(),
-                    avatar: friend.avatar,
-                    name: friend.username,
-                    messages: [],
-                    unread: 0,
                 };
                 action.addLinkman(newLinkman as unknown as Linkman, true);
             }
@@ -65,14 +71,15 @@ function UserInfo(props: UserInfoProps) {
             if (messages) {
                 action.addLinkmanMessages(_id, messages);
             }
+            handleFocusUser();
         }
     }
 
     async function handleDeleteFriend() {
-        const isSuccess = await deleteFriend(user._id);
+        const isSuccess = await deleteFriend(originUserId);
         if (isSuccess) {
             onClose();
-            action.removeLinkman(getFriendId(selfId, user._id));
+            action.removeLinkman(user._id);
             Message.success('删除好友成功');
         }
     }
