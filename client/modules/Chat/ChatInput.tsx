@@ -251,13 +251,12 @@ function ChatInput() {
                 if (item.kind === 'file') {
                     const file = item.getAsFile();
                     if (file) {
-                        const that = this;
                         const reader = new FileReader();
                         reader.onloadend = function handleLoad() {
                             const image = new Image();
                             image.onload = async () => {
                                 const imageBlob = await compressImage(image, file.type, 0.8);
-                                that.sendImageMessage({
+                                sendImageMessage({
                                     filename: file.name,
                                     ext: imageBlob.type.split('/').pop(),
                                     length: imageBlob.size,
