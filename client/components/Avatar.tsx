@@ -1,6 +1,7 @@
 import React, { SyntheticEvent } from 'react';
+import { getDefaultAvatar } from '../../utils/getRandomAvatar';
 
-const avatarFallback = 'https://cdn.suisuijiang.com/fiora/avatar/0.jpg';
+const avatarFallback = getDefaultAvatar();
 const failTimes = new Map();
 
 /**

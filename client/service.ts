@@ -263,15 +263,6 @@ export async function searchExpression(keywords: string) {
 }
 
 /**
- * 封禁用户
- * @param username 目标用户名
- */
-export async function sealUser(username: string) {
-    const [err] = await fetch('sealUser', { username });
-    return !err;
-}
-
-/**
  * 发送消息
  * @param to 目标
  * @param type 消息类型
@@ -296,4 +287,30 @@ export async function getGroupOnlineMembers(groupId: string) {
 export async function getDefaultGroupOnlineMembers() {
     const [, members] = await fetch('getDefaultGroupOnlineMembers');
     return members;
+}
+
+/**
+ * 封禁用户
+ * @param username 目标用户名
+ */
+export async function sealUser(username: string) {
+    const [err] = await fetch('sealUser', { username });
+    return !err;
+}
+
+/**
+ * 获取封禁用户列表
+ */
+export async function getSealList() {
+    const [, sealList] = await fetch('getSealList');
+    return sealList;
+}
+
+/**
+ * 重置指定用户的密码
+ * @param username 目标用户名
+ */
+export async function resetUserPassword(username: string) {
+    const [, res] = await fetch('resetUserPassword', { username });
+    return res;
 }

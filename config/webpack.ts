@@ -1,7 +1,12 @@
 import path from 'path';
 import options from '../utils/commandOptions';
 
-const { env } = process;
+/**
+ * 该文件还会在客户端环境执行, 用结构赋值的方式会取不到值
+ * 因为客户端是基于文本匹配替换的值
+ */
+// eslint-disable-next-line prefer-destructuring
+const env = process.env;
 
 function getFirstNotUndefined(...values) {
     for (let i = 0; i < values.length; i++) {
