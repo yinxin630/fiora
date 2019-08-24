@@ -1,8 +1,12 @@
+import ip from 'ip';
 import options from '../utils/commandOptions';
 
 const { env } = process;
 
 export default {
+    /** 服务端ip */
+    ip: options.ip || env.Ip || ip.address(),
+
     // service port
     port: options.port || env.Port || 9200,
 

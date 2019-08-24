@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import axios from 'axios';
 import assert from 'assert';
-import ip from 'ip';
 import { promisify } from 'util';
 
 import {
@@ -165,7 +164,7 @@ export async function uploadFile(ctx) {
         );
         return {
             url: `${
-                process.env.NODE_ENV === 'production' ? '' : `http://${ip.address()}:${config.port}`
+                process.env.NODE_ENV === 'production' ? '' : `http://${config.ip}:${config.port}`
             }/${ctx.data.fileName}`,
         };
     } catch (err) {
