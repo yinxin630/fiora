@@ -23,14 +23,16 @@ import Chat from './modules/Chat/Chat';
  */
 function getWidthPercent() {
     let width = 0.6;
-    if (window.innerWidth < 1000) {
+    if (isMobile) {
+        width = 1;
+    } else if (window.innerWidth < 1000) {
         width = 0.9;
     } else if (window.innerWidth < 1300) {
         width = 0.8;
     } else if (window.innerWidth < 1600) {
         width = 0.7;
-    } else if (isMobile) {
-        width = 1;
+    } else {
+        width = 0.6;
     }
     return width;
 }
@@ -40,10 +42,12 @@ function getWidthPercent() {
  */
 function getHeightPercent() {
     let height = 0.8;
-    if (window.innerHeight < 1000) {
-        height = 0.9;
-    } else if (isMobile) {
+    if (isMobile) {
         height = 1;
+    } else if (window.innerHeight < 1000) {
+        height = 0.9;
+    } else {
+        height = 0.8;
     }
     return height;
 }

@@ -24,17 +24,13 @@ let Setting: any = null;
 
 function Sidebar() {
     const sidebarVisible = useSelector((state: State) => state.status.sidebarVisible);
-    if (!sidebarVisible) {
-        return null;
-    }
-
     const action = useAction();
     const isLogin = useIsLogin();
     const isConnect = useSelector((state: State) => state.connect);
     const isAdmin = useSelector((state: State) => state.user && state.user.isAdmin);
     const avatar = useSelector((state: State) => state.user && state.user.avatar);
-    const [timestamp, setTimestamp] = useState(0);
 
+    const [timestamp, setTimestamp] = useState(0);
     const [selfInfoDialogVisible, toggleSelfInfoDialogVisible] = useState(false);
     const [adminDialogVisible, toggleAdminDialogVisible] = useState(false);
     const [downloadDialogVisible, toggleDownloadDialogVisible] = useState(false);
@@ -58,6 +54,10 @@ function Sidebar() {
             }
         })();
     }, [selfInfoDialogVisible, settingDialogVisible]);
+
+    if (!sidebarVisible) {
+        return null;
+    }
 
     function logout() {
         action.logout();

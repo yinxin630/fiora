@@ -106,12 +106,12 @@ function GroupManagePanel(props: GroupManagePanelProps) {
 
     return (
         <div
-            className={`${Style.groupManagePanel} ${visible ? Style.show : Style.hide}`}
+            className={`${Style.groupManagePanel} ${visible ? 'show' : 'hide'}`}
             onClick={handleClickMask}
             role="button"
             data-float-panel="true"
         >
-            <div className={Style.container}>
+            <div className={`${Style.container} ${visible ? Style.show : Style.hide}`}>
                 <p className={Style.title}>群组信息</p>
                 <div className={Style.content}>
                     {isLogin && selfId === creator ? (

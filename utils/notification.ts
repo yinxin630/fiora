@@ -1,6 +1,6 @@
 export default function notification(title, icon, body, tag = 'tag', duration = 3000) {
-    if (Notification && Notification.permission === 'granted') {
-        const n = new Notification(
+    if (window.Notification && window.Notification.permission === 'granted') {
+        const n = new window.Notification(
             title,
             {
                 icon,

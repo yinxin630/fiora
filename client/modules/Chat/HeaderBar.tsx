@@ -81,7 +81,7 @@ function HeaderBar(props: HeaderBarProps) {
             }
             {isMobile && (
                 <span className={Style.status}>
-                    <div className={connectStatus ? Style.online : Style.offline} />
+                    <div className={connectStatus ? 'online' : 'offline'} />
                     {connectStatus ? '在线' : '离线'}
                 </span>
             )}

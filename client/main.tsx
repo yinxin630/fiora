@@ -25,10 +25,10 @@ setCssVariable(primaryColor, primaryTextColor);
 
 // 请求 Notification 授权
 if (
-    Notification
-    && (Notification.permission === 'default' || Notification.permission === 'denied')
+    window.Notification
+    && (window.Notification.permission === 'default' || window.Notification.permission === 'denied')
 ) {
-    Notification.requestPermission();
+    window.Notification.requestPermission();
 }
 
 ReactDom.render(
