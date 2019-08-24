@@ -4,7 +4,7 @@ import platform from 'platform';
 import config from '../config/client';
 import store from './state/store';
 import { guest, getDefalutGroupHistoryMessages, loginByToken, getLinkmansLastMessages, getLinkmanHistoryMessages } from './service';
-import { ActionTypes, SetLinkmanPropertyPayload, AddLinkmanHistoryMessagesPayload } from './state/action';
+import { ActionTypes, SetLinkmanPropertyPayload, AddLinkmanHistoryMessagesPayload, AddLinkmanMessagePayload } from './state/action';
 import convertMessage from '../utils/convertMessage';
 import getFriendId from '../utils/getFriendId';
 import notification from '../utils/notification';
@@ -29,7 +29,7 @@ async function loginFailback() {
         const messages = await getDefalutGroupHistoryMessages(0);
         messages.forEach(convertMessage);
         dispatch({
-            type: ActionTypes.AddLinkmanMessage,
+            type: ActionTypes.AddLinkmanHistoryMessages,
             payload: {
                 linkmanId: defaultGroup._id,
                 messages,
@@ -95,8 +95,8 @@ socket.on('message', async (message) => {
             type: ActionTypes.AddLinkmanMessage,
             payload: {
                 linkmanId: message.to,
-                messages: [message],
-            } as AddLinkmanHistoryMessagesPayload,
+                message,
+            } as AddLinkmanMessagePayload,
         });
         if (linkman.type === 'group') {
             title = `${message.from.username} 在 ${linkman.name} 对大家说:`;
@@ -129,7 +129,7 @@ socket.on('message', async (message) => {
         const messages = await getLinkmanHistoryMessages(newLinkman._id, 0);
         if (messages) {
             dispatch({
-                type: ActionTypes.AddLinkmanMessage,
+                type: ActionTypes.AddLinkmanHistoryMessages,
                 payload: {
                     linkmanId: newLinkman._id,
                     messages,
