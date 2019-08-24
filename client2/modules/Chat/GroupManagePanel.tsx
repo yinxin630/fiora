@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useSelector } from 'react-redux';
 
+import Style from './GroupManagePanel.less';
 import useIsLogin from '../../hooks/useIsLogin';
 import { State, GroupMember } from '../../state/reducer';
 import Input from '../../components/Input';
@@ -14,8 +15,7 @@ import useAction from '../../hooks/useAction';
 import readDiskFIle from '../../../utils/readDiskFile';
 import config from '../../../config/client';
 import uploadFile from '../../../utils/uploadFile';
-
-import Style from './GroupManagePanel.less';
+import { ShowUserOrGroupInfoContext } from '../../context';
 
 interface GroupManagePanelProps {
     visible: boolean;
@@ -34,6 +34,7 @@ function GroupManagePanel(props: GroupManagePanelProps) {
     const selfId = useSelector((state: State) => state.user._id);
     const [deleteConfirmDialog, setDialogStatus] = useState(false);
     const [groupName, setGroupName] = useState('');
+    const context = useContext(ShowUserOrGroupInfoContext);
 
     async function handleChangeGroupName() {
         const isSuccess = await changeGroupName(groupId, groupName);
@@ -93,6 +94,14 @@ function GroupManagePanel(props: GroupManagePanelProps) {
         if (e.target === e.currentTarget) {
             onClose();
         }
+    }
+
+    function handleShowUserInfo(userInfo: any) {
+        if (userInfo._id === selfId) {
+            return;
+        }
+        context.showUserInfo(userInfo);
+        onClose();
     }
 
     return (
@@ -159,7 +168,7 @@ function GroupManagePanel(props: GroupManagePanelProps) {
                                 <div key={member.user._id} className={Style.onlineMember}>
                                     <div
                                         className={Style.userinfoBlock}
-                                        onClick={() => console.log(member)}
+                                        onClick={() => handleShowUserInfo(member.user)}
                                         role="button"
                                     >
                                         <Avatar size={24} src={member.user.avatar} />
@@ -184,7 +193,7 @@ function GroupManagePanel(props: GroupManagePanelProps) {
                     </div>
                     <Dialog
                         className={Style.deleteGroupConfirmDialog}
-                        title="再次确认解散群组?"
+                        title="再次确认是否解散群组?"
                         visible={deleteConfirmDialog}
                         onClose={() => setDialogStatus(false)}
                     >

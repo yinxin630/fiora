@@ -112,7 +112,7 @@ function ChatInput() {
                 .replace(/#/g, '');
 
             if (text.length > 0 && text.length <= 100) {
-                voice.push(text, '');
+                voice.push(text, Math.random());
             }
         }
 

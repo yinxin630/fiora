@@ -85,7 +85,6 @@ let prevFrom = '';
 let prevName = '';
 socket.on('message', async (message) => {
     convertMessage(message);
-    console.log('new message', message);
 
     const state = store.getState();
     const isSelfMessage = message.from._id === state.user._id;

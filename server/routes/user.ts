@@ -375,6 +375,7 @@ interface AddFriendData {
 export async function addFriend(ctx: KoaContext<AddFriendData>) {
     const { userId } = ctx.data;
     assert(isValid(userId), '无效的用户ID');
+    assert(ctx.socket.user.toString() !== userId, '不能添加自己为好友');
 
     const user = await User.findOne({ _id: userId });
     assert(user, '添加好友失败, 用户不存在');
