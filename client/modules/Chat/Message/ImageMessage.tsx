@@ -1,10 +1,10 @@
-import React, { useState, useCallback } from 'react';
-import Viewer from 'react-viewer';
-import 'react-viewer/dist/index.css';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import Style from './Message.less';
 import { CircleProgress } from '../../../components/Progress';
 import { isMobile } from '../../../../utils/ua';
+
+let Viewer: any = null;
 
 interface ImageMessageProps {
     src: string;
@@ -17,6 +17,22 @@ function ImageMessage(props: ImageMessageProps) {
 
     const [viewer, toggleViewer] = useState(false);
     const closeViewer = useCallback(() => toggleViewer(false), []);
+    const [timestamp, setTimestamp] = useState(0);
+
+    useEffect(() => {
+        (async () => {
+            if (viewer && !Viewer) {
+                // @ts-ignore
+                const reactViewerModule = await import(
+                    /* webpackChunkName: "react-viewer" */ 'react-viewer',
+                );
+                // @ts-ignore
+                await import(/* webpackChunkName: "react-viewer.css" */ 'react-viewer/dist/index.css');
+                Viewer = reactViewerModule.default;
+                setTimestamp(Date.now());
+            }
+        })();
+    }, [viewer]);
 
     let imageSrc = src;
     const containerWidth = 450;
@@ -39,9 +55,7 @@ function ImageMessage(props: ImageMessageProps) {
         height = naturehHeight * scale;
         imageSrc = /^(blob|data):/.test(src)
             ? imageSrc.split('?')[0]
-            : `${imageSrc}&imageView2/3/w/${Math.floor(width * 1.2)}/h/${Math.floor(
-                height * 1.2,
-            )}`;
+            : `${imageSrc}&imageView2/3/w/${Math.floor(width * 1.2)}/h/${Math.floor(height * 1.2)}`;
     }
 
     let className = Style.imageMessage;
@@ -53,39 +67,44 @@ function ImageMessage(props: ImageMessageProps) {
     }
 
     return (
-        <div
-            className={className}
-        >
-            {(
-                // @ts-ignore
-                <img
-                    className={Style.image}
-                    src={imageSrc}
-                    alt="消息图片"
-                    width={width}
-                    height={height}
-                    onClick={() => isMobile && toggleViewer(true)}
-                    onDoubleClick={() => !isMobile && toggleViewer(true)}
-                    referrerPolicy="no-referrer"
+        <>
+            <div className={className}>
+                {
+                    // @ts-ignore
+                    <img
+                        className={Style.image}
+                        src={imageSrc}
+                        alt="消息图片"
+                        width={width}
+                        height={height}
+                        onClick={() => isMobile && toggleViewer(true)}
+                        onDoubleClick={() => !isMobile && toggleViewer(true)}
+                        referrerPolicy="no-referrer"
+                    />
+                }
+                <CircleProgress
+                    className={Style.imageProgress}
+                    percent={percent}
+                    strokeWidth={5}
+                    strokeColor="#a0c672"
+                    trailWidth={5}
                 />
-            )}
-            <CircleProgress
-                className={Style.imageProgress}
-                percent={percent}
-                strokeWidth={5}
-                strokeColor="#a0c672"
-                trailWidth={5}
-            />
-            <div className={`${Style.imageProgress} ${Style.imageProgressNumber}`}>{Math.ceil(percent)}%</div>
-            <Viewer
-                // eslint-disable-next-line react/destructuring-assignment
-                visible={viewer}
-                onClose={closeViewer}
-                onMaskClick={closeViewer}
-                images={[{ src, alt: src }]}
-                noNavbar
-            />
-        </div>
+                <div className={`${Style.imageProgress} ${Style.imageProgressNumber}`}>
+                    {Math.ceil(percent)}%
+                </div>
+                {Viewer && (
+                    <Viewer
+                        // eslint-disable-next-line react/destructuring-assignment
+                        visible={viewer}
+                        onClose={closeViewer}
+                        onMaskClick={closeViewer}
+                        images={[{ src, alt: src }]}
+                        noNavbar
+                    />
+                )}
+            </div>
+            <span className="hide">{timestamp}</span>
+        </>
     );
 }
 

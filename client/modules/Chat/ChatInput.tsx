@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import Style from './ChatInput.less';
@@ -9,7 +9,6 @@ import IconButton from '../../components/IconButton';
 import Avatar from '../../components/Avatar';
 import Message from '../../components/Message';
 import { Menu, MenuItem } from '../../components/Menu';
-import Expression from './Expression';
 import { State } from '../../state/reducer';
 import readDiskFile, { ReadFileResult } from '../../../utils/readDiskFile';
 import xss from '../../../utils/xss';
@@ -19,7 +18,9 @@ import getRandomHuaji from '../../../utils/getRandomHuaji';
 import uploadFile from '../../../utils/uploadFile';
 import { sendMessage, getGroupOnlineMembers } from '../../service';
 import voice from '../../../utils/voice';
-import CodeEditor from './CodeEditor';
+
+let CodeEditor: any = null;
+let Expression: any = null;
 
 function ChatInput() {
     const action = useAction();
@@ -35,7 +36,25 @@ function ChatInput() {
     const [codeEditorDialog, toggleCodeEditorDialog] = useState(false);
     const [IME, toggleIME] = useState(false);
     const [at, setAt] = useState({ enable: false, content: '' });
+    const [timestamp, setTimestamp] = useState(0);
     const $input = useRef(null);
+
+    useEffect(() => {
+        (async () => {
+            if (expressionDialog && !Expression) {
+                // @ts-ignore
+                const ExpressionModule = await import(/* webpackChunkName: "expression" */ './Expression');
+                Expression = ExpressionModule.default;
+                setTimestamp(Date.now());
+            }
+            if (codeEditorDialog && !CodeEditor) {
+                // @ts-ignore
+                const CodeEditorModule = await import(/* webpackChunkName: "code-editor" */ './CodeEditor');
+                CodeEditor = CodeEditorModule.default;
+                setTimestamp(Date.now());
+            }
+        })();
+    }, [expressionDialog, codeEditorDialog]);
 
     if (!isLogin) {
         return (
@@ -382,95 +401,102 @@ function ChatInput() {
     }
 
     return (
-        <div className={Style.chatInput}>
-            <Dropdown
-                trigger={['click']}
-                visible={expressionDialog}
-                onVisibleChange={toggleExpressionDialog}
-                overlay={(
-                    <div className={Style.expressionDropdown}>
-                        <Expression
-                            onSelectText={handleSelectExpression}
-                            onSelectImage={sendImageMessage}
-                        />
-                    </div>
-                )}
-                animation="slide-up"
-                placement="topLeft"
-            >
-                <IconButton
-                    className={Style.iconButton}
-                    width={44}
-                    height={44}
-                    icon="expression"
-                    iconSize={32}
-                />
-            </Dropdown>
-            <Dropdown
-                trigger={['click']}
-                overlay={(
-                    <div className={Style.featureDropdown}>
-                        <Menu onClick={handleFeatureMenuClick}>
-                            <MenuItem key="huaji">发送滑稽</MenuItem>
-                            <MenuItem key="image">发送图片</MenuItem>
-                            <MenuItem key="code">发送代码</MenuItem>
-                        </Menu>
-                    </div>
-                )}
-                animation="slide-up"
-                placement="topLeft"
-            >
-                <IconButton
-                    className={Style.iconButton}
-                    width={44}
-                    height={44}
-                    icon="feature"
-                    iconSize={32}
-                />
-            </Dropdown>
-            <form className={Style.form} autoComplete="off" onSubmit={(e) => e.preventDefault()}>
-                <input
-                    className={Style.input}
-                    type="text"
-                    placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~"
-                    maxLength={2048}
-                    ref={$input}
-                    onKeyDown={handleInputKeyDown}
-                    onPaste={handlePaste}
-                    onCompositionStart={() => toggleIME(true)}
-                    onCompositionEnd={() => toggleIME(false)}
-                />
-            </form>
-            <IconButton
-                className={Style.iconButton}
-                width={44}
-                height={44}
-                icon="send"
-                iconSize={32}
-                onClick={sendTextMessage}
-            />
-
-            <div className={Style.atPanel}>
-                {at.enable
-                    && getSuggestion().map((member) => (
-                        <div
-                            className={Style.atUserList}
-                            key={member.user._id}
-                            onClick={() => replaceAt(member.user.username)}
-                            role="button"
-                        >
-                            <Avatar size={24} src={member.user.avatar} />
-                            <p className={Style.atText}>{member.user.username}</p>
+        <>
+            <div className={Style.chatInput}>
+                <Dropdown
+                    trigger={['click']}
+                    visible={expressionDialog}
+                    onVisibleChange={toggleExpressionDialog}
+                    overlay={(
+                        <div className={Style.expressionDropdown}>
+                            {Expression && (
+                                <Expression
+                                    onSelectText={handleSelectExpression}
+                                    onSelectImage={sendImageMessage}
+                                />
+                            )}
                         </div>
-                    ))}
-            </div>
+                    )}
+                    animation="slide-up"
+                    placement="topLeft"
+                >
+                    <IconButton
+                        className={Style.iconButton}
+                        width={44}
+                        height={44}
+                        icon="expression"
+                        iconSize={32}
+                    />
+                </Dropdown>
+                <Dropdown
+                    trigger={['click']}
+                    overlay={(
+                        <div className={Style.featureDropdown}>
+                            <Menu onClick={handleFeatureMenuClick}>
+                                <MenuItem key="huaji">发送滑稽</MenuItem>
+                                <MenuItem key="image">发送图片</MenuItem>
+                                <MenuItem key="code">发送代码</MenuItem>
+                            </Menu>
+                        </div>
+                    )}
+                    animation="slide-up"
+                    placement="topLeft"
+                >
+                    <IconButton
+                        className={Style.iconButton}
+                        width={44}
+                        height={44}
+                        icon="feature"
+                        iconSize={32}
+                    />
+                </Dropdown>
+                <form className={Style.form} autoComplete="off" onSubmit={(e) => e.preventDefault()}>
+                    <input
+                        className={Style.input}
+                        type="text"
+                        placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~"
+                        maxLength={2048}
+                        ref={$input}
+                        onKeyDown={handleInputKeyDown}
+                        onPaste={handlePaste}
+                        onCompositionStart={() => toggleIME(true)}
+                        onCompositionEnd={() => toggleIME(false)}
+                    />
+                </form>
+                <IconButton
+                    className={Style.iconButton}
+                    width={44}
+                    height={44}
+                    icon="send"
+                    iconSize={32}
+                    onClick={sendTextMessage}
+                />
 
-            <CodeEditor
-                visible={codeEditorDialog}
-                onClose={() => toggleCodeEditorDialog(false)}
-                onSend={handleSendCode}
-            />
-        </div>
+                <div className={Style.atPanel}>
+                    {at.enable
+                        && getSuggestion().map((member) => (
+                            <div
+                                className={Style.atUserList}
+                                key={member.user._id}
+                                onClick={() => replaceAt(member.user.username)}
+                                role="button"
+                            >
+                                <Avatar size={24} src={member.user.avatar} />
+                                <p className={Style.atText}>{member.user.username}</p>
+                            </div>
+                        ))}
+                </div>
+
+                {CodeEditor && (
+                    <CodeEditor
+                        visible={codeEditorDialog}
+                        onClose={() => toggleCodeEditorDialog(false)}
+                        onSend={handleSendCode}
+                    />
+                )}
+            </div>
+            <span className="hide">{timestamp}</span>
+        </>
     );
 }
 

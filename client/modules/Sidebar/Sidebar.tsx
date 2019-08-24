@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { State } from '../../state/reducer';
@@ -12,14 +12,15 @@ import useAction from '../../hooks/useAction';
 import socket from '../../socket';
 import Message from '../../components/Message';
 
-import SelfInfo from './SelfInfo';
 import Admin from './Admin';
 import Download from './Download';
 import Reward from './Reward';
 import About from './About';
-import Setting from './Setting';
 
 import Style from './Sidebar.less';
+
+let SelfInfo: any = null;
+let Setting: any = null;
 
 function Sidebar() {
     const sidebarVisible = useSelector((state: State) => state.status.sidebarVisible);
@@ -32,6 +33,7 @@ function Sidebar() {
     const isConnect = useSelector((state: State) => state.connect);
     const isAdmin = useSelector((state: State) => state.user && state.user.isAdmin);
     const avatar = useSelector((state: State) => state.user && state.user.avatar);
+    const [timestamp, setTimestamp] = useState(0);
 
     const [selfInfoDialogVisible, toggleSelfInfoDialogVisible] = useState(false);
     const [adminDialogVisible, toggleAdminDialogVisible] = useState(false);
@@ -39,6 +41,23 @@ function Sidebar() {
     const [rewardDialogVisible, toggleRewardDialogVisible] = useState(false);
     const [aboutDialogVisible, toggleAboutDialogVisible] = useState(false);
     const [settingDialogVisible, toggleSettingDialogVisible] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            if (selfInfoDialogVisible && !SelfInfo) {
+                // @ts-ignore
+                const selfInfoModule = await import(/* webpackChunkName: "self-info" */ './SelfInfo');
+                SelfInfo = selfInfoModule.default;
+                setTimestamp(Date.now());
+            }
+            if (settingDialogVisible && !Setting) {
+                // @ts-ignore
+                const settingModule = await import(/* webpackChunkName: "setting" */ './Setting');
+                Setting = settingModule.default;
+                setTimestamp(Date.now());
+            }
+        })();
+    }, [selfInfoDialogVisible, settingDialogVisible]);
 
     function logout() {
         action.logout();
@@ -61,123 +80,132 @@ function Sidebar() {
     }
 
     return (
-        <div className={Style.sidebar}>
-            {isLogin && (
-                <Avatar
-                    className={Style.avatar}
-                    src={avatar}
-                    onClick={() => toggleSelfInfoDialogVisible(true)}
-                />
-            )}
-            {isLogin && (
-                <OnlineStatus className={Style.status} status={isConnect ? 'online' : 'offline'} />
-            )}
-            <div className={Style.buttons}>
-                {isLogin
-                    && isAdmin
-                    && renderTooltip(
-                        '管理员',
+        <>
+            <div className={Style.sidebar}>
+                {isLogin && (
+                    <Avatar
+                        className={Style.avatar}
+                        src={avatar}
+                        onClick={() => toggleSelfInfoDialogVisible(true)}
+                    />
+                )}
+                {isLogin && (
+                    <OnlineStatus
+                        className={Style.status}
+                        status={isConnect ? 'online' : 'offline'}
+                    />
+                )}
+                <div className={Style.buttons}>
+                    {isLogin
+                        && isAdmin
+                        && renderTooltip(
+                            '管理员',
+                            <IconButton
+                                width={40}
+                                height={40}
+                                icon="administrator"
+                                iconSize={28}
+                                onClick={() => toggleAdminDialogVisible(true)}
+                            />,
+                        )}
+                    <Tooltip placement="right" mouseEnterDelay={0.3} overlay={<span>源码</span>}>
+                        <a
+                            className={Style.linkButton}
+                            href="https://github.com/yinxin630/fiora"
+                            target="_black"
+                            rel="noopener noreferrer"
+                        >
+                            <IconButton width={40} height={40} icon="github" iconSize={26} />
+                        </a>
+                    </Tooltip>
+                    {renderTooltip(
+                        '下载APP',
                         <IconButton
                             width={40}
                             height={40}
-                            icon="administrator"
+                            icon="app"
                             iconSize={28}
-                            onClick={() => toggleAdminDialogVisible(true)}
+                            onClick={() => toggleDownloadDialogVisible(true)}
                         />,
                     )}
-                <Tooltip placement="right" mouseEnterDelay={0.3} overlay={<span>源码</span>}>
-                    <a
-                        className={Style.linkButton}
-                        href="https://github.com/yinxin630/fiora"
-                        target="_black"
-                        rel="noopener noreferrer"
-                    >
-                        <IconButton width={40} height={40} icon="github" iconSize={26} />
-                    </a>
-                </Tooltip>
-                {renderTooltip(
-                    '下载APP',
-                    <IconButton
-                        width={40}
-                        height={40}
-                        icon="app"
-                        iconSize={28}
-                        onClick={() => toggleDownloadDialogVisible(true)}
-                    />,
-                )}
-                {renderTooltip(
-                    '打赏',
-                    <IconButton
-                        width={40}
-                        height={40}
-                        icon="dashang"
-                        iconSize={26}
-                        onClick={() => toggleRewardDialogVisible(true)}
-                    />,
-                )}
-                {renderTooltip(
-                    '关于',
-                    <IconButton
-                        width={40}
-                        height={40}
-                        icon="about"
-                        iconSize={26}
-                        onClick={() => toggleAboutDialogVisible(true)}
-                    />,
-                )}
-                {isLogin
-                    && renderTooltip(
-                        '设置',
+                    {renderTooltip(
+                        '打赏',
                         <IconButton
                             width={40}
                             height={40}
-                            icon="setting"
+                            icon="dashang"
                             iconSize={26}
-                            onClick={() => toggleSettingDialogVisible(true)}
+                            onClick={() => toggleRewardDialogVisible(true)}
                         />,
                     )}
-                {isLogin
-                    && renderTooltip(
-                        '退出登录',
+                    {renderTooltip(
+                        '关于',
                         <IconButton
                             width={40}
                             height={40}
-                            icon="logout"
+                            icon="about"
                             iconSize={26}
-                            onClick={logout}
+                            onClick={() => toggleAboutDialogVisible(true)}
                         />,
                     )}
-            </div>
+                    {isLogin
+                        && renderTooltip(
+                            '设置',
+                            <IconButton
+                                width={40}
+                                height={40}
+                                icon="setting"
+                                iconSize={26}
+                                onClick={() => toggleSettingDialogVisible(true)}
+                            />,
+                        )}
+                    {isLogin
+                        && renderTooltip(
+                            '退出登录',
+                            <IconButton
+                                width={40}
+                                height={40}
+                                icon="logout"
+                                iconSize={26}
+                                onClick={logout}
+                            />,
+                        )}
+                </div>
 
-            {/* 弹窗 */}
-            {isLogin && (
-                <SelfInfo
-                    visible={selfInfoDialogVisible}
-                    onClose={() => toggleSelfInfoDialogVisible(false)}
+                {/* 弹窗 */}
+                {isLogin && SelfInfo && (
+                    <SelfInfo
+                        visible={selfInfoDialogVisible}
+                        onClose={() => toggleSelfInfoDialogVisible(false)}
+                    />
+                )}
+                {isLogin && isAdmin && (
+                    <Admin
+                        visible={adminDialogVisible}
+                        onClose={() => toggleAdminDialogVisible(false)}
+                    />
+                )}
+                <Download
+                    visible={downloadDialogVisible}
+                    onClose={() => toggleDownloadDialogVisible(false)}
                 />
-            )}
-            {isLogin && isAdmin && (
-                <Admin
-                    visible={adminDialogVisible}
-                    onClose={() => toggleAdminDialogVisible(false)}
+                <Reward
+                    visible={rewardDialogVisible}
+                    onClose={() => toggleRewardDialogVisible(false)}
                 />
-            )}
-            <Download
-                visible={downloadDialogVisible}
-                onClose={() => toggleDownloadDialogVisible(false)}
-            />
-            <Reward
-                visible={rewardDialogVisible}
-                onClose={() => toggleRewardDialogVisible(false)}
-            />
-            <About visible={aboutDialogVisible} onClose={() => toggleAboutDialogVisible(false)} />
-            {isLogin && (
-                <Setting
-                    visible={settingDialogVisible}
-                    onClose={() => toggleSettingDialogVisible(false)}
+                <About
+                    visible={aboutDialogVisible}
+                    onClose={() => toggleAboutDialogVisible(false)}
                 />
-            )}
-        </div>
+                {isLogin && Setting && (
+                    <Setting
+                        visible={settingDialogVisible}
+                        onClose={() => toggleSettingDialogVisible(false)}
+                    />
+                )}
+            </div>
+            <span className="hide">{timestamp}</span>
+        </>
     );
 }
 

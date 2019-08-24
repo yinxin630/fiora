@@ -107,8 +107,12 @@ function Setting(props: SettingProps) {
                 <div className={Common.block}>
                     <p className={Common.title}>恢复</p>
                     <div>
-                        <Button className={Style.button} onClick={resetThume}>恢复默认主题</Button>
-                        <Button className={Style.button} onClick={resetSound}>恢复默认提示音</Button>
+                        <Button className={Style.button} onClick={resetThume}>
+                                恢复默认主题
+                        </Button>
+                        <Button className={Style.button} onClick={resetSound}>
+                                恢复默认提示音
+                        </Button>
                     </div>
                 </div>
                 <div className={Common.block}>
@@ -124,7 +128,8 @@ function Setting(props: SettingProps) {
                         <div className={Style.switch}>
                             <p className={Style.switchText}>桌面提醒</p>
                             <Switch
-                                onChange={(value) => action.setStatus('notificationSwitch', value)}
+                                onChange={(value) =>
+                                    action.setStatus('notificationSwitch', value)}
                                 checked={notificationSwitch}
                             />
                         </div>
@@ -164,20 +169,24 @@ function Setting(props: SettingProps) {
                 </div>
                 <div className={Common.block}>
                     <p className={Common.title}>
-                        背景图{' '}
+                            背景图{' '}
                         <span className={Style.backgroundTip}>
-                            背景图会被拉伸到浏览器窗口大小, 合理的比例会取得更好的效果
+                                背景图会被拉伸到浏览器窗口大小, 合理的比例会取得更好的效果
                         </span>
                     </p>
                     <div className={Style.backgroundImageContainer}>
                         <img
-                            className={`${Style.backgroundImage} ${backgroundLoading ? 'blur' : ''}`}
+                            className={`${Style.backgroundImage} ${
+                                backgroundLoading ? 'blur' : ''
+                            }`}
                             src={backgroundImage}
                             alt="背景图预览"
                             onClick={selectBackgroundImage}
                         />
                         <ReactLoading
-                            className={`${Style.backgroundImageLoading} ${backgroundLoading ? 'show' : 'hide'}`}
+                            className={`${Style.backgroundImageLoading} ${
+                                backgroundLoading ? 'show' : 'hide'
+                            }`}
                             type="spinningBubbles"
                             color={`rgb(${primaryColor}`}
                             height={100}
@@ -185,30 +194,34 @@ function Setting(props: SettingProps) {
                         />
                     </div>
                 </div>
-                <div className={Common.block}>
-                    <p className={Common.title}>主题颜色</p>
-                    <div className={Style.colorInfo}>
-                        <div style={{ backgroundColor: `rgb(${primaryColor})` }} />
-                        <span>{`rgb(${primaryColor})`}</span>
+                {TwitterPicker && (
+                    <div className={Common.block}>
+                        <p className={Common.title}>主题颜色</p>
+                        <div className={Style.colorInfo}>
+                            <div style={{ backgroundColor: `rgb(${primaryColor})` }} />
+                            <span>{`rgb(${primaryColor})`}</span>
+                        </div>
+                        <TwitterPicker
+                            className={Style.colorPicker}
+                            color={`rgb(${primaryColor})`}
+                            onChange={handlePrimaryColorChange}
+                        />
                     </div>
-                    <TwitterPicker
-                        className={Style.colorPicker}
-                        color={`rgb(${primaryColor})`}
-                        onChange={handlePrimaryColorChange}
-                    />
-                </div>
-                <div className={Common.block}>
-                    <p className={Common.title}>文字颜色</p>
-                    <div className={Style.colorInfo}>
-                        <div style={{ backgroundColor: `rgb(${primaryTextColor})` }} />
-                        <span>{`rgb(${primaryTextColor})`}</span>
+                )}
+                {TwitterPicker && (
+                    <div className={Common.block}>
+                        <p className={Common.title}>文字颜色</p>
+                        <div className={Style.colorInfo}>
+                            <div style={{ backgroundColor: `rgb(${primaryTextColor})` }} />
+                            <span>{`rgb(${primaryTextColor})`}</span>
+                        </div>
+                        <TwitterPicker
+                            className={Style.colorPicker}
+                            color={`rgb(${primaryTextColor})`}
+                            onChange={handlePrimaryTextColorChange}
+                        />
                     </div>
-                    <TwitterPicker
-                        className={Style.colorPicker}
-                        color={`rgb(${primaryTextColor})`}
-                        onChange={handlePrimaryTextColorChange}
-                    />
-                </div>
+                )}
             </div>
         </Dialog>
     );

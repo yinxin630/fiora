@@ -1,5 +1,17 @@
-import * as qiniu from 'qiniu-js';
 import fetch from './fetch';
+
+const loadQiniu = (() => {
+    let qiniu: any = null;
+    return async function handleLoadQiniu() {
+        if (qiniu) {
+            return qiniu;
+        }
+
+        // @ts-ignore
+        qiniu = await import(/* webpackChunkName: "qiniu" */ 'qiniu-js');
+        return qiniu;
+    };
+})();
 
 interface QiniuUploadInfo {
     key: string;
@@ -43,6 +55,7 @@ export default async function uploadFile(
     }
 
     // 七牛可用, 上传到七牛
+    const qiniu = await loadQiniu();
     return new Promise((resolve, reject) => {
         const result = qiniu.upload(blob, qiniuKey, tokenRes.token, { useCdnDomain: true }, {});
         result.subscribe({
