@@ -164,7 +164,7 @@ export async function uploadFile(ctx) {
         );
         return {
             url: `${
-                process.env.NODE_ENV === 'production' ? '' : `http://${config.ip}:${config.port}`
+                process.env.NODE_ENV === 'production' ? '' : `http://${config.host}:${config.port}`
             }/${ctx.data.fileName}`,
         };
     } catch (err) {

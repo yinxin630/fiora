@@ -10,7 +10,7 @@ const optionDefinitions = [
     { name: 'allowOrigin', type: String, multiple: true },
     { name: 'publicPath', type: String },
     { name: 'subDirectory', type: String },
-    { name: 'ip', type: String },
+    { name: 'host', type: String },
     { name: 'port', type: Number },
     { name: 'administrator', type: String },
 ];
@@ -25,7 +25,7 @@ interface CommandArgs {
     allowOrigin: string[];
     publicPath: string;
     subDirectory: string;
-    ip: string;
+    host: string;
     port: number;
     administrator: string;
 }
