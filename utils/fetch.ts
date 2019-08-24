@@ -1,5 +1,5 @@
-import Message from '../client2/components/Message';
-import socket from '../client2/socket';
+import Message from '../client/components/Message';
+import socket from '../client/socket';
 
 import { SealText, SealTimeout } from './const';
 

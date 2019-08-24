@@ -8,7 +8,7 @@ const pages = [
         chunks: ['app'],
         entry: {
             key: 'app',
-            file: path.resolve(__dirname, '../client2/main.tsx'),
+            file: path.resolve(__dirname, '../client/main.tsx'),
         },
     },
 ];
