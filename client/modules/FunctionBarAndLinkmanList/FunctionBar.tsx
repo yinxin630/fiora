@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 import IconButton from '../../components/IconButton';
 import Avatar from '../../components/Avatar';
@@ -8,6 +8,7 @@ import { ShowUserOrGroupInfoContext } from '../../context';
 import { search } from '../../service';
 
 import Style from './FunctionBar.less';
+import Input from '../../components/Input';
 
 function FunctionBar() {
     const [keywords, setKeywords] = useState('');
@@ -18,7 +19,7 @@ function FunctionBar() {
     const [searchResult, setSearchResult] = useState({ users: [], groups: [] });
 
     const context = useContext(ShowUserOrGroupInfoContext);
-    const $input = useRef(null);
+    const placeholder = '搜索群组/用户';
 
     function resetSearch() {
         toggleSearchResultVisible(false);
@@ -29,8 +30,7 @@ function FunctionBar() {
     }
 
     function handleBodyClick(e) {
-        // eslint-disable-next-line react/destructuring-assignment
-        if (e.target === $input.current || !searchResultVisible) {
+        if (e.target.getAttribute('placeholder') === placeholder || !searchResultVisible) {
             return;
         }
 
@@ -57,15 +57,13 @@ function FunctionBar() {
         toggleSearchResultVisible(true);
     }
 
-    function handleInputKeyDown(e) {
-        if (e.key === 'Enter') {
-            setTimeout(async () => {
-                const result = await search(keywords);
-                if (result) {
-                    setSearchResult(result);
-                }
-            }, 0);
-        }
+    function handleInputEnter() {
+        setTimeout(async () => {
+            const result = await search(keywords);
+            if (result) {
+                setSearchResult(result);
+            }
+        }, 0);
     }
 
     function renderSearchUsers(count = 999) {
@@ -124,16 +122,15 @@ function FunctionBar() {
     return (
         <div className={Style.functionBar}>
             <form className={Style.form} autoComplete="off" onSubmit={(e) => e.preventDefault()}>
-                <input
-                    className={`${Style.input} ${searchResultVisible ? 'focus' : 'blur'}`}
-                    ref={$input}
+                <Input
+                    className={`${Style.input} ${searchResultVisible ? Style.inputFocus : ''}`}
                     type="text"
-                    placeholder="搜索群组/用户"
+                    placeholder={placeholder}
                     value={keywords}
                     // @ts-ignore
-                    onChange={(e) => setKeywords(e.target.value)}
+                    onChange={setKeywords}
                     onFocus={handleFocus}
-                    onKeyDown={handleInputKeyDown}
+                    onEnter={handleInputEnter}
                 />
             </form>
             <i className={`iconfont icon-search ${Style.searchIcon}`} />

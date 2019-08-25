@@ -10,6 +10,7 @@ interface InputProps {
     className?: string;
     onChange: (value: string) => void;
     onEnter?: (value: string) => void;
+    onFocus?: () => void;
 }
 
 function Input(props: InputProps) {
@@ -20,6 +21,7 @@ function Input(props: InputProps) {
         className = '',
         onChange,
         onEnter = () => {},
+        onFocus = () => {},
     } = props;
 
     function handleInput(e) {
@@ -61,6 +63,7 @@ function Input(props: InputProps) {
                 onKeyDown={handleKeyDown}
                 onCompositionStart={handleIMEStart}
                 onCompositionEnd={handleIMEEnd}
+                onFocus={onFocus}
             />
             <IconButton
                 className={Style.inputIconButton}

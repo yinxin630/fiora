@@ -16,15 +16,26 @@
     height: 36px;
     border-radius: 18px;
     border: none;
-    background-color: rgba(255, 255, 255, 0.5);
-    padding-left: 35px;
-    padding-right: 15px;
-    padding-top: 2px;
     font-size: 14px;
     color: #333;
 
-    &.focus {
-        background-color: rgba(255, 255, 255, 0.9);
+    :global {
+        input {
+            padding-left: 35px;
+            padding-right: 15px;
+            padding-top: 2px;
+            border: none;
+            border-radius: 18px;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+    }
+}
+
+.inputFocus {
+    :global {
+        input {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
     }
 }
 
