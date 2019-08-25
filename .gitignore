@@ -9,5 +9,6 @@ yarn-error.log
 runServer.sh
 build.sh
 .qiniurc
+ecosystem.config.js
 
 .idea/
