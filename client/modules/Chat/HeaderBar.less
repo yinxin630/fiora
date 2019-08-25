@@ -33,6 +33,7 @@
 
 .buttonContainer {
     display: flex;
+    width: 80px;
 }
 
 .name {
@@ -41,17 +42,18 @@
 
     @media (orientation : portrait) {
         font-size: 14px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         flex: 1;
-        text-align: center;
-        transform: translateY(-4px);
+        transform: translateY(2px);
     }
 }
 
 .status {
     color: #999;
     font-size: 12px;
-    position: absolute;
-    bottom: 6px;
-    left: 50%;
-    transform: translateX(-50%) scale(0.6);
+    transform: scale(0.6);
 }

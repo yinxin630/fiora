@@ -359,11 +359,14 @@ function reducer(state: State = initialState, action: Action): State {
 
         case ActionTypes.RemoveLinkman: {
             const linkmans = deleteObjectKey(state.linkmans, action.payload as string);
+            const linkmanIds = Object.keys(linkmans);
+            const focus = linkmanIds.length > 0 ? linkmanIds[0] : '';
             return {
                 ...state,
                 linkmans: {
                     ...linkmans,
                 },
+                focus,
             };
         }
 

@@ -13,9 +13,9 @@ import Style from './HeaderBar.less';
 
 
 interface HeaderBarProps {
-    /** 联系人名称 */
+    /** 联系人名称, 没有联系人时会传空 */
     name: string;
-    /** 联系人类型 */
+    /** 联系人类型, 没有联系人时会传空 */
     type: string;
     /** 功能按钮点击事件 */
     onClickFunction: () => void;
@@ -23,9 +23,6 @@ interface HeaderBarProps {
 
 function HeaderBar(props: HeaderBarProps) {
     const { name, type, onClickFunction } = props;
-    if (!name) {
-        return <div className="chat-headerBar" />;
-    }
 
     const action = useAction();
     const connectStatus = useSelector((state: State) => state.connect);
@@ -56,35 +53,41 @@ function HeaderBar(props: HeaderBarProps) {
                     />
                 </div>
             )}
-            <h2 className={Style.name}>{name}</h2>
+            <h2 className={Style.name}>
+                {name && <span>{name}</span>}
+                {isMobile && (
+                    <span className={Style.status}>
+                        <div className={connectStatus ? 'online' : 'offline'} />
+                        {connectStatus ? '在线' : '离线'}
+                    </span>
+                )}
+            </h2>
             {
-                <div className={Style.buttonContainer} style={{ visibility: isLogin ? 'visible' : 'hidden' }}>
-                    {type === 'group' && (
-                        <CopyToClipboard text={`invite::${name}`}>
+                isLogin && type
+                    ? (
+                        <div className={Style.buttonContainer}>
+                            {type === 'group' && (
+                                <CopyToClipboard text={`invite::${name}`}>
+                                    <IconButton
+                                        width={40}
+                                        height={40}
+                                        icon="share"
+                                        iconSize={24}
+                                        onClick={handleShareGroup}
+                                    />
+                                </CopyToClipboard>
+                            )}
                             <IconButton
                                 width={40}
                                 height={40}
-                                icon="share"
+                                icon="gongneng"
                                 iconSize={24}
-                                onClick={handleShareGroup}
+                                onClick={onClickFunction}
                             />
-                        </CopyToClipboard>
-                    )}
-                    <IconButton
-                        width={40}
-                        height={40}
-                        icon="gongneng"
-                        iconSize={24}
-                        onClick={onClickFunction}
-                    />
-                </div>
+                        </div>
+                    )
+                    : <div className={Style.buttonContainer} />
             }
-            {isMobile && (
-                <span className={Style.status}>
-                    <div className={connectStatus ? 'online' : 'offline'} />
-                    {connectStatus ? '在线' : '离线'}
-                </span>
-            )}
         </div>
     );
 }
