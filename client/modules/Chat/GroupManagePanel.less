@@ -44,12 +44,16 @@
     font-size: 14px;
     color: #666;
     font-weight: bold;
+
+    @media (orientation : portrait) {
+        height: 50px;
+    }
 }
 
 .content {
     flex: 1;
     padding: 12px;
-    overflow: auto;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 }
 

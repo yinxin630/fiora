@@ -37,19 +37,20 @@
     max-height: 800px;
     display: flex;
 
+    @media (orientation : portrait) {
+        max-width: 90vw;
+    }
+
     :global {
         .rc-dialog-content {
             flex: 1;
             min-height: 300px;
             display: flex;
             flex-direction: column;
-            @media (orientation : portrait) {
-                max-width: 100%;
-            }
         }
         .rc-dialog-body {
             padding: 0 16px;
-            overflow: auto;
+            overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             max-width: 800px;
             position: relative;
@@ -83,7 +84,7 @@
         .line-numbers-rows {
             position: absolute;
             left: 0 !important;
-            top: 14px;
+            top: 14px !important;
             background-color: white;
         }
     }

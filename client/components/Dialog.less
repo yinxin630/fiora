@@ -4,6 +4,9 @@
         top: 45% !important;
         transform: translateY(-50%) !important;
     }
+    .rc-dialog-content {
+        width: 100%;
+    }
     .rc-dialog-title {
         font-size: 16px !important;
     }
@@ -20,7 +23,8 @@
     }
     
     .rc-dialog-body {
-        overflow: auto;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
         max-height: 60vh;
     }
     
@@ -31,10 +35,10 @@
         }
         .rc-dialog-body {
             padding: 10px 10px;
-            max-height: 88%;
+            // max-height: 88%;
         }
         .rc-dialog-content {
-            max-height: 500px;
+            max-height: 80vh;
         }
     }
 }
