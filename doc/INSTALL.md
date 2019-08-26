@@ -52,7 +52,8 @@ First install docker <https://docs.docker.com/install/>
 
 #### Local build image and run
 1. Clone the project to the local `git clone https://github.com/yinxin630/fiora.git -b master`
-2. Build the image and run `docker-compose up --build`
+2. Build the image `docker-compose build --no-cache --force-rm`
+3. Run it `docker-compose up`
 
 
 <a id="project-configuration" style="color: unset; text-decoration: none;">

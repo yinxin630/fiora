@@ -51,7 +51,8 @@
 
 #### 本地构建镜像运行
 1. 克隆项目到本地 `git clone https://github.com/yinxin630/fiora.git -b master`
-2. 构建镜像并运行 `docker-compose up --build`
+2. 构建镜像 `docker-compose build --no-cache --force-rm`
+3. 运行 `docker-compose up`
 
 ### 宝塔运行
 征集宝塔环境
