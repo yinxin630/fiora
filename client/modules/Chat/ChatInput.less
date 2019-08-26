@@ -17,11 +17,12 @@
 .form {
     flex: 1;
     display: flex;
+    position: relative;
+    margin: 0 10px;
 }
 
 .input {
     flex: 1;
-    margin: 0 10px;
     padding: 0px 8px;
     height: 32px;
     line-height: 32px;
@@ -34,6 +35,14 @@
     &::placeholder {
         color: #999;
     }
+}
+
+.tooltip {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    font-size: 22px;
+    color: #aaa;
 }
 
 .iconButton {

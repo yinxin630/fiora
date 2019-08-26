@@ -18,6 +18,7 @@ import getRandomHuaji from '../../../utils/getRandomHuaji';
 import uploadFile from '../../../utils/uploadFile';
 import { sendMessage, getGroupOnlineMembers } from '../../service';
 import voice from '../../../utils/voice';
+import Tooltip from '../../components/Tooltip';
 
 let CodeEditor: any = null;
 let Expression: any = null;
@@ -34,10 +35,25 @@ function ChatInput() {
     const selfVoiceSwitch = useSelector((state: State) => state.status.selfVoiceSwitch);
     const [expressionDialog, toggleExpressionDialog] = useState(false);
     const [codeEditorDialog, toggleCodeEditorDialog] = useState(false);
-    const [IME, toggleIME] = useState(false);
+    const [inputIME, toggleInputIME] = useState(false);
+    const [inputFocus, toggleInputFocus] = useState(false);
     const [at, setAt] = useState({ enable: false, content: '' });
     const [timestamp, setTimestamp] = useState(0);
     const $input = useRef(null);
+
+    /** 全局输入框聚焦快捷键 */
+    function focusInput(e: KeyboardEvent) {
+        const $target: HTMLElement = e.target as HTMLElement;
+        if ($target.tagName === 'INPUT' || e.key !== 'i') {
+            return;
+        }
+        e.preventDefault();
+        $input.current.focus(e);
+    }
+    useEffect(() => {
+        window.addEventListener('keydown', focusInput);
+        return () => window.removeEventListener('keydown', focusInput);
+    }, []);
 
     useEffect(() => {
         (async () => {
@@ -307,7 +323,7 @@ function ChatInput() {
     async function handleInputKeyDown(e) {
         if (e.key === 'Tab') {
             e.preventDefault();
-        } else if (e.key === 'Enter' && !IME) {
+        } else if (e.key === 'Enter' && !inputIME) {
             sendTextMessage();
         } else if (e.altKey && (e.key === 's' || e.key === 'ß')) {
             sendHuaji();
@@ -337,17 +353,17 @@ function ChatInput() {
                     return;
                 }
                 // 如果是输入中文, 并且不是空格键, 忽略输入
-                if (IME && key !== ' ') {
+                if (inputIME && key !== ' ') {
                     return;
                 }
                 // 如果是不是输入中文, 并且是空格键, 则@计算模式结束
-                if (!IME && key === ' ') {
+                if (!inputIME && key === ' ') {
                     setAt({ enable: false, content: '' });
                     return;
                 }
 
                 // 如果是正在输入中文, 则直接返回, 避免取到拼音字母
-                if (IME) {
+                if (inputIME) {
                     return;
                 }
                 const regexResult = /@([^ ]*)/.exec($input.current.value);
@@ -450,17 +466,26 @@ function ChatInput() {
                     />
                 </Dropdown>
                 <form className={Style.form} autoComplete="off" onSubmit={(e) => e.preventDefault()}>
+
                     <input
                         className={Style.input}
                         type="text"
-                        placeholder="代码会写了吗, 给加薪了吗, 股票涨了吗, 来吐槽一下吧~~"
+                        placeholder="随便聊点啥吧, 不要无意义刷屏~~"
                         maxLength={2048}
                         ref={$input}
                         onKeyDown={handleInputKeyDown}
                         onPaste={handlePaste}
-                        onCompositionStart={() => toggleIME(true)}
-                        onCompositionEnd={() => toggleIME(false)}
+                        onCompositionStart={() => toggleInputIME(true)}
+                        onCompositionEnd={() => toggleInputIME(false)}
+                        onFocus={() => toggleInputFocus(true)}
+                        onBlur={() => toggleInputFocus(false)}
                     />
+
+                    {!inputFocus && (
+                        <Tooltip placement="top" mouseEnterDelay={0.5} overlay={<span>支持粘贴图片发图<br />全局按 i 键聚焦</span>}>
+                            <i className={`iconfont icon-about ${Style.tooltip}`} />
+                        </Tooltip>
+                    )}
                 </form>
                 <IconButton
                     className={Style.iconButton}
