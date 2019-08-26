@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 
 import Style from './Message.less';
 import { CircleProgress } from '../../../components/Progress';
@@ -18,6 +18,7 @@ function ImageMessage(props: ImageMessageProps) {
     const [viewer, toggleViewer] = useState(false);
     const closeViewer = useCallback(() => toggleViewer(false), []);
     const [timestamp, setTimestamp] = useState(0);
+    const $container = useRef(null);
 
     useEffect(() => {
         (async () => {
@@ -35,7 +36,7 @@ function ImageMessage(props: ImageMessageProps) {
     }, [viewer]);
 
     let imageSrc = src;
-    const containerWidth = 450;
+    const containerWidth = isMobile ? window.innerWidth - 50 : 450;
     const maxWidth = containerWidth - 100 > 500 ? 500 : containerWidth - 100;
     const maxHeight = 200;
     let width = 200;
@@ -68,7 +69,7 @@ function ImageMessage(props: ImageMessageProps) {
 
     return (
         <>
-            <div className={className}>
+            <div className={className} ref={$container}>
                 {
                     // @ts-ignore
                     <img

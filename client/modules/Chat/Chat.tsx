@@ -15,6 +15,7 @@ import useAction from '../../hooks/useAction';
 function Chat() {
     const isLogin = useIsLogin();
     const action = useAction();
+    const hasUserInfo = useSelector((state: State) => !!state.user);
     const focus = useSelector((state: State) => state.focus);
     const linkman = useSelector((state: State) => state.linkmans[focus]);
     const [groupManagePanel, toggleGroupManagePanel] = useState(false);
@@ -39,7 +40,7 @@ function Chat() {
         };
     }, []);
 
-    if (!isLogin) {
+    if (!hasUserInfo) {
         return <div className={Style.chat} />;
     }
     if (!linkman) {
