@@ -23,13 +23,14 @@ interface GroupInfoProps {
 
 function GroupInfo(props: GroupInfoProps) {
     const { visible, onClose, group } = props;
-    if (!group) {
-        return null;
-    }
 
     const action = useAction();
     const hasLinkman = useSelector((state: State) => !!state.linkmans[group._id]);
     const [largerAvatar, toggleLargetAvatar] = useState(false);
+
+    if (!group) {
+        return null;
+    }
 
     async function handleJoinGroup() {
         onClose();

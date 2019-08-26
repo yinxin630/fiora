@@ -27,10 +27,6 @@ interface CodeMessageProps {
 
 function CodeMessage(props: CodeMessageProps) {
     const { code } = props;
-    const parseResult = /@language=([_a-z]+)@/.exec(code);
-    if (!parseResult) {
-        return <pre className="code">不支持的编程语言</pre>;
-    }
 
     const [codeDialog, toggleCodeDialog] = useState(false);
     const [timestamp, setTimestamp] = useState(0);
@@ -47,6 +43,11 @@ function CodeMessage(props: CodeMessageProps) {
             }
         })();
     }, [codeDialog]);
+
+    const parseResult = /@language=([_a-z]+)@/.exec(code);
+    if (!parseResult) {
+        return <pre className="code">不支持的编程语言</pre>;
+    }
 
     const language = languagesMap[parseResult[1]];
     const rawCode = code.replace(/@language=[_a-z]+@/, '');

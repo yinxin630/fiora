@@ -62,5 +62,7 @@
         "react/jsx-props-no-spreading": 0,
         "react/jsx-one-expression-per-line": 0,
         "react/static-property-placement": 0,
+        "react-hooks/rules-of-hooks": 2,
+        "react-hooks/exhaustive-deps": 1
     }
 }

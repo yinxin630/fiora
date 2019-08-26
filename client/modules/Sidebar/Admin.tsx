@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 import Style from './Admin.less';
 import Common from './Common.less';
@@ -23,17 +23,18 @@ function Admin(props: AdminProps) {
     /**
      * 获取被封禁的用户列表
      */
-    async function handleGetSealList() {
+    const handleGetSealList = useCallback(async () => {
         const sealListRes = await getSealList();
         if (sealList) {
             setSealList(sealListRes);
         }
-    }
+    }, [sealList]);
+
     useEffect(() => {
         if (visible) {
             handleGetSealList();
         }
-    }, [visible]);
+    }, [handleGetSealList, visible]);
 
     /**
      * 处理重置用户密码操作
