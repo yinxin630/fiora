@@ -39,6 +39,9 @@ function Chat() {
         };
     }, []);
 
+    if (!isLogin) {
+        return <div className={Style.chat} />;
+    }
     if (!linkman) {
         return (
             <div className={Style.chat}>
