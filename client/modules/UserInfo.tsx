@@ -13,7 +13,7 @@ import { addFriend, getLinkmanHistoryMessages, deleteFriend, sealUser } from '..
 
 interface UserInfoProps {
     visible: boolean;
-    user: {
+    user?: {
         _id: string;
         username: string;
         avatar: string;
@@ -25,10 +25,10 @@ function UserInfo(props: UserInfoProps) {
     const { visible, onClose, user } = props;
 
     const action = useAction();
-    const selfId = useSelector((state: State) => state.user._id);
-    const linkman = useSelector((state: State) => state.linkmans[user._id]);
+    const selfId = useSelector((state: State) => state.user && state.user._id);
+    const linkman = useSelector((state: State) => state.linkmans[user && user._id]);
     const isFriend = linkman && linkman.type === 'friend';
-    const isAdmin = useSelector((state: State) => state.user.isAdmin);
+    const isAdmin = useSelector((state: State) => state.user && state.user.isAdmin);
     const [largerAvatar, toggleLargetAvatar] = useState(false);
 
     if (!user) {

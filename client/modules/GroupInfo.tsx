@@ -25,7 +25,7 @@ function GroupInfo(props: GroupInfoProps) {
     const { visible, onClose, group } = props;
 
     const action = useAction();
-    const hasLinkman = useSelector((state: State) => !!state.linkmans[group._id]);
+    const hasLinkman = useSelector((state: State) => !!state.linkmans[group && group._id]);
     const [largerAvatar, toggleLargetAvatar] = useState(false);
 
     if (!group) {
