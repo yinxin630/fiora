@@ -86,17 +86,17 @@ io.use(route(
 ));
 
 // @ts-ignore
-app.io.on('connection', async (ctx) => {
-    console.log(`  <<<< connection ${ctx.socket.id} ${ctx.socket.request.connection.remoteAddress}`);
+app.io.on('connection', async (socket) => {
+    console.log(`  <<<< connection ${socket.id} ${socket.request.connection.remoteAddress}`);
     await Socket.create({
-        id: ctx.socket.id,
-        ip: ctx.socket.request.connection.remoteAddress,
+        id: socket.id,
+        ip: socket.request.connection.remoteAddress,
     });
 
-    ctx.socket.on('disconnect', async () => {
-        console.log(`  >>>> disconnect ${ctx.socket.id}`);
+    socket.on('disconnect', async () => {
+        console.log(`  >>>> disconnect ${socket.id}`);
         await Socket.deleteOne({
-            id: ctx.socket.id,
+            id: socket.id,
         });
     });
 });
