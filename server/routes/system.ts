@@ -74,13 +74,19 @@ export async function searchExpression(ctx: KoaContext<SearchExpressionData>) {
         return [];
     }
 
-    const res = await axios.get(
-        `https://www.doutula.com/search?keyword=${encodeURIComponent(keywords)}`,
-    );
+    const res = await axios({
+        method: 'get',
+        url: `http://www.bee-ji.com/s?w=${encodeURIComponent(keywords)}`,
+        headers: {
+            referer: 'http://www.bee-ji.com/',
+            'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36',
+        },
+    });
     assert(res.status === 200, '搜索表情包失败, 请重试');
 
-    const images = res.data.match(/data-original="[^ "]+"/g) || [];
-    return images.map((i) => i.substring(15, i.length - 1));
+    const images = res.data.match(/"id":[0-9]+,"h/g) || [];
+
+    return images.map((idStr: string) => `//image.bee-ji.com/${idStr.match(/[0-9]+/)}`);
 }
 
 /**
