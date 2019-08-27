@@ -1,30 +1,18 @@
 {
     "presets": [
-        "stage-0",
         [
-            "env",
+            "@babel/preset-env",
             {
                 "targets": "> 0.5%, last 3 versions, Firefox ESR, not dead",
                 "useBuiltIns": "entry",
+                "corejs": 3,
                 "modules": false
             }
         ],
-        "react"
+        "@babel/preset-react"
     ],
     "plugins": [
         "react-hot-loader/babel",
-        "transform-decorators-legacy",
-        "transform-class-properties",
-        [
-            "react-transform",
-            {
-                "transforms": [
-                    {
-                        "transform": "react-transform-style"
-                    }
-                ]
-            }
-        ],
         [
             "prismjs", {
                 "languages": ["clike", "javascript", "typescript", "java", "c", "cpp", "python", "ruby", "markup", "markup-templating", "php", "go", "csharp", "css", "markdown", "sql", "json" ],
@@ -33,26 +21,5 @@
                 "css": true
             }
         ]
-    ],
-    "env": {
-        "test": {
-            "plugins": [
-                "istanbul"
-            ]
-        },
-        "development": {
-            "plugins": [
-                [
-                    "react-transform",
-                    {
-                        "transforms": [
-                            {
-                                "transform": "react-transform-log-render"
-                            }
-                        ]
-                    }
-                ]
-            ]
-        }
-    }
+    ]
 }
