@@ -9,7 +9,6 @@ const optionDefinitions = [
     { name: 'qiniuUrlPrefix', type: String },
     { name: 'allowOrigin', type: String, multiple: true },
     { name: 'publicPath', type: String },
-    { name: 'subDirectory', type: String },
     { name: 'host', type: String },
     { name: 'port', type: Number },
     { name: 'administrator', type: String },
@@ -24,7 +23,6 @@ interface CommandArgs {
     qiniuUrlPrefix: string;
     allowOrigin: string[];
     publicPath: string;
-    subDirectory: string;
     host: string;
     port: number;
     administrator: string;

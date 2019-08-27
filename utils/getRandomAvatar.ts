@@ -2,7 +2,7 @@ import webpackConfig from '../config/webpack';
 
 const AvatarCount = 15;
 const env = process.env.NODE_ENV === 'development' ? 'dev' : 'build';
-const publishPath = webpackConfig[env].assetsPublicPath + webpackConfig[env].assetsSubDirectory;
+const publishPath = webpackConfig[env].assetsPublicPath;
 
 /**
  * 获取随机头像

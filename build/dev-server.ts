@@ -58,7 +58,7 @@ app.use(devMiddleware);
 
 app.use(hotMiddleware);
 
-const staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory);
+const staticPath = path.posix.join('/');
 app.use(staticPath, express.static('./static'));
 app.use(staticPath, express.static('./public'));
 
