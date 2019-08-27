@@ -7,9 +7,10 @@
     },
     "env": {
         "browser": true,
-        "node": true
+        "node": true,
+        "jest/globals": true
     },
-    "plugins": ["@typescript-eslint", "react", "react-hooks", "jsx-a11y", "import"],
+    "plugins": ["@typescript-eslint", "react", "react-hooks", "jsx-a11y", "import", "jest"],
     "globals": {
         "importScripts": true,
         "workbox": true
