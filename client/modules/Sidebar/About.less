@@ -1,7 +1,16 @@
 .about {
     width: 600px !important;
-}
 
-p, li {
-    user-select: text;
+    @media (orientation: portrait) {
+        width: 94vw !important;
+    }
+
+    :global {
+        p, li {
+            user-select: text;
+        }
+        a {
+            word-break: break-all;
+        }
+    }
 }

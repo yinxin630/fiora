@@ -124,7 +124,7 @@
     "less-plugin-autoprefix": "^1.5.1",
     "nodemon": "^1.17.3",
     "opn": "^4.0.2",
-    "optimize-css-assets-webpack-plugin": "^4.0.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "ora": "^1.1.0",
     "pre-commit": "^1.2.2",
     "react-transform-log-render": "^1.0.0",

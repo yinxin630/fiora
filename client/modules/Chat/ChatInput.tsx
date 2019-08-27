@@ -19,6 +19,7 @@ import uploadFile from '../../../utils/uploadFile';
 import { sendMessage, getGroupOnlineMembers } from '../../service';
 import voice from '../../../utils/voice';
 import Tooltip from '../../components/Tooltip';
+import { isMobile } from '../../../utils/ua';
 
 let CodeEditor: any = null;
 let Expression: any = null;
@@ -481,7 +482,7 @@ function ChatInput() {
                         onBlur={() => toggleInputFocus(false)}
                     />
 
-                    {!inputFocus && (
+                    {!isMobile && !inputFocus && (
                         <Tooltip placement="top" mouseEnterDelay={0.5} overlay={<span>支持粘贴图片发图<br />全局按 i 键聚焦</span>}>
                             <i className={`iconfont icon-about ${Style.tooltip}`} />
                         </Tooltip>
