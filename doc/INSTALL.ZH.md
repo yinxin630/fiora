@@ -54,8 +54,6 @@
 2. 构建镜像 `docker-compose build --no-cache --force-rm`
 3. 运行 `docker-compose up`
 
-### 宝塔运行
-征集宝塔环境
 
 ## 项目配置
 
@@ -82,7 +80,7 @@
 
 
 ## 七牛CDN配置
-在没有配置七牛CDN的情况下, 客户端资源以及用户上传/下载图片都是消耗服务器带宽的, 并发流量较大, 服务器容易扛不住, 所以强烈推荐使用七牛CDN
+在没有配置七牛CDN的情况下, 客户端资源和用户上传/下载图片都是消耗服务器带宽的, 并发流量较大, 服务器容易扛不住, 所以强烈推荐使用七牛CDN
 
 其它的CDN运营商没做支持, 欢迎PR
 
@@ -91,8 +89,30 @@
    ![七牛bucket](./screenshots/qiniu-bucket.png)
 3. 获取密钥, 鼠标移到右上角个人头像, 点击"密钥管理", 获取 AccessKey 和 SecretKey
    ![七牛key](./screenshots/qiniu-key.png)
-4. 修改 `config/server.js` 里的配置项: `qiniuAccessKey` / `qiniuSecretKey` / `qiniuBucket` / `qiniuUrlPrefix`   
-   *注意 qiniuUrlPrefix 配置值要以斜线/结尾, 例如: `http://www.xxx.com/`*
+
+### 构建客户端上传到七牛
+1. 下载并安装七牛命令行工具 <https://developer.qiniu.com/kodo/tools/1302/qshell>, 将其重命名为 `qshell` 并添加到环境变量
+2. 登录到七牛 `qshell account AccessKey SecretKey name`
+3. 在 fiora 目录下创建 `.qiniurc` 配置文件, 内容如下所示:
+```json
+{
+    "src_dir" : "./dist",
+    "bucket" : "七牛空间名称",
+    "overwrite": true,
+    "rescan_local": true
+}
+```
+4. 构建客户端, 传递七牛外网 url 作为 publicPath `npm run build -- --publicPath "http://示例地址/fiora/"`
+5. 上传构建结构到 CDN `qshell qupload .qiniurc`
+6. 更新客户端 index.html `npm run move-dist`, 如果是本地构建上传CDN的, 请手动更新 index.html 到服务器上 fiora public 目录下
+
+*每次更新客户端代码后, 重复4~6步*
+
+### 更新服务端七牛配置
+1. 修改 `config/server.ts` 里的配置项: `qiniuAccessKey` / `qiniuSecretKey` / `qiniuBucket` / `qiniuUrlPrefix`   
+   *注意 qiniuUrlPrefix 配置值要以斜线/结尾, 例如: `http://示例地址/`*
+2. 修改 `config/webpack.ts`里的配置项: `build.assetsPublicPath`, 与构建客户端时的 `publicPath` 值相同
+3. 重启服务端
 
 
 ## pm2 远程部署/更新

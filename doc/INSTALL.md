@@ -93,9 +93,30 @@ Other CDN operators did not support, welcome PR
    ![七牛bucket](./screenshots/qiniu-bucket.png)
 3. Get the key, mouse to the top right corner of the avatar, click "Key Management", get AccessKey and SecretKey
    ![七牛key](./screenshots/qiniu-key.png)
-4. Modify the configuration items in `config/server.js`: `qiniuAccessKey` / `qiniuSecretKey` / `qiniuBucket` / `qiniuUrlPrefix`
 
-*Note that the qiniuUrlPrefix configuration value should be slashed/terminated, for example: `http://www.xxx.com/`*
+### Build client upload to 七牛
+1. Download and install the 七牛 Command Line tool <https://developer.qiniu.com/kodo/tools/1302/qshell>, rename it to `qshell` and add it to the environment variable.
+2. Log in to the 七牛 `qshell account AccessKey SecretKey name`
+3. Create a `.qiniurc` configuration file in the fiora directory, as follows:
+```json
+{
+     "src_dir" : "./dist",
+     "bucket" : "七牛 bucket name",
+     "overwrite": true,
+     "rescan_local": true
+}
+```
+4. Build the client, pass the 七牛 public url as publicPath `npm run build -- --publicPath "http://example address/fiora/"
+5. Upload the build structure to the CDN `qshell qupload .qiniurc`
+6. Update the client index.html `npm run move-dist`, if it is a local build upload CDN, please manually update index.html to the server under the fiora public directory
+
+* Repeat 4~6 steps after each update of the client code*
+
+### Update server 七牛 configuration
+1. Modify the configuration items in `config/server.ts`: `qiniuAccessKey` / `qiniuSecretKey` / `qiniuBucket` / `qiniuUrlPrefix`
+    *Note that the qiniuUrlPrefix configuration value should be slashed/terminated, for example: `http://example address/fiora/`*
+2. Modify the configuration item in `config/webpack.ts`: `build.assetsPublicPath`, which is the same as the `publicPath` value when building the client.
+3. Restart the server
 
 
 ## pm2 Remote Deployment / Update
