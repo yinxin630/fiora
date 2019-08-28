@@ -455,19 +455,33 @@ function reducer(state: State = initialState, action: Action): State {
 
         case ActionTypes.UpdateMessage: {
             const payload = action.payload as UpdateMessagePayload;
+
+            let messages = {};
+            if (payload.value._id) {
+                messages = {
+                    ...deleteObjectKey(
+                        state.linkmans[payload.linkmanId].messages,
+                        payload.messageId,
+                    ),
+                    [payload.value._id]: payload.value,
+                };
+            } else {
+                messages = {
+                    ...state.linkmans[payload.linkmanId].messages,
+                    [payload.messageId]: {
+                        ...state.linkmans[payload.linkmanId].messages[payload.messageId],
+                        ...payload.value,
+                    },
+                };
+            }
+
             return {
                 ...state,
                 linkmans: {
                     ...state.linkmans,
                     [payload.linkmanId]: {
                         ...state.linkmans[payload.linkmanId],
-                        messages: {
-                            ...state.linkmans[payload.linkmanId].messages,
-                            [payload.messageId]: {
-                                ...state.linkmans[payload.linkmanId].messages[payload.messageId],
-                                ...payload.value,
-                            },
-                        },
+                        messages,
                     },
                 },
             };
