@@ -2,6 +2,7 @@
 node_modules/
 dist/
 public/
+coverage/
 
 npm-debug.log
 yarn-error.log
@@ -9,5 +10,6 @@ yarn-error.log
 runServer.sh
 build.sh
 .qiniurc
+ecosystem.config.js
 
 .idea/

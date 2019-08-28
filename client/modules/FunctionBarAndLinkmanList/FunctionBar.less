@@ -1,0 +1,164 @@
+.functionBar {
+    display: flex;
+    height: 70px;
+    align-items: center;
+    padding: 0 12px;
+    position: relative;
+}
+
+.form {
+    flex: 1;
+    display: flex;
+}
+
+.input {
+    flex: 1;
+    height: 36px;
+    border-radius: 18px;
+    border: none;
+    font-size: 14px;
+    color: #333;
+
+    :global {
+        input {
+            padding-left: 35px;
+            padding-right: 15px;
+            padding-top: 2px;
+            border: none;
+            border-radius: 18px;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+    }
+}
+
+.inputFocus {
+    :global {
+        input {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+    }
+}
+
+.searchIcon {
+    font-size: 22px;
+    position: absolute;
+    left: 20px;
+    top: 22px;
+    color: #666;
+}
+
+.createGroupButton {
+    margin-left: 5px;
+
+    &:hover {
+        :global {
+            .iconfont {
+                color: rgba(255, 255, 255, 0.9);
+            }
+        }
+    }
+
+    :global {
+        .iconfont {
+            color: rgba(255, 255, 255, 0.5);
+        }
+    }
+}
+
+.searchResult {
+    position: absolute;
+    top: 60px;
+    left: 8px;
+    width: 276px;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    z-index: 1300;
+    
+    :global {
+        .rc-tabs-tab {
+            margin-right: 20px;
+        }
+        .rc-tabs-nav {
+            margin-left: 16px !important;
+        }
+    }
+}
+
+.userList {
+    & > div {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        height: 56px;
+        padding-left: 8px;
+        & > p {
+            color: #333;
+            margin-left: 10px;
+        }
+        &:hover {
+            background-color: #eee;
+        }
+    }
+}
+
+.groupList {
+    & > div {
+        display: flex;
+        padding-left: 8px;
+        cursor: pointer;
+        height: 56px;
+        align-items: center;
+        & > div {
+            margin-left: 10px;
+            & > p {
+                color: #333;
+                &:last-child {
+                    color: #666;
+                    font-size: 14px;
+                }
+            }
+        }
+        &:hover {
+            background-color: #eee;
+        }
+    }
+}
+
+.allList {
+    padding: 8px 12px;
+    max-height: 440px;
+
+    & > div {
+        & > p {
+            font-size: 14px;
+            color: #333;
+            font-weight: bold;
+            line-height: 31px;
+        }
+    }
+}
+
+.none {
+    font-size: 14px;
+    line-height: 80px;
+    text-align: center;
+    color: #333;
+}
+
+.more {
+    color: var(--primary-color-10);
+    font-size: 12px;
+    text-align: center;
+    & > span {
+        cursor: pointer;
+    }
+}
+
+.only {
+    padding: 6px 12px;
+    max-height: 440px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
