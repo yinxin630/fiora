@@ -150,7 +150,7 @@ export async function getLinkmansLastMessages(ctx: KoaContext<GetLinkmanLastMess
                 createTime: 1,
             },
             { sort: { createTime: -1 }, limit: FirstTimeMessagesCount },
-        ).populate('from', { username: 1, avatar: 1 }));
+        ).populate('from', { username: 1, avatar: 1, tag: 1 }));
     const results = await Promise.all(promises);
     const messages = linkmans.reduce((result, linkmanId, index) => {
         result[linkmanId] = ((results[index] || []) as Array<unknown>).reverse();
@@ -183,7 +183,7 @@ export async function getLinkmanHistoryMessages(ctx: KoaContext<GetLinkmanHistor
             createTime: 1,
         },
         { sort: { createTime: -1 }, limit: EachFetchMessagesCount + existCount },
-    ).populate('from', { username: 1, avatar: 1 });
+    ).populate('from', { username: 1, avatar: 1, tag: 1 });
     const result = messages.slice(existCount).reverse();
     return result;
 }
@@ -212,7 +212,7 @@ export async function getDefalutGroupHistoryMessages(
             createTime: 1,
         },
         { sort: { createTime: -1 }, limit: EachFetchMessagesCount + existCount },
-    ).populate('from', { username: 1, avatar: 1 });
+    ).populate('from', { username: 1, avatar: 1, tag: 1 });
     const result = messages.slice(existCount).reverse();
     return result;
 }

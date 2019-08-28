@@ -322,6 +322,7 @@ export async function guest(ctx: KoaContext<Environment>) {
             name: 1,
             avatar: 1,
             createTime: 1,
+            creator: 1,
         },
     );
     ctx.socket.join(group._id.toString());

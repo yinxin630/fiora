@@ -38,13 +38,6 @@ function convertSystemMessage(message) {
     }
 }
 
-function convertAuthorTag(message) {
-    if (message.from.username === '碎碎酱') {
-        message.from.tag = '作者';
-    }
-}
-
 export default function convertMessage(message) {
-    convertAuthorTag(message);
     convertSystemMessage(message);
 }
