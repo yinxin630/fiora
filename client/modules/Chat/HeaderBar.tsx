@@ -65,7 +65,7 @@ function HeaderBar(props: HeaderBarProps) {
             {
                 isLogin && type
                     ? (
-                        <div className={Style.buttonContainer}>
+                        <div className={`${Style.buttonContainer} ${Style.rightButtonContainer}`}>
                             {type === 'group' && (
                                 <CopyToClipboard text={`invite::${name}`}>
                                     <IconButton
