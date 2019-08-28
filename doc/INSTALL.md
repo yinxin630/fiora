@@ -48,7 +48,7 @@ First install docker <https://docs.docker.com/install/>
 2. Pull the fiora image `docker pull suisuijiang/fiora`
 3. Create a virtual network `docker network create fiora-network`
 4. Start the database `docker run --name fioradb -p 27017:27017 --network fiora-network mongo`
-5. Start fiora `docker run --name fiora -p 9200:9200 --network fiora-network -e Database=mongodb://fioradb:27017 suisuijiang/fiora`
+5. Start fiora `docker run --name fiora -p 9200:9200 --network fiora-network -e Database=mongodb://fioradb:27017/fiora suisuijiang/fiora`
 
 #### Local build image and run
 1. Clone the project to the local `git clone https://github.com/yinxin630/fiora.git -b master`

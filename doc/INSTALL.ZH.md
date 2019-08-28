@@ -47,7 +47,7 @@
 2. 拉取 fiora 镜像 `docker pull suisuijiang/fiora`
 3. 创建虚拟网络 `docker network create fiora-network`
 4. 启动数据库 `docker run --name fioradb -p 27017:27017 --network fiora-network mongo`
-5. 启动fiora `docker run --name fiora -p 9200:9200 --network fiora-network -e Database=mongodb://fioradb:27017 suisuijiang/fiora`
+5. 启动fiora `docker run --name fiora -p 9200:9200 --network fiora-network -e Database=mongodb://fioradb:27017/fiora suisuijiang/fiora`
 
 #### 本地构建镜像运行
 1. 克隆项目到本地 `git clone https://github.com/yinxin630/fiora.git -b master`
