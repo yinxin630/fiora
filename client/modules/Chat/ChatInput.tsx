@@ -45,7 +45,7 @@ function ChatInput() {
     /** 全局输入框聚焦快捷键 */
     function focusInput(e: KeyboardEvent) {
         const $target: HTMLElement = e.target as HTMLElement;
-        if ($target.tagName === 'INPUT' || e.key !== 'i') {
+        if ($target.tagName === 'INPUT' || $target.tagName === 'TEXTAREA' || e.key !== 'i') {
             return;
         }
         e.preventDefault();
