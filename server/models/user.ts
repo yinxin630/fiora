@@ -17,6 +17,8 @@ const UserSchema = new Schema({
     tag: {
         type: String,
         default: '',
+        trim: true,
+        match: /^([0-9a-zA-Z]{1,2}|[\u4e00-\u9eff]){1,5}$/,
     },
     expressions: [
         {

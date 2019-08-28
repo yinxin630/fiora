@@ -314,3 +314,13 @@ export async function resetUserPassword(username: string) {
     const [, res] = await fetch('resetUserPassword', { username });
     return res;
 }
+
+/**
+ * 更新指定用户的标签
+ * @param username 目标用户名
+ * @param tag 标签
+ */
+export async function setUserTag(username: string, tag: string) {
+    const [err] = await fetch('setUserTag', { username, tag });
+    return !err;
+}

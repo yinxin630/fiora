@@ -499,3 +499,29 @@ export async function resetUserPassword(ctx: KoaContext<ResetUserPasswordData>) 
         newPassword,
     };
 }
+
+interface SetUserTagData {
+    username: string;
+    tag: string;
+}
+
+/**
+ * 更新用户标签, 需要管理员权限
+ * @param ctx Context
+ */
+export async function setUserTag(ctx: KoaContext<SetUserTagData>) {
+    const { username, tag } = ctx.data;
+    assert(username !== '', 'username不能为空');
+    assert(tag !== '', 'tag不能为空');
+    assert(/^([0-9a-zA-Z]{1,2}|[\u4e00-\u9eff]){1,5}$/.test(tag), '标签不符合要求, 允许5个汉字或者10个字母');
+
+    const user = await User.findOne({ username });
+    assert(user, '用户不存在');
+
+    user.tag = tag;
+    await user.save();
+
+    return {
+        msg: 'ok',
+    };
+}

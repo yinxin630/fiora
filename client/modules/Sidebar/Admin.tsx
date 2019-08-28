@@ -6,7 +6,7 @@ import Dialog from '../../components/Dialog';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Message from '../../components/Message';
-import { getSealList, resetUserPassword, sealUser } from '../../service';
+import { getSealList, resetUserPassword, sealUser, setUserTag } from '../../service';
 
 interface AdminProps {
     visible: boolean;
@@ -16,6 +16,8 @@ interface AdminProps {
 function Admin(props: AdminProps) {
     const { visible, onClose } = props;
 
+    const [tagUsername, setTagUsername] = useState('');
+    const [tag, setTag] = useState('');
     const [resetPasswordUsername, setResetPasswordUsername] = useState('');
     const [sealUsername, setSealUsername] = useState('');
     const [sealList, setSealList] = useState([]);
@@ -35,6 +37,16 @@ function Admin(props: AdminProps) {
             handleGetSealList();
         }
     }, [handleGetSealList, visible]);
+
+    /**
+     * 处理更新用户标签
+     */
+    async function handleSetTag() {
+        const isSuccess = await setUserTag(tagUsername, tag.trim());
+        if (isSuccess) {
+            Message.success('更新用户标签成功, 请刷新页面更新数据');
+        }
+    }
 
     /**
      * 处理重置用户密码操作
@@ -59,6 +71,26 @@ function Admin(props: AdminProps) {
     return (
         <Dialog className={Style.admin} visible={visible} title="管理员控制台" onClose={onClose}>
             <div className={Common.container}>
+                <div className={Common.block}>
+                    <p className={Common.title}>更新用户标签</p>
+                    <div className={Style.inputBlock}>
+                        <Input
+                            className={`${Style.input} ${Style.tagUsernameInput}`}
+                            value={tagUsername}
+                            onChange={setTagUsername}
+                            placeholder="要更新标签的用户名"
+                        />
+                        <Input
+                            className={`${Style.input} ${Style.tagInput}`}
+                            value={tag}
+                            onChange={setTag}
+                            placeholder="标签内容"
+                        />
+                        <Button className={Style.button} onClick={handleSetTag}>
+                            确定
+                        </Button>
+                    </div>
+                </div>
                 <div className={Common.block}>
                     <p className={Common.title}>重置用户密码</p>
                     <div className={Style.inputBlock}>
