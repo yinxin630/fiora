@@ -25,10 +25,10 @@ function Admin(props: AdminProps) {
      */
     const handleGetSealList = useCallback(async () => {
         const sealListRes = await getSealList();
-        if (sealList) {
+        if (sealListRes) {
             setSealList(sealListRes);
         }
-    }, [sealList]);
+    }, []);
 
     useEffect(() => {
         if (visible) {
