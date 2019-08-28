@@ -16,9 +16,9 @@ const languagesMap = {
     csharp: 'csharp',
     html: 'html',
     css: 'css',
-    markdown: 'markdown',
     sql: 'sql',
     json: 'json',
+    text: 'text',
 };
 
 interface CodeMessageProps {
@@ -49,7 +49,7 @@ function CodeMessage(props: CodeMessageProps) {
         return <pre className="code">不支持的编程语言</pre>;
     }
 
-    const language = languagesMap[parseResult[1]];
+    const language = languagesMap[parseResult[1]] || 'text';
     const rawCode = code.replace(/@language=[_a-z]+@/, '');
     let size = `${rawCode.length}B`;
     if (rawCode.length > 1024) {

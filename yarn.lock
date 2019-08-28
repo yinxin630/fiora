@@ -1637,9 +1637,9 @@ babel-plugin-jest-hoist@^24.9.0:
   dependencies:
     "@types/babel__traverse" "^7.0.6"
 
-babel-plugin-prismjs@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/babel-plugin-prismjs/-/babel-plugin-prismjs-1.0.2.tgz#837bf6b32168b3ba624c054fc755946deb1b63fa"
+babel-plugin-prismjs@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/babel-plugin-prismjs/-/babel-plugin-prismjs-1.1.1.tgz#974b2346d6ea8bdb2b16c3fdf1342bbe97fc6f51"
 
 babel-preset-jest@^24.9.0:
   version "24.9.0"
@@ -6945,9 +6945,9 @@ pretty-format@^24.9.0:
     ansi-styles "^3.2.0"
     react-is "^16.8.4"
 
-prismjs@1.16.0:
-  version "1.16.0"
-  resolved "https://registry.npmjs.org/prismjs/-/prismjs-1.16.0.tgz#406eb2c8aacb0f5f0f1167930cb83835d10a4308"
+prismjs@^1.17.1:
+  version "1.17.1"
+  resolved "https://registry.npmjs.org/prismjs/-/prismjs-1.17.1.tgz#e669fcbd4cdd873c35102881c33b14d0d68519be"
   optionalDependencies:
     clipboard "^2.0.0"
 

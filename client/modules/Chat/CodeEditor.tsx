@@ -11,6 +11,7 @@ import Button from '../../components/Button';
 const languages = [
     'javascript',
     'typescript',
+    'text',
     'java',
     'c_cpp',
     'python',
@@ -20,7 +21,6 @@ const languages = [
     'csharp',
     'html',
     'css',
-    'markdown',
     'sql',
     'json',
 ];
@@ -114,9 +114,9 @@ function CodeEditor(props: CodeEditorProps) {
                         await import(/* webpackChunkName: "react-ace-mode-css" */ 'brace/mode/css');
                         break;
                     }
-                    case 'markdown': {
+                    case 'text': {
                         // @ts-ignore
-                        await import(/* webpackChunkName: "react-ace-mode-markdown" */ 'brace/mode/markdown');
+                        await import(/* webpackChunkName: "react-ace-mode-text" */ 'brace/mode/markdown');
                         break;
                     }
                     case 'sql': {
@@ -163,7 +163,7 @@ function CodeEditor(props: CodeEditorProps) {
             },
         };
 
-        return <AceEditor mode={language} {...editorProps} />;
+        return <AceEditor mode={language === 'text' ? 'markdown' : language} {...editorProps} />;
     }
 
     return (
