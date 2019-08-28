@@ -109,12 +109,7 @@ class Message extends Component<MessageProps> {
                 </ShowUserOrGroupInfoContext.Consumer>
                 <div className={Style.right}>
                     <div className={Style.nicknameTimeBlock}>
-                        <span
-                            className={Style.tag}
-                            style={{ display: tag ? 'inline-block' : 'none' }}
-                        >
-                            {tag}
-                        </span>
+                        {tag && <span className={Style.tag}>{tag}</span>}
                         <span className={Style.nickname}>{username}</span>
                         <span className={Style.time}>{this.formatTime()}</span>
                     </div>

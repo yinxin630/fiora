@@ -13,6 +13,8 @@ function MessageList() {
     const action = useAction();
     const selfId = useSelector((state: State) => state.user._id);
     const focus = useSelector((state: State) => state.focus);
+    const isGroup = useSelector((state: State) => state.linkmans[focus].type === 'group');
+    const creator = useSelector((state: State) => state.linkmans[focus].creator);
     const messages = useSelector((state: State) => state.linkmans[focus].messages);
     const isLogin = useIsLogin();
 
@@ -60,6 +62,11 @@ function MessageList() {
                 || scrollTop > scrollHeight - clientHeight * 2;
         }
 
+        let { tag } = message.from;
+        if (!tag && isGroup && message.from._id === creator) {
+            tag = '群主';
+        }
+
         return (
             <MessageComponent
                 key={message._id}
@@ -71,7 +78,7 @@ function MessageList() {
                 time={message.createTime}
                 type={message.type}
                 content={message.content}
-                tag={message.from.tag}
+                tag={tag}
                 loading={message.loading}
                 percent={message.percent}
                 shouldScroll={shouldScroll}
