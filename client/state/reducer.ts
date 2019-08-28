@@ -25,7 +25,7 @@ export interface Message {
         avatar: string;
         originUsername: string;
         tag: string;
-    },
+    };
     loading: boolean;
     percent: number;
     createTime: string;
@@ -40,7 +40,7 @@ export interface GroupMember {
         _id: string;
         username: string;
         avatar: string;
-    },
+    };
     os: string;
     browser: string;
     environment: string;
@@ -197,7 +197,7 @@ function transformFriend(friend: Linkman): Linkman {
         // @ts-ignore
         createTime: friend.createTime,
     };
-    initLinkmanFields(transformedFriend as unknown as Linkman, 'friend');
+    initLinkmanFields((transformedFriend as unknown) as Linkman, 'friend');
     return transformedFriend as Linkman;
 }
 
@@ -274,7 +274,20 @@ function reducer(state: State = initialState, action: Action): State {
                 ...groups.map(transformGroup),
                 ...friends.map(transformFriend),
             ];
-            const focus = linkmans.length > 0 ? linkmans[0]._id : '';
+            linkmans.forEach((linkman) => {
+                let existMessages = {};
+                if (state.linkmans[linkman._id]) {
+                    existMessages = state.linkmans[linkman._id].messages;
+                }
+                linkman.messages = existMessages;
+            });
+
+            // 如果没登录过, 则将聚焦联系人设置为第一个联系人
+            let { focus } = state;
+            if (!state.user && linkmans.length > 0) {
+                focus = linkmans[0]._id;
+            }
+
             return {
                 ...state,
                 user: {
@@ -377,7 +390,10 @@ function reducer(state: State = initialState, action: Action): State {
             Object.keys(linkmanMessages).forEach((linkmanId) => {
                 newState.linkmans[linkmanId] = {
                     ...linkmans[linkmanId],
-                    messages: getMessagesMap(linkmanMessages[linkmanId]),
+                    messages: {
+                        ...linkmans[linkmanId].messages,
+                        ...getMessagesMap(linkmanMessages[linkmanId]),
+                    },
                 };
             });
             return newState;
