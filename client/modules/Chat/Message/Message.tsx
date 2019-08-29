@@ -11,6 +11,7 @@ import CodeMessage from './CodeMessage';
 import UrlMessage from './UrlMessage';
 import InviteMessage from './InviteMessage';
 import SystemMessage from './SystemMessage';
+import getRandomColor from '../../../../utils/getRandomColor';
 
 interface MessageProps {
     isSelf: boolean;
@@ -109,7 +110,14 @@ class Message extends Component<MessageProps> {
                 </ShowUserOrGroupInfoContext.Consumer>
                 <div className={Style.right}>
                     <div className={Style.nicknameTimeBlock}>
-                        {tag && <span className={Style.tag}>{tag}</span>}
+                        {tag && (
+                            <span
+                                className={Style.tag}
+                                style={{ backgroundColor: getRandomColor(tag) }}
+                            >
+                                {tag}
+                            </span>
+                        )}
                         <span className={Style.nickname}>{username}</span>
                         <span className={Style.time}>{this.formatTime()}</span>
                     </div>

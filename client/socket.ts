@@ -88,6 +88,15 @@ socket.on('message', async (message) => {
 
     const state = store.getState();
     const isSelfMessage = message.from._id === state.user._id;
+    if (isSelfMessage && message.from.tag !== state.user.tag) {
+        dispatch({
+            type: ActionTypes.UpdateUserInfo,
+            payload: {
+                tag: message.from.tag,
+            },
+        });
+    }
+
     const linkman = state.linkmans[message.to];
     let title = '';
     if (linkman) {
@@ -192,6 +201,15 @@ socket.on('deleteGroup', ({ groupId }) => {
     dispatch({
         type: ActionTypes.RemoveLinkman,
         payload: groupId,
+    });
+});
+
+socket.on('changeTag', (tag: string) => {
+    dispatch({
+        type: ActionTypes.UpdateUserInfo,
+        payload: {
+            tag,
+        },
     });
 });
 

@@ -45,6 +45,8 @@ function Admin(props: AdminProps) {
         const isSuccess = await setUserTag(tagUsername, tag.trim());
         if (isSuccess) {
             Message.success('更新用户标签成功, 请刷新页面更新数据');
+            setTagUsername('');
+            setTag('');
         }
     }
 
@@ -55,6 +57,7 @@ function Admin(props: AdminProps) {
         const res = await resetUserPassword(resetPasswordUsername);
         if (res) {
             Message.success(`已将该用户的密码重置为:${res.newPassword}`);
+            setResetPasswordUsername('');
         }
     }
     /**
@@ -64,6 +67,7 @@ function Admin(props: AdminProps) {
         const isSuccess = await sealUser(sealUsername);
         if (isSuccess) {
             Message.success('封禁用户成功');
+            setSealUsername('');
             handleGetSealList();
         }
     }

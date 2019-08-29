@@ -209,6 +209,7 @@ export async function login(ctx: KoaContext<LoginData>) {
         _id: user._id,
         avatar: user.avatar,
         username: user.username,
+        tag: user.tag,
         groups,
         friends,
         token,
@@ -249,6 +250,7 @@ export async function loginByToken(ctx: KoaContext<LoginByTokenData>) {
             _id: 1,
             avatar: 1,
             username: 1,
+            tag: 1,
             createTime: 1,
         },
     );
@@ -293,6 +295,7 @@ export async function loginByToken(ctx: KoaContext<LoginByTokenData>) {
         _id: user._id,
         avatar: user.avatar,
         username: user.username,
+        tag: user.tag,
         groups,
         friends,
         isAdmin: user._id.toString() === config.administrator,
@@ -520,6 +523,11 @@ export async function setUserTag(ctx: KoaContext<SetUserTagData>) {
 
     user.tag = tag;
     await user.save();
+
+    const sockets = await Socket.find({ user: user._id });
+    sockets.forEach((socket) => {
+        ctx._io.to(socket.id).emit('changeTag', user.tag);
+    });
 
     return {
         msg: 'ok',

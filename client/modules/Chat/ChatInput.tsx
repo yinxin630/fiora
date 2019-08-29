@@ -31,6 +31,7 @@ function ChatInput() {
     const selfId = useSelector((state: State) => state.user._id);
     const username = useSelector((state: State) => state.user.username);
     const avatar = useSelector((state: State) => state.user.avatar);
+    const tag = useSelector((state: State) => state.user.tag);
     const focus = useSelector((state: State) => state.focus);
     const linkman = useSelector((state: State) => state.linkmans[focus]);
     const selfVoiceSwitch = useSelector((state: State) => state.status.selfVoiceSwitch);
@@ -132,6 +133,7 @@ function ChatInput() {
                 _id: selfId,
                 username,
                 avatar,
+                tag,
             },
             loading: true,
             percent: type === 'image' ? 0 : 100,

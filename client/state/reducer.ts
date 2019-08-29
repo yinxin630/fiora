@@ -11,6 +11,7 @@ import {
     SetLinkmanPropertyPayload,
     UpdateMessagePayload,
     AddLinkmanMessagePayload,
+    UpdateUserInfoPayload,
 } from './action';
 import getFriendId from '../../utils/getFriendId';
 
@@ -89,6 +90,7 @@ export interface State {
         _id: string;
         username: string;
         avatar: string;
+        tag: string;
         isAdmin: boolean;
     };
     linkmans: LinkmansMap;
@@ -251,6 +253,7 @@ function reducer(state: State = initialState, action: Action): State {
                     _id: '',
                     username: '',
                     avatar: '',
+                    tag: '',
                     isAdmin: false,
                 },
                 linkmans: {
@@ -265,6 +268,7 @@ function reducer(state: State = initialState, action: Action): State {
                 _id,
                 username,
                 avatar,
+                tag,
                 groups,
                 friends,
                 isAdmin,
@@ -294,10 +298,22 @@ function reducer(state: State = initialState, action: Action): State {
                     _id,
                     username,
                     avatar,
+                    tag,
                     isAdmin,
                 },
                 linkmans: getLinkmansMap(linkmans),
                 focus,
+            };
+        }
+
+        case ActionTypes.UpdateUserInfo: {
+            const payload = action.payload as UpdateUserInfoPayload;
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    ...payload,
+                },
             };
         }
 

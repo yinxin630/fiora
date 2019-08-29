@@ -1,15 +1,5 @@
 import React from 'react';
-import randomColor from 'randomcolor';
-
-const getRandomColor = (() => {
-    const cache = {};
-    return function getColor(key) {
-        if (!cache[key]) {
-            cache[key] = randomColor();
-        }
-        return cache[key];
-    };
-})();
+import getRandomColor from '../../../../utils/getRandomColor';
 
 interface SystemMessageProps {
     message: string;
