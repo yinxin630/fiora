@@ -7,6 +7,7 @@
     "start": "./node_modules/.bin/cross-env NODE_ENV=production && ./node_modules/.bin/ts-node server/main.ts",
     "server": "./node_modules/.bin/cross-env NODE_ENV=development && nodemon server/main.ts --exec './node_modules/.bin/ts-node' --config .nodemonrc",
     "client": "./node_modules/.bin/ts-node build/dev-server.ts",
+    "dashboard": "webpack-dashboard -- ./node_modules/.bin/ts-node build/dev-server.ts",
     "build": "./node_modules/.bin/ts-node build/build.ts",
     "lint": "./node_modules/.bin/eslint ./ --ext js,jsx,ts,tsx --ignore-pattern .eslintignore --cache",
     "move-dist": "rm -rf public/audio && rm -rf public/avatar && rm -rf public/css && rm -rf public/fonts && rm -rf public/img && rm -rf public/js && mv -f dist/fiora/* public",
@@ -143,6 +144,7 @@
     "url-loader": "^0.5.7",
     "webpack": "^4.5.0",
     "webpack-bundle-analyzer": "^3.4.1",
+    "webpack-dashboard": "^3.1.0",
     "webpack-dev-middleware": "^3.1.2",
     "webpack-hot-middleware": "^2.22.0",
     "webpack-merge": "^4.1.2"
