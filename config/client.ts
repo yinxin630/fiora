@@ -12,4 +12,5 @@ export default {
     primaryTextColor: '247, 247, 247',
     backgroundImage: require('../client/assets/images/background.jpg'),
     sound: 'default',
+    tagColorMode: 'fixedRandomColor',
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import getRandomColor from '../../../../utils/getRandomColor';
+import { getPerRandomColor } from '../../../../utils/getRandomColor';
 
 interface SystemMessageProps {
     message: string;
@@ -10,7 +10,7 @@ function SystemMessage(props: SystemMessageProps) {
     const { message, username } = props;
     return (
         <div className="system">
-            <span style={{ color: getRandomColor(username) }}>{username}</span>
+            <span style={{ color: getPerRandomColor(username) }}>{username}</span>
             &nbsp;
             {message}
         </div>

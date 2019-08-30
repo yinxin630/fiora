@@ -10,6 +10,7 @@ export enum LocalStorageKey {
     NotificationSwitch = 'notificationSwitch',
     VoiceSwitch = 'voiceSwitch',
     SelfVoiceSwitch = 'selfVoiceSwitch',
+    TagColorMode = 'tagColorMode',
 }
 
 /**
@@ -45,5 +46,6 @@ export default function getData() {
         notificationSwitch: getSwitchValue(LocalStorageKey.NotificationSwitch),
         voiceSwitch: getSwitchValue(LocalStorageKey.VoiceSwitch),
         selfVoiceSwitch: getSwitchValue(LocalStorageKey.SelfVoiceSwitch, false),
+        tagColorMode: getTextValue(LocalStorageKey.TagColorMode, config.tagColorMode),
     };
 }

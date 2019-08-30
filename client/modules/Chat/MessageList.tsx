@@ -17,6 +17,7 @@ function MessageList() {
     const creator = useSelector((state: State) => state.linkmans[focus].creator);
     const messages = useSelector((state: State) => state.linkmans[focus].messages);
     const isLogin = useIsLogin();
+    const tagColorMode = useSelector((state: State) => state.status.tagColorMode);
 
     const $list = useRef(null);
 
@@ -82,6 +83,7 @@ function MessageList() {
                 loading={message.loading}
                 percent={message.percent}
                 shouldScroll={shouldScroll}
+                tagColorMode={tagColorMode}
             />
         );
     }

@@ -37,6 +37,7 @@ function Setting(props: SettingProps) {
     const primaryTextColor = useSelector((state: State) => state.status.primaryTextColor);
     const backgroundImage = useSelector((state: State) => state.status.backgroundImage);
     const userId = useSelector((state: State) => state.user._id);
+    const tagColorMode = useSelector((state: State) => state.status.tagColorMode);
 
     const [backgroundLoading, toggleBackgroundLoading] = useState(false);
 
@@ -222,6 +223,21 @@ function Setting(props: SettingProps) {
                         />
                     </div>
                 )}
+                <div className={Common.block}>
+                    <p className={Common.title}>标签颜色</p>
+                    <div>
+                        <RadioGroup
+                            className={Style.TagModeRadioGroup}
+                            value={tagColorMode}
+                            onChange={(newValue: string) => action.setStatus('tagColorMode', newValue)}
+                            horizontal
+                        >
+                            <RadioButton value="fixedColor">固定颜色</RadioButton>
+                            <RadioButton value="fixedRandomColor">固定随机颜色</RadioButton>
+                            <RadioButton value="perRandomColor">每次随机颜色</RadioButton>
+                        </RadioGroup>
+                    </div>
+                </div>
             </div>
         </Dialog>
     );

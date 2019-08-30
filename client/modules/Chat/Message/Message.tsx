@@ -11,7 +11,8 @@ import CodeMessage from './CodeMessage';
 import UrlMessage from './UrlMessage';
 import InviteMessage from './InviteMessage';
 import SystemMessage from './SystemMessage';
-import getRandomColor from '../../../../utils/getRandomColor';
+import { getRandomColor, getPerRandomColor } from '../../../../utils/getRandomColor';
+import config from '../../../../config/client';
 
 interface MessageProps {
     isSelf: boolean;
@@ -26,6 +27,7 @@ interface MessageProps {
     loading: boolean;
     percent: number;
     shouldScroll: boolean;
+    tagColorMode: string;
 }
 
 /**
@@ -95,7 +97,15 @@ class Message extends Component<MessageProps> {
     }
 
     render() {
-        const { isSelf, avatar, tag, username } = this.props;
+        const { isSelf, avatar, tag, tagColorMode, username } = this.props;
+
+        let tagColor = `rgb(${config.primaryColor})`;
+        if (tagColorMode === 'fixedRandomColor') {
+            tagColor = getRandomColor(tag);
+        } else if (tagColorMode === 'perRandomColor') {
+            tagColor = getPerRandomColor(username);
+        }
+
         return (
             <div className={`${Style.message} ${isSelf ? Style.self : ''}`} ref={this.$container}>
                 <ShowUserOrGroupInfoContext.Consumer>
@@ -113,7 +123,7 @@ class Message extends Component<MessageProps> {
                         {tag && (
                             <span
                                 className={Style.tag}
-                                style={{ backgroundColor: getRandomColor(tag) }}
+                                style={{ backgroundColor: tagColor }}
                             >
                                 {tag}
                             </span>
