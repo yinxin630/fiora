@@ -232,9 +232,9 @@ function Setting(props: SettingProps) {
                             onChange={(newValue: string) => action.setStatus('tagColorMode', newValue)}
                             horizontal
                         >
+                            <RadioButton value="singleColor">单一颜色</RadioButton>
                             <RadioButton value="fixedColor">固定颜色</RadioButton>
-                            <RadioButton value="fixedRandomColor">固定随机颜色</RadioButton>
-                            <RadioButton value="perRandomColor">每次随机颜色</RadioButton>
+                            <RadioButton value="randomColor">随机颜色</RadioButton>
                         </RadioGroup>
                     </div>
                 </div>

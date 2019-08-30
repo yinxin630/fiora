@@ -100,9 +100,9 @@ class Message extends Component<MessageProps> {
         const { isSelf, avatar, tag, tagColorMode, username } = this.props;
 
         let tagColor = `rgb(${config.primaryColor})`;
-        if (tagColorMode === 'fixedRandomColor') {
+        if (tagColorMode === 'fixedColor') {
             tagColor = getRandomColor(tag);
-        } else if (tagColorMode === 'perRandomColor') {
+        } else if (tagColorMode === 'randomColor') {
             tagColor = getPerRandomColor(username);
         }
 

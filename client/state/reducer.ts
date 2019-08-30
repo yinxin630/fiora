@@ -120,9 +120,9 @@ export interface State {
         selfVoiceSwitch: boolean;
         /**
          * 用户标签颜色模式
-         * fixedColor: 固定颜色
-         * fixedRandomColor: 同一词始终同一颜色
-         * perRandomColor: 同一词在每次渲染中保持同一颜色
+         * singleColor: 固定颜色
+         * fixedColor: 同一词始终同一颜色
+         * randomColor: 同一词在每次渲染中保持同一颜色
          */
         tagColorMode: string;
         /** 是否展示侧边栏 */
