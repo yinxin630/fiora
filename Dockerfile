@@ -2,10 +2,18 @@ FROM node:10
 
 WORKDIR /usr/app/fiora
 
-Run wget -q -O - https://api.github.com/repos/yinxin630/fiora/tarball/master | tar xz --strip=1
+COPY build ./build
+COPY client ./client
+COPY config ./config
+COPY public ./public
+COPY server ./server
+COPY static ./static
+COPY types ./types
+COPY utils ./utils
+COPY .babelrc package.json tsconfig.json yarn.lock ./
 
 RUN yarn install
 
 RUN yarn build && yarn run move-dist
 
-CMD npm start
+CMD export NODE_ENV=production && yarn start
