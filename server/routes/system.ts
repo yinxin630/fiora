@@ -170,7 +170,7 @@ export async function uploadFile(ctx) {
         );
         return {
             url: `${
-                process.env.NODE_ENV === 'production' ? '' : `http://${config.host}${config.port.toString() === '80' ? '' : `:${config.port}`}`
+                process.env.NODE_ENV === 'production' ? '' : `http://${config.host}${config.imgPort.toString() === '80' ? '' : `:${config.imgPort}`}`
             }/${ctx.data.fileName}`,
         };
     } catch (err) {

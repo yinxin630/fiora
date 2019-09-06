@@ -10,6 +10,10 @@ export default {
     // service port
     port: options.port || env.Port || 9200,
 
+    // image port
+    /** 返回图片所使用的端口，通常与service port一致 */
+    imgPort: options.imgPort || env.ImgPort || 9200,      
+
     // mongodb address
     database: options.database || env.Database || 'mongodb://localhost:27017/fiora',
 

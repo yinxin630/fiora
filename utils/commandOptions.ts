@@ -12,6 +12,7 @@ const optionDefinitions = [
     { name: 'host', type: String },
     { name: 'port', type: Number },
     { name: 'administrator', type: String },
+    { name: 'imgPort', type: Number },
 ];
 
 interface CommandArgs {
@@ -26,6 +27,7 @@ interface CommandArgs {
     host: string;
     port: number;
     administrator: string;
+    imgPort: number;
 }
 
 const args: CommandArgs = commandLineArgs(optionDefinitions);
