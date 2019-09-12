@@ -32,7 +32,7 @@ export default {
         },
         index: path.resolve(__dirname, '../dist/index.html'),
         assetsRoot: path.resolve(__dirname, '../dist/fiora'),
-        assetsPublicPath: getFirstNotUndefined(options.publicPath, env.PublicPath, ''),
+        assetsPublicPath: getFirstNotUndefined(options.publicPath, env.PublicPath, '/'),
         productionSourceMap: false,
         productionGzip: false,
         productionGzipExtensions: ['js', 'css'],
