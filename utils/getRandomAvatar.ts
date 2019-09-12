@@ -9,12 +9,12 @@ const publishPath = webpackConfig[env].assetsPublicPath;
  */
 export default function getRandomAvatar() {
     const number = Math.floor(Math.random() * AvatarCount);
-    return `${publishPath}/avatar/${number}.jpg`;
+    return `${publishPath}avatar/${number}.jpg`;
 }
 
 /**
  * 获取默认头像
  */
 export function getDefaultAvatar() {
-    return `${publishPath}/avatar/0.jpg`;
+    return `${publishPath}avatar/0.jpg`;
 }

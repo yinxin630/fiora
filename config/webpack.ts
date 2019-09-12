@@ -45,7 +45,7 @@ export default {
         host: 'localhost',
         port: 8080,
         autoOpenBrowser: false,
-        assetsPublicPath: '',
+        assetsPublicPath: '/',
         proxyTable: {},
         cssSourceMap: false,
     },
