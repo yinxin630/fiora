@@ -25,7 +25,15 @@ function UserInfo(props: UserInfoProps) {
     const { visible, onClose, user } = props;
 
     const action = useAction();
+
     const selfId = useSelector((state: State) => state.user && state.user._id);
+    // 获取好友id
+    if (user && user._id.length === selfId.length) {
+        user._id = getFriendId(selfId, user._id);
+    }
+    /** 获取原始用户id */
+    const originUserId = user && user._id.replace(selfId, '');
+
     const linkman = useSelector((state: State) => state.linkmans[user && user._id]);
     const isFriend = linkman && linkman.type === 'friend';
     const isAdmin = useSelector((state: State) => state.user && state.user.isAdmin);
@@ -34,11 +42,6 @@ function UserInfo(props: UserInfoProps) {
     if (!user) {
         return null;
     }
-
-    if (user._id.length === selfId.length) {
-        user._id = getFriendId(selfId, user._id);
-    }
-    const originUserId = user._id.replace(selfId, '');
 
     function handleFocusUser() {
         onClose();

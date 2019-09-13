@@ -8,7 +8,6 @@ import { getLinkmanHistoryMessages, getDefalutGroupHistoryMessages } from '../..
 import MessageComponent from './Message/Message';
 
 import Style from './MessageList.less';
-import getFriendId from '../../../utils/getFriendId';
 
 function MessageList() {
     const action = useAction();
@@ -73,7 +72,7 @@ function MessageList() {
             <MessageComponent
                 key={message._id}
                 isSelf={isSelf}
-                userId={getFriendId(selfId, message.from._id)}
+                userId={message.from._id}
                 avatar={message.from.avatar}
                 username={message.from.username}
                 originUsername={message.from.originUsername}
