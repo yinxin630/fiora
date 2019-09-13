@@ -26,7 +26,7 @@ function UserInfo(props: UserInfoProps) {
 
     const action = useAction();
 
-    const selfId = useSelector((state: State) => state.user && state.user._id);
+    const selfId = useSelector((state: State) => state.user && state.user._id) || '';
     // 获取好友id
     if (user && user._id.length === selfId.length) {
         user._id = getFriendId(selfId, user._id);
