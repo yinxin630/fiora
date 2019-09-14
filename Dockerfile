@@ -1,3 +1,4 @@
+FROM multiarch/alpine:armhf-edge
 FROM node:10
 
 WORKDIR /usr/app/fiora
