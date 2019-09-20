@@ -9305,6 +9305,11 @@ worker-farm@^1.7.0:
   dependencies:
     errno "~0.1.7"
 
+wpk-reporter@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.npm.taobao.org/wpk-reporter/download/wpk-reporter-0.6.2.tgz#9a29e22db3e8eb3085c8c911b32d95f5db2de143"
+  integrity sha1-miniLbPo6zCFyMkRsy2V9dst4UM=
+
 wrap-ansi@^5.1.0:
   version "5.1.0"
   resolved "https://registry.npm.taobao.org/wrap-ansi/download/wrap-ansi-5.1.0.tgz#1fd1f67235d5b6d0fee781056001bfb694c03b09"

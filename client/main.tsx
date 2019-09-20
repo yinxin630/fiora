@@ -9,6 +9,8 @@ import App from './App';
 import store from './state/store';
 import getData from './localStorage';
 import setCssVariable from '../utils/setCssVariable';
+import config from '../config/client';
+
 
 // 注册 Service Worker
 if (
@@ -17,6 +19,23 @@ if (
 ) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/fiora-sw.js');
+    });
+}
+
+// 如果配置了前端监控, 动态加载并启动监控
+if (config.frontendMonitorAppId) {
+    // @ts-ignore
+    import(/* webpackChunkName: "frontend-monitor" */ 'wpk-reporter').then((module) => {
+        const WpkReporter = module.default;
+
+        const __wpk = new WpkReporter({
+            bid: config.frontendMonitorAppId,
+            spa: true,
+            uid: localStorage.getItem('username') || '',
+            plugins: [],
+        });
+
+        __wpk.installAll();
     });
 }
 

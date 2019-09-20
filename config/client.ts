@@ -13,4 +13,10 @@ export default {
     backgroundImage: require('../client/assets/images/background.jpg'),
     sound: 'default',
     tagColorMode: 'fixedColor',
+
+    /**
+     * 前端监控: https://yueying.effirst.com/index
+     * 值为监控应用id, 为空则不启用监控
+     */
+    frontendMonitorAppId: process.env.frontendMonitorAppId || '',
 };

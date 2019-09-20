@@ -77,6 +77,7 @@
     "redux": "4.0.4",
     "regenerator-runtime": "^0.13.3",
     "socket.io-client": "2.2.0",
+    "wpk-reporter": "^0.6.2",
     "xss": "^0.3.7"
   },
   "devDependencies": {

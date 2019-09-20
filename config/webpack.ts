@@ -29,6 +29,7 @@ export default {
     build: {
         env: {
             NODE_ENV: '"production"',
+            frontendMonitorAppId: JSON.stringify(options.frontendMonitorAppId),
         },
         index: path.resolve(__dirname, '../dist/index.html'),
         assetsRoot: path.resolve(__dirname, '../dist/fiora'),

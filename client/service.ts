@@ -1,6 +1,10 @@
 import fetch from '../utils/fetch';
 import { User } from './state/reducer';
 
+function saveUsername(username) {
+    window.localStorage.setItem('username', username);
+}
+
 /**
  * 注册新用户
  * @param username 用户名
@@ -30,6 +34,8 @@ export async function register(
     if (err) {
         return null;
     }
+
+    saveUsername(user.username);
     return user;
 }
 
@@ -62,6 +68,8 @@ export async function login(
     if (err) {
         return null;
     }
+
+    saveUsername(user.username);
     return user;
 }
 
@@ -92,6 +100,8 @@ export async function loginByToken(
     if (err) {
         return null;
     }
+
+    saveUsername(user.username);
     return user;
 }
 
