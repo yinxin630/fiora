@@ -16,7 +16,7 @@ Recommended for running on Linux and MacOS systems
 ## How to run
 
 <a id="running-on-the-local" style="color: unset; text-decoration: none;">
-   <h3>Running on the local</h3>
+   <h3>Running on the local (development mode)</h3>
 </a>
 
 1. Clone the project to the local `git clone https://github.com/yinxin630/fiora.git -b master`
@@ -146,3 +146,61 @@ For details, please refer to <http://pm2.keymetrics.io/docs/usage/deployment/>
 ### Modify the default group name
 1. Modify the `defaultGroupName` field in `config/server.ts`
 2. Restart the server
+
+### Custom domain name, reverse proxy via nginx
+**Please modify the configuration of the comment item**
+
+Example config
+```
+server {
+   listen 80;
+   # Change to your domain name
+   server_name fiora.suisuijiang.com;
+
+   location / {
+      proxy_set_header   X-Real-IP        $remote_addr;
+      proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+      proxy_set_header   Host             $http_host;
+      proxy_set_header   Upgrade          $http_upgrade;
+      proxy_set_header   X-NginX-Proxy    true;
+      proxy_set_header   Connection "upgrade";
+      proxy_http_version 1.1;
+      proxy_pass         http://localhost:9200;
+   }
+}
+```
+
+HTTPS + HTTP 2.0 config
+```
+server {
+   listen 80;
+   # Change to your domain name
+   server_name fiora.suisuijiang.com;
+   return 301 https://fiora.suisuijiang.com$request_uri;
+}
+server {
+   listen 443 ssl http2;
+   # Change to your domain name
+   server_name  fiora.suisuijiang.com;
+
+   ssl on;
+   # Modify to your ssl certificate location
+   ssl_certificate ./ssl/fiora.suisuijiang.com.crt;
+   ssl_certificate_key ./ssl/fiora.suisuijiang.com.key;
+   ssl_session_timeout 5m;
+   ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+   ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+   ssl_prefer_server_ciphers on;
+
+   location / {
+      proxy_set_header   X-Real-IP        $remote_addr;
+      proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+      proxy_set_header   Host             $http_host;
+      proxy_set_header   Upgrade          $http_upgrade;
+      proxy_set_header   X-NginX-Proxy    true;
+      proxy_set_header   Connection "upgrade";
+      proxy_http_version 1.1;
+      proxy_pass         http://localhost:9200;
+   }
+}
+```
