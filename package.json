@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "./node_modules/.bin/cross-env NODE_ENV=production && ./node_modules/.bin/ts-node server/main.ts",
-    "server": "./node_modules/.bin/cross-env NODE_ENV=development && nodemon server/main.ts --exec './node_modules/.bin/ts-node' --config .nodemonrc",
+    "server": "./node_modules/.bin/cross-env NODE_ENV=development && nodemon server/main.ts --exec ./node_modules/.bin/ts-node --config .nodemonrc",
     "client": "./node_modules/.bin/ts-node build/dev-server.ts",
     "dashboard": "webpack-dashboard -- ./node_modules/.bin/ts-node build/dev-server.ts",
     "build": "./node_modules/.bin/ts-node build/build.ts",
