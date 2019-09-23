@@ -1,3 +1,5 @@
+@import '../../assets/styles/variable.less';
+
 .chat {
     flex: 1;
     display: flex;
@@ -8,7 +10,7 @@
     overflow: hidden;
     position: relative;
 
-    @media (orientation : portrait) {
+    @media @mobile {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }

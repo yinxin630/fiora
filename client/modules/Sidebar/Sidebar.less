@@ -1,3 +1,5 @@
+@import '../../assets/styles/variable.less';
+
 .sidebar {
     width: 80px;
     min-width: min-content;
@@ -9,7 +11,7 @@
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 
-    @media (orientation : portrait) {
+    @media @mobile {
         width: 60px;
         padding: 0 3px;
         border-top-left-radius: 0;

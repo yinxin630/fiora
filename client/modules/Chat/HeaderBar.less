@@ -1,3 +1,5 @@
+@import '../../assets/styles/variable.less';
+
 .headerBar {
     height: 70px;
     border-bottom: 1px solid rgba(208, 208, 208, 0.6);
@@ -7,7 +9,7 @@
     justify-content: space-between;
     position: relative;
 
-    @media (orientation : portrait) {
+    @media @mobile {
         height: 50px;
         padding: 0 6px;
     }
@@ -44,7 +46,7 @@
     font-size: 16px;
     color: #333;
 
-    @media (orientation : portrait) {
+    @media @mobile {
         font-size: 14px;
         height: 100%;
         display: flex;
