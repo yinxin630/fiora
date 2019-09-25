@@ -17,10 +17,14 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
 1. Friends, groups, private chat, group chat
 2. Text, pictures, code, URL and many other types of messages
 3. Tieba expression, huaji expression, search expression image
-4. Desktop notification, sound reminder, voice broadcast
+4. Desktop notification, sound reminder, message voice reading
 5. Custom desktop background, theme color, and text color
 6. Display online users, @ function
-7. Little black room shut up
+7. Administrator
+    - Block
+    - Recall message
+    - Give user tag
+    - Reset user password
 
 ## Screenshot
 
