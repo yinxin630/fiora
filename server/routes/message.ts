@@ -216,3 +216,50 @@ export async function getDefalutGroupHistoryMessages(
     const result = messages.slice(existCount).reverse();
     return result;
 }
+
+interface DeleteMessageData {
+    /** 消息id */
+    messageId: string;
+}
+
+/**
+ * 删除消息, 需要管理员权限
+ */
+export async function deleteMessage(ctx: KoaContext<DeleteMessageData>) {
+    const { messageId } = ctx.data;
+
+    const message = await Message.findOne({ _id: messageId });
+    assert(message, '消息不存在');
+
+    await message.remove();
+
+    /**
+     * 广播删除消息通知, 区分群消息和私聊消息
+     */
+    const messageName = 'deleteMessage';
+    const messageData = {
+        linkmanId: message.to.toString(),
+        messageId,
+    };
+    if (isValid(message.to)) {
+        // 群消息
+        ctx.socket.to(message.to).emit(messageName, messageData);
+    } else {
+        // 私聊消息
+        const targetUserId = message.to.replace(ctx.socket.user.toString(), '');
+        const sockets = await Socket.find({ user: targetUserId });
+        sockets.forEach((socket) => {
+            ctx._io.to(socket.id).emit(messageName, messageData);
+        });
+        const selfSockets = await Socket.find({ user: ctx.socket.user });
+        selfSockets.forEach((socket) => {
+            if (socket.id !== ctx.socket.id) {
+                ctx._io.to(socket.id).emit(messageName, messageData);
+            }
+        });
+    }
+
+    return {
+        msg: 'ok',
+    };
+}

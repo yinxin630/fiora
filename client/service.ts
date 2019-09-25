@@ -283,6 +283,15 @@ export async function sendMessage(to: string, type: string, content: string) {
 }
 
 /**
+ * 删除消息
+ * @param messageId 要删除的消息id
+ */
+export async function deleteMessage(messageId: string) {
+    const [err] = await fetch('deleteMessage', { messageId });
+    return !err;
+}
+
+/**
  * 获取目标群组的在线用户列表
  * @param groupId 目标群id
  */

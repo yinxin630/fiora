@@ -13,6 +13,7 @@ export default function isAdmin() {
         getSealList: true,
         resetUserPassword: true,
         setUserTag: true,
+        deleteMessage: true,
     };
     return async (ctx: KoaContext, next: Function) => {
         if (

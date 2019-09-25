@@ -12,6 +12,7 @@ import {
     UpdateMessagePayload,
     AddLinkmanMessagePayload,
     UpdateUserInfoPayload,
+    DeleteMessagePayload,
 } from './action';
 import getFriendId from '../../utils/getFriendId';
 
@@ -458,6 +459,29 @@ function reducer(state: State = initialState, action: Action): State {
                             [payload.message._id]: payload.message,
                         },
                         unread,
+                    },
+                },
+            };
+        }
+
+        case ActionTypes.DeleteMessage: {
+            const { linkmanId, messageId } = action.payload as DeleteMessagePayload;
+            if (!state.linkmans[linkmanId]) {
+                console.warn(`ActionTypes.DeleteMessage Error: 联系人 ${linkmanId} 不存在`);
+                return state;
+            }
+
+            const messages = deleteObjectKey(
+                state.linkmans[linkmanId].messages,
+                messageId,
+            );
+            return {
+                ...state,
+                linkmans: {
+                    ...state.linkmans,
+                    [linkmanId]: {
+                        ...state.linkmans[linkmanId],
+                        messages,
                     },
                 },
             };

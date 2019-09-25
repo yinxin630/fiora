@@ -13,8 +13,15 @@ import InviteMessage from './InviteMessage';
 import SystemMessage from './SystemMessage';
 import { getRandomColor, getPerRandomColor } from '../../../../utils/getRandomColor';
 import config from '../../../../config/client';
+import store from '../../../state/store';
+import { ActionTypes, DeleteMessagePayload } from '../../../state/action';
+import { deleteMessage } from '../../../service';
+
+const { dispatch } = store;
 
 interface MessageProps {
+    id: string;
+    linkmanId: string;
     isSelf: boolean;
     userId: string;
     avatar: string;
@@ -43,6 +50,23 @@ class Message extends Component<MessageProps> {
         const { shouldScroll } = this.props;
         if (shouldScroll) {
             this.$container.current.scrollIntoView();
+        }
+    }
+
+    /**
+     * 管理员撤回消息
+     */
+    handleDeleteMessage = async () => {
+        const { id, linkmanId } = this.props;
+        const isSuccess = await deleteMessage(id);
+        if (isSuccess) {
+            dispatch({
+                type: ActionTypes.DeleteMessage,
+                payload: {
+                    linkmanId,
+                    messageId: id,
+                } as DeleteMessagePayload,
+            });
         }
     }
 
