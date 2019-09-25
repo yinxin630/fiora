@@ -71,6 +71,8 @@ function MessageList() {
         return (
             <MessageComponent
                 key={message._id}
+                id={message._id}
+                linkmanId={focus}
                 isSelf={isSelf}
                 userId={message.from._id}
                 avatar={message.from.avatar}
