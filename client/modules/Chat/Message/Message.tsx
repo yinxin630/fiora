@@ -19,6 +19,7 @@ import { ActionTypes, DeleteMessagePayload } from '../../../state/action';
 import { deleteMessage } from '../../../service';
 import IconButton from '../../../components/IconButton';
 import { State } from '../../../state/reducer';
+import Tooltip from '../../../components/Tooltip';
 
 const { dispatch } = store;
 
@@ -190,14 +191,18 @@ class Message extends Component<MessageProps, MessageState> {
                         <div className={Style.content}>{this.renderContent()}</div>
                         {showButtonList && (
                             <div className={Style.buttonList}>
-                                <IconButton
-                                    className={Style.button}
-                                    icon="recall"
-                                    iconSize={16}
-                                    width={20}
-                                    height={20}
-                                    onClick={this.handleDeleteMessage}
-                                />
+                                <Tooltip placement="right" mouseEnterDelay={0.3} overlay={<span>撤回消息</span>}>
+                                    <div>
+                                        <IconButton
+                                            className={Style.button}
+                                            icon="recall"
+                                            iconSize={16}
+                                            width={20}
+                                            height={20}
+                                            onClick={this.handleDeleteMessage}
+                                        />
+                                    </div>
+                                </Tooltip>
                             </div>
                         )}
                     </div>
