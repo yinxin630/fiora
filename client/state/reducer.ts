@@ -156,19 +156,29 @@ function getMessagesMap(messages: Message[]) {
 }
 
 /**
+ * 删除对象中的对个键值
+ * @param obj 目标对象
+ * @param keys 要删除的键列表
+ */
+function deleteObjectKeys<T>(obj: T, keys: string[]): T {
+    let entries = Object.entries(obj);
+    const keysSet = new Set(keys);
+    entries = entries.filter((entry) => !keysSet.has(entry[0]));
+    return entries.reduce((result: any, entry) => {
+        const [k, v] = entry;
+        result[k] = v;
+        return result;
+    }, {});
+}
+
+/**
  * 删除对象中的某个键值
  * 直接调用delete删除键值据说性能差(我没验证)
  * @param obj 目标对象
  * @param key 要删除的键
  */
 function deleteObjectKey<T>(obj: T, key: string): T {
-    let entries = Object.entries(obj);
-    entries = entries.filter((entry) => entry[0] !== key);
-    return entries.reduce((result: any, entry) => {
-        const [k, v] = entry;
-        result[k] = v;
-        return result;
-    }, {});
+    return deleteObjectKeys(obj, [key]);
 }
 
 /**
@@ -347,12 +357,32 @@ function reducer(state: State = initialState, action: Action): State {
 
         case ActionTypes.SetFocus: {
             const focus = action.payload as string;
+            if (!state.linkmans[focus]) {
+                console.warn(`ActionTypes.SetFocus Error: 联系人 ${focus} 不存在`);
+                return state;
+            }
+
+            /**
+             * 为了优化性能
+             * 如果目标联系人的旧消息个数超过50条, 仅保留50条
+             */
+            const { messages } = state.linkmans[focus];
+            const messageKeys = Object.keys(messages);
+            let reserveMessages = messages;
+            if (messageKeys.length > 50) {
+                reserveMessages = deleteObjectKeys(
+                    messages,
+                    messageKeys.slice(0, messageKeys.length - 50),
+                );
+            }
+
             return {
                 ...state,
                 linkmans: {
                     ...state.linkmans,
                     [focus]: {
                         ...state.linkmans[focus],
+                        messages: reserveMessages,
                         unread: 0,
                     },
                 },
@@ -471,10 +501,7 @@ function reducer(state: State = initialState, action: Action): State {
                 return state;
             }
 
-            const messages = deleteObjectKey(
-                state.linkmans[linkmanId].messages,
-                messageId,
-            );
+            const messages = deleteObjectKey(state.linkmans[linkmanId].messages, messageId);
             return {
                 ...state,
                 linkmans: {
