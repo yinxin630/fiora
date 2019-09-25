@@ -17,6 +17,9 @@ function getFirstNotUndefined(...values) {
     return null;
 }
 
+const now = new Date();
+const frontendMonitorVersion = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}`;
+
 export default {
     commonn: {
         autoPrefix: {
@@ -30,6 +33,7 @@ export default {
         env: {
             NODE_ENV: '"production"',
             frontendMonitorAppId: JSON.stringify(options.frontendMonitorAppId),
+            frontendMonitorVersion: JSON.stringify(frontendMonitorVersion),
         },
         index: path.resolve(__dirname, '../dist/index.html'),
         assetsRoot: path.resolve(__dirname, '../dist/fiora'),
