@@ -2527,10 +2527,6 @@ cropperjs@^1.5.5:
   version "1.5.5"
   resolved "https://registry.npm.taobao.org/cropperjs/download/cropperjs-1.5.5.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcropperjs%2Fdownload%2Fcropperjs-1.5.5.tgz#07d04c64244ab88c1bfc382a848ec346ef50b7b9"
 
-cropperjs@v1.0.0-rc.3:
-  version "1.0.0-rc.3"
-  resolved "https://registry.npm.taobao.org/cropperjs/download/cropperjs-1.0.0-rc.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcropperjs%2Fdownload%2Fcropperjs-1.0.0-rc.3.tgz#50a7c7611befc442702f845ede77d7df4572e82b"
-
 cross-env@^5.1.6:
   version "5.2.0"
   resolved "https://registry.npm.taobao.org/cross-env/download/cross-env-5.2.0.tgz#6ecd4c015d5773e614039ee529076669b9d126f2"
@@ -7451,12 +7447,13 @@ react-copy-to-clipboard@^5.0.1:
     copy-to-clipboard "^3"
     prop-types "^15.5.8"
 
-react-cropper@^1.0.1:
-  version "1.2.0"
-  resolved "https://registry.npm.taobao.org/react-cropper/download/react-cropper-1.2.0.tgz#f0e51adbf4bdc91b19d0c766e8b7d87d89057a47"
+react-cropper@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npm.taobao.org/react-cropper/download/react-cropper-1.3.0.tgz#7de0c09a440d62f72c0df5f104d4ad7598cc3bf0"
+  integrity sha1-feDAmkQNYvcsDfXxBNStdZjMO/A=
   dependencies:
     babel-core "7.0.0-bridge.0"
-    cropperjs v1.0.0-rc.3
+    cropperjs "^1.5.5"
     prop-types "^15.5.8"
 
 react-dom@^15.3.2:

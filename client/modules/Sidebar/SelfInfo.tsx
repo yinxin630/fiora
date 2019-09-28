@@ -127,8 +127,17 @@ function SelfInfo(props: SelfInfoProps) {
         }
     }
 
+    function handleCloseDialog(event) {
+        /**
+         * 点击关闭按钮, 或者在非图片裁剪时点击蒙层, 才能关闭弹窗
+         */
+        if (event.target.className === 'rc-dialog-close-x' || !cropper.enable) {
+            onClose();
+        }
+    }
+
     return (
-        <Dialog className={Style.selfInfo} visible={visible} title="个人信息设置" onClose={onClose}>
+        <Dialog className={Style.selfInfo} visible={visible} title="个人信息设置" onClose={handleCloseDialog}>
             <div className={Common.container}>
                 <div className={Common.block}>
                     <p className={Common.title}>修改头像</p>
