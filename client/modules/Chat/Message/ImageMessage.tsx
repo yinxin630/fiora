@@ -78,8 +78,7 @@ function ImageMessage(props: ImageMessageProps) {
                         alt="消息图片"
                         width={width}
                         height={height}
-                        onClick={() => isMobile && toggleViewer(true)}
-                        onDoubleClick={() => !isMobile && toggleViewer(true)}
+                        onClick={() => toggleViewer(true)}
                         referrerPolicy="no-referrer"
                     />
                 }
