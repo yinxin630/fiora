@@ -103,6 +103,8 @@ export interface State {
     status: {
         /** 是否显示登陆注册框 */
         loginRegisterDialogVisible: boolean;
+        /** 主题 */
+        theme: string;
         /** 主题主色调 */
         primaryColor: string;
         /** 主题文字主色调 */
@@ -234,6 +236,7 @@ const initialState: State = {
     connect: false,
     status: {
         loginRegisterDialogVisible: false,
+        theme: localStorage.theme,
         primaryColor: localStorage.primaryColor,
         primaryTextColor: localStorage.primaryTextColor,
         backgroundImage: localStorage.backgroundImage,

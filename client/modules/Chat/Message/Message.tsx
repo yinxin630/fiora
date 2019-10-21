@@ -154,7 +154,7 @@ class Message extends Component<MessageProps, MessageState> {
         const { isSelf, avatar, tag, tagColorMode, username } = this.props;
         const { showButtonList } = this.state;
 
-        let tagColor = `rgb(${config.primaryColor})`;
+        let tagColor = `rgb(${config.theme.default.primaryColor})`;
         if (tagColorMode === 'fixedColor') {
             tagColor = getRandomColor(tag);
         } else if (tagColorMode === 'randomColor') {
