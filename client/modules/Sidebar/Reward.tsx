@@ -24,8 +24,8 @@ function Reward(props: RewardProps) {
                     作者大多数时间在线, 欢迎提问, 有问必答
                 </p>
                 <div className={Style.imageContainer}>
-                    <img className={Style.image} src={require('../../assets/images/alipay.jpg')} alt="支付宝二维码" />
-                    <img className={Style.image} src={require('../../assets/images/wxpay.jpg')} alt="微信二维码" />
+                    <img className={Style.image} src={require('../../assets/images/alipay.png')} alt="支付宝二维码" />
+                    <img className={Style.image} src={require('../../assets/images/wxpay.png')} alt="微信二维码" />
                 </div>
             </div>
         </Dialog>
