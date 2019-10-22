@@ -18,6 +18,7 @@ import Reward from './Reward';
 import About from './About';
 
 import Style from './Sidebar.less';
+import useAero from '../../hooks/useAero';
 
 let SelfInfo: any = null;
 let Setting: any = null;
@@ -37,6 +38,7 @@ function Sidebar() {
     const [rewardDialogVisible, toggleRewardDialogVisible] = useState(false);
     const [aboutDialogVisible, toggleAboutDialogVisible] = useState(false);
     const [settingDialogVisible, toggleSettingDialogVisible] = useState(false);
+    const aero = useAero();
 
     useEffect(() => {
         (async () => {
@@ -81,7 +83,7 @@ function Sidebar() {
 
     return (
         <>
-            <div className={Style.sidebar}>
+            <div className={Style.sidebar} {...aero}>
                 {isLogin && (
                     <Avatar
                         className={Style.avatar}

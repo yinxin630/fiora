@@ -111,6 +111,8 @@ export interface State {
         primaryTextColor: string;
         /** 背景图 */
         backgroundImage: string;
+        /** 启用毛玻璃效果 */
+        aero: boolean;
         /** 新消息声音提示开关 */
         soundSwitch: boolean;
         /** 声音类型 */
@@ -240,6 +242,7 @@ const initialState: State = {
         primaryColor: localStorage.primaryColor,
         primaryTextColor: localStorage.primaryTextColor,
         backgroundImage: localStorage.backgroundImage,
+        aero: true,
         soundSwitch: localStorage.soundSwitch,
         sound: localStorage.sound,
         notificationSwitch: localStorage.notificationSwitch,

@@ -11,6 +11,7 @@ import { ShowUserOrGroupInfoContext } from '../../context';
 import useIsLogin from '../../hooks/useIsLogin';
 import { getGroupOnlineMembers, getDefaultGroupOnlineMembers } from '../../service';
 import useAction from '../../hooks/useAction';
+import useAero from '../../hooks/useAero';
 
 function Chat() {
     const isLogin = useIsLogin();
@@ -20,6 +21,7 @@ function Chat() {
     const linkman = useSelector((state: State) => state.linkmans[focus]);
     const [groupManagePanel, toggleGroupManagePanel] = useState(false);
     const context = useContext(ShowUserOrGroupInfoContext);
+    const aero = useAero();
 
     function handleBodyClick(e: MouseEvent) {
         const { currentTarget } = e;
@@ -75,7 +77,7 @@ function Chat() {
     }
 
     return (
-        <div className={Style.chat}>
+        <div className={Style.chat} {...aero}>
             <HeaderBar
                 name={linkman.name}
                 type={linkman.type}

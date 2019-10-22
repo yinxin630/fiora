@@ -20,6 +20,7 @@ import { sendMessage, getGroupOnlineMembers } from '../../service';
 import voice from '../../../utils/voice';
 import Tooltip from '../../components/Tooltip';
 import { isMobile } from '../../../utils/ua';
+import useAero from '../../hooks/useAero';
 
 let CodeEditor: any = null;
 let Expression: any = null;
@@ -42,6 +43,7 @@ function ChatInput() {
     const [at, setAt] = useState({ enable: false, content: '' });
     const [timestamp, setTimestamp] = useState(0);
     const $input = useRef(null);
+    const aero = useAero();
 
     /** 全局输入框聚焦快捷键 */
     function focusInput(e: KeyboardEvent) {
@@ -420,7 +422,7 @@ function ChatInput() {
 
     return (
         <>
-            <div className={Style.chatInput}>
+            <div className={Style.chatInput} {...aero}>
                 <Dropdown
                     trigger={['click']}
                     visible={expressionDialog}

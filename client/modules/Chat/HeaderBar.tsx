@@ -10,6 +10,7 @@ import IconButton from '../../components/IconButton';
 import Message from '../../components/Message';
 
 import Style from './HeaderBar.less';
+import useAero from '../../hooks/useAero';
 
 
 interface HeaderBarProps {
@@ -28,13 +29,14 @@ function HeaderBar(props: HeaderBarProps) {
     const connectStatus = useSelector((state: State) => state.connect);
     const isLogin = useIsLogin();
     const sidebarVisible = useSelector((state: State) => state.status.sidebarVisible);
+    const aero = useAero();
 
     function handleShareGroup() {
         Message.success('已复制邀请信息到粘贴板, 去邀请其它人加群吧');
     }
 
     return (
-        <div className={Style.headerBar}>
+        <div className={Style.headerBar} {...aero}>
             {isMobile && (
                 <div className={Style.buttonContainer}>
                     <IconButton

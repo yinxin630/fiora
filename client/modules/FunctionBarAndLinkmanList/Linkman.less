@@ -12,6 +12,10 @@
 .focus {
     background-color: var(--primary-color-4);
 
+    &[data-aero=true] {
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
     @media @mobile {
         background-color: var(--primary-color-9);
     }

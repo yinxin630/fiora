@@ -8,6 +8,7 @@ import LinkmanList from './LinkmanList';
 
 import Style from './FunctionBarAndLinkmanList.less';
 import { State } from '../../state/reducer';
+import useAero from '../../hooks/useAero';
 
 function FunctionBarAndLinkmanList() {
     const isLogin = useIsLogin();
@@ -15,6 +16,7 @@ function FunctionBarAndLinkmanList() {
     const functionBarAndLinkmanListVisible = useSelector(
         (state: State) => state.status.functionBarAndLinkmanListVisible,
     );
+    const aero = useAero();
 
     if (!functionBarAndLinkmanListVisible) {
         return null;
@@ -28,7 +30,7 @@ function FunctionBarAndLinkmanList() {
 
     return (
         <div className={Style.functionBarAndLinkmanList} onClick={handleClick} role="button">
-            <div className={Style.container}>
+            <div className={Style.container} {...aero}>
                 {isLogin && <FunctionBar />}
                 <LinkmanList />
             </div>
