@@ -37,6 +37,7 @@ function Setting(props: SettingProps) {
     const primaryColor = useSelector((state: State) => state.status.primaryColor);
     const primaryTextColor = useSelector((state: State) => state.status.primaryTextColor);
     const backgroundImage = useSelector((state: State) => state.status.backgroundImage);
+    const aero = useSelector((state: State) => state.status.aero);
     const userId = useSelector((state: State) => state.user._id);
     const tagColorMode = useSelector((state: State) => state.status.tagColorMode);
 
@@ -49,10 +50,12 @@ function Setting(props: SettingProps) {
             action.setStatus('primaryColor', themeConfig.primaryColor);
             action.setStatus('primaryTextColor', themeConfig.primaryTextColor);
             action.setStatus('backgroundImage', themeConfig.backgroundImage);
+            action.setStatus('aero', themeConfig.aero);
             setCssVariable(themeConfig.primaryColor, themeConfig.primaryTextColor);
             window.localStorage.removeItem('primaryColor');
             window.localStorage.removeItem('primaryTextColor');
             window.localStorage.removeItem('backgroundImage');
+            window.localStorage.removeItem('zero');
             Message.success('已修改主题');
         }
     }
@@ -200,6 +203,15 @@ function Setting(props: SettingProps) {
                             theme === 'custom'
                             && (
                             <>
+                                <div className={Common.block}>
+                                    <p className={Common.title}>毛玻璃效果</p>
+                                    <div>
+                                        <Switch
+                                            onChange={(value) => action.setStatus('aero', value)}
+                                            checked={aero}
+                                        />
+                                    </div>
+                                </div>
                                 <div className={Common.block}>
                                     <p className={Common.title}>
                                         背景图{' '}

@@ -6,6 +6,7 @@ export enum LocalStorageKey {
     PrimaryColor = 'primaryColor',
     PrimaryTextColor = 'primaryTextColor',
     BackgroundImage = 'backgroundImage',
+    Aero = 'aero',
     Sound = 'sound',
     SoundSwitch = 'soundSwitch',
     NotificationSwitch = 'notificationSwitch',
@@ -43,6 +44,7 @@ export default function getData() {
         primaryColor: '',
         primaryTextColor: '',
         backgroundImage: '',
+        zero: false,
     };
     if (theme && config.theme[theme]) {
         themeConfig = config.theme[theme];
@@ -59,6 +61,10 @@ export default function getData() {
             backgroundImage: getTextValue(
                 LocalStorageKey.BackgroundImage,
                 config.theme.default.backgroundImage,
+            ),
+            zero: getSwitchValue(
+                LocalStorageKey.Aero,
+                false,
             ),
         };
     }
