@@ -242,7 +242,7 @@ const initialState: State = {
         primaryColor: localStorage.primaryColor,
         primaryTextColor: localStorage.primaryTextColor,
         backgroundImage: localStorage.backgroundImage,
-        aero: true,
+        aero: false,
         soundSwitch: localStorage.soundSwitch,
         sound: localStorage.sound,
         notificationSwitch: localStorage.notificationSwitch,
