@@ -99,8 +99,6 @@ function Setting(props: SettingProps) {
         setCssVariable(primaryColor, mewPrimaryTextColor);
     }
 
-    console.log(theme);
-
     return (
         <Dialog
             className={`dialog ${Style.setting}`}
