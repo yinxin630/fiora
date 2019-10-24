@@ -44,7 +44,7 @@ export default function getData() {
         primaryColor: '',
         primaryTextColor: '',
         backgroundImage: '',
-        zero: false,
+        aero: false,
     };
     if (theme && config.theme[theme]) {
         themeConfig = config.theme[theme];
@@ -62,7 +62,7 @@ export default function getData() {
                 LocalStorageKey.BackgroundImage,
                 config.theme.default.backgroundImage,
             ),
-            zero: getSwitchValue(
+            aero: getSwitchValue(
                 LocalStorageKey.Aero,
                 false,
             ),

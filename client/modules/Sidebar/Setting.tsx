@@ -18,6 +18,7 @@ import playSound from '../../../utils/playSound';
 import Style from './Setting.less';
 import Common from './Common.less';
 import { Tabs, TabPane, ScrollableInkTabBar, TabContent } from '../../components/Tabs';
+import { LocalStorageKey } from '../../localStorage';
 
 interface SettingProps {
     visible: boolean;
@@ -52,11 +53,16 @@ function Setting(props: SettingProps) {
             action.setStatus('backgroundImage', themeConfig.backgroundImage);
             action.setStatus('aero', themeConfig.aero);
             setCssVariable(themeConfig.primaryColor, themeConfig.primaryTextColor);
-            window.localStorage.removeItem('primaryColor');
-            window.localStorage.removeItem('primaryTextColor');
-            window.localStorage.removeItem('backgroundImage');
-            window.localStorage.removeItem('zero');
+            window.localStorage.removeItem(LocalStorageKey.PrimaryColor);
+            window.localStorage.removeItem(LocalStorageKey.PrimaryTextColor);
+            window.localStorage.removeItem(LocalStorageKey.BackgroundImage);
+            window.localStorage.removeItem(LocalStorageKey.Aero);
             Message.success('已修改主题');
+        } else {
+            window.localStorage.setItem(LocalStorageKey.PrimaryColor, primaryColor);
+            window.localStorage.setItem(LocalStorageKey.PrimaryTextColor, primaryTextColor);
+            window.localStorage.setItem(LocalStorageKey.BackgroundImage, backgroundImage);
+            window.localStorage.setItem(LocalStorageKey.Aero, aero.toString());
         }
     }
 
