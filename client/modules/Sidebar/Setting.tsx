@@ -188,7 +188,7 @@ function Setting(props: SettingProps) {
                     </div>
                 </TabPane>
                 <TabPane tab="主题" key="theme">
-                    <div className={Common.container}>
+                    <div className={`${Common.container} ${Style.scrollContainer}`}>
                         <div className={Common.block}>
                             <div>
                                 <RadioGroup

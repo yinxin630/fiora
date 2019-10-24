@@ -1,5 +1,8 @@
 .setting {
     :global {
+        .rc-dialog-body {
+            overflow-y: hidden;
+        }
         .rc-tabs-top {
             border-bottom: none;
         }
@@ -124,4 +127,10 @@
             transform: translate(-2px, -2px);
         }
     }
+}
+
+.scrollContainer {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: 570px;
 }
