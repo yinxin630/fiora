@@ -74,19 +74,25 @@ export async function searchExpression(ctx: KoaContext<SearchExpressionData>) {
         return [];
     }
 
+    const host = 'https://www.b7.cn';
     const res = await axios({
         method: 'get',
-        url: `http://www.bee-ji.com/s?w=${encodeURIComponent(keywords)}`,
+        url: `${host}/so/bq/api9.php?page=3&sear=1&keyboard=${encodeURIComponent(keywords)}`,
         headers: {
-            referer: 'http://www.bee-ji.com/',
+            referer: 'https://www.b7.cn/so/bq/api9.php',
             'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36',
         },
     });
     assert(res.status === 200, '搜索表情包失败, 请重试');
 
-    const images = res.data.match(/"id":[0-9]+,"h/g) || [];
-
-    return images.map((idStr: string) => `//image.bee-ji.com/${idStr.match(/[0-9]+/)}`);
+    const images = res.data.match(/<img\s+src="[^"']+">/g) || [];
+    return images.map((img: string) => {
+        const src = img.match(/src="([^"']+)"/);
+        if (src) {
+            return /^https?:/.test(src[1]) ? src[1] : host + src[1];
+        }
+        return '';
+    });
 }
 
 /**
