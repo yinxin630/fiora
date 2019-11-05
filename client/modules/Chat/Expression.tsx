@@ -86,13 +86,15 @@ function Expression(props: ExpressionProps) {
                 <Loading type="spinningBubbles" color="#4A90E2" height={100} width={100} />
             </div>
             <div className={Style.searchResult}>
-                {searchResults.map((image) => (
+                {searchResults.map((image, index) => (
                     // @ts-ignore
                     <img
                         className={Style.searchImage}
                         src={image}
                         alt="表情"
-                        key={image}
+                        // 可能同一图片返回多次, 导致 key 相同
+                        // eslint-disable-next-line react/no-array-index-key
+                        key={image + index}
                         referrerPolicy="no-referrer"
                         onClick={handleClickExpression}
                     />
