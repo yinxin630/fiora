@@ -1,6 +1,5 @@
-FROM multiarch/alpine:armhf-edge
+FROM multiarch/alpine:arm64-edge
 FROM node:10
-
 WORKDIR /usr/app/fiora
 
 COPY build ./build
@@ -13,8 +12,5 @@ COPY types ./types
 COPY utils ./utils
 COPY .babelrc package.json tsconfig.json yarn.lock ./
 
-RUN yarn install
-
-RUN yarn build && yarn run move-dist
-
+RUN yarn install && yarn build && yarn run move-dist
 CMD export NODE_ENV=production && yarn start
