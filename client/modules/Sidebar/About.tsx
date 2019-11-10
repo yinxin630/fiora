@@ -79,6 +79,15 @@ function About(props: AboutProps) {
                                 木子星兮
                             </a>
                         </li>
+                        <li>
+                            <a
+                                href="http://diy.b7.cn"
+                                target="_black"
+                                rel="noopener noreferrer"
+                            >
+                                表情生成器
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
