@@ -1,5 +1,4 @@
-FROM multiarch/alpine:arm64-edge
-FROM node:10
+FROM arm64v8/node:10
 WORKDIR /usr/app/fiora
 
 COPY build ./build
