@@ -1,4 +1,3 @@
-FROM multiarch/alpine:arm64-edge
 FROM arm64v8/node:10
 WORKDIR /usr/app/fiora
 
