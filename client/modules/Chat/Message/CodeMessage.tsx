@@ -70,7 +70,7 @@ function CodeMessage(props: CodeMessageProps) {
                 </div>
                 <p className={Style.codeViewButton}>查看</p>
             </div>
-            {CodeDialog && (
+            {CodeDialog && codeDialog && (
                 <CodeDialog
                     visible={codeDialog}
                     onClose={() => toggleCodeDialog(false)}
