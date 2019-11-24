@@ -23,6 +23,7 @@ import * as qiniuRoutes from './routes/qiniu';
 import * as systemRoutes from './routes/system';
 
 const app = new Koa();
+app.proxy = true;
 
 // 将前端路由指向 index.html
 app.use(async (ctx, next) => {
