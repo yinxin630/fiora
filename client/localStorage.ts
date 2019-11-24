@@ -52,15 +52,15 @@ export default function getData() {
         themeConfig = {
             primaryColor: getTextValue(
                 LocalStorageKey.PrimaryColor,
-                config.theme.default.primaryColor,
+                config.theme.cool.primaryColor,
             ),
             primaryTextColor: getTextValue(
                 LocalStorageKey.PrimaryTextColor,
-                config.theme.default.primaryTextColor,
+                config.theme.cool.primaryTextColor,
             ),
             backgroundImage: getTextValue(
                 LocalStorageKey.BackgroundImage,
-                config.theme.default.backgroundImage,
+                config.theme.cool.backgroundImage,
             ),
             aero: getSwitchValue(
                 LocalStorageKey.Aero,
