@@ -253,6 +253,10 @@ function ChatInput() {
                 toggleCodeEditorDialog(true);
                 break;
             }
+            case 'file': {
+                window.open('https://file.pizza/');
+                break;
+            }
             default:
         }
     }
@@ -456,6 +460,7 @@ function ChatInput() {
                                 <MenuItem key="huaji">发送滑稽</MenuItem>
                                 <MenuItem key="image">发送图片</MenuItem>
                                 <MenuItem key="code">发送代码</MenuItem>
+                                <MenuItem key="file">发送文件</MenuItem>
                             </Menu>
                         </div>
                     )}
