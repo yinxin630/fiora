@@ -343,3 +343,12 @@ export async function setUserTag(username: string, tag: string) {
     const [err] = await fetch('setUserTag', { username, tag });
     return !err;
 }
+
+/**
+ * 获取在线用户 ip
+ * @param userId 用户id
+ */
+export async function getUserIps(userId: string) {
+    const [, res] = await fetch('getUserIps', { userId });
+    return res;
+}

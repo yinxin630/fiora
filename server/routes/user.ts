@@ -533,3 +533,15 @@ export async function setUserTag(ctx: KoaContext<SetUserTagData>) {
         msg: 'ok',
     };
 }
+
+/**
+ * 获取指定在线用户 ip
+ */
+export async function getUserIps(ctx: KoaContext<{userId: string}>): Promise<string[]> {
+    const { userId } = ctx.data;
+    assert(userId, 'userId不能为空');
+    assert(isValid(userId), '不合法的userId');
+
+    const sockets = await Socket.find({ user: userId });
+    return sockets.map((socket) => socket.ip) || [];
+}

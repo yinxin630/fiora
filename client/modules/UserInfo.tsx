@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import Style from './InfoDialog.less';
@@ -9,7 +9,7 @@ import Message from '../components/Message';
 import { State, Linkman } from '../state/reducer';
 import getFriendId from '../../utils/getFriendId';
 import useAction from '../hooks/useAction';
-import { addFriend, getLinkmanHistoryMessages, deleteFriend, sealUser } from '../service';
+import { addFriend, getLinkmanHistoryMessages, deleteFriend, sealUser, getUserIps } from '../service';
 
 interface UserInfoProps {
     visible: boolean;
@@ -17,6 +17,7 @@ interface UserInfoProps {
         _id: string;
         username: string;
         avatar: string;
+        ip: string;
     };
     onClose: () => void;
 }
@@ -38,6 +39,17 @@ function UserInfo(props: UserInfoProps) {
     const isFriend = linkman && linkman.type === 'friend';
     const isAdmin = useSelector((state: State) => state.user && state.user.isAdmin);
     const [largerAvatar, toggleLargetAvatar] = useState(false);
+
+    const [userIps, setUserIps] = useState('');
+
+    useEffect(() => {
+        if (isAdmin && user && user._id) {
+            (async () => {
+                const ips = await getUserIps(user._id.replace(selfId, ''));
+                setUserIps(ips.join(' '));
+            })();
+        }
+    }, [isAdmin, selfId, user]);
 
     if (!user) {
         return null;
@@ -113,6 +125,7 @@ function UserInfo(props: UserInfoProps) {
                                 alt="用户头像"
                             />
                             <p>{user.username}</p>
+                            <p className={Style.ip}>{userIps}</p>
                         </div>
                         <div className={Style.info}>
                             {isFriend ? (

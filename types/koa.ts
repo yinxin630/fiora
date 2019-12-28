@@ -7,6 +7,8 @@ interface KoaSocket extends Socket {
     id: string;
     /** socket关联用户 */
     user?: Schema.Types.ObjectId;
+    /** 用户ip */
+    ip: string;
     /**
      * 加入房间
      * @param roomId 目标房间id

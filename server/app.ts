@@ -88,11 +88,11 @@ io.use(route(
 
 // @ts-ignore
 app.io.on('connection', async (socket) => {
-    const ip = socket.handshake.headers['x-real-ip'] || socket.request.connection.remoteAddress;
-    console.log(`  <<<< connection ${socket.id} ${ip}`);
+    socket.ip = socket.handshake.headers['x-real-ip'] || socket.request.connection.remoteAddress;
+    console.log(`  <<<< connection ${socket.id} ${socket.ip}`);
     await Socket.create({
         id: socket.id,
-        ip,
+        ip: socket.ip,
     });
 
     socket.on('disconnect', async () => {

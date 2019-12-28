@@ -14,6 +14,7 @@ export default function isAdmin() {
         resetUserPassword: true,
         setUserTag: true,
         deleteMessage: true,
+        getUserIps: true,
     };
     return async (ctx: KoaContext, next: Function) => {
         if (
