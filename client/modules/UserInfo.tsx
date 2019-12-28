@@ -9,7 +9,13 @@ import Message from '../components/Message';
 import { State, Linkman } from '../state/reducer';
 import getFriendId from '../../utils/getFriendId';
 import useAction from '../hooks/useAction';
-import { addFriend, getLinkmanHistoryMessages, deleteFriend, sealUser, getUserIps } from '../service';
+import {
+    addFriend,
+    getLinkmanHistoryMessages,
+    deleteFriend,
+    sealUser,
+    getUserIps,
+} from '../service';
 
 interface UserInfoProps {
     visible: boolean;
@@ -40,13 +46,13 @@ function UserInfo(props: UserInfoProps) {
     const isAdmin = useSelector((state: State) => state.user && state.user.isAdmin);
     const [largerAvatar, toggleLargetAvatar] = useState(false);
 
-    const [userIps, setUserIps] = useState('');
+    const [userIps, setUserIps] = useState([]);
 
     useEffect(() => {
         if (isAdmin && user && user._id) {
             (async () => {
                 const ips = await getUserIps(user._id.replace(selfId, ''));
-                setUserIps(ips.join(' '));
+                setUserIps(ips);
             })();
         }
     }, [isAdmin, selfId, user]);
@@ -81,7 +87,7 @@ function UserInfo(props: UserInfoProps) {
                     type: 'friend',
                     createTime: Date.now(),
                 };
-                action.addLinkman(newLinkman as unknown as Linkman, true);
+                action.addLinkman((newLinkman as unknown) as Linkman, true);
             }
             const messages = await getLinkmanHistoryMessages(_id, existCount);
             if (messages) {
@@ -107,6 +113,10 @@ function UserInfo(props: UserInfoProps) {
         }
     }
 
+    function searchIp(ip: string) {
+        window.open(`http://ip.taobao.com/service/getIpInfo.php?ip=${ip}`);
+    }
+
     return (
         <Dialog className={Style.infoDialog} visible={visible} onClose={onClose}>
             <div>
@@ -125,12 +135,16 @@ function UserInfo(props: UserInfoProps) {
                                 alt="用户头像"
                             />
                             <p>{user.username}</p>
-                            <p className={Style.ip}>{userIps}</p>
+                            <p className={Style.ip}>
+                                {userIps.map((ip) => (
+                                    <span key={ip} onClick={() => searchIp(ip)} role="button">
+                                        {ip}
+                                    </span>
+                                ))}
+                            </p>
                         </div>
                         <div className={Style.info}>
-                            {isFriend ? (
-                                <Button onClick={handleFocusUser}>发送消息</Button>
-                            ) : null}
+                            {isFriend ? <Button onClick={handleFocusUser}>发送消息</Button> : null}
                             {isFriend ? (
                                 <Button type="danger" onClick={handleDeleteFriend}>
                                     删除好友
@@ -140,7 +154,7 @@ function UserInfo(props: UserInfoProps) {
                             )}
                             {isAdmin ? (
                                 <Button type="danger" onClick={handleSeal}>
-                                        封禁用户
+                                    封禁用户
                                 </Button>
                             ) : null}
                         </div>
