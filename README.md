@@ -27,6 +27,7 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
     - Recall message
     - Give user tag
     - Reset user password
+    - View user ip
 
 ## Screenshot
 

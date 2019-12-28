@@ -27,6 +27,7 @@ Fiora是一款有趣的在线聊天应用. 使用node.js, mongodb, socket.io和r
     - 撤回消息
     - 给用户打标签
     - 重置用户密码
+    - 查看用户 ip
 
 ## 运行截图
 
