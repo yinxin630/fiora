@@ -70,18 +70,14 @@ function ImageMessage(props: ImageMessageProps) {
     return (
         <>
             <div className={className} ref={$container}>
-                {
-                    // @ts-ignore
-                    <img
-                        className={Style.image}
-                        src={imageSrc}
-                        alt="消息图片"
-                        width={width}
-                        height={height}
-                        onClick={() => toggleViewer(true)}
-                        referrerPolicy="no-referrer"
-                    />
-                }
+                <img
+                    className={Style.image}
+                    src={imageSrc}
+                    alt="消息图片"
+                    width={width}
+                    height={height}
+                    onClick={() => toggleViewer(true)}
+                />
                 <CircleProgress
                     className={Style.imageProgress}
                     percent={percent}
