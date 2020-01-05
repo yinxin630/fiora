@@ -6,7 +6,7 @@ jobs:
 
   build:
 
-    runs-on: ARM32
+    runs-on: ARM64
 
     steps:
     - uses: actions/checkout@v1
