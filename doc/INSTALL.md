@@ -204,3 +204,9 @@ server {
    }
 }
 ```
+
+### Disable register, manual account assignment
+
+Edit config/server.ts, change `disableRegister` options to true.  Restart the server to take effect
+
+run `npx ts-node bin/register.ts --username [新用户名] --password [用户密码]` on the server to register new account

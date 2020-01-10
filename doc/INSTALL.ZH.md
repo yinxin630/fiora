@@ -131,7 +131,7 @@
 
 ## FAQ
 
-### 如何设置管理员
+### 设置管理员
 1. 获取用户id, 注意不是 username, 是 mongoDB 数据库中的 _id
    - 可以查询数据库获取
    - 还可以看服务端接口日志获取, 需要登录态的接口都会打印用户id
@@ -200,3 +200,9 @@ server {
    }
 }
 ```
+
+### 禁止注册, 手动分配账号
+
+修改 config/server.ts, 将 `disableRegister` 选项设置为 true, 重启服务器生效
+
+在服务端执行 `npx ts-node bin/register.ts --username [新用户名] --password [用户密码]` 注册新用户
