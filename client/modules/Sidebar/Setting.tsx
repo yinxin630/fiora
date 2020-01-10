@@ -117,7 +117,7 @@ function Setting(props: SettingProps) {
                 renderTabContent={() => <TabContent />}
             >
                 <TabPane tab="功能" key="function">
-                    <div className={Common.container}>
+                    <div className={`${Common.container} ${Style.scrollContainer}`}>
                         <div className={Common.block}>
                             <p className={Common.title}>开关</p>
                             <div className={Style.switchContainer}>
