@@ -15,11 +15,9 @@ import Message from '../models/message';
 import config from '../../config/server';
 import getRandomAvatar from '../../utils/getRandomAvatar';
 import { KoaContext } from '../../types/koa';
+import { saltRounds } from '../../utils/const';
 
 const { isValid } = Types.ObjectId;
-
-/** 加密salt位数 */
-const saltRounds = 10;
 
 /** 一天时间 */
 const OneDay = 1000 * 60 * 60 * 24;

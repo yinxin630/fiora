@@ -13,6 +13,8 @@ const optionDefinitions = [
     { name: 'port', type: Number },
     { name: 'administrator', type: String },
     { name: 'frontendMonitorAppId', type: String },
+    { name: 'username', type: String },
+    { name: 'password', type: String },
 ];
 
 interface CommandArgs {
@@ -28,6 +30,8 @@ interface CommandArgs {
     port: number;
     administrator: string;
     frontendMonitorAppId: string;
+    username: string;
+    password: string;
 }
 
 const args: CommandArgs = commandLineArgs(optionDefinitions);
