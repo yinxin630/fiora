@@ -31,8 +31,8 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
 
 ## Screenshot
 
-<img src="./doc/screenshots/runtime.jpeg" alt="PC" style="max-width:800px" />
-<img src="./doc/screenshots/mobile-runtime.png" alt="Mobile" style="max-height:667px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/doc/screenshots/runtime.jpeg" alt="PC" style="max-width:800px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/doc/screenshots/mobile-runtime.png" alt="Mobile" style="max-height:667px" />
 
 ## Install
 

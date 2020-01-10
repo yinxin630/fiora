@@ -31,8 +31,8 @@ Fiora是一款有趣的在线聊天应用. 使用node.js, mongodb, socket.io和r
 
 ## 运行截图
 
-<img src="./screenshots/runtime.jpeg" alt="桌面" style="max-width:800px" />
-<img src="./screenshots/mobile-runtime.png" alt="手机" style="max-height:667px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/doc/screenshots/runtime.jpeg" alt="桌面" style="max-width:800px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/doc/screenshots/mobile-runtime.png" alt="手机" style="max-height:667px" />
 
 ## 安装运行
 
