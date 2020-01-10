@@ -1,7 +1,9 @@
 /** 内存数据存储键值 */
 export enum MemoryDataStorageKey {
     /** 封禁用户列表 */
-    'SealList',
+    'SealUserList',
+    /** 封禁ip列表 */
+    'SealIpList',
     /** 新注册用户列表 */
     'NewUserList',
 }
@@ -59,5 +61,10 @@ export function deleteMemoryData(key: MemoryDataStorageKey, value: string) {
     }
 }
 
-setMemoryData(MemoryDataStorageKey.SealList, new Set());
-setMemoryData(MemoryDataStorageKey.NewUserList, new Set());
+// 自动初始化各个 key 的 value
+Object.keys(MemoryDataStorageKey).forEach((key) => {
+    const id = parseInt(key, 10);
+    if (!Number.isNaN(id)) {
+        setMemoryData(id as unknown as MemoryDataStorageKey, new Set());
+    }
+});

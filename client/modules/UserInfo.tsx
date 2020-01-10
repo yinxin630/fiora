@@ -15,6 +15,7 @@ import {
     deleteFriend,
     sealUser,
     getUserIps,
+    sealUserOnlineIp,
 } from '../service';
 
 interface UserInfoProps {
@@ -113,6 +114,13 @@ function UserInfo(props: UserInfoProps) {
         }
     }
 
+    async function handleSealIp() {
+        const isSuccess = await sealUserOnlineIp(originUserId);
+        if (isSuccess) {
+            Message.success('封禁ip成功');
+        }
+    }
+
     function searchIp(ip: string) {
         window.open(`http://ip.taobao.com/service/getIpInfo.php?ip=${ip}`);
     }
@@ -155,6 +163,11 @@ function UserInfo(props: UserInfoProps) {
                             {isAdmin ? (
                                 <Button type="danger" onClick={handleSeal}>
                                     封禁用户
+                                </Button>
+                            ) : null}
+                            {isAdmin ? (
+                                <Button type="danger" onClick={handleSealIp}>
+                                    封禁ip
                                 </Button>
                             ) : null}
                         </div>

@@ -15,6 +15,8 @@ export default function isAdmin() {
         setUserTag: true,
         deleteMessage: true,
         getUserIps: true,
+        sealIp: true,
+        getSealIpList: true,
     };
     return async (ctx: KoaContext, next: Function) => {
         if (
