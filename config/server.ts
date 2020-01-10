@@ -35,4 +35,7 @@ export default {
 
     // default group name
     defaultGroupName: 'fiora',
+
+    /** 禁用注册功能 */
+    disableRegister: false,
 };

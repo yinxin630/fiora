@@ -76,6 +76,8 @@ interface RegisterData extends Environment {
  * @param ctx Context
  */
 export async function register(ctx: KoaContext<RegisterData>) {
+    assert(!config.disableRegister, '注册功能已被禁用, 请联系管理员开通账号');
+
     const {
         username, password, os, browser, environment,
     } = ctx.data;
