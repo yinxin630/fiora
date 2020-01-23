@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { State, Message } from '../../state/reducer';
 import useIsLogin from '../../hooks/useIsLogin';
 import useAction from '../../hooks/useAction';
-import { getLinkmanHistoryMessages, getDefalutGroupHistoryMessages } from '../../service';
+import { getLinkmanHistoryMessages, getDefaultGroupHistoryMessages } from '../../service';
 import MessageComponent from './Message/Message';
 
 import Style from './MessageList.less';
@@ -41,7 +41,7 @@ function MessageList() {
                     Object.keys(messages).length,
                 );
             } else {
-                historyMessages = await getDefalutGroupHistoryMessages(
+                historyMessages = await getDefaultGroupHistoryMessages(
                     Object.keys(messages).length,
                 );
             }
