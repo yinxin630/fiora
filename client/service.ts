@@ -249,8 +249,8 @@ export async function getLinkmanHistoryMessages(linkmanId: string, existCount: n
  * 获取默认群组的历史消息
  * @param existCount 客户端已有消息条数
  */
-export async function getDefalutGroupHistoryMessages(existCount: number) {
-    const [, messages] = await fetch('getDefalutGroupHistoryMessages', { existCount });
+export async function getDefaultGroupHistoryMessages(existCount: number) {
+    const [, messages] = await fetch('getDefaultGroupHistoryMessages', { existCount });
     return messages;
 }
 

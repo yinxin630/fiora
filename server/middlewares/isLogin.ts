@@ -9,7 +9,7 @@ export default function isLogin() {
         login: true,
         loginByToken: true,
         guest: true,
-        getDefalutGroupHistoryMessages: true,
+        getDefaultGroupHistoryMessages: true,
         getDefaultGroupOnlineMembers: true,
         getBaiduToken: true,
     };

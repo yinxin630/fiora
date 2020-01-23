@@ -197,7 +197,7 @@ interface GetDefaultGroupHistoryMessagesData {
  * 获取默认群组的历史消息
  * @param ctx Context
  */
-export async function getDefalutGroupHistoryMessages(
+export async function getDefaultGroupHistoryMessages(
     ctx: KoaContext<GetDefaultGroupHistoryMessagesData>,
 ) {
     const { existCount } = ctx.data;
