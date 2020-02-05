@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import Loading from 'react-loading';
+import React, { /* useState */ } from 'react';
+// import Loading from 'react-loading';
 
 import Style from './Expression.less';
 import { Tabs, TabPane, TabContent, ScrollableInkTabBar } from '../../components/Tabs';
 import expressions from '../../../utils/expressions';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
-import { searchExpression } from '../../service';
-import Message from '../../components/Message';
-import { addParam } from '../../../utils/url';
+// import Input from '../../components/Input';
+// import Button from '../../components/Button';
+// import { searchExpression } from '../../service';
+// import Message from '../../components/Message';
+// import { addParam } from '../../../utils/url';
 
 interface ExpressionProps {
     onSelectText: (expression: string) => void;
@@ -16,8 +16,9 @@ interface ExpressionProps {
 }
 
 function Expression(props: ExpressionProps) {
-    const { onSelectText, onSelectImage } = props;
+    const { onSelectText/* , onSelectImage */ } = props;
 
+    /*
     const [keywords, setKeywords] = useState('');
     const [searchLoading, toggleSearchLoading] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
@@ -37,6 +38,7 @@ function Expression(props: ExpressionProps) {
             toggleSearchLoading(false);
         }
     }
+    */
 
     const renderDefaultExpression = (
         <div className={Style.defaultExpression}>
@@ -60,6 +62,7 @@ function Expression(props: ExpressionProps) {
         </div>
     );
 
+    /*
     function handleClickExpression(e) {
         const $target = e.target;
         const url = addParam($target.src, {
@@ -101,6 +104,7 @@ function Expression(props: ExpressionProps) {
             </div>
         </div>
     );
+    */
 
     return (
         <div className={Style.expression}>
@@ -112,9 +116,9 @@ function Expression(props: ExpressionProps) {
                 <TabPane tab="默认表情" key="default">
                     {renderDefaultExpression}
                 </TabPane>
-                <TabPane tab="搜索表情包" key="search">
+                {/* <TabPane tab="搜索表情包" key="search">
                     {renderSearchExpression}
-                </TabPane>
+                </TabPane> */}
             </Tabs>
         </div>
     );

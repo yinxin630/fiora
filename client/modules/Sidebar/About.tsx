@@ -43,13 +43,7 @@ function About(props: AboutProps) {
                 <div className={Common.block}>
                     <p className={Common.title}>将fiora安装到主屏(PWA)</p>
                     <ul>
-                        <li>地址栏输入: Chrome://flags</li>
-                        <li>
-                            搜索并启用以下项目: Desktop PWAs(桌面PWAs)、App
-                            Banners(应用横幅)、Experimental App Banners(实验性应用横幅)
-                        </li>
-                        <li>重启浏览器使修改的设置生效</li>
-                        <li>点击地址栏最右边按钮</li>
+                        <li>点击地址栏最右边三个点按钮(或者地址栏末尾收藏前的按钮)</li>
                         <li>选择&quot;安装 fiora&quot;</li>
                     </ul>
                 </div>
