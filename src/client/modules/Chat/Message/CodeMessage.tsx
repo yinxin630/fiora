@@ -36,7 +36,8 @@ function CodeMessage(props: CodeMessageProps) {
             if (codeDialog && !CodeDialog) {
                 // @ts-ignore
                 const CodeDialogModule = await import(
-                /* webpackChunkName: "code-dialog" */ './CodeDialog',
+                    // @ts-ignore
+                    /* webpackChunkName: "code-dialog" */ './CodeDialog',
                 );
                 CodeDialog = CodeDialogModule.default;
                 setTimestamp(Date.now());

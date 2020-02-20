@@ -32,7 +32,7 @@ app.use(async (ctx, next) => {
             ctx,
             'index.html',
             {
-                root: path.join(__dirname, '../public'),
+                root: path.join(__dirname, '../../public'),
                 maxage: 1000 * 60 * 60 * 24 * 7,
                 gzip: true,
             } // eslint-disable-line
@@ -45,7 +45,7 @@ app.use(async (ctx, next) => {
 
 // 静态文件访问
 app.use(koaStatic(
-    path.join(__dirname, '../public'),
+    path.join(__dirname, '../../public'),
     {
         maxAge: 1000 * 60 * 60 * 24 * 7,
         gzip: true,

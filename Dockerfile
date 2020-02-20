@@ -2,14 +2,14 @@ FROM node:10
 
 WORKDIR /usr/app/fiora
 
-COPY build ./build
-COPY client ./client
-COPY config ./config
+COPY src/build ./src/build
+COPY src/client ./src/client
+COPY src/config ./src/config
 COPY public ./public
-COPY server ./server
+COPY src/server ./src/server
 COPY static ./static
-COPY types ./types
-COPY utils ./utils
+COPY src/types ./src/types
+COPY src/utils ./src/utils
 COPY .babelrc package.json tsconfig.json yarn.lock ./
 
 RUN yarn install

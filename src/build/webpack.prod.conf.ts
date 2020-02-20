@@ -63,7 +63,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         // @ts-ignore
         new CopyWebpackPlugin([
             {
-                from: path.resolve(__dirname, '../static'),
+                from: path.resolve(__dirname, '../../static'),
                 to: '',
                 ignore: ['.*'],
             },

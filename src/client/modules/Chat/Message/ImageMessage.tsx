@@ -25,6 +25,7 @@ function ImageMessage(props: ImageMessageProps) {
             if (viewer && !Viewer) {
                 // @ts-ignore
                 const reactViewerModule = await import(
+                    // @ts-ignore
                     /* webpackChunkName: "react-viewer" */ 'react-viewer',
                 );
                 // @ts-ignore

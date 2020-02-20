@@ -2,7 +2,7 @@ module.exports = {
     apps: [
         {
             name: 'fiora',
-            script: 'server/main.js',
+            script: 'dist/src/server/main.js',
             env: {
                 COMMON_VARIABLE: 'true',
             },
@@ -18,7 +18,7 @@ module.exports = {
             ref: 'origin/master',
             repo: 'git@github.com:yinxin630/fiora.git',
             path: '/root/projects/fiora',
-            'post-deploy': 'yarn && pm2 startOrRestart ecosystem.config.js --env production',
+            'post-deploy': 'yarn && yarn build-server && pm2 startOrRestart ecosystem.config.js --env production',
         },
     },
 };

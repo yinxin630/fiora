@@ -20,6 +20,7 @@ function getFirstNotUndefined(...values) {
 const now = new Date();
 const frontendMonitorVersion = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}`;
 
+
 export default {
     commonn: {
         autoPrefix: {
@@ -35,8 +36,8 @@ export default {
             frontendMonitorAppId: JSON.stringify(options.frontendMonitorAppId),
             frontendMonitorVersion: JSON.stringify(frontendMonitorVersion),
         },
-        index: path.resolve(__dirname, '../dist/index.html'),
-        assetsRoot: path.resolve(__dirname, '../dist/fiora'),
+        index: path.resolve(__dirname, '../../dist/index.html'),
+        assetsRoot: path.resolve(__dirname, '../../dist/fiora'),
         assetsPublicPath: getFirstNotUndefined(options.publicPath, env.PublicPath, '/'),
         productionSourceMap: false,
         productionGzip: false,

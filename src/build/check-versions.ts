@@ -4,7 +4,7 @@ import chalk from 'chalk';
 import semver from 'semver';
 import cp from 'child_process';
 
-import packageJson from '../package.json';
+import packageJson from '../../package.json';
 
 function exec(cmd) {
     return cp.execSync(cmd).toString().trim();

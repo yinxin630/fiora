@@ -3,9 +3,9 @@ const MB = 1024 * 1024;
 export default {
     server: process.env.NODE_ENV === 'development' ? '//localhost:9200' : '',
 
-    maxImageSize: MB * 3,
-    maxBackgroundImageSize: MB * 5,
-    maxAvatarSize: MB * 1.5,
+    maxImageSize: MB * 30,
+    maxBackgroundImageSize: MB * 20,
+    maxAvatarSize: MB * 3.5,
 
     // client default system setting
     theme: {
