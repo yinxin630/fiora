@@ -3,7 +3,7 @@ import platform from 'platform';
 
 import config from '../config/client';
 import store from './state/store';
-import { guest, getDefaultGroupHistoryMessages, loginByToken, getLinkmansLastMessages, getLinkmanHistoryMessages } from './service';
+import { guest, loginByToken, getLinkmansLastMessages, getLinkmanHistoryMessages } from './service';
 import { ActionTypes, SetLinkmanPropertyPayload, AddLinkmanHistoryMessagesPayload, AddLinkmanMessagePayload, DeleteMessagePayload } from './state/action';
 import convertMessage from '../utils/convertMessage';
 import getFriendId from '../utils/getFriendId';
@@ -22,11 +22,12 @@ const socket = new IO(config.server, options);
 async function loginFailback() {
     const defaultGroup = await guest(platform.os.family, platform.name, platform.description);
     if (defaultGroup) {
+        const { messages } = defaultGroup;
         dispatch({
             type: ActionTypes.SetGuest,
             payload: defaultGroup,
         });
-        const messages = await getDefaultGroupHistoryMessages(0);
+
         messages.forEach(convertMessage);
         dispatch({
             type: ActionTypes.AddLinkmanHistoryMessages,
