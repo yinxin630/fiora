@@ -28,7 +28,7 @@ export default {
     allowOrigin: options.allowOrigin || env.AllowOrigin,
 
     // token expires time
-    tokenExpiresTime: 1000 * 60 * 60 * 24 * 7,
+    tokenExpiresTime: 1000 * 60 * 60 * 24 * 30,
 
     // administrator user id
     administrator: options.administrator || env.Administrator || '',
