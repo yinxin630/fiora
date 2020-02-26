@@ -44,7 +44,7 @@ function Avatar(props: AvatarProps) {
         <img
             className={className}
             style={{ width: size, height: size, borderRadius: size / 2 }}
-            src={/(blob|data):/.test(src) ? src : `${src}?imageView2/3/w/${size * 2}/h/${size * 2}`}
+            src={/(blob|data):/.test(src) ? src : `${src}?imageView2/1/q/80/w/${size * 2}/h/${size * 2}`}
             alt=""
             onClick={onClick}
             onError={handleError}

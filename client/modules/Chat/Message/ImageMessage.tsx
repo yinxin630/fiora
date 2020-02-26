@@ -56,7 +56,7 @@ function ImageMessage(props: ImageMessageProps) {
         height = naturehHeight * scale;
         imageSrc = /^(blob|data):/.test(src)
             ? imageSrc.split('?')[0]
-            : `${imageSrc}&imageView2/3/w/${Math.floor(width * 1.2)}/h/${Math.floor(height * 1.2)}`;
+            : `${imageSrc}&imageView2/1/q/80/w/${Math.floor(width * 1.2)}/h/${Math.floor(height * 1.2)}`;
     }
 
     let className = Style.imageMessage;
@@ -94,7 +94,7 @@ function ImageMessage(props: ImageMessageProps) {
                         visible={viewer}
                         onClose={closeViewer}
                         onMaskClick={closeViewer}
-                        images={[{ src, alt: src }]}
+                        images={[{ src: `${src}&imageView2/1/q/80`, alt: src }]}
                         noNavbar
                     />
                 )}
