@@ -125,8 +125,13 @@ function UserInfo(props: UserInfoProps) {
         window.open(`http://ip.taobao.com/service/getIpInfo.php?ip=${ip}`);
     }
 
+    function handleClose() {
+        toggleLargetAvatar(false);
+        onClose();
+    }
+
     return (
-        <Dialog className={Style.infoDialog} visible={visible} onClose={onClose}>
+        <Dialog className={Style.infoDialog} visible={visible} onClose={handleClose}>
             <div>
                 {visible && user ? (
                     <div className={Style.coantainer}>
