@@ -4,7 +4,7 @@
   "description": "An interesting chat application power by socket.io, koa, mongodb and react",
   "license": "MIT",
   "scripts": {
-    "start": "./node_modules/.bin/cross-env NODE_ENV=production && ./node_modules/.bin/ts-node server/main.ts",
+    "start": "./node_modules/.bin/cross-env NODE_ENV=production && ./node_modules/.bin/ts-node --transpile-only server/main.ts",
     "server": "./node_modules/.bin/cross-env NODE_ENV=development && nodemon server/main.ts --exec ./node_modules/.bin/ts-node --config .nodemonrc",
     "client": "./node_modules/.bin/ts-node build/dev-server.ts",
     "dashboard": "webpack-dashboard -- ./node_modules/.bin/ts-node build/dev-server.ts",
