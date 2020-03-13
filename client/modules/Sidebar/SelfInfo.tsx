@@ -52,11 +52,7 @@ function SelfInfo(props: SelfInfoProps) {
             if (modifiData) {
                 action.setAvatar(URL.createObjectURL(blob));
                 Message.success('修改头像成功');
-                action.BatchSetLinkmanProperty({
-                    key: 'avatar',
-                    value: modifiData.avatar,
-                    id: modifiData._id,
-                });
+                action.BatchSetLinkmanProperty('avatar', modifiData.avatar, modifiData._id);
             }
         } catch (err) {
             console.error(err);

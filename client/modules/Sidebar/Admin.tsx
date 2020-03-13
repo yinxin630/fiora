@@ -7,6 +7,7 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Message from '../../components/Message';
 import { getSealList, resetUserPassword, sealUser, setUserTag, sealIp } from '../../service';
+import useAction from '../../hooks/useAction';
 
 interface AdminProps {
     visible: boolean;
@@ -16,6 +17,7 @@ interface AdminProps {
 function Admin(props: AdminProps) {
     const { visible, onClose } = props;
 
+    const action = useAction();
     const [tagUsername, setTagUsername] = useState('');
     const [tag, setTag] = useState('');
     const [resetPasswordUsername, setResetPasswordUsername] = useState('');
@@ -43,9 +45,10 @@ function Admin(props: AdminProps) {
      * 处理更新用户标签
      */
     async function handleSetTag() {
-        const isSuccess = await setUserTag(tagUsername, tag.trim());
-        if (isSuccess) {
-            Message.success('更新用户标签成功, 请刷新页面更新数据');
+        const modifiData = await setUserTag(tagUsername, tag.trim());
+        if (modifiData) {
+            action.BatchSetLinkmanProperty('tag', modifiData.tag, modifiData._id);
+            Message.success('更新用户标签成功');
             setTagUsername('');
             setTag('');
         }

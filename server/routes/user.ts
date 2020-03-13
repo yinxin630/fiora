@@ -535,14 +535,18 @@ export async function setUserTag(ctx: KoaContext<SetUserTagData>) {
     user.tag = tag;
     await user.save();
 
-    const sockets = await Socket.find({ user: user._id });
-    sockets.forEach((socket) => {
-        ctx._io.to(socket.id).emit('changeTag', user.tag);
+    const groupList = await Group.find({
+        members: user._id,
     });
 
-    return {
-        msg: 'ok',
+    const modifiData = {
+        tag: user.tag,
+        _id: user._id,
     };
+
+    groupList.forEach((item) => ctx.socket.to(item.id).emit('changeTag', modifiData));
+
+    return modifiData;
 }
 
 /**

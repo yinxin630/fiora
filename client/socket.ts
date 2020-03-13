@@ -205,12 +205,20 @@ socket.on('deleteGroup', ({ groupId }) => {
     });
 });
 
-socket.on('changeTag', (tag: string) => {
+socket.on('changeTag', ({ tag, _id }) => {
     dispatch({
         type: ActionTypes.UpdateUserInfo,
         payload: {
             tag,
         },
+    });
+    dispatch({
+        type: ActionTypes.BatchSetLinkmanProperty,
+        payload: {
+            value: tag,
+            id: _id,
+            key: 'tag',
+        } as BatchSetLinkmanPropertyPayload,
     });
 });
 

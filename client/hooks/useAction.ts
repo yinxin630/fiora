@@ -130,10 +130,14 @@ export default function useAction() {
             });
         },
 
-        BatchSetLinkmanProperty(ModifiData) {
+        BatchSetLinkmanProperty(key: string, value: any, id: string) {
             dispatch({
                 type: ActionTypes.BatchSetLinkmanProperty,
-                payload: ModifiData,
+                payload: {
+                    key,
+                    value,
+                    id,
+                },
             });
         },
     };

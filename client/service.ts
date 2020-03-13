@@ -358,8 +358,8 @@ export async function resetUserPassword(username: string) {
  * @param tag 标签
  */
 export async function setUserTag(username: string, tag: string) {
-    const [err] = await fetch('setUserTag', { username, tag });
-    return !err;
+    const [, modifiData] = await fetch('setUserTag', { username, tag });
+    return modifiData;
 }
 
 /**
