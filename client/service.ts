@@ -124,8 +124,8 @@ export async function guest(os: string, browser: string, environment: string) {
  * @param avatar 新头像链接
  */
 export async function changeAvatar(avatar) {
-    const [error] = await fetch('changeAvatar', { avatar });
-    return !error;
+    const [, midifiData] = await fetch('changeAvatar', { avatar });
+    return midifiData;
 }
 
 /**

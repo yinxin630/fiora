@@ -13,6 +13,7 @@ import {
     AddLinkmanMessagePayload,
     UpdateUserInfoPayload,
     DeleteMessagePayload,
+    BatchSetLinkmanPropertyPayload,
 } from './action';
 import getFriendId from '../../utils/getFriendId';
 
@@ -576,6 +577,39 @@ function reducer(state: State = initialState, action: Action): State {
                     ...state.status,
                     [payload.key]: payload.value,
                 },
+            };
+        }
+
+        case ActionTypes.BatchSetLinkmanProperty: {
+            const { linkmans } = state;
+            const { value, key, id } = action.payload as BatchSetLinkmanPropertyPayload;
+            return {
+                ...state,
+                linkmans: Object.keys(linkmans).reduce((result, linkmanKey) => {
+                    result[linkmanKey] = {
+                        ...linkmans[linkmanKey],
+                        messages: {
+                            ...linkmans[linkmanKey].messages,
+                            ...Object.keys(linkmans[linkmanKey].messages).reduce(
+                                (MessageResult, messId) => {
+                                    const message = linkmans[linkmanKey].messages[messId];
+                                    if (message.from._id === id) {
+                                        MessageResult[messId] = {
+                                            ...message,
+                                            from: {
+                                                ...message.from,
+                                                [key]: value,
+                                            },
+                                        };
+                                    }
+                                    return MessageResult;
+                                },
+                                {},
+                            ),
+                        },
+                    };
+                    return result;
+                }, {}),
             };
         }
 

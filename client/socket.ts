@@ -4,7 +4,7 @@ import platform from 'platform';
 import config from '../config/client';
 import store from './state/store';
 import { guest, loginByToken, getLinkmansLastMessages, getLinkmanHistoryMessages } from './service';
-import { ActionTypes, SetLinkmanPropertyPayload, AddLinkmanHistoryMessagesPayload, AddLinkmanMessagePayload, DeleteMessagePayload } from './state/action';
+import { ActionTypes, SetLinkmanPropertyPayload, AddLinkmanHistoryMessagesPayload, AddLinkmanMessagePayload, DeleteMessagePayload, BatchSetLinkmanPropertyPayload } from './state/action';
 import convertMessage from '../utils/convertMessage';
 import getFriendId from '../utils/getFriendId';
 import notification from '../utils/notification';
@@ -224,4 +224,14 @@ socket.on('deleteMessage', ({ linkmanId, messageId }) => {
     });
 });
 
+socket.on('midifiAvatar', ({ avatar, _id }) => {
+    dispatch({
+        type: ActionTypes.BatchSetLinkmanProperty,
+        payload: {
+            value: avatar,
+            id: _id,
+            key: 'avatar',
+        } as BatchSetLinkmanPropertyPayload,
+    });
+});
 export default socket;
