@@ -75,26 +75,42 @@ export async function searchExpression(ctx: KoaContext<SearchExpressionData>) {
         return [];
     }
 
-    const host = 'https://www.b7.cn';
     const res = await axios({
         method: 'get',
-        url: `${host}/so/bq/api9.php?page=3&sear=1&keyboard=${encodeURIComponent(keywords)}`,
+        url: `https://pic.sogou.com/pics/json.jsp?query=${encodeURIComponent(
+            `${keywords} 表情`,
+        )}&st=5&start=0&xml_len=60&callback=callback&reqFrom=wap_result&`,
         headers: {
-            referer: 'https://www.b7.cn/so/bq/api9.php',
+            accept: '*/*',
+            'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8,zh-TW;q=0.7',
+            'cache-control': 'no-cache',
+            pragma: 'no-cache',
+            'sec-fetch-mode': 'navigate',
+            'sec-fetch-site': 'same-origin',
+            referrer: `https://pic.sogou.com/pic/emo/searchList.jsp?statref=search_form&uID=hTHHybkSPt37C46z&spver=0&rcer=&keyword=${encodeURIComponent(
+                keywords,
+            )}`,
+            referrerPolicy: 'no-referrer-when-downgrade',
             'user-agent':
-                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36',
+                'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
         },
     });
     assert(res.status === 200, '搜索表情包失败, 请重试');
 
-    const images = res.data.match(/<img\s+src="[^"']+">/g) || [];
-    return images.map((img: string) => {
-        const src = img.match(/src="([^"']+)"/);
-        if (src) {
-            return /^https?:/.test(src[1]) ? src[1] : host + src[1];
-        }
-        return '';
-    });
+    try {
+        const parseDataResult = res.data.match(/callback\((.+)\)/);
+        const data = JSON.parse(`${parseDataResult[1]}`);
+        const images = data.items;
+        return images.map(({ locImageLink, width, height }) => ({
+            image: locImageLink,
+            width,
+            height,
+        }));
+    } catch (err) {
+        assert(false, '搜索表情包失败, 数据解析异常');
+    }
+
+    return [];
 }
 
 /**

@@ -34,6 +34,6 @@ interface CommandArgs {
     password: string;
 }
 
-const args: CommandArgs = commandLineArgs(optionDefinitions);
+const args = commandLineArgs(optionDefinitions) as CommandArgs;
 
 export default args;

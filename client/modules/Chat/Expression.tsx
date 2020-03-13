@@ -1,14 +1,14 @@
-import React, { /* useState */ } from 'react';
-// import Loading from 'react-loading';
+import React, { useState } from 'react';
+import Loading from 'react-loading';
 
 import Style from './Expression.less';
 import { Tabs, TabPane, TabContent, ScrollableInkTabBar } from '../../components/Tabs';
 import expressions from '../../../utils/expressions';
-// import Input from '../../components/Input';
-// import Button from '../../components/Button';
-// import { searchExpression } from '../../service';
-// import Message from '../../components/Message';
-// import { addParam } from '../../../utils/url';
+import Input from '../../components/Input';
+import Button from '../../components/Button';
+import { searchExpression } from '../../service';
+import Message from '../../components/Message';
+import { addParam } from '../../../utils/url';
 
 interface ExpressionProps {
     onSelectText: (expression: string) => void;
@@ -16,9 +16,8 @@ interface ExpressionProps {
 }
 
 function Expression(props: ExpressionProps) {
-    const { onSelectText/* , onSelectImage */ } = props;
+    const { onSelectText, onSelectImage } = props;
 
-    /*
     const [keywords, setKeywords] = useState('');
     const [searchLoading, toggleSearchLoading] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
@@ -38,7 +37,6 @@ function Expression(props: ExpressionProps) {
             toggleSearchLoading(false);
         }
     }
-    */
 
     const renderDefaultExpression = (
         <div className={Style.defaultExpression}>
@@ -62,7 +60,6 @@ function Expression(props: ExpressionProps) {
         </div>
     );
 
-    /*
     function handleClickExpression(e) {
         const $target = e.target;
         const url = addParam($target.src, {
@@ -89,22 +86,19 @@ function Expression(props: ExpressionProps) {
                 <Loading type="spinningBubbles" color="#4A90E2" height={100} width={100} />
             </div>
             <div className={Style.searchResult}>
-                {searchResults.map((image, index) => (
-                    // @ts-ignore
-                    <img
-                        className={Style.searchImage}
-                        src={image}
-                        alt="表情"
-                        // 可能同一图片返回多次, 导致 key 相同
-                        // eslint-disable-next-line react/no-array-index-key
-                        key={image + index}
-                        onClick={handleClickExpression}
-                    />
+                {searchResults.map(({ image }) => (
+                    <div className={Style.searchImage}>
+                        <img
+                            src={image}
+                            alt="表情"
+                            key={image}
+                            onClick={handleClickExpression}
+                        />
+                    </div>
                 ))}
             </div>
         </div>
     );
-    */
 
     return (
         <div className={Style.expression}>
@@ -116,9 +110,9 @@ function Expression(props: ExpressionProps) {
                 <TabPane tab="默认表情" key="default">
                     {renderDefaultExpression}
                 </TabPane>
-                {/* <TabPane tab="搜索表情包" key="search">
+                <TabPane tab="搜索表情包" key="search">
                     {renderSearchExpression}
-                </TabPane> */}
+                </TabPane>
             </Tabs>
         </div>
     );
