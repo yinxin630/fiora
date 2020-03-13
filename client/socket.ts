@@ -234,4 +234,16 @@ socket.on('modifiAvatar', ({ avatar, _id }) => {
         } as BatchSetLinkmanPropertyPayload,
     });
 });
+
+socket.on('modifiGroupAvatar', ({ avatar, _id }) => {
+    dispatch({
+        type: ActionTypes.SetLinkmanProperty,
+        payload: {
+            linkmanId: _id,
+            value: avatar,
+            key: 'avatar',
+        },
+    });
+});
+
 export default socket;

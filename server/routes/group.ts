@@ -207,7 +207,14 @@ export async function changeGroupAvatar(ctx: KoaContext<ChangeGroupAvatarData>) 
     assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能修改头像');
 
     await Group.updateOne({ _id: groupId }, { avatar });
-    return {};
+
+    const modifiData = {
+        avatar,
+        _id: groupId,
+    };
+
+    ctx.socket.to(groupId).emit('modifiGroupAvatar', modifiData);
+    return modifiData;
 }
 
 interface ChangeGroupNameData {
