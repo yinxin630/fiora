@@ -129,5 +129,12 @@ export default function useAction() {
                 },
             });
         },
+
+        BatchSetLinkmanProperty(ModifiData) {
+            dispatch({
+                type: ActionTypes.BatchSetLinkmanProperty,
+                payload: ModifiData,
+            });
+        },
     };
 }

@@ -48,10 +48,15 @@ function SelfInfo(props: SelfInfoProps) {
                 `Avatar/${userId}_${Date.now()}`,
                 `Avatar_${userId}_${Date.now()}.${ext}`,
             );
-            const isSuccess = await changeAvatar(avatarUrl);
-            if (isSuccess) {
+            const modifiData = await changeAvatar(avatarUrl);
+            if (modifiData) {
                 action.setAvatar(URL.createObjectURL(blob));
                 Message.success('修改头像成功');
+                action.BatchSetLinkmanProperty({
+                    key: 'avatar',
+                    value: modifiData.avatar,
+                    id: modifiData._id,
+                });
             }
         } catch (err) {
             console.error(err);

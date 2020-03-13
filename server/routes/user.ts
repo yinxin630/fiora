@@ -365,7 +365,18 @@ export async function changeAvatar(ctx: KoaContext<ChangeAvatarData>) {
         },
     );
 
-    return {};
+    const groupList = await Group.find({
+        members: ctx.socket.user,
+    });
+
+    const modifiData = {
+        _id: ctx.socket.user,
+        avatar,
+    };
+    groupList.forEach((group) => {
+        ctx.socket.to(group._id).emit('modifiAvatar', modifiData);
+    });
+    return modifiData;
 }
 
 interface AddFriendData {

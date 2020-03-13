@@ -36,6 +36,8 @@ export enum ActionTypes {
     Connect = 'Connect',
     /** socket断开连接 */
     Disconnect = 'Disconnect',
+    /** 更新其他人头像 */
+    BatchSetLinkmanProperty = 'BatchSetLinkmanProperty',
 }
 
 export type SetGuestPayload = Group;
@@ -99,6 +101,12 @@ export interface DeleteMessagePayload {
     messageId: string;
 }
 
+export interface BatchSetLinkmanPropertyPayload{
+    id: string;
+    key: string;
+    value: any;
+}
+
 export interface Action {
     type: ActionTypes;
     payload:
@@ -115,5 +123,6 @@ export interface Action {
         | RemoveLinkmanPayload
         | SetLinkmansLastMessagesPayload
         | UpdateMessagePayload
-        | DeleteMessagePayload;
+        | DeleteMessagePayload
+        | BatchSetLinkmanPropertyPayload;
 }
