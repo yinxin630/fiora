@@ -8,13 +8,13 @@ let isSeal = false;
 
 export default function fetch<T = any>(event: string, data = {}, {
     toast = true,
-} = {}): Promise<[string, T]> {
+} = {}): Promise<[string | null, T | null]> {
     if (isSeal) {
         Message.error(SealText);
         return Promise.resolve([SealText, null]);
     }
     return new Promise((resolve) => {
-        socket.emit(event, data, (res) => {
+        socket.emit(event, data, (res: any) => {
             if (typeof res === 'string') {
                 if (toast) {
                     Message.error(res);

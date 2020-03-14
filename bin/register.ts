@@ -4,9 +4,8 @@
  */
 
 import bcrypt from 'bcryptjs';
-import { promisify } from 'util';
 
-import User from '../server/models/user';
+import User, { UserDocument } from '../server/models/user';
 import Group from '../server/models/group';
 
 import options from '../utils/commandOptions';
@@ -37,10 +36,11 @@ connectDB()
         const defaultGroup = await Group.findOne({ isDefault: true });
         if (!defaultGroup) {
             exitWithError('默认群组不存在');
+            return;
         }
 
-        const salt = await promisify(bcrypt.genSalt)(saltRounds);
-        const hash = await promisify(bcrypt.hash)(password, salt);
+        const salt = await bcrypt.genSalt(saltRounds);
+        const hash = await bcrypt.hash(password, salt);
 
         let newUser = null;
         try {
@@ -52,21 +52,24 @@ connectDB()
             });
         } catch (createError) {
             if (createError.name === 'ValidationError') {
-                return exitWithError('用户名包含不支持的字符或者长度超过限制');
+                exitWithError('用户名包含不支持的字符或者长度超过限制');
+                return;
             }
             console.error(createError);
             exitWithError('创建新用户失败');
         }
 
         if (!defaultGroup.creator) {
-            defaultGroup.creator = newUser;
+            defaultGroup.creator = newUser as UserDocument;
         }
-        defaultGroup.members.push(newUser);
+        if (newUser) {
+            defaultGroup.members.push(newUser._id);
+        }
         await defaultGroup.save();
 
         console.log('注册成功');
 
-        return process.exit(0);
+        process.exit(0);
     })
     .catch((err) => {
         console.error('connect database error!');

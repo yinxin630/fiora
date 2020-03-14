@@ -11,7 +11,7 @@ import Style from './MessageList.less';
 
 function MessageList() {
     const action = useAction();
-    const selfId = useSelector((state: State) => state.user._id);
+    const selfId = useSelector((state: State) => state.user?._id);
     const focus = useSelector((state: State) => state.focus);
     const isGroup = useSelector((state: State) => state.linkmans[focus].type === 'group');
     const creator = useSelector((state: State) => state.linkmans[focus].creator);
@@ -22,7 +22,7 @@ function MessageList() {
     const $list = useRef(null);
 
     let isFetching = false;
-    async function handleScroll(e) {
+    async function handleScroll(e: any) {
         // Don't know why the code-view dialog will also trigger when scrolling
         if ($list.current && e.target !== $list.current) {
             return;
@@ -56,6 +56,7 @@ function MessageList() {
         const isSelf = message.from._id === selfId;
         let shouldScroll = true;
         if ($list.current) {
+            // @ts-ignore
             const { scrollHeight, clientHeight, scrollTop } = $list.current;
             shouldScroll = isSelf
                 || scrollHeight === clientHeight

@@ -10,13 +10,18 @@ import { search } from '../../service';
 import Style from './FunctionBar.less';
 import Input from '../../components/Input';
 
+type SearchResult = {
+    users: any[];
+    groups: any[];
+}
+
 function FunctionBar() {
     const [keywords, setKeywords] = useState('');
     const [addButtonVisible, toggleAddButtonVisible] = useState(true);
     const [searchResultVisible, toggleSearchResultVisible] = useState(false);
     const [searchResultActiveKey, setSearchResultActiveKey] = useState('all');
     const [createGroupDialogVisible, toggleCreateGroupDialogVisible] = useState(false);
-    const [searchResult, setSearchResult] = useState({ users: [], groups: [] });
+    const [searchResult, setSearchResult] = useState<SearchResult>({ users: [], groups: [] });
 
     const context = useContext(ShowUserOrGroupInfoContext);
     const placeholder = '搜索群组/用户';
@@ -29,7 +34,7 @@ function FunctionBar() {
         setKeywords('');
     }
 
-    function handleBodyClick(e) {
+    function handleBodyClick(e: any) {
         if (e.target.getAttribute('placeholder') === placeholder || !searchResultVisible) {
             return;
         }
@@ -70,7 +75,8 @@ function FunctionBar() {
         const { users } = searchResult;
         count = Math.min(count, users.length);
 
-        function handleClick(targetUser) {
+        function handleClick(targetUser: any) {
+            // @ts-ignore
             context.showUserInfo(targetUser);
             resetSearch();
         }
@@ -95,7 +101,8 @@ function FunctionBar() {
         const { groups } = searchResult;
         count = Math.min(count, groups.length);
 
-        function handleClick(targetGroup) {
+        function handleClick(targetGroup: any) {
+            // @ts-ignore
             context.showGroupInfo(targetGroup);
             resetSearch();
         }

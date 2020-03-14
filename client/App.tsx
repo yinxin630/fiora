@@ -66,6 +66,7 @@ function App() {
             setHeight(getHeightPercent());
         };
 
+        // @ts-ignore
         inobounce($app.current);
     }, []);
 
@@ -121,11 +122,11 @@ function App() {
     const [groupInfo, setGroupInfo] = useState(null);
 
     const contextValue = useMemo(() => ({
-        showUserInfo(user) {
+        showUserInfo(user: any) {
             setUserInfo(user);
             toggleUserInfoDialog(true);
         },
-        showGroupInfo(group) {
+        showGroupInfo(group: any) {
             setGroupInfo(group);
             toggleGroupInfoDialog(true);
         },
@@ -135,7 +136,7 @@ function App() {
         <div className={Style.app} style={style} ref={$app}>
             <div className={Style.blur} style={blurStyle} />
             <div className={Style.child} style={childStyle}>
-                <ShowUserOrGroupInfoContext.Provider value={contextValue}>
+                <ShowUserOrGroupInfoContext.Provider value={contextValue as unknown as null}>
                     <Sidebar />
                     <FunctionBarAndLinkmanList />
                     <Chat />
@@ -145,11 +146,13 @@ function App() {
             <UserInfo
                 visible={userInfoDialog}
                 onClose={() => toggleUserInfoDialog(false)}
+                // @ts-ignore
                 user={userInfo}
             />
             <GroupInfo
                 visible={groupInfoDialog}
                 onClose={() => toggleGroupInfoDialog(false)}
+                // @ts-ignore
                 group={groupInfo}
             />
         </div>

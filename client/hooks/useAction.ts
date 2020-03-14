@@ -47,7 +47,7 @@ export default function useAction() {
             });
         },
 
-        removeLinkman(linkmanId) {
+        removeLinkman(linkmanId: string) {
             dispatch({
                 type: ActionTypes.RemoveLinkman,
                 payload: linkmanId,
@@ -120,7 +120,7 @@ export default function useAction() {
             window.localStorage.setItem(key, value);
         },
 
-        toggleLoginRegisterDialog(visible) {
+        toggleLoginRegisterDialog(visible: boolean) {
             dispatch({
                 type: ActionTypes.SetStatus,
                 payload: {

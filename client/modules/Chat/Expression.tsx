@@ -45,6 +45,7 @@ function Expression(props: ExpressionProps) {
                     className={Style.defaultExpressionBlock}
                     key={e}
                     data-name={e}
+                    // @ts-ignore
                     onClick={(event) => onSelectText(event.currentTarget.dataset.name)}
                     role="button"
                 >
@@ -60,7 +61,7 @@ function Expression(props: ExpressionProps) {
         </div>
     );
 
-    function handleClickExpression(e) {
+    function handleClickExpression(e: any) {
         const $target = e.target;
         const url = addParam($target.src, {
             width: $target.naturalWidth,

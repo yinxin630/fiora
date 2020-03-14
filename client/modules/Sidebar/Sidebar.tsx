@@ -69,7 +69,7 @@ function Sidebar() {
         socket.connect();
     }
 
-    function renderTooltip(text, component) {
+    function renderTooltip(text: string, component: JSX.Element) {
         const children = <div>{component}</div>;
         if (isMobile) {
             return children;
@@ -84,7 +84,7 @@ function Sidebar() {
     return (
         <>
             <div className={Style.sidebar} {...aero}>
-                {isLogin && (
+                {isLogin && avatar && (
                     <Avatar
                         className={Style.avatar}
                         src={avatar}

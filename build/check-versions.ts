@@ -6,14 +6,14 @@ import cp from 'child_process';
 
 import packageJson from '../package.json';
 
-function exec(cmd) {
+function exec(cmd: any) {
     return cp.execSync(cmd).toString().trim();
 }
 
 const versionRequirements = [
     {
         name: 'node',
-        currentVersion: semver.clean(process.version),
+        currentVersion: semver.clean(process.version) as string,
         versionRequirement: packageJson.engines.node,
     },
     {

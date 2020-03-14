@@ -51,7 +51,6 @@ export default {
         port: 8080,
         autoOpenBrowser: false,
         assetsPublicPath: '/',
-        proxyTable: {},
         cssSourceMap: false,
     },
 };

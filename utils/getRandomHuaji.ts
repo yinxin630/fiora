@@ -1,4 +1,8 @@
-const huaji = {
+type Huaji = {
+    [key: number]: string;
+};
+
+const huaji: Huaji = {
     0: `${require('../client/assets/images/huaji/0.jpg')}?width=250&height=250&huaji=true`,
     1: `${require('../client/assets/images/huaji/1.gif')}?width=300&height=300&huaji=true`,
     2: `${require('../client/assets/images/huaji/2.jpeg')}?width=245&height=206&huaji=true`,

@@ -10,7 +10,7 @@ $audio.appendChild($source);
 document.body.appendChild($audio);
 
 let baiduToken = '';
-async function read(text, cuid) {
+async function read(text: string, cuid: string) {
     if (!baiduToken) {
         const [err, result] = await fetch('getBaiduToken');
         if (err) {
@@ -40,7 +40,12 @@ async function read(text, cuid) {
     }
 }
 
-const taskQueue = [];
+type Task = {
+    text: string;
+    cuid: string;
+}
+
+const taskQueue: Task[] = [];
 let isWorking = false;
 async function handleTaskQueue() {
     isWorking = true;
@@ -54,7 +59,7 @@ async function handleTaskQueue() {
 }
 
 const voice = {
-    push(text, cuid) {
+    push(text: string, cuid: string) {
         taskQueue.push({ text, cuid });
         if (!isWorking) {
             handleTaskQueue();

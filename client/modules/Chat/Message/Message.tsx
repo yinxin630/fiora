@@ -55,7 +55,7 @@ interface MessageState {
 class Message extends Component<MessageProps, MessageState> {
     $container = createRef<HTMLDivElement>();
 
-    constructor(props) {
+    constructor(props: MessageProps) {
         super(props);
         this.state = {
             showButtonList: false,
@@ -65,6 +65,7 @@ class Message extends Component<MessageProps, MessageState> {
     componentDidMount() {
         const { shouldScroll } = this.props;
         if (shouldScroll) {
+            // @ts-ignore
             this.$container.current.scrollIntoView();
         }
     }
@@ -169,6 +170,7 @@ class Message extends Component<MessageProps, MessageState> {
                             className={Style.avatar}
                             src={avatar}
                             size={44}
+                            // @ts-ignore
                             onClick={() => this.handleClickAvatar(context.showUserInfo)}
                         />
                     )}

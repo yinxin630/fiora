@@ -25,7 +25,8 @@ function GroupInfo(props: GroupInfoProps) {
     const { visible, onClose, group } = props;
 
     const action = useAction();
-    const hasLinkman = useSelector((state: State) => !!state.linkmans[group && group._id]);
+    // @ts-ignore
+    const hasLinkman = useSelector((state: State) => !!state.linkmans[group?._id]);
     const [largerAvatar, toggleLargetAvatar] = useState(false);
 
     if (!group) {
@@ -34,6 +35,10 @@ function GroupInfo(props: GroupInfoProps) {
 
     async function handleJoinGroup() {
         onClose();
+
+        if (!group) {
+            return;
+        }
         const groupRes = await joinGroup(group._id);
         if (groupRes) {
             groupRes.type = 'group';
@@ -48,6 +53,10 @@ function GroupInfo(props: GroupInfoProps) {
 
     function handleFocusGroup() {
         onClose();
+
+        if (!group) {
+            return;
+        }
         action.setFocus(group._id);
     }
 

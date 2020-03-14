@@ -17,10 +17,10 @@ const { dispatch } = store;
 const options = {
     // reconnectionDelay: 1000,
 };
-const socket = new IO(config.server, options);
+const socket = IO(config.server, options);
 
 async function loginFailback() {
-    const defaultGroup = await guest(platform.os.family, platform.name, platform.description);
+    const defaultGroup = await guest(platform.os?.family, platform.name, platform.description);
     if (defaultGroup) {
         const { messages } = defaultGroup;
         dispatch({
@@ -40,13 +40,14 @@ async function loginFailback() {
 }
 
 socket.on('connect', async () => {
+    // @ts-ignore
     dispatch({ type: ActionTypes.Connect, payload: null });
 
     const token = window.localStorage.getItem('token');
     if (token) {
         const user = await loginByToken(
             token,
-            platform.os.family,
+            platform.os?.family,
             platform.name,
             platform.description,
         );
@@ -56,11 +57,12 @@ socket.on('connect', async () => {
                 payload: user,
             });
             const linkmanIds = [
-                ...user.groups.map((group) => group._id),
-                ...user.friends.map((friend) => getFriendId(friend.from, friend.to._id)),
+                ...user.groups.map((group: any) => group._id),
+                ...user.friends.map((friend: any) => getFriendId(friend.from, friend.to._id)),
             ];
             const linkmanMessages = await getLinkmansLastMessages(linkmanIds);
             Object.values(linkmanMessages).forEach(
+                // @ts-ignore
                 (messages: Message[]) => messages.forEach(convertMessage),
             );
             dispatch({
@@ -75,6 +77,7 @@ socket.on('connect', async () => {
 });
 
 socket.on('disconnect', () => {
+    // @ts-ignore
     dispatch({ type: ActionTypes.Disconnect, payload: null });
 });
 
@@ -82,14 +85,14 @@ let windowStatus = 'focus';
 window.onfocus = () => { windowStatus = 'focus'; };
 window.onblur = () => { windowStatus = 'blur'; };
 
-let prevFrom = '';
+let prevFrom: string | null = '';
 let prevName = '';
-socket.on('message', async (message) => {
+socket.on('message', async (message: any) => {
     convertMessage(message);
 
     const state = store.getState();
-    const isSelfMessage = message.from._id === state.user._id;
-    if (isSelfMessage && message.from.tag !== state.user.tag) {
+    const isSelfMessage = message.from._id === state.user?._id;
+    if (isSelfMessage && message.from.tag !== state.user?.tag) {
         dispatch({
             type: ActionTypes.UpdateUserInfo,
             payload: {
@@ -119,7 +122,7 @@ socket.on('message', async (message) => {
             return;
         }
         const newLinkman = {
-            _id: getFriendId(state.user._id, message.from._id),
+            _id: getFriendId(state.user?._id as string, message.from._id),
             type: 'temporary',
             createTime: Date.now(),
             avatar: message.from.avatar,
@@ -181,13 +184,13 @@ socket.on('message', async (message) => {
             prevFrom = from;
             prevName = message.from.username;
         } else if (message.type === 'system') {
-            voice.push(message.from.originUsername + message.content, null);
+            voice.push(message.from.originUsername + message.content, '');
             prevFrom = null;
         }
     }
 });
 
-socket.on('changeGroupName', ({ groupId, name }) => {
+socket.on('changeGroupName', ({ groupId, name }: {groupId: string, name: string}) => {
     dispatch({
         type: ActionTypes.SetLinkmanProperty,
         payload: {
@@ -198,7 +201,7 @@ socket.on('changeGroupName', ({ groupId, name }) => {
     });
 });
 
-socket.on('deleteGroup', ({ groupId }) => {
+socket.on('deleteGroup', ({ groupId }: {groupId: string}) => {
     dispatch({
         type: ActionTypes.RemoveLinkman,
         payload: groupId,
@@ -214,7 +217,7 @@ socket.on('changeTag', (tag: string) => {
     });
 });
 
-socket.on('deleteMessage', ({ linkmanId, messageId }) => {
+socket.on('deleteMessage', ({ linkmanId, messageId }: {linkmanId: string, messageId: string}) => {
     dispatch({
         type: ActionTypes.DeleteMessage,
         payload: {

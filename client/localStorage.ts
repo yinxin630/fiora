@@ -47,7 +47,9 @@ export default function getData() {
         backgroundImage: '',
         aero: false,
     };
+    // @ts-ignore
     if (theme && config.theme[theme]) {
+        // @ts-ignore
         themeConfig = config.theme[theme];
     } else {
         themeConfig = {

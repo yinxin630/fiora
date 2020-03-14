@@ -17,13 +17,14 @@ export interface ReadFileResult {
  * @param {string} accept 可选文件类型, 默认 * / *
  */
 export default async function readDiskFIle(resultType = 'blob', accept = '*/*') {
-    const result: ReadFileResult = await new Promise((resolve) => {
+    const result: ReadFileResult | null = await new Promise((resolve) => {
         const $input = document.createElement('input');
         $input.style.display = 'none';
         $input.setAttribute('type', 'file');
         $input.setAttribute('accept', accept);
         // 判断用户是否点击取消, 原生没有提供专门事件, 用hack的方法实现
         $input.onclick = () => {
+            // @ts-ignore
             $input.value = null;
             document.body.onfocus = () => {
                 // onfocus事件会比$input.onchange事件先触发, 因此需要延迟一段时间
@@ -44,6 +45,7 @@ export default async function readDiskFIle(resultType = 'blob', accept = '*/*') 
 
             const reader = new FileReader();
             reader.onloadend = function handleLoad() {
+                // @ts-ignore
                 resolve({
                     filename: file.name,
                     ext: file.name
@@ -51,6 +53,7 @@ export default async function readDiskFIle(resultType = 'blob', accept = '*/*') 
                         .pop()
                         .toLowerCase(),
                     type: file.type,
+                    // @ts-ignore
                     result: this.result,
                     length:
                         resultType === 'blob'

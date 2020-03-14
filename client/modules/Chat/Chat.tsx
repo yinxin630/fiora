@@ -72,6 +72,7 @@ function Chat() {
             action.setLinkmanProperty(focus, 'onlineMembers', onlineMembers);
             toggleGroupManagePanel(true);
         } else {
+            // @ts-ignore
             context.showUserInfo(linkman);
         }
     }

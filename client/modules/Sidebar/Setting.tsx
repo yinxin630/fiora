@@ -25,6 +25,14 @@ interface SettingProps {
     onClose: () => void;
 }
 
+type Color = {
+    rgb: {
+        r: number;
+        g: number;
+        b: number;
+    }
+}
+
 function Setting(props: SettingProps) {
     const { visible, onClose } = props;
 
@@ -39,13 +47,14 @@ function Setting(props: SettingProps) {
     const primaryTextColor = useSelector((state: State) => state.status.primaryTextColor);
     const backgroundImage = useSelector((state: State) => state.status.backgroundImage);
     const aero = useSelector((state: State) => state.status.aero);
-    const userId = useSelector((state: State) => state.user._id);
+    const userId = useSelector((state: State) => state.user?._id);
     const tagColorMode = useSelector((state: State) => state.status.tagColorMode);
 
     const [backgroundLoading, toggleBackgroundLoading] = useState(false);
 
     function setTheme(themeName: string) {
         action.setStatus('theme', themeName);
+        // @ts-ignore
         const themeConfig = config.theme[themeName];
         if (themeConfig) {
             action.setStatus('primaryColor', themeConfig.primaryColor);
@@ -66,7 +75,7 @@ function Setting(props: SettingProps) {
         }
     }
 
-    function handleSelectSound(newSound) {
+    function handleSelectSound(newSound: string) {
         playSound(newSound);
         action.setStatus('sound', newSound);
     }
@@ -93,13 +102,13 @@ function Setting(props: SettingProps) {
         }
     }
 
-    function handlePrimaryColorChange(color) {
+    function handlePrimaryColorChange(color: Color) {
         const newPrimaryColor = `${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`;
         action.setStatus('primaryColor', newPrimaryColor);
         setCssVariable(newPrimaryColor, primaryTextColor);
     }
 
-    function handlePrimaryTextColorChange(color) {
+    function handlePrimaryTextColorChange(color: Color) {
         const mewPrimaryTextColor = `${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`;
         action.setStatus('primaryTextColor', mewPrimaryTextColor);
         setCssVariable(primaryColor, mewPrimaryTextColor);
@@ -251,6 +260,7 @@ function Setting(props: SettingProps) {
                                                 <span>{`rgb(${primaryColor})`}</span>
                                             </div>
                                             <TwitterPicker
+                                                // @ts-ignore
                                                 className={Style.colorPicker}
                                                 color={`rgb(${primaryColor})`}
                                                 onChange={handlePrimaryColorChange}
@@ -265,6 +275,7 @@ function Setting(props: SettingProps) {
                                                 <span>{`rgb(${primaryTextColor})`}</span>
                                             </div>
                                             <TwitterPicker
+                                                // @ts-ignore
                                                 className={Style.colorPicker}
                                                 color={`rgb(${primaryTextColor})`}
                                                 onChange={handlePrimaryTextColorChange}

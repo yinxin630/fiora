@@ -4,7 +4,11 @@ import Style from './CodeMessage.less';
 
 let CodeDialog: any = null;
 
-const languagesMap = {
+type LanguageMap = {
+    [language: string]: string;
+}
+
+const languagesMap: LanguageMap = {
     javascript: 'javascript',
     typescript: 'typescript',
     java: 'java',

@@ -22,7 +22,7 @@ function FunctionBarAndLinkmanList() {
         return null;
     }
 
-    function handleClick(e) {
+    function handleClick(e: any) {
         if (e.target === e.currentTarget) {
             action.setStatus('functionBarAndLinkmanListVisible', false);
         }
