@@ -28,7 +28,9 @@ export function setMemoryData(key: MemoryDataStorageKey, set: Set<string>) {
 export function addMemoryData(key: MemoryDataStorageKey, value: string) {
     if (value) {
         const set = memoryData.get(key);
-        set.add(value);
+        if (set) {
+            set.add(value);
+        }
     }
 }
 
@@ -37,7 +39,7 @@ export function addMemoryData(key: MemoryDataStorageKey, value: string) {
  * @param key 键值
  */
 export function getMemoryData(key: MemoryDataStorageKey) {
-    return memoryData.get(key);
+    return memoryData.get(key) || new Set();
 }
 
 /**
@@ -46,7 +48,8 @@ export function getMemoryData(key: MemoryDataStorageKey) {
  * @param value 要判断的值
  */
 export function existMemoryData(key: MemoryDataStorageKey, value: string) {
-    return memoryData.get(key).has(value);
+    const set = memoryData.get(key);
+    return set ? set.has(value) : false;
 }
 
 /**
@@ -57,7 +60,9 @@ export function existMemoryData(key: MemoryDataStorageKey, value: string) {
 export function deleteMemoryData(key: MemoryDataStorageKey, value: string) {
     if (value) {
         const set = memoryData.get(key);
-        set.delete(value);
+        if (set) {
+            set.delete(value);
+        }
     }
 }
 

@@ -1,4 +1,4 @@
-import assert from 'assert';
+import assert, { AssertionError } from 'assert';
 import { Types } from 'mongoose';
 
 import Group, { GroupDocument } from '../models/group';
@@ -26,9 +26,9 @@ async function getGroupOnlineMembersHelper(group: GroupDocument) {
         },
     ).populate('user', { username: 1, avatar: 1 });
     const filterSockets = sockets.reduce((result, socket) => {
-        result[socket.user.toString()] = socket;
+        result.set(socket.user.toString(), socket);
         return result;
-    }, {});
+    }, new Map());
     return Object.values(filterSockets);
 }
 
@@ -69,7 +69,7 @@ export async function createGroup(ctx: KoaContext<CreateGroupData>) {
         throw err;
     }
 
-    ctx.socket.join(newGroup._id);
+    ctx.socket.join(newGroup._id.toString());
     return {
         _id: newGroup._id,
         name: newGroup.name,
@@ -93,7 +93,9 @@ export async function joinGroup(ctx: KoaContext<JoinGroupData>) {
     assert(isValid(groupId), '无效的群组ID');
 
     const group = await Group.findOne({ _id: groupId });
-    assert(group, '加入群组失败, 群组不存在');
+    if (!group) {
+        throw new AssertionError({ message: '加入群组失败, 群组不存在' });
+    }
     assert(group.members.indexOf(ctx.socket.user) === -1, '你已经在群组中');
 
     group.members.push(ctx.socket.user);
@@ -137,7 +139,9 @@ export async function leaveGroup(ctx: KoaContext<LeaveGroupData>) {
     assert(isValid(groupId), '无效的群组ID');
 
     const group = await Group.findOne({ _id: groupId });
-    assert(group, '群组不存在');
+    if (!group) {
+        throw new AssertionError({ message: '群组不存在' });
+    }
 
     // 默认群组没有creator
     if (group.creator) {
@@ -172,7 +176,9 @@ export async function getGroupOnlineMembers(ctx: KoaContext<GetGroupOnlineMember
     assert(isValid(groupId), '无效的群组ID');
 
     const group = await Group.findOne({ _id: groupId });
-    assert(group, '群组不存在');
+    if (!group) {
+        throw new AssertionError({ message: '群组不存在' });
+    }
     return getGroupOnlineMembersHelper(group);
 }
 
@@ -182,7 +188,9 @@ export async function getGroupOnlineMembers(ctx: KoaContext<GetGroupOnlineMember
  */
 export async function getDefaultGroupOnlineMembers() {
     const group = await Group.findOne({ isDefault: true });
-    assert(group, '群组不存在');
+    if (!group) {
+        throw new AssertionError({ message: '群组不存在' });
+    }
     return getGroupOnlineMembersHelper(group);
 }
 
@@ -203,7 +211,9 @@ export async function changeGroupAvatar(ctx: KoaContext<ChangeGroupAvatarData>) 
     assert(avatar, '头像地址不能为空');
 
     const group = await Group.findOne({ _id: groupId });
-    assert(group, '群组不存在');
+    if (!group) {
+        throw new AssertionError({ message: '群组不存在' });
+    }
     assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能修改头像');
 
     await Group.updateOne({ _id: groupId }, { avatar });
@@ -227,7 +237,9 @@ export async function changeGroupName(ctx: KoaContext<ChangeGroupNameData>) {
     assert(name, '群组名称不能为空');
 
     const group = await Group.findOne({ _id: groupId });
-    assert(group, '群组不存在');
+    if (!group) {
+        throw new AssertionError({ message: '群组不存在' });
+    }
     assert(group.name !== name, '新群组名不能和之前一致');
     assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能修改头像');
 
@@ -255,7 +267,9 @@ export async function deleteGroup(ctx: KoaContext<DeleteGroupData>) {
     assert(isValid(groupId), '无效的群组ID');
 
     const group = await Group.findOne({ _id: groupId });
-    assert(group, '群组不存在');
+    if (!group) {
+        throw new AssertionError({ message: '群组不存在' });
+    }
     assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能解散群组');
     assert(group.isDefault !== true, '默认群组不允许解散');
 
