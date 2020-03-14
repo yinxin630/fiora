@@ -9,7 +9,7 @@ const NewUserMaxCallPerMinutes = 5;
  * 新用户限制每分钟5次, 老用户限制每分钟20次
  */
 export default function frequency() {
-    let callTimes = {};
+    let callTimes: {[socketId: string]: number} = {};
 
     // 每60s清空一次次数统计
     setInterval(() => {

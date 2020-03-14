@@ -6,7 +6,7 @@ interface KoaSocket extends Socket {
     /** socket id */
     id: string;
     /** socket关联用户 */
-    user?: Schema.Types.ObjectId;
+    user: Schema.Types.ObjectId;
     /** 用户ip */
     ip: string;
     /**

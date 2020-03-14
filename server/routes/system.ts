@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import axios from 'axios';
-import assert from 'assert';
+import assert, { AssertionError } from 'assert';
 import { promisify } from 'util';
 
 import {
@@ -100,7 +100,13 @@ export async function searchExpression(ctx: KoaContext<SearchExpressionData>) {
     try {
         const parseDataResult = res.data.match(/callback\((.+)\)/);
         const data = JSON.parse(`${parseDataResult[1]}`);
-        const images = data.items;
+
+        type Image = {
+            locImageLink: string;
+            width: number;
+            height: number;
+        };
+        const images = data.items as Image[];
         return images.map(({ locImageLink, width, height }) => ({
             image: locImageLink,
             width,
@@ -145,7 +151,9 @@ export async function sealUser(ctx: KoaContext<SealUserData>) {
     assert(username !== '', 'username不能为空');
 
     const user = await User.findOne({ username });
-    assert(user, '用户不存在');
+    if (!user) {
+        throw new AssertionError({ message: '用户不存在' });
+    }
 
     const userId = user._id.toString();
     assert(!existMemoryData(MemoryDataStorageKey.SealUserList, userId), '用户已在封禁名单');

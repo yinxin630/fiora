@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "esnext",
-        "strict": false,
+        "strict": true,
         "moduleResolution": "node",
         "experimentalDecorators": true,
         "jsx": "react",
@@ -10,6 +10,5 @@
         "lib": ["es2015", "es2016", "es2017", "dom"],
         "resolveJsonModule": true
     },
-    "include": ["server/**/*", "client/**/*", "utils/**/*", "types/**/*", "global.d.ts"],
     "exclude": ["node_modules"]
 }
