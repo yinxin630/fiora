@@ -29,10 +29,10 @@ function ChatInput() {
     const action = useAction();
     const isLogin = useIsLogin();
     const connect = useSelector((state: State) => state.connect);
-    const selfId = useSelector((state: State) => state.user._id);
-    const username = useSelector((state: State) => state.user.username);
-    const avatar = useSelector((state: State) => state.user.avatar);
-    const tag = useSelector((state: State) => state.user.tag);
+    const selfId = useSelector((state: State) => state.user?._id);
+    const username = useSelector((state: State) => state.user?.username);
+    const avatar = useSelector((state: State) => state.user?.avatar);
+    const tag = useSelector((state: State) => state.user?.tag);
     const focus = useSelector((state: State) => state.focus);
     const linkman = useSelector((state: State) => state.linkmans[focus]);
     const selfVoiceSwitch = useSelector((state: State) => state.status.selfVoiceSwitch);
@@ -52,6 +52,7 @@ function ChatInput() {
             return;
         }
         e.preventDefault();
+        // @ts-ignore
         $input.current.focus(e);
     }
     useEffect(() => {
@@ -63,13 +64,17 @@ function ChatInput() {
         (async () => {
             if (expressionDialog && !Expression) {
                 // @ts-ignore
-                const ExpressionModule = await import(/* webpackChunkName: "expression" */ './Expression');
+                const ExpressionModule = await import(
+                    /* webpackChunkName: "expression" */ './Expression',
+                );
                 Expression = ExpressionModule.default;
                 setTimestamp(Date.now());
             }
             if (codeEditorDialog && !CodeEditor) {
                 // @ts-ignore
-                const CodeEditorModule = await import(/* webpackChunkName: "code-editor" */ './CodeEditor');
+                const CodeEditorModule = await import(
+                    /* webpackChunkName: "code-editor" */ './CodeEditor',
+                );
                 CodeEditor = CodeEditorModule.default;
                 setTimestamp(Date.now());
             }
@@ -99,14 +104,14 @@ function ChatInput() {
      * @param value 要插入的文本
      */
     function insertAtCursor(value: string) {
-        const input = $input.current;
+        const input = ($input.current as unknown) as HTMLInputElement;
         if (input.selectionStart || input.selectionStart === 0) {
             const startPos = input.selectionStart;
             const endPos = input.selectionEnd;
             const restoreTop = input.scrollTop;
             input.value = input.value.substring(0, startPos)
                 + value
-                + input.value.substring(endPos, input.value.length);
+                + input.value.substring(endPos as number, input.value.length);
             if (restoreTop > 0) {
                 input.scrollTop = restoreTop;
             }
@@ -124,7 +129,7 @@ function ChatInput() {
         insertAtCursor(`#(${expression})`);
     }
 
-    function addSelfMessage(type, content) {
+    function addSelfMessage(type: string, content: string) {
         const _id = focus + Date.now();
         const message = {
             _id,
@@ -152,7 +157,7 @@ function ChatInput() {
                 .replace(/#/g, '');
 
             if (text.length > 0 && text.length <= 100) {
-                voice.push(text, Math.random());
+                voice.push(text, Math.random().toString());
             }
         }
 
@@ -160,7 +165,12 @@ function ChatInput() {
     }
 
     // eslint-disable-next-line react/destructuring-assignment
-    async function handleSendMessage(localId, type, content, linkmanId = focus) {
+    async function handleSendMessage(
+        localId: string,
+        type: string,
+        content: string,
+        linkmanId = focus,
+    ) {
         const [error, message] = await sendMessage(linkmanId, type, content);
         if (error) {
             action.deleteMessage(focus, localId);
@@ -185,6 +195,7 @@ function ChatInput() {
             return;
         }
 
+        // @ts-ignore
         const ext = image.type
             .split('/')
             .pop()
@@ -234,7 +245,7 @@ function ChatInput() {
         handleSendMessage(id, 'image', huaji);
     }
 
-    function handleFeatureMenuClick({ key, domEvent }) {
+    function handleFeatureMenuClick({ key, domEvent }: {key: string, domEvent: any}) {
         // Quickly hitting the Enter key causes the button to repeatedly trigger the problem
         if (domEvent.keyCode === 13) {
             return;
@@ -261,7 +272,7 @@ function ChatInput() {
         }
     }
 
-    async function handlePaste(e) {
+    async function handlePaste(e: any) {
         // eslint-disable-next-line react/destructuring-assignment
         if (!connect) {
             e.preventDefault();
@@ -281,11 +292,12 @@ function ChatInput() {
                             const image = new Image();
                             image.onload = async () => {
                                 const imageBlob = await compressImage(image, file.type, 0.8);
+                                // @ts-ignore
                                 sendImageMessage({
                                     filename: file.name,
-                                    ext: imageBlob.type.split('/').pop(),
-                                    length: imageBlob.size,
-                                    type: imageBlob.type,
+                                    ext: imageBlob?.type.split('/').pop(),
+                                    length: imageBlob?.size,
+                                    type: imageBlob?.type,
                                     result: imageBlob,
                                 });
                             };
@@ -305,6 +317,7 @@ function ChatInput() {
             return Message.error('发送消息失败, 您当前处于离线状态');
         }
 
+        // @ts-ignore
         const message = $input.current.value.trim();
         if (message.length === 0) {
             return null;
@@ -325,11 +338,12 @@ function ChatInput() {
             const id = addSelfMessage('text', xss(message));
             handleSendMessage(id, 'text', message);
         }
+        // @ts-ignore
         $input.current.value = '';
         return null;
     }
 
-    async function handleInputKeyDown(e) {
+    async function handleInputKeyDown(e: any) {
         if (e.key === 'Tab') {
             e.preventDefault();
         } else if (e.key === 'Enter' && !inputIME) {
@@ -342,6 +356,7 @@ function ChatInput() {
             e.preventDefault();
         } else if (e.key === '@') {
             // 如果按下@建, 则进入@计算模式
+            // @ts-ignore
             if (!/@/.test($input.current.value)) {
                 setAt({
                     enable: true,
@@ -357,6 +372,7 @@ function ChatInput() {
             // 延时, 以便拿到新的value和ime状态
             setTimeout(() => {
                 // 如果@已经被删掉了, 退出@计算模式
+                // @ts-ignore
                 if (!/@/.test($input.current.value)) {
                     setAt({ enable: false, content: '' });
                     return;
@@ -375,6 +391,7 @@ function ChatInput() {
                 if (inputIME) {
                     return;
                 }
+                // @ts-ignore
                 const regexResult = /@([^ ]*)/.exec($input.current.value);
                 if (regexResult) {
                     setAt({ enable: true, content: regexResult[1] });
@@ -396,7 +413,8 @@ function ChatInput() {
         });
     }
 
-    function replaceAt(targetUsername) {
+    function replaceAt(targetUsername: string) {
+        // @ts-ignore
         $input.current.value = $input.current.value.replace(
             `@${at.content}`,
             `@${targetUsername} `,
@@ -405,6 +423,7 @@ function ChatInput() {
             enable: false,
             content: '',
         });
+        // @ts-ignore
         $input.current.focus();
     }
 
@@ -475,8 +494,11 @@ function ChatInput() {
                         iconSize={32}
                     />
                 </Dropdown>
-                <form className={Style.form} autoComplete="off" onSubmit={(e) => e.preventDefault()}>
-
+                <form
+                    className={Style.form}
+                    autoComplete="off"
+                    onSubmit={(e) => e.preventDefault()}
+                >
                     <input
                         className={Style.input}
                         type="text"
@@ -492,7 +514,17 @@ function ChatInput() {
                     />
 
                     {!isMobile && !inputFocus && (
-                        <Tooltip placement="top" mouseEnterDelay={0.5} overlay={<span>支持粘贴图片发图<br />全局按 i 键聚焦</span>}>
+                        <Tooltip
+                            placement="top"
+                            mouseEnterDelay={0.5}
+                            overlay={(
+                                <span>
+                                    支持粘贴图片发图
+                                    <br />
+                                    全局按 i 键聚焦
+                                </span>
+                            )}
+                        >
                             <i className={`iconfont icon-about ${Style.tooltip}`} />
                         </Tooltip>
                     )}

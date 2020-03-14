@@ -1,4 +1,8 @@
-const sounds = {
+type Sounds = {
+    [key: string]: string;
+}
+
+const sounds: Sounds = {
     default: require('../client/assets/audios/default.mp3'),
     apple: require('../client/assets/audios/apple.mp3'),
     pcqq: require('../client/assets/audios/pcqq.mp3'),

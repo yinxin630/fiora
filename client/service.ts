@@ -1,7 +1,7 @@
 import fetch from '../utils/fetch';
 import { User } from './state/reducer';
 
-function saveUsername(username) {
+function saveUsername(username: string) {
     window.localStorage.setItem('username', username);
 }
 
@@ -16,9 +16,9 @@ function saveUsername(username) {
 export async function register(
     username: string,
     password: string,
-    os: string,
-    browser: string,
-    environment: string,
+    os = '',
+    browser = '',
+    environment = '',
 ) {
     const [err, user] = await fetch(
         'register',
@@ -50,9 +50,9 @@ export async function register(
 export async function login(
     username: string,
     password: string,
-    os: string,
-    browser: string,
-    environment: string,
+    os = '',
+    browser = '',
+    environment = '',
 ) {
     const [err, user] = await fetch(
         'login',
@@ -82,9 +82,9 @@ export async function login(
  */
 export async function loginByToken(
     token: string,
-    os: string,
-    browser: string,
-    environment: string,
+    os = '',
+    browser = '',
+    environment = '',
 ) {
     const [err, user] = await fetch(
         'loginByToken',
@@ -111,7 +111,7 @@ export async function loginByToken(
  * @param browser 浏览器
  * @param environment 环境信息
  */
-export async function guest(os: string, browser: string, environment: string) {
+export async function guest(os = '', browser = '', environment = '') {
     const [err, res] = await fetch('guest', { os, browser, environment });
     if (err) {
         return null;
@@ -123,7 +123,7 @@ export async function guest(os: string, browser: string, environment: string) {
  * 修用户头像
  * @param avatar 新头像链接
  */
-export async function changeAvatar(avatar) {
+export async function changeAvatar(avatar: string) {
     const [error] = await fetch('changeAvatar', { avatar });
     return !error;
 }

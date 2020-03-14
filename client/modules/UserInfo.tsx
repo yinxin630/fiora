@@ -42,7 +42,8 @@ function UserInfo(props: UserInfoProps) {
     /** 获取原始用户id */
     const originUserId = user && user._id.replace(selfId, '');
 
-    const linkman = useSelector((state: State) => state.linkmans[user && user._id]);
+    // @ts-ignore
+    const linkman = useSelector((state: State) => state.linkmans[user?._id]);
     const isFriend = linkman && linkman.type === 'friend';
     const isAdmin = useSelector((state: State) => state.user && state.user.isAdmin);
     const [largerAvatar, toggleLargetAvatar] = useState(false);
@@ -64,13 +65,16 @@ function UserInfo(props: UserInfoProps) {
 
     function handleFocusUser() {
         onClose();
+        // @ts-ignore
         action.setFocus(user._id);
     }
 
     async function handleAddFriend() {
+        // @ts-ignore
         const friend = await addFriend(originUserId);
         if (friend) {
             onClose();
+            // @ts-ignore
             const { _id } = user;
             let existCount = 0;
             if (linkman) {
@@ -99,15 +103,18 @@ function UserInfo(props: UserInfoProps) {
     }
 
     async function handleDeleteFriend() {
+        // @ts-ignore
         const isSuccess = await deleteFriend(originUserId);
         if (isSuccess) {
             onClose();
+            // @ts-ignore
             action.removeLinkman(user._id);
             Message.success('删除好友成功');
         }
     }
 
     async function handleSeal() {
+        // @ts-ignore
         const isSuccess = await sealUser(user.username);
         if (isSuccess) {
             Message.success('封禁用户成功');
@@ -115,6 +122,7 @@ function UserInfo(props: UserInfoProps) {
     }
 
     async function handleSealIp() {
+        // @ts-ignore
         const isSuccess = await sealUserOnlineIp(originUserId);
         if (isSuccess) {
             Message.success('封禁ip成功');

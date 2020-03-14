@@ -14,6 +14,7 @@ import pages from '../config/pages';
 const htmlPlugins = pages.map((page) => new HtmlWebpackPlugin(page));
 
 Object.keys(baseWebpackConfig.entry).forEach((name) => {
+    // @ts-ignore
     baseWebpackConfig.entry[name] = ['react-hot-loader/patch', './build/dev-client'].concat(baseWebpackConfig.entry[name]);
 });
 
