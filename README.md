@@ -1,5 +1,7 @@
 # Fiora
 
+test CI
+
 [![Build Status](https://travis-ci.org/yinxin630/fiora.svg?branch=master)](https://travis-ci.org/yinxin630/fiora)
 [![author](https://img.shields.io/badge/author-%E7%A2%8E%E7%A2%8E%E9%85%B1-blue.svg)](http://suisuijiang.com)
 [![Node.js Version](https://img.shields.io/badge/node.js-10.15.0-blue.svg)](http://nodejs.org/download)
