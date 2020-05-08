@@ -1,5 +1,6 @@
 import ip from 'ip';
 import options from '../utils/commandOptions';
+import getConfig from '../utils/getConfig';
 
 const { env } = process;
 
@@ -40,5 +41,5 @@ export default {
     disableRegister: false,
 
     /** disable user create new group */
-    disableCreateGroup: false,
+    disableCreateGroup: getConfig<boolean>('disableCreateGroup', false),
 };
