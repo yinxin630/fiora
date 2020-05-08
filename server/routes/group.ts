@@ -42,6 +42,8 @@ interface CreateGroupData {
  * @param ctx Context
  */
 export async function createGroup(ctx: KoaContext<CreateGroupData>) {
+    assert(!config.disableCreateGroup, '管理员已关闭创建群组功能');
+
     const ownGroupCount = await Group.count({ creator: ctx.socket.user });
     assert(
         ownGroupCount < config.maxGroupsCount,
