@@ -38,4 +38,7 @@ export default {
 
     /** 禁用注册功能 */
     disableRegister: false,
+
+    /** disable user create new group */
+    disableCreateGroup: false,
 };
