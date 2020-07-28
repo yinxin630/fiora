@@ -11,7 +11,8 @@
     "build": "./node_modules/.bin/ts-node --transpile-only build/build.ts",
     "lint": "./node_modules/.bin/eslint ./ --ext js,jsx,ts,tsx --ignore-pattern .eslintignore --cache --fix",
     "move-dist": "rm -rf public/audio && rm -rf public/avatar && rm -rf public/css && rm -rf public/fonts && rm -rf public/img && rm -rf public/js && mv -f dist/fiora/* public",
-    "test": "jest"
+    "test": "jest",
+    "ts-check": "tsc --noEmit"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
