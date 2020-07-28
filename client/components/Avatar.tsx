@@ -29,7 +29,7 @@ function Avatar({
      * Handle avatar load fail event. Use faillback avatar instead
      * If still fail then ignore error event
      */
-    function handleError(e: SyntheticEvent<HTMLImageElement>) {
+    function handleError(e: SyntheticEvent<HTMLElement>) {
         if (failTimes >= 2) {
             return;
         }
