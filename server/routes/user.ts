@@ -563,5 +563,6 @@ export async function getUserIps(ctx: KoaContext<{ userId: string }>): Promise<s
     assert(isValid(userId), '不合法的userId');
 
     const sockets = await Socket.find({ user: userId });
-    return sockets.map((socket) => socket.ip) || [];
+    const ipList = sockets.map((socket) => socket.ip) || [];
+    return Array.from(new Set(ipList));
 }
