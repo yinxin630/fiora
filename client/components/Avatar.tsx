@@ -1,20 +1,6 @@
-import React, { SyntheticEvent } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 
-const avatarFallback = '/avatar/0.jpg';
-const failTimes = new Map();
-
-/**
- * 处理头像加载失败的情况, 展示默认头像
- * @param e 事件
- */
-function handleError(e: SyntheticEvent) {
-    const times = failTimes.get(e.target) || 0;
-    if (times >= 2) {
-        return;
-    }
-    (e.target as HTMLImageElement).src = avatarFallback;
-    failTimes.set(e.target, times + 1);
-}
+export const avatarFailback = '/avatar/0.jpg';
 
 interface AvatarProps {
     /** 头像链接 */
@@ -29,17 +15,28 @@ interface AvatarProps {
     onMouseLeave?: () => void;
 }
 
-const noop = () => {};
+function Avatar({
+    src,
+    size = 60,
+    className = '',
+    onClick,
+    onMouseEnter,
+    onMouseLeave,
+}: AvatarProps) {
+    const [failTimes, updateFailTimes] = useState(0);
 
-function Avatar(props: AvatarProps) {
-    const {
-        src,
-        size = 60,
-        className = '',
-        onClick = noop,
-        onMouseEnter = noop,
-        onMouseLeave = noop,
-    } = props;
+    /**
+     * Handle avatar load fail event. Use faillback avatar instead
+     * If still fail then ignore error event
+     */
+    function handleError(e: SyntheticEvent<HTMLImageElement>) {
+        if (failTimes >= 2) {
+            return;
+        }
+        e.currentTarget.src = avatarFailback;
+        updateFailTimes(failTimes + 1);
+    }
+
     return (
         <img
             className={className}
