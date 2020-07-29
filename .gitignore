@@ -14,3 +14,4 @@ build.sh
 ecosystem.config.js
 
 .idea/
+.linaria-cache/

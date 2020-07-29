@@ -9,7 +9,8 @@
                 "modules": false
             }
         ],
-        "@babel/preset-react"
+        "@babel/preset-react",
+        "linaria/babel"
     ],
     "plugins": [
         "react-hot-loader/babel",
