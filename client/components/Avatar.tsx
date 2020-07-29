@@ -2,7 +2,7 @@ import React, { SyntheticEvent, useState } from 'react';
 
 export const avatarFailback = '/avatar/0.jpg';
 
-interface AvatarProps {
+type Props = {
     /** 头像链接 */
     src: string;
     /** 展示大小 */
@@ -22,7 +22,7 @@ function Avatar({
     onClick,
     onMouseEnter,
     onMouseLeave,
-}: AvatarProps) {
+}: Props) {
     const [failTimes, updateFailTimes] = useState(0);
 
     /**

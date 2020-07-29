@@ -16,24 +16,19 @@ const button = css`
     }
 `;
 
-interface ButtonProps {
+type Props = {
     /** 类型: primary / danger */
     type?: string;
     /** 按钮文本 */
     children: string;
     className?: string;
     /** 点击事件 */
-    onClick: () => void
+    onClick?: () => void;
 }
 
-function Button(props: ButtonProps) {
-    const { type = 'primary', children, className = '', onClick } = props;
+function Button({ type = 'primary', children, className = '', onClick }: Props) {
     return (
-        <button
-            className={`${button} ${type} ${className}`}
-            type="button"
-            onClick={onClick}
-        >
+        <button className={`${button} ${type} ${className}`} type="button" onClick={onClick}>
             {children}
         </button>
     );
