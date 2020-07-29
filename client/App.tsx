@@ -18,6 +18,7 @@ import GroupInfo from './modules/GroupInfo';
 import { ShowUserOrGroupInfoContext } from './context';
 import Chat from './modules/Chat/Chat';
 import inobounce from '../utils/inobounce';
+import globalStyles from './globalStyles';
 
 /**
  * 获取窗口宽度百分比
@@ -133,7 +134,7 @@ function App() {
     }), []);
 
     return (
-        <div className={Style.app} style={style} ref={$app}>
+        <div className={`${Style.app} ${globalStyles}`} style={style} ref={$app}>
             <div className={Style.blur} style={blurStyle} />
             <div className={Style.child} style={childStyle}>
                 <ShowUserOrGroupInfoContext.Provider value={contextValue as unknown as null}>
