@@ -9,6 +9,12 @@ module.exports = {
         'ts-jest': {
             isolatedModules: true,
         },
+        __TEST__: true,
     },
     setupFilesAfterEnv: ['./jest.setup.js'],
+    collectCoverageFrom: [
+        '**/*.{ts,tsx}',
+        '!**/node_modules/**',
+        '!**/config/**',
+    ],
 };

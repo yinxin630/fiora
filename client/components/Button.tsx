@@ -34,8 +34,4 @@ function Button({ type = 'primary', children, className = '', onClick }: Props) 
     );
 }
 
-Button.defaultProps = {
-    type: 'primary',
-};
-
 export default Button;

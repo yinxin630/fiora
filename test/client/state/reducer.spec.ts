@@ -1,8 +1,13 @@
-import reducer, { State } from '../../../client/state/reducer';
+import reducer, { State, initialState } from '../../../client/state/reducer';
 import { Action, ActionTypes } from '../../../client/state/action';
 import getFriendId from '../../../utils/getFriendId';
 
 describe('redux reducer', () => {
+    it('should user initial state', () => {
+        const action = { type: 'mock' as ActionTypes, payload: {} } as Action;
+        expect(reducer(undefined, action)).toBe(initialState);
+    });
+
     it('should return origin state with unknown action', () => {
         const state = {} as State;
         const action = { type: 'mock' as ActionTypes, payload: {} } as Action;
@@ -34,6 +39,7 @@ describe('redux reducer', () => {
     });
 
     it('should set guest user and default group', () => {
+        const state = {} as State;
         const group = {
             _id: '1',
             name: 'Default Group',
@@ -42,7 +48,7 @@ describe('redux reducer', () => {
             type: ActionTypes.SetGuest,
             payload: group,
         };
-        const newState = reducer({} as State, action);
+        const newState = reducer(state, action);
         expect(newState.user).not.toBe(null);
         expect(newState.linkmans[group._id]).toBe(group);
         expect(newState.focus).toBe(group._id);
@@ -130,41 +136,71 @@ describe('redux reducer', () => {
     });
 
     it('should update focus and reduce exist messages when more than 50', () => {
+        const linkman = {
+            _id: '1',
+            messages: {},
+        };
+        const state = {
+            linkmans: {
+                [linkman._id]: linkman,
+            },
+            focus: '',
+        } as State;
+        const action = {
+            type: ActionTypes.SetFocus,
+            payload: linkman._id,
+        };
+        const newState = reducer(state, action);
+        expect(newState.focus).toBe(linkman._id);
+        expect(Object.keys(newState.linkmans[newState.focus].messages)).toHaveLength(0);
+    });
+
+    it('should reduce exist messages when more than 50', () => {
         const messages: { [id: string]: any } = {};
         for (let i = 0; i < 51; i++) {
             messages[i] = {
                 _id: i,
             };
         }
-        const linkman1 = {
+        const linkman = {
             _id: '1',
             messages,
             unread: 10,
         };
-        const linkman2 = {
-            _id: '2',
-            messages: {},
-        };
         const state = {
             linkmans: {
-                [linkman1._id]: linkman1,
-                [linkman2._id]: linkman2,
+                [linkman._id]: linkman,
             },
-            focus: linkman2._id,
+            focus: '',
         } as State;
         const action = {
             type: ActionTypes.SetFocus,
-            payload: linkman1._id,
+            payload: linkman._id,
         };
         const newState = reducer(state, action);
-        expect(newState.focus).toBe(linkman1._id);
-
-        const focusLinkman = newState.linkmans[newState.focus];
-        expect(Object.keys(focusLinkman.messages).length).toBe(50);
-        expect(focusLinkman.unread).toBe(0);
+        expect(Object.keys(newState.linkmans[newState.focus].messages)).toHaveLength(50);
     });
 
-    it('should add new linkman into linkmans', () => {
+    it('should be no change when foucs not exits user id', () => {
+        const linkman = {
+            id: '1',
+        };
+        // @ts-ignore
+        const state = {
+            linkmans: {
+                [linkman.id]: linkman,
+            },
+            focus: linkman.id,
+        } as State;
+        const action = {
+            type: ActionTypes.SetFocus,
+            payload: '2',
+        };
+        const newState = reducer(state, action);
+        expect(newState).toBe(state);
+    });
+
+    it('should add new group linkman into linkmans', () => {
         const state = {
             linkmans: {},
         } as State;
@@ -181,25 +217,95 @@ describe('redux reducer', () => {
             },
         };
         const newState = reducer(state, action);
-        expect(Object.keys(newState.linkmans).length).toBe(1);
+        expect(Object.keys(newState.linkmans)).toHaveLength(1);
         expect(newState.focus).toBe(linkman._id);
     });
 
-    it('should remove linkman form linkmans', () => {
-        const state = ({
-            linkmans: {
-                1: {
-                    _id: '1',
-                    name: 'name',
-                },
+    it('should add new friend linkman into linkmans', () => {
+        const state = {
+            linkmans: {},
+        } as State;
+        const linkman = {
+            name: 'name',
+            type: 'friend',
+            from: '111',
+            to: {
+                _id: '222',
             },
-        } as unknown) as State;
+        };
         const action = {
-            type: ActionTypes.RemoveLinkman,
-            payload: '1',
+            type: ActionTypes.AddLinkman,
+            payload: {
+                linkman,
+            },
         };
         const newState = reducer(state, action);
-        expect(Object.keys(newState.linkmans).length).toBe(0);
+        expect(Object.keys(newState.linkmans)).toHaveLength(1);
+        expect(newState.linkmans['111222']).toBeTruthy();
+    });
+
+    it('should add new temporary linkman into linkmans', () => {
+        const state = {
+            linkmans: {},
+        } as State;
+        const linkman = {
+            _id: 'id',
+            name: 'name',
+            type: 'temporary',
+        };
+        const action = {
+            type: ActionTypes.AddLinkman,
+            payload: {
+                linkman,
+            },
+        };
+        const newState = reducer(state, action);
+        expect(Object.keys(newState.linkmans)).toHaveLength(1);
+        expect(newState.linkmans[linkman._id].unread).toBe(1);
+    });
+
+    it('should return origin state when add unknown linkman', () => {
+        const state = {
+            linkmans: {},
+        } as State;
+        const action = {
+            type: ActionTypes.AddLinkman,
+            payload: {
+                linkman: {
+                    type: 'xxx',
+                },
+            },
+        };
+        const newState = reducer(state, action);
+        expect(newState).toBe(state);
+    });
+
+    it('should remove linkman form linkmans', () => {
+        const linkman1 = {
+            _id: '1',
+        };
+        const linkman2 = {
+            _id: '2',
+        };
+        const state = {
+            linkmans: {
+                [linkman1._id]: linkman1,
+                [linkman2._id]: linkman2,
+            },
+        } as State;
+        const action1 = {
+            type: ActionTypes.RemoveLinkman,
+            payload: linkman1._id,
+        };
+        const newState = reducer(state, action1);
+        expect(Object.keys(newState.linkmans)).toHaveLength(1);
+        expect(newState.focus).toBe(linkman2._id);
+
+        const action2 = {
+            type: ActionTypes.RemoveLinkman,
+            payload: linkman2._id,
+        };
+        expect(reducer(newState, action2).focus).toBe('');
     });
 
     it('should add messages to linkmans', () => {
@@ -272,16 +378,17 @@ describe('redux reducer', () => {
     });
 
     it('should add message to linkman', () => {
-        const state = ({
+        const linkman = {
+            _id: '1',
+            name: 'name',
+            messages: {},
+            unread: 0,
+        };
+        const state = {
             linkmans: {
-                1: {
-                    _id: '1',
-                    name: 'name',
-                    messages: {},
-                    unread: 0,
-                },
+                [linkman._id]: linkman,
             },
-        } as unknown) as State;
+        } as State;
         const action = {
             type: ActionTypes.AddLinkmanMessage,
             payload: {
@@ -294,8 +401,37 @@ describe('redux reducer', () => {
             },
         };
         const newState = reducer(state, action);
-        expect(Object.keys(newState.linkmans['1'].messages).length).toBe(1);
+        expect(Object.keys(newState.linkmans['1'].messages)).toHaveLength(1);
         expect(newState.linkmans['1'].unread).toBe(1);
+    });
+
+    it('should not increase unread count when linkman is foucs', () => {
+        const linkman = {
+            _id: '1',
+            name: 'name',
+            messages: {},
+            unread: 0,
+        };
+        const state = {
+            linkmans: {
+                [linkman._id]: linkman,
+            },
+            focus: linkman._id,
+        } as State;
+        const action = {
+            type: ActionTypes.AddLinkmanMessage,
+            payload: {
+                linkmanId: '1',
+                message: {
+                    _id: 'm1',
+                    type: 'text',
+                    content: 'content',
+                },
+            },
+        };
+        const newState = reducer(state, action);
+        expect(Object.keys(newState.linkmans['1'].messages)).toHaveLength(1);
+        expect(newState.linkmans['1'].unread).toBe(0);
     });
 
     it('should remove message from linkman', () => {
@@ -324,6 +460,21 @@ describe('redux reducer', () => {
         };
         const newState = reducer(state, action);
         expect(Object.keys(newState.linkmans['1'].messages).length).toBe(0);
+    });
+
+    it('should return origin state when delete not exists linkman message', () => {
+        const state = {
+            linkmans: {},
+        } as State;
+        const action = {
+            type: ActionTypes.DeleteMessage,
+            payload: {
+                linkmanId: '1',
+                messageId: 'm1',
+            },
+        };
+        const newState = reducer(state, action);
+        expect(newState).toBe(state);
     });
 
     it('should update linkman property', () => {
@@ -380,6 +531,34 @@ describe('redux reducer', () => {
         };
         const newState = reducer(state, action);
         expect(newState.linkmans['1'].messages.m1.content).toBe('new_content');
+    });
+
+    it('should add instead of update message when it not exists', () => {
+        const linkman = {
+            _id: '1',
+            name: 'name',
+            messages: {
+            },
+            unread: 0,
+        };
+        const state = {
+            linkmans: {
+                [linkman._id]: linkman,
+            },
+        } as State;
+        const action = {
+            type: ActionTypes.UpdateMessage,
+            payload: {
+                linkmanId: linkman._id,
+                messageId: 'm1',
+                value: {
+                    type: 'text',
+                    content: 'new_content',
+                },
+            },
+        };
+        const newState = reducer(state, action);
+        expect(newState.linkmans[linkman._id].messages.m1.content).toBe('new_content');
     });
 
     it('should update status of key', () => {
