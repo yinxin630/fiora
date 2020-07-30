@@ -231,7 +231,7 @@ function transformTemporary(temporary: Linkman): Linkman {
 }
 
 const localStorage = getData();
-const initialState: State = {
+export const initialState: State = {
     user: null,
     linkmans: {},
     focus: '',
@@ -305,16 +305,10 @@ function reducer(state: State = initialState, action: Action): State {
                 // @ts-ignore
                 ...friends.map(transformFriend),
             ];
-            linkmans.forEach((linkman) => {
-                let existMessages = {};
-                if (state.linkmans[linkman._id]) {
-                    existMessages = state.linkmans[linkman._id].messages;
-                }
-                linkman.messages = existMessages;
-            });
 
             // 如果没登录过, 则将聚焦联系人设置为第一个联系人
             let { focus } = state;
+            /* istanbul ignore next */
             if (!state.user && linkmans.length > 0) {
                 focus = linkmans[0]._id;
             }
@@ -368,7 +362,10 @@ function reducer(state: State = initialState, action: Action): State {
         case ActionTypes.SetFocus: {
             const focus = action.payload as string;
             if (!state.linkmans[focus]) {
-                console.warn(`ActionTypes.SetFocus Error: 联系人 ${focus} 不存在`);
+                /* istanbul ignore next */
+                if (!__TEST__) {
+                    console.warn(`ActionTypes.SetFocus Error: 联系人 ${focus} 不存在`);
+                }
                 return state;
             }
 
@@ -429,7 +426,7 @@ function reducer(state: State = initialState, action: Action): State {
                 ...state,
                 linkmans: {
                     ...state.linkmans,
-                    [linkman._id]: transformedLinkman,
+                    [transformedLinkman._id]: transformedLinkman,
                 },
                 focus,
             };
@@ -510,7 +507,10 @@ function reducer(state: State = initialState, action: Action): State {
         case ActionTypes.DeleteMessage: {
             const { linkmanId, messageId } = action.payload as DeleteMessagePayload;
             if (!state.linkmans[linkmanId]) {
-                console.warn(`ActionTypes.DeleteMessage Error: 联系人 ${linkmanId} 不存在`);
+                /* istanbul ignore next */
+                if (!__TEST__) {
+                    console.warn(`ActionTypes.DeleteMessage Error: 联系人 ${linkmanId} 不存在`);
+                }
                 return state;
             }
 

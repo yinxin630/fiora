@@ -27,6 +27,8 @@ declare module 'rc-notification';
 declare module '*.less';
 declare module '*.json';
 
+declare var __TEST__: boolean;
+
 declare interface Window {
     Notification: any;
 }

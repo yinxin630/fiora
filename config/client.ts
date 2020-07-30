@@ -1,6 +1,28 @@
 const MB = 1024 * 1024;
 
-export default {
+type Theme = {
+    primaryColor: string;
+    primaryTextColor: string;
+    backgroundImage: string;
+    aero: boolean;
+}
+
+type Config = {
+    server: string;
+    maxImageSize: number;
+    maxBackgroundImageSize: number;
+    maxAvatarSize: number;
+    theme: {
+        default: Theme,
+        cool: Theme,
+    }
+    defaultTheme: 'default' | 'cool';
+    sound: string;
+    tagColorMode: string;
+    frontendMonitorAppId: string;
+}
+
+const config: Config = {
     server: process.env.NODE_ENV === 'development' ? '//localhost:9200' : '',
 
     maxImageSize: MB * 3,
@@ -22,6 +44,7 @@ export default {
             aero: false,
         },
     },
+    defaultTheme: 'cool',
     sound: 'default',
     tagColorMode: 'fixedColor',
 
@@ -31,3 +54,5 @@ export default {
      */
     frontendMonitorAppId: process.env.frontendMonitorAppId || '',
 };
+
+export default config;

@@ -20,7 +20,7 @@ export enum LocalStorageKey {
  * @param key 键值
  * @param defaultValue 默认值
  */
-function getTextValue(key: string, defaultValue: string = '') {
+function getTextValue(key: string, defaultValue: string) {
     const value = window.localStorage.getItem(key);
     return value || defaultValue;
 }
@@ -39,8 +39,7 @@ function getSwitchValue(key: string, defaultValue: boolean = true) {
  * 获取LocalStorage值
  */
 export default function getData() {
-    const defaultTheme = 'cool';
-    const theme = getTextValue(LocalStorageKey.Theme, defaultTheme);
+    const theme = getTextValue(LocalStorageKey.Theme, config.defaultTheme);
     let themeConfig = {
         primaryColor: '',
         primaryTextColor: '',
@@ -55,15 +54,15 @@ export default function getData() {
         themeConfig = {
             primaryColor: getTextValue(
                 LocalStorageKey.PrimaryColor,
-                config.theme[defaultTheme].primaryColor,
+                config.theme[config.defaultTheme].primaryColor,
             ),
             primaryTextColor: getTextValue(
                 LocalStorageKey.PrimaryTextColor,
-                config.theme[defaultTheme].primaryTextColor,
+                config.theme[config.defaultTheme].primaryTextColor,
             ),
             backgroundImage: getTextValue(
                 LocalStorageKey.BackgroundImage,
-                config.theme[defaultTheme].backgroundImage,
+                config.theme[config.defaultTheme].backgroundImage,
             ),
             aero: getSwitchValue(
                 LocalStorageKey.Aero,

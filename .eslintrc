@@ -13,7 +13,8 @@
     "plugins": ["@typescript-eslint", "react", "react-hooks", "jsx-a11y", "import", "jest"],
     "globals": {
         "importScripts": true,
-        "workbox": true
+        "workbox": true,
+        "__TEST__": true
     },
     "settings": {
         "import/resolver": {
