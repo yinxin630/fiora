@@ -40,7 +40,8 @@ export interface KoaContext<T = any> extends Context {
     /** socket实例 */
     socket: KoaSocket;
     /** 响应内容 */
-    res: string;
+    res: any;
+    acknowledge: (data: any) => void;
 }
 
 export interface KoaRoutes {
