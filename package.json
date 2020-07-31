@@ -14,15 +14,8 @@
     "test": "jest",
     "ts-check": "tsc --noEmit"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "npm run lint",
-      "git add"
-    ]
-  },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
@@ -154,7 +147,6 @@
     "less": "^3.10.3",
     "less-loader": "^4.1.0",
     "less-plugin-autoprefix": "^1.5.1",
-    "lint-staged": "^9.5.0",
     "nodemon": "^1.17.3",
     "opn": "^4.0.2",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
