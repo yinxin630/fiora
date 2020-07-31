@@ -17,7 +17,7 @@ for (let i = 0; i < argv.length; i++) {
         }
         argvValue.push(value);
     }
-    if (argvKey && argvValue.length && (argv[i].startsWith('--') || i === argv.length - 1)) {
+    if (argvKey && argvValue.length) {
         args[argvKey] = argvValue.length > 1 ? argvValue : argvValue[0];
     }
 }

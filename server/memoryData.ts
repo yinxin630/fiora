@@ -8,17 +8,17 @@ export enum MemoryDataStorageKey {
     'NewUserList',
 }
 
-/** 内存数据 */
-const memoryData: Map<MemoryDataStorageKey, Set<string>> = new Map();
-
-/**
- * 更新指定键值数据
- * @param key 键值
- * @param set 新值
- */
-export function setMemoryData(key: MemoryDataStorageKey, set: Set<string>) {
-    memoryData.set(key, set);
+interface MemoryData {
+    [MemoryDataStorageKey.SealUserList]: Set<string>
+    [MemoryDataStorageKey.SealIpList]: Set<string>
+    [MemoryDataStorageKey.NewUserList]: Set<string>
 }
+/** 内存数据 */
+const memoryData: MemoryData = {
+    [MemoryDataStorageKey.SealUserList]: new Set(),
+    [MemoryDataStorageKey.SealIpList]: new Set(),
+    [MemoryDataStorageKey.NewUserList]: new Set(),
+};
 
 /**
  * 想指定键值添加数据
@@ -27,10 +27,8 @@ export function setMemoryData(key: MemoryDataStorageKey, set: Set<string>) {
  */
 export function addMemoryData(key: MemoryDataStorageKey, value: string) {
     if (value) {
-        const set = memoryData.get(key);
-        if (set) {
-            set.add(value);
-        }
+        const set = memoryData[key];
+        set.add(value);
     }
 }
 
@@ -39,7 +37,7 @@ export function addMemoryData(key: MemoryDataStorageKey, value: string) {
  * @param key 键值
  */
 export function getMemoryData(key: MemoryDataStorageKey) {
-    return memoryData.get(key) || new Set();
+    return memoryData[key];
 }
 
 /**
@@ -48,8 +46,8 @@ export function getMemoryData(key: MemoryDataStorageKey) {
  * @param value 要判断的值
  */
 export function existMemoryData(key: MemoryDataStorageKey, value: string) {
-    const set = memoryData.get(key);
-    return set ? set.has(value) : false;
+    const set = memoryData[key];
+    return set.has(value);
 }
 
 /**
@@ -59,17 +57,16 @@ export function existMemoryData(key: MemoryDataStorageKey, value: string) {
  */
 export function deleteMemoryData(key: MemoryDataStorageKey, value: string) {
     if (value) {
-        const set = memoryData.get(key);
-        if (set) {
-            set.delete(value);
-        }
+        const set = memoryData[key];
+        addMemoryData(MemoryDataStorageKey.NewUserList, '');
+        set.delete(value);
     }
 }
 
-// 自动初始化各个 key 的 value
-Object.keys(MemoryDataStorageKey).forEach((key) => {
-    const id = parseInt(key, 10);
-    if (!Number.isNaN(id)) {
-        setMemoryData(id as unknown as MemoryDataStorageKey, new Set());
-    }
-});
+/**
+ * Clear the memory data of the specified key
+ * @param key
+ */
+export function clearMemoryData(key: MemoryDataStorageKey) {
+    memoryData[key] = new Set();
+}
