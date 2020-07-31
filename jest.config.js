@@ -16,5 +16,6 @@ module.exports = {
         '**/*.{ts,tsx}',
         '!**/node_modules/**',
         '!**/config/**',
+        '!**/test/helpers/**',
     ],
 };

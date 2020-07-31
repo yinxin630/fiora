@@ -16,7 +16,10 @@ export default function catchError() {
                 return;
             }
             ctx.res = `Server Error: ${err.message}`;
-            console.error('Unhandled Error\n', err);
+            /* istanbul ignore next */
+            if (!__TEST__) {
+                console.error('Unhandled Error\n', err);
+            }
         }
     };
 }

@@ -1,6 +1,8 @@
 import config from '../../config/server';
 import { KoaContext } from '../../types/koa';
 
+export const YouAreNotAdministrator = '你不是管理员';
+
 /**
  * 拦截非管理员用户请求需要管理员权限的接口
  */
@@ -20,7 +22,7 @@ export default function isAdmin() {
             requireAdminEvent.has(ctx.event)
             && ctx.socket.user.toString() !== config.administrator
         ) {
-            ctx.res = '你不是管理员';
+            ctx.res = YouAreNotAdministrator;
             return;
         }
         await next();
