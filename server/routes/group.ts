@@ -29,7 +29,7 @@ async function getGroupOnlineMembersHelper(group: GroupDocument) {
         result.set(socket.user.toString(), socket);
         return result;
     }, new Map());
-    return Object.values(filterSockets);
+    return Array.from(filterSockets.values());
 }
 
 interface CreateGroupData {
