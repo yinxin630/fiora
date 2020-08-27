@@ -1,9 +1,9 @@
-import assert from 'assert';
+import assert, { AssertionError } from 'assert';
 import { Types } from 'mongoose';
 
 import User from '../models/user';
 import Group from '../models/group';
-import Message from '../models/message';
+import Message, { MessageDocument } from '../models/message';
 import Socket from '../models/socket';
 
 import xss from '../../utils/xss';
@@ -82,9 +82,13 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
         messageContent = xss(messageContent);
     } else if (type === 'invite') {
         const group = await Group.findOne({ name: content });
-        assert(group, '目标群组不存在');
-
+        if (!group) {
+            throw new AssertionError({ message: '目标群组不存在' });
+        }
         const user = await User.findOne({ _id: ctx.socket.user });
+        if (!user) {
+            throw new AssertionError({ message: '用户不存在' });
+        }
         messageContent = JSON.stringify({
             inviter: user.username,
             groupId: group._id,
@@ -100,6 +104,9 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
     });
 
     const user = await User.findOne({ _id: ctx.socket.user }, { username: 1, avatar: 1, tag: 1 });
+    if (!user) {
+        throw new AssertionError({ message: '用户不存在' });
+    }
     const messageData = {
         _id: message._id,
         createTime: message.createTime,
@@ -152,8 +159,11 @@ export async function getLinkmansLastMessages(ctx: KoaContext<GetLinkmanLastMess
             { sort: { createTime: -1 }, limit: FirstTimeMessagesCount },
         ).populate('from', { username: 1, avatar: 1, tag: 1 }));
     const results = await Promise.all(promises);
-    const messages = linkmans.reduce((result, linkmanId, index) => {
-        result[linkmanId] = ((results[index] || []) as Array<unknown>).reverse();
+    type Messages = {
+        [linkmanId: string]: MessageDocument[];
+    };
+    const messages = linkmans.reduce((result: Messages, linkmanId, index) => {
+        result[linkmanId] = (results[index] || []).reverse();
         return result;
     }, {});
 
@@ -197,12 +207,15 @@ interface GetDefaultGroupHistoryMessagesData {
  * 获取默认群组的历史消息
  * @param ctx Context
  */
-export async function getDefalutGroupHistoryMessages(
+export async function getDefaultGroupHistoryMessages(
     ctx: KoaContext<GetDefaultGroupHistoryMessagesData>,
 ) {
     const { existCount } = ctx.data;
 
     const group = await Group.findOne({ isDefault: true });
+    if (!group) {
+        throw new AssertionError({ message: '默认群组不存在' });
+    }
     const messages = await Message.find(
         { to: group._id },
         {
@@ -215,4 +228,53 @@ export async function getDefalutGroupHistoryMessages(
     ).populate('from', { username: 1, avatar: 1, tag: 1 });
     const result = messages.slice(existCount).reverse();
     return result;
+}
+
+interface DeleteMessageData {
+    /** 消息id */
+    messageId: string;
+}
+
+/**
+ * 删除消息, 需要管理员权限
+ */
+export async function deleteMessage(ctx: KoaContext<DeleteMessageData>) {
+    const { messageId } = ctx.data;
+
+    const message = await Message.findOne({ _id: messageId });
+    if (!message) {
+        throw new AssertionError({ message: '消息不存在' });
+    }
+
+    await message.remove();
+
+    /**
+     * 广播删除消息通知, 区分群消息和私聊消息
+     */
+    const messageName = 'deleteMessage';
+    const messageData = {
+        linkmanId: message.to.toString(),
+        messageId,
+    };
+    if (isValid(message.to)) {
+        // 群消息
+        ctx.socket.to(message.to).emit(messageName, messageData);
+    } else {
+        // 私聊消息
+        const targetUserId = message.to.replace(ctx.socket.user.toString(), '');
+        const sockets = await Socket.find({ user: targetUserId });
+        sockets.forEach((socket) => {
+            ctx._io.to(socket.id).emit(messageName, messageData);
+        });
+        const selfSockets = await Socket.find({ user: ctx.socket.user });
+        selfSockets.forEach((socket) => {
+            if (socket.id !== ctx.socket.id) {
+                ctx._io.to(socket.id).emit(messageName, messageData);
+            }
+        });
+    }
+
+    return {
+        msg: 'ok',
+    };
 }

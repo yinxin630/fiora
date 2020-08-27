@@ -1,7 +1,9 @@
+@import "../../assets//styles//variable.less";
+
 .reward {
     width: 700px !important;
 
-    @media (orientation: portrait) {
+    @media @mobile {
         width: 94vw !important;
     }
 }
@@ -19,7 +21,7 @@
     padding: 0 30px;
     height: 375px;
 
-    @media (orientation: portrait) {
+    @media @mobile {
         flex-wrap: wrap;
         & > img {
             margin-bottom: 10px;
@@ -31,7 +33,7 @@
     width: 250px;
     height: auto;
 
-    @media (orientation: portrait) {
+    @media @mobile {
         margin-bottom: 10px;
     }
 }

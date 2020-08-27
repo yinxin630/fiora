@@ -6,6 +6,8 @@ export enum ActionTypes {
     SetGuest = 'SetGuest',
     /** 设置用户信息 */
     SetUser = 'SetUser',
+    /** 更新用户信息 */
+    UpdateUserInfo = 'UpdateUserInfo',
     /** 更新客户端状态 */
     SetStatus = 'SetStatus',
     /** 退出登录 */
@@ -41,11 +43,14 @@ export type SetGuestPayload = Group;
 export type SetUserPayload = {
     _id: string;
     username: string;
+    tag: string;
     avatar: string;
     groups: Group[];
     friends: Friend[];
     isAdmin: boolean;
 };
+
+export type UpdateUserInfoPayload = Object;
 
 export interface SetStatusPayload {
     key: string;
@@ -98,6 +103,7 @@ export interface Action {
     type: ActionTypes;
     payload:
         | SetUserPayload
+        | UpdateUserInfoPayload
         | SetGuestPayload
         | SetStatusPayload
         | SetAvatarPayload

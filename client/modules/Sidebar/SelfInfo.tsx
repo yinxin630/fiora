@@ -28,8 +28,8 @@ function SelfInfo(props: SelfInfoProps) {
     const { visible, onClose } = props;
 
     const action = useAction();
-    const userId = useSelector((state: State) => state.user._id);
-    const avatar = useSelector((state: State) => state.user.avatar);
+    const userId = useSelector((state: State) => state.user?._id);
+    const avatar = useSelector((state: State) => state.user?.avatar);
     const primaryColor = useSelector((state: State) => state.status.primaryColor);
     const [loading, toggleLoading] = useState(false);
     const [cropper, setCropper] = useState({
@@ -90,7 +90,8 @@ function SelfInfo(props: SelfInfoProps) {
     }
 
     function handleChangeAvatar() {
-        $cropper.current.getCroppedCanvas().toBlob(async (blob) => {
+        // @ts-ignore
+        $cropper.current.getCroppedCanvas().toBlob(async (blob: any) => {
             uploadAvatar(blob, cropper.ext);
         });
     }
@@ -127,8 +128,22 @@ function SelfInfo(props: SelfInfoProps) {
         }
     }
 
+    function handleCloseDialog(event: any) {
+        /**
+         * 点击关闭按钮, 或者在非图片裁剪时点击蒙层, 才能关闭弹窗
+         */
+        if (event.target.className === 'rc-dialog-close-x' || !cropper.enable) {
+            onClose();
+        }
+    }
+
     return (
-        <Dialog className={Style.selfInfo} visible={visible} title="个人信息设置" onClose={onClose}>
+        <Dialog
+            className={Style.selfInfo}
+            visible={visible}
+            title="个人信息设置"
+            onClose={handleCloseDialog}
+        >
             <div className={Common.container}>
                 <div className={Common.block}>
                     <p className={Common.title}>修改头像</p>
@@ -137,6 +152,7 @@ function SelfInfo(props: SelfInfoProps) {
                             <div className={Style.cropper}>
                                 <Cropper
                                     className={loading ? 'blur' : ''}
+                                    // @ts-ignore
                                     ref={$cropper}
                                     src={cropper.src}
                                     style={{ width: 460, height: 460 }}

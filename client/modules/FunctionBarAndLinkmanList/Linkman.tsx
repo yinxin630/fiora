@@ -8,6 +8,7 @@ import useAction from '../../hooks/useAction';
 import { isMobile } from '../../../utils/ua';
 
 import Style from './Linkman.less';
+import useAero from '../../hooks/useAero';
 
 interface LinkmanProps {
     id: string;
@@ -24,6 +25,7 @@ function Linkman(props: LinkmanProps) {
 
     const action = useAction();
     const focus = useSelector((state: State) => state.focus);
+    const aero = useAero();
 
     function formatTime() {
         const nowTime = new Date();
@@ -48,6 +50,7 @@ function Linkman(props: LinkmanProps) {
             className={`${Style.linkman} ${id === focus ? Style.focus : ''}`}
             onClick={handleClick}
             role="button"
+            {...aero}
         >
             <Avatar src={avatar} size={48} />
             <div className={Style.container}>

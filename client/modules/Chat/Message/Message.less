@@ -20,16 +20,18 @@
 }
 
 .tag {
-    height: 20px;
-    line-height: 20px;
-    border-radius: 8px;
-    padding: 0 6px;
+    height: 16px;
+    line-height: 16px;
+    border-radius: 3px;
+    padding: 0 5px;
     display: inline-block;
-    font-size: 10px;
+    font-size: 12px;
     background-color: var(--primary-color-9);
     color: var(--primary-text-color-10);
-    transform: translateY(2px) scale(0.8);
+    transform: scale(0.9);
     margin-left: -5px;
+    margin-right: 2px;
+    user-select: text;
 }
 
 .nickname {
@@ -42,6 +44,10 @@
 .time {
     color: #666;
     font-size: 12px;
+}
+
+.contentButtonBlock {
+    display: flex;
 }
 
 .content {
@@ -65,6 +71,32 @@
     position: absolute;
     top: 23px;
     left: 49px;
+}
+
+.buttonList {
+    display: flex;
+    align-self: flex-end;
+    margin-left: 5px;
+    margin-bottom: 2px;
+}
+
+.button {
+    background-color: rgba(255, 255, 255, 0.8);
+
+    &:hover {
+        background-color: #f0f0f0;
+        color: rgba(165, 181, 192, 1);
+    }
+
+    @borderRadius: 3px;
+    &:first-child {
+        border-top-left-radius: @borderRadius;
+        border-bottom-left-radius: @borderRadius;
+    }
+    &:last-child {
+        border-top-right-radius: @borderRadius;
+        border-bottom-right-radius: @borderRadius;
+    }
 }
 
 .textMessage {
@@ -147,18 +179,24 @@
         flex-direction: row-reverse;
     }
     .tag {
-        margin-left: 0;
+        margin-left: 2px;
         margin-right: -5px;
     }
     .nickname {
         margin-right: 0;
         margin-left: 4px;
     }
+    .contentButtonBlock {
+        flex-direction: row-reverse;
+    }
     .content {
         color: rgba(255, 255, 255, 0.9);
         background-color: var(--primary-color-10);
         border-top-left-radius: 8px;
         border-top-right-radius: 0px;
+    }
+    .buttonList {
+        margin-right: 5px;
     }
     .arrow {
         border-width: 0 0 15px 7px;

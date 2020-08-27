@@ -1,8 +1,7 @@
 import bcrypt from 'bcryptjs';
-import assert from 'assert';
+import assert, { AssertionError } from 'assert';
 import jwt from 'jwt-simple';
 import { Types } from 'mongoose';
-import { promisify } from 'util';
 
 import { addMemoryData, MemoryDataStorageKey, deleteMemoryData } from '../memoryData';
 
@@ -15,11 +14,9 @@ import Message from '../models/message';
 import config from '../../config/server';
 import getRandomAvatar from '../../utils/getRandomAvatar';
 import { KoaContext } from '../../types/koa';
+import { saltRounds } from '../../utils/const';
 
 const { isValid } = Types.ObjectId;
-
-/** 加密salt位数 */
-const saltRounds = 10;
 
 /** 一天时间 */
 const OneDay = 1000 * 60 * 60 * 24;
@@ -76,9 +73,9 @@ interface RegisterData extends Environment {
  * @param ctx Context
  */
 export async function register(ctx: KoaContext<RegisterData>) {
-    const {
-        username, password, os, browser, environment,
-    } = ctx.data;
+    assert(!config.disableRegister, '注册功能已被禁用, 请联系管理员开通账号');
+
+    const { username, password, os, browser, environment } = ctx.data;
     assert(username, '用户名不能为空');
     assert(password, '密码不能为空');
 
@@ -86,10 +83,13 @@ export async function register(ctx: KoaContext<RegisterData>) {
     assert(!user, '该用户名已存在');
 
     const defaultGroup = await Group.findOne({ isDefault: true });
-    assert(defaultGroup, '默认群组不存在');
+    if (!defaultGroup) {
+        // TODO: refactor when node types support "Assertion Functions" https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html#assertion-functions
+        throw new AssertionError({ message: '默认群组不存在' });
+    }
 
-    const salt = await promisify(bcrypt.genSalt)(saltRounds);
-    const hash = await promisify(bcrypt.hash)(password, salt);
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hash = await bcrypt.hash(password, salt);
 
     let newUser = null;
     try {
@@ -111,10 +111,10 @@ export async function register(ctx: KoaContext<RegisterData>) {
     if (!defaultGroup.creator) {
         defaultGroup.creator = newUser;
     }
-    defaultGroup.members.push(newUser);
+    defaultGroup.members.push(newUser._id);
     await defaultGroup.save();
 
-    const token = generateToken(newUser._id, environment);
+    const token = generateToken(newUser._id.toString(), environment);
 
     ctx.socket.user = newUser._id;
     await Socket.updateOne(
@@ -156,14 +156,14 @@ type LoginData = RegisterData;
 export async function login(ctx: KoaContext<LoginData>) {
     assert(!ctx.socket.user, '你已经登录了');
 
-    const {
-        username, password, os, browser, environment,
-    } = ctx.data;
+    const { username, password, os, browser, environment } = ctx.data;
     assert(username, '用户名不能为空');
     assert(password, '密码不能为空');
 
     const user = await User.findOne({ username });
-    assert(user, '该用户不存在');
+    if (!user) {
+        throw new AssertionError({ message: '该用户不存在' });
+    }
 
     const isPasswordCorrect = bcrypt.compareSync(password, user.password);
     assert(isPasswordCorrect, '密码错误');
@@ -209,6 +209,7 @@ export async function login(ctx: KoaContext<LoginData>) {
         _id: user._id,
         avatar: user.avatar,
         username: user.username,
+        tag: user.tag,
         groups,
         friends,
         token,
@@ -228,9 +229,7 @@ interface LoginByTokenData extends Environment {
 export async function loginByToken(ctx: KoaContext<LoginByTokenData>) {
     assert(!ctx.socket.user, '你已经登录了');
 
-    const {
-        token, os, browser, environment,
-    } = ctx.data;
+    const { token, os, browser, environment } = ctx.data;
     assert(token, 'token不能为空');
 
     let payload = null;
@@ -249,10 +248,13 @@ export async function loginByToken(ctx: KoaContext<LoginByTokenData>) {
             _id: 1,
             avatar: 1,
             username: 1,
+            tag: 1,
             createTime: 1,
         },
     );
-    assert(user, '用户不存在');
+    if (!user) {
+        throw new AssertionError({ message: '用户不存在' });
+    }
 
     handleNewUser(user);
 
@@ -293,6 +295,7 @@ export async function loginByToken(ctx: KoaContext<LoginByTokenData>) {
         _id: user._id,
         avatar: user.avatar,
         username: user.username,
+        tag: user.tag,
         groups,
         friends,
         isAdmin: user._id.toString() === config.administrator,
@@ -325,6 +328,9 @@ export async function guest(ctx: KoaContext<Environment>) {
             creator: 1,
         },
     );
+    if (!group) {
+        throw new AssertionError({ message: '默认群组不存在' });
+    }
     ctx.socket.join(group._id.toString());
 
     const messages = await Message.find(
@@ -379,7 +385,9 @@ export async function addFriend(ctx: KoaContext<AddFriendData>) {
     assert(ctx.socket.user.toString() !== userId, '不能添加自己为好友');
 
     const user = await User.findOne({ _id: userId });
-    assert(user, '添加好友失败, 用户不存在');
+    if (!user) {
+        throw new AssertionError({ message: '添加好友失败, 用户不存在' });
+    }
 
     const friend = await Friend.find({ from: ctx.socket.user, to: user._id });
     assert(friend.length === 0, '你们已经是好友了');
@@ -411,7 +419,9 @@ export async function deleteFriend(ctx: KoaContext<AddFriendData>) {
     assert(isValid(userId), '无效的用户ID');
 
     const user = await User.findOne({ _id: userId });
-    assert(user, '用户不存在');
+    if (!user) {
+        throw new AssertionError({ message: '用户不存在' });
+    }
 
     await Friend.deleteOne({ from: ctx.socket.user, to: user._id });
     return {};
@@ -434,11 +444,14 @@ export async function changePassword(ctx: KoaContext<ChangePasswordData>) {
     assert(oldPassword !== newPassword, '新密码不能与旧密码相同');
 
     const user = await User.findOne({ _id: ctx.socket.user });
+    if (!user) {
+        throw new AssertionError({ message: '用户不存在' });
+    }
     const isPasswordCorrect = bcrypt.compareSync(oldPassword, user.password);
     assert(isPasswordCorrect, '旧密码不正确');
 
-    const salt = await promisify(bcrypt.genSalt)(saltRounds);
-    const hash = await promisify(bcrypt.hash)(newPassword, salt);
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hash = await bcrypt.hash(newPassword, salt);
 
     user.password = hash;
     await user.save();
@@ -465,6 +478,9 @@ export async function changeUsername(ctx: KoaContext<ChangeUsernameData>) {
     assert(!user, '该用户名已存在, 换一个试试吧');
 
     const self = await User.findOne({ _id: ctx.socket.user });
+    if (!self) {
+        throw new AssertionError({ message: '用户不存在' });
+    }
 
     self.username = username;
     await self.save();
@@ -485,11 +501,13 @@ export async function resetUserPassword(ctx: KoaContext<ResetUserPasswordData>) 
     assert(username !== '', 'username不能为空');
 
     const user = await User.findOne({ username });
-    assert(user, '用户不存在');
+    if (!user) {
+        throw new AssertionError({ message: '用户不存在' });
+    }
 
     const newPassword = 'helloworld';
-    const salt = await promisify(bcrypt.genSalt)(saltRounds);
-    const hash = await promisify(bcrypt.hash)(newPassword, salt);
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hash = await bcrypt.hash(newPassword, salt);
 
     user.salt = salt;
     user.password = hash;
@@ -513,15 +531,38 @@ export async function setUserTag(ctx: KoaContext<SetUserTagData>) {
     const { username, tag } = ctx.data;
     assert(username !== '', 'username不能为空');
     assert(tag !== '', 'tag不能为空');
-    assert(/^([0-9a-zA-Z]{1,2}|[\u4e00-\u9eff]){1,5}$/.test(tag), '标签不符合要求, 允许5个汉字或者10个字母');
+    assert(
+        /^([0-9a-zA-Z]{1,2}|[\u4e00-\u9eff]){1,5}$/.test(tag),
+        '标签不符合要求, 允许5个汉字或者10个字母',
+    );
 
     const user = await User.findOne({ username });
-    assert(user, '用户不存在');
+    if (!user) {
+        throw new AssertionError({ message: '用户不存在' });
+    }
 
     user.tag = tag;
     await user.save();
 
+    const sockets = await Socket.find({ user: user._id });
+    sockets.forEach((socket) => {
+        ctx._io.to(socket.id).emit('changeTag', user.tag);
+    });
+
     return {
         msg: 'ok',
     };
+}
+
+/**
+ * 获取指定在线用户 ip
+ */
+export async function getUserIps(ctx: KoaContext<{ userId: string }>): Promise<string[]> {
+    const { userId } = ctx.data;
+    assert(userId, 'userId不能为空');
+    assert(isValid(userId), '不合法的userId');
+
+    const sockets = await Socket.find({ user: userId });
+    const ipList = sockets.map((socket) => socket.ip) || [];
+    return Array.from(new Set(ipList));
 }

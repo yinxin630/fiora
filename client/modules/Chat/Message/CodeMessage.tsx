@@ -4,7 +4,11 @@ import Style from './CodeMessage.less';
 
 let CodeDialog: any = null;
 
-const languagesMap = {
+type LanguageMap = {
+    [language: string]: string;
+}
+
+const languagesMap: LanguageMap = {
     javascript: 'javascript',
     typescript: 'typescript',
     java: 'java',
@@ -70,7 +74,7 @@ function CodeMessage(props: CodeMessageProps) {
                 </div>
                 <p className={Style.codeViewButton}>查看</p>
             </div>
-            {CodeDialog && (
+            {CodeDialog && codeDialog && (
                 <CodeDialog
                     visible={codeDialog}
                     onClose={() => toggleCodeDialog(false)}

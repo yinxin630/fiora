@@ -45,12 +45,14 @@ export default async function uploadFile(
         if (uploadErr) {
             throw Error(uploadErr);
         }
-        qiniuNextEventCallback({
-            // @ts-ignore
-            total: {
-                percent: 100,
-            },
-        });
+        if (qiniuNextEventCallback) {
+            qiniuNextEventCallback({
+                // @ts-ignore
+                total: {
+                    percent: 100,
+                },
+            });
+        }
         return result.url;
     }
 
@@ -64,7 +66,7 @@ export default async function uploadFile(
                     qiniuNextEventCallback(info);
                 }
             },
-            error: (qiniuErr) => {
+            error: (qiniuErr: Error) => {
                 reject(qiniuErr);
             },
             complete: async (info: QiniuUploadInfo) => {

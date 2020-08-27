@@ -6,7 +6,9 @@ interface KoaSocket extends Socket {
     /** socket id */
     id: string;
     /** socket关联用户 */
-    user?: Schema.Types.ObjectId;
+    user: Schema.Types.ObjectId;
+    /** 用户ip */
+    ip: string;
     /**
      * 加入房间
      * @param roomId 目标房间id
@@ -38,7 +40,8 @@ export interface KoaContext<T = any> extends Context {
     /** socket实例 */
     socket: KoaSocket;
     /** 响应内容 */
-    res: string;
+    res: any;
+    acknowledge: (data: any) => void;
 }
 
 export interface KoaRoutes {

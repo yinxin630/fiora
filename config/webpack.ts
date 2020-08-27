@@ -8,7 +8,7 @@ import options from '../utils/commandOptions';
 // eslint-disable-next-line prefer-destructuring
 const env = process.env;
 
-function getFirstNotUndefined(...values) {
+function getFirstNotUndefined(...values: any[]) {
     for (let i = 0; i < values.length; i++) {
         if (values[i] !== undefined) {
             return values[i];
@@ -16,6 +16,9 @@ function getFirstNotUndefined(...values) {
     }
     return null;
 }
+
+const now = new Date();
+const frontendMonitorVersion = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()} ${now.getHours()}:${now.getMinutes()}`;
 
 export default {
     commonn: {
@@ -29,10 +32,12 @@ export default {
     build: {
         env: {
             NODE_ENV: '"production"',
+            frontendMonitorAppId: JSON.stringify(options.frontendMonitorAppId),
+            frontendMonitorVersion: JSON.stringify(frontendMonitorVersion),
         },
         index: path.resolve(__dirname, '../dist/index.html'),
         assetsRoot: path.resolve(__dirname, '../dist/fiora'),
-        assetsPublicPath: getFirstNotUndefined(options.publicPath, env.PublicPath, ''),
+        assetsPublicPath: getFirstNotUndefined(options.publicPath, env.PublicPath, '/'),
         productionSourceMap: false,
         productionGzip: false,
         productionGzipExtensions: ['js', 'css'],
@@ -45,8 +50,7 @@ export default {
         host: 'localhost',
         port: 8080,
         autoOpenBrowser: false,
-        assetsPublicPath: '',
-        proxyTable: {},
+        assetsPublicPath: '/',
         cssSourceMap: false,
     },
 };

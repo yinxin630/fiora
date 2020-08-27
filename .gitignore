@@ -7,9 +7,11 @@ coverage/
 npm-debug.log
 yarn-error.log
 .eslintcache
-runServer.sh
+server.sh
+dev.sh
 build.sh
 .qiniurc
 ecosystem.config.js
 
 .idea/
+.linaria-cache/

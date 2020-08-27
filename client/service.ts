@@ -1,6 +1,10 @@
 import fetch from '../utils/fetch';
 import { User } from './state/reducer';
 
+function saveUsername(username: string) {
+    window.localStorage.setItem('username', username);
+}
+
 /**
  * 注册新用户
  * @param username 用户名
@@ -12,9 +16,9 @@ import { User } from './state/reducer';
 export async function register(
     username: string,
     password: string,
-    os: string,
-    browser: string,
-    environment: string,
+    os = '',
+    browser = '',
+    environment = '',
 ) {
     const [err, user] = await fetch(
         'register',
@@ -30,6 +34,8 @@ export async function register(
     if (err) {
         return null;
     }
+
+    saveUsername(user.username);
     return user;
 }
 
@@ -44,9 +50,9 @@ export async function register(
 export async function login(
     username: string,
     password: string,
-    os: string,
-    browser: string,
-    environment: string,
+    os = '',
+    browser = '',
+    environment = '',
 ) {
     const [err, user] = await fetch(
         'login',
@@ -62,6 +68,8 @@ export async function login(
     if (err) {
         return null;
     }
+
+    saveUsername(user.username);
     return user;
 }
 
@@ -74,9 +82,9 @@ export async function login(
  */
 export async function loginByToken(
     token: string,
-    os: string,
-    browser: string,
-    environment: string,
+    os = '',
+    browser = '',
+    environment = '',
 ) {
     const [err, user] = await fetch(
         'loginByToken',
@@ -92,6 +100,8 @@ export async function loginByToken(
     if (err) {
         return null;
     }
+
+    saveUsername(user.username);
     return user;
 }
 
@@ -101,7 +111,7 @@ export async function loginByToken(
  * @param browser 浏览器
  * @param environment 环境信息
  */
-export async function guest(os: string, browser: string, environment: string) {
+export async function guest(os = '', browser = '', environment = '') {
     const [err, res] = await fetch('guest', { os, browser, environment });
     if (err) {
         return null;
@@ -113,7 +123,7 @@ export async function guest(os: string, browser: string, environment: string) {
  * 修用户头像
  * @param avatar 新头像链接
  */
-export async function changeAvatar(avatar) {
+export async function changeAvatar(avatar: string) {
     const [error] = await fetch('changeAvatar', { avatar });
     return !error;
 }
@@ -239,8 +249,8 @@ export async function getLinkmanHistoryMessages(linkmanId: string, existCount: n
  * 获取默认群组的历史消息
  * @param existCount 客户端已有消息条数
  */
-export async function getDefalutGroupHistoryMessages(existCount: number) {
-    const [, messages] = await fetch('getDefalutGroupHistoryMessages', { existCount });
+export async function getDefaultGroupHistoryMessages(existCount: number) {
+    const [, messages] = await fetch('getDefaultGroupHistoryMessages', { existCount });
     return messages;
 }
 
@@ -273,6 +283,15 @@ export async function sendMessage(to: string, type: string, content: string) {
 }
 
 /**
+ * 删除消息
+ * @param messageId 要删除的消息id
+ */
+export async function deleteMessage(messageId: string) {
+    const [err] = await fetch('deleteMessage', { messageId });
+    return !err;
+}
+
+/**
  * 获取目标群组的在线用户列表
  * @param groupId 目标群id
  */
@@ -295,6 +314,24 @@ export async function getDefaultGroupOnlineMembers() {
  */
 export async function sealUser(username: string) {
     const [err] = await fetch('sealUser', { username });
+    return !err;
+}
+
+/**
+ * 封禁ip
+ * @param ip ip地址
+ */
+export async function sealIp(ip: string) {
+    const [err] = await fetch('sealIp', { ip });
+    return !err;
+}
+
+/**
+ * 封禁用户所有在线ip
+ * @param userId 用户id
+ */
+export async function sealUserOnlineIp(userId: string) {
+    const [err] = await fetch('sealUserOnlineIp', { userId });
     return !err;
 }
 
@@ -323,4 +360,13 @@ export async function resetUserPassword(username: string) {
 export async function setUserTag(username: string, tag: string) {
     const [err] = await fetch('setUserTag', { username, tag });
     return !err;
+}
+
+/**
+ * 获取在线用户 ip
+ * @param userId 用户id
+ */
+export async function getUserIps(userId: string) {
+    const [, res] = await fetch('getUserIps', { userId });
+    return res;
 }

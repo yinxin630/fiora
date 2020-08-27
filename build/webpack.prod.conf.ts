@@ -35,18 +35,6 @@ const webpackConfig = merge(baseWebpackConfig, {
         rules: utils.getStyleLoaders(),
     },
     devtool: config.build.productionSourceMap ? '#source-map' : false,
-    // optimization: {
-    //     splitChunks: {
-    //         cacheGroups: {
-    //             vendor: {
-    //                 test: module => /node_modules/.test(module.context),
-    //                 chunks: 'initial',
-    //                 name: 'vendor',
-    //                 enforce: true,
-    //             },
-    //         },
-    //     },
-    // },
     plugins: [
         // @ts-ignore
         new webpack.DefinePlugin({

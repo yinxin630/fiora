@@ -23,6 +23,7 @@ import * as qiniuRoutes from './routes/qiniu';
 import * as systemRoutes from './routes/system';
 
 const app = new Koa();
+app.proxy = true;
 
 // 将前端路由指向 index.html
 app.use(async (ctx, next) => {
@@ -87,10 +88,11 @@ io.use(route(
 
 // @ts-ignore
 app.io.on('connection', async (socket) => {
-    console.log(`  <<<< connection ${socket.id} ${socket.request.connection.remoteAddress}`);
+    socket.ip = socket.handshake.headers['x-real-ip'] || socket.request.connection.remoteAddress;
+    console.log(`  <<<< connection ${socket.id} ${socket.ip}`);
     await Socket.create({
         id: socket.id,
-        ip: socket.request.connection.remoteAddress,
+        ip: socket.ip,
     });
 
     socket.on('disconnect', async () => {

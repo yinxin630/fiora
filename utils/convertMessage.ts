@@ -13,7 +13,7 @@
 //     }
 // }
 
-function convertSystemMessage(message) {
+function convertSystemMessage(message: any) {
     if (message.type === 'system') {
         message.from._id = 'system';
         message.from.originUsername = message.from.username;
@@ -38,6 +38,6 @@ function convertSystemMessage(message) {
     }
 }
 
-export default function convertMessage(message) {
+export default function convertMessage(message: any) {
     convertSystemMessage(message);
 }

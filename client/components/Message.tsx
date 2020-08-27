@@ -5,7 +5,7 @@ import 'rc-notification/dist/rc-notification.min.css';
 import Style from './Message.less';
 
 function showMessage(text: string, duration = 1500, type = 'success') {
-    Notification.newInstance({}, (notification) => {
+    Notification.newInstance({}, (notification: any) => {
         notification.notice({
             content: (
                 <div className={Style.componentMessage}>

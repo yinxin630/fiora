@@ -45,6 +45,7 @@ function Expression(props: ExpressionProps) {
                     className={Style.defaultExpressionBlock}
                     key={e}
                     data-name={e}
+                    // @ts-ignore
                     onClick={(event) => onSelectText(event.currentTarget.dataset.name)}
                     role="button"
                 >
@@ -60,7 +61,7 @@ function Expression(props: ExpressionProps) {
         </div>
     );
 
-    function handleClickExpression(e) {
+    function handleClickExpression(e: any) {
         const $target = e.target;
         const url = addParam($target.src, {
             width: $target.naturalWidth,
@@ -86,16 +87,15 @@ function Expression(props: ExpressionProps) {
                 <Loading type="spinningBubbles" color="#4A90E2" height={100} width={100} />
             </div>
             <div className={Style.searchResult}>
-                {searchResults.map((image) => (
-                    // @ts-ignore
-                    <img
-                        className={Style.searchImage}
-                        src={image}
-                        alt="表情"
-                        key={image}
-                        referrerPolicy="no-referrer"
-                        onClick={handleClickExpression}
-                    />
+                {searchResults.map(({ image }) => (
+                    <div className={Style.searchImage}>
+                        <img
+                            src={image}
+                            alt="表情"
+                            key={image}
+                            onClick={handleClickExpression}
+                        />
+                    </div>
                 ))}
             </div>
         </div>

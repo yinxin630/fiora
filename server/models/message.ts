@@ -22,7 +22,7 @@ const MessageSchema = new Schema({
     },
 });
 
-interface MessageDocument extends Document {
+export interface MessageDocument extends Document {
     /** 数据库 id */
     _id: Schema.Types.ObjectId;
     /** 发送人 */
