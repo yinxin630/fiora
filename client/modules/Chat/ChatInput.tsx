@@ -21,9 +21,9 @@ import voice from '../../../utils/voice';
 import Tooltip from '../../components/Tooltip';
 import { isMobile } from '../../../utils/ua';
 import useAero from '../../hooks/useAero';
+import Expression from './Expression';
 
 let CodeEditor: any = null;
-let Expression: any = null;
 
 function ChatInput() {
     const action = useAction();
@@ -62,14 +62,6 @@ function ChatInput() {
 
     useEffect(() => {
         (async () => {
-            if (expressionDialog && !Expression) {
-                // @ts-ignore
-                const ExpressionModule = await import(
-                    /* webpackChunkName: "expression" */ './Expression',
-                );
-                Expression = ExpressionModule.default;
-                setTimestamp(Date.now());
-            }
             if (codeEditorDialog && !CodeEditor) {
                 // @ts-ignore
                 const CodeEditorModule = await import(
