@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import axios from 'axios';
-import assert from 'assert';
+import assert, { AssertionError } from 'assert';
 import { promisify } from 'util';
 
 import {
@@ -16,8 +16,9 @@ import User from '../models/user';
 import Group from '../models/group';
 
 import config from '../../config/server';
-import { SealTimeout } from '../../utils/const';
+import { SealUserTimeout, SealIpTimeout } from '../../utils/const';
 import { KoaContext } from '../../types/koa';
+import Socket from '../models/socket';
 
 /** 百度语言合成token */
 let baiduToken = '';
@@ -76,17 +77,46 @@ export async function searchExpression(ctx: KoaContext<SearchExpressionData>) {
 
     const res = await axios({
         method: 'get',
-        url: `http://www.bee-ji.com/s?w=${encodeURIComponent(keywords)}`,
+        url: `https://pic.sogou.com/pics/json.jsp?query=${encodeURIComponent(
+            `${keywords} 表情`,
+        )}&st=5&start=0&xml_len=60&callback=callback&reqFrom=wap_result&`,
         headers: {
-            referer: 'http://www.bee-ji.com/',
-            'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36',
+            accept: '*/*',
+            'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8,zh-TW;q=0.7',
+            'cache-control': 'no-cache',
+            pragma: 'no-cache',
+            'sec-fetch-mode': 'navigate',
+            'sec-fetch-site': 'same-origin',
+            referrer: `https://pic.sogou.com/pic/emo/searchList.jsp?statref=search_form&uID=hTHHybkSPt37C46z&spver=0&rcer=&keyword=${encodeURIComponent(
+                keywords,
+            )}`,
+            referrerPolicy: 'no-referrer-when-downgrade',
+            'user-agent':
+                'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
         },
     });
     assert(res.status === 200, '搜索表情包失败, 请重试');
 
-    const images = res.data.match(/"id":[0-9]+,"h/g) || [];
+    try {
+        const parseDataResult = res.data.match(/callback\((.+)\)/);
+        const data = JSON.parse(`${parseDataResult[1]}`);
 
-    return images.map((idStr: string) => `//image.bee-ji.com/${idStr.match(/[0-9]+/)}`);
+        type Image = {
+            locImageLink: string;
+            width: number;
+            height: number;
+        };
+        const images = data.items as Image[];
+        return images.map(({ locImageLink, width, height }) => ({
+            image: locImageLink,
+            width,
+            height,
+        }));
+    } catch (err) {
+        assert(false, '搜索表情包失败, 数据解析异常');
+    }
+
+    return [];
 }
 
 /**
@@ -121,15 +151,17 @@ export async function sealUser(ctx: KoaContext<SealUserData>) {
     assert(username !== '', 'username不能为空');
 
     const user = await User.findOne({ username });
-    assert(user, '用户不存在');
+    if (!user) {
+        throw new AssertionError({ message: '用户不存在' });
+    }
 
     const userId = user._id.toString();
-    assert(!existMemoryData(MemoryDataStorageKey.SealList, userId), '用户已在封禁名单');
+    assert(!existMemoryData(MemoryDataStorageKey.SealUserList, userId), '用户已在封禁名单');
 
-    addMemoryData(MemoryDataStorageKey.SealList, userId);
+    addMemoryData(MemoryDataStorageKey.SealUserList, userId);
     setTimeout(() => {
-        deleteMemoryData(MemoryDataStorageKey.SealList, userId);
-    }, SealTimeout);
+        deleteMemoryData(MemoryDataStorageKey.SealUserList, userId);
+    }, SealUserTimeout);
 
     return {
         msg: 'ok',
@@ -137,14 +169,80 @@ export async function sealUser(ctx: KoaContext<SealUserData>) {
 }
 
 /**
- * 获取已封禁的用户列表, 需要管理员权限
+ * 获取封禁列表, 包含用户封禁和ip封禁, 需要管理员权限
  */
 export async function getSealList() {
-    const sealList = getMemoryData(MemoryDataStorageKey.SealList);
-    const userIds = [...sealList.keys()];
+    const sealUserList = getMemoryData(MemoryDataStorageKey.SealUserList);
+    const sealIpList = getMemoryData(MemoryDataStorageKey.SealIpList);
+    const userIds = [...sealUserList.keys()];
     const users = await User.find({ _id: { $in: userIds } });
-    const result = users.map((user) => user.username);
+
+    const result = {
+        users: users.map((user) => user.username),
+        ips: Array.from(sealIpList.keys()),
+    };
     return result;
+}
+
+const CantSealLocalIp = '不能封禁内网ip';
+const CantSealSelf = '闲的没事封自己干啥';
+const IpInSealList = 'ip已在封禁名单';
+
+/**
+ * 封禁 ip 地址, 需要管理员权限
+ */
+export async function sealIp(ctx: KoaContext<{ ip: string }>) {
+    const { ip } = ctx.data;
+    assert(ip !== '::1' && ip !== '127.0.0.1', CantSealLocalIp);
+    assert(ip !== ctx.socket.ip, CantSealSelf);
+    assert(!existMemoryData(MemoryDataStorageKey.SealIpList, ip), IpInSealList);
+
+    addMemoryData(MemoryDataStorageKey.SealIpList, ip);
+    setTimeout(() => {
+        deleteMemoryData(MemoryDataStorageKey.SealIpList, ip);
+    }, SealIpTimeout);
+
+    return {
+        msg: 'ok',
+    };
+}
+
+/**
+ * 封禁指定用户的所有在线 ip 地址, 需要管理员权限
+ */
+export async function sealUserOnlineIp(ctx: KoaContext<{ userId: string }>) {
+    const { userId } = ctx.data;
+
+    const sockets = await Socket.find({ user: userId });
+    const ipList = sockets.map((socket) => socket.ip);
+
+    // 如果全部 ip 都已经封禁过了, 则直接提示
+    assert(
+        !ipList.every((ip) => existMemoryData(MemoryDataStorageKey.SealIpList, ip)),
+        IpInSealList,
+    );
+
+    let errorMessage = '';
+    ipList.forEach((ip) => {
+        if (ip === '::1' || ip === '127.0.0.1') {
+            errorMessage = CantSealLocalIp;
+        } else if (ip === ctx.socket.ip) {
+            errorMessage = CantSealSelf;
+        } else if (!existMemoryData(MemoryDataStorageKey.SealIpList, ip)) {
+            addMemoryData(MemoryDataStorageKey.SealIpList, ip);
+            setTimeout(() => {
+                deleteMemoryData(MemoryDataStorageKey.SealIpList, ip);
+            }, SealIpTimeout);
+        }
+    });
+
+    if (errorMessage) {
+        return errorMessage;
+    }
+
+    return {
+        msg: 'ok',
+    };
 }
 
 interface UploadFileData {
@@ -154,7 +252,7 @@ interface UploadFileData {
     file: any;
 }
 
-export async function uploadFile(ctx) {
+export async function uploadFile(ctx: KoaContext<UploadFileData>) {
     assert(
         config.qiniuAccessKey === ''
             || config.qiniuBucket === ''

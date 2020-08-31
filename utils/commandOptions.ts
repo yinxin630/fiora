@@ -12,6 +12,9 @@ const optionDefinitions = [
     { name: 'host', type: String },
     { name: 'port', type: Number },
     { name: 'administrator', type: String },
+    { name: 'frontendMonitorAppId', type: String },
+    { name: 'username', type: String },
+    { name: 'password', type: String },
 ];
 
 interface CommandArgs {
@@ -26,8 +29,11 @@ interface CommandArgs {
     host: string;
     port: number;
     administrator: string;
+    frontendMonitorAppId: string;
+    username: string;
+    password: string;
 }
 
-const args: CommandArgs = commandLineArgs(optionDefinitions);
+const args = commandLineArgs(optionDefinitions) as CommandArgs;
 
 export default args;

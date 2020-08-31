@@ -16,6 +16,7 @@ function CodeDialog(props: CodeDialogProps) {
     const { visible, onClose, language, code } = props;
     const html = language === 'text'
         ? xss(code)
+        // @ts-ignore
         : Prism.highlight(code, Prism.languages[language]);
     setTimeout(Prism.highlightAll.bind(Prism), 0); // TODO: https://github.com/PrismJS/prism/issues/1487
 

@@ -6,7 +6,7 @@ import Dialog from '../../components/Dialog';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Message from '../../components/Message';
-import { getSealList, resetUserPassword, sealUser, setUserTag } from '../../service';
+import { getSealList, resetUserPassword, sealUser, setUserTag, sealIp } from '../../service';
 
 interface AdminProps {
     visible: boolean;
@@ -20,7 +20,8 @@ function Admin(props: AdminProps) {
     const [tag, setTag] = useState('');
     const [resetPasswordUsername, setResetPasswordUsername] = useState('');
     const [sealUsername, setSealUsername] = useState('');
-    const [sealList, setSealList] = useState([]);
+    const [sealList, setSealList] = useState({ users: [], ips: [] });
+    const [sealIpAddress, setSealIpAddress] = useState('');
 
     /**
      * 获取被封禁的用户列表
@@ -72,6 +73,15 @@ function Admin(props: AdminProps) {
         }
     }
 
+    async function handleSealIp() {
+        const isSuccess = await sealIp(sealIpAddress);
+        if (isSuccess) {
+            Message.success('封禁ip成功');
+            setSealIpAddress('');
+            handleGetSealList();
+        }
+    }
+
     return (
         <Dialog className={Style.admin} visible={visible} title="管理员控制台" onClose={onClose}>
             <div className={Common.container}>
@@ -109,6 +119,7 @@ function Admin(props: AdminProps) {
                         </Button>
                     </div>
                 </div>
+
                 <div className={Common.block}>
                     <p className={Common.title}>封禁用户</p>
                     <div className={Style.inputBlock}>
@@ -126,9 +137,34 @@ function Admin(props: AdminProps) {
                 <div className={Common.block}>
                     <p className={Common.title}>封禁用户列表</p>
                     <div className={Style.sealList}>
-                        {sealList.map((username) => (
+                        {sealList.users.map((username) => (
                             <span className={Style.sealUsername} key={username}>
                                 {username}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+
+                <div className={Common.block}>
+                    <p className={Common.title}>封禁ip</p>
+                    <div className={Style.inputBlock}>
+                        <Input
+                            className={Style.input}
+                            value={sealIpAddress}
+                            onChange={setSealIpAddress}
+                            placeholder="要封禁的ip"
+                        />
+                        <Button className={Style.button} onClick={handleSealIp}>
+                            确定
+                        </Button>
+                    </div>
+                </div>
+                <div className={Common.block}>
+                    <p className={Common.title}>封禁ip列表</p>
+                    <div className={Style.sealList}>
+                        {sealList.ips.map((ip) => (
+                            <span className={Style.sealUsername} key={ip}>
+                                {ip}
                             </span>
                         ))}
                     </div>

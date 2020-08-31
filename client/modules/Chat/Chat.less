@@ -1,3 +1,5 @@
+@import '../../assets/styles/variable.less';
+
 .chat {
     flex: 1;
     display: flex;
@@ -8,7 +10,11 @@
     overflow: hidden;
     position: relative;
 
-    @media (orientation : portrait) {
+    &[data-aero=true] {
+        background-color: rgba(241, 241, 241, 0.15);
+    }
+
+    @media @mobile {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
     }

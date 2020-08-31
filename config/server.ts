@@ -1,5 +1,6 @@
 import ip from 'ip';
 import options from '../utils/commandOptions';
+import getConfig from '../utils/getConfig';
 
 const { env } = process;
 
@@ -28,11 +29,17 @@ export default {
     allowOrigin: options.allowOrigin || env.AllowOrigin,
 
     // token expires time
-    tokenExpiresTime: 1000 * 60 * 60 * 24 * 7,
+    tokenExpiresTime: 1000 * 60 * 60 * 24 * 30,
 
     // administrator user id
     administrator: options.administrator || env.Administrator || '',
 
     // default group name
     defaultGroupName: 'fiora',
+
+    /** 禁用注册功能 */
+    disableRegister: false,
+
+    /** disable user create new group */
+    disableCreateGroup: getConfig<boolean>('disableCreateGroup', false),
 };

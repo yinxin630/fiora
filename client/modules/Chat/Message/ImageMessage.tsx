@@ -56,7 +56,7 @@ function ImageMessage(props: ImageMessageProps) {
         height = naturehHeight * scale;
         imageSrc = /^(blob|data):/.test(src)
             ? imageSrc.split('?')[0]
-            : `${imageSrc}&imageView2/3/w/${Math.floor(width * 1.2)}/h/${Math.floor(height * 1.2)}`;
+            : `${imageSrc}&imageView2/1/q/80/w/${Math.floor(width * 1.2)}/h/${Math.floor(height * 1.2)}`;
     }
 
     let className = Style.imageMessage;
@@ -70,19 +70,14 @@ function ImageMessage(props: ImageMessageProps) {
     return (
         <>
             <div className={className} ref={$container}>
-                {
-                    // @ts-ignore
-                    <img
-                        className={Style.image}
-                        src={imageSrc}
-                        alt="消息图片"
-                        width={width}
-                        height={height}
-                        onClick={() => isMobile && toggleViewer(true)}
-                        onDoubleClick={() => !isMobile && toggleViewer(true)}
-                        referrerPolicy="no-referrer"
-                    />
-                }
+                <img
+                    className={Style.image}
+                    src={imageSrc}
+                    alt="消息图片"
+                    width={width}
+                    height={height}
+                    onClick={() => toggleViewer(true)}
+                />
                 <CircleProgress
                     className={Style.imageProgress}
                     percent={percent}
@@ -99,7 +94,7 @@ function ImageMessage(props: ImageMessageProps) {
                         visible={viewer}
                         onClose={closeViewer}
                         onMaskClick={closeViewer}
-                        images={[{ src, alt: src }]}
+                        images={[{ src: `${src}&imageView2/1/q/80`, alt: src }]}
                         noNavbar
                     />
                 )}

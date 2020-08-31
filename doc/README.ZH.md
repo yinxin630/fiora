@@ -1,6 +1,8 @@
 # Fiora
 
-[![Build Status](https://travis-ci.org/yinxin630/fiora.svg?branch=master)](https://travis-ci.org/yinxin630/fiora)
+[![Test Status](https://github.com/yinxin630/fiora/workflows/Unit%20Test/badge.svg)](https://github.com/yinxin630/fiora/actions?query=workflow%3A%22Unit+Test%22)
+[![Lint Status](https://github.com/yinxin630/fiora/workflows/Lint%20Code%20Style/badge.svg)](https://github.com/yinxin630/fiora/actions?query=workflow%3A%22Lint+Code+Style%22)
+[![Typescript Status](https://github.com/yinxin630/fiora/workflows/Typescript%20Type%20Check/badge.svg)](https://github.com/yinxin630/fiora/actions?query=workflow%3A%22Typescript+Type+Check%22)
 [![author](https://img.shields.io/badge/author-%E7%A2%8E%E7%A2%8E%E9%85%B1-blue.svg)](http://suisuijiang.com)
 [![Node.js Version](https://img.shields.io/badge/node.js-8.9.0-blue.svg)](http://nodejs.org/download)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/yinxin630/fiora/blob/master/LICENSE)
@@ -9,7 +11,9 @@
 
 Fiora是一款有趣的在线聊天应用. 使用node.js, mongodb, socket.io和react编写
 
-在线地址: [https://fiora.suisuijiang.com/](https://fiora.suisuijiang.com/)
+该项目起始于 [2015-11-04](https://github.com/yinxin630/chatroom-with-sails/commit/0a032372727550b8b4087f24ac299de03b677b9f)
+
+在线地址: [https://fiora.suisuijiang.com/](https://fiora.suisuijiang.com/)   
 安卓/iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/yinxin630/fiora-app)
 
 ## 功能
@@ -17,15 +21,20 @@ Fiora是一款有趣的在线聊天应用. 使用node.js, mongodb, socket.io和r
 1. 好友, 群组, 私聊, 群聊
 2. 文本, 图片, 代码, url等多种类型消息
 3. 贴吧表情, 滑稽表情, 搜索表情包
-4. 桌面通知, 声音提醒, 语音播报
+4. 桌面通知, 声音提醒, 消息语音朗读
 5. 自定义桌面背景, 主题颜色, 文本颜色
 6. 查看在线用户, @功能
-7. 小黑屋禁言
+7. 管理员
+    - 关小黑屋
+    - 撤回消息
+    - 给用户打标签
+    - 重置用户密码
+    - 查看用户 ip
 
 ## 运行截图
 
-<img src="./screenshots/runtime.jpeg" alt="桌面" style="max-width:800px" />
-<img src="./screenshots/mobile-runtime.png" alt="手机" style="max-height:667px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/doc/screenshots/runtime.jpeg" alt="桌面" style="max-width:800px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/doc/screenshots/mobile-runtime.png" alt="手机" style="max-height:667px" />
 
 ## 安装运行
 

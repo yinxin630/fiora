@@ -24,7 +24,7 @@ function Input(props: InputProps) {
         onFocus = () => {},
     } = props;
 
-    function handleInput(e) {
+    function handleInput(e: any) {
         onChange(e.target.value);
     }
 
@@ -35,18 +35,19 @@ function Input(props: InputProps) {
     function handleIMEEnd() {
         setLockEnter(false);
     }
-    function handleKeyDown(e) {
+    function handleKeyDown(e: any) {
         if (lockEnter) {
             return;
         }
         if (e.key === 'Enter') {
-            onEnter(value);
+            onEnter(value as string);
         }
     }
 
     const $input = useRef(null);
     function handleClickClear() {
         onChange('');
+        // @ts-ignore
         $input.current.focus();
     }
 

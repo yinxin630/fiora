@@ -5,7 +5,7 @@ import LessPluginAutoPrefix from 'less-plugin-autoprefix';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import config from '../config/webpack';
 
-export function assetsPath(_path) {
+export function assetsPath(_path: any) {
     return path.posix.join('', _path);
 }
 

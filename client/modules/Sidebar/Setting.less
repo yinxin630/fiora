@@ -1,3 +1,14 @@
+.setting {
+    :global {
+        .rc-dialog-body {
+            overflow-y: hidden;
+        }
+        .rc-tabs-top {
+            border-bottom: none;
+        }
+    }
+}
+
 .switchContainer {
     margin-bottom: 4px;
     display: flex;
@@ -116,4 +127,11 @@
             transform: translate(-2px, -2px);
         }
     }
+}
+
+.scrollContainer {
+    margin-top: 20px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: 52vh;
 }

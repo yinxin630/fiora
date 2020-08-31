@@ -4,14 +4,14 @@ import { useSelector } from 'react-redux';
 import { State, Message } from '../../state/reducer';
 import useIsLogin from '../../hooks/useIsLogin';
 import useAction from '../../hooks/useAction';
-import { getLinkmanHistoryMessages, getDefalutGroupHistoryMessages } from '../../service';
+import { getLinkmanHistoryMessages, getDefaultGroupHistoryMessages } from '../../service';
 import MessageComponent from './Message/Message';
 
 import Style from './MessageList.less';
 
 function MessageList() {
     const action = useAction();
-    const selfId = useSelector((state: State) => state.user._id);
+    const selfId = useSelector((state: State) => state.user?._id);
     const focus = useSelector((state: State) => state.focus);
     const isGroup = useSelector((state: State) => state.linkmans[focus].type === 'group');
     const creator = useSelector((state: State) => state.linkmans[focus].creator);
@@ -22,7 +22,7 @@ function MessageList() {
     const $list = useRef(null);
 
     let isFetching = false;
-    async function handleScroll(e) {
+    async function handleScroll(e: any) {
         // Don't know why the code-view dialog will also trigger when scrolling
         if ($list.current && e.target !== $list.current) {
             return;
@@ -41,7 +41,7 @@ function MessageList() {
                     Object.keys(messages).length,
                 );
             } else {
-                historyMessages = await getDefalutGroupHistoryMessages(
+                historyMessages = await getDefaultGroupHistoryMessages(
                     Object.keys(messages).length,
                 );
             }
@@ -56,6 +56,7 @@ function MessageList() {
         const isSelf = message.from._id === selfId;
         let shouldScroll = true;
         if ($list.current) {
+            // @ts-ignore
             const { scrollHeight, clientHeight, scrollTop } = $list.current;
             shouldScroll = isSelf
                 || scrollHeight === clientHeight
@@ -71,6 +72,8 @@ function MessageList() {
         return (
             <MessageComponent
                 key={message._id}
+                id={message._id}
+                linkmanId={focus}
                 isSelf={isSelf}
                 userId={message.from._id}
                 avatar={message.from.avatar}

@@ -180,6 +180,7 @@ function CodeEditor(props: CodeEditorProps) {
                         <Select
                             className={Style.languageSelect}
                             defaultValue={languages[0]}
+                            // @ts-ignore
                             onSelect={(lang: string) => setLanguage(lang)}
                         >
                             {languages.map((lang) => (

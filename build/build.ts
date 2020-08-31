@@ -14,9 +14,9 @@ process.env.NODE_ENV = 'production';
 const spinner = ora('building for production...');
 spinner.start();
 
-rm(path.join(config.build.assetsRoot), (err) => {
+rm(path.join(config.build.assetsRoot), (err: any) => {
     if (err) throw err;
-    webpack(webpackConfig, (wErr, stats) => {
+    webpack(webpackConfig, (wErr: any, stats: any) => {
         spinner.stop();
         if (wErr) throw wErr;
         process.stdout.write(`${stats.toString({

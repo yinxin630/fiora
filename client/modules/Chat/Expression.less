@@ -1,3 +1,5 @@
+@import '../../assets/styles/variable.less';
+
 .expression {
     height: 100%;
     
@@ -33,7 +35,7 @@
         cursor: pointer;
     }
 
-    @media (orientation : portrait) {
+    @media @mobile {
         width: 10%;
         height: auto;
     }
@@ -91,4 +93,15 @@
     width: 90px;
     height: 90px;
     margin: 0 4px;
+    display: inline-block;
+    position: relative;
+
+    & > img {
+        max-width: 90px;
+        max-height: 90px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
 }

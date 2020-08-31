@@ -66,7 +66,7 @@ export default async function uploadFile(
                     qiniuNextEventCallback(info);
                 }
             },
-            error: (qiniuErr) => {
+            error: (qiniuErr: Error) => {
                 reject(qiniuErr);
             },
             complete: async (info: QiniuUploadInfo) => {

@@ -31,7 +31,7 @@ function GroupManagePanel(props: GroupManagePanelProps) {
 
     const action = useAction();
     const isLogin = useIsLogin();
-    const selfId = useSelector((state: State) => state.user._id);
+    const selfId = useSelector((state: State) => state.user?._id);
     const [deleteConfirmDialog, setDialogStatus] = useState(false);
     const [groupName, setGroupName] = useState('');
     const context = useContext(ShowUserOrGroupInfoContext);
@@ -100,6 +100,7 @@ function GroupManagePanel(props: GroupManagePanelProps) {
         if (userInfo._id === selfId) {
             return;
         }
+        // @ts-ignore
         context.showUserInfo(userInfo);
         onClose();
     }

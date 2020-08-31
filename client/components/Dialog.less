@@ -1,3 +1,5 @@
+@import '../assets/styles/variable.less';
+
 :global {
     .rc-dialog {
         width: 450px;
@@ -28,7 +30,7 @@
         max-height: 60vh;
     }
     
-    @media (orientation : portrait) {
+    @media @mobile {
         .rc-dialog {
             width: 94% !important;
             margin: 0 auto;

@@ -205,8 +205,8 @@ socket.emit(
 
 ### 发送消息
 
-通过 to 字段判断是发送给群, 还是发送给个人   
-发送群的话, to就是群id   
+通过 to 字段判断是发送给群, 还是发送给个人
+发送群的话, to就是群id
 发送个人的话, to就是两个人的id拼接, 按字符串比较结果, 小的在前大的在后
 
 ```js
@@ -252,7 +252,7 @@ socket.emit(
 
 ```js
 socket.emit(
-    'getDefalutGroupHistoryMessages',
+    'getDefaultGroupHistoryMessages',
     {
         existCount, // {number} 已有消息数量
     },

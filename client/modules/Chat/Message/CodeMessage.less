@@ -1,3 +1,5 @@
+@import '../../../assets/styles/variable.less';
+
 .codeMessage {
     width: 160px;
     padding: 0 4px;
@@ -37,7 +39,7 @@
     max-height: 800px;
     display: flex;
 
-    @media (orientation : portrait) {
+    @media @mobile {
         max-width: 90vw;
     }
 
@@ -58,7 +60,7 @@
             * {
                 user-select: text;
             }
-            @media (orientation : portrait) {
+            @media @mobile {
                 max-width: 100%;
             }
         }

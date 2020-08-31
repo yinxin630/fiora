@@ -1,5 +1,6 @@
 import React, { Component, createRef } from 'react';
 import pureRender from 'pure-render-decorator';
+import { connect } from 'react-redux';
 
 import Style from './Message.less';
 import Avatar from '../../../components/Avatar';
@@ -13,8 +14,18 @@ import InviteMessage from './InviteMessage';
 import SystemMessage from './SystemMessage';
 import { getRandomColor, getPerRandomColor } from '../../../../utils/getRandomColor';
 import config from '../../../../config/client';
+import store from '../../../state/store';
+import { ActionTypes, DeleteMessagePayload } from '../../../state/action';
+import { deleteMessage } from '../../../service';
+import IconButton from '../../../components/IconButton';
+import { State } from '../../../state/reducer';
+import Tooltip from '../../../components/Tooltip';
+
+const { dispatch } = store;
 
 interface MessageProps {
+    id: string;
+    linkmanId: string;
     isSelf: boolean;
     userId: string;
     avatar: string;
@@ -28,6 +39,11 @@ interface MessageProps {
     percent: number;
     shouldScroll: boolean;
     tagColorMode: string;
+    isAdmin?: boolean;
+}
+
+interface MessageState {
+    showButtonList: boolean;
 }
 
 /**
@@ -36,15 +52,54 @@ interface MessageProps {
  * 具体表现就是会先看到历史消息, 然后一闪而过再滚动到合适的位置
  */
 @pureRender
-class Message extends Component<MessageProps> {
+class Message extends Component<MessageProps, MessageState> {
     $container = createRef<HTMLDivElement>();
+
+    constructor(props: MessageProps) {
+        super(props);
+        this.state = {
+            showButtonList: false,
+        };
+    }
 
     componentDidMount() {
         const { shouldScroll } = this.props;
         if (shouldScroll) {
+            // @ts-ignore
             this.$container.current.scrollIntoView();
         }
     }
+
+    handleMouseEnter = () => {
+        const { isAdmin } = this.props;
+        if (isAdmin) {
+            this.setState({ showButtonList: true });
+        }
+    };
+
+    handleMouseLeave = () => {
+        const { isAdmin } = this.props;
+        if (isAdmin) {
+            this.setState({ showButtonList: false });
+        }
+    };
+
+    /**
+     * 管理员撤回消息
+     */
+    handleDeleteMessage = async () => {
+        const { id, linkmanId } = this.props;
+        const isSuccess = await deleteMessage(id);
+        if (isSuccess) {
+            dispatch({
+                type: ActionTypes.DeleteMessage,
+                payload: {
+                    linkmanId,
+                    messageId: id,
+                } as DeleteMessagePayload,
+            });
+        }
+    };
 
     handleClickAvatar(showUserInfo: (userinfo: any) => void) {
         const { isSelf, userId, type, username, avatar } = this.props;
@@ -98,8 +153,9 @@ class Message extends Component<MessageProps> {
 
     render() {
         const { isSelf, avatar, tag, tagColorMode, username } = this.props;
+        const { showButtonList } = this.state;
 
-        let tagColor = `rgb(${config.primaryColor})`;
+        let tagColor = `rgb(${config.theme.default.primaryColor})`;
         if (tagColorMode === 'fixedColor') {
             tagColor = getRandomColor(tag);
         } else if (tagColorMode === 'randomColor') {
@@ -114,6 +170,7 @@ class Message extends Component<MessageProps> {
                             className={Style.avatar}
                             src={avatar}
                             size={44}
+                            // @ts-ignore
                             onClick={() => this.handleClickAvatar(context.showUserInfo)}
                         />
                     )}
@@ -121,17 +178,36 @@ class Message extends Component<MessageProps> {
                 <div className={Style.right}>
                     <div className={Style.nicknameTimeBlock}>
                         {tag && (
-                            <span
-                                className={Style.tag}
-                                style={{ backgroundColor: tagColor }}
-                            >
+                            <span className={Style.tag} style={{ backgroundColor: tagColor }}>
                                 {tag}
                             </span>
                         )}
                         <span className={Style.nickname}>{username}</span>
                         <span className={Style.time}>{this.formatTime()}</span>
                     </div>
-                    <div className={Style.content}>{this.renderContent()}</div>
+                    <div
+                        className={Style.contentButtonBlock}
+                        onMouseEnter={this.handleMouseEnter}
+                        onMouseLeave={this.handleMouseLeave}
+                    >
+                        <div className={Style.content}>{this.renderContent()}</div>
+                        {showButtonList && (
+                            <div className={Style.buttonList}>
+                                <Tooltip placement={isSelf ? 'left' : 'right'} mouseEnterDelay={0.3} overlay={<span>撤回消息</span>}>
+                                    <div>
+                                        <IconButton
+                                            className={Style.button}
+                                            icon="recall"
+                                            iconSize={16}
+                                            width={20}
+                                            height={20}
+                                            onClick={this.handleDeleteMessage}
+                                        />
+                                    </div>
+                                </Tooltip>
+                            </div>
+                        )}
+                    </div>
                     <div className={Style.arrow} />
                 </div>
             </div>
@@ -139,4 +215,6 @@ class Message extends Component<MessageProps> {
     }
 }
 
-export default Message;
+export default connect((state: State) => ({
+    isAdmin: !!(state.user && state.user.isAdmin),
+}))(Message);

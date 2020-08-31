@@ -18,6 +18,7 @@ import Reward from './Reward';
 import About from './About';
 
 import Style from './Sidebar.less';
+import useAero from '../../hooks/useAero';
 
 let SelfInfo: any = null;
 let Setting: any = null;
@@ -37,6 +38,7 @@ function Sidebar() {
     const [rewardDialogVisible, toggleRewardDialogVisible] = useState(false);
     const [aboutDialogVisible, toggleAboutDialogVisible] = useState(false);
     const [settingDialogVisible, toggleSettingDialogVisible] = useState(false);
+    const aero = useAero();
 
     useEffect(() => {
         (async () => {
@@ -67,7 +69,7 @@ function Sidebar() {
         socket.connect();
     }
 
-    function renderTooltip(text, component) {
+    function renderTooltip(text: string, component: JSX.Element) {
         const children = <div>{component}</div>;
         if (isMobile) {
             return children;
@@ -81,8 +83,8 @@ function Sidebar() {
 
     return (
         <>
-            <div className={Style.sidebar}>
-                {isLogin && (
+            <div className={Style.sidebar} {...aero}>
+                {isLogin && avatar && (
                     <Avatar
                         className={Style.avatar}
                         src={avatar}

@@ -8,8 +8,13 @@ import { SealText } from '../../utils/const';
 export default function seal() {
     return async (ctx: KoaContext, next: Function) => {
         if (
-            ctx.socket.user
-            && existMemoryData(MemoryDataStorageKey.SealList, ctx.socket.user.toString())
+            // 用户id是否在封禁名单
+            (
+                ctx.socket.user
+                && existMemoryData(MemoryDataStorageKey.SealUserList, ctx.socket.user.toString())
+            )
+            // ip是否在封禁名单
+            || existMemoryData(MemoryDataStorageKey.SealIpList, ctx.socket.ip)
         ) {
             ctx.res = SealText;
             return null;

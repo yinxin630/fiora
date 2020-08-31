@@ -23,7 +23,7 @@ function Login() {
         const user = await login(
             username,
             password,
-            platform.os.family,
+            platform.os?.family,
             platform.name,
             platform.description,
         );
@@ -33,11 +33,12 @@ function Login() {
             window.localStorage.setItem('token', user.token);
 
             const linkmanIds = [
-                ...user.groups.map((group) => group._id),
-                ...user.friends.map((friend) => getFriendId(friend.from, friend.to._id)),
+                ...user.groups.map((group: any) => group._id),
+                ...user.friends.map((friend: any) => getFriendId(friend.from, friend.to._id)),
             ];
             const linkmanMessages = await getLinkmansLastMessages(linkmanIds);
             Object.values(linkmanMessages).forEach(
+                // @ts-ignore
                 (messages: Message[]) => messages.forEach(convertMessage),
             );
             dispatch({

@@ -5,7 +5,6 @@ import opn from 'opn';
 import path from 'path';
 import express from 'express';
 import webpack from 'webpack';
-import proxyMiddleware from 'http-proxy-middleware';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import connectionHistoryApiFallback from 'connect-history-api-fallback';
@@ -20,7 +19,6 @@ if (!process.env.NODE_ENV) {
 const host = process.env.HOST || config.dev.host;
 const port = process.env.PORT || config.dev.port;
 const autoOpenBrowser = !!config.dev.autoOpenBrowser;
-const { proxyTable } = config.dev;
 
 const app = express();
 const compiler = webpack(webpackConfig);
@@ -36,20 +34,12 @@ const hotMiddleware = webpackHotMiddleware(compiler, {
 });
 
 
-compiler.plugin('compilation', (compilation) => {
-    compilation.plugin('html-webpack-plugin-after-emit', (data, cb) => {
+compiler.plugin('compilation', (compilation: any) => {
+    compilation.plugin('html-webpack-plugin-after-emit', (data: any, cb: any) => {
         if (cb) {
             cb();
         }
     });
-});
-
-Object.keys(proxyTable).forEach((context) => {
-    let options = proxyTable[context];
-    if (typeof options === 'string') {
-        options = { target: options };
-    }
-    app.use(proxyMiddleware(options.filter || context, options));
 });
 
 app.use(connectionHistoryApiFallback());

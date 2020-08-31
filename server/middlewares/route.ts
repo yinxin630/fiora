@@ -9,7 +9,7 @@ function noop() {}
  * @param _io socket.io 实例
  * @param routes 路由
  */
-export default function route(io, _io, routes: KoaRoutes) {
+export default function route(io: any, _io: any, routes: KoaRoutes) {
     // 注册事件, 不然该接口是不走所有中间件的
     Object.keys(routes).forEach((routeName) => {
         io.on(routeName, noop);

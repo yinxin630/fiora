@@ -1,14 +1,22 @@
+@import '../../assets/styles/variable.less';
+
 .codeEditor {
     width: 600px;
 
-    @media (orientation : portrait) {
+    @media @mobile {
         width: 100%;
         height: 410px;
+    }
+
+    :global {
+        .rc-dialog-body {
+            overflow-y: hidden;
+        }
     }
 }
 
 .container {
-    height: 600px;
+    height: 55vh;
     display: flex;
     flex-direction: column;
 }
@@ -38,7 +46,7 @@
 
 .sendButton {
     width: 100px;
-    height: 36px;
+    height: 32px;
     margin-top: 8px;
     align-self: flex-end;
 }

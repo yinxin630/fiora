@@ -12,6 +12,7 @@ import {
     UpdateMessagePayload,
     AddLinkmanMessagePayload,
     UpdateUserInfoPayload,
+    DeleteMessagePayload,
 } from './action';
 import getFriendId from '../../utils/getFriendId';
 
@@ -86,13 +87,13 @@ export interface User {
 /** redux store state */
 export interface State {
     /** 用户信息 */
-    user?: {
+    user: {
         _id: string;
         username: string;
         avatar: string;
         tag: string;
         isAdmin: boolean;
-    };
+    } | null;
     linkmans: LinkmansMap;
     /** 聚焦的联系人 */
     focus: string;
@@ -102,12 +103,16 @@ export interface State {
     status: {
         /** 是否显示登陆注册框 */
         loginRegisterDialogVisible: boolean;
+        /** 主题 */
+        theme: string;
         /** 主题主色调 */
         primaryColor: string;
         /** 主题文字主色调 */
         primaryTextColor: string;
         /** 背景图 */
         backgroundImage: string;
+        /** 启用毛玻璃效果 */
+        aero: boolean;
         /** 新消息声音提示开关 */
         soundSwitch: boolean;
         /** 声音类型 */
@@ -155,19 +160,29 @@ function getMessagesMap(messages: Message[]) {
 }
 
 /**
+ * 删除对象中的对个键值
+ * @param obj 目标对象
+ * @param keys 要删除的键列表
+ */
+function deleteObjectKeys<T>(obj: T, keys: string[]): T {
+    let entries = Object.entries(obj);
+    const keysSet = new Set(keys);
+    entries = entries.filter((entry) => !keysSet.has(entry[0]));
+    return entries.reduce((result: any, entry) => {
+        const [k, v] = entry;
+        result[k] = v;
+        return result;
+    }, {});
+}
+
+/**
  * 删除对象中的某个键值
  * 直接调用delete删除键值据说性能差(我没验证)
  * @param obj 目标对象
  * @param key 要删除的键
  */
 function deleteObjectKey<T>(obj: T, key: string): T {
-    let entries = Object.entries(obj);
-    entries = entries.filter((entry) => entry[0] !== key);
-    return entries.reduce((result: any, entry) => {
-        const [k, v] = entry;
-        result[k] = v;
-        return result;
-    }, {});
+    return deleteObjectKeys(obj, [key]);
 }
 
 /**
@@ -216,16 +231,18 @@ function transformTemporary(temporary: Linkman): Linkman {
 }
 
 const localStorage = getData();
-const initialState: State = {
+export const initialState: State = {
     user: null,
     linkmans: {},
     focus: '',
     connect: false,
     status: {
         loginRegisterDialogVisible: false,
+        theme: localStorage.theme,
         primaryColor: localStorage.primaryColor,
         primaryTextColor: localStorage.primaryTextColor,
         backgroundImage: localStorage.backgroundImage,
+        aero: localStorage.aero,
         soundSwitch: localStorage.soundSwitch,
         sound: localStorage.sound,
         notificationSwitch: localStorage.notificationSwitch,
@@ -283,19 +300,15 @@ function reducer(state: State = initialState, action: Action): State {
             } = action.payload as SetUserPayload;
             // @ts-ignore
             const linkmans: Linkman[] = [
+                // @ts-ignore
                 ...groups.map(transformGroup),
+                // @ts-ignore
                 ...friends.map(transformFriend),
             ];
-            linkmans.forEach((linkman) => {
-                let existMessages = {};
-                if (state.linkmans[linkman._id]) {
-                    existMessages = state.linkmans[linkman._id].messages;
-                }
-                linkman.messages = existMessages;
-            });
 
             // 如果没登录过, 则将聚焦联系人设置为第一个联系人
             let { focus } = state;
+            /* istanbul ignore next */
             if (!state.user && linkmans.length > 0) {
                 focus = linkmans[0]._id;
             }
@@ -318,6 +331,7 @@ function reducer(state: State = initialState, action: Action): State {
             const payload = action.payload as UpdateUserInfoPayload;
             return {
                 ...state,
+                // @ts-ignore
                 user: {
                     ...state.user,
                     ...payload,
@@ -337,6 +351,7 @@ function reducer(state: State = initialState, action: Action): State {
         case ActionTypes.SetAvatar: {
             return {
                 ...state,
+                // @ts-ignore
                 user: {
                     ...state.user,
                     avatar: action.payload as string,
@@ -346,12 +361,35 @@ function reducer(state: State = initialState, action: Action): State {
 
         case ActionTypes.SetFocus: {
             const focus = action.payload as string;
+            if (!state.linkmans[focus]) {
+                /* istanbul ignore next */
+                if (!__TEST__) {
+                    console.warn(`ActionTypes.SetFocus Error: 联系人 ${focus} 不存在`);
+                }
+                return state;
+            }
+
+            /**
+             * 为了优化性能
+             * 如果目标联系人的旧消息个数超过50条, 仅保留50条
+             */
+            const { messages } = state.linkmans[focus];
+            const messageKeys = Object.keys(messages);
+            let reserveMessages = messages;
+            if (messageKeys.length > 50) {
+                reserveMessages = deleteObjectKeys(
+                    messages,
+                    messageKeys.slice(0, messageKeys.length - 50),
+                );
+            }
+
             return {
                 ...state,
                 linkmans: {
                     ...state.linkmans,
                     [focus]: {
                         ...state.linkmans[focus],
+                        messages: reserveMessages,
                         unread: 0,
                     },
                 },
@@ -388,7 +426,7 @@ function reducer(state: State = initialState, action: Action): State {
                 ...state,
                 linkmans: {
                     ...state.linkmans,
-                    [linkman._id]: transformedLinkman,
+                    [transformedLinkman._id]: transformedLinkman,
                 },
                 focus,
             };
@@ -411,12 +449,15 @@ function reducer(state: State = initialState, action: Action): State {
             const linkmanMessages = action.payload as SetLinkmansLastMessagesPayload;
             const { linkmans } = state;
             const newState = { ...state, linkmans: {} };
-            Object.keys(linkmanMessages).forEach((linkmanId) => {
+            Object.keys(linkmans).forEach((linkmanId) => {
+                // @ts-ignore
                 newState.linkmans[linkmanId] = {
                     ...linkmans[linkmanId],
                     messages: {
                         ...linkmans[linkmanId].messages,
-                        ...getMessagesMap(linkmanMessages[linkmanId]),
+                        ...(linkmanMessages[linkmanId]
+                            ? getMessagesMap(linkmanMessages[linkmanId])
+                            : {}),
                     },
                 };
             });
@@ -458,6 +499,29 @@ function reducer(state: State = initialState, action: Action): State {
                             [payload.message._id]: payload.message,
                         },
                         unread,
+                    },
+                },
+            };
+        }
+
+        case ActionTypes.DeleteMessage: {
+            const { linkmanId, messageId } = action.payload as DeleteMessagePayload;
+            if (!state.linkmans[linkmanId]) {
+                /* istanbul ignore next */
+                if (!__TEST__) {
+                    console.warn(`ActionTypes.DeleteMessage Error: 联系人 ${linkmanId} 不存在`);
+                }
+                return state;
+            }
+
+            const messages = deleteObjectKey(state.linkmans[linkmanId].messages, messageId);
+            return {
+                ...state,
+                linkmans: {
+                    ...state.linkmans,
+                    [linkmanId]: {
+                        ...state.linkmans[linkmanId],
+                        messages,
                     },
                 },
             };

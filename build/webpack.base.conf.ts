@@ -3,12 +3,12 @@ import * as utils from './utils';
 import config from '../config/webpack';
 import pages from '../config/pages';
 
-const entry = {};
+const entry: { [key: string]: string } = {};
 pages.forEach((page) => {
     entry[page.entry.key] = page.entry.file;
 });
 
-function resolve(dir) {
+function resolve(dir: any) {
     return path.join(__dirname, '..', dir);
 }
 
@@ -38,6 +38,12 @@ export default {
                 exclude: /node_modules/,
                 use: [
                     'babel-loader',
+                    {
+                        loader: 'linaria/loader',
+                        options: {
+                            sourceMap: process.env.NODE_ENV !== 'production',
+                        },
+                    },
                     'ts-loader',
                 ],
             },
