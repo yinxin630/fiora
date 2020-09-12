@@ -155,9 +155,8 @@ function SelfInfo(props: SelfInfoProps) {
                                     // @ts-ignore
                                     ref={$cropper}
                                     src={cropper.src}
-                                    style={{ height: 400, width: '100%' }}
+                                    style={{ height: 0, width: 0, paddingBottom: '50%' }}
                                     aspectRatio={1}
-                                    // viewMode={1}
                                 />
                                 <Button className={Style.button} onClick={handleChangeAvatar}>
                                     修改头像
