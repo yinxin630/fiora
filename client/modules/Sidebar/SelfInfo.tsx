@@ -155,7 +155,7 @@ function SelfInfo(props: SelfInfoProps) {
                                     // @ts-ignore
                                     ref={$cropper}
                                     src={cropper.src}
-                                    style={{ width: 460, height: 460 }}
+                                    style={{ width: 0, height: 0, paddingBottom: '50%' }}
                                     aspectRatio={1}
                                 />
                                 <Button className={Style.button} onClick={handleChangeAvatar}>
