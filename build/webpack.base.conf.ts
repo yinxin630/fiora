@@ -44,7 +44,12 @@ export default {
                             sourceMap: process.env.NODE_ENV !== 'production',
                         },
                     },
-                    'ts-loader',
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            transpileOnly: true,
+                        },
+                    },
                 ],
             },
             {
