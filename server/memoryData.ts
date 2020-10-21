@@ -6,18 +6,22 @@ export enum MemoryDataStorageKey {
     'SealIpList',
     /** 新注册用户列表 */
     'NewUserList',
+    /** 最近新注册用户的ip */
+    'NewRegisterUserIp',
 }
 
 interface MemoryData {
-    [MemoryDataStorageKey.SealUserList]: Set<string>
-    [MemoryDataStorageKey.SealIpList]: Set<string>
-    [MemoryDataStorageKey.NewUserList]: Set<string>
+    [MemoryDataStorageKey.SealUserList]: Set<string>;
+    [MemoryDataStorageKey.SealIpList]: Set<string>;
+    [MemoryDataStorageKey.NewUserList]: Set<string>;
+    [MemoryDataStorageKey.NewRegisterUserIp]: Set<string>;
 }
 /** 内存数据 */
 const memoryData: MemoryData = {
     [MemoryDataStorageKey.SealUserList]: new Set(),
     [MemoryDataStorageKey.SealIpList]: new Set(),
     [MemoryDataStorageKey.NewUserList]: new Set(),
+    [MemoryDataStorageKey.NewRegisterUserIp]: new Set(),
 };
 
 /**

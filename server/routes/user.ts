@@ -3,7 +3,7 @@ import assert, { AssertionError } from 'assert';
 import jwt from 'jwt-simple';
 import { Types } from 'mongoose';
 
-import { addMemoryData, MemoryDataStorageKey, deleteMemoryData } from '../memoryData';
+import { addMemoryData, MemoryDataStorageKey, deleteMemoryData, existMemoryData } from '../memoryData';
 
 import User, { UserDocument } from '../models/user';
 import Group from '../models/group';
@@ -50,7 +50,7 @@ function generateToken(user: string, environment: string) {
  * 处理注册时间不满24小时的用户
  * @param user 用户
  */
-function handleNewUser(user: UserDocument) {
+function handleNewUser(user: UserDocument, ip: string) {
     // 将用户添加到新用户列表, 24小时后删除
     if (Date.now() - user.createTime.getTime() < OneDay) {
         const userId = user._id.toString();
@@ -59,6 +59,12 @@ function handleNewUser(user: UserDocument) {
             deleteMemoryData(MemoryDataStorageKey.NewUserList, userId);
         }, OneDay);
     }
+
+    // 记录用户ip
+    addMemoryData(MemoryDataStorageKey.NewRegisterUserIp, ip);
+    setTimeout(() => {
+        deleteMemoryData(MemoryDataStorageKey.NewRegisterUserIp, ip);
+    }, OneDay);
 }
 
 interface RegisterData extends Environment {
@@ -81,6 +87,8 @@ export async function register(ctx: KoaContext<RegisterData>) {
 
     const user = await User.findOne({ username });
     assert(!user, '该用户名已存在');
+
+    assert(!existMemoryData(MemoryDataStorageKey.NewRegisterUserIp, ctx.socket.ip), '系统错误');
 
     const defaultGroup = await Group.findOne({ isDefault: true });
     if (!defaultGroup) {
@@ -106,7 +114,7 @@ export async function register(ctx: KoaContext<RegisterData>) {
         throw err;
     }
 
-    handleNewUser(newUser);
+    handleNewUser(newUser, ctx.socket.ip);
 
     if (!defaultGroup.creator) {
         defaultGroup.creator = newUser;
