@@ -62,7 +62,6 @@ export function existMemoryData(key: MemoryDataStorageKey, value: string) {
 export function deleteMemoryData(key: MemoryDataStorageKey, value: string) {
     if (value) {
         const set = memoryData[key];
-        addMemoryData(MemoryDataStorageKey.NewUserList, '');
         set.delete(value);
     }
 }
