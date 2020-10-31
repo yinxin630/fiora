@@ -50,7 +50,7 @@ function generateToken(user: string, environment: string) {
  * 处理注册时间不满24小时的用户
  * @param user 用户
  */
-function handleNewUser(user: UserDocument, ip: string) {
+function handleNewUser(user: UserDocument, ip = '') {
     // 将用户添加到新用户列表, 24小时后删除
     if (Date.now() - user.createTime.getTime() < OneDay) {
         const userId = user._id.toString();
@@ -58,13 +58,15 @@ function handleNewUser(user: UserDocument, ip: string) {
         setTimeout(() => {
             deleteMemoryData(MemoryDataStorageKey.NewUserList, userId);
         }, OneDay);
-    }
 
-    // 记录用户ip
-    addMemoryData(MemoryDataStorageKey.NewRegisterUserIp, ip);
-    setTimeout(() => {
-        deleteMemoryData(MemoryDataStorageKey.NewRegisterUserIp, ip);
-    }, OneDay);
+        if (ip) {
+            // 记录用户ip
+            addMemoryData(MemoryDataStorageKey.NewRegisterUserIp, ip);
+            setTimeout(() => {
+                deleteMemoryData(MemoryDataStorageKey.NewRegisterUserIp, ip);
+            }, OneDay);
+        }
+    }
 }
 
 interface RegisterData extends Environment {
