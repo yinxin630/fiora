@@ -2,7 +2,7 @@
 
 
 ## Environmental Preparation
-To run Fiora, you need Node.js (v10 LTS version, eg 10.6.3) development environment and MongoDB database
+To run Fiora, you need Node.js(v14 LTS version) development environment and MongoDB database
 - Install Node.js
    - Official website <https://nodejs.org/en/download/>
    - It is recommended to use nvm to install Node.js
@@ -11,36 +11,24 @@ To run Fiora, you need Node.js (v10 LTS version, eg 10.6.3) development environm
 - Install MongoDB
    - Official website <https://docs.mongodb.com/manual/installation/#install-mongodb>
 
-Recommended for running on Linux and MacOS systems
+Recommended to running on Linux or MacOS systems
 
 ## How to run
 
-<a id="running-on-the-local" style="color: unset; text-decoration: none;">
-   <h3>Running on the local (development mode)</h3>
-</a>
+1. Clone the project `git clone https://github.com/yinxin630/fiora.git -b master`
+2. Install project dependencies `yarn install`
+3. Build client `yarn build:client && yarn move-dist`
+4. Start the server `yarn start`
+5. Open `http://[ip]:[port]`(such as `http://127.0.0.1:9200`) in browser
 
-1. Clone the project to the local `git clone https://github.com/yinxin630/fiora.git -b master`
-2. Installation project dependencies, strongly recommended to use yarn installation, execute `yarn`. You can also use `npm` to install and execute `npm i`
-3. Modify the configuration as needed. It is also possible to use the default configuration. For details, please refer to [Project Configuration](#project-configuration)
-4. Start the server `npm run server`
-5. Start the client `npm run client`
-6. Use a browser to open `http://localhost:8080`
+### Run With Develop Mode
 
-*Modify the code will automatically restart the server and refresh the client*
-
-### Running on the server
-
-1. Reference [Running on the local Step 1](#running-on-the-local)
-2. Reference [Running on the local Step 2](#running-on-the-local)
-3. Reference [Running on the local Step 3](#running-on-the-local)
-4. Build a static client `npm run build`
-5. Move the client build artifact to the server static resource directory `npm run move-dist`
-6. Start the server `npm start`
-7. Use a browser to open `http://[server ip]:[fiora port number]`
-
-When deploying on the server, it is strongly recommended to configure the 七牛 CDN. For details, please refer to [七牛 CDN Configuration](#qiniu-cdn-configuration)
+1. Start the server `yarn dev:server`
+2. Start the client `yarn dev:client`
+3. Open `http://localhost:8080` in browser
 
 ### Running on the docker
+
 First install docker <https://docs.docker.com/install/>
 
 #### Run directly from the DockerHub image
@@ -70,8 +58,8 @@ You can edit the configuration file directly and modify the corresponding config
 
 ### Modify configuration by command arguments
 - Direct runtime `./node_modules/.bin/ts-node server/main.ts --xxx "yyy"`
-- Run through npm `npm start -- --xxx "yyy"`
-- Run through pm2 `pm2 start npm -- start --xxx "yyy"`
+- Run through yarn `yarn start -- --xxx "yyy"`
+- Run through pm2 `pm2 start yarn -- start --xxx "yyy"`
 
 `xxx` is the configuration name, `yyy` is the value to be configured, and the configuration name can be viewed in the configuration file.
 *Recommended to modify the configuration using this method*
@@ -106,9 +94,9 @@ Other CDN operators did not support, welcome PR
      "rescan_local": true
 }
 ```
-4. Build the client, pass the 七牛 public url as publicPath `npm run build -- --publicPath "http://example address/fiora/"
+4. Build the client, pass the 七牛 public url as publicPath `yarn build:client -- --publicPath "http://example address/fiora/"
 5. Upload the build structure to the CDN `qshell qupload .qiniurc`
-6. Update the client index.html `npm run move-dist`, if it is a local build upload CDN, please manually update index.html to the server under the fiora public directory
+6. Update the client index.html `yarn move-dist`, if it is a local build upload CDN, please manually update index.html to the server under the fiora public directory
 
 * Repeat 4~6 steps after each update of the client code*
 

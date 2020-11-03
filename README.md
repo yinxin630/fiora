@@ -66,7 +66,7 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
 If you want to add functionality or fix bugs, please follow the process below:
 
 0. Fork this repository and clone the fork post to the local
-0. Installation dependencies `yarn or npm install`
+0. Installation dependencies `yarn install`
 0. Modify the code and confirm it is bug free
 0. Submit code, if eslint has reported error, please repair it and submit it again.
 0. Create a pull request
