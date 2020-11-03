@@ -40,6 +40,10 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
 
 [See how to run Fiora](./doc/INSTALL.md)
 
+## Change Log
+
+[See change log](./doc/CHANGELOG.md)
+
 ## Directory
 
     |-- [build]                   // Webpack build
