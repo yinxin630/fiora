@@ -1,4 +1,4 @@
-import webpackConfig from '../config/webpack';
+import webpackConfig from '../build/webpack';
 
 const AvatarCount = 15;
 const env = process.env.NODE_ENV === 'development' ? 'dev' : 'build';

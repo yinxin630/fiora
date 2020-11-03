@@ -6,7 +6,7 @@ import rm from 'rimraf';
 import path from 'path';
 import chalk from 'chalk';
 import webpack from 'webpack';
-import config from '../config/webpack';
+import config from './webpack';
 import webpackConfig from './webpack.prod.conf';
 
 process.env.NODE_ENV = 'production';

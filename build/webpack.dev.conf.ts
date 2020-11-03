@@ -7,9 +7,9 @@ import FriendlyErrorsPlugin from 'friendly-errors-webpack-plugin';
 import DashboardPlugin from 'webpack-dashboard/plugin';
 
 import * as utils from './utils';
-import config from '../config/webpack';
+import config from './webpack';
 import baseWebpackConfig from './webpack.base.conf';
-import pages from '../config/pages';
+import pages from './pages';
 
 const htmlPlugins = pages.map((page) => new HtmlWebpackPlugin(page));
 

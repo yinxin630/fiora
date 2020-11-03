@@ -10,9 +10,9 @@ import ScriptExtHtmlPlugin from 'script-ext-html-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 import * as utils from './utils';
-import config from '../config/webpack';
+import config from './webpack';
 import baseWebpackConfig from './webpack.base.conf';
-import pages from '../config/pages';
+import pages from './pages';
 
 const htmlPlugins = pages.map((page) => (
     new HtmlWebpackPlugin(Object.assign(page, {
