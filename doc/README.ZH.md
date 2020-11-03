@@ -40,6 +40,10 @@ Fiora是一款有趣的在线聊天应用. 使用node.js, mongodb, socket.io和r
 
 [查看如何运行Fiora](./INSTALL.ZH.md)
 
+## 更新日志
+
+[查看更新日志](./CHANGELOG.md)
+
 ## 目录结构
 
     |-- [build]                   // webpack构建
