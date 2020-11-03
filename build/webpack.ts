@@ -1,5 +1,5 @@
 import path from 'path';
-import options from '../utils/commandOptions';
+import client from '../config/client';
 
 /**
  * 该文件还会在客户端环境执行, 用结构赋值的方式会取不到值
@@ -32,16 +32,16 @@ export default {
     build: {
         env: {
             NODE_ENV: '"production"',
-            frontendMonitorAppId: JSON.stringify(options.frontendMonitorAppId),
+            frontendMonitorAppId: JSON.stringify(client.frontendMonitorAppId),
             frontendMonitorVersion: JSON.stringify(frontendMonitorVersion),
         },
         index: path.resolve(__dirname, '../dist/index.html'),
         assetsRoot: path.resolve(__dirname, '../dist/fiora'),
-        assetsPublicPath: getFirstNotUndefined(options.publicPath, env.PublicPath, '/'),
+        assetsPublicPath: getFirstNotUndefined(env.PUBLIC_PATH, '/'),
         productionSourceMap: false,
         productionGzip: false,
         productionGzipExtensions: ['js', 'css'],
-        bundleAnalyzerReport: process.env.npm_config_report,
+        bundleAnalyzerReport: env.NPM_CONFIG_REPORT,
     },
     dev: {
         env: {

@@ -8,7 +8,6 @@ import bcrypt from 'bcryptjs';
 import User, { UserDocument } from '../server/models/user';
 import Group from '../server/models/group';
 
-import options from '../utils/commandOptions';
 import { saltRounds } from '../utils/const';
 import getRandomAvatar from '../utils/getRandomAvatar';
 import connectDB from '../server/mongoose';
@@ -20,7 +19,8 @@ function exitWithError(message: string) {
 
 connectDB()
     .then(async () => {
-        const { username, password } = options;
+        const username = process.env.USERNAME;
+        const password = process.env.PASSWORD;
         if (!username) {
             exitWithError('用户名不能为空');
         }

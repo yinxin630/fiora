@@ -1,7 +1,7 @@
 import path from 'path';
 import * as utils from './utils';
-import config from '../config/webpack';
-import pages from '../config/pages';
+import config from './webpack';
+import pages from './pages';
 
 const entry: { [key: string]: string } = {};
 pages.forEach((page) => {

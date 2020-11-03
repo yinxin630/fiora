@@ -3,7 +3,7 @@ import path from 'path';
 
 import LessPluginAutoPrefix from 'less-plugin-autoprefix';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import config from '../config/webpack';
+import config from './webpack';
 
 export function assetsPath(_path: any) {
     return path.posix.join('', _path);

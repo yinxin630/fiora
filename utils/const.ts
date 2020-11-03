@@ -12,3 +12,5 @@ export const transparentImage = 'data:image/png;base64,R0lGODlhFAAUAIAAAP///wAAA
 
 /** 加密salt位数 */
 export const saltRounds = 10;
+
+export const MB = 1024 * 1024;
