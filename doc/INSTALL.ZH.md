@@ -2,7 +2,7 @@
 
 ## 环境准备
 
-要运行 Fiora, 你需要 Node.js(v10 LTS版本, 例如10.6.3) 开发环境和 MongoDB 数据库  
+要运行 Fiora, 你需要 Node.js(v14 LTS版本) 开发环境和 MongoDB 数据库  
 - 安装 Node.js
    - 官网 <http://nodejs.cn/download/>
    - 更推荐使用 nvm 安装 Node.js
@@ -11,33 +11,21 @@
 - 安装 MongoDB
    - 官网 <https://docs.mongodb.com/manual/installation/#install-mongodb>
 
-推荐在 Linux 和 MacOS 系统中运行, Windows 系统也是兼容的, 但是遇到的意外问题会多一些
-
+推荐在 Linux 或者 MacOS 系统上运行
 
 ## 如何运行
 
-### 本地运行(开发模式)
-
 1. 克隆项目到本地 `git clone https://github.com/yinxin630/fiora.git -b master`
-2. 安装项目依赖, 强推荐使用 yarn 安装, 执行 `yarn`. 也可以使用 `npm` 安装, 执行 `npm i`, 但是不能保证所安装的依赖版本一致, 可能会导致运行不起来
-3. 根据所需修改配置, 使用默认配置也是可以的, 详情请参考 [项目配置](#项目配置)
-4. 启动服务端 `npm run server`
-5. 启动客户端 `npm run client`
-6. 使用浏览器打开 `http://localhost:8080`
+2. 安装项目依赖 `yarn install`
+3. 构建客户端代码 `yarn build:client && yarn move-dist`
+4. 启动服务端 `yarn start`
+6. 使用浏览器打开 `http://[ip地址]:[端口]`(比如 `http://127.0.0.1:9200`)
 
-*修改代码会自动重启服务端和刷新客户端*
+### 运行开发模式
 
-### 服务器上运行
-
-1. 参考 [本地运行第1步](#本地运行)
-2. 参考 [本地运行第2步](#本地运行)
-3. 参考 [本地运行第3步](#本地运行)
-4. 构建静态客户端 `npm run build`
-5. 将客户端构建产物移到服务端静态资源目录 `npm run move-dist`
-6. 启动服务端 `npm start`
-7. 使用浏览器打开 `http://[服务端ip]:[fiora端口号]`
-
-在服务器上部署时, 强烈推荐配置七牛CDN, 详情请参考 [七牛CDN配置](#七牛CDN配置)
+1. 启动服务端 `yarn dev:server`
+2. 启动客户端 `yarn dev:client`
+3. 使用浏览器打开 `http://localhost:8080`
 
 ### docker运行
 首先安装docker <https://docs.docker.com/install/>
@@ -68,8 +56,8 @@
 
 ### 通过命令行参数修改配置
 - 直接运行时 `./node_modules/.bin/ts-node server/main.ts --xxx "yyy"`
-- 通过 npm 运行时 `npm start -- --xxx "yyy"`
-- 通过 pm2 运行时 `pm2 start npm -- start --xxx "yyy"`
+- 通过 yarn 运行时 `yarn start -- --xxx "yyy"`
+- 通过 pm2 运行时 `pm2 start yarn -- start --xxx "yyy"`
 
 `xxx` 是配置名, `yyy` 是要配置的值, 配置名可以去配置文件中查看   
 **推荐使用该方法修改配置**
@@ -102,9 +90,9 @@
     "rescan_local": true
 }
 ```
-4. 构建客户端, 传递七牛外网 url 作为 publicPath `npm run build -- --publicPath "http://示例地址/fiora/"`
+4. 构建客户端, 传递七牛外网 url 作为 publicPath `yarn build:client -- --publicPath "http://示例地址/fiora/"`
 5. 上传构建结构到 CDN `qshell qupload .qiniurc`
-6. 更新客户端 index.html `npm run move-dist`, 如果是本地构建上传CDN的, 请手动更新 index.html 到服务器上 fiora public 目录下
+6. 更新客户端 index.html `yarn move-dist`, 如果是本地构建上传CDN的, 请手动更新 index.html 到服务器上 fiora public 目录下
 
 *每次更新客户端代码后, 重复4~6步*
 
