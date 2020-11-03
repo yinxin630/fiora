@@ -4,12 +4,12 @@
   "description": "An interesting chat application power by socket.io, koa, mongodb and react",
   "license": "MIT",
   "scripts": {
-    "start": "./node_modules/.bin/cross-env NODE_ENV=production && ./node_modules/.bin/ts-node --transpile-only server/main.ts",
-    "server": "./node_modules/.bin/cross-env NODE_ENV=development && nodemon server/main.ts --exec \"./node_modules/.bin/ts-node --files\" --config .nodemonrc",
-    "client": "./node_modules/.bin/ts-node --files build/dev-server.ts",
+    "start": "NODE_ENV=production ts-node --transpile-only server/main.ts",
+    "dev:server": "NODE_ENV=development nodemon server/main.ts --exec \"ts-node --files\" --config .nodemonrc",
+    "dev:client": "NODE_ENV=development ts-node --files build/dev-server.ts",
     "dashboard": "webpack-dashboard -- ./node_modules/.bin/ts-node --files build/dev-server.ts",
-    "build": "./node_modules/.bin/ts-node --transpile-only build/build.ts",
-    "lint": "./node_modules/.bin/eslint ./ --ext js,jsx,ts,tsx --ignore-pattern .eslintignore --cache --fix",
+    "build:client": "NODE_ENV=production ts-node --transpile-only build/build.ts",
+    "lint": "eslint ./ --ext js,jsx,ts,tsx --ignore-pattern .eslintignore --cache --fix",
     "move-dist": "rm -rf public/audio && rm -rf public/avatar && rm -rf public/css && rm -rf public/fonts && rm -rf public/img && rm -rf public/js && mv -f dist/fiora/* public",
     "test": "jest",
     "ts-check": "tsc --noEmit"
