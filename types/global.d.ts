@@ -26,6 +26,11 @@ declare module 'rc-notification';
 
 declare module '*.less';
 declare module '*.json';
+declare module '*.png';
+declare module '*.jpg';
+declare module '*.jpeg';
+declare module '*.gif';
+declare module '*.mp3';
 
 declare var __TEST__: boolean;
 

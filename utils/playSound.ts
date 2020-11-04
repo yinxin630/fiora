@@ -1,14 +1,21 @@
+import DefaultSound from '../client/assets/audios/default.mp3';
+import AppleSound from '../client/assets/audios/apple.mp3';
+import PcQQSound from '../client/assets/audios/pcqq.mp3';
+import MobileQQSound from '../client/assets/audios/mobileqq.mp3';
+import MoMoSound from '../client/assets/audios/momo.mp3';
+import HuaJiSound from '../client/assets/audios/huaji.mp3';
+
 type Sounds = {
     [key: string]: string;
-}
+};
 
 const sounds: Sounds = {
-    default: require('../client/assets/audios/default.mp3'),
-    apple: require('../client/assets/audios/apple.mp3'),
-    pcqq: require('../client/assets/audios/pcqq.mp3'),
-    mobileqq: require('../client/assets/audios/mobileqq.mp3'),
-    momo: require('../client/assets/audios/momo.mp3'),
-    huaji: require('../client/assets/audios/huaji.mp3'),
+    default: DefaultSound,
+    apple: AppleSound,
+    pcqq: PcQQSound,
+    mobileqq: MobileQQSound,
+    momo: MoMoSound,
+    huaji: HuaJiSound,
 };
 
 let prevType = 'default';

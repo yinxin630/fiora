@@ -1,8 +1,5 @@
-import webpackConfig from '../build/webpack';
-
 const AvatarCount = 15;
-const env = process.env.NODE_ENV === 'development' ? 'dev' : 'build';
-const publicPath: string = webpackConfig[env].assetsPublicPath + (webpackConfig[env].assetsPublicPath.endsWith('/') ? '' : '/');
+const publicPath = process.env.PublicPath || '/';
 
 /**
  * 获取随机头像

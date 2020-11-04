@@ -1,10 +1,16 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
+import loadable from '@loadable/component';
 
 import Style from './Message.less';
 import { CircleProgress } from '../../../components/Progress';
 import { isMobile } from '../../../../utils/ua';
 
-let Viewer: any = null;
+const ReactViewerAsync = loadable(async () => {
+    // @ts-ignore
+    await import(/* webpackChunkName: "react-viewer.css" */ 'react-viewer/dist/index.css');
+    // @ts-ignore
+    return import(/* webpackChunkName: "react-viewer" */ 'react-viewer');
+});
 
 interface ImageMessageProps {
     src: string;
@@ -17,23 +23,7 @@ function ImageMessage(props: ImageMessageProps) {
 
     const [viewer, toggleViewer] = useState(false);
     const closeViewer = useCallback(() => toggleViewer(false), []);
-    const [timestamp, setTimestamp] = useState(0);
     const $container = useRef(null);
-
-    useEffect(() => {
-        (async () => {
-            if (viewer && !Viewer) {
-                // @ts-ignore
-                const reactViewerModule = await import(
-                    /* webpackChunkName: "react-viewer" */ 'react-viewer',
-                );
-                // @ts-ignore
-                await import(/* webpackChunkName: "react-viewer.css" */ 'react-viewer/dist/index.css');
-                Viewer = reactViewerModule.default;
-                setTimestamp(Date.now());
-            }
-        })();
-    }, [viewer]);
 
     let imageSrc = src;
     const containerWidth = isMobile ? window.innerWidth - 50 : 450;
@@ -56,7 +46,9 @@ function ImageMessage(props: ImageMessageProps) {
         height = naturehHeight * scale;
         imageSrc = /^(blob|data):/.test(src)
             ? imageSrc.split('?')[0]
-            : `${imageSrc}&imageView2/1/q/80/w/${Math.floor(width * 1.2)}/h/${Math.floor(height * 1.2)}`;
+            : `${imageSrc}&imageView2/1/q/80/w/${Math.floor(width * 1.2)}/h/${Math.floor(
+                  height * 1.2,
+              )}`;
     }
 
     let className = Style.imageMessage;
@@ -88,8 +80,8 @@ function ImageMessage(props: ImageMessageProps) {
                 <div className={`${Style.imageProgress} ${Style.imageProgressNumber}`}>
                     {Math.ceil(percent)}%
                 </div>
-                {Viewer && (
-                    <Viewer
+                {viewer && (
+                    <ReactViewerAsync
                         // eslint-disable-next-line react/destructuring-assignment
                         visible={viewer}
                         onClose={closeViewer}
@@ -99,7 +91,6 @@ function ImageMessage(props: ImageMessageProps) {
                     />
                 )}
             </div>
-            <span className="hide">{timestamp}</span>
         </>
     );
 }
