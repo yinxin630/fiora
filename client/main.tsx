@@ -31,7 +31,7 @@ if (config.frontendMonitorAppId) {
         const __wpk = new WpkReporter({
             bid: config.frontendMonitorAppId,
             spa: true,
-            rel: process.env.frontendMonitorVersion,
+            rel: config.frontendMonitorAppId,
             uid: () => localStorage.getItem('username') || '',
             plugins: [],
         });

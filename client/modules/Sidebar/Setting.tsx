@@ -19,6 +19,7 @@ import Style from './Setting.less';
 import Common from './Common.less';
 import { Tabs, TabPane, ScrollableInkTabBar, TabContent } from '../../components/Tabs';
 import { LocalStorageKey } from '../../localStorage';
+import themes from '../../themes';
 
 interface SettingProps {
     visible: boolean;
@@ -55,7 +56,7 @@ function Setting(props: SettingProps) {
     function setTheme(themeName: string) {
         action.setStatus('theme', themeName);
         // @ts-ignore
-        const themeConfig = config.theme[themeName];
+        const themeConfig = themes[themeName];
         if (themeConfig) {
             action.setStatus('primaryColor', themeConfig.primaryColor);
             action.setStatus('primaryTextColor', themeConfig.primaryTextColor);

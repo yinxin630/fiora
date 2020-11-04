@@ -20,6 +20,7 @@ import { deleteMessage } from '../../../service';
 import IconButton from '../../../components/IconButton';
 import { State } from '../../../state/reducer';
 import Tooltip from '../../../components/Tooltip';
+import themes from '../../../themes';
 
 const { dispatch } = store;
 
@@ -155,7 +156,7 @@ class Message extends Component<MessageProps, MessageState> {
         const { isSelf, avatar, tag, tagColorMode, username } = this.props;
         const { showButtonList } = this.state;
 
-        let tagColor = `rgb(${config.theme.default.primaryColor})`;
+        let tagColor = `rgb(${themes.default.primaryColor})`;
         if (tagColorMode === 'fixedColor') {
             tagColor = getRandomColor(tag);
         } else if (tagColorMode === 'randomColor') {

@@ -1,6 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import path from 'path';
-import webpack from 'webpack';
 import merge from 'webpack-merge';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -36,10 +35,6 @@ const webpackConfig = merge(baseWebpackConfig, {
     },
     devtool: config.build.productionSourceMap ? '#source-map' : false,
     plugins: [
-        // @ts-ignore
-        new webpack.DefinePlugin({
-            'process.env': config.build.env,
-        }),
         new ExtractTextPlugin({
             filename: utils.assetsPath('css/[name].[hash:8].css'),
         }),
