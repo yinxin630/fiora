@@ -13,7 +13,6 @@ import UrlMessage from './UrlMessage';
 import InviteMessage from './InviteMessage';
 import SystemMessage from './SystemMessage';
 import { getRandomColor, getPerRandomColor } from '../../../../utils/getRandomColor';
-import config from '../../../../config/client';
 import store from '../../../state/store';
 import { ActionTypes, DeleteMessagePayload } from '../../../state/action';
 import { deleteMessage } from '../../../service';
