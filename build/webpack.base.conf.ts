@@ -1,7 +1,13 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import path from 'path';
+import webpack from 'webpack';
+import humps from 'humps';
 import * as utils from './utils';
 import config from './webpack';
 import pages from './pages';
+import client from '../config/client';
+
+const clientConfigKeys = Object.keys(client).map((key) => humps.decamelize(key).toUpperCase());
 
 const entry: { [key: string]: string } = {};
 pages.forEach((page) => {
@@ -78,4 +84,15 @@ export default {
             },
         ],
     },
+    plugins: [
+        // @ts-ignore
+        new webpack.DefinePlugin({
+            'process.env': Object.keys(process.env)
+                .filter((key) => clientConfigKeys.includes(key))
+                .reduce((result: any, key) => {
+                    result[key] = JSON.stringify(process.env[key]);
+                    return result;
+                }, {}),
+        }),
+    ],
 };

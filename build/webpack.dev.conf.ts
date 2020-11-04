@@ -29,10 +29,6 @@ export default merge(baseWebpackConfig, {
     devtool: '#cheap-module-eval-source-map',
     plugins: [
         // @ts-ignore
-        new webpack.DefinePlugin({
-            'process.env': config.dev.env,
-        }),
-        // @ts-ignore
         new webpack.HotModuleReplacementPlugin(),
         // @ts-ignore
         new webpack.NoEmitOnErrorsPlugin(),

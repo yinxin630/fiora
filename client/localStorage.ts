@@ -1,4 +1,5 @@
 import config from '../config/client';
+import themes from './themes';
 
 /** LocalStorage存储的键值 */
 export enum LocalStorageKey {
@@ -47,22 +48,22 @@ export default function getData() {
         aero: false,
     };
     // @ts-ignore
-    if (theme && config.theme[theme]) {
+    if (theme && themes[theme]) {
         // @ts-ignore
-        themeConfig = config.theme[theme];
+        themeConfig = themes[theme];
     } else {
         themeConfig = {
             primaryColor: getTextValue(
                 LocalStorageKey.PrimaryColor,
-                config.theme[config.defaultTheme].primaryColor,
+                themes[config.defaultTheme]?.primaryColor,
             ),
             primaryTextColor: getTextValue(
                 LocalStorageKey.PrimaryTextColor,
-                config.theme[config.defaultTheme].primaryTextColor,
+                themes[config.defaultTheme]?.primaryTextColor,
             ),
             backgroundImage: getTextValue(
                 LocalStorageKey.BackgroundImage,
-                config.theme[config.defaultTheme].backgroundImage,
+                themes[config.defaultTheme]?.backgroundImage,
             ),
             aero: getSwitchValue(
                 LocalStorageKey.Aero,

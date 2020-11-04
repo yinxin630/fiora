@@ -16,8 +16,7 @@ if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV);
 }
 
-const host = process.env.HOST || config.dev.host;
-const port = process.env.PORT || config.dev.port;
+const { host, port } = config.dev;
 const autoOpenBrowser = !!config.dev.autoOpenBrowser;
 
 const app = express();
@@ -30,9 +29,8 @@ const devMiddleware = webpackDevMiddleware(compiler, {
 });
 
 const hotMiddleware = webpackHotMiddleware(compiler, {
-    log: () => { },
+    log: () => {},
 });
-
 
 compiler.plugin('compilation', (compilation: any) => {
     compilation.plugin('html-webpack-plugin-after-emit', (data: any, cb: any) => {

@@ -1,5 +1,6 @@
 import getData, { LocalStorageKey } from '../../client/localStorage';
 import config from '../../config/client';
+import themes from '../../client/themes';
 
 describe('client/localStorage.ts', () => {
     it('should return localStorage value, or default value if not exists', () => {
@@ -10,7 +11,7 @@ describe('client/localStorage.ts', () => {
 
     it('should return default theme config when them not exists', () => {
         localStorage.setItem(LocalStorageKey.Theme, 'xxx');
-        expect(getData().primaryColor).toBe(config.theme.cool.primaryColor);
+        expect(getData().primaryColor).toBe(themes.cool.primaryColor);
     });
 
     it('should return boolean type value when value is true / false', () => {

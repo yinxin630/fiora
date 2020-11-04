@@ -19,8 +19,8 @@ function exitWithError(message: string) {
 
 connectDB()
     .then(async () => {
-        const username = process.env.USERNAME;
-        const password = process.env.PASSWORD;
+        const username = process.env.Username || '';
+        const password = process.env.Password || '';
         if (!username) {
             exitWithError('用户名不能为空');
         }

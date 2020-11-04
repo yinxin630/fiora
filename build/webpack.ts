@@ -37,11 +37,11 @@ export default {
         },
         index: path.resolve(__dirname, '../dist/index.html'),
         assetsRoot: path.resolve(__dirname, '../dist/fiora'),
-        assetsPublicPath: getFirstNotUndefined(env.PUBLIC_PATH, '/'),
+        assetsPublicPath: getFirstNotUndefined(env.PublicPath, '/'),
         productionSourceMap: false,
         productionGzip: false,
         productionGzipExtensions: ['js', 'css'],
-        bundleAnalyzerReport: env.NPM_CONFIG_REPORT,
+        bundleAnalyzerReport: env.BundleAnalyzerReport,
     },
     dev: {
         env: {
