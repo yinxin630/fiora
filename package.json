@@ -6,9 +6,9 @@
   "scripts": {
     "start": "NODE_ENV=production ts-node --transpile-only server/main.ts",
     "dev:server": "NODE_ENV=development nodemon server/main.ts --exec \"ts-node --files\" --config .nodemonrc",
-    "dev:client": "NODE_ENV=development ts-node --files build/dev-server.ts",
+    "dev:client": "ts-node --files build/dev-server.ts",
     "dashboard": "webpack-dashboard -- ./node_modules/.bin/ts-node --files build/dev-server.ts",
-    "build:client": "NODE_ENV=production ts-node --transpile-only build/build.ts",
+    "build:client": "ts-node --transpile-only build/build.ts",
     "lint": "eslint ./ --ext js,jsx,ts,tsx --ignore-pattern .eslintignore --cache --fix",
     "move-dist": "rm -rf public/audio && rm -rf public/avatar && rm -rf public/css && rm -rf public/fonts && rm -rf public/img && rm -rf public/js && mv -f dist/fiora/* public",
     "test": "jest",

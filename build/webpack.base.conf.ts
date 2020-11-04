@@ -47,7 +47,7 @@ export default {
                     {
                         loader: 'ts-loader',
                         options: {
-                            transpileOnly: process.env.NODE_ENV === 'production',
+                            transpileOnly: true,
                         },
                     },
                 ],
