@@ -7,7 +7,6 @@ COPY client ./client
 COPY config ./config
 COPY public ./public
 COPY server ./server
-COPY static ./static
 COPY types ./types
 COPY utils ./utils
 COPY .babelrc package.json tsconfig.json yarn.lock ./

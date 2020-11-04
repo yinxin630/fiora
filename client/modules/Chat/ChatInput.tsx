@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import loadable from '@loadable/component';
 
 import Style from './ChatInput.less';
 import useIsLogin from '../../hooks/useIsLogin';
@@ -22,8 +23,10 @@ import Tooltip from '../../components/Tooltip';
 import { isMobile } from '../../../utils/ua';
 import useAero from '../../hooks/useAero';
 
-let CodeEditor: any = null;
-let Expression: any = null;
+// @ts-ignore
+const ExpressionAsync = loadable(() => import(/* webpackChunkName: "expression" */ './Expression'));
+// @ts-ignore
+const CodeEditorAsync = loadable(() => import(/* webpackChunkName: "code-editor" */ './CodeEditor'));
 
 function ChatInput() {
     const action = useAction();
@@ -41,7 +44,6 @@ function ChatInput() {
     const [inputIME, toggleInputIME] = useState(false);
     const [inputFocus, toggleInputFocus] = useState(false);
     const [at, setAt] = useState({ enable: false, content: '' });
-    const [timestamp, setTimestamp] = useState(0);
     const $input = useRef(null);
     const aero = useAero();
 
@@ -59,27 +61,6 @@ function ChatInput() {
         window.addEventListener('keydown', focusInput);
         return () => window.removeEventListener('keydown', focusInput);
     }, []);
-
-    useEffect(() => {
-        (async () => {
-            if (expressionDialog && !Expression) {
-                // @ts-ignore
-                const ExpressionModule = await import(
-                    /* webpackChunkName: "expression" */ './Expression',
-                );
-                Expression = ExpressionModule.default;
-                setTimestamp(Date.now());
-            }
-            if (codeEditorDialog && !CodeEditor) {
-                // @ts-ignore
-                const CodeEditorModule = await import(
-                    /* webpackChunkName: "code-editor" */ './CodeEditor',
-                );
-                CodeEditor = CodeEditorModule.default;
-                setTimestamp(Date.now());
-            }
-        })();
-    }, [expressionDialog, codeEditorDialog]);
 
     if (!isLogin) {
         return (
@@ -109,9 +90,10 @@ function ChatInput() {
             const startPos = input.selectionStart;
             const endPos = input.selectionEnd;
             const restoreTop = input.scrollTop;
-            input.value = input.value.substring(0, startPos)
-                + value
-                + input.value.substring(endPos as number, input.value.length);
+            input.value =
+                input.value.substring(0, startPos) +
+                value +
+                input.value.substring(endPos as number, input.value.length);
             if (restoreTop > 0) {
                 input.scrollTop = restoreTop;
             }
@@ -245,7 +227,7 @@ function ChatInput() {
         handleSendMessage(id, 'image', huaji);
     }
 
-    function handleFeatureMenuClick({ key, domEvent }: {key: string, domEvent: any}) {
+    function handleFeatureMenuClick({ key, domEvent }: { key: string; domEvent: any }) {
         // Quickly hitting the Enter key causes the button to repeatedly trigger the problem
         if (domEvent.keyCode === 13) {
             return;
@@ -450,16 +432,14 @@ function ChatInput() {
                     trigger={['click']}
                     visible={expressionDialog}
                     onVisibleChange={toggleExpressionDialog}
-                    overlay={(
+                    overlay={
                         <div className={Style.expressionDropdown}>
-                            {Expression && (
-                                <Expression
-                                    onSelectText={handleSelectExpression}
-                                    onSelectImage={sendImageMessage}
-                                />
-                            )}
+                            <ExpressionAsync
+                                onSelectText={handleSelectExpression}
+                                onSelectImage={sendImageMessage}
+                            />
                         </div>
-                    )}
+                    }
                     animation="slide-up"
                     placement="topLeft"
                 >
@@ -473,7 +453,7 @@ function ChatInput() {
                 </Dropdown>
                 <Dropdown
                     trigger={['click']}
-                    overlay={(
+                    overlay={
                         <div className={Style.featureDropdown}>
                             <Menu onClick={handleFeatureMenuClick}>
                                 <MenuItem key="huaji">发送滑稽</MenuItem>
@@ -482,7 +462,7 @@ function ChatInput() {
                                 <MenuItem key="file">发送文件</MenuItem>
                             </Menu>
                         </div>
-                    )}
+                    }
                     animation="slide-up"
                     placement="topLeft"
                 >
@@ -517,13 +497,13 @@ function ChatInput() {
                         <Tooltip
                             placement="top"
                             mouseEnterDelay={0.5}
-                            overlay={(
+                            overlay={
                                 <span>
                                     支持粘贴图片发图
                                     <br />
                                     全局按 i 键聚焦
                                 </span>
-                            )}
+                            }
                         >
                             <i className={`iconfont icon-about ${Style.tooltip}`} />
                         </Tooltip>
@@ -539,8 +519,8 @@ function ChatInput() {
                 />
 
                 <div className={Style.atPanel}>
-                    {at.enable
-                        && getSuggestion().map((member) => (
+                    {at.enable &&
+                        getSuggestion().map((member) => (
                             <div
                                 className={Style.atUserList}
                                 key={member.user._id}
@@ -553,15 +533,14 @@ function ChatInput() {
                         ))}
                 </div>
 
-                {CodeEditor && (
-                    <CodeEditor
+                {codeEditorDialog && (
+                    <CodeEditorAsync
                         visible={codeEditorDialog}
                         onClose={() => toggleCodeEditorDialog(false)}
                         onSend={handleSendCode}
                     />
                 )}
             </div>
-            <span className="hide">{timestamp}</span>
         </>
     );
 }

@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import loadable from '@loadable/component';
 
 import Style from './CodeMessage.less';
 
-let CodeDialog: any = null;
+// @ts-ignore
+const CodeDialogAsync = loadable(() => import(/* webpackChunkName: "code-dialog" */ './CodeDialog'));
 
 type LanguageMap = {
     [language: string]: string;
-}
+};
 
 const languagesMap: LanguageMap = {
     javascript: 'javascript',
@@ -33,20 +35,6 @@ function CodeMessage(props: CodeMessageProps) {
     const { code } = props;
 
     const [codeDialog, toggleCodeDialog] = useState(false);
-    const [timestamp, setTimestamp] = useState(0);
-
-    useEffect(() => {
-        (async () => {
-            if (codeDialog && !CodeDialog) {
-                // @ts-ignore
-                const CodeDialogModule = await import(
-                /* webpackChunkName: "code-dialog" */ './CodeDialog',
-                );
-                CodeDialog = CodeDialogModule.default;
-                setTimestamp(Date.now());
-            }
-        })();
-    }, [codeDialog]);
 
     const parseResult = /@language=([_a-z]+)@/.exec(code);
     if (!parseResult) {
@@ -74,15 +62,14 @@ function CodeMessage(props: CodeMessageProps) {
                 </div>
                 <p className={Style.codeViewButton}>查看</p>
             </div>
-            {CodeDialog && codeDialog && (
-                <CodeDialog
+            {codeDialog && (
+                <CodeDialogAsync
                     visible={codeDialog}
                     onClose={() => toggleCodeDialog(false)}
                     language={language}
                     code={rawCode}
                 />
             )}
-            <span className="hide">{timestamp}</span>
         </>
     );
 }

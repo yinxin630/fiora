@@ -1,3 +1,5 @@
+import WuZeiNiangImage from '../client/assets/images/wuzeiniang.gif';
+
 // function convertRobot10Message(message) {
 //     if (message.from._id === '5adad39555703565e7903f79') {
 //         try {
@@ -18,7 +20,7 @@ function convertSystemMessage(message: any) {
         message.from._id = 'system';
         message.from.originUsername = message.from.username;
         message.from.username = '乌贼娘殿下';
-        message.from.avatar = require('../client/assets/images/wuzeiniang.gif');
+        message.from.avatar = WuZeiNiangImage;
         message.from.tag = 'system';
 
         const content = JSON.parse(message.content);

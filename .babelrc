@@ -15,8 +15,26 @@
     "plugins": [
         "react-hot-loader/babel",
         [
-            "prismjs", {
-                "languages": ["clike", "javascript", "typescript", "java", "c", "cpp", "python", "ruby", "markup", "markup-templating", "php", "go", "csharp", "css", "sql", "json"],
+            "prismjs",
+            {
+                "languages": [
+                    "clike",
+                    "javascript",
+                    "typescript",
+                    "java",
+                    "c",
+                    "cpp",
+                    "python",
+                    "ruby",
+                    "markup",
+                    "markup-templating",
+                    "php",
+                    "go",
+                    "csharp",
+                    "css",
+                    "sql",
+                    "json"
+                ],
                 "plugins": ["line-numbers", "copy-to-clipboard", "show-language"],
                 "theme": "default",
                 "css": true

@@ -9,6 +9,7 @@ import Button from '../../components/Button';
 import { searchExpression } from '../../service';
 import Message from '../../components/Message';
 import { addParam } from '../../../utils/url';
+import BaiduImage from '../../assets/images/baidu.png';
 
 interface ExpressionProps {
     onSelectText: (expression: string) => void;
@@ -53,7 +54,7 @@ function Expression(props: ExpressionProps) {
                         className={Style.defaultExpressionItem}
                         style={{
                             backgroundPosition: `left ${-30 * index}px`,
-                            backgroundImage: `url(${require('../../assets/images/baidu.png')})`,
+                            backgroundImage: `url(${BaiduImage})`,
                         }}
                     />
                 </div>
@@ -89,12 +90,7 @@ function Expression(props: ExpressionProps) {
             <div className={Style.searchResult}>
                 {searchResults.map(({ image }) => (
                     <div className={Style.searchImage}>
-                        <img
-                            src={image}
-                            alt="表情"
-                            key={image}
-                            onClick={handleClickExpression}
-                        />
+                        <img src={image} alt="表情" key={image} onClick={handleClickExpression} />
                     </div>
                 ))}
             </div>

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import loadable from '@loadable/component';
 
 import { State } from '../../state/reducer';
 import useIsLogin from '../../hooks/useIsLogin';
@@ -20,8 +21,10 @@ import About from './About';
 import Style from './Sidebar.less';
 import useAero from '../../hooks/useAero';
 
-let SelfInfo: any = null;
-let Setting: any = null;
+// @ts-ignore
+const SelfInfoAsync = loadable(() => import(/* webpackChunkName: "self-info" */ './SelfInfo'));
+// @ts-ignore
+const SettingAsync = loadable(() => import(/* webpackChunkName: "setting" */ './Setting'));
 
 function Sidebar() {
     const sidebarVisible = useSelector((state: State) => state.status.sidebarVisible);
@@ -31,7 +34,6 @@ function Sidebar() {
     const isAdmin = useSelector((state: State) => state.user && state.user.isAdmin);
     const avatar = useSelector((state: State) => state.user && state.user.avatar);
 
-    const [timestamp, setTimestamp] = useState(0);
     const [selfInfoDialogVisible, toggleSelfInfoDialogVisible] = useState(false);
     const [adminDialogVisible, toggleAdminDialogVisible] = useState(false);
     const [downloadDialogVisible, toggleDownloadDialogVisible] = useState(false);
@@ -39,23 +41,6 @@ function Sidebar() {
     const [aboutDialogVisible, toggleAboutDialogVisible] = useState(false);
     const [settingDialogVisible, toggleSettingDialogVisible] = useState(false);
     const aero = useAero();
-
-    useEffect(() => {
-        (async () => {
-            if (selfInfoDialogVisible && !SelfInfo) {
-                // @ts-ignore
-                const selfInfoModule = await import(/* webpackChunkName: "self-info" */ './SelfInfo');
-                SelfInfo = selfInfoModule.default;
-                setTimestamp(Date.now());
-            }
-            if (settingDialogVisible && !Setting) {
-                // @ts-ignore
-                const settingModule = await import(/* webpackChunkName: "setting" */ './Setting');
-                Setting = settingModule.default;
-                setTimestamp(Date.now());
-            }
-        })();
-    }, [selfInfoDialogVisible, settingDialogVisible]);
 
     if (!sidebarVisible) {
         return null;
@@ -175,8 +160,8 @@ function Sidebar() {
                 </div>
 
                 {/* 弹窗 */}
-                {isLogin && SelfInfo && (
-                    <SelfInfo
+                {isLogin && selfInfoDialogVisible && (
+                    <SelfInfoAsync
                         visible={selfInfoDialogVisible}
                         onClose={() => toggleSelfInfoDialogVisible(false)}
                     />
@@ -199,14 +184,13 @@ function Sidebar() {
                     visible={aboutDialogVisible}
                     onClose={() => toggleAboutDialogVisible(false)}
                 />
-                {isLogin && Setting && (
-                    <Setting
+                {isLogin && settingDialogVisible && (
+                    <SettingAsync
                         visible={settingDialogVisible}
                         onClose={() => toggleSettingDialogVisible(false)}
                     />
                 )}
             </div>
-            <span className="hide">{timestamp}</span>
         </>
     );
 }
