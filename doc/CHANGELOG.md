@@ -1,3 +1,8 @@
+## 2020-11-07
+
+### Changes
+- Refactor webpack build config
+
 ## 2020-11-04
 
 ### Changes
