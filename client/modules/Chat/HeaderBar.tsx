@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import { css } from 'linaria';
 
 import { isMobile } from '../../../utils/ua';
 import { State } from '../../state/reducer';
@@ -12,18 +13,24 @@ import Message from '../../components/Message';
 import Style from './HeaderBar.less';
 import useAero from '../../hooks/useAero';
 
+const styles = {
+    count: css`
+        font-size: 14px;
+    `,
+};
 
-interface HeaderBarProps {
+type Props = {
     /** 联系人名称, 没有联系人时会传空 */
     name: string;
     /** 联系人类型, 没有联系人时会传空 */
     type: string;
+    onlineMembersCount?: number;
     /** 功能按钮点击事件 */
     onClickFunction: () => void;
-}
+};
 
-function HeaderBar(props: HeaderBarProps) {
-    const { name, type, onClickFunction } = props;
+function HeaderBar(props: Props) {
+    const { name, type, onlineMembersCount, onClickFunction } = props;
 
     const action = useAction();
     const connectStatus = useSelector((state: State) => state.connect);
@@ -56,7 +63,14 @@ function HeaderBar(props: HeaderBarProps) {
                 </div>
             )}
             <h2 className={Style.name}>
-                {name && <span>{name}</span>}
+                {name && (
+                    <span>
+                        {name}{' '}
+                        <b className={styles.count}>
+                            {onlineMembersCount !== undefined ? `(${onlineMembersCount})` : ''}
+                        </b>
+                    </span>
+                )}
                 {isMobile && (
                     <span className={Style.status}>
                         <div className={connectStatus ? 'online' : 'offline'} />
@@ -64,32 +78,30 @@ function HeaderBar(props: HeaderBarProps) {
                     </span>
                 )}
             </h2>
-            {
-                isLogin && type
-                    ? (
-                        <div className={`${Style.buttonContainer} ${Style.rightButtonContainer}`}>
-                            {type === 'group' && (
-                                <CopyToClipboard text={`invite::${name}`}>
-                                    <IconButton
-                                        width={40}
-                                        height={40}
-                                        icon="share"
-                                        iconSize={24}
-                                        onClick={handleShareGroup}
-                                    />
-                                </CopyToClipboard>
-                            )}
+            {isLogin && type ? (
+                <div className={`${Style.buttonContainer} ${Style.rightButtonContainer}`}>
+                    {type === 'group' && (
+                        <CopyToClipboard text={`invite::${name}`}>
                             <IconButton
                                 width={40}
                                 height={40}
-                                icon="gongneng"
+                                icon="share"
                                 iconSize={24}
-                                onClick={onClickFunction}
+                                onClick={handleShareGroup}
                             />
-                        </div>
-                    )
-                    : <div className={Style.buttonContainer} />
-            }
+                        </CopyToClipboard>
+                    )}
+                    <IconButton
+                        width={40}
+                        height={40}
+                        icon="gongneng"
+                        iconSize={24}
+                        onClick={onClickFunction}
+                    />
+                </div>
+            ) : (
+                <div className={Style.buttonContainer} />
+            )}
         </div>
     );
 }

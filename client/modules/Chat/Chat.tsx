@@ -42,17 +42,32 @@ function Chat() {
         };
     }, []);
 
+    async function fetchGroupOnlineMembers() {
+        let onlineMembers: GroupMember[] = [];
+        if (isLogin) {
+            onlineMembers = await getGroupOnlineMembers(focus);
+        } else {
+            onlineMembers = await getDefaultGroupOnlineMembers();
+        }
+        if (onlineMembers) {
+            action.setLinkmanProperty(focus, 'onlineMembers', onlineMembers);
+        }
+    }
+    useEffect(() => {
+        if (linkman) {
+            fetchGroupOnlineMembers();
+        }
+        const timer = setInterval(() => fetchGroupOnlineMembers(), 1000 * 60);
+        return () => clearInterval(timer);
+    }, [focus]);
+
     if (!hasUserInfo) {
         return <div className={Style.chat} />;
     }
     if (!linkman) {
         return (
             <div className={Style.chat}>
-                <HeaderBar
-                    name=""
-                    type=""
-                    onClickFunction={() => {}}
-                />
+                <HeaderBar name="" type="" onClickFunction={() => {}} />
                 <div className={Style.noLinkman}>
                     <div className={Style.noLinkmanImage} />
                     <h2 className={Style.noLinkmanText}>找个群或者好友呀, 不然怎么聊天~~</h2>
@@ -62,8 +77,8 @@ function Chat() {
     }
 
     async function handleClickFunction() {
-        let onlineMembers: GroupMember[] = [];
         if (linkman.type === 'group') {
+            let onlineMembers: GroupMember[] = [];
             if (isLogin) {
                 onlineMembers = await getGroupOnlineMembers(focus);
             } else {
@@ -82,6 +97,7 @@ function Chat() {
             <HeaderBar
                 name={linkman.name}
                 type={linkman.type}
+                onlineMembersCount={linkman.onlineMembers?.length}
                 onClickFunction={handleClickFunction}
             />
             <MessageList />
