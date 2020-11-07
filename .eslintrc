@@ -1,5 +1,5 @@
 {
-    "extends": "eslint-config-airbnb",
+    "extends": ["eslint-config-airbnb", "prettier"],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "project": "./tsconfig.json",
@@ -65,6 +65,6 @@
         "react/jsx-one-expression-per-line": 0,
         "react/static-property-placement": 0,
         "react-hooks/rules-of-hooks": 2,
-        "react-hooks/exhaustive-deps": 1
+        "react-hooks/exhaustive-deps": 0
     }
 }
