@@ -164,37 +164,65 @@ export async function leaveGroup(ctx: KoaContext<LeaveGroupData>) {
     return {};
 }
 
-interface GetGroupOnlineMembersData {
-    /** 目标群id */
-    groupId: string;
+const GroupOnlineMembersCacheExpireTime = 1000 * 60;
+type GroupOnlineMembersCache = {
+    [groupId: string]: {
+        value: any;
+        expireTime: number;
+    };
+};
+
+function getGroupOnlineMembersWrapper() {
+    const cache: GroupOnlineMembersCache = {};
+    return async function getGroupOnlineMembers(ctx: KoaContext<{ groupId: string }>) {
+        const { groupId } = ctx.data;
+        assert(isValid(groupId), '无效的群组ID');
+
+        if (cache[groupId] && cache[groupId].expireTime > Date.now()) {
+            return cache[groupId].value;
+        }
+
+        const group = await Group.findOne({ _id: groupId });
+        if (!group) {
+            throw new AssertionError({ message: '群组不存在' });
+        }
+        const result = await getGroupOnlineMembersHelper(group);
+        cache[groupId] = {
+            value: result,
+            expireTime: Date.now() + GroupOnlineMembersCacheExpireTime,
+        };
+        return result;
+    };
 }
 
 /**
  * 获取群组在线成员
- * @param ctx Context
  */
-export async function getGroupOnlineMembers(ctx: KoaContext<GetGroupOnlineMembersData>) {
-    const { groupId } = ctx.data;
-    assert(isValid(groupId), '无效的群组ID');
+export const getGroupOnlineMembers = getGroupOnlineMembersWrapper();
 
-    const group = await Group.findOne({ _id: groupId });
-    if (!group) {
-        throw new AssertionError({ message: '群组不存在' });
-    }
-    return getGroupOnlineMembersHelper(group);
+function getDefaultGroupOnlineMembersWrapper() {
+    let cache: any = null;
+    let expireTime = 0;
+    return async function getDefaultGroupOnlineMembers() {
+        if (cache && expireTime > Date.now()) {
+            return cache;
+        }
+
+        const group = await Group.findOne({ isDefault: true });
+        if (!group) {
+            throw new AssertionError({ message: '群组不存在' });
+        }
+        cache = await getGroupOnlineMembersHelper(group);
+        expireTime = Date.now() + GroupOnlineMembersCacheExpireTime;
+        return cache;
+    };
 }
 
 /**
  * 获取默认群组的在线成员
  * 无需登录态
  */
-export async function getDefaultGroupOnlineMembers() {
-    const group = await Group.findOne({ isDefault: true });
-    if (!group) {
-        throw new AssertionError({ message: '群组不存在' });
-    }
-    return getGroupOnlineMembersHelper(group);
-}
+export const getDefaultGroupOnlineMembers = getDefaultGroupOnlineMembersWrapper();
 
 interface ChangeGroupAvatarData {
     /** 目标群组id */
