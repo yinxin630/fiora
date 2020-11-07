@@ -64,6 +64,7 @@ export interface Friend {
     name: string;
     avatar: string;
     createTime: string;
+    isOnline: boolean;
 }
 
 /** 联系人 */

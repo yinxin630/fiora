@@ -3,7 +3,12 @@ import assert, { AssertionError } from 'assert';
 import jwt from 'jwt-simple';
 import { Types } from 'mongoose';
 
-import { addMemoryData, MemoryDataStorageKey, deleteMemoryData, existMemoryData } from '../memoryData';
+import {
+    addMemoryData,
+    MemoryDataStorageKey,
+    deleteMemoryData,
+    existMemoryData,
+} from '../memoryData';
 
 import User, { UserDocument } from '../models/user';
 import Group from '../models/group';
@@ -576,3 +581,37 @@ export async function getUserIps(ctx: KoaContext<{ userId: string }>): Promise<s
     const ipList = sockets.map((socket) => socket.ip) || [];
     return Array.from(new Set(ipList));
 }
+
+const UserOnlineStatusCacheExpireTime = 1000 * 60;
+type UserOnlineStatusCache = {
+    [userId: string]: {
+        value: boolean;
+        expireTime: number;
+    };
+};
+function getUserOnlineStatusWrapper() {
+    const cache: UserOnlineStatusCache = {};
+    return async function getUserOnlineStatus(ctx: KoaContext<{ userId: string }>) {
+        const { userId } = ctx.data;
+        console.log(userId);
+        assert(userId, 'userId不能为空');
+        assert(isValid(userId), '不合法的userId');
+
+        if (cache[userId] && cache[userId].expireTime > Date.now()) {
+            return {
+                isOnline: cache[userId].value,
+            };
+        }
+
+        const sockets = await Socket.find({ user: userId });
+        const isOnline = sockets.length > 0;
+        cache[userId] = {
+            value: isOnline,
+            expireTime: Date.now() + UserOnlineStatusCacheExpireTime,
+        };
+        return {
+            isOnline,
+        };
+    };
+}
+export const getUserOnlineStatus = getUserOnlineStatusWrapper();

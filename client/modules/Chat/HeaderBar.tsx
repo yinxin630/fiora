@@ -16,6 +16,9 @@ import useAero from '../../hooks/useAero';
 const styles = {
     count: css`
         font-size: 14px;
+        @media (max-width: 500px) {
+            font-size: 12px;
+        }
     `,
 };
 
@@ -25,12 +28,13 @@ type Props = {
     /** 联系人类型, 没有联系人时会传空 */
     type: string;
     onlineMembersCount?: number;
+    isOnline?: boolean;
     /** 功能按钮点击事件 */
     onClickFunction: () => void;
 };
 
 function HeaderBar(props: Props) {
-    const { name, type, onlineMembersCount, onClickFunction } = props;
+    const { name, type, onlineMembersCount, isOnline, onClickFunction } = props;
 
     const action = useAction();
     const connectStatus = useSelector((state: State) => state.connect);
@@ -66,9 +70,12 @@ function HeaderBar(props: Props) {
                 {name && (
                     <span>
                         {name}{' '}
-                        <b className={styles.count}>
-                            {onlineMembersCount !== undefined ? `(${onlineMembersCount})` : ''}
-                        </b>
+                        {onlineMembersCount !== undefined && (
+                            <b className={styles.count}>{`(${onlineMembersCount})`}</b>
+                        )}
+                        {isOnline !== undefined && (
+                            <b className={styles.count}>{`(${isOnline ? '在线' : '离线'})`}</b>
+                        )}
                     </span>
                 )}
                 {isMobile && (

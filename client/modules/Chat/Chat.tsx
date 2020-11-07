@@ -9,7 +9,11 @@ import GroupManagePanel from './GroupManagePanel';
 import { State, GroupMember } from '../../state/reducer';
 import { ShowUserOrGroupInfoContext } from '../../context';
 import useIsLogin from '../../hooks/useIsLogin';
-import { getGroupOnlineMembers, getDefaultGroupOnlineMembers } from '../../service';
+import {
+    getGroupOnlineMembers,
+    getDefaultGroupOnlineMembers,
+    getUserOnlineStatus,
+} from '../../service';
 import useAction from '../../hooks/useAction';
 import useAero from '../../hooks/useAero';
 
@@ -22,6 +26,7 @@ function Chat() {
     const [groupManagePanel, toggleGroupManagePanel] = useState(false);
     const context = useContext(ShowUserOrGroupInfoContext);
     const aero = useAero();
+    const self = useSelector((state: State) => state.user?._id) || '';
 
     function handleBodyClick(e: MouseEvent) {
         const { currentTarget } = e;
@@ -53,11 +58,17 @@ function Chat() {
             action.setLinkmanProperty(focus, 'onlineMembers', onlineMembers);
         }
     }
+    async function fetchUserOnlineStatus() {
+        const isOnline = await getUserOnlineStatus(focus.replace(self, ''));
+        action.setLinkmanProperty(focus, 'isOnline', isOnline);
+    }
     useEffect(() => {
-        if (linkman) {
-            fetchGroupOnlineMembers();
+        if (!linkman) {
+            return () => {};
         }
-        const timer = setInterval(() => fetchGroupOnlineMembers(), 1000 * 60);
+        const request = linkman.type === 'group' ? fetchGroupOnlineMembers : fetchUserOnlineStatus;
+        request();
+        const timer = setInterval(() => request(), 1000 * 60);
         return () => clearInterval(timer);
     }, [focus]);
 
@@ -84,7 +95,9 @@ function Chat() {
             } else {
                 onlineMembers = await getDefaultGroupOnlineMembers();
             }
-            action.setLinkmanProperty(focus, 'onlineMembers', onlineMembers);
+            if (onlineMembers) {
+                action.setLinkmanProperty(focus, 'onlineMembers', onlineMembers);
+            }
             toggleGroupManagePanel(true);
         } else {
             // @ts-ignore
@@ -98,6 +111,7 @@ function Chat() {
                 name={linkman.name}
                 type={linkman.type}
                 onlineMembersCount={linkman.onlineMembers?.length}
+                isOnline={linkman.isOnline}
                 onClickFunction={handleClickFunction}
             />
             <MessageList />

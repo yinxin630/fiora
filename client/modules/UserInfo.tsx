@@ -25,6 +25,7 @@ interface UserInfoProps {
         username: string;
         avatar: string;
         ip: string;
+        isOnline?: string;
     };
     onClose: () => void;
 }
