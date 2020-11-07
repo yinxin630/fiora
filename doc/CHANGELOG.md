@@ -2,6 +2,7 @@
 
 ### Changes
 - Support send file directly
+- Support display linkman realtime info. About user online status and group online members count
 - Refactor webpack build config
 
 ## 2020-11-04
