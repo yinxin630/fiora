@@ -483,14 +483,14 @@ function ChatInput() {
                     trigger={['click']}
                     visible={expressionDialog}
                     onVisibleChange={toggleExpressionDialog}
-                    overlay={
+                    overlay={(
                         <div className={Style.expressionDropdown}>
                             <ExpressionAsync
                                 onSelectText={handleSelectExpression}
                                 onSelectImage={sendImageMessage}
                             />
                         </div>
-                    }
+                    )}
                     animation="slide-up"
                     placement="topLeft"
                 >
@@ -504,7 +504,7 @@ function ChatInput() {
                 </Dropdown>
                 <Dropdown
                     trigger={['click']}
-                    overlay={
+                    overlay={(
                         <div className={Style.featureDropdown}>
                             <Menu onClick={handleFeatureMenuClick}>
                                 <MenuItem key="huaji">发送滑稽</MenuItem>
@@ -513,7 +513,7 @@ function ChatInput() {
                                 <MenuItem key="file">发送文件</MenuItem>
                             </Menu>
                         </div>
-                    }
+                    )}
                     animation="slide-up"
                     placement="topLeft"
                 >
@@ -548,13 +548,13 @@ function ChatInput() {
                         <Tooltip
                             placement="top"
                             mouseEnterDelay={0.5}
-                            overlay={
+                            overlay={(
                                 <span>
                                     支持粘贴图片发图
                                     <br />
                                     全局按 i 键聚焦
                                 </span>
-                            }
+                            )}
                         >
                             <i className={`iconfont icon-about ${Style.tooltip}`} />
                         </Tooltip>

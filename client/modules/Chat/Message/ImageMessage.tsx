@@ -43,8 +43,8 @@ function ImageMessage(props: ImageMessageProps) {
         imageSrc = /^(blob|data):/.test(src)
             ? imageSrc.split('?')[0]
             : `${imageSrc}&imageView2/1/q/80/w/${Math.floor(width * 1.2)}/h/${Math.floor(
-                  height * 1.2,
-              )}`;
+                height * 1.2,
+            )}`;
     }
 
     let className = Style.imageMessage;
