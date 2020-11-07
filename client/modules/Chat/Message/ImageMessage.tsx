@@ -1,16 +1,12 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, MouseEvent } from 'react';
 import loadable from '@loadable/component';
 
 import Style from './Message.less';
 import { CircleProgress } from '../../../components/Progress';
 import { isMobile } from '../../../../utils/ua';
 
-const ReactViewerAsync = loadable(async () => {
-    // @ts-ignore
-    await import(/* webpackChunkName: "react-viewer.css" */ 'react-viewer/dist/index.css');
-    // @ts-ignore
-    return import(/* webpackChunkName: "react-viewer" */ 'react-viewer');
-});
+// @ts-ignore
+const ReactViewerAsync = loadable(async () => import(/* webpackChunkName: "react-viewer" */ 'react-viewer'));
 
 interface ImageMessageProps {
     src: string;
@@ -59,6 +55,13 @@ function ImageMessage(props: ImageMessageProps) {
         className += ` ${Style.huaji}`;
     }
 
+    function handleImageViewerMaskClick(e: MouseEvent) {
+        // @ts-ignore
+        if (e.target?.tagName !== 'IMG') {
+            closeViewer();
+        }
+    }
+
     return (
         <>
             <div className={className} ref={$container}>
@@ -85,7 +88,7 @@ function ImageMessage(props: ImageMessageProps) {
                         // eslint-disable-next-line react/destructuring-assignment
                         visible={viewer}
                         onClose={closeViewer}
-                        onMaskClick={closeViewer}
+                        onMaskClick={handleImageViewerMaskClick}
                         images={[{ src: `${src}&imageView2/1/q/80`, alt: src }]}
                         noNavbar
                     />
