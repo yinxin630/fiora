@@ -9,6 +9,7 @@ export default {
         ? parseInt(process.env.MaxBackgroundImageSize, 10)
         : MB * 5,
     maxAvatarSize: process.env.MaxAvatarSize ? parseInt(process.env.MaxAvatarSize, 10) : MB * 1.5,
+    maxFileSize: process.env.MaxFileSize ? parseInt(process.env.MaxFileSize, 10) : MB * 10,
 
     // client default system setting
     defaultTheme: process.env.DefaultTheme || 'cool',

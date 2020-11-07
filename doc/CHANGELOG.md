@@ -1,6 +1,7 @@
 ## 2020-11-07
 
 ### Changes
+- Support send file directly
 - Refactor webpack build config
 
 ## 2020-11-04

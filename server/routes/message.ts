@@ -8,6 +8,7 @@ import Socket from '../models/socket';
 
 import xss from '../../utils/xss';
 import { KoaContext } from '../../types/koa';
+import client from '../../config/client';
 
 const { isValid } = Types.ObjectId;
 
@@ -80,6 +81,10 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
             });
         }
         messageContent = xss(messageContent);
+    } else if (type === 'file') {
+        const file: { size: number } = JSON.parse(content);
+        assert(file.size < client.maxFileSize, '要发送的文件过大');
+        messageContent = content;
     } else if (type === 'invite') {
         const group = await Group.findOne({ name: content });
         if (!group) {
@@ -157,7 +162,8 @@ export async function getLinkmansLastMessages(ctx: KoaContext<GetLinkmanLastMess
                 createTime: 1,
             },
             { sort: { createTime: -1 }, limit: FirstTimeMessagesCount },
-        ).populate('from', { username: 1, avatar: 1, tag: 1 }));
+        ).populate('from', { username: 1, avatar: 1, tag: 1 }),
+    );
     const results = await Promise.all(promises);
     type Messages = {
         [linkmanId: string]: MessageDocument[];
