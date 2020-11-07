@@ -20,16 +20,13 @@ export async function register(
     browser = '',
     environment = '',
 ) {
-    const [err, user] = await fetch(
-        'register',
-        {
-            username,
-            password,
-            os,
-            browser,
-            environment,
-        },
-    );
+    const [err, user] = await fetch('register', {
+        username,
+        password,
+        os,
+        browser,
+        environment,
+    });
 
     if (err) {
         return null;
@@ -54,16 +51,13 @@ export async function login(
     browser = '',
     environment = '',
 ) {
-    const [err, user] = await fetch(
-        'login',
-        {
-            username,
-            password,
-            os,
-            browser,
-            environment,
-        },
-    );
+    const [err, user] = await fetch('login', {
+        username,
+        password,
+        os,
+        browser,
+        environment,
+    });
 
     if (err) {
         return null;
@@ -80,12 +74,7 @@ export async function login(
  * @param browser 浏览器
  * @param environment 环境信息
  */
-export async function loginByToken(
-    token: string,
-    os = '',
-    browser = '',
-    environment = '',
-) {
+export async function loginByToken(token: string, os = '', browser = '', environment = '') {
     const [err, user] = await fetch(
         'loginByToken',
         {
@@ -369,4 +358,9 @@ export async function setUserTag(username: string, tag: string) {
 export async function getUserIps(userId: string) {
     const [, res] = await fetch('getUserIps', { userId });
     return res;
+}
+
+export async function getUserOnlineStatus(userId: string) {
+    const [, res] = await fetch('getUserOnlineStatus', { userId });
+    return res && res.isOnline;
 }
