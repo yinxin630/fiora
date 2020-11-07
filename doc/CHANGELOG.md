@@ -4,6 +4,8 @@
 - Support send file directly
 - Support display linkman realtime info. About user online status and group online members count
 - Refactor webpack build config
+### Fix
+- Fix the issue of right click on image viewer to copy image will close it
 
 ## 2020-11-04
 
