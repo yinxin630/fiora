@@ -45,6 +45,10 @@ export default async function readDiskFIle(resultType = 'blob', accept = '*/*') 
 
             const reader = new FileReader();
             reader.onloadend = function handleLoad() {
+                if (!this.result) {
+                    resolve(null);
+                    return;
+                }
                 // @ts-ignore
                 resolve({
                     filename: file.name,

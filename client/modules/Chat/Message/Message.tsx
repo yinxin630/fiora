@@ -20,6 +20,7 @@ import IconButton from '../../../components/IconButton';
 import { State } from '../../../state/reducer';
 import Tooltip from '../../../components/Tooltip';
 import themes from '../../../themes';
+import FileMessage from './FileMessage';
 
 const { dispatch } = store;
 
@@ -134,6 +135,9 @@ class Message extends Component<MessageProps, MessageState> {
             case 'image': {
                 return <ImageMessage src={content} loading={loading} percent={percent} />;
             }
+            case 'file': {
+                return <FileMessage file={content} percent={percent} />;
+            }
             case 'code': {
                 return <CodeMessage code={content} />;
             }
@@ -193,7 +197,11 @@ class Message extends Component<MessageProps, MessageState> {
                         <div className={Style.content}>{this.renderContent()}</div>
                         {showButtonList && (
                             <div className={Style.buttonList}>
-                                <Tooltip placement={isSelf ? 'left' : 'right'} mouseEnterDelay={0.3} overlay={<span>撤回消息</span>}>
+                                <Tooltip
+                                    placement={isSelf ? 'left' : 'right'}
+                                    mouseEnterDelay={0.3}
+                                    overlay={<span>撤回消息</span>}
+                                >
                                     <div>
                                         <IconButton
                                             className={Style.button}

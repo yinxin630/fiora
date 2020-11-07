@@ -125,7 +125,7 @@ function ChatInput() {
                 tag,
             },
             loading: true,
-            percent: type === 'image' ? 0 : 100,
+            percent: type === 'image' || type === 'file' ? 0 : 100,
         };
         // @ts-ignore
         action.addLinkmanMessage(focus, message);
@@ -210,7 +210,47 @@ function ChatInput() {
         img.src = url;
     }
 
-    async function handleSelectFile() {
+    async function sendFileMessage(file: ReadFileResult) {
+        if (file.length > config.maxFileSize) {
+            Message.warning('要发送的文件过大', 3);
+            return;
+        }
+
+        const id = addSelfMessage(
+            'file',
+            JSON.stringify({
+                filename: file.filename,
+                size: file.length,
+                ext: file.ext,
+            }),
+        );
+        try {
+            const fileUrl = await uploadFile(
+                file.result as Blob,
+                `FileMessage/${selfId}_${Date.now()}.${file.ext}`,
+                `FileMessage_${selfId}_${Date.now()}.${file.ext}`,
+                (info: any) => {
+                    action.updateMessage(focus, id, { percent: info.total.percent });
+                },
+            );
+            handleSendMessage(
+                id,
+                'file',
+                JSON.stringify({
+                    fileUrl,
+                    filename: file.filename,
+                    size: file.length,
+                    ext: file.ext,
+                }),
+                focus,
+            );
+        } catch (err) {
+            console.error(err);
+            Message.error('上传文件失败');
+        }
+    }
+
+    async function handleSendImage() {
         if (!connect) {
             return Message.error('发送消息失败, 您当前处于离线状态');
         }
@@ -226,6 +266,17 @@ function ChatInput() {
         const id = addSelfMessage('image', huaji);
         handleSendMessage(id, 'image', huaji);
     }
+    async function handleSendFile() {
+        if (!connect) {
+            Message.error('发送消息失败, 您当前处于离线状态');
+            return;
+        }
+        const file = await readDiskFile('blob');
+        if (!file) {
+            return;
+        }
+        sendFileMessage(file);
+    }
 
     function handleFeatureMenuClick({ key, domEvent }: { key: string; domEvent: any }) {
         // Quickly hitting the Enter key causes the button to repeatedly trigger the problem
@@ -235,7 +286,7 @@ function ChatInput() {
 
         switch (key) {
             case 'image': {
-                handleSelectFile();
+                handleSendImage();
                 break;
             }
             case 'huaji': {
@@ -247,7 +298,7 @@ function ChatInput() {
                 break;
             }
             case 'file': {
-                window.open('https://file.pizza/');
+                handleSendFile();
                 break;
             }
             default:
