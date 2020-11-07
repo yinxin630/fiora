@@ -64,7 +64,6 @@ export interface Friend {
     name: string;
     avatar: string;
     createTime: string;
-    isOnline: boolean;
 }
 
 /** 联系人 */
@@ -83,6 +82,7 @@ export interface User {
     _id: string;
     username: string;
     avatar: string;
+    isOnline: boolean;
 }
 
 /** redux store state */
