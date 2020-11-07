@@ -593,7 +593,6 @@ function getUserOnlineStatusWrapper() {
     const cache: UserOnlineStatusCache = {};
     return async function getUserOnlineStatus(ctx: KoaContext<{ userId: string }>) {
         const { userId } = ctx.data;
-        console.log(userId);
         assert(userId, 'userId不能为空');
         assert(isValid(userId), '不合法的userId');
 
