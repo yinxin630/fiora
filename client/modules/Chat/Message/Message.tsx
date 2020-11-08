@@ -21,6 +21,7 @@ import { State } from '../../../state/reducer';
 import Tooltip from '../../../components/Tooltip';
 import themes from '../../../themes';
 import FileMessage from './FileMessage';
+import client from '../../../../config/client';
 
 const { dispatch } = store;
 
@@ -72,15 +73,15 @@ class Message extends Component<MessageProps, MessageState> {
     }
 
     handleMouseEnter = () => {
-        const { isAdmin } = this.props;
-        if (isAdmin) {
+        const { isAdmin, isSelf } = this.props;
+        if (isAdmin || (!client.disableDeleteMessage && isSelf)) {
             this.setState({ showButtonList: true });
         }
     };
 
     handleMouseLeave = () => {
-        const { isAdmin } = this.props;
-        if (isAdmin) {
+        const { isAdmin, isSelf } = this.props;
+        if (isAdmin || (!client.disableDeleteMessage && isSelf)) {
             this.setState({ showButtonList: false });
         }
     };

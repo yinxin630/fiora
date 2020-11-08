@@ -244,13 +244,15 @@ interface DeleteMessageData {
 /**
  * 删除消息, 需要管理员权限
  */
-export async function deleteMessage(ctx: KoaContext<DeleteMessageData>) {
+export async function deleteMessage(ctx: KoaContext<{ messageId: string }>) {
     const { messageId } = ctx.data;
+    assert(messageId, 'messageId不能为空');
 
     const message = await Message.findOne({ _id: messageId });
     if (!message) {
         throw new AssertionError({ message: '消息不存在' });
     }
+    assert(message.from.toString() === ctx.socket.user.toString(), '只能撤回本人的消息');
 
     await message.remove();
 

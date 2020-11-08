@@ -48,6 +48,8 @@
 
 .contentButtonBlock {
     display: flex;
+    position: relative;
+    padding-right: 30px;
 }
 
 .content {
@@ -78,6 +80,8 @@
     align-self: flex-end;
     margin-left: 5px;
     margin-bottom: 2px;
+    position: absolute;
+    right: 5px;
 }
 
 .button {
@@ -188,6 +192,8 @@
     }
     .contentButtonBlock {
         flex-direction: row-reverse;
+        padding-left: 30px;
+        padding-right: 0;
     }
     .content {
         color: rgba(255, 255, 255, 0.9);
@@ -197,6 +203,8 @@
     }
     .buttonList {
         margin-right: 5px;
+        left: 0;
+        right: inherit;
     }
     .arrow {
         border-width: 0 0 15px 7px;

@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LessPluginAutoPrefix = require('less-plugin-autoprefix');
+const Dotenv = require('dotenv-webpack');
 
 const clientConfigKeys = [
     'NODE_ENV',
@@ -128,5 +129,6 @@ module.exports = {
             inject: true,
         }),
         new CleanWebpackPlugin(),
+        new Dotenv(),
     ],
 };
