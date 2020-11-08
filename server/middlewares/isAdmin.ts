@@ -1,5 +1,6 @@
 import config from '../../config/server';
 import { KoaContext } from '../../types/koa';
+import client from '../../config/client';
 
 export const YouAreNotAdministrator = '你不是管理员';
 
@@ -12,16 +13,15 @@ export default function isAdmin() {
         'getSealList',
         'resetUserPassword',
         'setUserTag',
-        'deleteMessage',
         'getUserIps',
         'sealIp',
         'getSealIpList',
     ]);
     return async (ctx: KoaContext, next: Function) => {
-        if (
-            requireAdminEvent.has(ctx.event)
-            && ctx.socket.user.toString() !== config.administrator
-        ) {
+        const isAdminUser = ctx.socket.user && ctx.socket.user.toString() === config.administrator;
+        const isAdminEvent = requireAdminEvent.has(ctx.event);
+        const isDisableDeleteMessage = ctx.event === 'deleteMessage' && client.disableDeleteMessage;
+        if (!isAdminUser && (isAdminEvent || isDisableDeleteMessage)) {
             ctx.res = YouAreNotAdministrator;
             return;
         }
