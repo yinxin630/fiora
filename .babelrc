@@ -3,7 +3,7 @@
         [
             "@babel/preset-env",
             {
-                "targets": "> 0.5%, last 3 versions, Firefox ESR, not dead",
+                "targets": "> 0.25%, not dead",
                 "useBuiltIns": "entry",
                 "corejs": 3,
                 "modules": false

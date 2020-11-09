@@ -36,7 +36,6 @@ module.exports = {
             },
             {
                 test: /\.tsx?$/,
-                exclude: /node_modules/,
                 use: [
                     'babel-loader',
                     {
@@ -52,6 +51,7 @@ module.exports = {
                         },
                     },
                 ],
+                exclude: /node_modules/,
             },
             {
                 test: /\.less$/,
