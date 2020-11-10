@@ -14,6 +14,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    overflow: hidden;
 }
 
 .nicknameTimeBlock {
@@ -53,6 +54,7 @@
     display: flex;
     position: relative;
     padding-right: 30px;
+    max-width: -webkit-fill-available;
 }
 
 .content {
@@ -65,6 +67,7 @@
     border-top-left-radius: 0px;
     min-height: 28px;
     margin-top: 3px;
+    max-width: -webkit-fill-available;
 }
 
 .arrow {
@@ -109,6 +112,7 @@
 .textMessage {
     user-select: text;
     word-break: break-word;
+    overflow: hidden;
 }
 
 .imageMessage {
