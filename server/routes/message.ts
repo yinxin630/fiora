@@ -252,7 +252,10 @@ export async function deleteMessage(ctx: KoaContext<{ messageId: string }>) {
     if (!message) {
         throw new AssertionError({ message: '消息不存在' });
     }
-    assert(message.from.toString() === ctx.socket.user.toString(), '只能撤回本人的消息');
+    assert(
+        ctx.socket.isAdmin || message.from.toString() === ctx.socket.user.toString(),
+        '只能撤回本人的消息',
+    );
 
     await message.remove();
 

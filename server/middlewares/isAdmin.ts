@@ -18,12 +18,17 @@ export default function isAdmin() {
         'getSealIpList',
     ]);
     return async (ctx: KoaContext, next: Function) => {
-        const isAdminUser = ctx.socket.user && ctx.socket.user.toString() === config.administrator;
+        const isAdminUser =
+            ctx.socket.isAdmin ||
+            (ctx.socket.user && ctx.socket.user.toString() === config.administrator);
         const isAdminEvent = requireAdminEvent.has(ctx.event);
         const isDisableDeleteMessage = ctx.event === 'deleteMessage' && client.disableDeleteMessage;
         if (!isAdminUser && (isAdminEvent || isDisableDeleteMessage)) {
+            ctx.socket.isAdmin = false;
             ctx.res = YouAreNotAdministrator;
             return;
+        } else {
+            ctx.socket.isAdmin = true;
         }
         await next();
     };

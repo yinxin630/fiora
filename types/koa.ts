@@ -31,6 +31,7 @@ interface KoaSocket extends Socket {
          */
         emit: (event: string, data: any) => void;
     }
+    isAdmin: boolean;
 }
 
 // @ts-ignore
