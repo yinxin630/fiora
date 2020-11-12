@@ -2,6 +2,7 @@
 
 ### Features
 - Support multiple administrators
+- Add getUserId and deleteUser scripts
 
 
 ## 2020-11-08
