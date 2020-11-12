@@ -32,7 +32,7 @@ export default {
         : 1000 * 60 * 60 * 24 * 30,
 
     // administrator user id
-    administrator: env.Administrator || '',
+    administrator: env.Administrator ? env.Administrator.split(',') : [],
 
     // default group name
     defaultGroupName: env.DefaultGroupName || 'fiora',
