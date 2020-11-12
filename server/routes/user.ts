@@ -228,7 +228,7 @@ export async function login(ctx: KoaContext<LoginData>) {
         groups,
         friends,
         token,
-        isAdmin: user._id.toString() === config.administrator,
+        isAdmin: config.administrator.includes(user._id.toString()),
     };
 }
 
@@ -313,7 +313,7 @@ export async function loginByToken(ctx: KoaContext<LoginByTokenData>) {
         tag: user.tag,
         groups,
         friends,
-        isAdmin: user._id.toString() === config.administrator,
+        isAdmin: config.administrator.includes(user._id.toString()),
     };
 }
 
