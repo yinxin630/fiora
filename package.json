@@ -11,7 +11,8 @@
     "lint": "eslint ./ --ext js,jsx,ts,tsx --ignore-pattern .eslintignore --cache --fix",
     "move-dist": "mv -f dist/fiora/* public",
     "test": "jest",
-    "ts-check": "tsc --noEmit"
+    "ts-check": "tsc --noEmit",
+    "script": "ts-node --transpile-only bin/index.ts"
   },
   "husky": {
     "hooks": {
