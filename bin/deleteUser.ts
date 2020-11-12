@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import connectDB from '../server/mongoose';
 import User from '../server/models/user';
 import Message from '../server/models/message';
-import Group from '../server/models/group';
+import Group, { GroupDocument } from '../server/models/group';
 import Friend from '../server/models/friend';
 
 export async function deleteUser(userId: string) {
@@ -35,16 +35,21 @@ export async function deleteUser(userId: string) {
             const groups = await Group.find({
                 members: user,
             });
-            for (const group of groups) {
+            // eslint-disable-next-line no-inner-declarations
+            async function leaveGroup(group: GroupDocument) {
+                if (!user) {
+                    return;
+                }
                 console.log('退出', group.name);
-                const index = group.members.indexOf(user._id);
+                const index = group.members.indexOf(user?._id);
                 group.members.splice(index, 1);
-                if (group.creator.toString() === user._id.toString()) {
+                if (group.creator.toString() === user?._id.toString()) {
                     // @ts-ignore
                     group.creator = null;
                 }
                 await group.save();
             }
+            await Promise.all(groups.map(leaveGroup));
 
             console.log('删除与该用户有关的好友关系');
             const deleteFriendResult1 = await Friend.deleteMany({
