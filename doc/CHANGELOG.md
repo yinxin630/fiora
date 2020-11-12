@@ -1,3 +1,9 @@
+## 2020-11-12
+
+### Features
+- Support multiple administrators
+
+
 ## 2020-11-08
 
 ### Features
