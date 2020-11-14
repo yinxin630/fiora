@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
@@ -11,14 +12,10 @@ import getData from './localStorage';
 import setCssVariable from '../utils/setCssVariable';
 import config from '../config/client';
 
-
 // 注册 Service Worker
-if (
-    (window.location.protocol === 'https:')
-    && navigator.serviceWorker
-) {
+if (window.location.protocol === 'https:' && 'serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/fiora-sw.js');
+        navigator.serviceWorker.register(`/service-worker.js`);
     });
 }
 
@@ -46,8 +43,8 @@ setCssVariable(primaryColor, primaryTextColor);
 
 // 请求 Notification 授权
 if (
-    window.Notification
-    && (window.Notification.permission === 'default' || window.Notification.permission === 'denied')
+    window.Notification &&
+    (window.Notification.permission === 'default' || window.Notification.permission === 'denied')
 ) {
     window.Notification.requestPermission();
 }

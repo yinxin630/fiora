@@ -16,6 +16,8 @@ const clientConfigKeys = [
     'FrontendMonitorAppId',
 ];
 
+const publicPath = process.env.PublicPath || '/';
+
 module.exports = {
     entry: {
         app: path.resolve(__dirname, '../client/main.tsx'),
@@ -116,12 +118,15 @@ module.exports = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            'process.env': Object.keys(process.env)
-                .filter((key) => clientConfigKeys.includes(key))
-                .reduce((result, key) => {
-                    result[key] = JSON.stringify(process.env[key]);
-                    return result;
-                }, {}),
+            'process.env': {
+                ...Object.keys(process.env)
+                    .filter((key) => clientConfigKeys.includes(key))
+                    .reduce((result, key) => {
+                        result[key] = JSON.stringify(process.env[key]);
+                        return result;
+                    }, {}),
+                PublicPath: JSON.stringify(publicPath),
+            },
         }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
