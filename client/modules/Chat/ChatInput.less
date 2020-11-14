@@ -8,7 +8,7 @@
     padding: 0px 20px;
     border-bottom-right-radius: 10px;
 
-    &[data-aero=true] {
+    &[data-aero='true'] {
         background-color: rgba(255, 255, 255, 0.15);
 
         .input {
@@ -22,7 +22,7 @@
         .iconButton {
             :global {
                 .iconfont {
-                    color: var(--primary-text-color-8);;
+                    color: var(--primary-text-color-8);
                 }
             }
             &:hover {
@@ -39,9 +39,10 @@
         height: 50px;
         padding: 0 6px;
         border-bottom-right-radius: 0px;
+        height: calc(50px + env(safe-area-inset-bottom));
+        padding-bottom: env(safe-area-inset-bottom);
     }
 }
-
 
 .form {
     flex: 1;
@@ -77,7 +78,7 @@
 .iconButton {
     :global {
         .iconfont {
-            color: #AAA;
+            color: #aaa;
         }
     }
 
@@ -97,9 +98,7 @@
     flex: 1;
     text-align: center;
     letter-spacing: 1px;
-
 }
-
 
 .guestLogin {
     color: var(--primary-color-10);

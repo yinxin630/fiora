@@ -6,7 +6,7 @@
     <meta name=keywords content="fiora,聊天室,fiora聊天室,碎碎酱,二次元,全栈开发">
     <meta name=description content="fiora聊天室是基于node.js和react全栈开发的二次元聊天室">
     <meta name=author content=碎碎酱>
-    <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no",viewport-fit=cover>
+    <meta name=viewport content="viewport-fit=cover,width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
     <link rel="shortcut icon" href="<%= webpackConfig.output.publicPath %>favicon.png">
     <% if (process.env.NODE_ENV === 'production') { %>
       <link rel="manifest" href="/manifest.json">
@@ -19,6 +19,8 @@
     <!-- Windows -->
     <meta name="msapplication-TileImage" content="<%= webpackConfig.output.publicPath %>favicon.png">
     <meta name="msapplication-TileColor" content="#333">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
   </head>
   <body>
     <div id="app"></div>
