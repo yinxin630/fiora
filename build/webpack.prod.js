@@ -1,6 +1,7 @@
 const { merge } = require('webpack-merge');
 const TerserPlugin = require('terser-webpack-plugin');
 const ScriptExtHtmlPlugin = require('script-ext-html-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
@@ -31,6 +32,10 @@ module.exports = merge(common, {
                     value: 'anonymous',
                 },
             ],
+        }),
+        new WorkboxPlugin.GenerateSW({
+            clientsClaim: true,
+            skipWaiting: true,
         }),
     ],
 });
