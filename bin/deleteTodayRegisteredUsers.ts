@@ -17,7 +17,7 @@ export async function deleteTodayRegisteredUsers() {
     const now = new Date();
     const time = new Date(
         `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()} 00:00:00`,
-    ).getTime();
+    );
     const users = await User.find({
         createTime: {
             $gte: time,

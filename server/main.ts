@@ -4,7 +4,7 @@ import app from './app';
 import config from '../config/server';
 
 import Socket from './models/socket';
-import Group from './models/group';
+import Group, { GroupDocument } from './models/group';
 import getRandomAvatar from '../utils/getRandomAvatar';
 
 connectDB()
@@ -16,7 +16,8 @@ connectDB()
                 name: config.defaultGroupName,
                 avatar: getRandomAvatar(),
                 isDefault: true,
-            });
+            } as GroupDocument)
+
             if (!defaultGroup) {
                 console.error('create default group fail');
                 return process.exit(1);

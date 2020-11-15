@@ -4,7 +4,7 @@ import koaSend from 'koa-send';
 import koaStatic from 'koa-static';
 import path from 'path';
 
-import Socket from './models/socket';
+import Socket, { SocketDocument } from './models/socket';
 import config from '../config/server';
 
 import enhanceContext from './middlewares/enhanceContext';
@@ -93,7 +93,7 @@ app.io.on('connection', async (socket) => {
     await Socket.create({
         id: socket.id,
         ip: socket.ip,
-    });
+    } as SocketDocument);
 
     socket.on('disconnect', async () => {
         console.log(`  >>>> disconnect ${socket.id}`);

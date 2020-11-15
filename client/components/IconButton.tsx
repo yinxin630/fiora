@@ -2,18 +2,25 @@ import React from 'react';
 
 import Style from './IconButton.less';
 
-interface IconButtonProps {
+type Props = {
     width: number;
     height: number;
     icon: string;
     iconSize: number;
     className?: string;
-    style: Object;
-    onClick: () => void;
-}
+    style?: Object;
+    onClick?: () => void;
+};
 
-function IconButton(props: IconButtonProps) {
-    const { width, height, icon, iconSize, onClick, className = '', style } = props;
+function IconButton({
+    width,
+    height,
+    icon,
+    iconSize,
+    onClick = () => {},
+    className = '',
+    style = {},
+}: Props) {
     return (
         <div
             className={`${Style.iconButton} ${className}`}
@@ -28,10 +35,5 @@ function IconButton(props: IconButtonProps) {
         </div>
     );
 }
-
-IconButton.defaultProps = {
-    onClick: () => {},
-    style: {},
-};
 
 export default IconButton;

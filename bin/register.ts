@@ -61,7 +61,7 @@ export async function register(username: string, password: string) {
             salt,
             password: hash,
             avatar: getRandomAvatar(),
-        });
+        } as UserDocument);
     } catch (createError) {
         if (createError.name === 'ValidationError') {
             console.log(chalk.red('Username contains unsupported characters or the length exceeds the limit'));

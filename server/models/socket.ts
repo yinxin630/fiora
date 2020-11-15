@@ -8,7 +8,7 @@ const SocketSchema = new Schema({
         unique: true,
         index: true,
     },
-    user: {
+    user$: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         index: true,
@@ -28,13 +28,11 @@ const SocketSchema = new Schema({
     },
 });
 
-interface SocketDocument extends Document {
-    /** 数据库 id */
-    _id: Schema.Types.ObjectId;
+export interface SocketDocument extends Document {
     /** socket连接id */
     id: string;
     /** 关联用户id */
-    user: Schema.Types.ObjectId;
+    user$: Schema.Types.ObjectId | Record<string, any>;
     /** ip地址 */
     ip: string;
     /** 系统 */

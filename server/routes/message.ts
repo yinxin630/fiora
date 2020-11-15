@@ -106,7 +106,7 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
         to,
         type,
         content: messageContent,
-    });
+    } as MessageDocument);
 
     const user = await User.findOne({ _id: ctx.socket.user }, { username: 1, avatar: 1, tag: 1 });
     if (!user) {

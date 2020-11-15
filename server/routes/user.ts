@@ -11,8 +11,8 @@ import {
 } from '../memoryData';
 
 import User, { UserDocument } from '../models/user';
-import Group from '../models/group';
-import Friend from '../models/friend';
+import Group, { GroupDocument } from '../models/group';
+import Friend, { FriendDocument } from '../models/friend';
 import Socket from '../models/socket';
 import Message from '../models/message';
 
@@ -113,7 +113,7 @@ export async function register(ctx: KoaContext<RegisterData>) {
             salt,
             password: hash,
             avatar: getRandomAvatar(),
-        });
+        } as UserDocument);
     } catch (err) {
         if (err.name === 'ValidationError') {
             return '用户名包含不支持的字符或者长度超过限制';
@@ -124,7 +124,7 @@ export async function register(ctx: KoaContext<RegisterData>) {
     handleNewUser(newUser, ctx.socket.ip);
 
     if (!defaultGroup.creator) {
-        defaultGroup.creator = newUser;
+        defaultGroup.creator = newUser._id;
     }
     defaultGroup.members.push(newUser._id);
     await defaultGroup.save();
@@ -151,7 +151,7 @@ export async function register(ctx: KoaContext<RegisterData>) {
                 _id: defaultGroup._id,
                 name: defaultGroup.name,
                 avatar: defaultGroup.avatar,
-                creator: defaultGroup.creator._id,
+                creator: defaultGroup.creator,
                 createTime: defaultGroup.createTime,
                 messages: [],
             },
@@ -286,7 +286,7 @@ export async function loginByToken(ctx: KoaContext<LoginByTokenData>) {
             createTime: 1,
         },
     );
-    groups.forEach((group) => {
+    groups.forEach((group: GroupDocument) => {
         ctx.socket.join(group._id.toString());
     });
 
@@ -410,7 +410,7 @@ export async function addFriend(ctx: KoaContext<AddFriendData>) {
     const newFriend = await Friend.create({
         from: ctx.socket.user,
         to: user._id,
-    });
+    } as FriendDocument);
 
     return {
         _id: user._id,
@@ -433,7 +433,7 @@ export async function deleteFriend(ctx: KoaContext<AddFriendData>) {
     const { userId } = ctx.data;
     assert(isValid(userId), '无效的用户ID');
 
-    const user = await User.findOne({ _id: userId });
+    const user = await User.findOne({ _id: Types.ObjectId(userId) });
     if (!user) {
         throw new AssertionError({ message: '用户不存在' });
     }
