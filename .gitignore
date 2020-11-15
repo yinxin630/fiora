@@ -3,16 +3,15 @@ node_modules/
 dist/
 public/
 coverage/
+.idea/
+.linaria-cache/
 
 npm-debug.log
 yarn-error.log
 .eslintcache
-server.sh
-dev.sh
-build.sh
-.qiniurc
 ecosystem.config.js
 
-.idea/
-.linaria-cache/
+
 .env
+deploy.sh
+.qiniurc
