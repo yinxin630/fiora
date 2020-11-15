@@ -433,7 +433,7 @@ export async function deleteFriend(ctx: KoaContext<AddFriendData>) {
     const { userId } = ctx.data;
     assert(isValid(userId), '无效的用户ID');
 
-    const user = await User.findOne({ _id: Types.ObjectId(userId) });
+    const user = await User.findOne({ _id: userId });
     if (!user) {
         throw new AssertionError({ message: '用户不存在' });
     }
