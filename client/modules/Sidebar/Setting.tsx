@@ -228,9 +228,9 @@ function Setting(props: SettingProps) {
                                     </div>
                                     <div className={Common.block}>
                                         <p className={Common.title}>
-                                        背景图{' '}
+                                            背景图{' '}
                                             <span className={Style.backgroundTip}>
-                                        背景图会被拉伸到浏览器窗口大小, 合理的比例会取得更好的效果
+                                                背景图会被拉伸到浏览器窗口大小, 合理的比例会取得更好的效果
                                             </span>
                                         </p>
                                         <div className={Style.backgroundImageContainer}>

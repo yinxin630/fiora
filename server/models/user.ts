@@ -28,8 +28,6 @@ const UserSchema = new Schema({
 });
 
 export interface UserDocument extends Document {
-    /** 数据库 id */
-    _id: Schema.Types.ObjectId;
     /** 用户名 */
     username: string;
     /** 密码加密盐 */

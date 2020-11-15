@@ -334,6 +334,7 @@ function ChatInput() {
                                     result: imageBlob,
                                 });
                             };
+                            // eslint-disable-next-line react/no-this-in-sfc
                             image.src = this.result as string;
                         };
                         reader.readAsDataURL(file);

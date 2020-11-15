@@ -27,9 +27,9 @@ export default function isAdmin() {
             ctx.socket.isAdmin = false;
             ctx.res = YouAreNotAdministrator;
             return;
-        } else {
-            ctx.socket.isAdmin = true;
-        }
+        } 
+        ctx.socket.isAdmin = true;
+        
         await next();
     };
 }

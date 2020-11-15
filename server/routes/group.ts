@@ -26,7 +26,7 @@ async function getGroupOnlineMembersHelper(group: GroupDocument) {
         },
     ).populate('user', { username: 1, avatar: 1 });
     const filterSockets = sockets.reduce((result, socket) => {
-        result.set(socket.user.toString(), socket);
+        result.set(socket.user$.toString(), socket);
         return result;
     }, new Map());
     return Array.from(filterSockets.values());
@@ -63,7 +63,7 @@ export async function createGroup(ctx: KoaContext<CreateGroupData>) {
             avatar: getRandomAvatar(),
             creator: ctx.socket.user,
             members: [ctx.socket.user],
-        });
+        } as GroupDocument);
     } catch (err) {
         if (err.name === 'ValidationError') {
             return '群组名包含不支持的字符或者长度超过限制';

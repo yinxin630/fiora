@@ -14,13 +14,11 @@ const FriendSchema = new Schema({
     },
 });
 
-interface FriendDocument extends Document {
-    /** 数据库 id */
-    _id: Schema.Types.ObjectId;
+export interface FriendDocument extends Document {
     /** 源用户id */
-    from: Schema.Types.ObjectId;
+    from: Schema.Types.ObjectId | Record<string, any>;
     /** 目标用户id */
-    to: Schema.Types.ObjectId;
+    to: Schema.Types.ObjectId | Record<string, any>;
     /** 创建时间 */
     createTime: Date;
 }
