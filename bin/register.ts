@@ -1,9 +1,10 @@
 /**
- * 管理局直接创建新用户
- * 通过该方式创建的用户不会加到萌新限制
+ * Register
+ * Users created in this way will not be added to the new user limit list
  */
 
 import bcrypt from 'bcryptjs';
+import chalk from 'chalk';
 
 import User, { UserDocument } from '../server/models/user';
 import Group from '../server/models/group';
@@ -12,67 +13,75 @@ import { saltRounds } from '../utils/const';
 import getRandomAvatar from '../utils/getRandomAvatar';
 import connectDB from '../server/mongoose';
 
-function exitWithError(message: string) {
-    console.error(message);
-    process.exit(-1);
-}
+export async function register(username: string, password: string) {
+    if (!username) {
+        console.log(
+            chalk.red(
+                'Wrong command, [username] is missing.',
+                chalk.green('Usage: yarn script register [username] [password]'),
+            ),
+        );
+        return;
+    }
+    if (!password) {
+        console.log(
+            chalk.red(
+                'Wrong command, [password] is missing.',
+                chalk.green('Usage: yarn script register [username] [password]'),
+            ),
+        );
+        return;
+    }
 
-connectDB()
-    .then(async () => {
-        const username = process.env.Username || '';
-        const password = process.env.Password || '';
-        if (!username) {
-            exitWithError('用户名不能为空');
-        }
-        if (!password) {
-            exitWithError('密码不能为空');
-        }
+    await connectDB();
 
-        const user = await User.findOne({ username });
-        if (user) {
-            exitWithError('该用户名已存在');
-        }
+    const user = await User.findOne({ username });
+    if (user) {
+        console.log(chalk.red('The username already exists'));
+        return;
+    }
 
-        const defaultGroup = await Group.findOne({ isDefault: true });
-        if (!defaultGroup) {
-            exitWithError('默认群组不存在');
+    const defaultGroup = await Group.findOne({ isDefault: true });
+    if (!defaultGroup) {
+        console.log(chalk.red('Default group does not exist'));
+        return;
+    }
+
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hash = await bcrypt.hash(password, salt);
+
+    let newUser = null;
+    try {
+        newUser = await User.create({
+            username,
+            salt,
+            password: hash,
+            avatar: getRandomAvatar(),
+        });
+    } catch (createError) {
+        if (createError.name === 'ValidationError') {
+            console.log(chalk.red('Username contains unsupported characters or the length exceeds the limit'));
             return;
         }
+        console.log(chalk.red('Error:'), createError);
+        return;
+    }
 
-        const salt = await bcrypt.genSalt(saltRounds);
-        const hash = await bcrypt.hash(password, salt);
+    if (!defaultGroup.creator) {
+        defaultGroup.creator = newUser as UserDocument;
+    }
+    if (newUser) {
+        defaultGroup.members.push(newUser._id);
+    }
+    await defaultGroup.save();
 
-        let newUser = null;
-        try {
-            newUser = await User.create({
-                username,
-                salt,
-                password: hash,
-                avatar: getRandomAvatar(),
-            });
-        } catch (createError) {
-            if (createError.name === 'ValidationError') {
-                exitWithError('用户名包含不支持的字符或者长度超过限制');
-                return;
-            }
-            console.error(createError);
-            exitWithError('创建新用户失败');
-        }
+    console.log(chalk.green('User created successfully'));
+}
 
-        if (!defaultGroup.creator) {
-            defaultGroup.creator = newUser as UserDocument;
-        }
-        if (newUser) {
-            defaultGroup.members.push(newUser._id);
-        }
-        await defaultGroup.save();
-
-        console.log('注册成功');
-
-        process.exit(0);
-    })
-    .catch((err) => {
-        console.error('connect database error!');
-        console.error(err);
-        return process.exit(-1);
-    });
+async function run() {
+    const username = process.argv[3];
+    const password = process.argv[4];
+    await register(username, password);
+    process.exit(0);
+}
+export default run;
