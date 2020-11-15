@@ -17,7 +17,11 @@ const { isValid } = Types.ObjectId;
  */
 async function getGroupOnlineMembersHelper(group: GroupDocument) {
     const sockets = await Socket.find(
-        { user: group.members },
+        {
+            user: {
+                $in: group.members.map((member) => member.toString()),
+            },
+        },
         {
             os: 1,
             browser: 1,
@@ -26,7 +30,7 @@ async function getGroupOnlineMembersHelper(group: GroupDocument) {
         },
     ).populate('user', { username: 1, avatar: 1 });
     const filterSockets = sockets.reduce((result, socket) => {
-        result.set(socket.user$.toString(), socket);
+        result.set(socket.user._id.toString(), socket);
         return result;
     }, new Map());
     return Array.from(filterSockets.values());
