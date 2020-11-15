@@ -9,7 +9,7 @@
 
 Language: [English](README.md) | [简体中文](./doc/README.ZH.md)
 
-Fiora is a web chat application. It is written by node.js, mongodb, socket.io and react
+fiora is an interesting chat application. It is developed based on node.js, mongodb, react and socket.io technologies
 
 The project started at [2015-11-04](https://github.com/yinxin630/chatroom-with-sails/commit/0a032372727550b8b4087f24ac299de03b677b9f)
 
@@ -18,23 +18,18 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
 
 ## Functions
 
-1. Friends, groups, private chat, group chat
-2. Text, pictures, code, URL and many other types of messages
-3. Tieba expression, huaji expression, search expression image
-4. Desktop notification, sound reminder, message voice reading
-5. Custom desktop background, theme color, and text color
-6. Display online users, @ function
-7. Administrator
-    - Block
-    - Recall message
-    - Give user tag
-    - Reset user password
-    - View user ip
+1. Register an account and log in, it can save your data for a long time
+2. Join an existing group or create your own group to communicate with everyone
+3. Chat privately with anyone and add them as friends
+4. Multiple message types, including text / emoticons / pictures / codes / files / commands, you can also search for emoticons
+5. Push notification when you receive a new message, you can customize the notification ringtone, and it can also read the message out
+6. Choose the theme you like, and you can set it as any wallpaper and theme color you like
+7. Set up an administrator to manage users
 
 ## Screenshot
 
-<img src="https://github.com/yinxin630/fiora/raw/master/doc/screenshots/runtime.jpeg" alt="PC" style="max-width:800px" />
-<img src="https://github.com/yinxin630/fiora/raw/master/doc/screenshots/mobile-runtime.png" alt="Mobile" style="max-height:667px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/doc/screenshots/screenshot-pc.png" alt="PC" style="max-width:800px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/doc/screenshots/screenshot-phone.png" alt="Phone" height="667" style="max-height:667px" />
 
 ## Install
 
@@ -46,6 +41,7 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
 
 ## Directory
 
+    |-- [bin]                     // Server management tools
     |-- [build]                   // Webpack build
     |-- [client]                  // Client code
     |-- [config]                  // Config
@@ -53,7 +49,6 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
     |-- [doc]                     // Document
     |-- [public]                  // Server static resources
     |-- [server]                  // Server code
-    |-- [static]                  // Client static resources
     |-- [utils]                   // Util method
     |-- .babelrc                  // Babel config
     |-- .eslintignore             // Eslint ignore config

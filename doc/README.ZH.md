@@ -9,7 +9,7 @@
 
 语言: [English](../README.md) | [简体中文](README.ZH.md)
 
-Fiora是一款有趣的在线聊天应用. 使用node.js, mongodb, socket.io和react编写
+fiora 是一款有趣的聊天应用. 基于 node.js, mongodb, react 和 socket.io 等技术开发
 
 该项目起始于 [2015-11-04](https://github.com/yinxin630/chatroom-with-sails/commit/0a032372727550b8b4087f24ac299de03b677b9f)
 
@@ -18,23 +18,18 @@ Fiora是一款有趣的在线聊天应用. 使用node.js, mongodb, socket.io和r
 
 ## 功能
 
-1. 好友, 群组, 私聊, 群聊
-2. 文本, 图片, 代码, url等多种类型消息
-3. 贴吧表情, 滑稽表情, 搜索表情包
-4. 桌面通知, 声音提醒, 消息语音朗读
-5. 自定义桌面背景, 主题颜色, 文本颜色
-6. 查看在线用户, @功能
-7. 管理员
-    - 关小黑屋
-    - 撤回消息
-    - 给用户打标签
-    - 重置用户密码
-    - 查看用户 ip
+1. 注册账号并登录, 可以长久保存你的数据
+2. 加入现有群组或者创建自己的群组, 来和大家交流
+3. 和任意人私聊, 并添加其为好友
+4. 多种消息类型, 包括文本 / 表情 / 图片 / 代码 / 文件 / 命令, 还可以搜索表情包
+5. 当收到新消息时推送通知, 可以自定义通知铃声, 还可以把消息读出来
+6. 选择你喜欢的主题, 并且可以设置为任何你喜欢的壁纸以及主题颜色
+7. 设置管理员来管理用户
 
 ## 运行截图
 
-<img src="https://github.com/yinxin630/fiora/raw/master/doc/screenshots/runtime.jpeg" alt="桌面" style="max-width:800px" />
-<img src="https://github.com/yinxin630/fiora/raw/master/doc/screenshots/mobile-runtime.png" alt="手机" style="max-height:667px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/doc/screenshots/screenshot-pc.png" alt="PC" style="max-width:800px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/doc/screenshots/screenshot-phone.png" alt="Phone" height="667" style="max-height:667px" />
 
 ## 安装运行
 
@@ -46,6 +41,7 @@ Fiora是一款有趣的在线聊天应用. 使用node.js, mongodb, socket.io和r
 
 ## 目录结构
 
+    |-- [bin]                     // 服务端管理工具
     |-- [build]                   // webpack构建
     |-- [client]                  // 客户端代码
     |-- [config]                  // 配置
@@ -53,7 +49,6 @@ Fiora是一款有趣的在线聊天应用. 使用node.js, mongodb, socket.io和r
     |-- [doc]                     // 文档
     |-- [public]                  // 服务端静态资源
     |-- [server]                  // 服务端代码
-    |-- [static]                  // 客户端静态资源
     |-- [utils]                   // 工具方法
     |-- .babelrc                  // babel配置
     |-- .eslintignore             // eslint忽略配置
@@ -69,8 +64,8 @@ Fiora是一款有趣的在线聊天应用. 使用node.js, mongodb, socket.io和r
 
 如果你想要添加功能或者修复BUG. 请遵守下列流程.
 
-0. fork本仓库并克隆fork后的仓库到本地
+0. fork 本仓库并克隆 fork 后的仓库到本地
 0. 安装依赖 `yarn install`
-0. 修改代码并确认无bug
-0. 提交代码, 如果eslint有报错, 请修复后再次提交
-0. 创建一个pull request
+0. 修改代码并确认无 bug
+0. 提交代码, 如果 eslint 有报错, 请修复后再次提交
+0. 创建一个 pull request
