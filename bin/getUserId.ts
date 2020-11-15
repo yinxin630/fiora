@@ -6,20 +6,24 @@ export async function getUserId(username: string) {
     if (!username) {
         console.log(
             chalk.red(
-                '命令错误, 缺少 username.',
-                chalk.green('eg. yarn script getUserId [username]'),
+                'Wrong command, [username] is missing.',
+                chalk.green('Usage: yarn script getUserId [username]'),
             ),
         );
         return;
     }
 
-    await connectDB();
+    try {
+        await connectDB();
+    } catch (err) {
+        console.log(chalk.red('Connect database fail!', err.message));
+    }
 
     const user = await User.findOne({ username });
     if (!user) {
-        console.log(chalk.red('用户不存在'));
+        console.log(chalk.red('User does not exist'));
     } else {
-        console.log(`用户 [${username}] 的 userId 是:`, chalk.green(user._id.toString()));
+        console.log(`The userId of [${username}] is:`, chalk.green(user._id.toString()));
     }
 }
 
