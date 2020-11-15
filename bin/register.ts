@@ -1,6 +1,5 @@
 /**
  * Register
- * Users created in this way will not be added to the new user limit list
  */
 
 import bcrypt from 'bcryptjs';

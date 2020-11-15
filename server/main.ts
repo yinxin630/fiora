@@ -16,7 +16,7 @@ connectDB()
                 name: config.defaultGroupName,
                 avatar: getRandomAvatar(),
                 isDefault: true,
-            } as GroupDocument)
+            } as GroupDocument);
 
             if (!defaultGroup) {
                 console.error('create default group fail');
@@ -28,7 +28,7 @@ connectDB()
         }
 
         app.listen(config.port, async () => {
-            await Socket.deleteMany({}); // 删除Socket表所有历史数据
+            await Socket.remove({}); // 删除Socket表所有历史数据
             console.log(` >>> server listen on http://localhost:${config.port}`);
         });
 
