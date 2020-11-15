@@ -2,7 +2,7 @@
 
 ## 环境准备
 
-要运行 Fiora, 你需要 Node.js(v14 LTS版本) 开发环境和 MongoDB 数据库  
+要运行 Fiora, 你需要 Node.js(推荐 v14 LTS版本) 和 MongoDB 数据库  
 - 安装 Node.js
    - 官网 <http://nodejs.cn/download/>
    - 更推荐使用 nvm 安装 Node.js
@@ -45,90 +45,55 @@
 
 ## 项目配置
 
-配置列表
 - 服务器配置 `config/server.ts`
 - 客户端配置 `config/client.ts`
-- 客户端构建配置 `config/webpack.ts`
 
-### 通过配置文件修改配置
-可以直接编辑配置文件, 修改相应配置值   
-*因为修改了文件内容, 后续拉新代码可能会产生冲突*
+在 fiora 根目录创建 `.env` 文件, 在里面填写 `key=value` 键值对(每行一个), 即可修改配置. 比如修改端口号 `Port=8888`
 
-### 通过命令行参数修改配置
-- 直接运行时 `./node_modules/.bin/ts-node server/main.ts --xxx "yyy"`
-- 通过 yarn 运行时 `yarn start -- --xxx "yyy"`
-- 通过 pm2 运行时 `pm2 start yarn -- start --xxx "yyy"`
+**服务端配置**
 
-`xxx` 是配置名, `yyy` 是要配置的值, 配置名可以去配置文件中查看   
-**推荐使用该方法修改配置**
+|  Key  |  类型  |  默认值  |  描述  |
+|  ----  | ----  |  ----  |  ----  |
+|Host|string|your ip|服务端 host|
+|Port|number|9200|服务端端口号|
+|Database|string|mongodb://localhost:27017/fiora|mongoDB 数据库地址|
+|JwtSecret|string|jwtSecret (推荐修改它来保证安全性)|jwt token 加密 secret|
+|MaxGroupCount|number|3|用户最大可以创建的群组个数|
+|QiniuAccessKey|string|''|七牛CDN access key. 如果为空, 则文件长传到服务端|
+|QiniuSecretKey|string|''|七牛CDN secret key|
+|QiniuBucket|string|''|七牛CDN bucket 名|
+|QiniuUrlPrefix|string|''|七牛CDN bucket url 前缀 |
+|AllowOrigin|string|null|允许的客户端 origin 列表, null 时允许所有 origin 连接, 多个值逗号分割|
+|tokenExpiresTime|number|2592000000 (30天)|登陆 token 过期时间|
+|Administrator|string|''|管理员用户 id 列表, 多个值逗号分割|
+|DefaultGroupName|string|fiora|默认群组名|
+|DisableRegister|boolean|false|禁止注册账号|
+|DisableCreateGroup|boolean|false|禁止创建群组|
 
-### 通过环境变量修改配置
-- Linux 和 MaxOS系统 `export XXX="yyy" && ./node_modules/.bin/ts-node server/main.ts`
-- Windows系统 `SET "xxx=yyy" && ./node_modules/.bin/ts-node server/main.ts`
+**客户端配置**
 
-
-## 七牛CDN配置
-在没有配置七牛CDN的情况下, 客户端资源和用户上传/下载图片都是消耗服务器带宽的, 并发流量较大, 服务器容易扛不住, 所以强烈推荐使用七牛CDN
-
-其它的CDN运营商没做支持, 欢迎PR
-
-1. 注册七牛账号, 创建存储空间 <https://developer.qiniu.com/kodo/manual/1233/console-quickstart#step1>
-2. 获取空间名称和外网url
-   ![七牛bucket](./screenshots/qiniu-bucket.png)
-3. 获取密钥, 鼠标移到右上角个人头像, 点击"密钥管理", 获取 AccessKey 和 SecretKey
-   ![七牛key](./screenshots/qiniu-key.png)
-
-### 构建客户端上传到七牛
-1. 下载并安装七牛命令行工具 <https://developer.qiniu.com/kodo/tools/1302/qshell>, 将其重命名为 `qshell` 并添加到环境变量
-2. 登录到七牛 `qshell account AccessKey SecretKey name`
-3. 在 fiora 目录下创建 `.qiniurc` 配置文件, 内容如下所示:
-```json
-{
-    "src_dir" : "./dist",
-    "bucket" : "七牛空间名称",
-    "overwrite": true,
-    "rescan_local": true
-}
-```
-4. 构建客户端, 传递七牛外网 url 作为 publicPath `yarn build:client -- --publicPath "http://示例地址/fiora/"`
-5. 上传构建结构到 CDN `qshell qupload .qiniurc`
-6. 更新客户端 index.html `yarn move-dist`, 如果是本地构建上传CDN的, 请手动更新 index.html 到服务器上 fiora public 目录下
-
-*每次更新客户端代码后, 重复4~6步*
-
-### 更新服务端七牛配置
-1. 修改 `config/server.ts` 里的配置项: `qiniuAccessKey` / `qiniuSecretKey` / `qiniuBucket` / `qiniuUrlPrefix`   
-   *注意 qiniuUrlPrefix 配置值要以斜线/结尾, 例如: `http://示例地址/`*
-2. 修改 `config/webpack.ts`里的配置项: `build.assetsPublicPath`, 与构建客户端时的 `publicPath` 值相同
-3. 重启服务端
-
-
-## pm2 远程部署/更新
-1. 在服务端和客户端分别安装pm2 `yarn global add pm2`
-2. 在服务端建立目录存放项目, 例如 `mkdir -p ~/fiora`
-3. 将项目拉取到目录下的 source 文件夹 `git clone -b master git@github.com:yinxin630/fiora.git ~/fiora/source`
-4. 创建 pm2 ecosystem 配置文件 `cp ecosystem.config.js.example ecosystem.config.js`
-5. 修改配置文件内容
-6. 首次部署或更新 `./deploy.sh`
-
-详情请参考 <http://pm2.keymetrics.io/docs/usage/deployment/>
-
-## 第三方安装教程
-
-<https://www.moerats.com/archives/978/>
+|  Key  |  类型  |  默认值  |  描述  |
+|  ----  | ----  |  ----  |  ----  |
+|Server|string|/|客户端要连接的服务端地址|
+|MaxImageSize|number|3145728 (3MB)|客户端可以上传的最大图片大小|
+|MaxBackgroundImageSize|number|5242880 (5MB)|客户端可以上传的最大背景图大小|
+|MaxAvatarSize|number|1572864 (1.5MB)|客户端可以上传的最大头像图片大小|
+|MaxFileSize|number|10485760 (10MB)|客户端可以上传的最大文件大小|
+|DefaultTheme|string|cool|默认主题|
+|Sound|string|default|默认通知音|
+|TagColorMode|string|fixedColor|默认标签颜色模式|
+|FrontendMonitorAppId|string|fixedColor|岳鹰监控 appId <https://yueying.effirst.com/index>|
+|DisableDeleteMessage|boolean|false|禁止用户撤回消息|
 
 ## FAQ
 
 ### 设置管理员
-1. 获取用户id, 注意不是 username, 是 mongoDB 数据库中的 _id
-   - 可以查询数据库获取
-   - 还可以看服务端接口日志获取, 需要登录态的接口都会打印用户id
-      ![用户id](./screenshots/user-id.png)
-2. 修改 `config/server.ts` 中的 `administrator` 字段, 改为上一步获取的id
+1. 获取用户id, 执行 `yarn script getUserId [username]`
+2. 修改 `Administrator` 配置项, 改为上一步获取的id
 3. 重启服务器
 
 ### 修改默认群组名称
-1. 修改 `config/server.ts` 中的 `defaultGroupName` 字段
+1. 修改 `DefaultGroupName` 配置项
 2. 重启服务器
 
 ### 自定义域名, 通过nginx反向代理
@@ -191,6 +156,10 @@ server {
 
 ### 禁止注册, 手动分配账号
 
-修改 config/server.ts, 将 `disableRegister` 选项设置为 true, 重启服务器生效
+将 `DisableRegister` 配置项设置为 true, 重启服务器生效
 
-在服务端执行 `npx ts-node bin/register.ts --username [新用户名] --password [用户密码]` 注册新用户
+执行 `yarn script register [username] [password]` 手动注册新用户
+
+### 删除用户
+
+执行 `yarn script deleteUser [userId]`
