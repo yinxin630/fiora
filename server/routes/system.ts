@@ -16,9 +16,10 @@ import User from '../models/user';
 import Group from '../models/group';
 
 import config from '../../config/server';
-import { SealUserTimeout, SealIpTimeout } from '../../utils/const';
+import { SealUserTimeout } from '../../utils/const';
 import { KoaContext } from '../../types/koa';
 import Socket from '../models/socket';
+import { getAllSealIp, getSealIpKey, Redis } from '../redis';
 
 /** 百度语言合成token */
 let baiduToken = '';
@@ -173,7 +174,7 @@ export async function sealUser(ctx: KoaContext<SealUserData>) {
  */
 export async function getSealList() {
     const sealUserList = getMemoryData(MemoryDataStorageKey.SealUserList);
-    const sealIpList = getMemoryData(MemoryDataStorageKey.SealIpList);
+    const sealIpList = await getAllSealIp();
     const userIds = [...sealUserList.keys()];
     const users = await User.find({ _id: { $in: userIds } });
 
@@ -195,12 +196,11 @@ export async function sealIp(ctx: KoaContext<{ ip: string }>) {
     const { ip } = ctx.data;
     assert(ip !== '::1' && ip !== '127.0.0.1', CantSealLocalIp);
     assert(ip !== ctx.socket.ip, CantSealSelf);
-    assert(!existMemoryData(MemoryDataStorageKey.SealIpList, ip), IpInSealList);
+    const isSealIp = await Redis.has(getSealIpKey(ip));
+    assert(!isSealIp, IpInSealList);
 
-    addMemoryData(MemoryDataStorageKey.SealIpList, ip);
-    setTimeout(() => {
-        deleteMemoryData(MemoryDataStorageKey.SealIpList, ip);
-    }, SealIpTimeout);
+    await Redis.set(getSealIpKey(ip), 'true');
+    await Redis.expire(getSealIpKey(ip), Redis.Hour * 6);
 
     return {
         msg: 'ok',
@@ -217,24 +217,25 @@ export async function sealUserOnlineIp(ctx: KoaContext<{ userId: string }>) {
     const ipList = sockets.map((socket) => socket.ip);
 
     // 如果全部 ip 都已经封禁过了, 则直接提示
-    assert(
-        !ipList.every((ip) => existMemoryData(MemoryDataStorageKey.SealIpList, ip)),
-        IpInSealList,
-    );
+    const isSealIpList = await Promise.all(ipList.map((ip) => Redis.has(getSealIpKey(ip))));
+    assert(!isSealIpList.every((isSealIp) => isSealIp), IpInSealList);
 
     let errorMessage = '';
-    ipList.forEach((ip) => {
-        if (ip === '::1' || ip === '127.0.0.1') {
-            errorMessage = CantSealLocalIp;
-        } else if (ip === ctx.socket.ip) {
-            errorMessage = CantSealSelf;
-        } else if (!existMemoryData(MemoryDataStorageKey.SealIpList, ip)) {
-            addMemoryData(MemoryDataStorageKey.SealIpList, ip);
-            setTimeout(() => {
-                deleteMemoryData(MemoryDataStorageKey.SealIpList, ip);
-            }, SealIpTimeout);
-        }
-    });
+    await Promise.all(
+        ipList.map(async (ip) => {
+            if (ip === '::1' || ip === '127.0.0.1') {
+                errorMessage = CantSealLocalIp;
+            } else if (ip === ctx.socket.ip) {
+                errorMessage = CantSealSelf;
+            } else {
+                const isSealIp = await Redis.has(getSealIpKey(ip));
+                if (!isSealIp) {
+                    await Redis.set(getSealIpKey(ip), 'true');
+                    await Redis.expire(getSealIpKey(ip), Redis.Hour * 6);
+                }
+            }
+        }),
+    );
 
     if (errorMessage) {
         return errorMessage;
@@ -254,10 +255,10 @@ interface UploadFileData {
 
 export async function uploadFile(ctx: KoaContext<UploadFileData>) {
     assert(
-        config.qiniuAccessKey === ''
-            || config.qiniuBucket === ''
-            || config.qiniuBucket === ''
-            || config.qiniuUrlPrefix === '',
+        config.qiniuAccessKey === '' ||
+            config.qiniuBucket === '' ||
+            config.qiniuBucket === '' ||
+            config.qiniuUrlPrefix === '',
         '已配置七牛, 请使用七牛文件上传',
     );
 
