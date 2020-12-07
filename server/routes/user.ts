@@ -20,6 +20,7 @@ import config from '../../config/server';
 import getRandomAvatar from '../../utils/getRandomAvatar';
 import { KoaContext } from '../../types/koa';
 import { saltRounds } from '../../utils/const';
+import { getNewUserKey, Redis } from '../redis';
 
 const { isValid } = Types.ObjectId;
 
@@ -55,14 +56,12 @@ function generateToken(user: string, environment: string) {
  * 处理注册时间不满24小时的用户
  * @param user 用户
  */
-function handleNewUser(user: UserDocument, ip = '') {
+async function handleNewUser(user: UserDocument, ip = '') {
     // 将用户添加到新用户列表, 24小时后删除
     if (Date.now() - user.createTime.getTime() < OneDay) {
         const userId = user._id.toString();
-        addMemoryData(MemoryDataStorageKey.NewUserList, userId);
-        setTimeout(() => {
-            deleteMemoryData(MemoryDataStorageKey.NewUserList, userId);
-        }, OneDay);
+        await Redis.set(getNewUserKey(userId), 'true');
+        await Redis.expire(getNewUserKey(userId), Redis.OneDay);
 
         if (ip) {
             // 记录用户ip
@@ -121,7 +120,7 @@ export async function register(ctx: KoaContext<RegisterData>) {
         throw err;
     }
 
-    handleNewUser(newUser, ctx.socket.ip);
+    await handleNewUser(newUser, ctx.socket.ip);
 
     if (!defaultGroup.creator) {
         defaultGroup.creator = newUser._id;
@@ -183,7 +182,7 @@ export async function login(ctx: KoaContext<LoginData>) {
     const isPasswordCorrect = bcrypt.compareSync(password, user.password);
     assert(isPasswordCorrect, '密码错误');
 
-    handleNewUser(user);
+    await handleNewUser(user);
 
     user.lastLoginTime = new Date();
     await user.save();
@@ -271,7 +270,7 @@ export async function loginByToken(ctx: KoaContext<LoginByTokenData>) {
         throw new AssertionError({ message: '用户不存在' });
     }
 
-    handleNewUser(user);
+    await handleNewUser(user);
 
     user.lastLoginTime = new Date();
     await user.save();

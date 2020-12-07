@@ -1,5 +1,5 @@
-import { existMemoryData, MemoryDataStorageKey } from '../memoryData';
 import { KoaContext } from '../../types/koa';
+import { getNewUserKey, Redis } from '../redis';
 
 export const CallServiceFrequently = '接口调用频繁, 请稍后再试';
 export const NewUserCallServiceFrequently = '接口调用失败, 你正处于萌新限制期, 请不要频繁操作';
@@ -12,7 +12,7 @@ type Options = {
     maxCallPerMinutes?: number;
     newUserMaxCallPerMinutes?: number;
     clearDataInterval?: number;
-}
+};
 
 /**
  * 限制接口调用频率
@@ -23,7 +23,7 @@ export default function frequency({
     newUserMaxCallPerMinutes = NewUserMaxCallPerMinutes,
     clearDataInterval = ClearDataInterval,
 }: Options = {}) {
-    let callTimes: {[socketId: string]: number} = {};
+    let callTimes: { [socketId: string]: number } = {};
 
     // 每60s清空一次次数统计
     setInterval(() => {
@@ -43,11 +43,8 @@ export default function frequency({
         const count = callTimes[socketId] || 0;
 
         // 萌新限制
-        if (
-            user
-            && existMemoryData(MemoryDataStorageKey.NewUserList, user.toString())
-            && count >= newUserMaxCallPerMinutes
-        ) {
+        const isNewUser = await (user && Redis.has(getNewUserKey(user.toString())));
+        if (isNewUser && count >= newUserMaxCallPerMinutes) {
             ctx.res = '接口调用失败, 你正处于萌新限制期, 请不要频繁操作';
             return null;
         }
