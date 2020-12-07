@@ -2,18 +2,14 @@
 export enum MemoryDataStorageKey {
     /** 封禁用户列表 */
     'SealUserList',
-    /** 封禁ip列表 */
-    'SealIpList',
 }
 
 interface MemoryData {
     [MemoryDataStorageKey.SealUserList]: Set<string>;
-    [MemoryDataStorageKey.SealIpList]: Set<string>;
 }
 /** 内存数据 */
 const memoryData: MemoryData = {
     [MemoryDataStorageKey.SealUserList]: new Set(),
-    [MemoryDataStorageKey.SealIpList]: new Set(),
 };
 
 /**

@@ -54,11 +54,11 @@ async function handleNewUser(user: UserDocument, ip = '') {
     if (Date.now() - user.createTime.getTime() < OneDay) {
         const userId = user._id.toString();
         await Redis.set(getNewUserKey(userId), 'true');
-        await Redis.expire(getNewUserKey(userId), Redis.OneDay);
+        await Redis.expire(getNewUserKey(userId), Redis.Day);
 
         if (ip) {
             await Redis.set(getNewRegisteredUserIpKey(ip), 'true');
-            await Redis.expire(getNewRegisteredUserIpKey(ip), Redis.OneDay);
+            await Redis.expire(getNewRegisteredUserIpKey(ip), Redis.Day);
         }
     }
 }
