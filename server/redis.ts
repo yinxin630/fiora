@@ -18,6 +18,10 @@ export function getNewUserKey(userId: string) {
     return `NewUser-${userId}`;
 }
 
+export function getNewRegisteredUserIpKey(ip: string) {
+    return `NewRegisteredUserIp-${ip}`;
+}
+
 const OneDay = 60 * 60 * 24;
 
 export const Redis = {

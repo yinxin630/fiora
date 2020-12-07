@@ -3,13 +3,6 @@ import assert, { AssertionError } from 'assert';
 import jwt from 'jwt-simple';
 import { Types } from 'mongoose';
 
-import {
-    addMemoryData,
-    MemoryDataStorageKey,
-    deleteMemoryData,
-    existMemoryData,
-} from '../memoryData';
-
 import User, { UserDocument } from '../models/user';
 import Group, { GroupDocument } from '../models/group';
 import Friend, { FriendDocument } from '../models/friend';
@@ -20,7 +13,7 @@ import config from '../../config/server';
 import getRandomAvatar from '../../utils/getRandomAvatar';
 import { KoaContext } from '../../types/koa';
 import { saltRounds } from '../../utils/const';
-import { getNewUserKey, Redis } from '../redis';
+import { getNewRegisteredUserIpKey, getNewUserKey, Redis } from '../redis';
 
 const { isValid } = Types.ObjectId;
 
@@ -64,11 +57,8 @@ async function handleNewUser(user: UserDocument, ip = '') {
         await Redis.expire(getNewUserKey(userId), Redis.OneDay);
 
         if (ip) {
-            // 记录用户ip
-            addMemoryData(MemoryDataStorageKey.NewRegisterUserIp, ip);
-            setTimeout(() => {
-                deleteMemoryData(MemoryDataStorageKey.NewRegisterUserIp, ip);
-            }, OneDay);
+            await Redis.set(getNewRegisteredUserIpKey(ip), 'true');
+            await Redis.expire(getNewRegisteredUserIpKey(ip), Redis.OneDay);
         }
     }
 }
@@ -94,7 +84,9 @@ export async function register(ctx: KoaContext<RegisterData>) {
     const user = await User.findOne({ username });
     assert(!user, '该用户名已存在');
 
-    assert(!existMemoryData(MemoryDataStorageKey.NewRegisterUserIp, ctx.socket.ip), '系统错误');
+    const hasRegisteredWithin24Hours = await Redis.has(getNewRegisteredUserIpKey(ctx.socket.ip));
+    console.log('hasRegisteredWithin24Hours ==>', hasRegisteredWithin24Hours);
+    assert(!hasRegisteredWithin24Hours, '系统错误');
 
     const defaultGroup = await Group.findOne({ isDefault: true });
     if (!defaultGroup) {
