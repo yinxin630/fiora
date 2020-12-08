@@ -14,11 +14,7 @@ export async function deleteUser(userId: string) {
         return;
     }
 
-    try {
-        await connectDB();
-    } catch (err) {
-        console.log(chalk.red('Connect database fail!', err.message));
-    }
+    await connectDB();
 
     try {
         const user = await User.findOne({ _id: userId });

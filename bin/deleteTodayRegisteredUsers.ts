@@ -8,11 +8,7 @@ import User from '../server/models/user';
 import { deleteUser } from './deleteUser';
 
 export async function deleteTodayRegisteredUsers() {
-    try {
-        await connectDB();
-    } catch (err) {
-        console.log(chalk.red('Connect database fail!', err.message));
-    }
+    await connectDB();
 
     const now = new Date();
     const time = new Date(
