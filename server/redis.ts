@@ -5,9 +5,14 @@ const client = redis.createClient();
 
 export const get = promisify(client.get).bind(client);
 
-export const set = promisify(client.set).bind(client);
-
 export const expire = promisify(client.expire).bind(client);
+
+export async function set(key: string, value: string, expireTime = Infinity) {
+    await promisify(client.set).bind(client)(key, value);
+    if (expireTime !== Infinity) {
+        await expire(key, expireTime);
+    }
+}
 
 export const keys = promisify(client.keys).bind(client);
 
@@ -33,7 +38,17 @@ export async function getAllSealIp() {
     return allSealIpKeys.map((key) => key.split('-')[1]);
 }
 
-const Hour = 60 * 60;
+export function getSealUserKey(user: string) {
+    return `SealUser-${user}`;
+}
+
+export async function getAllSealUser() {
+    const allSealUserKeys = await keys('SealUser-*');
+    return allSealUserKeys.map((key) => key.split('-')[1]);
+}
+
+const Minute = 60;
+const Hour = Minute * 60;
 const Day = Hour * 24;
 
 export const Redis = {
@@ -42,6 +57,7 @@ export const Redis = {
     has,
     expire,
     keys,
+    Minute,
     Hour,
     Day,
 };
