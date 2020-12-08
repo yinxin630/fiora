@@ -65,7 +65,7 @@ Create a `.env` file in the fiora root directory and enter `key=value` key-value
 |QiniuAccessKey|string|''|access key of qiniu CDN. If it is empty, The uploaded file will be stored on the server|
 |QiniuSecretKey|string|''|secret key of qiniu CDN|
 |QiniuBucket|string|''|bucket name of qiniu CDN|
-|QiniuUrlPrefix|string|''|bucket url prefix of qiniu CDN|
+|QiniuUrlPrefix|string|''|bucket url prefix of qiniu CDN. End with /, for example https://cdn.suisuijiang.com/|
 |AllowOrigin|string|null|The list of allowed client origins. If null, all origins are allowed. Multiple values separated by comma|
 |tokenExpiresTime|number|2592000000 (30days)|login token expires time|
 |Administrator|string|''|Administrator userId list. Multiple values separated by comma|

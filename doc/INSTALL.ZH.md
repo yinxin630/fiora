@@ -63,7 +63,7 @@
 |QiniuAccessKey|string|''|七牛CDN access key. 如果为空, 则文件长传到服务端|
 |QiniuSecretKey|string|''|七牛CDN secret key|
 |QiniuBucket|string|''|七牛CDN bucket 名|
-|QiniuUrlPrefix|string|''|七牛CDN bucket url 前缀 |
+|QiniuUrlPrefix|string|''|七牛CDN bucket url 前缀, 以 / 结尾, 例如 https://cdn.suisuijiang.com/ |
 |AllowOrigin|string|null|允许的客户端 origin 列表, null 时允许所有 origin 连接, 多个值逗号分割|
 |tokenExpiresTime|number|2592000000 (30天)|登陆 token 过期时间|
 |Administrator|string|''|管理员用户 id 列表, 多个值逗号分割|
