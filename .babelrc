@@ -13,6 +13,7 @@
         "linaria/babel"
     ],
     "plugins": [
+        "react-refresh/babel",
         [
             "prismjs",
             {
