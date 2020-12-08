@@ -15,10 +15,11 @@ Recommended to running on Linux or MacOS systems
 ## How to run
 
 1. Clone the project `git clone https://github.com/yinxin630/fiora.git -b master`
-2. Install project dependencies `yarn install`
-3. Build client `yarn build:client && yarn move-dist`
-4. Start the server `yarn start`
-5. Open `http://[ip]:[port]`(such as `http://127.0.0.1:9200`) in browser
+2. Ensure you have install [yarn](https://www.npmjs.com/package/yarn) before, if not please run `npm install -g yarn`
+3. Install project dependencies `yarn install`
+4. Build client `yarn build:client && yarn move-dist`
+5. Start the server `yarn start`
+6. Open `http://[ip]:[port]`(such as `http://127.0.0.1:9200`) in browser
 
 ### Run With Develop Mode
 
@@ -90,7 +91,7 @@ Create a `.env` file in the fiora root directory and enter `key=value` key-value
 ## FAQ
 ### How to set up an administrator
 1. Run `yarn script getUserId [username]` to get userId
-2. Set `Administrator` in config to be administrator userId. 
+2. Set `Administrator` in config to be administrator userId.
 3. Restart the server
 
 ### Modify the default group name
