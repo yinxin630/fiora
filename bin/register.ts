@@ -32,11 +32,7 @@ export async function register(username: string, password: string) {
         return;
     }
 
-    try {
-        await connectDB();
-    } catch (err) {
-        console.log(chalk.red('Connect database fail!', err.message));
-    }
+    await connectDB();
 
     const user = await User.findOne({ username });
     if (user) {
