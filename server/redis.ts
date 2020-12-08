@@ -1,9 +1,15 @@
+import chalk from 'chalk';
 import redis from 'redis';
 import { promisify } from 'util';
 import config from '../config/server';
 
 const client = redis.createClient({
     ...config.redis,
+});
+
+client.on('error', (err) => {
+    console.log(chalk.red('Connect redis fail!'), err.message);
+    process.exit(0);
 });
 
 export const get = promisify(client.get).bind(client);
