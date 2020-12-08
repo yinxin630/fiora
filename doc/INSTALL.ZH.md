@@ -2,7 +2,7 @@
 
 ## 环境准备
 
-要运行 Fiora, 你需要 Node.js(推荐 v14 LTS版本) 和 MongoDB 数据库  
+要运行 Fiora, 你需要 Node.js(推荐 v14 LTS版本) 和 MongoDB 数据库
 - 安装 Node.js
    - 官网 <http://nodejs.cn/download/>
    - 更推荐使用 nvm 安装 Node.js
@@ -16,9 +16,10 @@
 ## 如何运行
 
 1. 克隆项目到本地 `git clone https://github.com/yinxin630/fiora.git -b master`
-2. 安装项目依赖 `yarn install`
-3. 构建客户端代码 `yarn build:client && yarn move-dist`
-4. 启动服务端 `yarn start`
+2. 确保安装了 [yarn](https://www.npmjs.com/package/yarn), 如果没有安装请执行 `npm install -g yarn`
+3. 安装项目依赖 `yarn install`
+4. 构建客户端代码 `yarn build:client && yarn move-dist`
+5. 启动服务端 `yarn start`
 6. 使用浏览器打开 `http://[ip地址]:[端口]`(比如 `http://127.0.0.1:9200`)
 
 ### 运行开发模式
