@@ -1,7 +1,10 @@
 import redis from 'redis';
 import { promisify } from 'util';
+import config from '../config/server';
 
-const client = redis.createClient();
+const client = redis.createClient({
+    ...config.redis,
+});
 
 export const get = promisify(client.get).bind(client);
 
