@@ -116,7 +116,7 @@ function UserInfo(props: UserInfoProps) {
 
     async function handleSeal() {
         // @ts-ignore
-        const isSuccess = await sealUser(user.username);
+        const isSuccess = await sealUser(user.name || user.username);
         if (isSuccess) {
             Message.success('封禁用户成功');
         }
