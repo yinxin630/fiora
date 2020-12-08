@@ -13,7 +13,7 @@ export default {
     database: env.Database || 'mongodb://localhost:27017/fiora',
 
     redis: {
-        host: env.RedisHost || '127.0.0.1',
+        host: env.RedisHost || 'localhost',
         port: env.RedisPort ? parseInt(env.RedisPort, 10) : 6379,
     },
 
