@@ -4,22 +4,13 @@ import axios from 'axios';
 import assert, { AssertionError } from 'assert';
 import { promisify } from 'util';
 
-import {
-    getMemoryData,
-    MemoryDataStorageKey,
-    existMemoryData,
-    addMemoryData,
-    deleteMemoryData,
-} from '../memoryData';
-
 import User from '../models/user';
 import Group from '../models/group';
 
 import config from '../../config/server';
-import { SealUserTimeout } from '../../utils/const';
 import { KoaContext } from '../../types/koa';
 import Socket from '../models/socket';
-import { getAllSealIp, getSealIpKey, Redis } from '../redis';
+import { getAllSealIp, getAllSealUser, getSealIpKey, getSealUserKey, Redis } from '../redis';
 
 /** 百度语言合成token */
 let baiduToken = '';
@@ -157,12 +148,10 @@ export async function sealUser(ctx: KoaContext<SealUserData>) {
     }
 
     const userId = user._id.toString();
-    assert(!existMemoryData(MemoryDataStorageKey.SealUserList, userId), '用户已在封禁名单');
+    const isSealUser = await Redis.has(getSealUserKey(userId));
+    assert(!isSealUser, '用户已在封禁名单');
 
-    addMemoryData(MemoryDataStorageKey.SealUserList, userId);
-    setTimeout(() => {
-        deleteMemoryData(MemoryDataStorageKey.SealUserList, userId);
-    }, SealUserTimeout);
+    await Redis.set(getSealUserKey(userId), userId, Redis.Minute * 10);
 
     return {
         msg: 'ok',
@@ -173,10 +162,9 @@ export async function sealUser(ctx: KoaContext<SealUserData>) {
  * 获取封禁列表, 包含用户封禁和ip封禁, 需要管理员权限
  */
 export async function getSealList() {
-    const sealUserList = getMemoryData(MemoryDataStorageKey.SealUserList);
+    const sealUserList = await getAllSealUser();
     const sealIpList = await getAllSealIp();
-    const userIds = [...sealUserList.keys()];
-    const users = await User.find({ _id: { $in: userIds } });
+    const users = await User.find({ _id: { $in: sealUserList } });
 
     const result = {
         users: users.map((user) => user.username),
@@ -199,8 +187,7 @@ export async function sealIp(ctx: KoaContext<{ ip: string }>) {
     const isSealIp = await Redis.has(getSealIpKey(ip));
     assert(!isSealIp, IpInSealList);
 
-    await Redis.set(getSealIpKey(ip), 'true');
-    await Redis.expire(getSealIpKey(ip), Redis.Hour * 6);
+    await Redis.set(getSealIpKey(ip), ip, Redis.Hour * 6);
 
     return {
         msg: 'ok',
@@ -230,8 +217,7 @@ export async function sealUserOnlineIp(ctx: KoaContext<{ userId: string }>) {
             } else {
                 const isSealIp = await Redis.has(getSealIpKey(ip));
                 if (!isSealIp) {
-                    await Redis.set(getSealIpKey(ip), 'true');
-                    await Redis.expire(getSealIpKey(ip), Redis.Hour * 6);
+                    await Redis.set(getSealIpKey(ip), ip, Redis.Hour * 6);
                 }
             }
         }),

@@ -1,7 +1,6 @@
-import { existMemoryData, MemoryDataStorageKey } from '../memoryData';
 import { KoaContext } from '../../types/koa';
 import { SealText } from '../../utils/const';
-import { getSealIpKey, Redis } from '../redis';
+import { getSealIpKey, getSealUserKey, Redis } from '../redis';
 
 /**
  * 拦截被封禁用户的请求
@@ -9,12 +8,9 @@ import { getSealIpKey, Redis } from '../redis';
 export default function seal() {
     return async (ctx: KoaContext, next: Function) => {
         const isSealIp = await Redis.has(getSealIpKey(ctx.socket.ip));
-        if (
-            // 用户id是否在封禁名单
-            (ctx.socket.user &&
-                existMemoryData(MemoryDataStorageKey.SealUserList, ctx.socket.user.toString())) ||
-            isSealIp
-        ) {
+        const isSealUser = await (ctx.socket.user &&
+            Redis.has(getSealUserKey(ctx.socket.user.toString())));
+        if (isSealUser || isSealIp) {
             ctx.res = SealText;
             return null;
         }
