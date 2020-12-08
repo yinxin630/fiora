@@ -1,11 +1,11 @@
 import { mocked } from 'ts-jest/utils';
 import seal from '../../../server/middlewares/seal';
 import { KoaContext } from '../../../types/koa';
-import { existMemoryData } from '../../../server/memoryData';
 import { runMiddleware } from '../../helpers/middleware';
 import { SealText } from '../../../utils/const';
+import { Redis } from '../../../server/redis';
 
-jest.mock('../../../server/memoryData');
+jest.mock('../../../server/redis');
 
 describe('server/middlewares/seal', () => {
     it('should call service success', async () => {
@@ -31,7 +31,7 @@ describe('server/middlewares/seal', () => {
             },
         } as KoaContext;
 
-        mocked(existMemoryData).mockReturnValue(true);
+        mocked(Redis.has).mockReturnValue(Promise.resolve(true));
         await runMiddleware(seal(), ctx);
         expect(ctx.res).toBe(SealText);
     });
@@ -46,7 +46,7 @@ describe('server/middlewares/seal', () => {
             },
         } as KoaContext;
 
-        mocked(existMemoryData).mockImplementation((storageKey, value) => value === ctx.socket.ip);
+        mocked(Redis.has).mockReturnValue(Promise.resolve(true));
         await runMiddleware(seal(), ctx);
         expect(ctx.res).toBe(SealText);
     });

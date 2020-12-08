@@ -1,10 +1,10 @@
 import { mocked } from 'ts-jest/utils';
 import frequency, { CallServiceFrequently, NewUserCallServiceFrequently } from '../../../server/middlewares/frequency';
+import { Redis } from '../../../server/redis';
 import { KoaContext } from '../../../types/koa';
-import { existMemoryData } from '../../../server/memoryData';
 import { runMiddleware } from '../../helpers/middleware';
 
-jest.mock('../../../server/memoryData');
+jest.mock('../../../server/redis');
 jest.useFakeTimers();
 
 describe('server/middlewares/frequency', () => {
@@ -39,7 +39,7 @@ describe('server/middlewares/frequency', () => {
             newUserMaxCallPerMinutes: 1,
         });
 
-        mocked(existMemoryData).mockReturnValue(true);
+        mocked(Redis.has).mockReturnValue(Promise.resolve(true));
         await runMiddleware(middleware, ctx);
         await runMiddleware(middleware, ctx);
         expect(ctx.res).toBe(NewUserCallServiceFrequently);
