@@ -12,6 +12,11 @@ export default {
     // mongodb address
     database: env.Database || 'mongodb://localhost:27017/fiora',
 
+    redis: {
+        host: env.RedisHost || '127.0.0.1',
+        port: env.RedisPort ? parseInt(env.RedisPort, 10) : 6379,
+    },
+
     // jwt encryption secret
     jwtSecret: env.JwtSecret || 'jwtSecret',
 
