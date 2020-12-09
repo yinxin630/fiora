@@ -32,11 +32,29 @@
 首先安装docker <https://docs.docker.com/install/>
 
 #### 直接从 DockerHub 镜像运行
-1. 拉取 mongo 镜像 `docker pull mongo`
-2. 拉取 fiora 镜像 `docker pull suisuijiang/fiora`
-3. 创建虚拟网络 `docker network create fiora-network`
-4. 启动数据库 `docker run --name fioradb -p 27017:27017 --network fiora-network mongo`
-5. 启动fiora `docker run --name fiora -p 9200:9200 --network fiora-network -e Database=mongodb://fioradb:27017/fiora suisuijiang/fiora`
+
+```bash
+# 拉取 mongo
+docker pull mongo
+
+# 拉取 redis
+docker pull redis
+
+# 拉取 fiora
+docker pull suisuijiang/fiora
+
+# 创建虚拟网络
+docker network create fiora-network
+
+# 启动 mongodB
+docker run --name fioradb -p 27017:27017 --network fiora-network mongo
+
+# 启动 redis
+docker run --name fioraredis -p 6379:6379 --network fiora-network redis
+
+# 启动 fiora
+docker run --name fiora -p 9200:9200 --network fiora-network -e Database=mongodb://fioradb:27017/fiora -e RedisHost=fioraredis suisuijiang/fiora
+```
 
 #### 本地构建镜像运行
 1. 克隆项目到本地 `git clone https://github.com/yinxin630/fiora.git -b master`
