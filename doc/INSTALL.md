@@ -1,13 +1,15 @@
 # How to run fiora
 
 ## Environmental Preparation
-To run Fiora, you need Node.js(recommend v14 LTS version) and MongoDB database
+To run Fiora, you need Node.js(recommend v14 LTS version), MongoDB and redis
 - Install Node.js
    - Official website <https://nodejs.org/en/download/>
    - It is recommended to use nvm to install Node.js
       - Install nvm <https://github.com/nvm-sh/nvm#install--update-script>
       - Install Node.js via nvm <https://github.com/nvm-sh/nvm#usage>
 - Install MongoDB
+   - Official website <https://docs.mongodb.com/manual/installation/#install-mongodb>
+- Install redis
    - Official website <https://docs.mongodb.com/manual/installation/#install-mongodb>
 
 Recommended to running on Linux or MacOS systems

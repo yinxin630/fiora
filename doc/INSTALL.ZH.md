@@ -2,7 +2,7 @@
 
 ## 环境准备
 
-要运行 Fiora, 你需要 Node.js(推荐 v14 LTS版本) 和 MongoDB 数据库
+要运行 Fiora, 你需要 Node.js(推荐 v14 LTS版本), MongoDB 和 redis
 - 安装 Node.js
    - 官网 <http://nodejs.cn/download/>
    - 更推荐使用 nvm 安装 Node.js
@@ -10,6 +10,8 @@
       - 通过 nvm 安装 Node.js <https://github.com/nvm-sh/nvm#usage>
 - 安装 MongoDB
    - 官网 <https://docs.mongodb.com/manual/installation/#install-mongodb>
+- 安装 redis
+   - 官网 <https://redis.io/topics/quickstart>
 
 推荐在 Linux 或者 MacOS 系统上运行
 
