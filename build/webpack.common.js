@@ -39,7 +39,16 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 use: [
-                    'babel-loader',
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            plugins: [
+                                ...(process.env.NODE_ENV === 'development'
+                                    ? [require.resolve('react-refresh/babel')]
+                                    : []),
+                            ],
+                        },
+                    },
                     {
                         loader: 'linaria/loader',
                         options: {
