@@ -23,6 +23,24 @@ Recommended to running on Linux or MacOS systems
 5. Start the server `yarn start`
 6. Open `http://[ip]:[port]`(such as `http://127.0.0.1:9200`) in browser
 
+### Run in the background
+
+Using `yarn start` to run the server will stop running after disconnecting the ssh connection, it is recommended to use pm2 to run
+
+```bash
+# install pm2
+npm install -g pm2
+
+# use pm2 to run fiora
+pm2 start yarn --name fiora -- start
+
+# view pm2 apps status
+pm2 ls
+
+# view pm2 fiora logging
+pm2 logs fiora
+```
+
 ### Run With Develop Mode
 
 1. Start the server `yarn dev:server`
