@@ -1,12 +1,13 @@
 import chalk from 'chalk';
 
+import inquirer from 'inquirer';
 import connectDB from '../server/mongoose';
 import User from '../server/models/user';
 import Message from '../server/models/message';
 import Group, { GroupDocument } from '../server/models/group';
 import Friend from '../server/models/friend';
 
-export async function deleteUser(userId: string) {
+export async function deleteUser(userId: string, confirm = true) {
     if (!userId) {
         console.log(
             chalk.red('Wrong command, [userId] is missing.', chalk.green('Usage: yarn script deleteUser [userId]')),
@@ -20,6 +21,17 @@ export async function deleteUser(userId: string) {
         const user = await User.findOne({ _id: userId });
         if (user) {
             console.log('Found user:', chalk.blue(user._id.toString()), chalk.green(user.username));
+
+            if (confirm) {
+                const shouldDeleteUser = await inquirer.prompt({
+                    type: 'confirm',
+                    name: 'result',
+                    message: 'Confirm to delete user?',
+                });
+                if (!shouldDeleteUser.result) {
+                    return;
+                }
+            }
 
             console.log(chalk.yellow('Delete messages created by this user'));
             const deleteMessageResult = await Message.deleteMany({
@@ -62,7 +74,7 @@ export async function deleteUser(userId: string) {
             });
             console.log('Delete result:', deleteUserResult);
 
-            console.log(chalk.green('User deleted successfully!'));
+            console.log(chalk.green('Successfully deleted user'));
         } else {
             console.log(chalk.red(`User [${userId}] does not exist`));
         }

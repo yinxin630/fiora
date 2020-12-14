@@ -74,7 +74,7 @@ export async function register(username: string, password: string) {
     }
     await defaultGroup.save();
 
-    console.log(chalk.green('User created successfully'));
+    console.log(chalk.green('Successfully created user'));
 }
 
 async function run() {

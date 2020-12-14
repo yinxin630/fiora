@@ -40,6 +40,8 @@ export async function deleteMessages() {
     );
     console.log('Delete files:');
     console.log(chalk.red(iamgesAndFiles.join('\n')));
+
+    console.log(chalk.green('Successfully deleted all messages'));
 }
 
 async function run() {
