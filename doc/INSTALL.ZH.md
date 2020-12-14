@@ -24,6 +24,24 @@
 5. 启动服务端 `yarn start`
 6. 使用浏览器打开 `http://[ip地址]:[端口]`(比如 `http://127.0.0.1:9200`)
 
+### 在后台运行
+
+使用 `yarn start` 运行服务端会在断开 ssh 连接后停止运行, 推荐使用 pm2 来运行
+
+```bash
+# 安装 pm2
+npm install -g pm2
+
+# 使用 pm2 运行 fiora
+pm2 start yarn --name fiora -- start
+
+# 查看 pm2 应用状态
+pm2 ls
+
+# 查看 pm2 fiora 日志
+pm2 logs fiora
+```
+
 ### 运行开发模式
 
 1. 启动服务端 `yarn dev:server`
