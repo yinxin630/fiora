@@ -24,7 +24,7 @@ export async function deleteMessages() {
     const shouldDeleteAllFiles = await inquirer.prompt({
         type: 'confirm',
         name: 'result',
-        message: 'Confirm to delete all message files?',
+        message: "Confirm to delete all message files(Except qiniu's files)?",
     });
     if (!shouldDeleteAllFiles.result) {
         return;
@@ -38,7 +38,7 @@ export async function deleteMessages() {
     await Promise.all(
         iamgesAndFiles.map((file) => unlinkAsync(path.resolve(__dirname, '../public/', file))),
     );
-    console.log('Delete files:');
+    console.log('Delete files:', chalk.green(iamgesAndFiles.length.toString()));
     console.log(chalk.red(iamgesAndFiles.join('\n')));
 
     console.log(chalk.green('Successfully deleted all messages'));
