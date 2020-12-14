@@ -1,3 +1,22 @@
+## 2020-12-08
+
+### Changes
+- **Breaking!!!** Refactor to use redis cache instead of memory variable cache. So you should run redis first before start fiora
+
+
+## 2020-11-15
+
+### Changes
+- Refactor to use webpack plugin to generate service worker script
+- Refacotr or add server scripts
+
+
+## 2020-11-14
+
+### Features
+- Adapt to ios full screen devices
+
+
 ## 2020-11-12
 
 ### Features
