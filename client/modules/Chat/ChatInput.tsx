@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import loadable from '@loadable/component';
 
+import { css } from 'linaria';
 import Style from './ChatInput.less';
 import useIsLogin from '../../hooks/useIsLogin';
 import useAction from '../../hooks/useAction';
@@ -22,11 +23,32 @@ import voice from '../../../utils/voice';
 import Tooltip from '../../components/Tooltip';
 import { isMobile } from '../../../utils/ua';
 import useAero from '../../hooks/useAero';
+import fetch from '../../../utils/fetch';
+
+const expressionList = css`
+    display: flex;
+    width: 100%;
+    height: 60px;
+    position: absolute;
+    left: 0;
+    top: -60px;
+    background-color: inherit;
+    overflow-x: auto;
+`;
+const expressionImage = css`
+    width: auto;
+    height: 60px;
+    /* margin: 5px; */
+`;
 
 // @ts-ignore
 const ExpressionAsync = loadable(() => import(/* webpackChunkName: "expression" */ './Expression'));
-// @ts-ignore
-const CodeEditorAsync = loadable(() => import(/* webpackChunkName: "code-editor" */ './CodeEditor'));
+const CodeEditorAsync = loadable(
+    // @ts-ignore
+    () => import(/* webpackChunkName: "code-editor" */ './CodeEditor'),
+);
+
+let searchExpressionTimer: number = 0;
 
 function ChatInput() {
     const action = useAction();
@@ -44,8 +66,9 @@ function ChatInput() {
     const [inputIME, toggleInputIME] = useState(false);
     const [inputFocus, toggleInputFocus] = useState(false);
     const [at, setAt] = useState({ enable: false, content: '' });
-    const $input = useRef(null);
+    const $input = useRef<HTMLInputElement>(null);
     const aero = useAero();
+    const [expressions, setExpressions] = useState<{ image: string, width: number, height:number }[]>([]);
 
     /** 全局输入框聚焦快捷键 */
     function focusInput(e: KeyboardEvent) {
@@ -178,10 +201,7 @@ function ChatInput() {
         }
 
         // @ts-ignore
-        const ext = image.type
-            .split('/')
-            .pop()
-            .toLowerCase();
+        const ext = image.type.split('/').pop().toLowerCase();
         const url = URL.createObjectURL(image.result);
 
         const img = new Image();
@@ -377,6 +397,30 @@ function ChatInput() {
         return null;
     }
 
+    async function getExpressionsFromContent() {
+        if ($input.current) {
+            const content = $input.current.value.trim();
+            if (searchExpressionTimer) {
+                clearTimeout(searchExpressionTimer);
+            }
+            // @ts-ignore
+            searchExpressionTimer = setTimeout(async () => {
+                if (content.length >= 1 && content.length <= 5) {
+                    const [err, res] = await fetch(
+                        'searchExpression',
+                        { keywords: content, limit: 10 },
+                        { toast: false },
+                    );
+                    if (!err) {
+                        setExpressions(res);
+                        return;
+                    }
+                }
+                setExpressions([]);
+            }, 1000);
+        }
+    }
+
     async function handleInputKeyDown(e: any) {
         if (e.key === 'Tab') {
             e.preventDefault();
@@ -431,6 +475,16 @@ function ChatInput() {
                     setAt({ enable: true, content: regexResult[1] });
                 }
             }, 100);
+        } else {
+            // Set timer to get current input value
+            setTimeout(() => {
+                if ($input.current?.value) {
+                    getExpressionsFromContent();
+                } else {
+                    clearTimeout(searchExpressionTimer);
+                    setExpressions([])
+                }
+            })
         }
     }
 
@@ -477,123 +531,139 @@ function ChatInput() {
         return null;
     }
 
-    return (
-        <>
-            <div className={Style.chatInput} {...aero}>
-                <Dropdown
-                    trigger={['click']}
-                    visible={expressionDialog}
-                    onVisibleChange={toggleExpressionDialog}
-                    overlay={(
-                        <div className={Style.expressionDropdown}>
-                            <ExpressionAsync
-                                onSelectText={handleSelectExpression}
-                                onSelectImage={sendImageMessage}
-                            />
-                        </div>
-                    )}
-                    animation="slide-up"
-                    placement="topLeft"
-                >
-                    <IconButton
-                        className={Style.iconButton}
-                        width={44}
-                        height={44}
-                        icon="expression"
-                        iconSize={32}
-                    />
-                </Dropdown>
-                <Dropdown
-                    trigger={['click']}
-                    overlay={(
-                        <div className={Style.featureDropdown}>
-                            <Menu onClick={handleFeatureMenuClick}>
-                                <MenuItem key="huaji">发送滑稽</MenuItem>
-                                <MenuItem key="image">发送图片</MenuItem>
-                                <MenuItem key="code">发送代码</MenuItem>
-                                <MenuItem key="file">发送文件</MenuItem>
-                            </Menu>
-                        </div>
-                    )}
-                    animation="slide-up"
-                    placement="topLeft"
-                >
-                    <IconButton
-                        className={Style.iconButton}
-                        width={44}
-                        height={44}
-                        icon="feature"
-                        iconSize={32}
-                    />
-                </Dropdown>
-                <form
-                    className={Style.form}
-                    autoComplete="off"
-                    onSubmit={(e) => e.preventDefault()}
-                >
-                    <input
-                        className={Style.input}
-                        type="text"
-                        placeholder="随便聊点啥吧, 不要无意义刷屏~~"
-                        maxLength={2048}
-                        ref={$input}
-                        onKeyDown={handleInputKeyDown}
-                        onPaste={handlePaste}
-                        onCompositionStart={() => toggleInputIME(true)}
-                        onCompositionEnd={() => toggleInputIME(false)}
-                        onFocus={() => toggleInputFocus(true)}
-                        onBlur={() => toggleInputFocus(false)}
-                    />
+    function handleClickExpressionImage(image: string, width: number, height: number) {
+        sendImageMessage(`${image}?width=${width}&height=${height}`);
+        setExpressions([]);
+        if ($input.current) {
+            $input.current.value = '';
+        }
+    }
 
-                    {!isMobile && !inputFocus && (
-                        <Tooltip
-                            placement="top"
-                            mouseEnterDelay={0.5}
-                            overlay={(
-                                <span>
-                                    支持粘贴图片发图
-                                    <br />
-                                    全局按 i 键聚焦
-                                </span>
-                            )}
-                        >
-                            <i className={`iconfont icon-about ${Style.tooltip}`} />
-                        </Tooltip>
-                    )}
-                </form>
+    return (
+        <div className={Style.chatInput} {...aero}>
+            <Dropdown
+                trigger={['click']}
+                visible={expressionDialog}
+                onVisibleChange={toggleExpressionDialog}
+                overlay={(
+                    <div className={Style.expressionDropdown}>
+                        <ExpressionAsync
+                            onSelectText={handleSelectExpression}
+                            onSelectImage={sendImageMessage}
+                        />
+                    </div>
+                )}
+                animation="slide-up"
+                placement="topLeft"
+            >
                 <IconButton
                     className={Style.iconButton}
                     width={44}
                     height={44}
-                    icon="send"
+                    icon="expression"
                     iconSize={32}
-                    onClick={sendTextMessage}
+                />
+            </Dropdown>
+            <Dropdown
+                trigger={['click']}
+                overlay={(
+                    <div className={Style.featureDropdown}>
+                        <Menu onClick={handleFeatureMenuClick}>
+                            <MenuItem key="huaji">发送滑稽</MenuItem>
+                            <MenuItem key="image">发送图片</MenuItem>
+                            <MenuItem key="code">发送代码</MenuItem>
+                            <MenuItem key="file">发送文件</MenuItem>
+                        </Menu>
+                    </div>
+                )}
+                animation="slide-up"
+                placement="topLeft"
+            >
+                <IconButton
+                    className={Style.iconButton}
+                    width={44}
+                    height={44}
+                    icon="feature"
+                    iconSize={32}
+                />
+            </Dropdown>
+            <form className={Style.form} autoComplete="off" onSubmit={(e) => e.preventDefault()}>
+                <input
+                    className={Style.input}
+                    type="text"
+                    placeholder="随便聊点啥吧, 不要无意义刷屏~~"
+                    maxLength={2048}
+                    ref={$input}
+                    onKeyDown={handleInputKeyDown}
+                    onPaste={handlePaste}
+                    onCompositionStart={() => toggleInputIME(true)}
+                    onCompositionEnd={() => toggleInputIME(false)}
+                    onFocus={() => toggleInputFocus(true)}
+                    onBlur={() => toggleInputFocus(false)}
                 />
 
-                <div className={Style.atPanel}>
-                    {at.enable &&
-                        getSuggestion().map((member) => (
-                            <div
-                                className={Style.atUserList}
-                                key={member.user._id}
-                                onClick={() => replaceAt(member.user.username)}
-                                role="button"
-                            >
-                                <Avatar size={24} src={member.user.avatar} />
-                                <p className={Style.atText}>{member.user.username}</p>
-                            </div>
-                        ))}
-                </div>
-
-                {codeEditorDialog && (
-                    <CodeEditorAsync
-                        visible={codeEditorDialog}
-                        onClose={() => toggleCodeEditorDialog(false)}
-                        onSend={handleSendCode}
-                    />
+                {!isMobile && !inputFocus && (
+                    <Tooltip
+                        placement="top"
+                        mouseEnterDelay={0.5}
+                        overlay={(
+                            <span>
+                                支持粘贴图片发图
+                                <br />
+                                全局按 i 键聚焦
+                            </span>
+                        )}
+                    >
+                        <i className={`iconfont icon-about ${Style.tooltip}`} />
+                    </Tooltip>
                 )}
+            </form>
+            <IconButton
+                className={Style.iconButton}
+                width={44}
+                height={44}
+                icon="send"
+                iconSize={32}
+                onClick={sendTextMessage}
+            />
+
+            <div className={Style.atPanel}>
+                {at.enable &&
+                    getSuggestion().map((member) => (
+                        <div
+                            className={Style.atUserList}
+                            key={member.user._id}
+                            onClick={() => replaceAt(member.user.username)}
+                            role="button"
+                        >
+                            <Avatar size={24} src={member.user.avatar} />
+                            <p className={Style.atText}>{member.user.username}</p>
+                        </div>
+                    ))}
             </div>
-        </>
+
+            {codeEditorDialog && (
+                <CodeEditorAsync
+                    visible={codeEditorDialog}
+                    onClose={() => toggleCodeEditorDialog(false)}
+                    onSend={handleSendCode}
+                />
+            )}
+
+            {expressions.length > 0 && (
+                <div className={expressionList}>
+                    {expressions.map(({ image, width, height }) => (
+                        <img
+                            className={expressionImage}
+                            src={image}
+                            key={image}
+                            alt="表情图"
+                            onClick={() => handleClickExpressionImage(image, width, height)}
+                        />
+                    ))}
+                </div>
+            )}
+        </div>
     );
 }
 

@@ -52,17 +52,12 @@ export async function search(ctx: KoaContext<SearchData>) {
     };
 }
 
-interface SearchExpressionData {
-    /** 关键字 */
-    keywords: string;
-}
-
 /**
  * 搜索表情包, 爬其它站资源
  * @param ctx Context
  */
-export async function searchExpression(ctx: KoaContext<SearchExpressionData>) {
-    const { keywords } = ctx.data;
+export async function searchExpression(ctx: KoaContext<{ keywords: string; limit?: number }>) {
+    const { keywords, limit = Infinity } = ctx.data;
     if (keywords === '') {
         return [];
     }
@@ -99,11 +94,13 @@ export async function searchExpression(ctx: KoaContext<SearchExpressionData>) {
             height: number;
         };
         const images = data.items as Image[];
-        return images.map(({ locImageLink, width, height }) => ({
-            image: locImageLink,
-            width,
-            height,
-        }));
+        return images
+            .map(({ locImageLink, width, height }) => ({
+                image: locImageLink,
+                width,
+                height,
+            }))
+            .filter((image, index) => (limit === Infinity ? true : index < limit));
     } catch (err) {
         assert(false, '搜索表情包失败, 数据解析异常');
     }
