@@ -1,3 +1,11 @@
+## 2020-12-17
+
+### Features
+- Support search expressions by input content. It is disabled default and you can enable it in setting
+### Changes
+- Only limit send message frequency
+
+
 ## 2020-12-08
 
 ### Changes
