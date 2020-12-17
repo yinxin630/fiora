@@ -31,6 +31,10 @@ export default function frequency({
     }, clearDataInterval);
 
     return async (ctx: KoaContext, next: Function) => {
+        if (ctx.event !== 'sendMessage') {
+            return next();
+        }
+
         const { user } = ctx.socket;
 
         // robot10

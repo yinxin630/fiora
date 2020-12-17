@@ -83,7 +83,6 @@ export async function register(ctx: KoaContext<RegisterData>) {
     assert(!user, '该用户名已存在');
 
     const hasRegisteredWithin24Hours = await Redis.has(getNewRegisteredUserIpKey(ctx.socket.ip));
-    console.log('hasRegisteredWithin24Hours ==>', hasRegisteredWithin24Hours);
     assert(!hasRegisteredWithin24Hours, '系统错误');
 
     const defaultGroup = await Group.findOne({ isDefault: true });
