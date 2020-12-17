@@ -135,6 +135,8 @@ export interface State {
         sidebarVisible: boolean;
         /** 是否展示搜索+联系人列表栏 */
         functionBarAndLinkmanListVisible: boolean;
+        /** enable search expression when input some phrase */
+        enableSearchExpression: boolean;
     };
 }
 
@@ -252,6 +254,7 @@ export const initialState: State = {
         tagColorMode: localStorage.tagColorMode,
         sidebarVisible: !isMobile,
         functionBarAndLinkmanListVisible: !isMobile,
+        enableSearchExpression: localStorage.enableSearchExpression,
     },
 };
 

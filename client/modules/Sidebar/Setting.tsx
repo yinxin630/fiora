@@ -50,6 +50,7 @@ function Setting(props: SettingProps) {
     const aero = useSelector((state: State) => state.status.aero);
     const userId = useSelector((state: State) => state.user?._id);
     const tagColorMode = useSelector((state: State) => state.status.tagColorMode);
+    const enableSearchExpression = useSelector((state: State) => state.status.enableSearchExpression);
 
     const [backgroundLoading, toggleBackgroundLoading] = useState(false);
 
@@ -158,6 +159,13 @@ function Setting(props: SettingProps) {
                                     <Switch
                                         onChange={(value) => action.setStatus('selfVoiceSwitch', value)}
                                         checked={selfVoiceSwitch}
+                                    />
+                                </div>
+                                <div className={Style.switch}>
+                                    <p className={Style.switchText}>根据输入内容推荐表情</p>
+                                    <Switch
+                                        onChange={(value) => action.setStatus('enableSearchExpression', value)}
+                                        checked={enableSearchExpression}
                                     />
                                 </div>
                             </div>
