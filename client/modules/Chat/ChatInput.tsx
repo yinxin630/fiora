@@ -406,7 +406,7 @@ function ChatInput() {
             }
             // @ts-ignore
             searchExpressionTimer = setTimeout(async () => {
-                if (content.length >= 1 && content.length <= 5) {
+                if (content.length >= 1 && content.length <= 4) {
                     const [err, res] = await fetch(
                         'searchExpression',
                         { keywords: content, limit: 10 },
