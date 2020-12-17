@@ -10,6 +10,7 @@ jest.useFakeTimers();
 describe('server/middlewares/frequency', () => {
     it('should response call service frequently', async () => {
         const ctx = {
+            event: 'sendMessage',
             socket: {
                 id: 'id',
             },
@@ -26,9 +27,23 @@ describe('server/middlewares/frequency', () => {
         expect(ctx.res).toBe(CallServiceFrequently);
     });
 
+    it('should response success when event is not sendMessage', async () => {
+        const ctx = {
+            event: 'other',
+        } as KoaContext;
+        const middleware = frequency({
+            maxCallPerMinutes: 1,
+        });
+
+        await runMiddleware(middleware, ctx);
+        const data = await runMiddleware(middleware, ctx);
+        expect(ctx.res).toBe(data);
+    });
+
     it('should stricter for new user', async () => {
         // @ts-ignore
         const ctx = {
+            event: 'sendMessage',
             socket: {
                 id: 'id',
                 user: '1',
@@ -47,6 +62,7 @@ describe('server/middlewares/frequency', () => {
 
     it('should clear count data regularly ', async () => {
         const ctx = {
+            event: 'sendMessage',
             socket: {
                 id: 'id',
             },

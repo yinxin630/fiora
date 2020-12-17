@@ -43,6 +43,7 @@ export interface KoaContext<T = any> extends Context {
     /** 响应内容 */
     res: any;
     acknowledge: (data: any) => void;
+    event: string;
 }
 
 export interface KoaRoutes {
