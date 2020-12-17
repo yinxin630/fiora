@@ -14,6 +14,7 @@ export enum LocalStorageKey {
     VoiceSwitch = 'voiceSwitch',
     SelfVoiceSwitch = 'selfVoiceSwitch',
     TagColorMode = 'tagColorMode',
+    EnableSearchExpression = 'EnableSearchExpression',
 }
 
 /**
@@ -65,10 +66,7 @@ export default function getData() {
                 LocalStorageKey.BackgroundImage,
                 themes[config.defaultTheme]?.backgroundImage,
             ),
-            aero: getSwitchValue(
-                LocalStorageKey.Aero,
-                false,
-            ),
+            aero: getSwitchValue(LocalStorageKey.Aero, false),
         };
     }
     return {
@@ -80,5 +78,6 @@ export default function getData() {
         voiceSwitch: getSwitchValue(LocalStorageKey.VoiceSwitch),
         selfVoiceSwitch: getSwitchValue(LocalStorageKey.SelfVoiceSwitch, false),
         tagColorMode: getTextValue(LocalStorageKey.TagColorMode, config.tagColorMode),
+        enableSearchExpression: getSwitchValue(LocalStorageKey.EnableSearchExpression, false),
     };
 }

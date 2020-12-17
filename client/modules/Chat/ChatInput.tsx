@@ -61,6 +61,9 @@ function ChatInput() {
     const focus = useSelector((state: State) => state.focus);
     const linkman = useSelector((state: State) => state.linkmans[focus]);
     const selfVoiceSwitch = useSelector((state: State) => state.status.selfVoiceSwitch);
+    const enableSearchExpression = useSelector(
+        (state: State) => state.status.enableSearchExpression,
+    );
     const [expressionDialog, toggleExpressionDialog] = useState(false);
     const [codeEditorDialog, toggleCodeEditorDialog] = useState(false);
     const [inputIME, toggleInputIME] = useState(false);
@@ -68,7 +71,9 @@ function ChatInput() {
     const [at, setAt] = useState({ enable: false, content: '' });
     const $input = useRef<HTMLInputElement>(null);
     const aero = useAero();
-    const [expressions, setExpressions] = useState<{ image: string, width: number, height:number }[]>([]);
+    const [expressions, setExpressions] = useState<
+        { image: string; width: number; height: number }[]
+    >([]);
 
     /** 全局输入框聚焦快捷键 */
     function focusInput(e: KeyboardEvent) {
@@ -84,6 +89,10 @@ function ChatInput() {
         window.addEventListener('keydown', focusInput);
         return () => window.removeEventListener('keydown', focusInput);
     }, []);
+
+    useEffect(() => {
+        setExpressions([]);
+    }, [enableSearchExpression]);
 
     if (!isLogin) {
         return (
@@ -412,7 +421,7 @@ function ChatInput() {
                         { keywords: content, limit: 10 },
                         { toast: false },
                     );
-                    if (!err) {
+                    if (!err && $input.current?.value.trim() === content) {
                         setExpressions(res);
                         return;
                     }
@@ -476,16 +485,16 @@ function ChatInput() {
                     setAt({ enable: true, content: regexResult[1] });
                 }
             }, 100);
-        } else {
+        } else if (enableSearchExpression) {
             // Set timer to get current input value
             setTimeout(() => {
                 if ($input.current?.value) {
                     getExpressionsFromContent();
                 } else {
                     clearTimeout(searchExpressionTimer);
-                    setExpressions([])
+                    setExpressions([]);
                 }
-            })
+            });
         }
     }
 
