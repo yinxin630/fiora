@@ -394,6 +394,7 @@ function ChatInput() {
         }
         // @ts-ignore
         $input.current.value = '';
+        setExpressions([]);
         return null;
     }
 
