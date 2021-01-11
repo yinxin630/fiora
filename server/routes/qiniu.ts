@@ -6,10 +6,12 @@ const options = {
     scope: config.qiniuBucket,
     expires: 60,
 };
-const configNotEmpty = config.qiniuAccessKey !== ''
-    && config.qiniuSecretKey !== ''
-    && config.qiniuBucket !== ''
-    && config.qiniuUrlPrefix !== '';
+const configNotEmpty = [
+    config.qiniuAccessKey,
+    config.qiniuSecretKey,
+    config.qiniuBucket,
+    config.qiniuUrlPrefix,
+].every(Boolean);
 
 /**
  * 获取七牛上传token
