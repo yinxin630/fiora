@@ -6,8 +6,13 @@ import config from '../config/server';
 import Socket from './models/socket';
 import Group, { GroupDocument } from './models/group';
 import getRandomAvatar from '../utils/getRandomAvatar';
+import { doctor } from '../bin/doctor';
 
 (async () => {
+    if (process.argv.find(argv => argv === '--doctor')) {
+        await doctor();
+    }
+
     await initMongoDB();
 
     // 判断默认群是否存在, 不存在就创建一个
