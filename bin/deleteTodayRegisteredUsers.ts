@@ -4,12 +4,12 @@
 import chalk from 'chalk';
 
 import inquirer from 'inquirer';
-import connectDB from '../server/mongoose';
+import initMongoDB from '../server/mongoose';
 import User from '../server/models/user';
 import { deleteUser } from './deleteUser';
 
 export async function deleteTodayRegisteredUsers() {
-    await connectDB();
+    await initMongoDB();
 
     const now = new Date();
     const time = new Date(

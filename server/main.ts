@@ -1,4 +1,4 @@
-import connectDB from './mongoose';
+import initMongoDB from './mongoose';
 import app from './app';
 
 import config from '../config/server';
@@ -8,7 +8,7 @@ import Group, { GroupDocument } from './models/group';
 import getRandomAvatar from '../utils/getRandomAvatar';
 
 (async () => {
-    await connectDB();
+    await initMongoDB();
 
     // 判断默认群是否存在, 不存在就创建一个
     const group = await Group.findOne({ isDefault: true });

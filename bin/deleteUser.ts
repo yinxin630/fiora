@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 
 import inquirer from 'inquirer';
-import connectDB from '../server/mongoose';
+import initMongoDB from '../server/mongoose';
 import User from '../server/models/user';
 import Message from '../server/models/message';
 import Group, { GroupDocument } from '../server/models/group';
@@ -15,7 +15,7 @@ export async function deleteUser(userId: string, confirm = true) {
         return;
     }
 
-    await connectDB();
+    await initMongoDB();
 
     try {
         const user = await User.findOne({ _id: userId });

@@ -10,7 +10,7 @@ import Group from '../server/models/group';
 
 import { saltRounds } from '../utils/const';
 import getRandomAvatar from '../utils/getRandomAvatar';
-import connectDB from '../server/mongoose';
+import initMongoDB from '../server/mongoose';
 
 export async function register(username: string, password: string) {
     if (!username) {
@@ -32,7 +32,7 @@ export async function register(username: string, password: string) {
         return;
     }
 
-    await connectDB();
+    await initMongoDB();
 
     const user = await User.findOne({ username });
     if (user) {
