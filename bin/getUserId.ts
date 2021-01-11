@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import connectDB from '../server/mongoose';
+import initMongoDB from '../server/mongoose';
 import User from '../server/models/user';
 
 export async function getUserId(username: string) {
@@ -13,7 +13,7 @@ export async function getUserId(username: string) {
         return;
     }
 
-    await connectDB();
+    await initMongoDB();
 
     const user = await User.findOne({ username });
     if (!user) {

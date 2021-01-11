@@ -10,7 +10,7 @@ import config from '../config/server';
 mongoose.Promise = Promise;
 mongoose.set('useCreateIndex', true);
 
-export default function connectDB() {
+export default function initMongoDB() {
     return new Promise((resolve) => {
         mongoose.connect(
             config.database,

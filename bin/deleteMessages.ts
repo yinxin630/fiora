@@ -3,7 +3,7 @@ import fs from 'fs';
 import inquirer from 'inquirer';
 import { promisify } from 'util';
 import chalk from 'chalk';
-import connectDB from '../server/mongoose';
+import initMongoDB from '../server/mongoose';
 import Message from '../server/models/message';
 
 export async function deleteMessages() {
@@ -16,7 +16,7 @@ export async function deleteMessages() {
         return;
     }
 
-    await connectDB();
+    await initMongoDB();
 
     const deleteResult = await Message.deleteMany({});
     console.log('Delete result:', deleteResult);
