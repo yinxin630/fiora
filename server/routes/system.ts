@@ -238,10 +238,12 @@ interface UploadFileData {
 
 export async function uploadFile(ctx: KoaContext<UploadFileData>) {
     assert(
-        config.qiniuAccessKey === '' ||
-            config.qiniuBucket === '' ||
-            config.qiniuBucket === '' ||
-            config.qiniuUrlPrefix === '',
+        ![
+            config.qiniuAccessKey,
+            config.qiniuSecretKey,
+            config.qiniuBucket,
+            config.qiniuUrlPrefix,
+        ].every(Boolean),
         '已配置七牛, 请使用七牛文件上传',
     );
 
