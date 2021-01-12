@@ -22,7 +22,7 @@ function ImageMessage(props: ImageMessageProps) {
     const $container = useRef(null);
 
     let imageSrc = src;
-    const containerWidth = isMobile ? window.innerWidth - 50 : 450;
+    const containerWidth = isMobile ? window.innerWidth - 25 - 50 : 450;
     const maxWidth = containerWidth - 100 > 500 ? 500 : containerWidth - 100;
     const maxHeight = 200;
     let width = 200;
