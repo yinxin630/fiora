@@ -56,7 +56,8 @@ async function handleNewUser(user: UserDocument, ip = '') {
         await Redis.set(getNewUserKey(userId), userId, Redis.Day);
 
         if (ip) {
-            await Redis.set(getNewRegisteredUserIpKey(ip), ip, Redis.Day);
+            const registeredCount = await Redis.get(getNewRegisteredUserIpKey(ip));
+            await Redis.set(getNewRegisteredUserIpKey(ip), (parseInt(registeredCount || '0', 10) + 1).toString(), Redis.Day);
         }
     }
 }
@@ -82,8 +83,8 @@ export async function register(ctx: KoaContext<RegisterData>) {
     const user = await User.findOne({ username });
     assert(!user, '该用户名已存在');
 
-    const hasRegisteredWithin24Hours = await Redis.has(getNewRegisteredUserIpKey(ctx.socket.ip));
-    assert(!hasRegisteredWithin24Hours, '系统错误');
+    const registeredCountWithin24Hours = await Redis.get(getNewRegisteredUserIpKey(ctx.socket.ip));
+    assert(parseInt(registeredCountWithin24Hours || '0', 10) < 3, '系统错误');
 
     const defaultGroup = await Group.findOne({ isDefault: true });
     if (!defaultGroup) {

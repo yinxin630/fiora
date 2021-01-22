@@ -41,7 +41,9 @@ export function getNewUserKey(userId: string) {
 }
 
 export function getNewRegisteredUserIpKey(ip: string) {
-    return `NewRegisteredUserIp-${ip}`;
+    // The value of v1 is ip
+    // The value of v2 is count number
+    return `NewRegisteredUserIpV2-${ip}`;
 }
 
 export function getSealIpKey(ip: string) {
