@@ -1,5 +1,11 @@
 ## 2020-12-17
 
+### Changes
+- A single ip can register up to 3 accounts within 24 hours
+
+
+## 2020-12-17
+
 ### Features
 - Support search expressions by input content. It is disabled default and you can enable it in setting
 ### Changes
