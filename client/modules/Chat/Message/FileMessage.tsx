@@ -36,7 +36,7 @@ function FileMessage({ file, percent }: Props) {
     const { fileUrl, filename, size } = JSON.parse(file);
     let fileSize = `${size}B`;
     if (size > 1024 * 1024) {
-        fileSize = `${Math.ceil((size / 1024 / 1024) * 100) / 100}KB`;
+        fileSize = `${Math.ceil((size / 1024 / 1024) * 100) / 100}MB`;
     } else if (size > 1024) {
         fileSize = `${Math.ceil((size / 1024) * 100) / 100}KB`;
     }
