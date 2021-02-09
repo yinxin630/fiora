@@ -19,4 +19,3 @@ services:
     environment:
       - Database=mongodb://mongodb/fiora
       - RedisHost=redis
-      - Port=9999
