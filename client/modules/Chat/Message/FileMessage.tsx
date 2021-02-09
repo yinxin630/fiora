@@ -19,6 +19,9 @@ const styles = {
         justify-content: center;
         border-bottom: 1px solid #eee;
     `,
+    fileInfoText: css`
+        word-break: break-all;
+    `,
     button: css`
         display: inline-block;
         font-size: 12px;
@@ -47,8 +50,8 @@ function FileMessage({ file, percent }: Props) {
             {...(fileUrl ? { href: fileUrl, download: filename, target: '_blank' } : {})}
         >
             <div className={styles.fileInfo}>
-                <span>{filename}</span>
-                <span>{fileSize}</span>
+                <span className={styles.fileInfoText}>{filename}</span>
+                <span className={styles.fileInfoText}>{fileSize}</span>
             </div>
             <p className={styles.button}>
                 {percent === undefined || percent >= 100
