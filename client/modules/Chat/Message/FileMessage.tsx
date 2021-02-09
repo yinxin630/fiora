@@ -1,5 +1,6 @@
 import React from 'react';
 import { css } from 'linaria';
+import filesize from 'filesize';
 
 const styles = {
     container: css`
@@ -37,12 +38,6 @@ type Props = {
 
 function FileMessage({ file, percent }: Props) {
     const { fileUrl, filename, size } = JSON.parse(file);
-    let fileSize = `${size}B`;
-    if (size > 1024 * 1024) {
-        fileSize = `${Math.ceil((size / 1024 / 1024) * 100) / 100}MB`;
-    } else if (size > 1024) {
-        fileSize = `${Math.ceil((size / 1024) * 100) / 100}KB`;
-    }
 
     return (
         <a
@@ -51,7 +46,7 @@ function FileMessage({ file, percent }: Props) {
         >
             <div className={styles.fileInfo}>
                 <span className={styles.fileInfoText}>{filename}</span>
-                <span className={styles.fileInfoText}>{fileSize}</span>
+                <span className={styles.fileInfoText}>{filesize(size)}</span>
             </div>
             <p className={styles.button}>
                 {percent === undefined || percent >= 100
