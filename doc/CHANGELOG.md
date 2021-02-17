@@ -1,4 +1,12 @@
-## 2020-12-17
+## 2020-2-17
+
+### Features
+- Support sharing groups externally
+### Fixes
+- Part of the text is not visible on windows
+
+
+## 2021-1-22
 
 ### Changes
 - A single ip can register up to 3 accounts within 24 hours
@@ -51,7 +59,7 @@
 - Support display linkman realtime info. About user online status and group online members count
 ### Changes
 - Refactor webpack build config
-### Fix
+### Fixes
 - Fix the issue of right click on image viewer to copy image will close it
 
 
