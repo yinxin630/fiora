@@ -108,6 +108,7 @@ function Chat() {
     return (
         <div className={Style.chat} {...aero}>
             <HeaderBar
+                id={linkman._id}
                 name={linkman.name}
                 type={linkman.type}
                 onlineMembersCount={linkman.onlineMembers?.length}
