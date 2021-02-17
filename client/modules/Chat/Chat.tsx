@@ -78,7 +78,7 @@ function Chat() {
     if (!linkman) {
         return (
             <div className={Style.chat}>
-                <HeaderBar name="" type="" onClickFunction={() => {}} />
+                <HeaderBar id="" name="" type="" onClickFunction={() => {}} />
                 <div className={Style.noLinkman}>
                     <div className={Style.noLinkmanImage} />
                     <h2 className={Style.noLinkmanText}>找个群或者好友呀, 不然怎么聊天~~</h2>
