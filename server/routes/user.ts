@@ -14,6 +14,7 @@ import getRandomAvatar from '../../utils/getRandomAvatar';
 import { KoaContext } from '../../types/koa';
 import { saltRounds } from '../../utils/const';
 import { getNewRegisteredUserIpKey, getNewUserKey, Redis } from '../redis';
+import { handleInviteV2Messages } from './message';
 
 const { isValid } = Types.ObjectId;
 
@@ -347,6 +348,7 @@ export async function guest(ctx: KoaContext<Environment>) {
         },
         { sort: { createTime: -1 }, limit: 15 },
     ).populate('from', { username: 1, avatar: 1 });
+    await handleInviteV2Messages(messages);
     messages.reverse();
 
     return { messages, ...group.toObject() };

@@ -386,21 +386,23 @@ function ChatInput() {
             return null;
         }
 
-        if (/^invite::/.test(message)) {
-            const groupName = message.replace('invite::', '');
+        if (message.startsWith(window.location.origin) && message.match(/\/invite\/group\/[\w\d]+/)) {
+            const groupId = message.replace(`${window.location.origin}/invite/group/`, '');
             const id = addSelfMessage(
-                'invite',
+                'inviteV2',
                 JSON.stringify({
-                    inviter: username,
-                    groupId: '',
-                    groupName,
+                    inviter: selfId,
+                    inviterName: username,
+                    group: groupId,
+                    groupName: '',
                 }),
             );
-            handleSendMessage(id, 'invite', groupName);
+            handleSendMessage(id, 'inviteV2', groupId);
         } else {
             const id = addSelfMessage('text', xss(message));
             handleSendMessage(id, 'text', message);
         }
+        
         // @ts-ignore
         $input.current.value = '';
         setExpressions([]);

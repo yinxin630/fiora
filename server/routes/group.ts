@@ -313,3 +313,20 @@ export async function deleteGroup(ctx: KoaContext<DeleteGroupData>) {
 
     return {};
 }
+
+export async function getGroupBasicInfo(ctx: KoaContext<{ groupId: string }>) {
+    const { groupId } = ctx.data;
+    assert(isValid(groupId), '无效的群组ID');
+
+    const group = await Group.findOne({ _id: groupId });
+    if (!group) {
+        throw new AssertionError({ message: '群组不存在' });
+    }
+
+    return {
+        _id: group._id,
+        name: group.name,
+        avatar: group.avatar,
+        members: group.members.length,
+    };
+}

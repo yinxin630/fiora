@@ -10,7 +10,7 @@ import { ShowUserOrGroupInfoContext } from '../../../context';
 import ImageMessage from './ImageMessage';
 import CodeMessage from './CodeMessage';
 import UrlMessage from './UrlMessage';
-import InviteMessage from './InviteMessage';
+import InviteMessageV2 from './InviteMessageV2';
 import SystemMessage from './SystemMessage';
 import { getRandomColor, getPerRandomColor } from '../../../../utils/getRandomColor';
 import store from '../../../state/store';
@@ -145,8 +145,8 @@ class Message extends Component<MessageProps, MessageState> {
             case 'url': {
                 return <UrlMessage url={content} />;
             }
-            case 'invite': {
-                return <InviteMessage inviteInfo={content} />;
+            case 'inviteV2': {
+                return <InviteMessageV2 inviteInfo={content} />;
             }
             case 'system': {
                 return <SystemMessage message={content} username={originUsername} />;

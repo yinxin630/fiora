@@ -23,6 +23,7 @@ const styles = {
 };
 
 type Props = {
+    id: string;
     /** 联系人名称, 没有联系人时会传空 */
     name: string;
     /** 联系人类型, 没有联系人时会传空 */
@@ -34,7 +35,7 @@ type Props = {
 };
 
 function HeaderBar(props: Props) {
-    const { name, type, onlineMembersCount, isOnline, onClickFunction } = props;
+    const { id, name, type, onlineMembersCount, isOnline, onClickFunction } = props;
 
     const action = useAction();
     const connectStatus = useSelector((state: State) => state.connect);
@@ -43,7 +44,7 @@ function HeaderBar(props: Props) {
     const aero = useAero();
 
     function handleShareGroup() {
-        Message.success('已复制邀请信息到粘贴板, 去邀请其它人加群吧');
+        Message.success('已复制邀请链接到粘贴板, 去邀请其它人加入群组吧');
     }
 
     return (
@@ -88,7 +89,7 @@ function HeaderBar(props: Props) {
             {isLogin && type ? (
                 <div className={`${Style.buttonContainer} ${Style.rightButtonContainer}`}>
                     {type === 'group' && (
-                        <CopyToClipboard text={`invite::${name}`}>
+                        <CopyToClipboard text={`${window.location.origin}/invite/group/${id}`}>
                             <IconButton
                                 width={40}
                                 height={40}

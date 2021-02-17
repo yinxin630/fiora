@@ -29,6 +29,36 @@ interface SendMessageData {
     content: string;
 }
 
+async function handleInviteV2Message(message: SendMessageData) {
+    if (message.type === 'inviteV2') {
+        const inviteInfo = JSON.parse(message.content);
+        if (inviteInfo.inviter && inviteInfo.group) {
+            const [user, group] = await Promise.all([
+                User.findOne({ _id: inviteInfo.inviter }),
+                Group.findOne({ _id: inviteInfo.group }),
+            ]);
+            if (user && group) {
+                message.content = JSON.stringify({
+                    inviter: inviteInfo.inviter,
+                    inviterName: user?.username,
+                    group: inviteInfo.group,
+                    groupName: group.name,
+                });
+            }
+        }
+    }
+}
+
+export async function handleInviteV2Messages(messages: SendMessageData[]) {
+    return Promise.all(
+        messages.map(async (message) => {
+            if (message.type === 'inviteV2') {
+                await handleInviteV2Message(message);
+            }
+        }),
+    )
+}
+
 /**
  * 发送消息
  * 如果是发送给群组, to是群组id
@@ -85,8 +115,8 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
         const file: { size: number } = JSON.parse(content);
         assert(file.size < client.maxFileSize, '要发送的文件过大');
         messageContent = content;
-    } else if (type === 'invite') {
-        const group = await Group.findOne({ name: content });
+    } else if (type === 'inviteV2') {
+        const group = await Group.findOne({ _id: content });
         if (!group) {
             throw new AssertionError({ message: '目标群组不存在' });
         }
@@ -95,10 +125,14 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
             throw new AssertionError({ message: '用户不存在' });
         }
         messageContent = JSON.stringify({
-            inviter: user.username,
-            groupId: group._id,
-            groupName: group.name,
+            inviter: user._id,
+            group: group._id,
         });
+    }
+
+    const user = await User.findOne({ _id: ctx.socket.user }, { username: 1, avatar: 1, tag: 1 });
+    if (!user) {
+        throw new AssertionError({ message: '用户不存在' });
     }
 
     const message = await Message.create({
@@ -108,18 +142,17 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
         content: messageContent,
     } as MessageDocument);
 
-    const user = await User.findOne({ _id: ctx.socket.user }, { username: 1, avatar: 1, tag: 1 });
-    if (!user) {
-        throw new AssertionError({ message: '用户不存在' });
-    }
     const messageData = {
         _id: message._id,
         createTime: message.createTime,
         from: user.toObject(),
         to,
         type,
-        content: messageContent,
+        content: message.content,
     };
+    if (type === 'inviteV2') {
+        await handleInviteV2Message(messageData);
+    }
 
     if (groupId) {
         ctx.socket.to(groupId).emit('message', messageData);
@@ -152,8 +185,8 @@ export async function getLinkmansLastMessages(ctx: KoaContext<GetLinkmanLastMess
     const { linkmans } = ctx.data;
     assert(Array.isArray(linkmans), '参数linkmans应该是Array');
 
-    const promises = linkmans.map((linkmanId) =>
-        Message.find(
+    const promises = linkmans.map(async (linkmanId) => {
+        const messages = await Message.find(
             { to: linkmanId },
             {
                 type: 1,
@@ -162,8 +195,10 @@ export async function getLinkmansLastMessages(ctx: KoaContext<GetLinkmanLastMess
                 createTime: 1,
             },
             { sort: { createTime: -1 }, limit: FirstTimeMessagesCount },
-        ).populate('from', { username: 1, avatar: 1, tag: 1 }),
-    );
+        ).populate('from', { username: 1, avatar: 1, tag: 1 });
+        await handleInviteV2Messages(messages);
+        return messages;
+    });
     const results = await Promise.all(promises);
     type Messages = {
         [linkmanId: string]: MessageDocument[];
@@ -200,6 +235,7 @@ export async function getLinkmanHistoryMessages(ctx: KoaContext<GetLinkmanHistor
         },
         { sort: { createTime: -1 }, limit: EachFetchMessagesCount + existCount },
     ).populate('from', { username: 1, avatar: 1, tag: 1 });
+    await handleInviteV2Messages(messages);
     const result = messages.slice(existCount).reverse();
     return result;
 }
@@ -232,6 +268,7 @@ export async function getDefaultGroupHistoryMessages(
         },
         { sort: { createTime: -1 }, limit: EachFetchMessagesCount + existCount },
     ).populate('from', { username: 1, avatar: 1, tag: 1 });
+    await handleInviteV2Messages(messages);
     const result = messages.slice(existCount).reverse();
     return result;
 }

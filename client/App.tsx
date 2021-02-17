@@ -18,6 +18,7 @@ import { ShowUserOrGroupInfoContext } from './context';
 import Chat from './modules/Chat/Chat';
 import inobounce from '../utils/inobounce';
 import globalStyles from './globalStyles';
+import InviteInfo from './modules/InviteInfo';
 
 /**
  * 获取窗口宽度百分比
@@ -146,6 +147,7 @@ function App() {
                 </ShowUserOrGroupInfoContext.Provider>
             </div>
             <LoginAndRegister />
+            <InviteInfo />
             <UserInfo
                 visible={userInfoDialog}
                 onClose={() => toggleUserInfoDialog(false)}

@@ -11,6 +11,11 @@ module.exports = merge(common, {
     devServer: {
         hot: true,
         contentBase: ['./dist', './public'],
+        historyApiFallback: {
+            rewrites: [
+                { from: /\/invite\/group\/[\w\d]+/, to: '/index.html' },
+            ],
+        },
     },
     plugins: [new ReactRefreshWebpackPlugin()],
 });
