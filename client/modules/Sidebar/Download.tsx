@@ -2,7 +2,6 @@ import React from 'react';
 
 import Dialog from '../../components/Dialog';
 import AndroidApkImage from '../../assets/images/android-apk.png';
-import iOSExpoImage from '../../assets/images/ios-expo.png';
 
 import Style from './Download.less';
 import Common from './Common.less';
@@ -34,13 +33,7 @@ function Download(props: DownloadProps) {
                 <div className={Common.block}>
                     <p className={Common.title}>iOS</p>
                     <div className={Style.ios}>
-                        <p>1. Apple Store 搜索 expo 并下载 Expo Client</p>
-                        <p>2. 打开 expo, 并使用碎碎酱的 expo 账号登录(suisuijiang / fiora123456)</p>
-                        <p>3. 登录成功后点击 fiora 启动应用</p>
-                        <img
-                            src={iOSExpoImage}
-                            alt="ios expo 操作指引"
-                        />
+                        <p>审核中, 敬请期待~~</p>
                     </div>
                 </div>
             </div>
