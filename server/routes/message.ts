@@ -1,8 +1,11 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 import assert, { AssertionError } from 'assert';
 import { Types } from 'mongoose';
+import { Expo } from 'expo-server-sdk';
 
-import User from '../models/user';
-import Group from '../models/group';
+import User, { UserDocument } from '../models/user';
+import Group, { GroupDocument } from '../models/group';
 import Message, { MessageDocument } from '../models/message';
 import Socket from '../models/socket';
 
@@ -49,6 +52,33 @@ async function handleInviteV2Message(message: SendMessageData) {
     }
 }
 
+async function pushNotification(
+    notificationTokens: string[],
+    message: MessageDocument,
+    groupName?: string,
+) {
+    const expo = new Expo({});
+
+    const content = message.type === 'text' ? message.content : `[${message.type}]`;
+    const pushMessages = notificationTokens.map((notificationToken) => ({
+        to: notificationToken,
+        sound: 'default',
+        title: groupName
+            ? `${(message.from as any).username} 在 ${groupName} 说: ${content}`
+            : `${(message.from as any).username} 对你说: ${content}`,
+        data: { focus: message.to },
+    }));
+
+    const chunks = expo.chunkPushNotifications(pushMessages as any);
+    for (const chunk of chunks) {
+        try {
+            await expo.sendPushNotificationsAsync(chunk);
+        } catch (error) {
+            console.error('Send notification fail.', error.message);
+        }
+    }
+}
+
 export async function handleInviteV2Messages(messages: SendMessageData[]) {
     return Promise.all(
         messages.map(async (message) => {
@@ -56,7 +86,7 @@ export async function handleInviteV2Messages(messages: SendMessageData[]) {
                 await handleInviteV2Message(message);
             }
         }),
-    )
+    );
 }
 
 /**
@@ -70,17 +100,16 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
     let { type } = ctx.data;
     assert(to, 'to不能为空');
 
-    let groupId = '';
-    let userId = '';
+    let toGroup: GroupDocument | null = null;
+    let toUser: UserDocument | null = null;
     if (isValid(to)) {
-        groupId = to;
-        const group = await Group.findOne({ _id: to });
-        assert(group, '群组不存在');
+        toGroup = await Group.findOne({ _id: to });
+        assert(toGroup, '群组不存在');
     } else {
-        userId = to.replace(ctx.socket.user.toString(), '');
+        const userId = to.replace(ctx.socket.user.toString(), '');
         assert(isValid(userId), '无效的用户ID');
-        const user = await User.findOne({ _id: userId });
-        assert(user, '用户不存在');
+        toUser = await User.findOne({ _id: userId });
+        assert(toUser, '用户不存在');
     }
 
     let messageContent = content;
@@ -116,8 +145,8 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
         assert(file.size < client.maxFileSize, '要发送的文件过大');
         messageContent = content;
     } else if (type === 'inviteV2') {
-        const group = await Group.findOne({ _id: content });
-        if (!group) {
+        const shareTargetGroup = await Group.findOne({ _id: content });
+        if (!shareTargetGroup) {
             throw new AssertionError({ message: '目标群组不存在' });
         }
         const user = await User.findOne({ _id: ctx.socket.user });
@@ -126,7 +155,7 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
         }
         messageContent = JSON.stringify({
             inviter: user._id,
-            group: group._id,
+            group: shareTargetGroup._id,
         });
     }
 
@@ -154,10 +183,24 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
         await handleInviteV2Message(messageData);
     }
 
-    if (groupId) {
-        ctx.socket.to(groupId).emit('message', messageData);
+    if (toGroup) {
+        ctx.socket.to(toGroup._id).emit('message', messageData);
+        const users = await User.find({
+            _id: {
+                $in: toGroup.members,
+            },
+        });
+        const notificationTokens: string[] = [];
+        users.forEach((groupMember) => {
+            if (groupMember?.notificationTokens?.length) {
+                notificationTokens.push(...groupMember!.notificationTokens);
+            }
+        });
+        if (notificationTokens.length) {
+            pushNotification(notificationTokens, messageData as MessageDocument, toGroup.name);
+        }
     } else {
-        const sockets = await Socket.find({ user: userId });
+        const sockets = await Socket.find({ user: toUser?._id });
         sockets.forEach((socket) => {
             ctx._io.to(socket.id).emit('message', messageData);
         });
@@ -167,6 +210,11 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
                 ctx._io.to(socket.id).emit('message', messageData);
             }
         });
+
+        const notificationTokens = toUser?.notificationTokens || [];
+        if (notificationTokens.length) {
+            pushNotification(notificationTokens, messageData as MessageDocument);
+        }
     }
 
     return messageData;

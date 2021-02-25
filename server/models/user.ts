@@ -25,6 +25,7 @@ const UserSchema = new Schema({
             type: String,
         },
     ],
+    notificationTokens: [{ type: String }],
 });
 
 export interface UserDocument extends Document {
@@ -40,6 +41,7 @@ export interface UserDocument extends Document {
     tag: string;
     /** 表情收藏 */
     expressions: string[];
+    notificationTokens: string[];
     /** 创建时间 */
     createTime: Date;
     /** 最后登录时间 */

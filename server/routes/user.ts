@@ -58,7 +58,11 @@ async function handleNewUser(user: UserDocument, ip = '') {
 
         if (ip) {
             const registeredCount = await Redis.get(getNewRegisteredUserIpKey(ip));
-            await Redis.set(getNewRegisteredUserIpKey(ip), (parseInt(registeredCount || '0', 10) + 1).toString(), Redis.Day);
+            await Redis.set(
+                getNewRegisteredUserIpKey(ip),
+                (parseInt(registeredCount || '0', 10) + 1).toString(),
+                Redis.Day,
+            );
         }
     }
 }
@@ -149,6 +153,7 @@ export async function register(ctx: KoaContext<RegisterData>) {
         friends: [],
         token,
         isAdmin: false,
+        notificationTokens: newUser.notificationTokens,
     };
 }
 
@@ -186,6 +191,7 @@ export async function login(ctx: KoaContext<LoginData>) {
             avatar: 1,
             creator: 1,
             createTime: 1,
+            notificationTokens: 1,
         },
     );
     groups.forEach((group) => {
@@ -219,6 +225,7 @@ export async function login(ctx: KoaContext<LoginData>) {
         friends,
         token,
         isAdmin: config.administrator.includes(user._id.toString()),
+        notificationTokens: user.notificationTokens,
     };
 }
 
@@ -255,6 +262,7 @@ export async function loginByToken(ctx: KoaContext<LoginByTokenData>) {
             username: 1,
             tag: 1,
             createTime: 1,
+            notificationTokens: 1,
         },
     );
     if (!user) {
@@ -304,6 +312,7 @@ export async function loginByToken(ctx: KoaContext<LoginByTokenData>) {
         groups,
         friends,
         isAdmin: config.administrator.includes(user._id.toString()),
+        notificationTokens: user.notificationTokens,
     };
 }
 
@@ -605,3 +614,24 @@ function getUserOnlineStatusWrapper() {
     };
 }
 export const getUserOnlineStatus = getUserOnlineStatusWrapper();
+
+export async function setNotificationToken(ctx: KoaContext<{ token: string }>) {
+    const user = await User.findOne({ _id: ctx.socket.user });
+    if (!user) {
+        throw new AssertionError({ message: '用户不存在' });
+    }
+
+    const notificationTokens = user.notificationTokens || [];
+    if (!notificationTokens.includes(ctx.data.token)) {
+        notificationTokens.push(ctx.data.token);
+        if (notificationTokens.length > 3) {
+            notificationTokens.splice(0, 1);
+        }
+    }
+    user.notificationTokens = notificationTokens;
+    await user.save();
+
+    return {
+        isOK: true,
+    };
+}
