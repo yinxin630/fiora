@@ -66,6 +66,7 @@ async function pushNotification(
         title: groupName
             ? `${(message.from as any).username} 在 ${groupName} 说: ${content}`
             : `${(message.from as any).username} 对你说: ${content}`,
+        data: { focus: message.to },
     }));
 
     const chunks = expo.chunkPushNotifications(pushMessages as any);
