@@ -58,7 +58,11 @@ async function handleNewUser(user: UserDocument, ip = '') {
 
         if (ip) {
             const registeredCount = await Redis.get(getNewRegisteredUserIpKey(ip));
-            await Redis.set(getNewRegisteredUserIpKey(ip), (parseInt(registeredCount || '0', 10) + 1).toString(), Redis.Day);
+            await Redis.set(
+                getNewRegisteredUserIpKey(ip),
+                (parseInt(registeredCount || '0', 10) + 1).toString(),
+                Redis.Day,
+            );
         }
     }
 }
@@ -620,6 +624,9 @@ export async function setNotificationToken(ctx: KoaContext<{ token: string }>) {
     const notificationTokens = user.notificationTokens || [];
     if (!notificationTokens.includes(ctx.data.token)) {
         notificationTokens.push(ctx.data.token);
+        if (notificationTokens.length > 3) {
+            notificationTokens.splice(0, 1);
+        }
     }
     user.notificationTokens = notificationTokens;
     await user.save();
