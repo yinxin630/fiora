@@ -28,8 +28,8 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
 
 ## Screenshot
 
-<img src="https://github.com/yinxin630/fiora/raw/master/doc/screenshots/screenshot-pc.png" alt="PC" style="max-width:800px" />
-<img src="https://github.com/yinxin630/fiora/raw/master/doc/screenshots/screenshot-phone.png" alt="Phone" height="667" style="max-height:667px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/docs/screenshots/screenshot-pc.png" alt="PC" style="max-width:800px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/docs/screenshots/screenshot-phone.png" alt="Phone" height="667" style="max-height:667px" />
 
 ## Install
 
@@ -46,7 +46,7 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
     |-- [client]                  // Client code
     |-- [config]                  // Config
     |-- [dist]                    // Packaging output directory
-    |-- [doc]                     // Document
+    |-- [docs]                     // Document
     |-- [public]                  // Server static resources
     |-- [server]                  // Server code
     |-- [utils]                   // Util method
