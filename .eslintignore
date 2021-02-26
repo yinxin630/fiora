@@ -3,4 +3,5 @@ dist/
 static/
 public/
 build/
+website/
 *.d.ts
