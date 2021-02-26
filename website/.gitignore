@@ -1,0 +1,14 @@
+.DS_Store
+.vscode
+.idea
+lib/core/metadata.js
+lib/core/MetadataBlog.js
+translated_docs
+build/
+yarn.lock
+yarn-error.log
+.yarn
+node_modules
+
+website/i18n/*
+!website/i18n/en.json

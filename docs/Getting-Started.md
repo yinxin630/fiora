@@ -1,19 +1,18 @@
+---
+id: getting-started
+title: Getting Started
+sidebar_label: Getting Started
+---
+
 # Fiora
 
-[![Test Status](https://github.com/yinxin630/fiora/workflows/Unit%20Test/badge.svg)](https://github.com/yinxin630/fiora/actions?query=workflow%3A%22Unit+Test%22)
-[![Lint Status](https://github.com/yinxin630/fiora/workflows/Lint%20Code%20Style/badge.svg)](https://github.com/yinxin630/fiora/actions?query=workflow%3A%22Lint+Code+Style%22)
-[![Typescript Status](https://github.com/yinxin630/fiora/workflows/Typescript%20Type%20Check/badge.svg)](https://github.com/yinxin630/fiora/actions?query=workflow%3A%22Typescript+Type+Check%22)
-[![author](https://img.shields.io/badge/author-%E7%A2%8E%E7%A2%8E%E9%85%B1-blue.svg)](http://suisuijiang.com)
-[![Node.js Version](https://img.shields.io/badge/node.js-10.15.0-blue.svg)](http://nodejs.org/download)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/yinxin630/fiora/blob/master/LICENSE)
-
-Language: [English](README.md) | [简体中文](./docs/Getting-Started.ZH.md)
+Language: [English](./Getting-Started.md) | [简体中文](./Getting-Started.ZH.md)
 
 fiora is an interesting chat application. It is developed based on node.js, mongodb, react and socket.io technologies
 
 The project started at [2015-11-04](https://github.com/yinxin630/chatroom-with-sails/commit/0a032372727550b8b4087f24ac299de03b677b9f)
 
-Online address: [https://fiora.suisuijiang.com/](https://fiora.suisuijiang.com/)   
+Online address: [https://fiora.suisuijiang.com/](https://fiora.suisuijiang.com/)  
 Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/yinxin630/fiora-app)
 
 ## Functions
@@ -65,7 +64,7 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
 If you want to add functionality or fix bugs, please follow the process below:
 
 0. Fork this repository and clone the fork post to the local
-0. Installation dependencies `yarn install`
-0. Modify the code and confirm it is bug free
-0. Submit code, if eslint has reported error, please repair it and submit it again.
-0. Create a pull request
+1. Installation dependencies `yarn install`
+2. Modify the code and confirm it is bug free
+3. Submit code, if eslint has reported error, please repair it and submit it again.
+4. Create a pull request
