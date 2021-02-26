@@ -1,3 +1,9 @@
+---
+id: api-doc
+title: API-Doc
+sidebar_label: API-Doc
+---
+
 # fiora 接口文档
 
 ## 如何调用接口
@@ -10,14 +16,16 @@ const socket = new IO(serverAddrress, options);
 ```
 
 接口调用格式为
+
 ```js
 socket.emit(event, data, callback);
 ```
 
 参数说明
-* event {string} 接口名/事件名
-* data {object} 接口入参
-* callback {string|object => void} 接口回调, 返回string表示接口失败, string内容为失败原因, 反正object表示接口成功, 里面包含返回数据
+
+-   event {string} 接口名/事件名
+-   data {object} 接口入参
+-   callback {string|object => void} 接口回调, 返回 string 表示接口失败, string 内容为失败原因, 反正 object 表示接口成功, 里面包含返回数据
 
 ## 返回数据结构定义
 
@@ -75,7 +83,7 @@ socket.emit(
         browser, // {string} 浏览器
         environment, // {string} 环境信息
     },
-    user => { }, // {User} 用户数据
+    (user) => {}, // {User} 用户数据
 );
 ```
 
@@ -91,7 +99,7 @@ socket.emit(
         browser, // {string} 浏览器
         environment, // {string} 环境信息
     },
-    user => { }, // {User} 用户数据
+    (user) => {}, // {User} 用户数据
 );
 ```
 
@@ -106,7 +114,7 @@ socket.emit(
         browser, // {string} 浏览器
         environment, // {string} 环境信息
     },
-    user => { }, // {User} 用户数据
+    (user) => {}, // {User} 用户数据
 );
 ```
 
@@ -122,7 +130,7 @@ socket.emit(
         browser, // {string} 浏览器
         environment, // {string} 环境信息
     },
-    defaultGroup => { }, // {Group} 默认群组数据
+    (defaultGroup) => {}, // {Group} 默认群组数据
 );
 ```
 
@@ -134,7 +142,7 @@ socket.emit(
     {
         avatar, // {string} 新头像url
     },
-    () => { }, // {Object} 返回空对象
+    () => {}, // {Object} 返回空对象
 );
 ```
 
@@ -146,7 +154,7 @@ socket.emit(
     {
         userId, // {User ID} 目标的id
     },
-    (friend) => { }, // {User} 好友信息
+    (friend) => {}, // {User} 好友信息
 );
 ```
 
@@ -158,7 +166,7 @@ socket.emit(
     {
         userId, // {User ID} 目标的id
     },
-    () => { }, // {Object} 返回空对象
+    () => {}, // {Object} 返回空对象
 );
 ```
 
@@ -171,7 +179,7 @@ socket.emit(
         oldPassword, // {string} 旧密码
         newPassword, // {string} 新密码
     },
-    () => { }, // {Object} 返回空对象
+    () => {}, // {Object} 返回空对象
 );
 ```
 
@@ -183,7 +191,7 @@ socket.emit(
     {
         username, // {string} 新用户名
     },
-    () => { }, // {Object} 返回空对象
+    () => {}, // {Object} 返回空对象
 );
 ```
 
@@ -206,8 +214,8 @@ socket.emit(
 ### 发送消息
 
 通过 to 字段判断是发送给群, 还是发送给个人
-发送群的话, to就是群id
-发送个人的话, to就是两个人的id拼接, 按字符串比较结果, 小的在前大的在后
+发送群的话, to 就是群 id
+发送个人的话, to 就是两个人的 id 拼接, 按字符串比较结果, 小的在前大的在后
 
 ```js
 socket.emit(
@@ -217,7 +225,7 @@ socket.emit(
         type, // {string} 消息类型
         content, // {string} 消息内容
     },
-    (message) => { }, // {Message} 新消息
+    (message) => {}, // {Message} 新消息
 );
 ```
 
@@ -229,7 +237,7 @@ socket.emit(
     {
         linkmans, // {[string]} 联系人id列表, 与to同规则
     },
-    (messages) => { }, // {object} 所有联系人的最后消息, key: 联系人id, value: [Message] 消息列表
+    (messages) => {}, // {object} 所有联系人的最后消息, key: 联系人id, value: [Message] 消息列表
 );
 ```
 
@@ -242,7 +250,7 @@ socket.emit(
         linkmanId, // {string} 联系人id
         existCount, // {number} 已有消息数量
     },
-    (messages) => { }, // {[Message]} 消息列表
+    (messages) => {}, // {[Message]} 消息列表
 );
 ```
 
@@ -256,7 +264,7 @@ socket.emit(
     {
         existCount, // {number} 已有消息数量
     },
-    (messages) => { }, // {[Message]} 消息列表
+    (messages) => {}, // {[Message]} 消息列表
 );
 ```
 
@@ -268,7 +276,7 @@ socket.emit(
     {
         name, // {string} 群组名
     },
-    (group) => { }, // {Group} 新创建的群组
+    (group) => {}, // {Group} 新创建的群组
 );
 ```
 
@@ -280,7 +288,7 @@ socket.emit(
     {
         groupId, // {Group ID} 目标群id
     },
-    (group) => { }, // {Group} 新创建的群组
+    (group) => {}, // {Group} 新创建的群组
 );
 ```
 
@@ -292,7 +300,7 @@ socket.emit(
     {
         groupId, // {Group ID} 目标群id
     },
-    () => { }, // {object} 返回空数据
+    () => {}, // {object} 返回空数据
 );
 ```
 
@@ -304,7 +312,7 @@ socket.emit(
     {
         groupId, // {Group ID} 目标群id
     },
-    (users) => { }, // {[User]} 在线用户列表
+    (users) => {}, // {[User]} 在线用户列表
 );
 ```
 
@@ -313,8 +321,8 @@ socket.emit(
 ```js
 socket.emit(
     'getDefaultGroupOnlineMembers',
-    { },
-    (users) => { }, // {[User]} 在线用户列表
+    {},
+    (users) => {}, // {[User]} 在线用户列表
 );
 ```
 
@@ -327,11 +335,11 @@ socket.emit(
         groupId, // {Group ID} 目标群id
         avatar, // {string} 新头像url
     },
-    () => { }, // {object} 返回空数据
+    () => {}, // {object} 返回空数据
 );
 ```
 
-### 获取七牛前端文件上传token
+### 获取七牛前端文件上传 token
 
 ```js
 socket.emit(
@@ -375,7 +383,7 @@ socket.emit(
 );
 ```
 
-### 获取百度语言合成token
+### 获取百度语言合成 token
 
 ```js
 socket.emit(
@@ -404,7 +412,7 @@ socket.emit(
 ```js
 socket.emit(
     'getSealList',
-    { },
+    {},
     (users) => {}, // {[string]} 被封禁的用户名列表
 );
 ```

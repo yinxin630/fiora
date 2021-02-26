@@ -1,19 +1,18 @@
+---
+id: getting-started-zh
+title: 开始
+sidebar_label: 开始
+---
+
 # Fiora
 
-[![Test Status](https://github.com/yinxin630/fiora/workflows/Unit%20Test/badge.svg)](https://github.com/yinxin630/fiora/actions?query=workflow%3A%22Unit+Test%22)
-[![Lint Status](https://github.com/yinxin630/fiora/workflows/Lint%20Code%20Style/badge.svg)](https://github.com/yinxin630/fiora/actions?query=workflow%3A%22Lint+Code+Style%22)
-[![Typescript Status](https://github.com/yinxin630/fiora/workflows/Typescript%20Type%20Check/badge.svg)](https://github.com/yinxin630/fiora/actions?query=workflow%3A%22Typescript+Type+Check%22)
-[![author](https://img.shields.io/badge/author-%E7%A2%8E%E7%A2%8E%E9%85%B1-blue.svg)](http://suisuijiang.com)
-[![Node.js Version](https://img.shields.io/badge/node.js-8.9.0-blue.svg)](http://nodejs.org/download)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/yinxin630/fiora/blob/master/LICENSE)
-
-语言: [English](../README.md) | [简体中文](README.ZH.md)
+语言: [English](./Getting-Started.md) | [简体中文](./Getting-Started.ZH.md)
 
 fiora 是一款有趣的聊天应用. 基于 node.js, mongodb, react 和 socket.io 等技术开发
 
 该项目起始于 [2015-11-04](https://github.com/yinxin630/chatroom-with-sails/commit/0a032372727550b8b4087f24ac299de03b677b9f)
 
-在线地址: [https://fiora.suisuijiang.com/](https://fiora.suisuijiang.com/)   
+在线地址: [https://fiora.suisuijiang.com/](https://fiora.suisuijiang.com/)  
 安卓/iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/yinxin630/fiora-app)
 
 ## 功能
@@ -33,7 +32,7 @@ fiora 是一款有趣的聊天应用. 基于 node.js, mongodb, react 和 socket.
 
 ## 安装运行
 
-[查看如何运行Fiora](./INSTALL.ZH.md)
+[查看如何运行 Fiora](./INSTALL.ZH.md)
 
 ## 更新日志
 
@@ -62,10 +61,10 @@ fiora 是一款有趣的聊天应用. 基于 node.js, mongodb, react 和 socket.
 
 ## 贡献代码
 
-如果你想要添加功能或者修复BUG. 请遵守下列流程.
+如果你想要添加功能或者修复 BUG. 请遵守下列流程.
 
 0. fork 本仓库并克隆 fork 后的仓库到本地
-0. 安装依赖 `yarn install`
-0. 修改代码并确认无 bug
-0. 提交代码, 如果 eslint 有报错, 请修复后再次提交
-0. 创建一个 pull request
+1. 安装依赖 `yarn install`
+2. 修改代码并确认无 bug
+3. 提交代码, 如果 eslint 有报错, 请修复后再次提交
+4. 创建一个 pull request
