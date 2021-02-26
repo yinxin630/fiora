@@ -27,8 +27,8 @@ fiora 是一款有趣的聊天应用. 基于 node.js, mongodb, react 和 socket.
 
 ## 运行截图
 
-<img src="https://github.com/yinxin630/fiora/raw/master/doc/screenshots/screenshot-pc.png" alt="PC" style="max-width:800px" />
-<img src="https://github.com/yinxin630/fiora/raw/master/doc/screenshots/screenshot-phone.png" alt="Phone" height="667" style="max-height:667px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/docs/screenshots/screenshot-pc.png" alt="PC" style="max-width:800px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/docs/screenshots/screenshot-phone.png" alt="Phone" height="667" style="max-height:667px" />
 
 ## 安装运行
 
@@ -45,7 +45,7 @@ fiora 是一款有趣的聊天应用. 基于 node.js, mongodb, react 和 socket.
     |-- [client]                  // 客户端代码
     |-- [config]                  // 配置
     |-- [dist]                    // 打包输出目录
-    |-- [doc]                     // 文档
+    |-- [docs]                    // 文档
     |-- [public]                  // 服务端静态资源
     |-- [server]                  // 服务端代码
     |-- [utils]                   // 工具方法
