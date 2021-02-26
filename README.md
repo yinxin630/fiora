@@ -46,7 +46,7 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
     |-- [client]                  // Client code
     |-- [config]                  // Config
     |-- [dist]                    // Packaging output directory
-    |-- [docs]                     // Document
+    |-- [docs]                    // Document
     |-- [public]                  // Server static resources
     |-- [server]                  // Server code
     |-- [utils]                   // Util method
