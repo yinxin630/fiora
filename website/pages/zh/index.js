@@ -54,7 +54,7 @@ class HomeSplash extends React.Component {
             <SplashContainer>
                 <Logo img_src={`${baseUrl}img/wuzeiniang.gif`} />
                 <div className="inner">
-                    <ProjectTitle tagline={siteConfig.tagline} title={siteConfig.title} />
+                    <ProjectTitle tagline="一个有趣的开源聊天应用" title={siteConfig.title} />
                     <a
                         className="github-button"
                         href={siteConfig.repoUrl}
@@ -67,9 +67,9 @@ class HomeSplash extends React.Component {
                         Star
                     </a>
                     <PromoSection>
-                        <Button href={siteConfig.url}>Try It Now</Button>
-                        <Button href={docUrl('install')}>Install It</Button>
-                        <Button href="https://github.com/yinxin630/fiora">View Source Code</Button>
+                        <Button href={siteConfig.url}>体验看看</Button>
+                        <Button href={docUrl('install')}>安装部署</Button>
+                        <Button href="https://github.com/yinxin630/fiora">查看源码</Button>
                     </PromoSection>
                 </div>
             </SplashContainer>
@@ -89,26 +89,26 @@ class Index extends React.Component {
         );
 
         const Features = () => (
-            <Block layout="fourColumn" id="features">
+            <Block layout="threeColumn" id="features">
                 {[
                     {
-                        content: 'fiora contains backend, frontend<br/>Android and iOS apps',
+                        content: 'fiora 包括后端、前端、安卓 / iOS App',
                         image: `${baseUrl}img/website-app.png`,
                         imageAlign: 'top',
-                        title: 'Richness',
+                        title: '多样性',
                     },
                     {
                         content:
-                            'fiora is developed with node.js<br/>Supports Windows / Linux / macOS systems',
+                            'fiora 基于 node.js 开发<br/>支持 Windows / Linux / macOS 等操作系统',
                         image: `${baseUrl}img/cross-platform.png`,
                         imageAlign: 'top',
-                        title: 'Cross Platform',
+                        title: '跨平台',
                     },
                     {
-                        content: 'fiora follows the MIT open source license',
+                        content: 'fiora 遵循 MIT 开源许可',
                         image: `${baseUrl}img/open-source.png`,
                         imageAlign: 'top',
-                        title: 'Open Source',
+                        title: '开源',
                     },
                 ]}
             </Block>
@@ -119,10 +119,10 @@ class Index extends React.Component {
                 {[
                     {
                         content:
-                            'Register an account to join the chat. Join or create new group. Chat privately with funny strangers and add them as friends. Your account and messages will be stored forever',
+                            '注册一个账号加入聊天, 加入或者新的群组, 和有趣的陌生人私聊并加为好友, 你的账号和消息会永久保留',
                         image: `${baseUrl}img/undraw_youtube_tutorial.svg`,
                         imageAlign: 'right',
-                        title: 'Join Chat',
+                        title: '加入聊天',
                     },
                 ]}
             </Block>
@@ -133,10 +133,10 @@ class Index extends React.Component {
                 {[
                     {
                         content:
-                            'You can send text, emoticons, pictures, codes and files to others. You can also withdraw the sent message. In addition, you can modify your name and avatar. The most exciting is you can choose or customize different themes',
+                            '你可以发送文本、表情、图片、代码和文件给其他人, 你还可以撤回已发送的消息, 另外你还可以修改用户名和头像, 最令人兴奋的是你可以选择或者自定义不同的主题',
                         image: `${baseUrl}img/undraw_note_list.svg`,
                         imageAlign: 'left',
-                        title: 'Rich Feature',
+                        title: '丰富的功能',
                     },
                 ]}
             </Block>
@@ -147,10 +147,10 @@ class Index extends React.Component {
                 {[
                     {
                         content:
-                            'fiora is an open source project. You can clone the source code and deploy to your own server. It supports windows / Linux and macOS systems. But recommended that you deploy on a linux server',
+                            'fiora 是一个开源项目, 你可以克隆源码并部署到自己的服务器, 支持 windows / Linux and macOS 操作系统, 但是推荐您部署到 Linux 服务器上',
                         image: `${baseUrl}img/undraw_code_review.svg`,
                         imageAlign: 'right',
-                        title: 'Deploy By Yourself',
+                        title: '自己部署',
                     },
                 ]}
             </Block>
@@ -159,10 +159,10 @@ class Index extends React.Component {
         const TryItNow = () => {
             return (
                 <div className="productShowcaseSection paddingBottom">
-                    <h2>Are you very interested?</h2>
+                    <h2>你是否非常感兴趣?</h2>
                     <div className="more-users">
                         <a className="button" href={siteConfig.url} target="_blank">
-                            Try It Now
+                            现在来试试吧
                         </a>
                     </div>
                 </div>

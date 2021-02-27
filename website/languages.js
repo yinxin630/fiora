@@ -7,7 +7,7 @@ const languages = [
     {
         enabled: true,
         name: ' 简体中文',
-        tag: 'zh-Hans',
+        tag: 'zh',
     },
 ];
 

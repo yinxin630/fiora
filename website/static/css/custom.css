@@ -21,3 +21,20 @@
 
 @media only screen and (min-width: 1500px) {
 }
+
+#join-chat .blockContent {
+    text-align: left;
+}
+
+#deploy-by-yourself .blockContent {
+    text-align: left;
+}
+
+#rich-feature .blockContent {
+    text-align: left;
+}
+
+#features .blockImage > img {
+    height: 52px;
+    width: auto;
+}

@@ -9,6 +9,3 @@ yarn.lock
 yarn-error.log
 .yarn
 node_modules
-
-website/i18n/*
-!website/i18n/en.json

@@ -3,7 +3,7 @@
   "localized-strings": {
     "next": "Next",
     "previous": "Previous",
-    "tagline": "fiora is an interesting chat application.",
+    "tagline": "An interesting open source chat application",
     "docs": {
       "api-doc": {
         "title": "API-Doc",
@@ -33,8 +33,8 @@
     "links": {
       "Docs": "Docs",
       "API": "API",
-      "Help": "Help",
-      "GitHub": "GitHub"
+      "GitHub": "GitHub",
+      "Help": "Help"
     },
     "categories": {
       "Getting-Started": "Getting-Started",
