@@ -171,6 +171,6 @@
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^5.3.0",
     "webpackbar": "^5.0.0-3",
-    "workbox-webpack-plugin": "^5.1.4"
+    "workbox-webpack-plugin": "^6.1.1"
   }
 }
