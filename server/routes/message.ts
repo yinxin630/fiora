@@ -63,9 +63,8 @@ async function pushNotification(
     const pushMessages = notificationTokens.map((notificationToken) => ({
         to: notificationToken,
         sound: 'default',
-        title: groupName
-            ? `${(message.from as any).username} 在 ${groupName} 说: ${content}`
-            : `${(message.from as any).username} 对你说: ${content}`,
+        title: groupName || (message.from as any).username,
+        body: groupName ? `${(message.from as any).username}: ${content}` : content,
         data: { focus: message.to },
     }));
 
