@@ -184,6 +184,7 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
 
     if (toGroup) {
         ctx.socket.to(toGroup._id).emit('message', messageData);
+
         const users = await User.find({
             _id: {
                 $in: toGroup.members,
@@ -191,6 +192,10 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
         });
         const notificationTokens: string[] = [];
         users.forEach((groupMember) => {
+            // Messages sent by yourself don’t push notification to yourself
+            if (groupMember._id.toString() === ctx.socket.user.toString()) {
+                return;
+            }
             if (groupMember?.notificationTokens?.length) {
                 notificationTokens.push(...groupMember!.notificationTokens);
             }
