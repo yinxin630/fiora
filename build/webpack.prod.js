@@ -2,6 +2,7 @@ const { merge } = require('webpack-merge');
 const TerserPlugin = require('terser-webpack-plugin');
 const ScriptExtHtmlPlugin = require('script-ext-html-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
+const WebpackBar = require('webpackbar');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
@@ -37,5 +38,6 @@ module.exports = merge(common, {
             clientsClaim: true,
             skipWaiting: true,
         }),
+        new WebpackBar(),
     ],
 });
