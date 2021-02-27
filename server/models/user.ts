@@ -25,7 +25,10 @@ const UserSchema = new Schema({
             type: String,
         },
     ],
-    notificationTokens: [{ type: String }],
+    notificationTokens: {
+        type: [{ type: String }],
+        validate: [(arr: Array<string>) => arr.length <= 3, '{PATH} exceeds the limit of 3'],
+    },
 });
 
 export interface UserDocument extends Document {
