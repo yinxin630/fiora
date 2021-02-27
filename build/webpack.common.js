@@ -143,6 +143,8 @@ module.exports = {
             inject: true,
         }),
         new CleanWebpackPlugin(),
-        new Dotenv(),
+        new Dotenv({
+            silent: true,
+        }),
     ],
 };
