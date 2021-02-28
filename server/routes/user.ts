@@ -8,6 +8,7 @@ import Group, { GroupDocument } from '../models/group';
 import Friend, { FriendDocument } from '../models/friend';
 import Socket from '../models/socket';
 import Message from '../models/message';
+import Notification from '../models/notification';
 
 import config from '../../config/server';
 import getRandomAvatar from '../../utils/getRandomAvatar';
@@ -65,6 +66,11 @@ async function handleNewUser(user: UserDocument, ip = '') {
             );
         }
     }
+}
+
+async function getUserNotificationTokens(user: UserDocument) {
+    const notifications = (await Notification.find({ user })) || [];
+    return notifications.map(({ token }) => token);
 }
 
 interface RegisterData extends Environment {
@@ -153,7 +159,7 @@ export async function register(ctx: KoaContext<RegisterData>) {
         friends: [],
         token,
         isAdmin: false,
-        notificationTokens: newUser.notificationTokens,
+        notificationTokens: [],
     };
 }
 
@@ -216,6 +222,8 @@ export async function login(ctx: KoaContext<LoginData>) {
         },
     );
 
+    const notificationTokens = await getUserNotificationTokens(user);
+
     return {
         _id: user._id,
         avatar: user.avatar,
@@ -225,7 +233,7 @@ export async function login(ctx: KoaContext<LoginData>) {
         friends,
         token,
         isAdmin: config.administrator.includes(user._id.toString()),
-        notificationTokens: user.notificationTokens,
+        notificationTokens,
     };
 }
 
@@ -304,6 +312,8 @@ export async function loginByToken(ctx: KoaContext<LoginByTokenData>) {
         },
     );
 
+    const notificationTokens = await getUserNotificationTokens(user);
+
     return {
         _id: user._id,
         avatar: user.avatar,
@@ -312,7 +322,7 @@ export async function loginByToken(ctx: KoaContext<LoginByTokenData>) {
         groups,
         friends,
         isAdmin: config.administrator.includes(user._id.toString()),
-        notificationTokens: user.notificationTokens,
+        notificationTokens,
     };
 }
 
@@ -614,24 +624,3 @@ function getUserOnlineStatusWrapper() {
     };
 }
 export const getUserOnlineStatus = getUserOnlineStatusWrapper();
-
-export async function setNotificationToken(ctx: KoaContext<{ token: string }>) {
-    const user = await User.findOne({ _id: ctx.socket.user });
-    if (!user) {
-        throw new AssertionError({ message: '用户不存在' });
-    }
-
-    const notificationTokens = user.notificationTokens || [];
-    if (!notificationTokens.includes(ctx.data.token)) {
-        notificationTokens.push(ctx.data.token);
-        if (notificationTokens.length > 3) {
-            notificationTokens.splice(0, 1);
-        }
-    }
-    user.notificationTokens = notificationTokens;
-    await user.save();
-
-    return {
-        isOK: true,
-    };
-}

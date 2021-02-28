@@ -12,6 +12,7 @@ import Socket from '../models/socket';
 import xss from '../../utils/xss';
 import { KoaContext } from '../../types/koa';
 import client from '../../config/client';
+import Notification from '../models/notification';
 
 const { isValid } = Types.ObjectId;
 
@@ -71,7 +72,8 @@ async function pushNotification(
     const chunks = expo.chunkPushNotifications(pushMessages as any);
     for (const chunk of chunks) {
         try {
-            await expo.sendPushNotificationsAsync(chunk);
+            const result = await expo.sendPushNotificationsAsync(chunk);
+            console.log(result);
         } catch (error) {
             console.error('Send notification fail.', error.message);
         }
@@ -185,20 +187,18 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
     if (toGroup) {
         ctx.socket.to(toGroup._id).emit('message', messageData);
 
-        const users = await User.find({
-            _id: {
+        const notifications = await Notification.find({
+            user: {
                 $in: toGroup.members,
             },
         });
         const notificationTokens: string[] = [];
-        users.forEach((groupMember) => {
+        notifications.forEach((notification) => {
             // Messages sent by yourself don’t push notification to yourself
-            if (groupMember._id.toString() === ctx.socket.user.toString()) {
+            if (notification.user._id.toString() === ctx.socket.user.toString()) {
                 return;
             }
-            if (groupMember?.notificationTokens?.length) {
-                notificationTokens.push(...groupMember!.notificationTokens);
-            }
+            notificationTokens.push(notification.token);
         });
         if (notificationTokens.length) {
             pushNotification(notificationTokens, messageData as MessageDocument, toGroup.name);
@@ -215,9 +215,12 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
             }
         });
 
-        const notificationTokens = toUser?.notificationTokens || [];
+        const notificationTokens = await Notification.find({ user: toUser });
         if (notificationTokens.length) {
-            pushNotification(notificationTokens, messageData as MessageDocument);
+            pushNotification(
+                notificationTokens.map(({ token }) => token),
+                messageData as MessageDocument,
+            );
         }
     }
 
