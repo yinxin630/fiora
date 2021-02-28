@@ -1,5 +1,5 @@
 ---
-id: getting-started-zh
+id: getting-start-zh
 title: 开始
 sidebar_label: 开始
 ---

@@ -1,7 +1,7 @@
 ---
-id: api-doc
-title: API-Doc
-sidebar_label: API-Doc
+id: api
+title: API
+sidebar_label: API
 ---
 
 # fiora 接口文档

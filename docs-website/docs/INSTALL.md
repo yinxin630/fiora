@@ -90,7 +90,7 @@ docker run --name fiora -p 9200:9200 --network fiora-network -e Database=mongodb
 2. Build the image `docker-compose build --no-cache --force-rm`
 3. Run it `docker-compose up`
 
-<a id="project-configuration" style="color: unset; text-decoration: none;">
+<a id="project-configuration" style={{color: 'unset', 'text-decoration': 'none'}}>
    <h2>Project Configuration</h2>
 </a>
 Configuration list
