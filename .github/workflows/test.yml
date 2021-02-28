@@ -14,5 +14,5 @@ jobs:
         node-version: [10.x]
     steps:
     - uses: actions/checkout@master
-    - uses: bahmutov/npm-install@v1
+    - uses: bahmutov/npm-install@v1.4.5
     - run: yarn test
