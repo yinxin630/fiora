@@ -21,6 +21,7 @@ import * as groupRoutes from './routes/group';
 import * as messageRoutes from './routes/message';
 import * as qiniuRoutes from './routes/qiniu';
 import * as systemRoutes from './routes/system';
+import * as notificationRoutes from './routes/notification';
 
 const app = new Koa();
 app.proxy = true;
@@ -91,6 +92,7 @@ io.use(
             ...messageRoutes,
             ...qiniuRoutes,
             ...systemRoutes,
+            ...notificationRoutes,
         },
     ),
 );

@@ -66,6 +66,7 @@
         "react/static-property-placement": 0,
         "react-hooks/rules-of-hooks": 2,
         "react-hooks/exhaustive-deps": 0,
-        "react/require-default-props": [2, { "ignoreFunctionalComponents": true }]
+        "react/require-default-props": [2, { "ignoreFunctionalComponents": true }],
+        "import/prefer-default-export": 0
     }
 }
