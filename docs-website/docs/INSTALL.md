@@ -1,10 +1,10 @@
 ---
 id: install
-title: INSTALL
+title: How To Run Fiora
 sidebar_label: INSTALL
 ---
 
-# How to run fiora
+Language: [English](./INSTALL.md) | [简体中文](./INSTALL.ZH.md)
 
 ## Environmental Preparation
 

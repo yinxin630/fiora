@@ -7,7 +7,7 @@
 [![Node.js Version](https://img.shields.io/badge/node.js-10.15.0-blue.svg)](http://nodejs.org/download)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/yinxin630/fiora/blob/master/LICENSE)
 
-Language: [English](README.md) | [简体中文](./docs/Getting-Started.ZH.md)
+Language: [English](README.md) | [简体中文](./docs-website/docs/Getting-Start.ZH.md)
 
 fiora is an interesting chat application. It is developed based on node.js, mongodb, react and socket.io technologies
 
@@ -28,8 +28,8 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
 
 ## Screenshot
 
-<img src="https://github.com/yinxin630/fiora/raw/master/docs/screenshots/screenshot-pc.png" alt="PC" style="max-width:800px" />
-<img src="https://github.com/yinxin630/fiora/raw/master/docs/screenshots/screenshot-phone.png" alt="Phone" height="667" style="max-height:667px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/docs-website/docs/img/screenshots/screenshot-pc.png" alt="PC" style="max-width:800px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/docs-website/docs/img/screenshot-phone.png" alt="Phone" height="667" style="max-height:667px" />
 
 ## Install
 

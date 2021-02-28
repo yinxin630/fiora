@@ -2,7 +2,7 @@ module.exports = {
     title: 'fiora',
     tagline: 'An interesting open source chat application',
     url: 'https://fiora.suisuijiang.com',
-    baseUrl: '/',
+    baseUrl: '/fiora/',
     onBrokenLinks: 'throw',
     onBrokenMarkdownLinks: 'warn',
     favicon: 'img/favicon.png',

@@ -4,9 +4,9 @@ title: Getting Started
 sidebar_label: Getting Started
 ---
 
-# Fiora
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
-Language: [English](./Getting-Started.md) | [简体中文](./Getting-Started.ZH.md)
+Language: [English](./Getting-Start.md) | [简体中文](./Getting-Start.ZH.md)
 
 fiora is an interesting chat application. It is developed based on node.js, mongodb, react and socket.io technologies
 
@@ -27,16 +27,16 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
 
 ## Screenshot
 
-<img src="https://github.com/yinxin630/fiora/raw/master/docs/screenshots/screenshot-pc.png" alt="PC" style={{'max-width':'800px'}} />
-<img src="https://github.com/yinxin630/fiora/raw/master/docs/screenshots/screenshot-phone.png" alt="Phone" height="667" style={{'max-width':'667px'}} />
+<img alt="PC screenshot" src={useBaseUrl('img/screenshots/screenshot-pc.png')} style={{'max-width':'800px'}} />
+<img alt="Mobile screenshot" src={useBaseUrl('img/screenshots/screenshot-phone.png')} style={{'max-height':'667px'}} />
 
 ## Install
 
-[See how to run Fiora](./docs/INSTALL.md)
+[See how to run Fiora](./INSTALL.md)
 
 ## Change Log
 
-[See change log](./docs/CHANGELOG.md)
+[See change log](./CHANGELOG.md)
 
 ## Directory
 

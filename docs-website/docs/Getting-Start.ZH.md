@@ -6,7 +6,7 @@ sidebar_label: 开始
 
 # Fiora
 
-语言: [English](./Getting-Started.md) | [简体中文](./Getting-Started.ZH.md)
+语言: [English](./Getting-Start.md) | [简体中文](./Getting-Start.ZH.md)
 
 fiora 是一款有趣的聊天应用. 基于 node.js, mongodb, react 和 socket.io 等技术开发
 
@@ -27,8 +27,8 @@ fiora 是一款有趣的聊天应用. 基于 node.js, mongodb, react 和 socket.
 
 ## 运行截图
 
-<img src="https://github.com/yinxin630/fiora/raw/master/docs/screenshots/screenshot-pc.png" alt="PC" style="max-width:800px" />
-<img src="https://github.com/yinxin630/fiora/raw/master/docs/screenshots/screenshot-phone.png" alt="Phone" height="667" style="max-height:667px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/docs/screenshots/screenshot-pc.png" alt="PC" style={{'max-width':'800px'}} />
+<img src="https://github.com/yinxin630/fiora/raw/master/docs/screenshots/screenshot-phone.png" alt="Phone" height="667" style={{'max-width':'667px'}} />
 
 ## 安装运行
 
