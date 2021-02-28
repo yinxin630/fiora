@@ -4,4 +4,5 @@ static/
 public/
 build/
 website/
+docs-website/
 *.d.ts

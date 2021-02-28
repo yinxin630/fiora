@@ -1,0 +1,92 @@
+/* stylelint-disable docusaurus/copyright-header */
+
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+.heroBanner {
+    padding: 4rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 966px) {
+    .heroBanner {
+        padding: 2rem;
+    }
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.features {
+    display: flex;
+    align-items: center;
+    padding: 2rem 0;
+    width: 100%;
+}
+
+.featureImage {
+    height: 120px;
+    width: 200px;
+    background-color: white;
+}
+
+.starIframe {
+    border: none;
+    margin-bottom: 30px;
+}
+
+.descriptions {
+}
+
+.descriptionRow {
+    width: 100%;
+    margin: 0;
+}
+
+.description {
+    width: 100%;
+    min-height: 300px;
+}
+
+.descriptionContent {
+    display: flex;
+    align-items: center;
+    max-width: var(--ifm-container-width);
+    margin: 0 auto;
+    padding: 0 var(--ifm-spacing-horizontal);
+    width: 100%;
+    height: 100%;
+}
+
+.descriptionImage {
+    height: auto;
+    width: 280px;
+}
+
+.lightBackground {
+    background-color: #f6f6f6;
+}
+
+.rightImage {
+    flex-direction: row-reverse;
+}
+
+.deployByYourself {
+    width: 100%;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.deployTitle {
+    color: var(--ifm-color-primary);
+}

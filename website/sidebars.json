@@ -1,8 +1,0 @@
-{
-    "docs": {
-        "Getting-Started": ["getting-started-zh"],
-        "INSTALL": ["install"],
-        "API Reference": ["api-doc"],
-        "CHANGELOG": ["changelog"]
-    }
-}
