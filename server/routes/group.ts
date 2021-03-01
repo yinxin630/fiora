@@ -50,7 +50,7 @@ export async function createGroup(ctx: KoaContext<CreateGroupData>) {
 
     const ownGroupCount = await Group.count({ creator: ctx.socket.user });
     assert(
-        ownGroupCount < config.maxGroupsCount,
+        ctx.socket.isAdmin || ownGroupCount < config.maxGroupsCount,
         `创建群组失败, 你已经创建了${config.maxGroupsCount}个群组`,
     );
 
