@@ -4,7 +4,27 @@ title: CHANGELOG
 sidebar_label: CHANGELOG
 ---
 
-## 2020-12-17
+## 2021-2-26
+### Features
+- Support push notification to fiora app
+
+
+## 2021-2-21
+### Fix
+- **Important** Fix the wrong logic of judging whether it is an administrator on the server side. Treat everyone as an administrator
+
+
+## 2021-2-17
+### Features
+- Support sharing groups externally
+
+
+## 2021-1-26
+
+### Fix
+- File message size calculation error
+
+## 2021-1-22
 
 ### Changes
 
