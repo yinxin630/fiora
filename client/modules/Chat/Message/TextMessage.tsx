@@ -12,7 +12,7 @@ function TextMessage(props: TextMessageProps) {
     // eslint-disable-next-line react/destructuring-assignment
     const content = props.content
         .replace(
-            /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g,
+            /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}(\.[a-z]{2,6})?\b(:[0-9]{2,5})?([-a-zA-Z0-9@:%_+.~#?&//=]*)/g,
             (r) => `<a class="${Style.selecteAble}" href="${r}" rel="noopener noreferrer" target="_blank">${r}</a>`,
         )
         .replace(/#\(([\u4e00-\u9fa5a-z]+)\)/g, (r, e) => {
