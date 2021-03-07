@@ -1,6 +1,5 @@
 import config from '../../config/server';
 import { KoaContext } from '../../types/koa';
-import client from '../../config/client';
 
 export const YouAreNotAdministrator = '你不是管理员';
 
@@ -21,8 +20,7 @@ export default function isAdmin() {
         ctx.socket.isAdmin =
             ctx.socket.isAdmin || config.administrator.includes(ctx.socket.user?.toString());
         const isAdminEvent = requireAdminEvent.has(ctx.event);
-        const isDisableDeleteMessage = ctx.event === 'deleteMessage' && client.disableDeleteMessage;
-        if (!ctx.socket.isAdmin && (isAdminEvent || isDisableDeleteMessage)) {
+        if (!ctx.socket.isAdmin && isAdminEvent) {
             ctx.res = YouAreNotAdministrator;
             return;
         }

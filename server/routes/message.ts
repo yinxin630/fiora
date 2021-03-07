@@ -345,6 +345,8 @@ export async function deleteMessage(ctx: KoaContext<{ messageId: string }>) {
     const { messageId } = ctx.data;
     assert(messageId, 'messageId不能为空');
 
+    assert(!client.disableDeleteMessage || ctx.socket.isAdmin, '已禁止撤回消息');
+
     const message = await Message.findOne({ _id: messageId });
     if (!message) {
         throw new AssertionError({ message: '消息不存在' });
