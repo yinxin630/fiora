@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 import assert, { AssertionError } from 'assert';
 import { Types } from 'mongoose';
-import { Expo } from 'expo-server-sdk';
+import { Expo, ExpoPushErrorTicket } from 'expo-server-sdk';
 
 import User, { UserDocument } from '../models/user';
 import Group, { GroupDocument } from '../models/group';
@@ -72,10 +72,15 @@ async function pushNotification(
     const chunks = expo.chunkPushNotifications(pushMessages as any);
     for (const chunk of chunks) {
         try {
-            const result = await expo.sendPushNotificationsAsync(chunk);
-            console.log(result);
+            const results = await expo.sendPushNotificationsAsync(chunk);
+            results.forEach((result) => {
+                const { status, message: errMessage } = result as ExpoPushErrorTicket;
+                if (status === 'error') {
+                    console.warn('[Notification]', errMessage);
+                }
+            });
         } catch (error) {
-            console.error('Send notification fail.', error.message);
+            console.error('[Notification]', error.message);
         }
     }
 }
