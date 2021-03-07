@@ -197,7 +197,6 @@ export async function login(ctx: KoaContext<LoginData>) {
             avatar: 1,
             creator: 1,
             createTime: 1,
-            notificationTokens: 1,
         },
     );
     groups.forEach((group) => {
@@ -270,7 +269,6 @@ export async function loginByToken(ctx: KoaContext<LoginByTokenData>) {
             username: 1,
             tag: 1,
             createTime: 1,
-            notificationTokens: 1,
         },
     );
     if (!user) {
