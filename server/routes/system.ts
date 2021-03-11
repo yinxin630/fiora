@@ -198,6 +198,8 @@ export async function sealUserOnlineIp(ctx: KoaContext<{ userId: string }>) {
     const { userId } = ctx.data;
 
     const sockets = await Socket.find({ user: userId });
+    assert(sockets.length > 0, '该用户不在线, 没有IP信息');
+
     const ipList = sockets.map((socket) => socket.ip);
 
     // 如果全部 ip 都已经封禁过了, 则直接提示
