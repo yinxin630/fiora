@@ -1,8 +1,6 @@
 node_modules/
 dist/
-static/
 public/
 build/
-website/
-docs-website/
+docs/
 *.d.ts
