@@ -1,0 +1,48 @@
+{
+    "Title": {
+        "message": "fiora"
+    },
+    "TagLine": {
+        "message": "An interesting open source chat application"
+    },
+
+    "Richness": {
+        "message": "Fiora contains backend, frontend, Android and iOS apps"
+    },
+    "Cross Platform": {
+        "message": "Fiora is developed with node.js. Supports Windows / Linux / macOS systems"
+    },
+    "Open Source": {
+        "message": "Fiora follows the MIT open source license"
+    },
+
+    "Join Chat Title": {
+        "message": "Join Chat"
+    },
+    "Join Chat Content": {
+        "message": "Register an account to join the chat. Join or create new group. Chat privately with funny strangers and add them as friends. Your account and messages will be stored forever"
+    },
+    "Rich Feature Title": {
+        "message": "Rich Feature"
+    },
+    "Rich Feature Content": {
+        "message": "You can send text, emoticons, pictures, codes and files to others. You can also withdraw the sent message. In addition, you can modify your name and avatar. The most exciting is you can choose or customize different themes"
+    },
+    "Deploy By Yourself Title": {
+        "message": "Deploy By Yourself"
+    },
+    "Deploy By Yourself Content": {
+        "message": "Fiora is an open source project. You can clone the source code and deploy to your own server. It supports windows / Linux and macOS systems. But recommended that you deploy on a linux server"
+    },
+
+    "Interested": {
+        "message": "Are you very interested?"
+    },
+    "Getting Start": {
+        "message": "Getting Start"
+    },
+
+    "Try It Now": {
+        "message": "Try It Now"
+    }
+}

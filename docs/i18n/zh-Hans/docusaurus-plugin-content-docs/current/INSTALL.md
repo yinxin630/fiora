@@ -1,10 +1,8 @@
 ---
-id: install-zh
-title: 如何运行 fiora
-sidebar_label: INSTALL-ZH
+id: install
+title: 安装
+sidebar_label: 安装
 ---
-
-语言: [English](./INSTALL.md) | [简体中文](./INSTALL.ZH.md)
 
 ## 环境准备
 

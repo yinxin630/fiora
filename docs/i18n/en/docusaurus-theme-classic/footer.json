@@ -1,0 +1,28 @@
+{
+    "link.title.Docs": {
+        "message": "Docs"
+    },
+    "link.item.label.Overview": {
+        "message": "Overview"
+    },
+
+    "link.title.Community": {
+        "message": "Community"
+    },
+    "link.item.label.Feedback": {
+        "message": "Join Chat"
+    },
+    "link.item.label.Issues": {
+        "message": "Submit Issue"
+    },
+
+    "link.title.More": {
+        "message": "More"
+    },
+    "link.item.label.Author": {
+        "message": "About Author"
+    },
+    "link.item.label.GitHub": {
+        "message": "GitHub"
+    }
+}
