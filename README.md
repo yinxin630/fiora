@@ -7,8 +7,6 @@
 [![Node.js Version](https://img.shields.io/badge/node.js-10.15.0-blue.svg)](http://nodejs.org/download)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/yinxin630/fiora/blob/master/LICENSE)
 
-Language: [English](README.md) | [简体中文](./docs-website/docs/Getting-Start.ZH.md)
-
 fiora is an interesting chat application. It is developed based on node.js, mongodb, react and socket.io technologies
 
 The project started at [2015-11-04](https://github.com/yinxin630/chatroom-with-sails/commit/0a032372727550b8b4087f24ac299de03b677b9f)

@@ -160,7 +160,7 @@ function Home() {
                 )}
                 <section className={styles.descriptions}>
                     <div className={clsx('row', styles.descriptionRow)}>
-                        <DeployByYourself url={`${siteConfig.baseUrl}getting-start`} />
+                        <DeployByYourself url={`${siteConfig.baseUrl}docs/getting-start`} />
                     </div>
                 </section>
             </main>
