@@ -1,0 +1,34 @@
+{
+    "link.title.Docs": {
+        "message": "文档"
+    },
+    "link.item.label.Overview": {
+        "message": "首页"
+    },
+    "link.item.label.Getting Start": {
+        "message": "入门指南"
+    },
+    "link.item.label.Change Log": {
+        "message": "更新日志"
+    },
+
+    "link.title.Community": {
+        "message": "社区"
+    },
+    "link.item.label.Feedback": {
+        "message": "加入聊天群"
+    },
+    "link.item.label.Issues": {
+        "message": "Bug 反馈"
+    },
+
+    "link.title.More": {
+        "message": "更多"
+    },
+    "link.item.label.Author": {
+        "message": "关于作者"
+    },
+    "link.item.label.GitHub": {
+        "message": "GitHub"
+    }
+}

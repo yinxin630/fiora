@@ -4,35 +4,30 @@ import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import Translate, { translate } from '@docusaurus/Translate';
 import styles from './styles.module.css';
 
 const features = [
     {
         title: 'Richness',
         imageUrl: 'img/website-app.png',
-        description: (
-            <>
-                fiora contains backend, frontend
-                <br />
-                Android and iOS apps
-            </>
-        ),
+        description: translate({
+            message: 'Richness',
+        }),
     },
     {
         title: 'Cross Platform',
         imageUrl: 'img/cross-platform.png',
-        description: (
-            <>
-                fiora is developed with node.js
-                <br />
-                Supports Windows / Linux / macOS systems
-            </>
-        ),
+        description: translate({
+            message: 'Cross Platform',
+        }),
     },
     {
         title: 'Open Source',
         imageUrl: 'img/open-source.png',
-        description: <>fiora follows the MIT open source license'</>,
+        description: translate({
+            message: 'Open Source',
+        }),
     },
 ];
 
@@ -46,32 +41,29 @@ function Feature({ imageUrl, title, description }) {
                 </div>
             )}
             <h3 className="text--center">{title}</h3>
-            <p className="text--center">{description}</p>
+            <p className={clsx('text--center', styles.featureDescription)}>{description}</p>
         </div>
     );
 }
 
 const descriptions = [
     {
-        content:
-            'Register an account to join the chat. Join or create new group. Chat privately with funny strangers and add them as friends. Your account and messages will be stored forever',
+        title: translate({ message: 'Join Chat Title' }),
+        content: translate({ message: 'Join Chat Content' }),
         image: `img/undraw_youtube_tutorial.svg`,
         imageAlign: 'right',
-        title: 'Join Chat',
     },
     {
-        content:
-            'You can send text, emoticons, pictures, codes and files to others. You can also withdraw the sent message. In addition, you can modify your name and avatar. The most exciting is you can choose or customize different themes',
+        title: translate({ message: 'Rich Feature Title' }),
+        content: translate({ message: 'Rich Feature Content' }),
         image: `img/undraw_note_list.svg`,
         imageAlign: 'left',
-        title: 'Rich Feature',
     },
     {
-        content:
-            'fiora is an open source project. You can clone the source code and deploy to your own server. It supports windows / Linux and macOS systems. But recommended that you deploy on a linux server',
+        title: translate({ message: 'Deploy By Yourself Title' }),
+        content: translate({ message: 'Deploy By Yourself Content' }),
         image: `img/undraw_code_review.svg`,
         imageAlign: 'right',
-        title: 'Deploy By Yourself',
     },
 ];
 
@@ -94,7 +86,7 @@ function Description({ title, content, image, index }) {
 function DeployByYourself({ url }) {
     return (
         <div className={styles.deployByYourself}>
-            <h2 className={styles.deployTitle}>Are you very interested?</h2>
+            <h2 className={styles.deployTitle}>{translate({ message: 'Interested' })}</h2>
             <div>
                 <Link
                     className={clsx(
@@ -103,7 +95,7 @@ function DeployByYourself({ url }) {
                     )}
                     to={url}
                 >
-                    Getting Start
+                    {translate({ message: 'Getting Start' })}
                 </Link>
             </div>
         </div>
@@ -114,15 +106,15 @@ function Home() {
     const context = useDocusaurusContext();
     const { siteConfig = {} } = context;
 
+    const title = translate({ message: 'Title' });
+    const tagLine = translate({ message: 'TagLine' });
+
     return (
-        <Layout
-            title={`${siteConfig.title} · ${siteConfig.tagline}`}
-            description="docs for fiora project"
-        >
+        <Layout title={`${title} · ${tagLine}`} description="docs for fiora project">
             <header className={clsx('hero hero--primary', styles.heroBanner)}>
                 <div className="container">
-                    <h1 className="hero__title">{siteConfig.title}</h1>
-                    <p className="hero__subtitle">{siteConfig.tagline}</p>
+                    <h1 className="hero__title">{title}</h1>
+                    <p className="hero__subtitle">{tagLine}</p>
                     <div>
                         <iframe
                             className={styles.starIframe}
@@ -140,7 +132,7 @@ function Home() {
                             )}
                             to={siteConfig.url}
                         >
-                            Try It Now
+                            {translate({ message: 'Try It Now' })}
                         </Link>
                     </div>
                 </div>
@@ -168,7 +160,7 @@ function Home() {
                 )}
                 <section className={styles.descriptions}>
                     <div className={clsx('row', styles.descriptionRow)}>
-                        <DeployByYourself url={siteConfig.url} />
+                        <DeployByYourself url={`${siteConfig.baseUrl}getting-start`} />
                     </div>
                 </section>
             </main>

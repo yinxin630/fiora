@@ -1,12 +1,10 @@
 ---
-id: getting-start-zh
-title: 开始
-sidebar_label: 开始
+id: getting-start
+title: 入门指南
+sidebar_label: 入门指南
 ---
 
-# Fiora
-
-语言: [English](./Getting-Start.md) | [简体中文](./Getting-Start.ZH.md)
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 fiora 是一款有趣的聊天应用. 基于 node.js, mongodb, react 和 socket.io 等技术开发
 
@@ -27,12 +25,12 @@ fiora 是一款有趣的聊天应用. 基于 node.js, mongodb, react 和 socket.
 
 ## 运行截图
 
-<img src="https://github.com/yinxin630/fiora/raw/master/docs/screenshots/screenshot-pc.png" alt="PC" style={{'max-width':'800px'}} />
-<img src="https://github.com/yinxin630/fiora/raw/master/docs/screenshots/screenshot-phone.png" alt="Phone" height="667" style={{'max-width':'667px'}} />
+<img src={useBaseUrl('img/screenshots/screenshot-pc.png')} alt="PC" style={{'max-width':'800px'}} />
+<img src={useBaseUrl('img/screenshots/screenshot-phone.png')} alt="Phone" height="667" style={{'max-width':'667px'}} />
 
 ## 安装运行
 
-[查看如何运行 Fiora](./INSTALL.ZH.md)
+[查看如何运行 Fiora](./INSTALL.md)
 
 ## 更新日志
 

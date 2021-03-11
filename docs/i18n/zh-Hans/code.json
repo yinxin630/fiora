@@ -1,0 +1,48 @@
+{
+    "Title": {
+        "message": "fiora"
+    },
+    "TagLine": {
+        "message": "一个有趣的开源聊天应用"
+    },
+
+    "Richness": {
+        "message": "fiora 包括后端、前端、安卓和 iOS App"
+    },
+    "Cross Platform": {
+        "message": "fiora 基于 node.js 开发, 支持 Windows / Linux / macOS 等操作系统"
+    },
+    "Open Source": {
+        "message": "fiora 遵循 MIT 开源许可"
+    },
+
+    "Join Chat Title": {
+        "message": "加入聊天"
+    },
+    "Join Chat Content": {
+        "message": "注册一个账号加入聊天, 加入或者新的群组, 和有趣的陌生人私聊并加为好友, 你的账号和消息会永久保留"
+    },
+    "Rich Feature Title": {
+        "message": "丰富的功能"
+    },
+    "Rich Feature Content": {
+        "message": "你可以发送文本、表情、图片、代码和文件给其他人, 你还可以撤回已发送的消息, 另外你还可以修改用户名和头像, 最令人兴奋的是你可以选择或者自定义不同的主题"
+    },
+    "Deploy By Yourself Title": {
+        "message": "自己部署"
+    },
+    "Deploy By Yourself Content": {
+        "message": "fiora 是一个开源项目, 你可以克隆源码并部署到自己的服务器, 支持 windows / Linux and macOS 操作系统, 但是推荐您部署到 Linux 服务器上"
+    },
+
+    "Interested": {
+        "message": "你是否非常感兴趣?"
+    },
+    "Getting Start": {
+        "message": "查看文档"
+    },
+
+    "Try It Now": {
+        "message": "去体验看看"
+    }
+}

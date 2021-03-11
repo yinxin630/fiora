@@ -27,6 +27,10 @@ module.exports = {
                     label: 'GitHub',
                     position: 'right',
                 },
+                {
+                    type: 'localeDropdown',
+                    position: 'right',
+                },
             ],
         },
         footer: {
@@ -38,6 +42,14 @@ module.exports = {
                         {
                             label: 'Overview',
                             to: '/',
+                        },
+                        {
+                            label: 'Getting Start',
+                            to: 'docs/getting-start',
+                        },
+                        {
+                            label: 'Change Log',
+                            to: 'docs/changelog',
                         },
                     ],
                 },
@@ -82,7 +94,7 @@ module.exports = {
                 docs: {
                     sidebarPath: require.resolve('./sidebars.js'),
                     // Please change this to your repo.
-                    editUrl: 'https://github.com/yinxin630/fiora/edit/master/docs-website/',
+                    editUrl: 'https://github.com/yinxin630/fiora/edit/master/docs/',
                 },
                 theme: {
                     customCss: require.resolve('./src/css/custom.css'),
@@ -92,12 +104,12 @@ module.exports = {
     ],
     i18n: {
         defaultLocale: 'en',
-        locales: ['en', 'zh'],
+        locales: ['en', 'zh-Hans'],
         localeConfigs: {
             en: {
                 label: 'English',
             },
-            zh: {
+            'zh-Hans': {
                 label: '简体中文',
             },
         },

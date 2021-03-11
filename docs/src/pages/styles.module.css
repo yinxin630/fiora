@@ -37,6 +37,11 @@
     background-color: white;
 }
 
+.featureDescription {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
 .starIframe {
     border: none;
     margin-bottom: 30px;
