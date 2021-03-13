@@ -131,7 +131,7 @@ function UserInfo(props: UserInfoProps) {
     }
 
     function searchIp(ip: string) {
-        window.open(`http://ip.taobao.com/service/getIpInfo.php?ip=${ip}`);
+        window.open(`https://www.baidu.com/s?wd=${ip}`);
     }
 
     function handleClose() {
