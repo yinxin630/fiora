@@ -1,4 +1,4 @@
-# [Fiora](https://fiora.suisuijiang.com/) &middot; [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/yinxin630/fiora/blob/master/LICENSE)[![author](https://img.shields.io/badge/author-%E7%A2%8E%E7%A2%8E%E9%85%B1-blue.svg)](http://suisuijiang.com)[![Node.js Version](https://img.shields.io/badge/node.js-14.16.0-blue.svg)](http://nodejs.org/download)[![Test Status](https://github.com/yinxin630/fiora/workflows/Unit%20Test/badge.svg)](https://github.com/yinxin630/fiora/actions?query=workflow%3A%22Unit+Test%22)[![Typescript Status](https://github.com/yinxin630/fiora/workflows/Typescript%20Type%20Check/badge.svg)](https://github.com/yinxin630/fiora/actions?query=workflow%3A%22Typescript+Type+Check%22)
+# [Fiora](https://fiora.suisuijiang.com/) &middot; [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/yinxin630/fiora/blob/master/LICENSE) [![author](https://img.shields.io/badge/author-%E7%A2%8E%E7%A2%8E%E9%85%B1-blue.svg)](http://suisuijiang.com) [![Node.js Version](https://img.shields.io/badge/node.js-14.16.0-blue.svg)](http://nodejs.org/download) [![Test Status](https://github.com/yinxin630/fiora/workflows/Unit%20Test/badge.svg)](https://github.com/yinxin630/fiora/actions?query=workflow%3A%22Unit+Test%22) [![Typescript Status](https://github.com/yinxin630/fiora/workflows/Typescript%20Type%20Check/badge.svg)](https://github.com/yinxin630/fiora/actions?query=workflow%3A%22Typescript+Type+Check%22)
 
 
 Fiora is an interesting open source chat application. It is developed based on [node.js](https://nodejs.org/), [react](https://reactjs.org/) and [socket.io](https://socket.io/) technologies
@@ -35,11 +35,11 @@ Fiora provides two ways to install
 
 ## Change Log
 
-You can find the Fiora hangelog [on the website](https://yinxin630.github.io/fiora/docs/changelog)
+You can find the Fiora changelog [on the website](https://yinxin630.github.io/fiora/docs/changelog)
 
 ## Contribution
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Please make sure to update tests as appropriate.
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Please make sure to update tests as appropriate
 
 1. Fork it (<https://github.com/yinxin630/fiora/fork>)
 2. Create your feature branch (`git checkout -b some-feature`)
@@ -49,4 +49,4 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## License
 
-Fiora is [MIT licensed](./LICENSE).
+Fiora is [MIT licensed](./LICENSE)
