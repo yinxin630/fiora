@@ -79,7 +79,7 @@ function Linkman(props: LinkmanProps) {
                     />
                     {unread > 0 ? (
                         <div className={Style.unread}>
-                            <span>{unread}</span>
+                            <span>{unread > 99 ? '99+' : unread}</span>
                         </div>
                     ) : null}
                 </div>

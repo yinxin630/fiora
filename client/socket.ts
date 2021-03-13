@@ -3,7 +3,13 @@ import platform from 'platform';
 
 import config from '../config/client';
 import store from './state/store';
-import { guest, loginByToken, getLinkmansLastMessages, getLinkmanHistoryMessages, getLinkmansLastMessagesV2 } from './service';
+import {
+    guest,
+    loginByToken,
+    getLinkmansLastMessages,
+    getLinkmanHistoryMessages,
+    getLinkmansLastMessagesV2,
+} from './service';
 import {
     ActionTypes,
     SetLinkmanPropertyPayload,
