@@ -13,6 +13,7 @@ import xss from '../../utils/xss';
 import { KoaContext } from '../../types/koa';
 import client from '../../config/client';
 import Notification from '../models/notification';
+import History from '../models/history';
 
 const { isValid } = Types.ObjectId;
 
@@ -269,6 +270,70 @@ export async function getLinkmansLastMessages(ctx: KoaContext<GetLinkmanLastMess
     }, {});
 
     return messages;
+}
+
+export async function getLinkmansLastMessagesV2(ctx: KoaContext<{ linkmans: string[] }>) {
+    const { linkmans } = ctx.data;
+
+    const histories = await History.find({
+        user: ctx.socket.user.toString(),
+        linkman: {
+            $in: linkmans,
+        },
+    });
+    const historyMap = histories
+        .filter(Boolean)
+        .reduce((result: { [linkman: string]: string }, history) => {
+            result[history.linkman] = history.message;
+            return result;
+        }, {});
+
+    const linkmansMessages = await Promise.all(
+        linkmans.map(async (linkmanId) => {
+            const messages = await Message.find(
+                { to: linkmanId },
+                {
+                    type: 1,
+                    content: 1,
+                    from: 1,
+                    createTime: 1,
+                },
+                {
+                    sort: { createTime: -1 },
+                    limit: historyMap[linkmanId] ? 100 : FirstTimeMessagesCount,
+                },
+            ).populate('from', { username: 1, avatar: 1, tag: 1 });
+            await handleInviteV2Messages(messages);
+            return messages;
+        }),
+    );
+
+    type ResponseData = {
+        [linkmanId: string]: {
+            messages: MessageDocument[];
+            unread: number;
+        };
+    };
+    const responseData = linkmans.reduce((result: ResponseData, linkmanId, index) => {
+        const messages = linkmansMessages[index];
+        if (historyMap[linkmanId]) {
+            const messageIndex = messages.findIndex(
+                ({ _id }) => _id.toString() === historyMap[linkmanId],
+            );
+            result[linkmanId] = {
+                messages: messages.slice(0, 15).reverse(),
+                unread: messageIndex === -1 ? 100 : messageIndex,
+            };
+        } else {
+            result[linkmanId] = {
+                messages: messages.reverse(),
+                unread: 0,
+            };
+        }
+        return result;
+    }, {});
+
+    return responseData;
 }
 
 interface GetLinkmanHistoryMessagesData {

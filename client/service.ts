@@ -225,6 +225,15 @@ export async function getLinkmansLastMessages(linkmanIds: string[]) {
 }
 
 /**
+ * Get the last messages and unread number of a group of linkmans
+ * @param linkmanIds Linkman ids who need to get the last messages
+ */
+export async function getLinkmansLastMessagesV2(linkmanIds: string[]) {
+    const [, linkmanMessages] = await fetch('getLinkmansLastMessagesV2', { linkmans: linkmanIds });
+    return linkmanMessages;
+}
+
+/**
  * 获取联系人历史消息
  * @param linkmanId 联系人id
  * @param existCount 客户端已有消息条数

@@ -58,10 +58,11 @@ function MessageList() {
         if ($list.current) {
             // @ts-ignore
             const { scrollHeight, clientHeight, scrollTop } = $list.current;
-            shouldScroll = isSelf
-                || scrollHeight === clientHeight
-                || scrollTop === 0
-                || scrollTop > scrollHeight - clientHeight * 2;
+            shouldScroll =
+                isSelf ||
+                scrollHeight === clientHeight ||
+                scrollTop === 0 ||
+                scrollTop > scrollHeight - clientHeight * 2;
         }
 
         let { tag } = message.from;
