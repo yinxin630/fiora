@@ -326,18 +326,21 @@ describe('redux reducer', () => {
         const action = {
             type: ActionTypes.SetLinkmansLastMessages,
             payload: {
-                1: [
-                    {
-                        _id: 'm1',
-                        type: 'text',
-                        content: 'content',
-                    },
-                    {
-                        _id: 'm2',
-                        type: 'text',
-                        content: 'content',
-                    },
-                ],
+                '1': {
+                    messages: [
+                        {
+                            _id: 'm1',
+                            type: 'text',
+                            content: 'content',
+                        },
+                        {
+                            _id: 'm2',
+                            type: 'text',
+                            content: 'content',
+                        },
+                    ],
+                    unread: 2,
+                },
             },
         };
         const newState = reducer(state, action);
@@ -537,8 +540,7 @@ describe('redux reducer', () => {
         const linkman = {
             _id: '1',
             name: 'name',
-            messages: {
-            },
+            messages: {},
             unread: 0,
         };
         const state = {

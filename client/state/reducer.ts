@@ -457,12 +457,12 @@ function reducer(state: State = initialState, action: Action): State {
                 // @ts-ignore
                 newState.linkmans[linkmanId] = {
                     ...linkmans[linkmanId],
-                    messages: {
-                        ...(linkmansMessages[linkmanId]
-                            ? getMessagesMap(linkmansMessages[linkmanId].messages)
-                            : {}),
-                    },
-                    unread: linkmansMessages[linkmanId].unread,
+                    ...(linkmansMessages[linkmanId]
+                        ? {
+                            messages: getMessagesMap(linkmansMessages[linkmanId].messages),
+                            unread: linkmansMessages[linkmanId].unread,
+                        }
+                        : {}),
                 };
             });
             return newState;

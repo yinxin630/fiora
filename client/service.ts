@@ -216,15 +216,6 @@ export async function deleteFriend(userId: string) {
 }
 
 /**
- * 获取一群联系人的历史消息
- * @param linkmanIds 要获取消息的联系人数组
- */
-export async function getLinkmansLastMessages(linkmanIds: string[]) {
-    const [, groupMessages] = await fetch('getLinkmansLastMessages', { linkmans: linkmanIds });
-    return groupMessages;
-}
-
-/**
  * Get the last messages and unread number of a group of linkmans
  * @param linkmanIds Linkman ids who need to get the last messages
  */
