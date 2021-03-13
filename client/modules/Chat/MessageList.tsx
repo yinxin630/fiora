@@ -16,6 +16,7 @@ function MessageList() {
     const isGroup = useSelector((state: State) => state.linkmans[focus].type === 'group');
     const creator = useSelector((state: State) => state.linkmans[focus].creator);
     const messages = useSelector((state: State) => state.linkmans[focus].messages);
+    const unread = useSelector((state: State) => state.linkmans[focus].unread);
     const isLogin = useIsLogin();
     const tagColorMode = useSelector((state: State) => state.status.tagColorMode);
 
@@ -33,6 +34,10 @@ function MessageList() {
 
         const $div = e.target;
         if ($div.scrollTop === 0 && $div.scrollHeight > $div.clientHeight) {
+            if (unread) {
+                action.setFocus(focus);
+            }
+
             isFetching = true;
             let historyMessages: Message[] = [];
             if (isLogin) {

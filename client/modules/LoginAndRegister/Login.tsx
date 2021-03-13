@@ -6,7 +6,7 @@ import Input from '../../components/Input';
 import useAction from '../../hooks/useAction';
 
 import Style from './LoginRegister.less';
-import { login, getLinkmansLastMessages, getLinkmansLastMessagesV2 } from '../../service';
+import { login, getLinkmansLastMessagesV2 } from '../../service';
 import getFriendId from '../../../utils/getFriendId';
 import { Message } from '../../state/reducer';
 import convertMessage from '../../../utils/convertMessage';

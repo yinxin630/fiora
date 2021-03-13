@@ -6,7 +6,6 @@ import store from './state/store';
 import {
     guest,
     loginByToken,
-    getLinkmansLastMessages,
     getLinkmanHistoryMessages,
     getLinkmansLastMessagesV2,
 } from './service';

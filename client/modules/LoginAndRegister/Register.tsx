@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import Style from './LoginRegister.less';
 import Input from '../../components/Input';
 import useAction from '../../hooks/useAction';
-import { getLinkmansLastMessages, register, getLinkmansLastMessagesV2 } from '../../service';
+import { register, getLinkmansLastMessagesV2 } from '../../service';
 import getFriendId from '../../../utils/getFriendId';
 import { Message } from '../../state/reducer';
 import convertMessage from '../../../utils/convertMessage';
