@@ -28,14 +28,14 @@ function About(props: AboutProps) {
                     </a>
                 </div>
                 <div className={Common.block}>
-                    <p className={Common.title}>如何运行</p>
+                    <p className={Common.title}>如何搭建</p>
                     <span className={styles.linkLabel}>(官方) </span>
                     <a
-                        href="https://github.com/yinxin630/fiora/blob/master/doc/INSTALL.ZH.md"
+                        href="https://yinxin630.github.io/fiora/zh-Hans/"
                         target="_black"
                         rel="noopener noreferrer"
                     >
-                        https://github.com/yinxin630/fiora/blob/master/doc/INSTALL.ZH.md
+                        https://yinxin630.github.io/fiora/zh-Hans/
                     </a>
                     <br />
                     <span className={styles.linkLabel}>(第三方, 宝塔) </span>
