@@ -1,20 +1,17 @@
-# Fiora
+# [Fiora](https://fiora.suisuijiang.com/) &middot; [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/yinxin630/fiora/blob/master/LICENSE)[![author](https://img.shields.io/badge/author-%E7%A2%8E%E7%A2%8E%E9%85%B1-blue.svg)](http://suisuijiang.com)[![Node.js Version](https://img.shields.io/badge/node.js-14.16.0-blue.svg)](http://nodejs.org/download)[![Test Status](https://github.com/yinxin630/fiora/workflows/Unit%20Test/badge.svg)](https://github.com/yinxin630/fiora/actions?query=workflow%3A%22Unit+Test%22)[![Typescript Status](https://github.com/yinxin630/fiora/workflows/Typescript%20Type%20Check/badge.svg)](https://github.com/yinxin630/fiora/actions?query=workflow%3A%22Typescript+Type+Check%22)
 
-[![Test Status](https://github.com/yinxin630/fiora/workflows/Unit%20Test/badge.svg)](https://github.com/yinxin630/fiora/actions?query=workflow%3A%22Unit+Test%22)
-[![Lint Status](https://github.com/yinxin630/fiora/workflows/Lint%20Code%20Style/badge.svg)](https://github.com/yinxin630/fiora/actions?query=workflow%3A%22Lint+Code+Style%22)
-[![Typescript Status](https://github.com/yinxin630/fiora/workflows/Typescript%20Type%20Check/badge.svg)](https://github.com/yinxin630/fiora/actions?query=workflow%3A%22Typescript+Type+Check%22)
-[![author](https://img.shields.io/badge/author-%E7%A2%8E%E7%A2%8E%E9%85%B1-blue.svg)](http://suisuijiang.com)
-[![Node.js Version](https://img.shields.io/badge/node.js-10.15.0-blue.svg)](http://nodejs.org/download)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/yinxin630/fiora/blob/master/LICENSE)
 
-fiora is an interesting chat application. It is developed based on node.js, mongodb, react and socket.io technologies
+Fiora is an interesting open source chat application. It is developed based on [node.js](https://nodejs.org/), [react](https://reactjs.org/) and [socket.io](https://socket.io/) technologies
 
-The project started at [2015-11-04](https://github.com/yinxin630/chatroom-with-sails/commit/0a032372727550b8b4087f24ac299de03b677b9f)
+- **Richness:** Fiora contains backend, frontend, Android and iOS apps
+- **Cross Platform:** Fiora is developed with node.js. Supports Windows / Linux / macOS systems
+- **Open Source:** Fiora follows the MIT open source license
 
-Online address: [https://fiora.suisuijiang.com/](https://fiora.suisuijiang.com/)   
-Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/yinxin630/fiora-app)
+Online Example: [https://fiora.suisuijiang.com/](https://fiora.suisuijiang.com/)   
+Android / iOS App: [https://github.com/yinxin630/fiora-app](https://github.com/yinxin630/fiora-app)   
+Documentation: [https://yinxin630.github.io/fiora/](https://yinxin630.github.io/fiora/)
 
-## Functions
+## Features
 
 1. Register an account and log in, it can save your data for a long time
 2. Join an existing group or create your own group to communicate with everyone
@@ -26,44 +23,30 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
 
 ## Screenshot
 
-<img src="https://github.com/yinxin630/fiora/raw/master/docs-website/static/img/screenshots/screenshot-pc.png" alt="PC" style="max-width:800px" />
-<img src="https://github.com/yinxin630/fiora/raw/master/docs-website/static/img/screenshots/screenshot-phone.png" alt="Phone" height="667" style="max-height:667px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/docs/static/img/screenshots/screenshot-pc.png" alt="PC" style="max-width:800px" />
+<img src="https://github.com/yinxin630/fiora/raw/master/docs/static/img/screenshots/screenshot-phone.png" alt="Phone" height="667" style="max-height:667px" />
 
 ## Install
 
-[See how to run Fiora](./docs-website/docs/INSTALL.md)
+Fiora provides two ways to install
+
+- [Install by source code](https://yinxin630.github.io/fiora/docs/install#how-to-run)
+- [Install by docker](https://yinxin630.github.io/fiora/docs/install#running-on-the-docker)
 
 ## Change Log
 
-[See change log](./docs-website/docs/CHANGELOG.md)
-
-## Directory
-
-    |-- [bin]                     // Server management tools
-    |-- [build]                   // Webpack build
-    |-- [client]                  // Client code
-    |-- [config]                  // Config
-    |-- [dist]                    // Packaging output directory
-    |-- [docs]                    // Document
-    |-- [public]                  // Server static resources
-    |-- [server]                  // Server code
-    |-- [utils]                   // Util method
-    |-- .babelrc                  // Babel config
-    |-- .eslintignore             // Eslint ignore config
-    |-- .eslintrc                 // Eslint rule config
-    |-- .gitignore                // Git ignore config
-    |-- .nodemonrc                // Nodemon config
-    |-- package-lock.json         // npm
-    |-- package.json              // npm
-    |-- yarn.lock                 // yarn
-    ...
+You can find the Fiora hangelog [on the website](https://yinxin630.github.io/fiora/docs/changelog)
 
 ## Contribution
 
-If you want to add functionality or fix bugs, please follow the process below:
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Please make sure to update tests as appropriate.
 
-0. Fork this repository and clone the fork post to the local
-0. Installation dependencies `yarn install`
-0. Modify the code and confirm it is bug free
-0. Submit code, if eslint has reported error, please repair it and submit it again.
-0. Create a pull request
+1. Fork it (<https://github.com/yinxin630/fiora/fork>)
+2. Create your feature branch (`git checkout -b some-feature`)
+3. Commit your changes (`git commit -am 'Add some some features'`)
+4. Push to the branch (`git push origin some-feature`)
+5. Create a new Pull Request
+
+## License
+
+Fiora is [MIT licensed](./LICENSE).
