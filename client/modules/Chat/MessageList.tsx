@@ -153,7 +153,7 @@ function MessageList() {
             >
                 {Object.values(messages).map((message) => renderMessage(message))}
             </div>
-            {unread > 0 && (
+            {unread > 15 && (
                 <div className={styles.unread} onClick={handleClickUnread} role="button">
                     {`${unread > 99 ? '99+' : unread} 条未读消息`}
                 </div>
