@@ -9,6 +9,8 @@ import { isMobile } from '../../../utils/ua';
 
 import Style from './Linkman.less';
 import useAero from '../../hooks/useAero';
+import { useFocusLinkman, useSelfId } from '../../hooks/useStore';
+import { updateHistory } from '../../service';
 
 interface LinkmanProps {
     id: string;
@@ -26,6 +28,8 @@ function Linkman(props: LinkmanProps) {
     const action = useAction();
     const focus = useSelector((state: State) => state.focus);
     const aero = useAero();
+    const focusLinkman = useFocusLinkman();
+    const self = useSelfId();
 
     function formatTime() {
         const nowTime = new Date();
@@ -38,7 +42,16 @@ function Linkman(props: LinkmanProps) {
         return Time.getMonthDate(time);
     }
 
-    function handleClick() {
+    async function handleClick() {
+        if (focusLinkman) {
+            const messageKeys = Object.keys(focusLinkman.messages);
+            if (messageKeys.length > 0) {
+                const lastMessageId =
+                    focusLinkman.messages[messageKeys[messageKeys.length - 1]]._id;
+                updateHistory(self, focusLinkman._id, lastMessageId);
+            }
+        }
+
         action.setFocus(id);
         if (isMobile) {
             action.setStatus('functionBarAndLinkmanListVisible', false);
@@ -64,11 +77,11 @@ function Linkman(props: LinkmanProps) {
                         // eslint-disable-next-line react/no-danger
                         dangerouslySetInnerHTML={{ __html: preview }}
                     />
-                    {unread > 0 ? (
+                    {unread > 0 && id !== focus && (
                         <div className={Style.unread}>
-                            <span>{unread}</span>
+                            <span>{unread > 99 ? '99+' : unread}</span>
                         </div>
-                    ) : null}
+                    )}
                 </div>
             </div>
         </div>

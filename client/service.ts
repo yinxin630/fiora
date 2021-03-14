@@ -216,12 +216,12 @@ export async function deleteFriend(userId: string) {
 }
 
 /**
- * 获取一群联系人的历史消息
- * @param linkmanIds 要获取消息的联系人数组
+ * Get the last messages and unread number of a group of linkmans
+ * @param linkmanIds Linkman ids who need to get the last messages
  */
-export async function getLinkmansLastMessages(linkmanIds: string[]) {
-    const [, groupMessages] = await fetch('getLinkmansLastMessages', { linkmans: linkmanIds });
-    return groupMessages;
+export async function getLinkmansLastMessagesV2(linkmanIds: string[]) {
+    const [, linkmanMessages] = await fetch('getLinkmansLastMessagesV2', { linkmans: linkmanIds });
+    return linkmanMessages;
 }
 
 /**
@@ -363,4 +363,9 @@ export async function getUserIps(userId: string) {
 export async function getUserOnlineStatus(userId: string) {
     const [, res] = await fetch('getUserOnlineStatus', { userId });
     return res && res.isOnline;
+}
+
+export async function updateHistory(userId: string, linkmanId: string, messageId: string) {
+    const [, result] = await fetch('updateHistory', { userId, linkmanId, messageId });
+    return !!result;
 }

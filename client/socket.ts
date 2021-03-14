@@ -3,8 +3,19 @@ import platform from 'platform';
 
 import config from '../config/client';
 import store from './state/store';
-import { guest, loginByToken, getLinkmansLastMessages, getLinkmanHistoryMessages } from './service';
-import { ActionTypes, SetLinkmanPropertyPayload, AddLinkmanHistoryMessagesPayload, AddLinkmanMessagePayload, DeleteMessagePayload } from './state/action';
+import {
+    guest,
+    loginByToken,
+    getLinkmanHistoryMessages,
+    getLinkmansLastMessagesV2,
+} from './service';
+import {
+    ActionTypes,
+    SetLinkmanPropertyPayload,
+    AddLinkmanHistoryMessagesPayload,
+    AddLinkmanMessagePayload,
+    DeleteMessagePayload,
+} from './state/action';
 import convertMessage from '../utils/convertMessage';
 import getFriendId from '../utils/getFriendId';
 import notification from '../utils/notification';
@@ -60,20 +71,21 @@ socket.on('connect', async () => {
                 ...user.groups.map((group: any) => group._id),
                 ...user.friends.map((friend: any) => getFriendId(friend.from, friend.to._id)),
             ];
-            const linkmanMessages = await getLinkmansLastMessages(linkmanIds);
+            const linkmanMessages = await getLinkmansLastMessagesV2(linkmanIds);
             Object.values(linkmanMessages).forEach(
                 // @ts-ignore
-                (messages: Message[]) => messages.forEach(convertMessage),
+                ({ messages }: { messages: Message[] }) => {
+                    messages.forEach(convertMessage);
+                },
             );
             dispatch({
                 type: ActionTypes.SetLinkmansLastMessages,
                 payload: linkmanMessages,
             });
-            return null;
+            return;
         }
     }
     loginFailback();
-    return null;
 });
 
 socket.on('disconnect', () => {
@@ -82,8 +94,12 @@ socket.on('disconnect', () => {
 });
 
 let windowStatus = 'focus';
-window.onfocus = () => { windowStatus = 'focus'; };
-window.onblur = () => { windowStatus = 'blur'; };
+window.onfocus = () => {
+    windowStatus = 'focus';
+};
+window.onblur = () => {
+    windowStatus = 'blur';
+};
 
 let prevFrom: string | null = '';
 let prevName = '';
@@ -133,7 +149,7 @@ socket.on('message', async (message: any) => {
         dispatch({
             type: ActionTypes.AddLinkman,
             payload: {
-                linkman: newLinkman as unknown as Linkman,
+                linkman: (newLinkman as unknown) as Linkman,
                 focus: false,
             },
         });
@@ -155,7 +171,9 @@ socket.on('message', async (message: any) => {
         notification(
             title,
             message.from.avatar,
-            message.type === 'text' ? message.content.replace(/&lt;/g, '<').replace(/&gt;/g, '>') : `[${message.type}]`,
+            message.type === 'text'
+                ? message.content.replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+                : `[${message.type}]`,
             Math.random().toString(),
         );
     }
@@ -168,16 +186,22 @@ socket.on('message', async (message: any) => {
     if (state.status.voiceSwitch) {
         if (message.type === 'text') {
             const text = message.content
-                .replace(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g, '')
+                .replace(
+                    /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g,
+                    '',
+                )
                 .replace(/#/g, '');
 
             if (text.length > 100) {
                 return;
             }
 
-            const from = linkman && linkman.type === 'group'
-                ? `${message.from.username}${linkman.name === prevName ? '' : `在${linkman.name}`}说`
-                : `${message.from.username}对你说`;
+            const from =
+                linkman && linkman.type === 'group'
+                    ? `${message.from.username}${
+                        linkman.name === prevName ? '' : `在${linkman.name}`
+                    }说`
+                    : `${message.from.username}对你说`;
             if (text) {
                 voice.push(from !== prevFrom ? from + text : text, message.from.username);
             }
@@ -190,7 +214,7 @@ socket.on('message', async (message: any) => {
     }
 });
 
-socket.on('changeGroupName', ({ groupId, name }: {groupId: string, name: string}) => {
+socket.on('changeGroupName', ({ groupId, name }: { groupId: string; name: string }) => {
     dispatch({
         type: ActionTypes.SetLinkmanProperty,
         payload: {
@@ -201,7 +225,7 @@ socket.on('changeGroupName', ({ groupId, name }: {groupId: string, name: string}
     });
 });
 
-socket.on('deleteGroup', ({ groupId }: {groupId: string}) => {
+socket.on('deleteGroup', ({ groupId }: { groupId: string }) => {
     dispatch({
         type: ActionTypes.RemoveLinkman,
         payload: groupId,
@@ -217,7 +241,7 @@ socket.on('changeTag', (tag: string) => {
     });
 });
 
-socket.on('deleteMessage', ({ linkmanId, messageId }: {linkmanId: string, messageId: string}) => {
+socket.on('deleteMessage', ({ linkmanId, messageId }: { linkmanId: string; messageId: string }) => {
     dispatch({
         type: ActionTypes.DeleteMessage,
         payload: {

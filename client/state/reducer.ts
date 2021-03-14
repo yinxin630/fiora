@@ -450,19 +450,19 @@ function reducer(state: State = initialState, action: Action): State {
         }
 
         case ActionTypes.SetLinkmansLastMessages: {
-            const linkmanMessages = action.payload as SetLinkmansLastMessagesPayload;
+            const linkmansMessages = action.payload as SetLinkmansLastMessagesPayload;
             const { linkmans } = state;
             const newState = { ...state, linkmans: {} };
             Object.keys(linkmans).forEach((linkmanId) => {
                 // @ts-ignore
                 newState.linkmans[linkmanId] = {
                     ...linkmans[linkmanId],
-                    messages: {
-                        ...linkmans[linkmanId].messages,
-                        ...(linkmanMessages[linkmanId]
-                            ? getMessagesMap(linkmanMessages[linkmanId])
-                            : {}),
-                    },
+                    ...(linkmansMessages[linkmanId]
+                        ? {
+                            messages: getMessagesMap(linkmansMessages[linkmanId].messages),
+                            unread: linkmansMessages[linkmanId].unread,
+                        }
+                        : {}),
                 };
             });
             return newState;

@@ -67,7 +67,10 @@ export interface AddLinkmanPayload {
 export type SetFocusPayload = string;
 
 export interface SetLinkmansLastMessagesPayload {
-    [linkmanId: string]: Message[];
+    [linkmanId: string]: {
+        messages: Message[];
+        unread: number;
+    };
 }
 
 export interface AddLinkmanHistoryMessagesPayload {

@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import Style from './LoginRegister.less';
 import Input from '../../components/Input';
 import useAction from '../../hooks/useAction';
-import { getLinkmansLastMessages, register } from '../../service';
+import { register, getLinkmansLastMessagesV2 } from '../../service';
 import getFriendId from '../../../utils/getFriendId';
 import { Message } from '../../state/reducer';
 import convertMessage from '../../../utils/convertMessage';
@@ -35,10 +35,12 @@ function Register() {
                 ...user.groups.map((group: any) => group._id),
                 ...user.friends.map((friend: any) => getFriendId(friend.from, friend.to._id)),
             ];
-            const linkmanMessages = await getLinkmansLastMessages(linkmanIds);
+            const linkmanMessages = await getLinkmansLastMessagesV2(linkmanIds);
             Object.values(linkmanMessages).forEach(
                 // @ts-ignore
-                (messages: Message[]) => messages.forEach(convertMessage),
+                ({ messages }: { messages: Message[] }) => {
+                    messages.forEach(convertMessage);
+                },
             );
             dispatch({
                 type: ActionTypes.SetLinkmansLastMessages,
