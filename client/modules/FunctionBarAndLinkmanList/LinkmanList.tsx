@@ -14,7 +14,7 @@ function LinkmanList() {
     const { focus } = useStore();
 
     const intervalUpdateHistory = useCallback(async () => {
-        if (focus && linkmans[focus]) {
+        if (!window.document.hidden && focus && linkmans[focus]) {
             const messageKeys = Object.keys(linkmans[focus].messages);
             if (messageKeys.length > 0) {
                 const lastMessageId =
