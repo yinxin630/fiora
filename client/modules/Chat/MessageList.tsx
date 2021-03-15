@@ -94,16 +94,6 @@ function MessageList() {
         }
     }
 
-    function handleClickUnread() {
-        clearUnread();
-        if ($list.current) {
-            $list.current!.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            });
-        }
-    }
-
     function renderMessage(message: Message) {
         const isSelf = message.from._id === selfId;
         let shouldScroll = true;
@@ -153,11 +143,6 @@ function MessageList() {
             >
                 {Object.values(messages).map((message) => renderMessage(message))}
             </div>
-            {unread > 15 && (
-                <div className={styles.unread} onClick={handleClickUnread} role="button">
-                    {`${unread > 99 ? '99+' : unread} 条未读消息`}
-                </div>
-            )}
         </div>
     );
 }
