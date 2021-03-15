@@ -1,5 +1,5 @@
 import fetch from '../utils/fetch';
-import { User } from './state/reducer';
+import { User, GroupMember } from './state/reducer';
 
 function saveUsername(username: string) {
     window.localStorage.setItem('username', username);
@@ -284,8 +284,8 @@ export async function deleteMessage(messageId: string) {
  * 获取目标群组的在线用户列表
  * @param groupId 目标群id
  */
-export async function getGroupOnlineMembers(groupId: string) {
-    const [, members] = await fetch('getGroupOnlineMembers', { groupId });
+export async function getGroupOnlineMembers(groupId: string): Promise<GroupMember[] | { cache: true }> {
+    const [, members] = await fetch('getGroupOnlineMembersV2', { groupId });
     return members;
 }
 

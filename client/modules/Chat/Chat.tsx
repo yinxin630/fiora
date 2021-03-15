@@ -52,13 +52,11 @@ function Chat() {
     }, []);
 
     async function fetchGroupOnlineMembers() {
-        let onlineMembers: GroupMember[] = [];
+        let onlineMembers: GroupMember[] | { cache: true } = [];
         if (isLogin) {
             onlineMembers = await getGroupOnlineMembers(focus);
-        } else {
-            onlineMembers = await getDefaultGroupOnlineMembers();
         }
-        if (onlineMembers) {
+        if (Array.isArray(onlineMembers)) {
             action.setLinkmanProperty(focus, 'onlineMembers', onlineMembers);
         }
     }
@@ -112,13 +110,11 @@ function Chat() {
 
     async function handleClickFunction() {
         if (linkman.type === 'group') {
-            let onlineMembers: GroupMember[] = [];
+            let onlineMembers: GroupMember[] | { cache: true } = [];
             if (isLogin) {
                 onlineMembers = await getGroupOnlineMembers(focus);
-            } else {
-                onlineMembers = await getDefaultGroupOnlineMembers();
             }
-            if (onlineMembers) {
+            if (Array.isArray(onlineMembers)) {
                 action.setLinkmanProperty(focus, 'onlineMembers', onlineMembers);
             }
             toggleGroupManagePanel(true);

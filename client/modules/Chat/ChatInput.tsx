@@ -18,7 +18,7 @@ import compressImage from '../../../utils/compressImage';
 import config from '../../../config/client';
 import getRandomHuaji from '../../../utils/getRandomHuaji';
 import uploadFile from '../../../utils/uploadFile';
-import { sendMessage, getGroupOnlineMembers } from '../../service';
+import { sendMessage } from '../../service';
 import voice from '../../../utils/voice';
 import Tooltip from '../../components/Tooltip';
 import { isMobile } from '../../../utils/ua';
@@ -452,8 +452,6 @@ function ChatInput() {
                     enable: true,
                     content: '',
                 });
-                const onlineMembers = await getGroupOnlineMembers(focus);
-                action.setLinkmanProperty(focus, 'onlineMembers', onlineMembers);
             }
             // eslint-disable-next-line react/destructuring-assignment
         } else if (at.enable) {
