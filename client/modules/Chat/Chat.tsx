@@ -11,7 +11,6 @@ import { ShowUserOrGroupInfoContext } from '../../context';
 import useIsLogin from '../../hooks/useIsLogin';
 import {
     getGroupOnlineMembers,
-    getDefaultGroupOnlineMembers,
     getUserOnlineStatus,
     updateHistory,
 } from '../../service';
@@ -75,6 +74,7 @@ function Chat() {
     }, [focus]);
 
     async function intervalUpdateHistory() {
+        // Must get real-time state
         const state = store.getState();
         if (!window.document.hidden && state.focus && state.linkmans[state.focus]) {
             const messageKeys = Object.keys(state.linkmans[state.focus].messages);
