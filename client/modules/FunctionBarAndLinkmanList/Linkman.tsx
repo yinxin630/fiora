@@ -9,7 +9,7 @@ import { isMobile } from '../../../utils/ua';
 
 import Style from './Linkman.less';
 import useAero from '../../hooks/useAero';
-import { useFocusLinkman, useSelfId } from '../../hooks/useStore';
+import { useFocusLinkman, useSelfId, useStore } from '../../hooks/useStore';
 import { updateHistory } from '../../service';
 
 interface LinkmanProps {
@@ -28,6 +28,7 @@ function Linkman(props: LinkmanProps) {
     const action = useAction();
     const focus = useSelector((state: State) => state.focus);
     const aero = useAero();
+    const { linkmans } = useStore();
     const focusLinkman = useFocusLinkman();
     const self = useSelfId();
 
@@ -43,12 +44,24 @@ function Linkman(props: LinkmanProps) {
     }
 
     async function handleClick() {
+        // Update current linkman read history
         if (focusLinkman) {
             const messageKeys = Object.keys(focusLinkman.messages);
             if (messageKeys.length > 0) {
                 const lastMessageId =
                     focusLinkman.messages[messageKeys[messageKeys.length - 1]]._id;
                 updateHistory(self, focusLinkman._id, lastMessageId);
+            }
+        }
+
+        // Update next linkman read history
+        const nextFocusLinkman = linkmans[id];
+        if (nextFocusLinkman) {
+            const messageKeys = Object.keys(nextFocusLinkman.messages);
+            if (messageKeys.length > 0) {
+                const lastMessageId =
+                nextFocusLinkman.messages[messageKeys[messageKeys.length - 1]]._id;
+                updateHistory(self, nextFocusLinkman._id, lastMessageId);
             }
         }
 

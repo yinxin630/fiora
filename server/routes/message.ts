@@ -14,6 +14,7 @@ import { KoaContext } from '../../types/koa';
 import client from '../../config/client';
 import Notification from '../models/notification';
 import History from '../models/history';
+import { _createOrUpdateHistory } from './history';
 
 const { isValid } = Types.ObjectId;
 
@@ -229,6 +230,8 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
             );
         }
     }
+
+    _createOrUpdateHistory(ctx.socket.user.toString(), to, message._id);
 
     return messageData;
 }
