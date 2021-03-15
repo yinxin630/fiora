@@ -19,6 +19,8 @@ import useAction from '../../hooks/useAction';
 import useAero from '../../hooks/useAero';
 import store from '../../state/store';
 
+let lastMessageIdCache = '';
+
 function Chat() {
     const isLogin = useIsLogin();
     const action = useAction();
@@ -80,8 +82,11 @@ function Chat() {
             const messageKeys = Object.keys(state.linkmans[state.focus].messages);
             if (messageKeys.length > 0) {
                 const lastMessageId =
-                state.linkmans[state.focus].messages[messageKeys[messageKeys.length - 1]]._id;
-                await updateHistory(self, state.focus, lastMessageId);
+                    state.linkmans[state.focus].messages[messageKeys[messageKeys.length - 1]]._id;
+                if (lastMessageId !== lastMessageIdCache) {
+                    lastMessageIdCache = lastMessageId;
+                    await updateHistory(self, state.focus, lastMessageId);
+                }
             }
         }
     }
