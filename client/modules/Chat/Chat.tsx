@@ -13,9 +13,11 @@ import {
     getGroupOnlineMembers,
     getDefaultGroupOnlineMembers,
     getUserOnlineStatus,
+    updateHistory,
 } from '../../service';
 import useAction from '../../hooks/useAction';
 import useAero from '../../hooks/useAero';
+import store from '../../state/store';
 
 function Chat() {
     const isLogin = useIsLogin();
@@ -69,6 +71,22 @@ function Chat() {
         const request = linkman.type === 'group' ? fetchGroupOnlineMembers : fetchUserOnlineStatus;
         request();
         const timer = setInterval(() => request(), 1000 * 60);
+        return () => clearInterval(timer);
+    }, [focus]);
+
+    async function intervalUpdateHistory() {
+        const state = store.getState();
+        if (!window.document.hidden && state.focus && state.linkmans[state.focus]) {
+            const messageKeys = Object.keys(state.linkmans[state.focus].messages);
+            if (messageKeys.length > 0) {
+                const lastMessageId =
+                state.linkmans[state.focus].messages[messageKeys[messageKeys.length - 1]]._id;
+                await updateHistory(self, state.focus, lastMessageId);
+            }
+        }
+    }
+    useEffect(() => {
+        const timer = setInterval(intervalUpdateHistory, 1000 * 60);
         return () => clearInterval(timer);
     }, [focus]);
 

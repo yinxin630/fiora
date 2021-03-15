@@ -1,32 +1,13 @@
-import React, { useEffect, useCallback } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { Linkman, State } from '../../state/reducer';
 import LinkmanComponent from './Linkman';
 
 import Style from './LinkmanList.less';
-import { useStore, useSelfId } from '../../hooks/useStore';
-import { updateHistory } from '../../service';
 
 function LinkmanList() {
     const linkmans = useSelector((state: State) => state.linkmans);
-    const self = useSelfId();
-    const { focus } = useStore();
-
-    const intervalUpdateHistory = useCallback(async () => {
-        if (!window.document.hidden && focus && linkmans[focus]) {
-            const messageKeys = Object.keys(linkmans[focus].messages);
-            if (messageKeys.length > 0) {
-                const lastMessageId =
-                    linkmans[focus].messages[messageKeys[messageKeys.length - 1]]._id;
-                await updateHistory(self, focus, lastMessageId);
-            }
-        }
-    }, [linkmans, focus]);
-    useEffect(() => {
-        const timer = setInterval(intervalUpdateHistory, 1000 * 60 * 1);
-        return () => clearInterval(timer);
-    }, [focus, intervalUpdateHistory]);
 
     function renderLinkman(linkman: Linkman) {
         const messages = Object.values(linkman.messages);

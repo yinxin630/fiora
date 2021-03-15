@@ -22,7 +22,7 @@ import * as messageRoutes from './routes/message';
 import * as qiniuRoutes from './routes/qiniu';
 import * as systemRoutes from './routes/system';
 import * as notificationRoutes from './routes/notification';
-import * as history from './routes/history';
+import * as historyRoutes from './routes/history';
 
 const app = new Koa();
 app.proxy = true;
@@ -81,21 +81,30 @@ io.use(seal());
 io.use(frequency());
 io.use(isLogin());
 io.use(isAdmin());
+
+const routes = {
+    ...userRoutes,
+    ...groupRoutes,
+    ...messageRoutes,
+    ...qiniuRoutes,
+    ...systemRoutes,
+    ...notificationRoutes,
+    ...historyRoutes,
+};
+Object.keys(routes).forEach(key => {
+    if (key.startsWith('_')) {
+        // @ts-ignore
+        routes[key] = undefined;
+    }
+})
 io.use(
     route(
         // @ts-ignore
         app.io,
         // @ts-ignore
         app._io,
-        {
-            ...userRoutes,
-            ...groupRoutes,
-            ...messageRoutes,
-            ...qiniuRoutes,
-            ...systemRoutes,
-            ...notificationRoutes,
-            ...history,
-        },
+        // @ts-ignore
+        routes,
     ),
 );
 
