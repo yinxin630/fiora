@@ -18,7 +18,8 @@ export default function catchError() {
             ctx.res = `Server Error: ${err.message}`;
             /* istanbul ignore next */
             if (process.env.NODE_ENV !== 'test') {
-                console.error('Unhandled Error\n', err);
+                console.error(`Unhandled Error - [${ctx.event}]\n`, err);
+                console.error('Payload Data:', JSON.stringify(ctx.data));
             }
         }
     };
