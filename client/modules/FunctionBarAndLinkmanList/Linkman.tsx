@@ -77,7 +77,7 @@ function Linkman(props: LinkmanProps) {
                         // eslint-disable-next-line react/no-danger
                         dangerouslySetInnerHTML={{ __html: preview }}
                     />
-                    {unread > 0 && id !== focus && (
+                    {unread > 0 && (
                         <div className={Style.unread}>
                             <span>{unread > 99 ? '99+' : unread}</span>
                         </div>
