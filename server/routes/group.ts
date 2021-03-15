@@ -176,6 +176,7 @@ type GroupOnlineMembersCache = {
     };
 };
 
+// deprecated
 function getGroupOnlineMembersWrapper() {
     const cache: GroupOnlineMembersCache = {};
     return async function getGroupOnlineMembers(ctx: KoaContext<{ groupId: string }>) {
@@ -200,9 +201,38 @@ function getGroupOnlineMembersWrapper() {
 }
 
 /**
+ * deprecated
  * 获取群组在线成员
  */
 export const getGroupOnlineMembers = getGroupOnlineMembersWrapper();
+
+function getGroupOnlineMembersWrapperV2() {
+    const cache: GroupOnlineMembersCache = {};
+    return async function getGroupOnlineMembersV2(ctx: KoaContext<{ groupId: string }>) {
+        const { groupId } = ctx.data;
+        assert(isValid(groupId), '无效的群组ID');
+
+        if (cache[groupId] && cache[groupId].expireTime > Date.now()) {
+            return { cache: true };
+        }
+
+        const group = await Group.findOne({ _id: groupId });
+        if (!group) {
+            throw new AssertionError({ message: '群组不存在' });
+        }
+        const result = await getGroupOnlineMembersHelper(group);
+        cache[groupId] = {
+            value: result,
+            expireTime: Date.now() + GroupOnlineMembersCacheExpireTime,
+        };
+        return result;
+    };
+}
+
+/**
+ * 获取群组在线成员
+ */
+export const getGroupOnlineMembersV2 = getGroupOnlineMembersWrapperV2();
 
 function getDefaultGroupOnlineMembersWrapper() {
     let cache: any = null;
