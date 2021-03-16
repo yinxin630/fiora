@@ -76,14 +76,14 @@ function Chat() {
     async function intervalUpdateHistory() {
         // Must get real-time state
         const state = store.getState();
-        if (!window.document.hidden && state.focus && state.linkmans[state.focus]) {
+        if (!window.document.hidden && state.focus && state.linkmans[state.focus] && state.user?._id) {
             const messageKeys = Object.keys(state.linkmans[state.focus].messages);
             if (messageKeys.length > 0) {
                 const lastMessageId =
                     state.linkmans[state.focus].messages[messageKeys[messageKeys.length - 1]]._id;
                 if (lastMessageId !== lastMessageIdCache) {
                     lastMessageIdCache = lastMessageId;
-                    await updateHistory(self, state.focus, lastMessageId);
+                    await updateHistory(state.user?._id, state.focus, lastMessageId);
                 }
             }
         }
