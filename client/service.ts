@@ -285,7 +285,7 @@ export async function deleteMessage(messageId: string) {
  * @param groupId 目标群id
  */
 export async function getGroupOnlineMembers(groupId: string): Promise<GroupMember[] | { cache: true }> {
-    const [, members] = await fetch('getGroupOnlineMembersV2', { groupId });
+    const [, members] = await fetch('getGroupOnlineMembers', { groupId });
     return members;
 }
 
