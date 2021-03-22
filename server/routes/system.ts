@@ -3,6 +3,7 @@ import path from 'path';
 import axios from 'axios';
 import assert, { AssertionError } from 'assert';
 import { promisify } from 'util';
+import RegexEscape from 'regex-escape';
 
 import User from '../models/user';
 import Group from '../models/group';
@@ -35,9 +36,10 @@ export async function search(ctx: KoaContext<SearchData>) {
         };
     }
 
-    const users = await User.find({ username: { $regex: keywords } }, { avatar: 1, username: 1 });
+    const escapedKeywords = RegexEscape(keywords);
+    const users = await User.find({ username: { $regex: escapedKeywords } }, { avatar: 1, username: 1 });
     const groups = await Group.find(
-        { name: { $regex: keywords } },
+        { name: { $regex: escapedKeywords } },
         { avatar: 1, name: 1, members: 1 },
     );
 
