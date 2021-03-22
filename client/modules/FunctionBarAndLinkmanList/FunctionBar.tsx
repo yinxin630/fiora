@@ -9,11 +9,12 @@ import { search } from '../../service';
 
 import Style from './FunctionBar.less';
 import Input from '../../components/Input';
+import Message from '../../components/Message';
 
 type SearchResult = {
     users: any[];
     groups: any[];
-}
+};
 
 function FunctionBar() {
     const [keywords, setKeywords] = useState('');
@@ -64,9 +65,14 @@ function FunctionBar() {
 
     function handleInputEnter() {
         setTimeout(async () => {
-            const result = await search(keywords);
-            if (result) {
-                setSearchResult(result);
+            if (keywords) {
+                const result = await search(keywords);
+                if (result?.users?.length || result?.groups?.length) {
+                    setSearchResult(result);
+                } else {
+                    Message.warning('没有搜索到内容, 换个关键字试试吧~');
+                    setSearchResult({ users: [], groups: [] });
+                }
             }
         }, 0);
     }
@@ -84,11 +90,7 @@ function FunctionBar() {
         const usersDom = [];
         for (let i = 0; i < count; i++) {
             usersDom.push(
-                <div
-                    key={users[i]._id}
-                    onClick={() => handleClick(users[i])}
-                    role="button"
-                >
+                <div key={users[i]._id} onClick={() => handleClick(users[i])} role="button">
                     <Avatar size={40} src={users[i].avatar} />
                     <p>{users[i].username}</p>
                 </div>,
@@ -110,11 +112,7 @@ function FunctionBar() {
         const groupsDom = [];
         for (let i = 0; i < count; i++) {
             groupsDom.push(
-                <div
-                    key={groups[i]._id}
-                    onClick={() => handleClick(groups[i])}
-                    role="button"
-                >
+                <div key={groups[i]._id} onClick={() => handleClick(groups[i])} role="button">
                     <Avatar size={40} src={groups[i].avatar} />
                     <div>
                         <p>{groups[i].name}</p>
@@ -160,7 +158,7 @@ function FunctionBar() {
             >
                 <TabPane tab="全部" key="all">
                     {searchResult.users.length === 0 && searchResult.groups.length === 0 ? (
-                        <p className={Style.none}>没有搜索到内容, 换个关键字试试吧~~</p>
+                        <p className={Style.none}>没有搜索到内容, 换个关键字试试吧~</p>
                     ) : (
                         <div className={Style.allList}>
                             <div
@@ -176,7 +174,10 @@ function FunctionBar() {
                                         display: searchResult.users.length > 3 ? 'block' : 'none',
                                     }}
                                 >
-                                    <span onClick={() => setSearchResultActiveKey('user')} role="button">
+                                    <span
+                                        onClick={() => setSearchResultActiveKey('user')}
+                                        role="button"
+                                    >
                                         查看更多
                                     </span>
                                 </div>
@@ -194,7 +195,10 @@ function FunctionBar() {
                                         display: searchResult.groups.length > 3 ? 'block' : 'none',
                                     }}
                                 >
-                                    <span onClick={() => setSearchResultActiveKey('group')} role="button">
+                                    <span
+                                        onClick={() => setSearchResultActiveKey('group')}
+                                        role="button"
+                                    >
                                         查看更多
                                     </span>
                                 </div>
@@ -206,14 +210,18 @@ function FunctionBar() {
                     {searchResult.users.length === 0 ? (
                         <p className={Style.none}>没有搜索到内容, 换个关键字试试吧~~</p>
                     ) : (
-                        <div className={`${Style.userList} ${Style.only}`}>{renderSearchUsers()}</div>
+                        <div className={`${Style.userList} ${Style.only}`}>
+                            {renderSearchUsers()}
+                        </div>
                     )}
                 </TabPane>
                 <TabPane tab="群组" key="group">
                     {searchResult.groups.length === 0 ? (
                         <p className={Style.none}>没有搜索到内容, 换个关键字试试吧~~</p>
                     ) : (
-                        <div className={`${Style.groupList} ${Style.only}`}>{renderSearchGroups()}</div>
+                        <div className={`${Style.groupList} ${Style.only}`}>
+                            {renderSearchGroups()}
+                        </div>
                     )}
                 </TabPane>
             </Tabs>
