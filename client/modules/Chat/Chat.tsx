@@ -89,7 +89,7 @@ function Chat() {
         }
     }
     useEffect(() => {
-        const timer = setInterval(intervalUpdateHistory, 1000 * 60);
+        const timer = setInterval(intervalUpdateHistory, 1000 * 30);
         return () => clearInterval(timer);
     }, [focus]);
 
