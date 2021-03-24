@@ -28,17 +28,21 @@ import fetch from '../../../utils/fetch';
 const expressionList = css`
     display: flex;
     width: 100%;
-    height: 60px;
+    height: 80px;
     position: absolute;
     left: 0;
-    top: -60px;
+    top: -80px;
     background-color: inherit;
     overflow-x: auto;
 `;
+const expressionImageContainer = css`
+    min-width: 80px;
+    height: 80px;
+`;
 const expressionImage = css`
-    width: auto;
-    height: 60px;
-    /* margin: 5px; */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 `;
 
 // @ts-ignore
@@ -49,6 +53,8 @@ const CodeEditorAsync = loadable(
 );
 
 let searchExpressionTimer: number = 0;
+
+let inputIME = false;
 
 function ChatInput() {
     const action = useAction();
@@ -66,7 +72,6 @@ function ChatInput() {
     );
     const [expressionDialog, toggleExpressionDialog] = useState(false);
     const [codeEditorDialog, toggleCodeEditorDialog] = useState(false);
-    const [inputIME, toggleInputIME] = useState(false);
     const [inputFocus, toggleInputFocus] = useState(false);
     const [at, setAt] = useState({ enable: false, content: '' });
     const $input = useRef<HTMLInputElement>(null);
@@ -435,7 +440,7 @@ function ChatInput() {
                     }
                 }
                 setExpressions([]);
-            }, 1000);
+            }, 500);
         }
     }
 
@@ -494,6 +499,9 @@ function ChatInput() {
         } else if (enableSearchExpression) {
             // Set timer to get current input value
             setTimeout(() => {
+                if (inputIME) {
+                    return;
+                }
                 if ($input.current?.value) {
                     getExpressionsFromContent();
                 } else {
@@ -612,8 +620,12 @@ function ChatInput() {
                     ref={$input}
                     onKeyDown={handleInputKeyDown}
                     onPaste={handlePaste}
-                    onCompositionStart={() => toggleInputIME(true)}
-                    onCompositionEnd={() => toggleInputIME(false)}
+                    onCompositionStart={() => {
+                        inputIME = true;
+                    }}
+                    onCompositionEnd={() => {
+                        inputIME = false;
+                    }}
                     onFocus={() => toggleInputFocus(true)}
                     onBlur={() => toggleInputFocus(false)}
                 />
@@ -669,13 +681,15 @@ function ChatInput() {
             {expressions.length > 0 && (
                 <div className={expressionList}>
                     {expressions.map(({ image, width, height }) => (
-                        <img
-                            className={expressionImage}
-                            src={image}
-                            key={image}
-                            alt="表情图"
-                            onClick={() => handleClickExpressionImage(image, width, height)}
-                        />
+                        <div className={expressionImageContainer}>
+                            <img
+                                className={expressionImage}
+                                src={image}
+                                key={image}
+                                alt="表情图"
+                                onClick={() => handleClickExpressionImage(image, width, height)}
+                            />
+                        </div>
                     ))}
                 </div>
             )}
