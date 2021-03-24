@@ -1,5 +1,6 @@
 import assert, { AssertionError } from 'assert';
 import { Types } from 'mongoose';
+import stringHash from 'string-hash';
 
 import Group, { GroupDocument } from '../models/group';
 import Socket from '../models/socket';
@@ -171,6 +172,7 @@ export async function leaveGroup(ctx: KoaContext<LeaveGroupData>) {
 const GroupOnlineMembersCacheExpireTime = 1000 * 60;
 type GroupOnlineMembersCache = {
     [groupId: string]: {
+        key?: string;
         value: any;
         expireTime: number;
     };
@@ -208,12 +210,18 @@ export const getGroupOnlineMembers = getGroupOnlineMembersWrapper();
 
 function getGroupOnlineMembersWrapperV2() {
     const cache: GroupOnlineMembersCache = {};
-    return async function getGroupOnlineMembersV2(ctx: KoaContext<{ groupId: string }>) {
-        const { groupId } = ctx.data;
+    return async function getGroupOnlineMembersV2(
+        ctx: KoaContext<{ groupId: string; cache?: string }>,
+    ) {
+        const { groupId, cache: cacheKey } = ctx.data;
         assert(isValid(groupId), '无效的群组ID');
 
-        if (cache[groupId] && cache[groupId].expireTime > Date.now()) {
-            return { cache: true };
+        if (
+            cache[groupId] &&
+            cache[groupId].key === cacheKey &&
+            cache[groupId].expireTime > Date.now()
+        ) {
+            return { cache: cacheKey };
         }
 
         const group = await Group.findOne({ _id: groupId });
@@ -221,11 +229,23 @@ function getGroupOnlineMembersWrapperV2() {
             throw new AssertionError({ message: '群组不存在' });
         }
         const result = await getGroupOnlineMembersHelper(group);
+        const resultCacheKey = stringHash(result.map((item) => item._id).join(',')).toString(36);
+        if (cache[groupId] && cache[groupId].key === resultCacheKey) {
+            cache[groupId].expireTime = Date.now() + GroupOnlineMembersCacheExpireTime;
+            if (resultCacheKey === cacheKey) {
+                return { cache: cacheKey };
+            }
+        }
+
         cache[groupId] = {
+            key: resultCacheKey,
             value: result,
             expireTime: Date.now() + GroupOnlineMembersCacheExpireTime,
         };
-        return result;
+        return {
+            cache: resultCacheKey,
+            members: result,
+        };
     };
 }
 
