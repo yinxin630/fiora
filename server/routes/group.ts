@@ -229,7 +229,9 @@ function getGroupOnlineMembersWrapperV2() {
             throw new AssertionError({ message: '群组不存在' });
         }
         const result = await getGroupOnlineMembersHelper(group);
-        const resultCacheKey = stringHash(result.map((item) => item._id).join(',')).toString(36);
+        const resultCacheKey = stringHash(result.map((item) => item.user._id).join(',')).toString(
+            36,
+        );
         if (cache[groupId] && cache[groupId].key === resultCacheKey) {
             cache[groupId].expireTime = Date.now() + GroupOnlineMembersCacheExpireTime;
             if (resultCacheKey === cacheKey) {
