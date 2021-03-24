@@ -1,5 +1,5 @@
 module.exports = {
-    title: 'fiora',
+    title: 'fiora docs',
     tagline: 'An interesting open source chat application',
     url: 'https://fiora.suisuijiang.com',
     baseUrl: '/fiora/',

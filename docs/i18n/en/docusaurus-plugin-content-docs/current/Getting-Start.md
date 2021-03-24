@@ -28,32 +28,33 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
 <img alt="PC screenshot" src={useBaseUrl('img/screenshots/screenshot-pc.png')} style={{'max-width':'800px'}} />
 <img alt="Mobile screenshot" src={useBaseUrl('img/screenshots/screenshot-phone.png')} style={{'max-height':'667px'}} />
 
-## Install
-
-[See how to run Fiora](./INSTALL.md)
-
-## Change Log
-
-[See change log](./CHANGELOG.md)
-
 ## Directory
 
-    |-- [bin]                     // Server management tools
-    |-- [build]                   // Webpack build
-    |-- [client]                  // Client code
-    |-- [config]                  // Config
-    |-- [dist]                    // Packaging output directory
-    |-- [docs]                    // Document
-    |-- [public]                  // Server static resources
-    |-- [server]                  // Server code
-    |-- [utils]                   // Util method
-    |-- .babelrc                  // Babel config
-    |-- .eslintignore             // Eslint ignore config
-    |-- .eslintrc                 // Eslint rule config
-    |-- .gitignore                // Git ignore config
-    |-- .nodemonrc                // Nodemon config
-    |-- package-lock.json         // npm
+    |-- [.githubb]                // github actions
+    |-- [.vscode]                 // vscode workspace config
+    |-- [bin]                     // server scripts
+    |-- [build]                   // webpack config
+    |-- [client]                  // web client
+    |-- [config]                  // application configs
+    |-- [dist]                    // client buid output directory
+    |-- [docs]                    // document
+    |-- [public]                  // server static resources
+    |-- [server]                  // server
+    |-- [test]                    // unit test
+    |-- [types]                   // typescript types
+    |-- [utils]                   // util functions
+    |-- .babelrc                  // babel config
+    |-- .eslintignore             // eslint ignore list
+    |-- .eslintrc                 // eslint config
+    |-- .gitignore                // git ignore
+    |-- .nodemonrc                // nodemon config
+    |-- .prettierrc               // prettier config
+    |-- Dockerfile                // docker file
+    |-- LICENSE                   // fiora license
+    |-- docker-compose.yaml       // docker compose config
+    |-- jest.*.sj                 // jest config
     |-- package.json              // npm
+    |-- tsconfig.json             // typescript config
     |-- yarn.lock                 // yarn
     ...
 
@@ -61,8 +62,8 @@ Android / iOS app: [https://github.com/yinxin630/fiora-app](https://github.com/y
 
 If you want to add functionality or fix bugs, please follow the process below:
 
-0. Fork this repository and clone the fork post to the local
-1. Installation dependencies `yarn install`
-2. Modify the code and confirm it is bug free
-3. Submit code, if eslint has reported error, please repair it and submit it again.
-4. Create a pull request
+1. Fork this repository and clone the fork post to the local
+2. Installation dependencies `yarn install`
+3. Modify the code and confirm it is bug free
+4. Submit code, if eslint has reported error, please repair it and submit it again.
+5. Create a pull request

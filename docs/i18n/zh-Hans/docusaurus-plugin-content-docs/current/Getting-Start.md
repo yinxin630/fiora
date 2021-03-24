@@ -28,32 +28,33 @@ fiora 是一款有趣的聊天应用. 基于 node.js, mongodb, react 和 socket.
 <img src={useBaseUrl('img/screenshots/screenshot-pc.png')} alt="PC" style={{'max-width':'800px'}} />
 <img src={useBaseUrl('img/screenshots/screenshot-phone.png')} alt="Phone" height="667" style={{'max-width':'667px'}} />
 
-## 安装运行
-
-[查看如何运行 Fiora](./INSTALL.md)
-
-## 更新日志
-
-[查看更新日志](./CHANGELOG.md)
-
 ## 目录结构
 
-    |-- [bin]                     // 服务端管理工具
-    |-- [build]                   // webpack构建
-    |-- [client]                  // 客户端代码
-    |-- [config]                  // 配置
-    |-- [dist]                    // 打包输出目录
+    |-- [.githubb]                // github actions
+    |-- [.vscode]                 // vscode 工作区配置
+    |-- [bin]                     // 服务端脚本
+    |-- [build]                   // webpack 配置
+    |-- [client]                  // web 客户端
+    |-- [config]                  // 应用配置
+    |-- [dist]                    // 构建客户端输出目录
     |-- [docs]                    // 文档
     |-- [public]                  // 服务端静态资源
-    |-- [server]                  // 服务端代码
+    |-- [server]                  // 服务端
+    |-- [test]                    // 单元测试
+    |-- [types]                   // typescript 类型
     |-- [utils]                   // 工具方法
-    |-- .babelrc                  // babel配置
-    |-- .eslintignore             // eslint忽略配置
-    |-- .eslintrc                 // eslint规则配置
-    |-- .gitignore                // git忽略配置
-    |-- .nodemonrc                // nodemon配置
-    |-- package-lock.json         // npm
+    |-- .babelrc                  // babel 配置
+    |-- .eslintignore             // eslint 忽略
+    |-- .eslintrc                 // eslint 配置
+    |-- .gitignore                // git 忽略
+    |-- .nodemonrc                // nodemon 配置
+    |-- .prettierrc               // prettier 配置
+    |-- Dockerfile                // docker 文件
+    |-- LICENSE                   // fiora 许可
+    |-- docker-compose.yaml       // docker compose 配置
+    |-- jest.*.sj                 // jest 配置
     |-- package.json              // npm
+    |-- tsconfig.json             // typescript 配置
     |-- yarn.lock                 // yarn
     ...
 
@@ -61,8 +62,8 @@ fiora 是一款有趣的聊天应用. 基于 node.js, mongodb, react 和 socket.
 
 如果你想要添加功能或者修复 BUG. 请遵守下列流程.
 
-0. fork 本仓库并克隆 fork 后的仓库到本地
-1. 安装依赖 `yarn install`
-2. 修改代码并确认无 bug
-3. 提交代码, 如果 eslint 有报错, 请修复后再次提交
-4. 创建一个 pull request
+1. fork 本仓库并克隆 fork 后的仓库到本地
+2. 安装依赖 `yarn install`
+3. 修改代码并确认无 bug
+4. 提交代码, 如果 eslint 有报错, 请修复后再次提交
+5. 创建一个 pull request

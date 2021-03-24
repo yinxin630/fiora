@@ -4,98 +4,88 @@ title: 更新日志
 sidebar_label: 更新日志
 ---
 
-## 2021-2-26
-### Features
-- Support push notification to fiora app
+## 2021-3-14
 
+-   支持服务端计算未读消息数量
+
+## 2021-3-2
+
+-   识别消息中的 URL 时, 支持 host 为 localhost 或者 ip
+
+## 2021-3-1
+
+-   管理员创建群组时, 不再限制数量
+
+## 2021-2-28
+
+-   多个用户可以使用相同的 notification token
+
+## 2021-2-27
+
+-   修改 app 通知内容
+-   自己发送的消息不再推送通知给自己
+-   webpack 构建生成环境版本时显示进度条
+
+## 2021-2-25
+
+-   支持推送通知给 fiora app
 
 ## 2021-2-21
-### Fix
-- **Important** Fix the wrong logic of judging whether it is an administrator on the server side. Treat everyone as an administrator
 
+-   **重要** 修复错误的服务端判断管理员的逻辑, 会将所有人当做管理员. 但是前端并不会展示管理员面板
 
 ## 2021-2-17
-### Features
-- Support sharing groups externally
 
+-   支持向 fiora 外部分享群组
 
 ## 2021-1-26
 
-### Fix
-- File message size calculation error
+-   文件消息的文件大小计算错误
 
 ## 2021-1-22
 
-### Changes
-
--   A single ip can register up to 3 accounts within 24 hours
+-   一个 ip 在 24 小时内只允许创建三个账号
 
 ## 2020-12-17
 
-### Features
+-   支持根据输入框内容自动搜索表情, 该功能默认是关闭的, 可以在用户设置中打开
 
--   Support search expressions by input content. It is disabled default and you can enable it in setting
-
-### Changes
-
--   Only limit send message frequency
+-   只限制发消息的频率
 
 ## 2020-12-08
 
-### Changes
-
--   **Breaking!!!** Refactor to use redis cache instead of memory variable cache. So you should run redis first before start fiora
+-   **兼容性!!!** 使用 redus 缓存来替代内存缓存, 所以你需要在运行 fiora 之前配置并启动 redis
 
 ## 2020-11-15
 
-### Changes
-
--   Refactor to use webpack plugin to generate service worker script
--   Refacotr or add server scripts
+-   使用 webpack 插件来生成 service worker script
+-   重构并新增服务端脚本
 
 ## 2020-11-14
 
-### Features
-
--   Adapt to ios full screen devices
+-   适配 iOS 全面屏设备
 
 ## 2020-11-12
 
-### Features
-
--   Support multiple administrators
--   Add getUserId and deleteUser scripts
+-   支持设置多个管理员
 
 ## 2020-11-08
 
-### Features
-
--   Support to withdraw self's message
+-   支持撤回自己发的消息
 
 ## 2020-11-07
 
-### Features
+-   支持发送文件
+-   支持展示实时(数据有 60s 缓存时间)的群组在线人数和用户在线状态
 
--   Support send file directly
--   Support display linkman realtime info. About user online status and group online members count
+-   重构 webpack 构建配置
 
-### Changes
-
--   Refactor webpack build config
-
-### Fix
-
--   Fix the issue of right click on image viewer to copy image will close it
+-   修复在图片查看大图时右键会关闭的问题
 
 ## 2020-11-04
 
-### Changes
-
--   **Breaking!!!** Modify the config files. It no longer supports modifying config items through command line params
--   Remove pm2 ecosystem config and deploy shell script
+-   **兼容性!!!** 修改 config 文件配置方法, 不再支持通过命令行参数来设置
 
 ## 2020-11-03
 
-### Changes
-
--   Rename some npm scripts name
+-   重命名一部分 npm script 名

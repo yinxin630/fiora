@@ -1,5 +1,6 @@
 module.exports = {
     docs: {
-        fiora: ['getting-start', 'install', 'api', 'changelog'],
+        fiora: ['getting-start', 'install', 'config', 'script', 'faq', 'changelog'],
+        'fiora-app': ['app'],
     },
 };

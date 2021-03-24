@@ -5,6 +5,12 @@
     "TagLine": {
         "message": "An interesting open source chat application"
     },
+    "Keywords": {
+        "message": "fiora, fiora docs, node.js, chatroom"
+    },
+    "Description": {
+        "message": "This site is for fiora doc. Fiora is an interesting open source chat application"
+    },
 
     "Richness": {
         "message": "Fiora contains backend, frontend, Android and iOS apps"
