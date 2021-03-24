@@ -4,7 +4,33 @@ title: Change Log
 sidebar_label: Change Log
 ---
 
-## 2021-2-26
+## 2021-3-14
+### Features
+- Support the server to calculate the number of unread messages
+
+## 2021-3-2
+### Changes
+- When identifying the url in the message, support host as localhost or ip
+
+
+## 2021-3-1
+### Changes
+- No longer limit the number of groups created by the administrator
+
+
+## 2021-2-28
+### Fix
+- Multiple users use the same notification token
+
+
+## 2021-2-27
+### Changes
+- Modify app notification content
+- Messages sent by yourself no longer push notification to yourself
+- The progress bar is displayed when the webpack build production environment
+
+
+## 2021-2-25
 ### Features
 - Support push notification to fiora app
 
