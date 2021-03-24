@@ -28,7 +28,7 @@ interface SearchData {
  * @param ctx Context
  */
 export async function search(ctx: KoaContext<SearchData>) {
-    const { keywords } = ctx.data;
+    const keywords = ctx.data.keywords?.trim() || '';
     if (keywords === '') {
         return {
             users: [],
@@ -37,7 +37,10 @@ export async function search(ctx: KoaContext<SearchData>) {
     }
 
     const escapedKeywords = RegexEscape(keywords);
-    const users = await User.find({ username: { $regex: escapedKeywords } }, { avatar: 1, username: 1 });
+    const users = await User.find(
+        { username: { $regex: escapedKeywords } },
+        { avatar: 1, username: 1 },
+    );
     const groups = await Group.find(
         { name: { $regex: escapedKeywords } },
         { avatar: 1, name: 1, members: 1 },
