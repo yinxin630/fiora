@@ -5,6 +5,12 @@
     "TagLine": {
         "message": "一个有趣的开源聊天应用"
     },
+    "Keywords": {
+        "message": "fiora, fiora 文档, node.js, 聊天室"
+    },
+    "Description": {
+        "message": "这是 fiora 文档网站, fiora 是一个有趣的开源聊天室应用"
+    },
 
     "Richness": {
         "message": "fiora 包括后端、前端、安卓和 iOS App"

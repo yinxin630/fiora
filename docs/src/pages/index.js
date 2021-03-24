@@ -108,9 +108,11 @@ function Home() {
 
     const title = translate({ message: 'Title' });
     const tagLine = translate({ message: 'TagLine' });
+    const keywords = translate({ message: 'Keywords' });
+    const description = translate({ message: 'Description' });
 
     return (
-        <Layout title={`${title} · ${tagLine}`} description="docs for fiora project">
+        <Layout title={tagLine} keywords={keywords} description={description}>
             <header className={clsx('hero hero--primary', styles.heroBanner)}>
                 <div className="container">
                     <h1 className="hero__title">{title}</h1>
