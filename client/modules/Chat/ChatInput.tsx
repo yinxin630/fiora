@@ -185,6 +185,9 @@ function ChatInput() {
         content: string,
         linkmanId = focus,
     ) {
+        if (linkman.unread > 0) {
+            action.setLinkmanProperty(linkman._id, 'unread', 0);
+        }
         const [error, message] = await sendMessage(linkmanId, type, content);
         if (error) {
             action.deleteMessage(focus, localId);
@@ -386,7 +389,10 @@ function ChatInput() {
             return null;
         }
 
-        if (message.startsWith(window.location.origin) && message.match(/\/invite\/group\/[\w\d]+/)) {
+        if (
+            message.startsWith(window.location.origin) &&
+            message.match(/\/invite\/group\/[\w\d]+/)
+        ) {
             const groupId = message.replace(`${window.location.origin}/invite/group/`, '');
             const id = addSelfMessage(
                 'inviteV2',
@@ -402,7 +408,7 @@ function ChatInput() {
             const id = addSelfMessage('text', xss(message));
             handleSendMessage(id, 'text', message);
         }
-        
+
         // @ts-ignore
         $input.current.value = '';
         setExpressions([]);
