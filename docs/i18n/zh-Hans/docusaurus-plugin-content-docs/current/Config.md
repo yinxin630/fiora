@@ -1,7 +1,7 @@
 ---
 id: config
-title: Config
-sidebar_label: Config
+title: 配置
+sidebar_label: 配置
 ---
 
 服务器配置 `config/server.ts`

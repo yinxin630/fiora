@@ -1,7 +1,7 @@
 ---
 id: faq
-title: FAQ
-sidebar_label: FAQ
+title: 问题解答
+sidebar_label: 问题解答
 ---
 
 ## 设置管理员
