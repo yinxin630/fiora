@@ -88,6 +88,7 @@
     "regenerator-runtime": "^0.13.3",
     "regex-escape": "^3.4.10",
     "socket.io-client": "2.2.0",
+    "string-hash": "^1.1.3",
     "wpk-reporter": "^0.6.2",
     "xss": "^0.3.7"
   },
@@ -130,6 +131,7 @@
     "@types/redux": "^3.6.0",
     "@types/socket.io": "^2.1.2",
     "@types/socket.io-client": "^1.4.32",
+    "@types/string-hash": "^1.1.1",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "babel-loader": "^8.1.0",

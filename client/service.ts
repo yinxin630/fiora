@@ -284,10 +284,32 @@ export async function deleteMessage(messageId: string) {
  * 获取目标群组的在线用户列表
  * @param groupId 目标群id
  */
-export async function getGroupOnlineMembers(groupId: string): Promise<GroupMember[] | { cache: true }> {
-    const [, members] = await fetch('getGroupOnlineMembers', { groupId });
-    return members;
-}
+export const getGroupOnlineMembers = (() => {
+    let cache: {
+        groupId: string;
+        key: string;
+        members: GroupMember[];
+    } = {
+        groupId: '',
+        key: '',
+        members: [],
+    };
+    return async function _getGroupOnlineMembers(groupId: string): Promise<GroupMember[]> {
+        const [, result] = await fetch('getGroupOnlineMembersV2', {
+            groupId,
+            cache: cache.groupId === groupId ? cache.key : undefined,
+        });
+        if (result.cache && result.cache === cache.key) {
+            return cache.members as GroupMember[];
+        }
+        cache = {
+            groupId,
+            key: result.cache,
+            members: result.members,
+        };
+        return result.members;
+    };
+})();
 
 /**
  * 获取默认群组的在线用户列表
