@@ -1,7 +1,7 @@
 ---
 id: script
-title: Script
-sidebar_label: Script
+title: 脚本
+sidebar_label: 脚本
 ---
 
 服务端内置了一些脚本, 用来管理服务器的. 这些脚本在 `fiora/bin` 目录下
