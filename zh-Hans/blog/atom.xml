@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://fiora.suisuijiang.com/blog</id>
-    <title>fiora Blog</title>
+    <title>fiora docs Blog</title>
     <updated>2015-10-25T23:29:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://fiora.suisuijiang.com/blog"/>
-    <subtitle>fiora Blog</subtitle>
+    <subtitle>fiora docs Blog</subtitle>
     <icon>https://fiora.suisuijiang.com/img/favicon.png</icon>
 </feed>
