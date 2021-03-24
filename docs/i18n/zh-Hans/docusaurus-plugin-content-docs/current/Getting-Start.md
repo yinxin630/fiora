@@ -62,8 +62,8 @@ fiora 是一款有趣的聊天应用. 基于 node.js, mongodb, react 和 socket.
 
 如果你想要添加功能或者修复 BUG. 请遵守下列流程.
 
-0. fork 本仓库并克隆 fork 后的仓库到本地
-1. 安装依赖 `yarn install`
-2. 修改代码并确认无 bug
-3. 提交代码, 如果 eslint 有报错, 请修复后再次提交
-4. 创建一个 pull request
+1. fork 本仓库并克隆 fork 后的仓库到本地
+2. 安装依赖 `yarn install`
+3. 修改代码并确认无 bug
+4. 提交代码, 如果 eslint 有报错, 请修复后再次提交
+5. 创建一个 pull request
