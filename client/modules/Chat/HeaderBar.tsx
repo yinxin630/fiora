@@ -71,10 +71,10 @@ function HeaderBar(props: Props) {
                 {name && (
                     <span>
                         {name}{' '}
-                        {onlineMembersCount !== undefined && (
+                        {isLogin && onlineMembersCount !== undefined && (
                             <b className={styles.count}>{`(${onlineMembersCount})`}</b>
                         )}
-                        {isOnline !== undefined && (
+                        {isLogin && isOnline !== undefined && (
                             <b className={styles.count}>{`(${isOnline ? '在线' : '离线'})`}</b>
                         )}
                     </span>
