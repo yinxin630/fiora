@@ -39,9 +39,6 @@ export default {
     // administrator user id
     administrator: env.Administrator ? env.Administrator.split(',') : [],
 
-    // default group name
-    defaultGroupName: env.DefaultGroupName || 'fiora',
-
     /** 禁用注册功能 */
     disableRegister: env.DisableRegister ? env.DisableRegister === 'true' : false,
 
