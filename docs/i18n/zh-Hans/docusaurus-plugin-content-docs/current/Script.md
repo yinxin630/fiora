@@ -49,3 +49,9 @@ sidebar_label: 脚本
 `yarn script register [username] [password]`
 
 注册新用户, 当禁止注册时可以由管理员通过其注册新用户
+
+## updateDefaultGroupName
+
+`yarn script updateDefaultGroupName [newName]`
+
+更新默认群组名

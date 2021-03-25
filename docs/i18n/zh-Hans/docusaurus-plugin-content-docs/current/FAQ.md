@@ -4,22 +4,21 @@ title: 问题解答
 sidebar_label: 问题解答
 ---
 
-## 设置管理员
+## 如何设置管理员
 
-1. 获取用户 id, 执行 `yarn script getUserId [username]`
+1. 获取用户 id, 参考 [getUserId](/docs/script#getuserid)
 2. 修改 `Administrator` 配置项, 改为上一步获取的 id
-3. 重启服务器
+3. 重启服务端
 
-## 修改默认群组名称
+## 如何修改默认群组名称
 
-1. 修改 `DefaultGroupName` 配置项
-2. 重启服务器
+参考 [updateDefaultGroupName](/docs/script#updatedefaultgroupname)
 
-## 自定义域名, 通过 nginx 反向代理
+##  如何自定义域名
 
-**请修改注释项的配置**
+推荐使用 nginx 反向代理
 
-示例配置
+示例配置, **请修改注释项的配置**
 
 ```
 server {
@@ -76,12 +75,33 @@ server {
 }
 ```
 
-## 禁止注册, 手动分配账号
+## 如何禁止注册, 手动分配账号
 
 将 `DisableRegister` 配置项设置为 true, 重启服务器生效
 
-执行 `yarn script register [username] [password]` 手动注册新用户
+使用脚本手动注册新用户. 参考 [register](/docs/script#register)
 
-## 删除用户
+##  如何删除用户
 
-执行 `yarn script deleteUser [userId]`
+参考 [deleteUser](/docs/script#deleteuser)
+
+## 客户端报错 "调用失败,处于萌新阶段"
+
+为了避免新注册的用户乱发消息刷屏, 注册时间未满 24 小时的用户每分钟限制只能发 5 条消息
+
+## 执行命令时报错 "Couldn't find a package.json file in xxx"
+
+先 cd 到 fiora 根目录下, 再执行相应命令
+
+## 为什么修改配置不生效
+
+1. 先确认配置修改是否正确
+   - 如果是直接修改配置文件, 请确认修改的部分语法和格式正确
+   - 如果是通过 .env 文件修改配置, 请确认格式正确
+2. 修改配置后
+   - 如果修改的是服务端配置, 需要重启服务端
+   - 如果修改的是客户端配置, 需要重新构建客户端
+
+## 怎么重新构建客户端
+
+`yarn build:client && yarn move-dist`

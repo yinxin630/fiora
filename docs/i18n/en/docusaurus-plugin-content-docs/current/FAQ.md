@@ -6,20 +6,19 @@ sidebar_label: FAQ
 
 ## How to set up an administrator
 
-1. Run `yarn script getUserId [username]` to get userId
+1. Get user id. reference [getUserId](/docs/script#getuserid)
 2. Set `Administrator` in config to be administrator userId.
 3. Restart the server
 
-## Modify the default group name
+## How to modify the default group name
 
-1. Set `DefaultGroupName` in config to be new group name
-2. Restart the server
+reference [updateDefaultGroupname](/docs/script#updatedefaultgroupname)
 
-## Custom domain name, reverse proxy via nginx
+## How to custom domain name
 
-**Please modify the configuration of the comment item**
+Recommend to use nginx reverse proxy
 
-Example config
+Example config, **Please modify the configuration of the comment item**
 
 ```
 server {
@@ -76,12 +75,33 @@ server {
 }
 ```
 
-## Disable register, manual account assignment
+## How to Disable register, manual account assignment
 
 Set `DisableRegister` in config to be true. Restart the server to take effect
 
-Run `yarn script register [username] [password]` register new account
+Use scripts to manually register new users. Reference [register](/docs/script#register)
 
-## Delete user
+## How to delete user
 
-Run `yarn script deleteUser [userId]`
+Reference [deleteUser](/docs/script#deleteuser)
+
+## The client throw an error "调用失败,处于萌新阶段"
+
+In order to prevent newly registered users from sending messages randomly, users whose registration time is less than 24 hours can only send 5 messages per minute.
+
+## An error is throwed when executing the command. "Couldn't find a package.json file in xxx"
+
+First cd to the fiora root directory, and then execute the corresponding command
+
+## Why the modified configuration does not take effect
+
+1. First confirm whether the configuration modification is correct
+    -If you modify the configuration file directly, please make sure that the modified part of the syntax and format is correct
+    -If you modify the configuration through the .env file, please make sure the format is correct
+2. After modifying the configuration
+    -If you modify the server configuration, you need to restart the server
+    -If you modify the client configuration, you need to rebuild the client
+
+## How to rebuild the client
+
+`yarn build:client && yarn move-dist`
