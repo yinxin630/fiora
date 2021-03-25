@@ -49,3 +49,9 @@ Get the userId of the specified user name
 `yarn script register [username] [password]`
 
 Register new users, when registration is prohibited, the administrator can register new users through it
+
+## updateDefaultGroupName
+
+`yarn script updateDefaultGroupName [newName]`
+
+Update default group name
