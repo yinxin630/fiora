@@ -9,7 +9,7 @@ import getRandomAvatar from '../utils/getRandomAvatar';
 import { doctor } from '../bin/doctor';
 
 (async () => {
-    if (process.argv.find(argv => argv === '--doctor')) {
+    if (process.argv.find((argv) => argv === '--doctor')) {
         await doctor();
     }
 
@@ -19,7 +19,7 @@ import { doctor } from '../bin/doctor';
     const group = await Group.findOne({ isDefault: true });
     if (!group) {
         const defaultGroup = await Group.create({
-            name: config.defaultGroupName,
+            name: 'fiora',
             avatar: getRandomAvatar(),
             isDefault: true,
         } as GroupDocument);
@@ -28,9 +28,6 @@ import { doctor } from '../bin/doctor';
             console.error('create default group fail');
             return process.exit(1);
         }
-    } else if (group.name !== config.defaultGroupName) {
-        group.name = config.defaultGroupName;
-        await group.save();
     }
 
     app.listen(config.port, async () => {
