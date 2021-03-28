@@ -17,7 +17,7 @@ export default function log() {
         const after = Date.now();
 
         // 接口名 耗时 错误消息(如果失败了的话)
-        console.log(`  --> ${ctx.event}  ${after - before}ms ${typeof ctx.res === 'string' ? ctx.res : ''}`);
+        console.log(`  --> ${ctx.event}  ${after - before} ${typeof ctx.res === 'string' ? ctx.res : ''}`);
 
         return null;
     };
