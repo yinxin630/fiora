@@ -12,6 +12,7 @@ import config from '../../config/server';
 import { KoaContext } from '../../types/koa';
 import Socket from '../models/socket';
 import { getAllSealIp, getAllSealUser, getSealIpKey, getSealUserKey, Redis } from '../redis';
+import logger from '../utils/logger';
 
 /** 百度语言合成token */
 let baiduToken = '';
@@ -263,7 +264,7 @@ export async function uploadFile(ctx: KoaContext<UploadFileData>) {
             url: `/${ctx.data.fileName}`,
         };
     } catch (err) {
-        console.error(err);
+        logger.error('[uploadFile]', err.message);
         return `上传文件失败:${err.message}`;
     }
 }

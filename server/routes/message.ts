@@ -15,6 +15,7 @@ import client from '../../config/client';
 import Notification from '../models/notification';
 import History from '../models/history';
 import { _createOrUpdateHistory } from './history';
+import logger from '../utils/logger';
 
 const { isValid } = Types.ObjectId;
 
@@ -78,11 +79,11 @@ async function pushNotification(
             results.forEach((result) => {
                 const { status, message: errMessage } = result as ExpoPushErrorTicket;
                 if (status === 'error') {
-                    console.warn('[Notification]', errMessage);
+                    logger.warn('[Notification]', errMessage);
                 }
             });
         } catch (error) {
-            console.error('[Notification]', error.message);
+            logger.error('[Notification]', error.message);
         }
     }
 }
