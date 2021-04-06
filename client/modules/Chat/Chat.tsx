@@ -83,7 +83,7 @@ function Chat() {
                     state.linkmans[state.focus].messages[messageKeys[messageKeys.length - 1]]._id;
                 if (lastMessageId !== lastMessageIdCache) {
                     lastMessageIdCache = lastMessageId;
-                    await updateHistory(state.user?._id, state.focus, lastMessageId);
+                    await updateHistory(state.focus, lastMessageId);
                 }
             }
         }

@@ -387,7 +387,7 @@ export async function getUserOnlineStatus(userId: string) {
     return res && res.isOnline;
 }
 
-export async function updateHistory(userId: string, linkmanId: string, messageId: string) {
-    const [, result] = await fetch('updateHistory', { userId, linkmanId, messageId });
+export async function updateHistory(linkmanId: string, messageId: string) {
+    const [, result] = await fetch('updateHistory', { linkmanId, messageId });
     return !!result;
 }

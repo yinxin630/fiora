@@ -9,7 +9,7 @@ import { isMobile } from '../../../utils/ua';
 
 import Style from './Linkman.less';
 import useAero from '../../hooks/useAero';
-import { useFocusLinkman, useSelfId, useStore } from '../../hooks/useStore';
+import { useFocusLinkman, useStore } from '../../hooks/useStore';
 import { updateHistory } from '../../service';
 
 interface LinkmanProps {
@@ -30,7 +30,6 @@ function Linkman(props: LinkmanProps) {
     const aero = useAero();
     const { linkmans } = useStore();
     const focusLinkman = useFocusLinkman();
-    const self = useSelfId();
 
     function formatTime() {
         const nowTime = new Date();
@@ -50,7 +49,7 @@ function Linkman(props: LinkmanProps) {
             if (messageKeys.length > 0) {
                 const lastMessageId =
                     focusLinkman.messages[messageKeys[messageKeys.length - 1]]._id;
-                updateHistory(self, focusLinkman._id, lastMessageId);
+                updateHistory(focusLinkman._id, lastMessageId);
             }
         }
 
@@ -61,7 +60,7 @@ function Linkman(props: LinkmanProps) {
             if (messageKeys.length > 0) {
                 const lastMessageId =
                 nextFocusLinkman.messages[messageKeys[messageKeys.length - 1]]._id;
-                updateHistory(self, nextFocusLinkman._id, lastMessageId);
+                updateHistory(nextFocusLinkman._id, lastMessageId);
             }
         }
 
