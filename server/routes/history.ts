@@ -1,4 +1,4 @@
-import { isValidObjectId } from 'mongoose';
+import { isValidObjectId, Types } from 'mongoose';
 import assert from 'assert';
 import { KoaContext } from '../../types/koa';
 import User from '../models/user';
@@ -24,12 +24,18 @@ export async function _createOrUpdateHistory(userId: string, linkmanId: string, 
 export async function updateHistory(
     ctx: KoaContext<{ userId: string; linkmanId: string; messageId: string }>,
 ) {
-    const { userId, linkmanId, messageId } = ctx.data;
+    const { linkmanId, messageId } = ctx.data;
     const self = ctx.socket.user.toString();
+    assert(Types.ObjectId.isValid(linkmanId), '无效的 linkmanId');
+    if (!Types.ObjectId.isValid(messageId)) {
+        return {
+            msg: `not update with invalid messageId:${messageId}`,
+        };
+    }
 
     // @ts-ignore
     const [user, linkman, message] = await Promise.all([
-        User.findOne({ _id: userId }),
+        User.findOne({ _id: self }),
         isValidObjectId(linkmanId)
             ? Group.findOne({ _id: linkmanId })
             : User.findOne({ _id: linkmanId.replace(self, '') }),
@@ -39,7 +45,7 @@ export async function updateHistory(
     assert(linkman, '联系人不存在');
     assert(message, '消息不存在');
 
-    await _createOrUpdateHistory(userId, linkmanId, messageId);
+    await _createOrUpdateHistory(self, linkmanId, messageId);
 
     return {
         msg: 'ok',

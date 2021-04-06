@@ -54,7 +54,7 @@ function MessageList() {
         action.setLinkmanProperty(focus, 'unread', 0);
         const messageKeys = Object.keys(messages);
         if (messageKeys.length > 0) {
-            updateHistory(selfId, focus, messages[messageKeys[messageKeys.length - 1]]._id);
+            updateHistory(focus, messages[messageKeys[messageKeys.length - 1]]._id);
         }
     }
 
