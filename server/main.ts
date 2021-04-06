@@ -7,6 +7,7 @@ import Socket from './models/socket';
 import Group, { GroupDocument } from './models/group';
 import getRandomAvatar from '../utils/getRandomAvatar';
 import { doctor } from '../bin/doctor';
+import logger from './utils/logger';
 
 (async () => {
     if (process.argv.find((argv) => argv === '--doctor')) {
@@ -25,14 +26,14 @@ import { doctor } from '../bin/doctor';
         } as GroupDocument);
 
         if (!defaultGroup) {
-            console.error('create default group fail');
+            logger.error('[defaultGroup]', 'create default group fail');
             return process.exit(1);
         }
     }
 
     app.listen(config.port, async () => {
         await Socket.remove({}); // 删除Socket表所有历史数据
-        console.log(` >>> server listen on http://localhost:${config.port}`);
+        logger.debug(`>>> server listen on http://localhost:${config.port}`);
     });
 
     return null;

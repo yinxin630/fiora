@@ -23,6 +23,7 @@ import * as qiniuRoutes from './routes/qiniu';
 import * as systemRoutes from './routes/system';
 import * as notificationRoutes from './routes/notification';
 import * as historyRoutes from './routes/history';
+import logger from './utils/logger';
 
 const app = new Koa();
 app.proxy = true;
@@ -91,12 +92,12 @@ const routes = {
     ...notificationRoutes,
     ...historyRoutes,
 };
-Object.keys(routes).forEach(key => {
+Object.keys(routes).forEach((key) => {
     if (key.startsWith('_')) {
         // @ts-ignore
         routes[key] = undefined;
     }
-})
+});
 io.use(
     route(
         // @ts-ignore
@@ -111,14 +112,14 @@ io.use(
 // @ts-ignore
 app.io.on('connection', async (socket) => {
     socket.ip = socket.handshake.headers['x-real-ip'] || socket.request.connection.remoteAddress;
-    console.log(`  <<<< connection ${socket.id} ${socket.ip}`);
+    logger.trace(`connection ${socket.id} ${socket.ip}`);
     await Socket.create({
         id: socket.id,
         ip: socket.ip,
     } as SocketDocument);
 
     socket.on('disconnect', async () => {
-        console.log(`  >>>> disconnect ${socket.id}`);
+        logger.trace(`disconnect ${socket.id}`);
         await Socket.deleteOne({
             id: socket.id,
         });

@@ -1,5 +1,6 @@
 import assert from 'assert';
 import { KoaContext } from '../../types/koa';
+import logger from '../utils/logger';
 
 /**
  * 全局异常捕获
@@ -18,8 +19,7 @@ export default function catchError() {
             ctx.res = `Server Error: ${err.message}`;
             /* istanbul ignore next */
             if (process.env.NODE_ENV !== 'test') {
-                console.error(`Unhandled Error - [${ctx.event}]\n`, err);
-                console.error('Payload Data:', JSON.stringify(ctx.data));
+                logger.error(`[${ctx.event}]`, err.message);
             }
         }
     };
