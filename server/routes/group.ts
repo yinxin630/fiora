@@ -359,7 +359,7 @@ export async function deleteGroup(ctx: KoaContext<DeleteGroupData>) {
     assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能解散群组');
     assert(group.isDefault !== true, '默认群组不允许解散');
 
-    await group.remove();
+    await Group.deleteOne({ _id: group });
 
     ctx.socket.to(groupId).emit('deleteGroup', { groupId });
 
