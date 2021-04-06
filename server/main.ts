@@ -32,7 +32,7 @@ import logger from './utils/logger';
     }
 
     app.listen(config.port, async () => {
-        await Socket.remove({}); // 删除Socket表所有历史数据
+        await Socket.deleteMany({}); // 删除Socket表所有历史数据
         logger.debug(`>>> server listen on http://localhost:${config.port}`);
     });
 

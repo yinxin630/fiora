@@ -425,7 +425,7 @@ export async function deleteMessage(ctx: KoaContext<{ messageId: string }>) {
         '只能撤回本人的消息',
     );
 
-    await message.remove();
+    await Message.deleteOne({ _id: message._id });
 
     /**
      * 广播删除消息通知, 区分群消息和私聊消息
