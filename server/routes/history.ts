@@ -26,7 +26,6 @@ export async function updateHistory(
 ) {
     const { linkmanId, messageId } = ctx.data;
     const self = ctx.socket.user.toString();
-    assert(Types.ObjectId.isValid(linkmanId), '无效的 linkmanId');
     if (!Types.ObjectId.isValid(messageId)) {
         return {
             msg: `not update with invalid messageId:${messageId}`,
