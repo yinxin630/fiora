@@ -8,8 +8,11 @@ Fiora is an interesting open source chat application. It is developed based on [
 - **Open Source:** Fiora follows the MIT open source license
 
 Online Example: [https://fiora.suisuijiang.com/](https://fiora.suisuijiang.com/)   
-Android / iOS App: [https://github.com/yinxin630/fiora-app](https://github.com/yinxin630/fiora-app)   
 Documentation: [https://yinxin630.github.io/fiora/](https://yinxin630.github.io/fiora/)
+
+**Other Client**   
+Android / iOS App: [https://github.com/yinxin630/fiora-app](https://github.com/yinxin630/fiora-app)   
+Vscode Extension: [https://github.com/moonrailgun/fiora-for-vscode](https://github.com/moonrailgun/fiora-for-vscode)   
 
 ## Features
 
