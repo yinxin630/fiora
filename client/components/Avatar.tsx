@@ -42,10 +42,7 @@ function Avatar({
         if (/^(blob|data):/.test(src)) {
             return src;
         }
-        if (src.startsWith('oss:')) {
-            return getOSSFileUrl(src);
-        }
-        return `${src}?imageView2/1/q/80/w/${size * 2}/h/${size * 2}`;
+        return getOSSFileUrl(src, `image/resize,w_${size * 2},h_${size * 2}/quality,q_90`);
     }, [src])
 
     return (
