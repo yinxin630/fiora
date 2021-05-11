@@ -7,11 +7,19 @@ export async function initOSS() {
     if (token?.enable) {
         // @ts-ignore
         ossClient = new OSS({
-            region: 'oss-cn-zhangjiakou',
+            region: token.region,
             accessKeyId: token.AccessKeyId,
             accessKeySecret: token.AccessKeySecret,
             stsToken: token.SecurityToken,
-            bucket: 'cdn-suisuijiang-com',
+            bucket: token.bucket,
+            ...(token.endpoint
+                ? {
+                    endpoint: token.endpoint,
+                    cname: true,
+                }
+                : {
+                    endpoint: undefined,
+                }),
             refreshSTSToken: async () => {
                 const [, refreshToken] = await fetch('getSTS');
                 if (refreshToken) {
