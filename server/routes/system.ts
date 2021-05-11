@@ -4,6 +4,7 @@ import axios from 'axios';
 import assert, { AssertionError } from 'assert';
 import { promisify } from 'util';
 import RegexEscape from 'regex-escape';
+import { STS } from 'ali-oss';
 
 import User from '../models/user';
 import Group from '../models/group';
@@ -245,15 +246,7 @@ interface UploadFileData {
 }
 
 export async function uploadFile(ctx: KoaContext<UploadFileData>) {
-    assert(
-        ![
-            config.qiniuAccessKey,
-            config.qiniuSecretKey,
-            config.qiniuBucket,
-            config.qiniuUrlPrefix,
-        ].every(Boolean),
-        '已配置七牛, 请使用七牛文件上传',
-    );
+    assert(!config.aliyunOSS.enable, '已配置七牛, 请使用七牛文件上传');
 
     try {
         await promisify(fs.writeFile)(
@@ -266,5 +259,31 @@ export async function uploadFile(ctx: KoaContext<UploadFileData>) {
     } catch (err) {
         logger.error('[uploadFile]', err.message);
         return `上传文件失败:${err.message}`;
+    }
+}
+
+// eslint-disable-next-line consistent-return
+export async function getSTS() {
+    console.log(config.aliyunOSS);
+    if (!config.aliyunOSS.enable) {
+        return {
+            enable: false,
+        };
+    }
+
+    const sts = new STS(config.aliyunOSS);
+    try {
+        const result = await sts.assumeRole(
+            config.aliyunOSS.roleArn,
+            undefined,
+            undefined,
+            'fiora-uploader',
+        );
+        return {
+            enable: true,
+            ...result.credentials,
+        };
+    } catch (err) {
+        assert.fail(`获取 STS 失败 - ${err.message}`);
     }
 }

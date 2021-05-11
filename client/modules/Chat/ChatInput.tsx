@@ -228,10 +228,6 @@ function ChatInput() {
                 const imageUrl = await uploadFile(
                     image.result as Blob,
                     `ImageMessage/${selfId}_${Date.now()}.${ext}`,
-                    `ImageMessage_${selfId}_${Date.now()}.${ext}`,
-                    (info: any) => {
-                        action.updateMessage(focus, id, { percent: info.total.percent });
-                    },
                 );
                 handleSendMessage(
                     id,
@@ -265,10 +261,6 @@ function ChatInput() {
             const fileUrl = await uploadFile(
                 file.result as Blob,
                 `FileMessage/${selfId}_${Date.now()}.${file.ext}`,
-                `FileMessage_${selfId}_${Date.now()}.${file.ext}`,
-                (info: any) => {
-                    action.updateMessage(focus, id, { percent: info.total.percent });
-                },
             );
             handleSendMessage(
                 id,

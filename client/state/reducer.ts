@@ -102,6 +102,7 @@ export interface State {
     connect: boolean;
     /** 客户端的一些状态值 */
     status: {
+        ready: boolean;
         /** 是否显示登陆注册框 */
         loginRegisterDialogVisible: boolean;
         /** 主题 */
@@ -240,6 +241,7 @@ export const initialState: State = {
     focus: '',
     connect: false,
     status: {
+        ready: false,
         loginRegisterDialogVisible: false,
         theme: localStorage.theme,
         primaryColor: localStorage.primaryColor,
@@ -260,6 +262,15 @@ export const initialState: State = {
 
 function reducer(state: State = initialState, action: Action): State {
     switch (action.type) {
+        case ActionTypes.Ready: {
+            return {
+                ...state,
+                status: {
+                    ...state.status,
+                    ready: true,
+                },
+            };
+        }
         case ActionTypes.Connect: {
             return {
                 ...state,

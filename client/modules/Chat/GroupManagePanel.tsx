@@ -14,7 +14,7 @@ import { changeGroupName, changeGroupAvatar, deleteGroup, leaveGroup } from '../
 import useAction from '../../hooks/useAction';
 import readDiskFIle from '../../../utils/readDiskFile';
 import config from '../../../config/client';
-import uploadFile from '../../../utils/uploadFile';
+import uploadFile, { getOSSFileUrl } from '../../../utils/uploadFile';
 import { ShowUserOrGroupInfoContext } from '../../context';
 
 interface GroupManagePanelProps {
@@ -57,8 +57,7 @@ function GroupManagePanel(props: GroupManagePanelProps) {
         try {
             const imageUrl = await uploadFile(
                 image.result as Blob,
-                `GroupAvatar/${selfId}_${Date.now()}`,
-                `GroupAvatar_${selfId}_${Date.now()}.${image.ext}`,
+                `GroupAvatar/${selfId}_${Date.now()}.${image.ext}`,
             );
             const isSuccess = await changeGroupAvatar(groupId, imageUrl);
             if (isSuccess) {
@@ -133,7 +132,7 @@ function GroupManagePanel(props: GroupManagePanelProps) {
                             <p className={Style.blockTitle}>修改群头像</p>
                             <img
                                 className={Style.avatar}
-                                src={avatar}
+                                src={getOSSFileUrl(avatar)}
                                 alt="群头像预览"
                                 onClick={handleChangeGroupAvatar}
                             />

@@ -36,6 +36,8 @@ export enum ActionTypes {
     Connect = 'Connect',
     /** socket断开连接 */
     Disconnect = 'Disconnect',
+    /** Aliyun OSS ready */
+    Ready = 'Ready',
 }
 
 export type SetGuestPayload = Group;

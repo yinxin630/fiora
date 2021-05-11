@@ -1,4 +1,5 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent, useState, useMemo } from 'react';
+import { getOSSFileUrl } from '../../utils/uploadFile';
 
 export const avatarFailback = '/avatar/0.jpg';
 
@@ -37,11 +38,21 @@ function Avatar({
         updateFailTimes(failTimes + 1);
     }
 
+    const url = useMemo(() => {
+        if (/^(blob|data):/.test(src)) {
+            return src;
+        }
+        if (src.startsWith('oss:')) {
+            return getOSSFileUrl(src);
+        }
+        return `${src}?imageView2/1/q/80/w/${size * 2}/h/${size * 2}`;
+    }, [src])
+
     return (
         <img
             className={className}
             style={{ width: size, height: size, borderRadius: size / 2 }}
-            src={/(blob|data):/.test(src) ? src : `${src}?imageView2/1/q/80/w/${size * 2}/h/${size * 2}`}
+            src={url}
             alt=""
             onClick={onClick}
             onError={handleError}

@@ -22,6 +22,7 @@ import notification from '../utils/notification';
 import playSound from '../utils/playSound';
 import { Message, Linkman } from './state/reducer';
 import voice from '../utils/voice';
+import { initOSS } from '../utils/uploadFile';
 
 const { dispatch } = store;
 
@@ -51,8 +52,10 @@ async function loginFailback() {
 }
 
 socket.on('connect', async () => {
-    // @ts-ignore
-    dispatch({ type: ActionTypes.Connect, payload: null });
+    dispatch({ type: ActionTypes.Connect, payload: '' });
+
+    await initOSS();
+    dispatch({ type: ActionTypes.Ready, payload: '' });
 
     const token = window.localStorage.getItem('token');
     if (token) {

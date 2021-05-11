@@ -11,7 +11,7 @@ import setCssVariable from '../../../utils/setCssVariable';
 import Message from '../../components/Message';
 import useAction from '../../hooks/useAction';
 import { State } from '../../state/reducer';
-import uploadFile from '../../../utils/uploadFile';
+import uploadFile, { getOSSFileUrl } from '../../../utils/uploadFile';
 import readDiskFile from '../../../utils/readDiskFile';
 import playSound from '../../../utils/playSound';
 
@@ -96,7 +96,6 @@ function Setting(props: SettingProps) {
             const imageUrl = await uploadFile(
                 image.result as Blob,
                 `BackgroundImage/${userId}_${Date.now()}`,
-                `BackgroundImage_${userId}_${Date.now()}.${image.ext}`,
             );
             action.setStatus('backgroundImage', imageUrl);
         } finally {
@@ -246,7 +245,7 @@ function Setting(props: SettingProps) {
                                                 className={`${Style.backgroundImage} ${
                                                     backgroundLoading ? 'blur' : ''
                                                 }`}
-                                                src={backgroundImage}
+                                                src={getOSSFileUrl(backgroundImage)}
                                                 alt="背景图预览"
                                                 onClick={selectBackgroundImage}
                                             />

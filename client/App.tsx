@@ -19,6 +19,7 @@ import Chat from './modules/Chat/Chat';
 import inobounce from '../utils/inobounce';
 import globalStyles from './globalStyles';
 import InviteInfo from './modules/InviteInfo';
+import { getOSSFileUrl } from '../utils/uploadFile';
 
 /**
  * 获取窗口宽度百分比
@@ -55,7 +56,9 @@ function getHeightPercent() {
 }
 
 function App() {
-    const backgroundImage = useSelector((state: State) => state.status.backgroundImage);
+    const isReady = useSelector((state: State) => state.status.ready);
+    const backgroundImageUrl = useSelector((state: State) => state.status.backgroundImage);
+    const backgroundImage = isReady ? getOSSFileUrl(backgroundImageUrl) : '#';
     const $app = useRef(null);
 
     // 计算窗口高度/宽度百分比
@@ -135,6 +138,10 @@ function App() {
         }),
         [],
     );
+
+    if (!isReady) {
+        return null;
+    }
 
     return (
         <div className={`${Style.app} ${globalStyles}`} style={style} ref={$app}>
