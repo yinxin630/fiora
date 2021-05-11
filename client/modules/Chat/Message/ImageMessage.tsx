@@ -43,7 +43,7 @@ function ImageMessage(props: ImageMessageProps) {
         height = naturehHeight * scale;
         imageSrc = /^(blob|data):/.test(imageSrc)
             ? imageSrc.split('?')[0]
-            : getOSSFileUrl(src, `image/resize,w_${width},h_${height}/quality,q_90`);
+            : getOSSFileUrl(src, `image/resize,w_${Math.floor(width)},h_${Math.floor(height)}/quality,q_90`);
     }
 
     let className = Style.imageMessage;
