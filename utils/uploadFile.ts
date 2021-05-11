@@ -27,11 +27,13 @@ export async function initOSS() {
     }
 }
 
-export function getOSSFileUrl(url = '') {
+export function getOSSFileUrl(url = '', process = '') {
     if (ossClient && url.startsWith('oss:')) {
         const filename = url.slice(4).split('?')[0];
         // expire 5min
-        return `${ossClient.signatureUrl(filename, { expires: 300 })}&${url.split('?')[1]}`;
+        return `${ossClient.signatureUrl(filename, { expires: 300, process })}&${
+            url.split('?')[1]
+        }`;
     }
     return `${url}`;
 }

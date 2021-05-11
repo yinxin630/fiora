@@ -58,7 +58,7 @@ function getHeightPercent() {
 function App() {
     const isReady = useSelector((state: State) => state.status.ready);
     const backgroundImageUrl = useSelector((state: State) => state.status.backgroundImage);
-    const backgroundImage = isReady ? getOSSFileUrl(backgroundImageUrl) : '#';
+    const backgroundImage = isReady ? getOSSFileUrl(backgroundImageUrl, `image/quality,q_95`) : '#';
     const $app = useRef(null);
 
     // 计算窗口高度/宽度百分比

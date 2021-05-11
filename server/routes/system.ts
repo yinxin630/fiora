@@ -264,7 +264,6 @@ export async function uploadFile(ctx: KoaContext<UploadFileData>) {
 
 // eslint-disable-next-line consistent-return
 export async function getSTS() {
-    console.log(config.aliyunOSS);
     if (!config.aliyunOSS.enable) {
         return {
             enable: false,

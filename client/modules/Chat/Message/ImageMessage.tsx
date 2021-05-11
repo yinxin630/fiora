@@ -22,7 +22,7 @@ function ImageMessage(props: ImageMessageProps) {
     const closeViewer = useCallback(() => toggleViewer(false), []);
     const $container = useRef(null);
 
-    let imageSrc = getOSSFileUrl(src);
+    let imageSrc = src;
     const containerWidth = isMobile ? window.innerWidth - 25 - 50 : 450;
     const maxWidth = containerWidth - 100 > 500 ? 500 : containerWidth - 100;
     const maxHeight = 200;
@@ -43,7 +43,7 @@ function ImageMessage(props: ImageMessageProps) {
         height = naturehHeight * scale;
         imageSrc = /^(blob|data):/.test(imageSrc)
             ? imageSrc.split('?')[0]
-            : `${imageSrc}`;
+            : getOSSFileUrl(src, `image/resize,w_${width},h_${height}/quality,q_90`);
     }
 
     let className = Style.imageMessage;
@@ -88,7 +88,7 @@ function ImageMessage(props: ImageMessageProps) {
                         visible={viewer}
                         onClose={closeViewer}
                         onMaskClick={handleImageViewerMaskClick}
-                        images={[{ src: `${src}&imageView2/1/q/80`, alt: src }]}
+                        images={[{ src: getOSSFileUrl(src, `image/quality,q_95`), alt: '' }]}
                         noNavbar
                     />
                 )}
