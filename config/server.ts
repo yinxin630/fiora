@@ -23,12 +23,6 @@ export default {
     // Maximize the number of groups
     maxGroupsCount: env.MaxGroupCount ? parseInt(env.MaxGroupCount, 10) : 3,
 
-    // qiniu config
-    qiniuAccessKey: env.QiniuAccessKey || '',
-    qiniuSecretKey: env.QiniuSecretKey || '',
-    qiniuBucket: env.QiniuBucket || '',
-    qiniuUrlPrefix: env.QiniuUrlPrefix || '',
-
     allowOrigin: env.AllowOrigin ? env.AllowOrigin.split(',') : null,
 
     // token expires time
@@ -44,4 +38,12 @@ export default {
 
     /** disable user create new group */
     disableCreateGroup: env.DisableCreateGroup ? env.DisableCreateGroup === 'true' : false,
+
+    /** Aliyun OSS */
+    aliyunOSS: {
+        enable: env.ALIYUN_OSS ? env.ALIYUN_OSS === 'true' : false,
+        accessKeyId: env.ACCESS_KEY_ID || '',
+        accessKeySecret: env.ACCESS_KEY_SECRET || '',
+        roleArn: env.ROLE_ARN || '',
+    },
 };

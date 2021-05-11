@@ -1,6 +1,7 @@
 import React from 'react';
 import { css } from 'linaria';
 import filesize from 'filesize';
+import { getOSSFileUrl } from '../../../../utils/uploadFile';
 
 const styles = {
     container: css`
@@ -38,11 +39,12 @@ type Props = {
 
 function FileMessage({ file, percent }: Props) {
     const { fileUrl, filename, size } = JSON.parse(file);
+    const url = fileUrl && getOSSFileUrl(fileUrl);
 
     return (
         <a
             className={styles.container}
-            {...(fileUrl ? { href: fileUrl, download: filename, target: '_blank' } : {})}
+            {...(fileUrl ? { href: url, download: filename, target: '_blank' } : {})}
         >
             <div className={styles.fileInfo}>
                 <span className={styles.fileInfoText}>{filename}</span>

@@ -19,7 +19,6 @@ import isAdmin from './middlewares/isAdmin';
 import * as userRoutes from './routes/user';
 import * as groupRoutes from './routes/group';
 import * as messageRoutes from './routes/message';
-import * as qiniuRoutes from './routes/qiniu';
 import * as systemRoutes from './routes/system';
 import * as notificationRoutes from './routes/notification';
 import * as historyRoutes from './routes/history';
@@ -87,7 +86,6 @@ const routes = {
     ...userRoutes,
     ...groupRoutes,
     ...messageRoutes,
-    ...qiniuRoutes,
     ...systemRoutes,
     ...notificationRoutes,
     ...historyRoutes,
