@@ -155,6 +155,7 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^26.1.0",
     "less": "^3.12.2",
     "less-loader": "^7.0.2",
