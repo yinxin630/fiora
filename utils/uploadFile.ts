@@ -7,11 +7,19 @@ export async function initOSS() {
     if (token?.enable) {
         // @ts-ignore
         ossClient = new OSS({
-            region: 'oss-cn-zhangjiakou',
+            region: token.region,
             accessKeyId: token.AccessKeyId,
             accessKeySecret: token.AccessKeySecret,
             stsToken: token.SecurityToken,
-            bucket: 'cdn-suisuijiang-com',
+            bucket: token.bucket,
+            ...(token.endpoint
+                ? {
+                    endpoint: token.endpoint,
+                    cname: true,
+                }
+                : {
+                    endpoint: undefined,
+                }),
             refreshSTSToken: async () => {
                 const [, refreshToken] = await fetch('getSTS');
                 if (refreshToken) {
@@ -27,11 +35,13 @@ export async function initOSS() {
     }
 }
 
-export function getOSSFileUrl(url = '') {
+export function getOSSFileUrl(url = '', process = '') {
     if (ossClient && url.startsWith('oss:')) {
         const filename = url.slice(4).split('?')[0];
         // expire 5min
-        return `${ossClient.signatureUrl(filename, { expires: 300 })}&${url.split('?')[1]}`;
+        return `${ossClient.signatureUrl(filename, { expires: 300, process })}&${
+            url.split('?')[1]
+        }`;
     }
     return `${url}`;
 }

@@ -264,14 +264,16 @@ export async function uploadFile(ctx: KoaContext<UploadFileData>) {
 
 // eslint-disable-next-line consistent-return
 export async function getSTS() {
-    console.log(config.aliyunOSS);
     if (!config.aliyunOSS.enable) {
         return {
             enable: false,
         };
     }
 
-    const sts = new STS(config.aliyunOSS);
+    const sts = new STS({
+        accessKeyId: config.aliyunOSS.accessKeyId,
+        accessKeySecret: config.aliyunOSS.accessKeySecret,
+    });
     try {
         const result = await sts.assumeRole(
             config.aliyunOSS.roleArn,
@@ -281,6 +283,9 @@ export async function getSTS() {
         );
         return {
             enable: true,
+            region: config.aliyunOSS.region,
+            bucket: config.aliyunOSS.bucket,
+            endpoint: config.aliyunOSS.endpoint,
             ...result.credentials,
         };
     } catch (err) {

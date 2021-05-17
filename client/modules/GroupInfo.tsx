@@ -7,6 +7,7 @@ import Button from '../components/Button';
 import { State } from '../state/reducer';
 import useAction from '../hooks/useAction';
 import { joinGroup, getLinkmanHistoryMessages } from '../service';
+import { getOSSFileUrl } from '../../utils/uploadFile';
 
 import Style from './InfoDialog.less';
 
@@ -72,8 +73,8 @@ function GroupInfo(props: GroupInfoProps) {
                     />
                     <img
                         className={`${Style.largeAvatar} ${largerAvatar ? 'show' : 'hide'}`}
-                        src={group.avatar}
-                        alt="用户头像"
+                        src={getOSSFileUrl(group.avatar)}
+                        alt="群组头像"
                     />
                     <p>{group.name}</p>
                 </div>
@@ -82,11 +83,11 @@ function GroupInfo(props: GroupInfoProps) {
                         <p className={Style.onlineText}>成员:</p>
                         <div>{group.members}人</div>
                     </div>
-                    {
-                        hasLinkman
-                            ? <Button onClick={handleFocusGroup}>发送消息</Button>
-                            : <Button onClick={handleJoinGroup}>加入群组</Button>
-                    }
+                    {hasLinkman ? (
+                        <Button onClick={handleFocusGroup}>发送消息</Button>
+                    ) : (
+                        <Button onClick={handleJoinGroup}>加入群组</Button>
+                    )}
                 </div>
             </div>
         </Dialog>

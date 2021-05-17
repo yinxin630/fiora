@@ -45,5 +45,8 @@ export default {
         accessKeyId: env.ACCESS_KEY_ID || '',
         accessKeySecret: env.ACCESS_KEY_SECRET || '',
         roleArn: env.ROLE_ARN || '',
+        region: env.REGION || '',
+        bucket: env.BUCKET || '',
+        endpoint: env.ENDPOINT || '',
     },
 };
