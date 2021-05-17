@@ -8,6 +8,7 @@ import Button from '../components/Button';
 import Message from '../components/Message';
 import { State, Linkman } from '../state/reducer';
 import getFriendId from '../../utils/getFriendId';
+import { getOSSFileUrl } from '../../utils/uploadFile';
 import useAction from '../hooks/useAction';
 import {
     addFriend,
@@ -153,7 +154,7 @@ function UserInfo(props: UserInfoProps) {
                             />
                             <img
                                 className={`${Style.largeAvatar} ${largerAvatar ? 'show' : 'hide'}`}
-                                src={user.avatar}
+                                src={getOSSFileUrl(user.avatar)}
                                 alt="用户头像"
                             />
                             <p>{user.username}</p>
