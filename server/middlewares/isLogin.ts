@@ -15,6 +15,7 @@ export default function isLogin() {
         'getDefaultGroupOnlineMembers',
         'getBaiduToken',
         'getGroupBasicInfo',
+        'getSTS'
     ]);
     return async (ctx: KoaContext, next: Function) => {
         if (!noRequireLoginEvent.has(ctx.event) && !ctx.socket.user) {

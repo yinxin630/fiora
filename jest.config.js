@@ -2,7 +2,10 @@ module.exports = {
     roots: ['./test'],
     preset: 'ts-jest',
     transform: {
-        '\\.(less|jpg)$': '<rootDir>/jest.transformer.js',
+        '\\.(mp3)$': '<rootDir>/jest.transformer.js',
+    },
+    moduleNameMapper: {
+        '.+\\.(css|less|png|jpg|gif)$': 'identity-obj-proxy',
     },
     collectCoverage: true,
     globals: {

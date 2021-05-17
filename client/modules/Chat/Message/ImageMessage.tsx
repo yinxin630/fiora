@@ -4,6 +4,7 @@ import loadable from '@loadable/component';
 import Style from './Message.less';
 import { CircleProgress } from '../../../components/Progress';
 import { isMobile } from '../../../../utils/ua';
+import { getOSSFileUrl } from '../../../../utils/uploadFile';
 
 // @ts-ignore
 const ReactViewerAsync = loadable(async () => import(/* webpackChunkName: "react-viewer" */ 'react-viewer'));
@@ -27,7 +28,7 @@ function ImageMessage(props: ImageMessageProps) {
     const maxHeight = 200;
     let width = 200;
     let height = 200;
-    const parseResult = /width=([0-9]+)&height=([0-9]+)/.exec(src);
+    const parseResult = /width=([0-9]+)&height=([0-9]+)/.exec(imageSrc);
     if (parseResult) {
         const natureWidth = +parseResult[1];
         const naturehHeight = +parseResult[2];
@@ -40,11 +41,9 @@ function ImageMessage(props: ImageMessageProps) {
         }
         width = natureWidth * scale;
         height = naturehHeight * scale;
-        imageSrc = /^(blob|data):/.test(src)
+        imageSrc = /^(blob|data):/.test(imageSrc)
             ? imageSrc.split('?')[0]
-            : `${imageSrc}&imageView2/1/q/80/w/${Math.floor(width * 1.2)}/h/${Math.floor(
-                height * 1.2,
-            )}`;
+            : getOSSFileUrl(src, `image/resize,w_${Math.floor(width)},h_${Math.floor(height)}/quality,q_90`);
     }
 
     let className = Style.imageMessage;
@@ -89,7 +88,7 @@ function ImageMessage(props: ImageMessageProps) {
                         visible={viewer}
                         onClose={closeViewer}
                         onMaskClick={handleImageViewerMaskClick}
-                        images={[{ src: `${src}&imageView2/1/q/80`, alt: src }]}
+                        images={[{ src: getOSSFileUrl(src, `image/quality,q_95`), alt: '' }]}
                         noNavbar
                     />
                 )}
@@ -98,4 +97,4 @@ function ImageMessage(props: ImageMessageProps) {
     );
 }
 
-export default ImageMessage;
+export default React.memo(ImageMessage);
