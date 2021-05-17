@@ -36,12 +36,16 @@ export async function initOSS() {
 }
 
 export function getOSSFileUrl(url = '', process = '') {
-    if (ossClient && url.startsWith('oss:')) {
-        const filename = url.slice(4).split('?')[0];
+    const [rawUrl = '', extraPrams = ''] = url.split('?');
+    if (ossClient && rawUrl.startsWith('oss:')) {
+        const filename = rawUrl.slice(4);
         // expire 5min
-        return `${ossClient.signatureUrl(filename, { expires: 300, process })}&${
-            url.split('?')[1]
+        return `${ossClient.signatureUrl(filename, { expires: 300, process })}${
+            extraPrams ? `&${extraPrams}` : ''
         }`;
+    }
+    if (/\/\/cdn.suisuijiang.com/.test(rawUrl)) {
+        return `${rawUrl}?x-oss-process=${process}${extraPrams ? `&${extraPrams}` : ''}`;
     }
     return `${url}`;
 }
@@ -69,7 +73,7 @@ export default async function uploadFile(blob: Blob, fileName: string): Promise<
     // 上传到阿里OSS
     const result = await ossClient.put(fileName, blob);
     if (result.res.status === 200) {
-        return `oss:${result.name}`;
+        return `//${result.url.split('://')[1]}`;
     }
     return Promise.reject('上传图片失败');
 }
