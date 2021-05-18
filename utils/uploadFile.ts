@@ -2,6 +2,7 @@ import * as OSS from 'ali-oss';
 import fetch from './fetch';
 
 let ossClient: OSS;
+let endpoint = '/';
 export async function initOSS() {
     const [, token] = await fetch('getSTS');
     if (token?.enable) {
@@ -12,14 +13,6 @@ export async function initOSS() {
             accessKeySecret: token.AccessKeySecret,
             stsToken: token.SecurityToken,
             bucket: token.bucket,
-            ...(token.endpoint
-                ? {
-                    endpoint: token.endpoint,
-                    cname: true,
-                }
-                : {
-                    endpoint: undefined,
-                }),
             refreshSTSToken: async () => {
                 const [, refreshToken] = await fetch('getSTS');
                 if (refreshToken) {
@@ -32,6 +25,9 @@ export async function initOSS() {
                 return null;
             },
         });
+        if (token.endpoint) {
+            endpoint = `//${token.endpoint}/`;
+        }
     }
 }
 
@@ -73,7 +69,7 @@ export default async function uploadFile(blob: Blob, fileName: string): Promise<
     // 上传到阿里OSS
     const result = await ossClient.put(fileName, blob);
     if (result.res.status === 200) {
-        return `//${result.url.split('://')[1]}`;
+        return endpoint + result.name;
     }
     return Promise.reject('上传图片失败');
 }
