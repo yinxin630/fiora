@@ -1,15 +1,8 @@
 import React from 'react';
 
-import { css } from 'linaria';
 import Dialog from '../../components/Dialog';
 import Style from './About.less';
 import Common from './Common.less';
-
-const styles = {
-    linkLabel: css`
-        font-size: 14px;
-    `,
-};
 
 interface AboutProps {
     visible: boolean;
@@ -29,28 +22,12 @@ function About(props: AboutProps) {
                 </div>
                 <div className={Common.block}>
                     <p className={Common.title}>如何搭建</p>
-                    <span className={styles.linkLabel}>(官方) </span>
                     <a
                         href="https://yinxin630.github.io/fiora/zh-Hans/"
                         target="_black"
                         rel="noopener noreferrer"
                     >
                         https://yinxin630.github.io/fiora/zh-Hans/
-                    </a>
-                    <br />
-                    <span className={styles.linkLabel}>(第三方, 宝塔) </span>
-                    <a href="https://moe.blog/fiora.html" target="_black" rel="noopener noreferrer">
-                        https://moe.blog/fiora.html
-                    </a>
-                </div>
-                <div className={Common.block}>
-                    <p className={Common.title}>架构 / 设计思路</p>
-                    <a
-                        href="https://github.com/yinxin630/blog/issues/3"
-                        target="_black"
-                        rel="noopener noreferrer"
-                    >
-                        https://github.com/yinxin630/blog/issues/3
                     </a>
                 </div>
                 <div className={Common.block}>
