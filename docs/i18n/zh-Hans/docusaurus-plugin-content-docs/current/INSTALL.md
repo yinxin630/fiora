@@ -26,8 +26,9 @@ sidebar_label: 安装
 2. 确保安装了 [yarn](https://www.npmjs.com/package/yarn), 如果没有安装请执行 `npm install -g yarn`
 3. 安装项目依赖 `yarn install`
 4. 构建客户端代码 `yarn build:client && yarn move-dist`
-5. 启动服务端 `yarn start`
-6. 使用浏览器打开 `http://[ip地址]:[端口]`(比如 `http://127.0.0.1:9200`)
+5. 配置 JwtSecret `echo "JwtSecret=<string>" > .env2`. 把 `<string>` 改为一个秘密文本
+6. 启动服务端 `yarn start`
+7. 使用浏览器打开 `http://[ip地址]:[端口]`(比如 `http://127.0.0.1:9200`)
 
 ### 在后台运行
 
