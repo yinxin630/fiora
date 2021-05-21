@@ -246,13 +246,14 @@ interface UploadFileData {
 }
 
 export async function uploadFile(ctx: KoaContext<UploadFileData>) {
-    assert(!config.aliyunOSS.enable, '已配置七牛, 请使用七牛文件上传');
-
     try {
-        await promisify(fs.writeFile)(
-            path.resolve(__dirname, `../../public/${ctx.data.fileName}`),
-            ctx.data.file,
-        );
+        const [directory, fileName] = ctx.data.fileName.split('/');
+        const filePath = path.resolve('__dirname', '../public', directory);
+        const isExists = await promisify(fs.exists)(filePath);
+        if (!isExists) {
+            await promisify(fs.mkdir)(filePath);
+        }
+        await promisify(fs.writeFile)(path.resolve(filePath, fileName), ctx.data.file);
         return {
             url: `/${ctx.data.fileName}`,
         };
