@@ -24,7 +24,7 @@ export async function deleteMessages() {
     const shouldDeleteAllFiles = await inquirer.prompt({
         type: 'confirm',
         name: 'result',
-        message: "Confirm to delete all message files(Except qiniu's files)?",
+        message: "Confirm to delete all message files(Except OSS files)?",
     });
     if (!shouldDeleteAllFiles.result) {
         return;

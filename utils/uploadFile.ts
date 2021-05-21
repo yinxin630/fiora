@@ -47,14 +47,12 @@ export function getOSSFileUrl(url = '', process = '') {
 }
 
 /**
- * 上传文件到七牛
+ * 上传文件
  * @param blob 文件blob数据
- * @param qiniuKey 七牛文件key
  * @param fileName 文件名
- * @param qiniuNextEventCallback 七牛上传进度回调
  */
 export default async function uploadFile(blob: Blob, fileName: string): Promise<string> {
-    // 服务端返回标识, 说明七牛不可用, 则上传文件到服务端
+    // 阿里云 OSS 不可用, 上传文件到服务端
     if (!ossClient) {
         const [uploadErr, result] = await fetch('uploadFile', {
             file: blob,

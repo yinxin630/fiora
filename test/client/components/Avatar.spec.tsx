@@ -39,10 +39,10 @@ describe('Avatar', () => {
         fireEvent.error($img);
     });
 
-    it('shoule not add qiniu CDN query params', async () => {
+    it('shoule not add CDN query params', async () => {
         const src = 'data:base64/png;xxx';
         render(<Avatar src={src} />);
         const $img = await screen.findByRole('img') as HTMLImageElement;
-        expect($img.src).not.toEqual(expect.stringContaining('imageView'));
+        expect($img.src).not.toEqual(expect.stringContaining('x-oss-process='));
     });
 });
