@@ -26,8 +26,9 @@ Recommended to running on Linux or MacOS systems
 2. Ensure you have install [yarn](https://www.npmjs.com/package/yarn) before, if not please run `npm install -g yarn`
 3. Install project dependencies `yarn install`
 4. Build client `yarn build:client && yarn move-dist`
-5. Start the server `yarn start`
-6. Open `http://[ip]:[port]`(such as `http://127.0.0.1:9200`) in browser
+5. Config JwtSecret `echo "JwtSecret=<string>" > .env2`. Change `<string>` to a secret text
+6. Start the server `yarn start`
+7. Open `http://[ip]:[port]`(such as `http://127.0.0.1:9200`) in browser
 
 ### Run in the background
 
