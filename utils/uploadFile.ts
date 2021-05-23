@@ -69,5 +69,5 @@ export default async function uploadFile(blob: Blob, fileName: string): Promise<
     if (result.res.status === 200) {
         return endpoint + result.name;
     }
-    return Promise.reject('上传图片失败');
+    return Promise.reject('上传文件失败');
 }
