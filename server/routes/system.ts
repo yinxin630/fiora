@@ -4,7 +4,7 @@ import axios from 'axios';
 import assert, { AssertionError } from 'assert';
 import { promisify } from 'util';
 import RegexEscape from 'regex-escape';
-import { STS } from 'ali-oss';
+import OSS, { STS } from 'ali-oss';
 
 import User from '../models/user';
 import Group from '../models/group';
@@ -238,34 +238,20 @@ export async function sealUserOnlineIp(ctx: KoaContext<{ userId: string }>) {
     };
 }
 
-interface UploadFileData {
-    /** 文件名 */
-    fileName: string;
-    /** 文件内容 */
-    file: any;
-}
-
-export async function uploadFile(ctx: KoaContext<UploadFileData>) {
-    try {
-        const [directory, fileName] = ctx.data.fileName.split('/');
-        const filePath = path.resolve('__dirname', '../public', directory);
-        const isExists = await promisify(fs.exists)(filePath);
-        if (!isExists) {
-            await promisify(fs.mkdir)(filePath);
-        }
-        await promisify(fs.writeFile)(path.resolve(filePath, fileName), ctx.data.file);
-        return {
-            url: `/${ctx.data.fileName}`,
-        };
-    } catch (err) {
-        logger.error('[uploadFile]', err.message);
-        return `上传文件失败:${err.message}`;
-    }
-}
+type STSResult = {
+    enable: boolean;
+    AccessKeyId: string;
+    AccessKeySecret: string;
+    bucket: string;
+    region: string;
+    SecurityToken: string;
+    endpoint: string;
+};
 
 // eslint-disable-next-line consistent-return
-export async function getSTS() {
+export async function getSTS(): Promise<STSResult> {
     if (!config.aliyunOSS.enable) {
+        // @ts-ignore
         return {
             enable: false,
         };
@@ -282,6 +268,7 @@ export async function getSTS() {
             undefined,
             'fiora-uploader',
         );
+        // @ts-ignore
         return {
             enable: true,
             region: config.aliyunOSS.region,
@@ -291,5 +278,46 @@ export async function getSTS() {
         };
     } catch (err) {
         assert.fail(`获取 STS 失败 - ${err.message}`);
+    }
+}
+
+export async function uploadFile(
+    ctx: KoaContext<{ fileName: string; file: any; isBase64?: boolean }>,
+) {
+    try {
+        if (config.aliyunOSS.enable) {
+            const sts = await getSTS();
+            const client = new OSS({
+                accessKeyId: sts.AccessKeyId,
+                accessKeySecret: sts.AccessKeySecret,
+                bucket: sts.bucket,
+                region: sts.region,
+                stsToken: sts.SecurityToken,
+            });
+            const result = await client.put(
+                ctx.data.fileName,
+                ctx.data.isBase64 ? Buffer.from(ctx.data.file, 'base64') : ctx.data.file,
+            );
+            if (result.res.status === 200) {
+                return {
+                    url: `//${config.aliyunOSS.endpoint}/${result.name}`,
+                };
+            }
+            throw Error('上传阿里云OSS失败');
+        }
+
+        const [directory, fileName] = ctx.data.fileName.split('/');
+        const filePath = path.resolve('__dirname', '../public', directory);
+        const isExists = await promisify(fs.exists)(filePath);
+        if (!isExists) {
+            await promisify(fs.mkdir)(filePath);
+        }
+        await promisify(fs.writeFile)(path.resolve(filePath, fileName), ctx.data.file);
+        return {
+            url: `/${ctx.data.fileName}`,
+        };
+    } catch (err) {
+        logger.error('[uploadFile]', err.message);
+        return `上传文件失败:${err.message}`;
     }
 }
