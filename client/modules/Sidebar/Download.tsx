@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Dialog from '../../components/Dialog';
-import AndroidApkImage from '../../assets/images/android-apk.png';
 
 import Style from './Download.less';
 import Common from './Common.less';
@@ -19,15 +18,13 @@ function Download(props: DownloadProps) {
                 <div className={Common.block}>
                     <p className={Common.title}>Android</p>
                     <div className={Style.android}>
-                        <p>点击链接或者扫码下载APK</p>
-                        <a href={`https://cdn.suisuijiang.com/fiora.apk?v=${Date.now()}`} download>
-                            https://cdn.suisuijiang.com/fiora.apk
-                        </a>
-                        <br />
-                        <img
-                            src={AndroidApkImage}
-                            alt="安卓app下载二维码"
-                        />
+                        <p>
+                            链接:{' '}
+                            <a href="https://pan.baidu.com/s/1yeGaNzkb2iozeIp0kNWZow">
+                                https://pan.baidu.com/s/1yeGaNzkb2iozeIp0kNWZow
+                            </a>
+                        </p>
+                        <p>提取码: pjpq</p>
                     </div>
                 </div>
                 <div className={Common.block}>
