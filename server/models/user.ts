@@ -1,4 +1,5 @@
 import { Schema, model, Document } from 'mongoose';
+import { NameRegexp } from '../../utils/const';
 
 const UserSchema = new Schema({
     createTime: { type: Date, default: Date.now },
@@ -8,7 +9,7 @@ const UserSchema = new Schema({
         type: String,
         trim: true,
         unique: true,
-        match: /^([0-9a-zA-Z]{1,2}|[\u4e00-\u9eff]){1,8}$/,
+        match: NameRegexp,
         index: true,
     },
     salt: String,
@@ -18,7 +19,7 @@ const UserSchema = new Schema({
         type: String,
         default: '',
         trim: true,
-        match: /^([0-9a-zA-Z]{1,2}|[\u4e00-\u9eff]){1,5}$/,
+        match: NameRegexp,
     },
     expressions: [
         {
