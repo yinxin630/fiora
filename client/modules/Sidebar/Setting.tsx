@@ -95,7 +95,7 @@ function Setting(props: SettingProps) {
             }
             const imageUrl = await uploadFile(
                 image.result as Blob,
-                `BackgroundImage/${userId}_${Date.now()}`,
+                `BackgroundImage/${userId}_${Date.now()}.${image.ext}`,
             );
             action.setStatus('backgroundImage', imageUrl);
         } finally {
