@@ -5,6 +5,7 @@ import { promisify } from 'util';
 import chalk from 'chalk';
 import initMongoDB from '../server/mongoose';
 import Message from '../server/models/message';
+import History from '../server/models/history';
 
 export async function deleteMessages() {
     const shouldDeleteAllMessages = await inquirer.prompt({
@@ -21,10 +22,13 @@ export async function deleteMessages() {
     const deleteResult = await Message.deleteMany({});
     console.log('Delete result:', deleteResult);
 
+    const deleteHistoryResult = await History.deleteMany({});
+    console.log('Delete history result:', deleteHistoryResult);
+
     const shouldDeleteAllFiles = await inquirer.prompt({
         type: 'confirm',
         name: 'result',
-        message: "Confirm to delete all message files(Except OSS files)?",
+        message: 'Confirm to delete all message files(Except OSS files)?',
     });
     if (!shouldDeleteAllFiles.result) {
         return;
