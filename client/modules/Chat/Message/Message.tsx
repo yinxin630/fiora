@@ -90,7 +90,18 @@ class Message extends Component<MessageProps, MessageState> {
      * 管理员撤回消息
      */
     handleDeleteMessage = async () => {
-        const { id, linkmanId } = this.props;
+        const { id, linkmanId, loading } = this.props;
+        if (loading) {
+            dispatch({
+                type: ActionTypes.DeleteMessage,
+                payload: {
+                    linkmanId,
+                    messageId: id,
+                } as DeleteMessagePayload,
+            });
+            return;
+        }
+
         const isSuccess = await deleteMessage(id);
         if (isSuccess) {
             dispatch({
