@@ -426,6 +426,7 @@ export async function deleteMessage(ctx: KoaContext<{ messageId: string }>) {
     );
 
     await Message.deleteOne({ _id: message._id });
+    await History.deleteMany({ message: message._id });
 
     /**
      * 广播删除消息通知, 区分群消息和私聊消息

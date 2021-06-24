@@ -6,11 +6,15 @@ import User from '../server/models/user';
 import Message from '../server/models/message';
 import Group, { GroupDocument } from '../server/models/group';
 import Friend from '../server/models/friend';
+import History from '../server/models/history';
 
 export async function deleteUser(userId: string, confirm = true) {
     if (!userId) {
         console.log(
-            chalk.red('Wrong command, [userId] is missing.', chalk.green('Usage: yarn script deleteUser [userId]')),
+            chalk.red(
+                'Wrong command, [userId] is missing.',
+                chalk.green('Usage: yarn script deleteUser [userId]'),
+            ),
         );
         return;
     }
@@ -32,6 +36,14 @@ export async function deleteUser(userId: string, confirm = true) {
                     return;
                 }
             }
+
+            const messages = await Message.find({ from: user });
+            const deleteHistoryResult = await History.deleteMany({
+                message: {
+                    $in: messages.map((message) => message.id),
+                },
+            });
+            console.log('Delete history result:', deleteHistoryResult);
 
             console.log(chalk.yellow('Delete messages created by this user'));
             const deleteMessageResult = await Message.deleteMany({
