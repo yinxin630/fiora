@@ -68,7 +68,7 @@ function SelfInfo(props: SelfInfoProps) {
         }
         if (file.length > config.maxAvatarSize) {
             // eslint-disable-next-line consistent-return
-            return Message.error('设置头像失败, 请选择小于1MB的图片');
+            return Message.error('设置头像失败, 请选择小于1.5MB的图片');
         }
 
         // gif头像不需要裁剪
