@@ -49,9 +49,9 @@ function GroupManagePanel(props: GroupManagePanelProps) {
         if (!image) {
             return;
         }
-        if (image.length > config.maxImageSize) {
+        if (image.length > config.maxAvatarSize) {
             // eslint-disable-next-line consistent-return
-            return Message.error('设置群头像失败, 请选择小于1MB的图片');
+            return Message.error('设置群头像失败, 请选择小于1.5MB的图片');
         }
 
         try {
