@@ -1,0 +1,21 @@
+[Unit]
+Description=Fiora Chat Server
+Documentation=https://yinxin630.github.io/fiora/
+After=network.target
+After=redis.service
+After=mongod.service
+Wants=network.target
+
+[Service]
+User=%i
+WorkingDirectory=/opt/fiora
+ExecStart=/usr/local/bin/yarn start
+Restart=on-abnormal
+RestartSec=5s
+KillMode=mixed
+
+StandardOutput=/var/log/fiora-1.log
+StandardError=/var/log/fiora-2.log
+
+[Install]
+WantedBy=multi-user.target
