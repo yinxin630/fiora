@@ -4,13 +4,9 @@ services:
   mongodb:
     image: mongo
     restart: always
-    ports:
-      - "27017:27017"
   redis:
     image: redis
     restart: always
-    ports:
-      - "6379:6379"
   fiora:
     build: .
     restart: always
