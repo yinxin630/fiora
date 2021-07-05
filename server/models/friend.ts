@@ -16,9 +16,9 @@ const FriendSchema = new Schema({
 
 export interface FriendDocument extends Document {
     /** 源用户id */
-    from: Schema.Types.ObjectId | Record<string, any>;
+    from: string;
     /** 目标用户id */
-    to: Schema.Types.ObjectId | Record<string, any>;
+    to: string;
     /** 创建时间 */
     createTime: Date;
 }

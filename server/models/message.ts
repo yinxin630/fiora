@@ -1,4 +1,6 @@
 import { Schema, model, Document } from 'mongoose';
+import Group from './group';
+import User from './user';
 
 const MessageSchema = new Schema({
     createTime: { type: Date, default: Date.now, index: true },
@@ -24,7 +26,7 @@ const MessageSchema = new Schema({
 
 export interface MessageDocument extends Document {
     /** 发送人 */
-    from: Schema.Types.ObjectId | Record<string, any>;
+    from: string;
     /** 接受者, 发送给群时为群_id, 发送给个人时为俩人的_id按大小序拼接后值 */
     to: string;
     /** 类型, text: 文本消息, image: 图片消息, code: 代码消息, invite: 邀请加群消息, system: 系统消息 */
@@ -42,3 +44,33 @@ export interface MessageDocument extends Document {
 const Message = model<MessageDocument>('Message', MessageSchema);
 
 export default Message;
+
+export async function handleInviteV2Message(message: SendMessageData) {
+    if (message.type === 'inviteV2') {
+        const inviteInfo = JSON.parse(message.content);
+        if (inviteInfo.inviter && inviteInfo.group) {
+            const [user, group] = await Promise.all([
+                User.findOne({ _id: inviteInfo.inviter }),
+                Group.findOne({ _id: inviteInfo.group }),
+            ]);
+            if (user && group) {
+                message.content = JSON.stringify({
+                    inviter: inviteInfo.inviter,
+                    inviterName: user?.username,
+                    group: inviteInfo.group,
+                    groupName: group.name,
+                });
+            }
+        }
+    }
+}
+
+export async function handleInviteV2Messages(messages: SendMessageData[]) {
+    return Promise.all(
+        messages.map(async (message) => {
+            if (message.type === 'inviteV2') {
+                await handleInviteV2Message(message);
+            }
+        }),
+    );
+}

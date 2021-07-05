@@ -1,11 +1,11 @@
-import { KoaContext } from '../../types/koa';
+import { Socket } from '../../types/socket';
 
 export const NeedLogin = '请登录后再试';
 
 /**
  * 拦截未登录用户请求需要登录态的接口
  */
-export default function isLogin() {
+export default function isLogin(socket: Socket) {
     const noRequireLoginEvent = new Set([
         'register',
         'login',
@@ -15,13 +15,13 @@ export default function isLogin() {
         'getDefaultGroupOnlineMembers',
         'getBaiduToken',
         'getGroupBasicInfo',
-        'getSTS'
+        'getSTS',
     ]);
-    return async (ctx: KoaContext, next: Function) => {
-        if (!noRequireLoginEvent.has(ctx.event) && !ctx.socket.user) {
-            ctx.res = NeedLogin;
-            return;
+    return async ([event, , cb]: MiddlewareArgs, next: MiddlewareNext) => {
+        if (!noRequireLoginEvent.has(event) && !socket.user) {
+            cb(NeedLogin);
+        } else {
+            next();
         }
-        await next();
     };
 }
