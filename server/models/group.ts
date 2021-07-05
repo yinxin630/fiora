@@ -41,11 +41,11 @@ export interface GroupDocument extends Document {
     /** 公告 */
     announcement: string;
     /** 创建者 */
-    creator: Schema.Types.ObjectId | UserDocument;
+    creator: string;
     /** 是否为默认群组 */
     isDefault: boolean;
     /** 成员 */
-    members: (Schema.Types.ObjectId | Record<string, any>)[];
+    members: string[];
     /** 创建时间 */
     createTime: Date;
 }

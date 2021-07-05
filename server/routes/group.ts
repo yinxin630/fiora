@@ -8,7 +8,6 @@ import Message from '../models/message';
 
 import config from '../../config/server';
 import getRandomAvatar from '../../utils/getRandomAvatar';
-import { KoaContext } from '../../types/koa';
 
 const { isValid } = Types.ObjectId;
 
@@ -37,16 +36,11 @@ async function getGroupOnlineMembersHelper(group: GroupDocument) {
     return Array.from(filterSockets.values());
 }
 
-interface CreateGroupData {
-    /** 群组名 */
-    name: string;
-}
-
 /**
  * 创建群组
  * @param ctx Context
  */
-export async function createGroup(ctx: KoaContext<CreateGroupData>) {
+export async function createGroup(ctx: Context<{ name: string }>) {
     assert(!config.disableCreateGroup, '管理员已关闭创建群组功能');
 
     const ownGroupCount = await Group.count({ creator: ctx.socket.user });
@@ -86,16 +80,11 @@ export async function createGroup(ctx: KoaContext<CreateGroupData>) {
     };
 }
 
-interface JoinGroupData {
-    /** 目标群id */
-    groupId: string;
-}
-
 /**
  * 加入群组
  * @param ctx Context
  */
-export async function joinGroup(ctx: KoaContext<JoinGroupData>) {
+export async function joinGroup(ctx: Context<{ groupId: string }>) {
     const { groupId } = ctx.data;
     assert(isValid(groupId), '无效的群组ID');
 
@@ -132,16 +121,11 @@ export async function joinGroup(ctx: KoaContext<JoinGroupData>) {
     };
 }
 
-interface LeaveGroupData {
-    /** 目标群id */
-    groupId: string;
-}
-
 /**
  * 退出群组
  * @param ctx Context
  */
-export async function leaveGroup(ctx: KoaContext<LeaveGroupData>) {
+export async function leaveGroup(ctx: Context<{ groupId: string }>) {
     const { groupId } = ctx.data;
     assert(isValid(groupId), '无效的群组ID');
 
@@ -170,48 +154,21 @@ export async function leaveGroup(ctx: KoaContext<LeaveGroupData>) {
 }
 
 const GroupOnlineMembersCacheExpireTime = 1000 * 60;
-type GroupOnlineMembersCache = {
-    [groupId: string]: {
-        key?: string;
-        value: any;
-        expireTime: number;
-    };
-};
-
-// deprecated
-function getGroupOnlineMembersWrapper() {
-    const cache: GroupOnlineMembersCache = {};
-    return async function getGroupOnlineMembers(ctx: KoaContext<{ groupId: string }>) {
-        const { groupId } = ctx.data;
-        assert(isValid(groupId), '无效的群组ID');
-
-        if (cache[groupId] && cache[groupId].expireTime > Date.now()) {
-            return cache[groupId].value;
-        }
-
-        const group = await Group.findOne({ _id: groupId });
-        if (!group) {
-            throw new AssertionError({ message: '群组不存在' });
-        }
-        const result = await getGroupOnlineMembersHelper(group);
-        cache[groupId] = {
-            value: result,
-            expireTime: Date.now() + GroupOnlineMembersCacheExpireTime,
-        };
-        return result;
-    };
-}
 
 /**
- * deprecated
  * 获取群组在线成员
  */
-export const getGroupOnlineMembers = getGroupOnlineMembersWrapper();
-
 function getGroupOnlineMembersWrapperV2() {
-    const cache: GroupOnlineMembersCache = {};
+    const cache: Record<
+        string,
+        {
+            key?: string;
+            value: any;
+            expireTime: number;
+        }
+    > = {};
     return async function getGroupOnlineMembersV2(
-        ctx: KoaContext<{ groupId: string; cache?: string }>,
+        ctx: Context<{ groupId: string; cache?: string }>,
     ) {
         const { groupId, cache: cacheKey } = ctx.data;
         assert(isValid(groupId), '无效的群组ID');
@@ -250,12 +207,12 @@ function getGroupOnlineMembersWrapperV2() {
         };
     };
 }
-
-/**
- * 获取群组在线成员
- */
 export const getGroupOnlineMembersV2 = getGroupOnlineMembersWrapperV2();
 
+/**
+ * 获取默认群组的在线成员
+ * 无需登录态
+ */
 function getDefaultGroupOnlineMembersWrapper() {
     let cache: any = null;
     let expireTime = 0;
@@ -273,25 +230,13 @@ function getDefaultGroupOnlineMembersWrapper() {
         return cache;
     };
 }
-
-/**
- * 获取默认群组的在线成员
- * 无需登录态
- */
 export const getDefaultGroupOnlineMembers = getDefaultGroupOnlineMembersWrapper();
-
-interface ChangeGroupAvatarData {
-    /** 目标群组id */
-    groupId: string;
-    /** 新头像 */
-    avatar: string;
-}
 
 /**
  * 修改群头像, 只有群创建者有权限
  * @param ctx Context
  */
-export async function changeGroupAvatar(ctx: KoaContext<ChangeGroupAvatarData>) {
+export async function changeGroupAvatar(ctx: Context<{ groupId: string; avatar: string }>) {
     const { groupId, avatar } = ctx.data;
     assert(isValid(groupId), '无效的群组ID');
     assert(avatar, '头像地址不能为空');
@@ -306,18 +251,11 @@ export async function changeGroupAvatar(ctx: KoaContext<ChangeGroupAvatarData>) 
     return {};
 }
 
-interface ChangeGroupNameData {
-    /** 目标群组id */
-    groupId: string;
-    /** 新名称 */
-    name: string;
-}
-
 /**
  * 修改群组头像, 只有群创建者有权限
  * @param ctx Context
  */
-export async function changeGroupName(ctx: KoaContext<ChangeGroupNameData>) {
+export async function changeGroupName(ctx: Context<{ groupId: string; name: string }>) {
     const { groupId, name } = ctx.data;
     assert(isValid(groupId), '无效的群组ID');
     assert(name, '群组名称不能为空');
@@ -334,21 +272,16 @@ export async function changeGroupName(ctx: KoaContext<ChangeGroupNameData>) {
 
     await Group.updateOne({ _id: groupId }, { name });
 
-    ctx.socket.to(groupId).emit('changeGroupName', { groupId, name });
+    ctx.socket.emit(groupId, 'changeGroupName', { groupId, name });
 
     return {};
-}
-
-interface DeleteGroupData {
-    /** 目标群组id */
-    groupId: string;
 }
 
 /**
  * 删除群组, 只有群创建者有权限
  * @param ctx Context
  */
-export async function deleteGroup(ctx: KoaContext<DeleteGroupData>) {
+export async function deleteGroup(ctx: Context<{ groupId: string }>) {
     const { groupId } = ctx.data;
     assert(isValid(groupId), '无效的群组ID');
 
@@ -361,12 +294,12 @@ export async function deleteGroup(ctx: KoaContext<DeleteGroupData>) {
 
     await Group.deleteOne({ _id: group });
 
-    ctx.socket.to(groupId).emit('deleteGroup', { groupId });
+    ctx.socket.emit(groupId, 'deleteGroup', { groupId });
 
     return {};
 }
 
-export async function getGroupBasicInfo(ctx: KoaContext<{ groupId: string }>) {
+export async function getGroupBasicInfo(ctx: Context<{ groupId: string }>) {
     const { groupId } = ctx.data;
     assert(isValid(groupId), '无效的群组ID');
 

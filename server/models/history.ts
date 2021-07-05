@@ -29,3 +29,18 @@ export interface HistoryDocument extends Document {
 const History = model<HistoryDocument>('History', HistoryScheme);
 
 export default History;
+
+export async function createOrUpdateHistory(userId: string, linkmanId: string, messageId: string) {
+    const history = await History.findOne({ user: userId, linkman: linkmanId });
+    if (history) {
+        history.message = messageId;
+        await history.save();
+    } else {
+        await History.create({
+            user: userId,
+            linkman: linkmanId,
+            message: messageId,
+        });
+    }
+    return {};
+}

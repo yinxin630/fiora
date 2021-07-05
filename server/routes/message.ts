@@ -6,15 +6,17 @@ import { Expo, ExpoPushErrorTicket } from 'expo-server-sdk';
 
 import User, { UserDocument } from '../models/user';
 import Group, { GroupDocument } from '../models/group';
-import Message, { MessageDocument } from '../models/message';
+import Message, {
+    handleInviteV2Message,
+    handleInviteV2Messages,
+    MessageDocument,
+} from '../models/message';
 import Socket from '../models/socket';
 
 import xss from '../../utils/xss';
-import { KoaContext } from '../../types/koa';
 import client from '../../config/client';
 import Notification from '../models/notification';
-import History from '../models/history';
-import { _createOrUpdateHistory } from './history';
+import History, { createOrUpdateHistory } from '../models/history';
 import logger from '../utils/logger';
 
 const { isValid } = Types.ObjectId;
@@ -26,35 +28,6 @@ const EachFetchMessagesCount = 30;
 
 /** 石头剪刀布, 用于随机生成结果 */
 const RPS = ['石头', '剪刀', '布'];
-
-interface SendMessageData {
-    /** 消息目标 */
-    to: string;
-    /** 消息类型 */
-    type: string;
-    /** 消息内容 */
-    content: string;
-}
-
-async function handleInviteV2Message(message: SendMessageData) {
-    if (message.type === 'inviteV2') {
-        const inviteInfo = JSON.parse(message.content);
-        if (inviteInfo.inviter && inviteInfo.group) {
-            const [user, group] = await Promise.all([
-                User.findOne({ _id: inviteInfo.inviter }),
-                Group.findOne({ _id: inviteInfo.group }),
-            ]);
-            if (user && group) {
-                message.content = JSON.stringify({
-                    inviter: inviteInfo.inviter,
-                    inviterName: user?.username,
-                    group: inviteInfo.group,
-                    groupName: group.name,
-                });
-            }
-        }
-    }
-}
 
 async function pushNotification(
     notificationTokens: string[],
@@ -88,23 +61,13 @@ async function pushNotification(
     }
 }
 
-export async function handleInviteV2Messages(messages: SendMessageData[]) {
-    return Promise.all(
-        messages.map(async (message) => {
-            if (message.type === 'inviteV2') {
-                await handleInviteV2Message(message);
-            }
-        }),
-    );
-}
-
 /**
  * 发送消息
  * 如果是发送给群组, to是群组id
  * 如果是发送给个人, to是俩人id按大小序拼接后的值
  * @param ctx Context
  */
-export async function sendMessage(ctx: KoaContext<SendMessageData>) {
+export async function sendMessage(ctx: Context<SendMessageData>) {
     const { to, content } = ctx.data;
     let { type } = ctx.data;
     assert(to, 'to不能为空');
@@ -193,7 +156,7 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
     }
 
     if (toGroup) {
-        ctx.socket.to(toGroup._id).emit('message', messageData);
+        ctx.socket.emit(toGroup._id, 'message', messageData);
 
         const notifications = await Notification.find({
             user: {
@@ -213,15 +176,18 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
         }
     } else {
         const sockets = await Socket.find({ user: toUser?._id });
-        sockets.forEach((socket) => {
-            ctx._io.to(socket.id).emit('message', messageData);
-        });
+        ctx.socket.emit(
+            sockets.map((socket) => socket.id),
+            'message',
+            messageData,
+        );
+
         const selfSockets = await Socket.find({ user: ctx.socket.user });
-        selfSockets.forEach((socket) => {
-            if (socket.id !== ctx.socket.id) {
-                ctx._io.to(socket.id).emit('message', messageData);
-            }
-        });
+        ctx.socket.emit(
+            selfSockets.map((socket) => socket.id),
+            'message',
+            messageData,
+        );
 
         const notificationTokens = await Notification.find({ user: toUser });
         if (notificationTokens.length) {
@@ -232,21 +198,16 @@ export async function sendMessage(ctx: KoaContext<SendMessageData>) {
         }
     }
 
-    _createOrUpdateHistory(ctx.socket.user.toString(), to, message._id);
+    createOrUpdateHistory(ctx.socket.user.toString(), to, message._id);
 
     return messageData;
-}
-
-interface GetLinkmanLastMessagesData {
-    /** 联系人id列表 */
-    linkmans: string[];
 }
 
 /**
  * 获取一组联系人的最后历史消息
  * @param ctx Context
  */
-export async function getLinkmansLastMessages(ctx: KoaContext<GetLinkmanLastMessagesData>) {
+export async function getLinkmansLastMessages(ctx: Context<{ linkmans: string[] }>) {
     const { linkmans } = ctx.data;
     assert(Array.isArray(linkmans), '参数linkmans应该是Array');
 
@@ -276,7 +237,7 @@ export async function getLinkmansLastMessages(ctx: KoaContext<GetLinkmanLastMess
     return messages;
 }
 
-export async function getLinkmansLastMessagesV2(ctx: KoaContext<{ linkmans: string[] }>) {
+export async function getLinkmansLastMessagesV2(ctx: Context<{ linkmans: string[] }>) {
     const { linkmans } = ctx.data;
 
     const histories = await History.find({
@@ -340,18 +301,13 @@ export async function getLinkmansLastMessagesV2(ctx: KoaContext<{ linkmans: stri
     return responseData;
 }
 
-interface GetLinkmanHistoryMessagesData {
-    /** 联系人id */
-    linkmanId: string;
-    /** 客户端目前已有的历史消息数量 */
-    existCount: number;
-}
-
 /**
  * 获取联系人的历史消息
  * @param ctx Context
  */
-export async function getLinkmanHistoryMessages(ctx: KoaContext<GetLinkmanHistoryMessagesData>) {
+export async function getLinkmanHistoryMessages(
+    ctx: Context<{ linkmanId: string; existCount: number }>,
+) {
     const { linkmanId, existCount } = ctx.data;
 
     const messages = await Message.find(
@@ -369,18 +325,11 @@ export async function getLinkmanHistoryMessages(ctx: KoaContext<GetLinkmanHistor
     return result;
 }
 
-interface GetDefaultGroupHistoryMessagesData {
-    /** 客户端目前已有的历史消息数量 */
-    existCount: number;
-}
-
 /**
  * 获取默认群组的历史消息
  * @param ctx Context
  */
-export async function getDefaultGroupHistoryMessages(
-    ctx: KoaContext<GetDefaultGroupHistoryMessagesData>,
-) {
+export async function getDefaultGroupHistoryMessages(ctx: Context<{ existCount: number }>) {
     const { existCount } = ctx.data;
 
     const group = await Group.findOne({ isDefault: true });
@@ -410,7 +359,7 @@ interface DeleteMessageData {
 /**
  * 删除消息, 需要管理员权限
  */
-export async function deleteMessage(ctx: KoaContext<{ messageId: string }>) {
+export async function deleteMessage(ctx: Context<{ messageId: string }>) {
     const { messageId } = ctx.data;
     assert(messageId, 'messageId不能为空');
 
@@ -438,20 +387,23 @@ export async function deleteMessage(ctx: KoaContext<{ messageId: string }>) {
     };
     if (isValid(message.to)) {
         // 群消息
-        ctx.socket.to(message.to).emit(messageName, messageData);
+        ctx.socket.emit(message.to, messageName, messageData);
     } else {
         // 私聊消息
         const targetUserId = message.to.replace(ctx.socket.user.toString(), '');
         const sockets = await Socket.find({ user: targetUserId });
-        sockets.forEach((socket) => {
-            ctx._io.to(socket.id).emit(messageName, messageData);
-        });
+        ctx.socket.emit(
+            sockets.map((socket) => socket.id),
+            messageName,
+            messageData,
+        );
+
         const selfSockets = await Socket.find({ user: ctx.socket.user });
-        selfSockets.forEach((socket) => {
-            if (socket.id !== ctx.socket.id) {
-                ctx._io.to(socket.id).emit(messageName, messageData);
-            }
-        });
+        ctx.socket.emit(
+            selfSockets.map((socket) => socket.id).filter((socketId) => socketId !== ctx.socket.id),
+            messageName,
+            messageData,
+        );
     }
 
     return {
