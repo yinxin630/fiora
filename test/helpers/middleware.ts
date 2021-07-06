@@ -1,10 +1,10 @@
-const MockResponseData = { msg: 'ok' };
+export function getMiddlewareParams(event = 'login', data = {}) {
+    const cb = jest.fn();
+    const next = jest.fn();
 
-// eslint-disable-next-line import/prefer-default-export
-export async function runMiddleware(middleware: any, ctx: any, next?: any) {
-    next = next || function mockNext() {
-        ctx.res = MockResponseData;
+    return {
+        args: [event, data, cb],
+        cb,
+        next,
     };
-    await middleware(ctx, next);
-    return ctx.res;
 }
