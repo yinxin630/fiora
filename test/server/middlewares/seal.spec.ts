@@ -1,53 +1,47 @@
 import { mocked } from 'ts-jest/utils';
 import seal from '../../../server/middlewares/seal';
-import { KoaContext } from '../../../types/koa';
-import { runMiddleware } from '../../helpers/middleware';
 import { SealText } from '../../../utils/const';
 import { Redis } from '../../../server/redis';
+import { Socket } from '../../../types/socket';
+import { getMiddlewareParams } from '../../helpers/middleware';
 
 jest.mock('../../../server/redis');
 
 describe('server/middlewares/seal', () => {
     it('should call service success', async () => {
-        // @ts-ignore
-        const ctx = {
-            socket: {
-                id: 'id',
-                user: 'user',
-                ip: '1.1.1.1',
+        const socket = {
+            id: 'id',
+            user: 'user',
+            handshake: {
+                headers: {
+                    'x-real-ip': '127.0.0.1',
+                },
             },
-        } as KoaContext;
+        } as unknown as Socket;
+        const middleware = seal(socket);
 
-        const data = await runMiddleware(seal(), ctx);
-        expect(ctx.res).toBe(data);
+        const { args, next } = getMiddlewareParams();
+
+        await middleware(args, next);
+        expect(next).toBeCalled();
     });
 
     it('should call service fail when user has been sealed', async () => {
-        // @ts-ignore
-        const ctx = {
-            socket: {
-                id: 'id',
-                user: 'user',
-            },
-        } as KoaContext;
-
         mocked(Redis.has).mockReturnValue(Promise.resolve(true));
-        await runMiddleware(seal(), ctx);
-        expect(ctx.res).toBe(SealText);
-    });
-
-    it('should call service fail when ip has been sealed', async () => {
-        // @ts-ignore
-        const ctx = {
-            socket: {
-                id: 'id',
-                user: 'user',
-                ip: '1.1.1.1',
+        const socket = {
+            id: 'id',
+            user: 'user',
+            handshake: {
+                headers: {
+                    'x-real-ip': '127.0.0.1',
+                },
             },
-        } as KoaContext;
+        } as unknown as Socket;
+        const middleware = seal(socket);
 
-        mocked(Redis.has).mockReturnValue(Promise.resolve(true));
-        await runMiddleware(seal(), ctx);
-        expect(ctx.res).toBe(SealText);
+        const { args, cb, next } = getMiddlewareParams();
+
+        await middleware(args, next);
+        expect(cb).toBeCalledWith(SealText);
     });
 });
