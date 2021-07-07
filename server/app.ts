@@ -1,19 +1,15 @@
 import Koa from 'koa';
-import IO from 'koa-socket-2';
 import koaSend from 'koa-send';
 import koaStatic from 'koa-static';
 import path from 'path';
+import http from 'http';
+import { Server } from 'socket.io';
 
-import Socket, { SocketDocument } from './models/socket';
-import config from '../config/server';
+import SocketModel, { SocketDocument } from './models/socket';
 
-import enhanceContext from './middlewares/enhanceContext';
-import log from './middlewares/log';
-import catchError from './middlewares/catchError';
 import seal from './middlewares/seal';
 import frequency from './middlewares/frequency';
 import isLogin from './middlewares/isLogin';
-import route from './middlewares/route';
 import isAdmin from './middlewares/isAdmin';
 
 import * as userRoutes from './routes/user';
@@ -23,66 +19,51 @@ import * as systemRoutes from './routes/system';
 import * as notificationRoutes from './routes/notification';
 import * as historyRoutes from './routes/history';
 import logger from './utils/logger';
+import registerRoutes from './middlewares/registerRoutes';
+import { Socket } from '../types/socket';
+import config from '../config/server';
 
 const app = new Koa();
 app.proxy = true;
 
-// 将前端路由指向 index.html
+const httpServer = http.createServer(app.callback());
+const io = new Server(httpServer, {
+    cors: {
+        origin:
+            process.env.NODE_ENV === 'development'
+                ? ['http://localhost:8080']
+                : config.allowOrigin || '*',
+        credentials: true,
+    },
+    pingTimeout: 10000,
+    pingInterval: 5000,
+});
+
+// serve index.html
 app.use(async (ctx, next) => {
     if (
         /\/invite\/group\/[\w\d]+/.test(ctx.request.url) ||
         !/(\.)|(\/invite\/group\/[\w\d]+)/.test(ctx.request.url)
     ) {
-        await koaSend(
-            ctx,
-            'index.html',
-            {
-                root: path.join(__dirname, '../public'),
-                maxage: 1000 * 60 * 60 * 24 * 7,
-                gzip: true,
-            }, // eslint-disable-line
-        );
+        await koaSend(ctx, 'index.html', {
+            root: path.join(__dirname, '../public'),
+            maxage: 1000 * 60 * 60 * 24 * 7,
+            gzip: true,
+        });
     } else {
         await next();
     }
 });
 
-// 静态文件访问
+// serve public static files
 app.use(
-    koaStatic(
-        path.join(__dirname, '../public'),
-        {
-            maxAge: 1000 * 60 * 60 * 24 * 7,
-            gzip: true,
-        }, // eslint-disable-line
-    ),
+    koaStatic(path.join(__dirname, '../public'), {
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+        gzip: true,
+    }),
 );
 
-const io = new IO({
-    ioOptions: {
-        pingTimeout: 10000,
-        pingInterval: 5000,
-    },
-});
-
-// 注入应用
-io.attach(app);
-
-if (process.env.NODE_ENV === 'production' && config.allowOrigin) {
-    // @ts-ignore
-    app._io.origins(config.allowOrigin);
-}
-
-// 中间件
-io.use(enhanceContext());
-io.use(log());
-io.use(catchError());
-io.use(seal());
-io.use(frequency());
-io.use(isLogin());
-io.use(isAdmin());
-
-const routes = {
+const routes: Routes = {
     ...userRoutes,
     ...groupRoutes,
     ...messageRoutes,
@@ -92,36 +73,30 @@ const routes = {
 };
 Object.keys(routes).forEach((key) => {
     if (key.startsWith('_')) {
-        // @ts-ignore
-        routes[key] = undefined;
+        routes[key] = null;
     }
 });
-io.use(
-    route(
-        // @ts-ignore
-        app.io,
-        // @ts-ignore
-        app._io,
-        // @ts-ignore
-        routes,
-    ),
-);
 
-// @ts-ignore
-app.io.on('connection', async (socket) => {
-    socket.ip = socket.handshake.headers['x-real-ip'] || socket.request.connection.remoteAddress;
-    logger.trace(`connection ${socket.id} ${socket.ip}`);
-    await Socket.create({
+io.on('connection', async (socket) => {
+    const ip = socket.handshake.headers['x-real-ip'] || socket.request.connection.remoteAddress;
+    logger.trace(`connection ${socket.id} ${ip}`);
+    await SocketModel.create({
         id: socket.id,
-        ip: socket.ip,
+        ip,
     } as SocketDocument);
 
     socket.on('disconnect', async () => {
         logger.trace(`disconnect ${socket.id}`);
-        await Socket.deleteOne({
+        await SocketModel.deleteOne({
             id: socket.id,
         });
     });
+
+    socket.use(seal(socket as Socket));
+    socket.use(isLogin(socket as Socket));
+    socket.use(isAdmin(socket as Socket));
+    socket.use(frequency(socket as Socket));
+    socket.use(registerRoutes(socket as Socket, routes));
 });
 
-export default app;
+export default httpServer;

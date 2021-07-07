@@ -7,15 +7,13 @@ import User, { UserDocument } from '../models/user';
 import Group, { GroupDocument } from '../models/group';
 import Friend, { FriendDocument } from '../models/friend';
 import Socket from '../models/socket';
-import Message from '../models/message';
+import Message, { handleInviteV2Messages } from '../models/message';
 import Notification from '../models/notification';
 
 import config from '../../config/server';
 import getRandomAvatar from '../../utils/getRandomAvatar';
-import { KoaContext } from '../../types/koa';
 import { saltRounds } from '../../utils/const';
 import { getNewRegisteredUserIpKey, getNewUserKey, Redis } from '../redis';
-import { handleInviteV2Messages } from './message';
 
 const { isValid } = Types.ObjectId;
 
@@ -73,18 +71,11 @@ async function getUserNotificationTokens(user: UserDocument) {
     return notifications.map(({ token }) => token);
 }
 
-interface RegisterData extends Environment {
-    /** 用户名 */
-    username: string;
-    /** 用户密码 */
-    password: string;
-}
-
 /**
  * 注册新用户
  * @param ctx Context
  */
-export async function register(ctx: KoaContext<RegisterData>) {
+export async function register(ctx: Context<{ username: string; password: string } & Environment>) {
     assert(!config.disableRegister, '注册功能已被禁用, 请联系管理员开通账号');
 
     const { username, password, os, browser, environment } = ctx.data;
@@ -131,7 +122,7 @@ export async function register(ctx: KoaContext<RegisterData>) {
 
     const token = generateToken(newUser._id.toString(), environment);
 
-    ctx.socket.user = newUser._id;
+    ctx.socket.user = newUser._id.toString();
     await Socket.updateOne(
         { id: ctx.socket.id },
         {
@@ -163,15 +154,11 @@ export async function register(ctx: KoaContext<RegisterData>) {
     };
 }
 
-type LoginData = RegisterData;
-
 /**
  * 账密登录
  * @param ctx Context
  */
-export async function login(ctx: KoaContext<LoginData>) {
-    assert(!ctx.socket.user, '你已经登录了');
-
+export async function login(ctx: Context<{ username: string; password: string } & Environment>) {
     const { username, password, os, browser, environment } = ctx.data;
     assert(username, '用户名不能为空');
     assert(password, '密码不能为空');
@@ -190,7 +177,7 @@ export async function login(ctx: KoaContext<LoginData>) {
     await user.save();
 
     const groups = await Group.find(
-        { members: user },
+        { members: user._id },
         {
             _id: 1,
             name: 1,
@@ -210,7 +197,7 @@ export async function login(ctx: KoaContext<LoginData>) {
 
     const token = generateToken(user._id.toString(), environment);
 
-    ctx.socket.user = user._id;
+    ctx.socket.user = user._id.toString();
     await Socket.updateOne(
         { id: ctx.socket.id },
         {
@@ -236,18 +223,11 @@ export async function login(ctx: KoaContext<LoginData>) {
     };
 }
 
-interface LoginByTokenData extends Environment {
-    /** 登录token */
-    token: string;
-}
-
 /**
  * token登录
  * @param ctx Context
  */
-export async function loginByToken(ctx: KoaContext<LoginByTokenData>) {
-    assert(!ctx.socket.user, '你已经登录了');
-
+export async function loginByToken(ctx: Context<{ token: string } & Environment>) {
     const { token, os, browser, environment } = ctx.data;
     assert(token, 'token不能为空');
 
@@ -281,7 +261,7 @@ export async function loginByToken(ctx: KoaContext<LoginByTokenData>) {
     await user.save();
 
     const groups = await Group.find(
-        { members: user },
+        { members: user._id },
         {
             _id: 1,
             name: 1,
@@ -299,7 +279,7 @@ export async function loginByToken(ctx: KoaContext<LoginByTokenData>) {
         username: 1,
     });
 
-    ctx.socket.user = user._id;
+    ctx.socket.user = user._id.toString();
     await Socket.updateOne(
         { id: ctx.socket.id },
         {
@@ -328,7 +308,7 @@ export async function loginByToken(ctx: KoaContext<LoginByTokenData>) {
  * 游客登录, 只能获取默认群组信息
  * @param ctx Context
  */
-export async function guest(ctx: KoaContext<Environment>) {
+export async function guest(ctx: Context<Environment>) {
     const { os, browser, environment } = ctx.data;
 
     await Socket.updateOne(
@@ -371,16 +351,11 @@ export async function guest(ctx: KoaContext<Environment>) {
     return { messages, ...group.toObject() };
 }
 
-interface ChangeAvatarData {
-    /** 新头像 */
-    avatar: string;
-}
-
 /**
  * 修改用户头像
  * @param ctx Context
  */
-export async function changeAvatar(ctx: KoaContext<ChangeAvatarData>) {
+export async function changeAvatar(ctx: Context<{ avatar: string }>) {
     const { avatar } = ctx.data;
     assert(avatar, '新头像链接不能为空');
 
@@ -394,18 +369,14 @@ export async function changeAvatar(ctx: KoaContext<ChangeAvatarData>) {
     return {};
 }
 
-interface AddFriendData {
-    userId: string;
-}
-
 /**
  * 添加好友, 单向添加
  * @param ctx Context
  */
-export async function addFriend(ctx: KoaContext<AddFriendData>) {
+export async function addFriend(ctx: Context<{ userId: string }>) {
     const { userId } = ctx.data;
     assert(isValid(userId), '无效的用户ID');
-    assert(ctx.socket.user.toString() !== userId, '不能添加自己为好友');
+    assert(ctx.socket.user !== userId, '不能添加自己为好友');
 
     const user = await User.findOne({ _id: userId });
     if (!user) {
@@ -416,7 +387,7 @@ export async function addFriend(ctx: KoaContext<AddFriendData>) {
     assert(friend.length === 0, '你们已经是好友了');
 
     const newFriend = await Friend.create({
-        from: ctx.socket.user,
+        from: ctx.socket.user as string,
         to: user._id,
     } as FriendDocument);
 
@@ -429,15 +400,11 @@ export async function addFriend(ctx: KoaContext<AddFriendData>) {
     };
 }
 
-interface AddFriendData {
-    userId: string;
-}
-
 /**
  * 删除好友, 单向删除
  * @param ctx Context
  */
-export async function deleteFriend(ctx: KoaContext<AddFriendData>) {
+export async function deleteFriend(ctx: Context<{ userId: string }>) {
     const { userId } = ctx.data;
     assert(isValid(userId), '无效的用户ID');
 
@@ -450,18 +417,11 @@ export async function deleteFriend(ctx: KoaContext<AddFriendData>) {
     return {};
 }
 
-interface ChangePasswordData {
-    /** 旧密码 */
-    oldPassword: string;
-    /** 新密码 */
-    newPassword: string;
-}
-
 /**
  * 修改用户密码
  * @param ctx Context
  */
-export async function changePassword(ctx: KoaContext<ChangePasswordData>) {
+export async function changePassword(ctx: Context<{ oldPassword: string; newPassword: string }>) {
     const { oldPassword, newPassword } = ctx.data;
     assert(newPassword, '新密码不能为空');
     assert(oldPassword !== newPassword, '新密码不能与旧密码相同');
@@ -484,16 +444,11 @@ export async function changePassword(ctx: KoaContext<ChangePasswordData>) {
     };
 }
 
-interface ChangeUsernameData {
-    /** 新用户名 */
-    username: string;
-}
-
 /**
  * 修改用户名
  * @param ctx Context
  */
-export async function changeUsername(ctx: KoaContext<ChangeUsernameData>) {
+export async function changeUsername(ctx: Context<{ username: string }>) {
     const { username } = ctx.data;
     assert(username, '新用户名不能为空');
 
@@ -513,13 +468,11 @@ export async function changeUsername(ctx: KoaContext<ChangeUsernameData>) {
     };
 }
 
-type ResetUserPasswordData = ChangeUsernameData;
-
 /**
  * 重置用户密码, 需要管理员权限
  * @param ctx Context
  */
-export async function resetUserPassword(ctx: KoaContext<ResetUserPasswordData>) {
+export async function resetUserPassword(ctx: Context<{ username: string }>) {
     const { username } = ctx.data;
     assert(username !== '', 'username不能为空');
 
@@ -541,16 +494,11 @@ export async function resetUserPassword(ctx: KoaContext<ResetUserPasswordData>) 
     };
 }
 
-interface SetUserTagData {
-    username: string;
-    tag: string;
-}
-
 /**
  * 更新用户标签, 需要管理员权限
  * @param ctx Context
  */
-export async function setUserTag(ctx: KoaContext<SetUserTagData>) {
+export async function setUserTag(ctx: Context<{ username: string; tag: string }>) {
     const { username, tag } = ctx.data;
     assert(username !== '', 'username不能为空');
     assert(tag !== '', 'tag不能为空');
@@ -568,9 +516,8 @@ export async function setUserTag(ctx: KoaContext<SetUserTagData>) {
     await user.save();
 
     const sockets = await Socket.find({ user: user._id });
-    sockets.forEach((socket) => {
-        ctx._io.to(socket.id).emit('changeTag', user.tag);
-    });
+    const socketIdList = sockets.map((socket) => socket.id);
+    ctx.socket.emit(socketIdList, 'changeTag', user.tag);
 
     return {
         msg: 'ok',
@@ -580,7 +527,7 @@ export async function setUserTag(ctx: KoaContext<SetUserTagData>) {
 /**
  * 获取指定在线用户 ip
  */
-export async function getUserIps(ctx: KoaContext<{ userId: string }>): Promise<string[]> {
+export async function getUserIps(ctx: Context<{ userId: string }>): Promise<string[]> {
     const { userId } = ctx.data;
     assert(userId, 'userId不能为空');
     assert(isValid(userId), '不合法的userId');
@@ -591,15 +538,15 @@ export async function getUserIps(ctx: KoaContext<{ userId: string }>): Promise<s
 }
 
 const UserOnlineStatusCacheExpireTime = 1000 * 60;
-type UserOnlineStatusCache = {
-    [userId: string]: {
-        value: boolean;
-        expireTime: number;
-    };
-};
 function getUserOnlineStatusWrapper() {
-    const cache: UserOnlineStatusCache = {};
-    return async function getUserOnlineStatus(ctx: KoaContext<{ userId: string }>) {
+    const cache: Record<
+        string,
+        {
+            value: boolean;
+            expireTime: number;
+        }
+    > = {};
+    return async function getUserOnlineStatus(ctx: Context<{ userId: string }>) {
         const { userId } = ctx.data;
         assert(userId, 'userId不能为空');
         assert(isValid(userId), '不合法的userId');

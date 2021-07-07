@@ -1,44 +1,43 @@
 import isLogin, { NeedLogin } from '../../../server/middlewares/isLogin';
-import { KoaContext } from '../../../types/koa';
-import { runMiddleware } from '../../helpers/middleware';
+import { Socket } from '../../../types/socket';
+import { getMiddlewareParams } from '../../helpers/middleware';
 
 describe('server/middlewares/isLogin', () => {
     it('should call service fail when user not login', async () => {
-        // @ts-ignore
-        const ctx = {
-            event: 'sendMessage',
-            socket: {
-                id: 'id',
-            },
-        } as KoaContext;
+        const socket = {
+            id: 'id',
+        } as Socket;
+        const middleware = isLogin(socket);
 
-        await runMiddleware(isLogin(), ctx);
-        expect(ctx.res).toBe(NeedLogin);
+        const { args, cb, next } = getMiddlewareParams('sendMessage');
+
+        await middleware(args, next);
+        expect(cb).toBeCalledWith(NeedLogin);
     });
 
     it('should call service success when user is login', async () => {
-        // @ts-ignore
-        const ctx = {
-            event: 'sendMessage',
-            socket: {
-                id: 'id',
-                user: 'user',
-            },
-        } as KoaContext;
-        const data = await runMiddleware(isLogin(), ctx);
-        expect(ctx.res).toBe(data);
+        const socket = {
+            id: 'id',
+            user: 'user',
+        } as Socket;
+        const middleware = isLogin(socket);
+
+        const { args, next } = getMiddlewareParams('sendMessage');
+
+        await middleware(args, next);
+        expect(next).toBeCalled();
     });
 
     it('should call service success when it not need login ', async () => {
-        // @ts-ignore
-        const ctx = {
-            event: 'register',
-            socket: {
-                id: 'id',
-            },
-        } as KoaContext;
+        const socket = {
+            id: 'id',
+            user: 'user',
+        } as Socket;
+        const middleware = isLogin(socket);
 
-        const data = await runMiddleware(isLogin(), ctx);
-        expect(ctx.res).toBe(data);
+        const { args, next } = getMiddlewareParams('register');
+
+        await middleware(args, next);
+        expect(next).toBeCalled();
     });
 });

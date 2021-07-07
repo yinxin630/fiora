@@ -1,9 +1,8 @@
 import { AssertionError } from 'assert';
-import { KoaContext } from '../../types/koa';
 import User from '../models/user';
 import Notification from '../models/notification';
 
-export async function setNotificationToken(ctx: KoaContext<{ token: string }>) {
+export async function setNotificationToken(ctx: Context<{ token: string }>) {
     const { token } = ctx.data;
 
     const user = await User.findOne({ _id: ctx.socket.user });
