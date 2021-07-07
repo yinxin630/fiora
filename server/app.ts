@@ -21,6 +21,7 @@ import * as historyRoutes from './routes/history';
 import logger from './utils/logger';
 import registerRoutes from './middlewares/registerRoutes';
 import { Socket } from '../types/socket';
+import config from '../config/server';
 
 const app = new Koa();
 app.proxy = true;
@@ -28,6 +29,13 @@ app.proxy = true;
 const httpServer = http.createServer(app.callback());
 // TODO. Support allowOrigin
 const io = new Server(httpServer, {
+    cors: {
+        origin:
+            process.env.NODE_ENV === 'development'
+                ? ['http://localhost:8080']
+                : config.allowOrigin || '*',
+        credentials: true,
+    },
     pingTimeout: 10000,
     pingInterval: 5000,
 });
@@ -94,4 +102,4 @@ io.on('connection', async (socket) => {
     socket.use(registerRoutes(socket as Socket, routes));
 });
 
-export default app;
+export default httpServer;
