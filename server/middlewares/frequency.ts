@@ -1,8 +1,8 @@
 import { Socket } from '../../types/socket';
 import { getNewUserKey, Redis } from '../redis';
 
-export const CallServiceFrequently = '接口调用频繁, 请稍后再试';
-export const NewUserCallServiceFrequently = '接口调用失败, 你正处于萌新限制期, 请不要频繁操作';
+export const CALL_SERVICE_FREQUENTLY = '接口调用频繁, 请稍后再试';
+export const NEW_USER_CALL_SERVICE_FREQUENTLY = '接口调用失败, 你正处于萌新限制期, 请不要频繁操作';
 
 const MaxCallPerMinutes = 20;
 const NewUserMaxCallPerMinutes = 5;
@@ -40,13 +40,13 @@ export default function frequency(
             const socketId = socket.id;
             const count = callTimes[socketId] || 0;
 
-            const isNewUser = socket.user && (await Redis.has(getNewUserKey(socket.user)));
+            const isNewUser = socket.data.user && (await Redis.has(getNewUserKey(socket.data.user)));
             if (isNewUser && count >= newUserMaxCallPerMinutes) {
                 // new user limit
                 cb('接口调用失败, 你正处于萌新限制期, 请不要频繁操作');
             } else if (count >= maxCallPerMinutes) {
                 // normal user limit
-                cb(CallServiceFrequently);
+                cb(CALL_SERVICE_FREQUENTLY);
             } else {
                 callTimes[socketId] = count + 1;
                 next();

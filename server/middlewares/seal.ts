@@ -1,21 +1,19 @@
 import { Socket } from '../../types/socket';
-import { SealText } from '../../utils/const';
+import { SEAL_TEXT } from '../../utils/const';
 import { getSealIpKey, getSealUserKey, Redis } from '../redis';
+import { getSocketIp } from '../utils/socket';
 
 /**
  * 拦截被封禁用户的请求
  */
 export default function seal(socket: Socket) {
     return async ([, , cb]: MiddlewareArgs, next: MiddlewareNext) => {
-        const ip =
-            (socket.handshake.headers['x-real-ip'] as string) ||
-            socket.request.connection.remoteAddress ||
-            '';
+        const ip = getSocketIp(socket);
         const isSealIp = await Redis.has(getSealIpKey(ip));
-        const isSealUser = socket.user && await Redis.has(getSealUserKey(socket.user));
+        const isSealUser = socket.data.user && (await Redis.has(getSealUserKey(socket.data.user)));
 
         if (isSealUser || isSealIp) {
-            cb(SealText);
+            cb(SEAL_TEXT);
         } else {
             next();
         }

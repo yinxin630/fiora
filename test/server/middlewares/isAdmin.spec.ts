@@ -1,5 +1,5 @@
 import { mocked } from 'ts-jest/utils';
-import isAdmin, { YouAreNotAdministrator } from '../../../server/middlewares/isAdmin';
+import isAdmin, { YOU_ARE_NOT_ADMINISTRATOR } from '../../../server/middlewares/isAdmin';
 import { Socket } from '../../../types/socket';
 import { getMiddlewareParams } from '../../helpers/middleware';
 import config from '../../../config/server';
@@ -10,21 +10,25 @@ describe('server/middlewares/isAdmin', () => {
     it('should call service fail when user not administrator', async () => {
         const socket = {
             id: 'id',
-            user: 'user',
+            data: {
+                user: 'user',
+            },
         } as Socket;
         const middleware = isAdmin(socket);
 
         const { args, cb, next } = getMiddlewareParams('sealUser');
 
         await middleware(args, next);
-        expect(cb).toBeCalledWith(YouAreNotAdministrator);
+        expect(cb).toBeCalledWith(YOU_ARE_NOT_ADMINISTRATOR);
     });
 
     it('should call service success when user is administrator', async () => {
         mocked(config).administrator = ['administrator'];
         const socket = {
             id: 'id',
-            user: 'administrator',
+            data: {
+                user: 'administrator',
+            },
         } as Socket;
         const middleware = isAdmin(socket);
 

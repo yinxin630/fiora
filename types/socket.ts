@@ -1,6 +1,3 @@
-import { Socket as SocketIOScoket } from 'socket.io';
+import { Socket as SocketIOSocket } from 'socket.io';
 
-export interface Socket extends SocketIOScoket {
-    user: string;
-    isAdmin: boolean;
-}
+export type Socket = SocketIOSocket;

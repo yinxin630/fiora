@@ -1,6 +1,7 @@
 import assert from 'assert';
 import { Socket } from '../../types/socket';
 import logger from '../utils/logger';
+import { getSocketIp } from '../utils/socket';
 
 export default function registerRoutes(socket: Socket, routes: Routes) {
     return async ([event, data, cb]: MiddlewareArgs) => {
@@ -11,18 +12,15 @@ export default function registerRoutes(socket: Socket, routes: Routes) {
                     data,
                     socket: {
                         id: socket.id,
-                        ip:
-                            (socket.handshake.headers['x-real-ip'] as string) ||
-                            socket.request.connection.remoteAddress ||
-                            '',
+                        ip: getSocketIp(socket),
                         get user() {
-                            return socket.user;
+                            return socket.data.user;
                         },
                         set user(newUserId: string) {
-                            socket.user = newUserId;
+                            socket.data.user = newUserId;
                         },
                         get isAdmin() {
-                            return socket.isAdmin;
+                            return socket.data.isAdmin;
                         },
                         join: socket.join.bind(socket),
                         leave: socket.leave.bind(socket),
