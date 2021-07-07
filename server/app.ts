@@ -27,7 +27,6 @@ const app = new Koa();
 app.proxy = true;
 
 const httpServer = http.createServer(app.callback());
-// TODO. Support allowOrigin
 const io = new Server(httpServer, {
     cors: {
         origin:
@@ -64,8 +63,6 @@ app.use(
     }),
 );
 
-// TODO. Remove ignore
-// @ts-ignore
 const routes: Routes = {
     ...userRoutes,
     ...groupRoutes,

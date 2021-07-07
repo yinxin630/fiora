@@ -161,7 +161,7 @@ export async function getSealList() {
 
     const result = {
         users: users.map((user) => user.username),
-        ips: Array.from(sealIpList.keys()),
+        ips: sealIpList,
     };
     return result;
 }

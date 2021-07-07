@@ -279,7 +279,7 @@ export async function loginByToken(ctx: Context<{ token: string } & Environment>
         username: 1,
     });
 
-    ctx.socket.user = user._id;
+    ctx.socket.user = user._id.toString();
     await Socket.updateOne(
         { id: ctx.socket.id },
         {

@@ -52,7 +52,7 @@ export function getSealIpKey(ip: string) {
 
 export async function getAllSealIp() {
     const allSealIpKeys = await keys('SealIp-*');
-    return allSealIpKeys.map((key) => key.split('-')[1]);
+    return allSealIpKeys.map((key) => key.replace('SealIp-', ''));
 }
 
 export function getSealUserKey(user: string) {
