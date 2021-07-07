@@ -1,5 +1,5 @@
 import { Schema, model, Document } from 'mongoose';
-import { NameRegexp } from '../../utils/const';
+import { NAME_REGEXP } from '../../utils/const';
 
 const GroupSchema = new Schema({
     createTime: { type: Date, default: Date.now },
@@ -8,7 +8,7 @@ const GroupSchema = new Schema({
         type: String,
         trim: true,
         unique: true,
-        match: NameRegexp,
+        match: NAME_REGEXP,
         index: true,
     },
     avatar: String,

@@ -22,6 +22,7 @@ import logger from './utils/logger';
 import registerRoutes from './middlewares/registerRoutes';
 import { Socket } from '../types/socket';
 import config from '../config/server';
+import { getSocketIp } from './utils/socket';
 
 const app = new Koa();
 app.proxy = true;
@@ -29,10 +30,7 @@ app.proxy = true;
 const httpServer = http.createServer(app.callback());
 const io = new Server(httpServer, {
     cors: {
-        origin:
-            process.env.NODE_ENV === 'development'
-                ? ['http://localhost:8080']
-                : config.allowOrigin || '*',
+        origin: config.allowOrigin || '*',
         credentials: true,
     },
     pingTimeout: 10000,
@@ -77,8 +75,9 @@ Object.keys(routes).forEach((key) => {
     }
 });
 
-io.on('connection', async (socket) => {
-    const ip = socket.handshake.headers['x-real-ip'] || socket.request.connection.remoteAddress;
+io.on('connection', async (_socket) => {
+    const socket = _socket as Socket;
+    const ip = getSocketIp(socket);
     logger.trace(`connection ${socket.id} ${ip}`);
     await SocketModel.create({
         id: socket.id,
@@ -92,11 +91,11 @@ io.on('connection', async (socket) => {
         });
     });
 
-    socket.use(seal(socket as Socket));
-    socket.use(isLogin(socket as Socket));
-    socket.use(isAdmin(socket as Socket));
-    socket.use(frequency(socket as Socket));
-    socket.use(registerRoutes(socket as Socket, routes));
+    socket.use(seal(socket));
+    socket.use(isLogin(socket));
+    socket.use(isAdmin(socket));
+    socket.use(frequency(socket));
+    socket.use(registerRoutes(socket, routes));
 });
 
 export default httpServer;

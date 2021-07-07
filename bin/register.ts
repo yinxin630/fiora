@@ -8,7 +8,7 @@ import chalk from 'chalk';
 import User, { UserDocument } from '../server/models/user';
 import Group from '../server/models/group';
 
-import { saltRounds } from '../utils/const';
+import { SALT_ROUNDS } from '../utils/const';
 import getRandomAvatar from '../utils/getRandomAvatar';
 import initMongoDB from '../server/mongoose';
 
@@ -46,7 +46,7 @@ export async function register(username: string, password: string) {
         return;
     }
 
-    const salt = await bcrypt.genSalt(saltRounds);
+    const salt = await bcrypt.genSalt(SALT_ROUNDS);
     const hash = await bcrypt.hash(password, salt);
 
     let newUser = null;

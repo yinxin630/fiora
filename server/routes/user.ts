@@ -12,7 +12,7 @@ import Notification from '../models/notification';
 
 import config from '../../config/server';
 import getRandomAvatar from '../../utils/getRandomAvatar';
-import { saltRounds } from '../../utils/const';
+import { SALT_ROUNDS } from '../../utils/const';
 import { getNewRegisteredUserIpKey, getNewUserKey, Redis } from '../redis';
 
 const { isValid } = Types.ObjectId;
@@ -94,7 +94,7 @@ export async function register(ctx: Context<{ username: string; password: string
         throw new AssertionError({ message: '默认群组不存在' });
     }
 
-    const salt = await bcrypt.genSalt(saltRounds);
+    const salt = await bcrypt.genSalt(SALT_ROUNDS);
     const hash = await bcrypt.hash(password, salt);
 
     let newUser = null;
@@ -433,7 +433,7 @@ export async function changePassword(ctx: Context<{ oldPassword: string; newPass
     const isPasswordCorrect = bcrypt.compareSync(oldPassword, user.password);
     assert(isPasswordCorrect, '旧密码不正确');
 
-    const salt = await bcrypt.genSalt(saltRounds);
+    const salt = await bcrypt.genSalt(SALT_ROUNDS);
     const hash = await bcrypt.hash(newPassword, salt);
 
     user.password = hash;
@@ -482,7 +482,7 @@ export async function resetUserPassword(ctx: Context<{ username: string }>) {
     }
 
     const newPassword = 'helloworld';
-    const salt = await bcrypt.genSalt(saltRounds);
+    const salt = await bcrypt.genSalt(SALT_ROUNDS);
     const hash = await bcrypt.hash(newPassword, salt);
 
     user.salt = salt;

@@ -2,7 +2,7 @@ import React from 'react';
 
 import Style from './Message.less';
 import expressions from '../../../../utils/expressions';
-import { transparentImage } from '../../../../utils/const';
+import { TRANSPARENT_IMAGE } from '../../../../utils/const';
 
 interface TextMessageProps {
     content: string;
@@ -18,7 +18,7 @@ function TextMessage(props: TextMessageProps) {
         .replace(/#\(([\u4e00-\u9fa5a-z]+)\)/g, (r, e) => {
             const index = expressions.default.indexOf(e);
             if (index !== -1) {
-                return `<img class="${Style.baidu} ${Style.selecteAble}" src="${transparentImage}" style="background-position: left ${-30
+                return `<img class="${Style.baidu} ${Style.selecteAble}" src="${TRANSPARENT_IMAGE}" style="background-position: left ${-30
                 * index}px;" onerror="this.style.display='none'" alt="${r}">`;
             }
             return r;
