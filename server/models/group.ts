@@ -1,5 +1,4 @@
 import { Schema, model, Document } from 'mongoose';
-import { UserDocument } from './user';
 import { NameRegexp } from '../../utils/const';
 
 const GroupSchema = new Schema({

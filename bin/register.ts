@@ -67,7 +67,7 @@ export async function register(username: string, password: string) {
     }
 
     if (!defaultGroup.creator) {
-        defaultGroup.creator = newUser as UserDocument;
+        defaultGroup.creator = newUser._id;
     }
     if (newUser) {
         defaultGroup.members.push(newUser._id);

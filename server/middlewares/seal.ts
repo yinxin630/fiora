@@ -12,8 +12,8 @@ export default function seal(socket: Socket) {
             socket.request.connection.remoteAddress ||
             '';
         const isSealIp = await Redis.has(getSealIpKey(ip));
+        const isSealUser = socket.user && await Redis.has(getSealUserKey(socket.user));
 
-        const isSealUser = socket.user && getSealUserKey(socket.user);
         if (isSealUser || isSealIp) {
             cb(SealText);
         } else {

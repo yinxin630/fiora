@@ -40,7 +40,7 @@ export default function frequency(
             const socketId = socket.id;
             const count = callTimes[socketId] || 0;
 
-            const isNewUser = await (socket.user && Redis.has(getNewUserKey(socket.user)));
+            const isNewUser = socket.user && (await Redis.has(getNewUserKey(socket.user)));
             if (isNewUser && count >= newUserMaxCallPerMinutes) {
                 // new user limit
                 cb('接口调用失败, 你正处于萌新限制期, 请不要频繁操作');
