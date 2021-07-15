@@ -20,11 +20,10 @@ function Download(props: DownloadProps) {
                     <div className={Style.android}>
                         <p>
                             链接:{' '}
-                            <a href="https://pan.baidu.com/s/1yeGaNzkb2iozeIp0kNWZow">
-                                https://pan.baidu.com/s/1yeGaNzkb2iozeIp0kNWZow
+                            <a href="/fiora.apk">
+                                {`${window.location.origin}/fiora.apk`}
                             </a>
                         </p>
-                        <p>提取码: pjpq</p>
                     </div>
                 </div>
                 <div className={Common.block}>
