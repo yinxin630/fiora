@@ -49,7 +49,7 @@ export default function registerRoutes(socket: Socket, routes: Routes) {
                 }
             }
         } else {
-            cb(`Server Error: event [event] not exists`);
+            cb(`Server Error: event [${event}] not exists`);
         }
     };
 }
