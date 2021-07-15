@@ -209,6 +209,11 @@ function getGroupOnlineMembersWrapperV2() {
 }
 export const getGroupOnlineMembersV2 = getGroupOnlineMembersWrapperV2();
 
+export async function getGroupOnlineMembers(ctx: Context<{ groupId: string; cache?: string }>) {
+    const result = await getGroupOnlineMembersV2(ctx);
+    return result.members;
+}
+
 /**
  * 获取默认群组的在线成员
  * 无需登录态
