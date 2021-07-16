@@ -1,4 +1,4 @@
-import { Socket } from '../../../types/socket';
+import { Socket } from 'socket.io';
 import { getNewUserKey, Redis } from '../database/redis';
 
 export const CALL_SERVICE_FREQUENTLY = '接口调用频繁, 请稍后再试';

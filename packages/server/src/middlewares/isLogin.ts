@@ -1,4 +1,4 @@
-import { Socket } from '../../../types/socket';
+import { Socket } from 'socket.io';
 
 export const PLEASE_LOGIN = '请登录后再试';
 

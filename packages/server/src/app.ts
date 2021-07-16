@@ -5,6 +5,9 @@ import path from 'path';
 import http from 'http';
 import { Server } from 'socket.io';
 
+import logger from '@fiora/utils/logger'; 
+import config from '@fiora/config/server';
+import { getSocketIp } from '@fiora/utils/socket';
 import SocketModel, { SocketDocument } from './models/socket';
 
 import seal from './middlewares/seal';
@@ -18,11 +21,7 @@ import * as messageRoutes from './routes/message';
 import * as systemRoutes from './routes/system';
 import * as notificationRoutes from './routes/notification';
 import * as historyRoutes from './routes/history';
-import logger from '@fiora/utils/logger';
 import registerRoutes from './middlewares/registerRoutes';
-import { Socket } from '../../types/socket';
-import config from '@fiora/config/server';
-import { getSocketIp } from '@fiora/utils/socket';
 
 const app = new Koa();
 app.proxy = true;

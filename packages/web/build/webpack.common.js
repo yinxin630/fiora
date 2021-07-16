@@ -7,10 +7,10 @@ const Dotenv = require('dotenv-webpack');
 
 module.exports = {
     entry: {
-        app: path.resolve(__dirname, '../client/main.tsx'),
+        app: path.resolve(__dirname, '../src/main.tsx'),
     },
     output: {
-        filename: '[name].[chunkhash:8].js',
+        filename: 'js/[name].[chunkhash:8].js',
         path: path.resolve(__dirname, '../dist/fiora'),
     },
     resolve: {
@@ -91,7 +91,8 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 4096,
-                    name: '[name].[hash:8].[ext]',
+                    name: 'images/[name].[ext]',
+                    esModule: false,
                 },
             },
             {
@@ -99,7 +100,8 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 4096,
-                    name: '[name].[hash:8].[ext]',
+                    name: 'fonts/[name].[hash:8].[ext]',
+                    esModule: false,
                 },
             },
             {
@@ -107,7 +109,8 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     limit: 4096,
-                    name: '[name].[hash:8].[ext]',
+                    name: 'audios/[name].[hash:8].[ext]',
+                    esModule: false,
                 },
             },
         ],
@@ -115,7 +118,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: path.resolve(__dirname, '../client/templates/index.html'),
+            template: path.resolve(__dirname, '../src/template.html'),
             inject: true,
         }),
         new CleanWebpackPlugin(),

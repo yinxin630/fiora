@@ -1,5 +1,5 @@
 import config from '@fiora/config/server';
-import { Socket } from '../../../types/socket';
+import { Socket } from 'socket.io';
 
 export const YOU_ARE_NOT_ADMINISTRATOR = '你不是管理员';
 

@@ -1,6 +1,6 @@
-import reducer, { State, initialState } from '../../state/reducer';
-import { Action, ActionTypes } from '../../state/action';
-import getFriendId from '../../../utils/getFriendId';
+import getFriendId from '@fiora/utils/getFriendId';
+import reducer, { State, initialState } from '../../src/state/reducer';
+import { Action, ActionTypes } from '../../src/state/action';
 
 describe('redux reducer', () => {
     it('should user initial state', () => {

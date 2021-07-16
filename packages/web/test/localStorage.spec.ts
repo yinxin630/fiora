@@ -1,6 +1,6 @@
 import getData, { LocalStorageKey } from '../localStorage';
 import config from '../../config/client';
-import themes from '../themes';
+import themes from '../src/themes';
 
 describe('client/localStorage.ts', () => {
     it('should return localStorage value, or default value if not exists', () => {

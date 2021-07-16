@@ -3,16 +3,15 @@ import assert, { AssertionError } from 'assert';
 import jwt from 'jwt-simple';
 import { Types } from 'mongoose';
 
+import config from '@fiora/config/server';
+import getRandomAvatar from '@fiora/utils/getRandomAvatar';
+import { SALT_ROUNDS } from '@fiora/utils/const';
 import User, { UserDocument } from '../models/user';
 import Group, { GroupDocument } from '../models/group';
 import Friend, { FriendDocument } from '../models/friend';
 import Socket from '../models/socket';
 import Message, { handleInviteV2Messages } from '../models/message';
 import Notification from '../models/notification';
-
-import config from '@fiora/config/server';
-import getRandomAvatar from '@fiora/utils/getRandomAvatar';
-import { SALT_ROUNDS } from '@fiora/utils/const';
 import { getNewRegisteredUserIpKey, getNewUserKey, Redis } from '../database/redis';
 
 const { isValid } = Types.ObjectId;

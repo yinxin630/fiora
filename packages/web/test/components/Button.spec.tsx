@@ -5,7 +5,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import Button from '../../components/Button';
+import Button from '../../src/components/Button';
 
 describe('Button', () => {
     it('shoule render without error', async () => {

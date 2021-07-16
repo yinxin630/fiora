@@ -5,7 +5,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import Avatar, { avatarFailback } from '../../components/Avatar';
+import Avatar, { avatarFailback } from '../../src/components/Avatar';
 
 describe('Avatar', () => {
     it('shoule render without error', async () => {

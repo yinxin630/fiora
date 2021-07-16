@@ -8,6 +8,7 @@ coverage/
 npm-debug.log
 yarn-error.log
 .eslintcache
+lerna-debug.log
 
 .env
 
