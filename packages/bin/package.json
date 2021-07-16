@@ -2,5 +2,13 @@
   "name": "@fiora/bin",
   "version": "1.0.0",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@fiora/config": "^1.0.0",
+    "@fiora/server": "^1.0.0",
+    "detect-port": "^1.3.0"
+  },
+  "devDependencies": {
+    "@types/detect-port": "^1.3.1"
+  }
 }

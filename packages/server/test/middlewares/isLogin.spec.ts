@@ -1,4 +1,4 @@
-import isLogin, { PLEASE_LOGIN } from '../../middlewares/isLogin';
+import isLogin, { PLEASE_LOGIN } from '../../src/middlewares/isLogin';
 import { Socket } from '../../../types/socket';
 import { getMiddlewareParams } from '../helpers/middleware';
 

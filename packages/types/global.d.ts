@@ -23,7 +23,6 @@ declare module 'rc-tabs/lib/ScrollableInkTabBar';
 declare module 'rc-menu';
 declare module 'rc-dropdown';
 declare module 'rc-notification';
-declare module 'regex-escape';
 
 declare module '*.less';
 declare module '*.json';

@@ -1,7 +1,6 @@
 .DS_Store
 node_modules/
 dist/
-public/
 coverage/
 .idea/
 .linaria-cache/
@@ -9,9 +8,14 @@ coverage/
 npm-debug.log
 yarn-error.log
 .eslintcache
-ecosystem.config.js
-
 
 .env
-deploy.sh
-.qiniurc
+
+packages/server/public/*
+!packages/server/public/avatar/
+!packages/server/public/favicon-96.png
+!packages/server/public/favicon-192.png
+!packages/server/public/favicon-512.png
+!packages/server/public/index.html
+!packages/server/public/manifest.json
+!packages/server/public/PrivacyPolicy.html

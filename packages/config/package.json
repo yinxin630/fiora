@@ -2,5 +2,11 @@
   "name": "@fiora/config",
   "version": "1.0.0",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "ip": "^1.1.5"
+  },
+  "devDependencies": {
+    "@types/ip": "^1.1.0"
+  }
 }

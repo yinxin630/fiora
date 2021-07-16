@@ -1,0 +1,13 @@
+0 silly argv {
+0 silly argv   _: [ 'add' ],
+0 silly argv   scope: '@fiora/server',
+0 silly argv   globs: [],
+0 silly argv   lernaVersion: '4.0.0',
+0 silly argv   '$0': 'node_modules/.bin/lerna',
+0 silly argv   pkg: '@fiora/client'
+0 silly argv }
+1 notice cli v4.0.0
+2 verbose rootPath /Users/xin_yin/github/fiora
+3 info versioning independent
+4 error HttpErrorGeneral: 404 Not Found - GET https://registry.npmjs.org/@fiora%2fclient - Not found
+4 error     at /Users/xin_yin/github/fiora/node_modules/npm-registry-fetch/check-response.js:95:15

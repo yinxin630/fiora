@@ -2,9 +2,9 @@ import { mocked } from 'ts-jest/utils';
 import isAdmin, { YOU_ARE_NOT_ADMINISTRATOR } from '../../middlewares/isAdmin';
 import { Socket } from '../../../types/socket';
 import { getMiddlewareParams } from '../helpers/middleware';
-import config from '../../../config/server';
+import config from '@fiora/config/server';
 
-jest.mock('../../../config/server');
+jest.mock('@fiora/config/server');
 
 describe('server/middlewares/isAdmin', () => {
     it('should call service fail when user not administrator', async () => {

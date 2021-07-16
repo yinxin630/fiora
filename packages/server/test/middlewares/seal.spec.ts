@@ -1,9 +1,9 @@
 import { mocked } from 'ts-jest/utils';
-import seal from '../../middlewares/seal';
-import { SEAL_TEXT } from '../../../utils/const';
-import { Redis } from '../../redis';
-import { Socket } from '../../../types/socket';
+import seal from '../../src/middlewares/seal';
+import { SEAL_TEXT } from '@fiora/utils/const';
+import { Redis } from '../../src/database/redis';
 import { getMiddlewareParams } from '../helpers/middleware';
+import { Socket } from 'socket.io';
 
 jest.mock('../../../server/redis');
 

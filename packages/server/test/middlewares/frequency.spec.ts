@@ -2,8 +2,8 @@ import { mocked } from 'ts-jest/utils';
 import frequency, {
     CALL_SERVICE_FREQUENTLY,
     NEW_USER_CALL_SERVICE_FREQUENTLY,
-} from '../../middlewares/frequency';
-import { Redis } from '../../redis';
+} from '../../src/middlewares/frequency';
+import { Redis } from '../../src/database/redis';
 import { Socket } from '../../../types/socket';
 import { getMiddlewareParams } from '../helpers/middleware';
 
