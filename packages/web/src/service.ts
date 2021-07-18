@@ -299,7 +299,11 @@ export const getGroupOnlineMembers = (() => {
             groupId,
             cache: cache.groupId === groupId ? cache.key : undefined,
         });
-        if (result.cache && result.cache === cache.key) {
+        if (!result) {
+            return [];
+        }
+
+        if (result.cache === cache.key) {
             return cache.members as GroupMember[];
         }
         cache = {

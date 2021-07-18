@@ -4,6 +4,8 @@ import assert, { AssertionError } from 'assert';
 import { Types } from 'mongoose';
 import { Expo, ExpoPushErrorTicket } from 'expo-server-sdk';
 
+import xss from '@fiora/utils/xss';
+import logger from '@fiora/utils/logger';
 import User, { UserDocument } from '../models/user';
 import Group, { GroupDocument } from '../models/group';
 import Message, {
@@ -13,11 +15,9 @@ import Message, {
 } from '../models/message';
 import Socket from '../models/socket';
 
-import xss from '@fiora/utils/xss';
 import client from '../../../config/client';
 import Notification from '../models/notification';
 import History, { createOrUpdateHistory } from '../models/history';
-import logger from '@fiora/utils/logger';
 
 const { isValid } = Types.ObjectId;
 
