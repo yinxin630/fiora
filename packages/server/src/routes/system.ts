@@ -6,13 +6,13 @@ import { promisify } from 'util';
 import RegexEscape from 'regex-escape';
 import OSS, { STS } from 'ali-oss';
 
+import config from '@fiora/config/server';
+import logger from '@fiora/utils/logger';
 import User from '../models/user';
 import Group from '../models/group';
 
-import config from '@fiora/config/server';
 import Socket from '../models/socket';
 import { getAllSealIp, getAllSealUser, getSealIpKey, getSealUserKey, Redis } from '../database/redis';
-import logger from '@fiora/utils/logger';
 
 /** 百度语言合成token */
 let baiduToken = '';

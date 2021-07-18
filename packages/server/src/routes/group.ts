@@ -2,12 +2,11 @@ import assert, { AssertionError } from 'assert';
 import { Types } from 'mongoose';
 import stringHash from 'string-hash';
 
+import config from '@fiora/config/server';
+import getRandomAvatar from '@fiora/utils/getRandomAvatar';
 import Group, { GroupDocument } from '../models/group';
 import Socket from '../models/socket';
 import Message from '../models/message';
-
-import config from '@fiora/config/server';
-import getRandomAvatar from '@fiora/utils/getRandomAvatar';
 
 const { isValid } = Types.ObjectId;
 

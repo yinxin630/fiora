@@ -1,8 +1,8 @@
 import { mocked } from 'ts-jest/utils';
+import config from '@fiora/config/server';
 import isAdmin, { YOU_ARE_NOT_ADMINISTRATOR } from '../../middlewares/isAdmin';
 import { Socket } from '../../../types/socket';
 import { getMiddlewareParams } from '../helpers/middleware';
-import config from '@fiora/config/server';
 
 jest.mock('@fiora/config/server');
 

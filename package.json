@@ -8,11 +8,11 @@
     "dev:server": "npx lerna run dev:server --stream",
     "dev:web": "npx lerna run dev:web --stream",
     "build:web": "npx lerna run build:web --stream",
-    "lint": "eslint ./ --ext ts,tsx --ignore-pattern .eslintignore --cache --fix",
-    "move-dist": "mv -f dist/fiora/* public",
+    "lint": "eslint ./ --ext js,jsx,ts,tsx --ignore-pattern .eslintignore --cache --fix",
     "test": "jest",
     "ts-check": "tsc --noEmit",
-    "script": "ts-node --transpile-only bin/index.ts"
+    "script": "ts-node --transpile-only bin/index.ts",
+    "install": "npx lerna bootstrap"
   },
   "engines": {
     "node": ">= 14"
@@ -26,8 +26,8 @@
     "url": "https://github.com/yinxin630/fiora"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.28.3",
-    "@typescript-eslint/parser": "^4.28.3",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
     "eslint": "^7.30.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
@@ -36,7 +36,9 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "jest": "^27.0.6",
     "lerna": "^4.0.0",
+    "ts-jest": "^27.0.3",
     "typescript": "^4.3.5"
   }
 }

@@ -1,5 +1,4 @@
 module.exports = {
-    roots: ['./test'],
     preset: 'ts-jest',
     transform: {
         '\\.(mp3)$': '<rootDir>/jest.transformer.js',

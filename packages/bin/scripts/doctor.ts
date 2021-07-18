@@ -16,12 +16,10 @@ export async function doctor() {
     await initMongoDB();
     console.log(chalk.green('MongoDB is OK'));
 
-    await (async () => {
-        return new Promise(resolve => {
-            const redis = initRedis();
-            redis.on('connect', resolve)
-        })
-    })()
+    await (async () => new Promise(resolve => {
+        const redis = initRedis();
+        redis.on('connect', resolve)
+    }))()
     console.log(chalk.green('Redis is OK'));
 
     const avaliablePort = await detect(server.port);
