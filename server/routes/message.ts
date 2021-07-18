@@ -156,7 +156,7 @@ export async function sendMessage(ctx: Context<SendMessageData>) {
     }
 
     if (toGroup) {
-        ctx.socket.emit(toGroup._id, 'message', messageData);
+        ctx.socket.emit(toGroup._id.toString(), 'message', messageData);
 
         const notifications = await Notification.find({
             user: {
@@ -387,7 +387,7 @@ export async function deleteMessage(ctx: Context<{ messageId: string }>) {
     };
     if (isValid(message.to)) {
         // 群消息
-        ctx.socket.emit(message.to, messageName, messageData);
+        ctx.socket.emit(message.to.toString(), messageName, messageData);
     } else {
         // 私聊消息
         const targetUserId = message.to.replace(ctx.socket.user.toString(), '');
