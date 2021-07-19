@@ -1,3 +1,5 @@
+#!/usr/bin/env ts-node
+
 import chalk from 'chalk';
 import path from 'path';
 import fs from 'fs';
@@ -8,7 +10,7 @@ if (!script) {
     process.exit(0);
 }
 
-const file = path.resolve(__dirname, `${script}.ts`);
+const file = path.resolve(__dirname, `scripts/${script}.ts`);
 if (!fs.existsSync(file)) {
     console.log(chalk.red(`[${script}] 脚本不存在`));
 }

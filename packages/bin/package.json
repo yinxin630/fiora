@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "script": "ts-node --transpile-only index.ts"
+  },
   "dependencies": {
     "@fiora/config": "^1.0.0",
     "@fiora/server": "^1.0.0",
