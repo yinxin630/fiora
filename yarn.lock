@@ -6511,6 +6511,11 @@ redent@^3.0.0:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
 
+redis-mock@^0.56.3:
+  version "0.56.3"
+  resolved "https://registry.yarnpkg.com/redis-mock/-/redis-mock-0.56.3.tgz#e96471bcc774ddc514c2fc49cdd03cab2baecd89"
+  integrity sha512-ynaJhqk0Qf3Qajnwvy4aOjS4Mdf9IBkELWtjd+NYhpiqu4QCNq6Vf3Q7c++XRPGiKiwRj9HWr0crcwy7EiPjYQ==
+
 regenerator-runtime@^0.13.4:
   version "0.13.7"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.7.tgz#cac2dacc8a1ea675feaabaeb8ae833898ae46f55"
