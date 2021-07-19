@@ -1,4 +1,4 @@
-import getData, { LocalStorageKey } from '../localStorage';
+import getData, { LocalStorageKey } from '../src/localStorage';
 import config from '../../config/client';
 import themes from '../src/themes';
 

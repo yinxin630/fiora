@@ -1,5 +1,5 @@
+import { Socket } from 'socket.io';
 import isLogin, { PLEASE_LOGIN } from '../../src/middlewares/isLogin';
-import { Socket } from '../../../types/socket';
 import { getMiddlewareParams } from '../helpers/middleware';
 
 describe('server/middlewares/isLogin', () => {

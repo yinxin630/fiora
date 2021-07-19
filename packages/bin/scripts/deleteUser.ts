@@ -1,12 +1,12 @@
 import chalk from 'chalk';
 
 import inquirer from 'inquirer';
-import initMongoDB from '../server/mongoose';
-import User from '../server/src/models/user';
-import Message from '../server/src/models/message';
-import Group, { GroupDocument } from '../server/src/models/group';
-import Friend from '../server/src/models/friend';
-import History from '../server/src/models/history';
+import User from '@fiora/database/mongoose/models/user';
+import Message from '@fiora/database/mongoose/models/message';
+import Group, { GroupDocument } from '@fiora/database/mongoose/models/group';
+import Friend from '@fiora/database/mongoose/models/friend';
+import History from '@fiora/database/mongoose/models/history';
+import initMongoDB from '@fiora/database/mongoose/initMongoDB';
 
 export async function deleteUser(userId: string, confirm = true) {
     if (!userId) {

@@ -4,8 +4,8 @@ import fs from 'fs';
 import path from 'path';
 import detect from 'detect-port';
 import server from '@fiora/config/server';
-import initRedis from '../../database/redis/initRedis';
-import initMongoDB from '../../database/mongoose/initMongoDB';
+import initRedis from '@fiora/database/redis/initRedis';
+import initMongoDB from '@fiora/database/mongoose/initMongoDB';
 
 export async function doctor() {
     console.log(chalk.yellow('===== Run Fiora Docker ====='));

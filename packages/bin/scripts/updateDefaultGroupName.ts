@@ -1,6 +1,6 @@
 import chalk from 'chalk';
-import initMongoDB from '../server/mongoose';
-import Group from '../server/src/models/group';
+import initMongoDB from '@fiora/database/mongoose/initMongoDB';
+import Group from '@fiora/database/mongoose/models/group';
 
 export async function updateDefaultGroupName(newName: string) {
     if (!newName) {

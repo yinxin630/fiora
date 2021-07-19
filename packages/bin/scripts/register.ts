@@ -5,12 +5,12 @@
 import bcrypt from 'bcryptjs';
 import chalk from 'chalk';
 
+import initMongoDB from '@fiora/database/mongoose/initMongoDB';
 import User, { UserDocument } from '../../database/mongoose/models/user';
 import Group from '../../database/mongoose/models/group';
 
 import { SALT_ROUNDS } from '../../utils/const';
 import getRandomAvatar from '../../utils/getRandomAvatar';
-import initMongoDB from '../server/mongoose';
 
 export async function register(username: string, password: string) {
     if (!username) {

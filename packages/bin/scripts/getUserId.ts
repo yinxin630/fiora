@@ -1,6 +1,6 @@
 import chalk from 'chalk';
-import initMongoDB from '../server/mongoose';
-import User from '../server/src/models/user';
+import User from '@fiora/database/mongoose/models/user';
+import initMongoDB from '@fiora/database/mongoose/initMongoDB';
 
 export async function getUserId(username: string) {
     if (!username) {

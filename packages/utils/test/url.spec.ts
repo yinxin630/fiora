@@ -1,4 +1,4 @@
-import { addParam } from '../../../utils/url';
+import { addParam } from '../url';
 
 describe('utils/url.ts', () => {
     it('should add ?key=value into url', () => {

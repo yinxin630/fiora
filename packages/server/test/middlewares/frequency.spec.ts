@@ -1,5 +1,6 @@
 import { mocked } from 'ts-jest/utils';
 import { Redis } from '@fiora/database/redis/initRedis';
+import { Socket } from 'socket.io';
 import frequency, {
     CALL_SERVICE_FREQUENTLY,
     NEW_USER_CALL_SERVICE_FREQUENTLY,
