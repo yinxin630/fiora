@@ -1,0 +1,43 @@
+@import '../../styles/variable.less';
+
+.chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(241, 241, 241, 0.6);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow: hidden;
+    position: relative;
+
+    &[data-aero=true] {
+        background-color: rgba(241, 241, 241, 0.15);
+    }
+
+    @media @mobile {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+}
+
+.noLinkman {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.noLinkmanImage {
+    border-radius: 8px;
+    width: 170px;
+    height: 180px;
+    background-image: url('~@fiora/assets/images/no-linkman.jpeg');
+    background-position-y: 180px;
+}
+
+.noLinkmanText {
+    margin-top: 16px;
+    font-size: 14px;
+    color: #666;
+}

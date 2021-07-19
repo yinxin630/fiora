@@ -1,0 +1,37 @@
+@import "../../styles/variable.less";
+
+.functionBarAndLinkmanList {
+    width: 300px;
+    height: 100%;
+    position: relative;
+    display: flex;
+    background-color: unset;
+
+    @media @mobile {
+        position: absolute;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        background-color: rgba(37, 37, 37, 0.5);
+
+        .container {
+            background-color: var(--primary-color-7);
+        }
+    }
+}
+
+.container {
+    background-color: var(--primary-color-5);
+    flex: 1;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+
+    &[data-aero=true] {
+        background-color: var(--primary-color-0);
+    }
+
+    @media @mobile {
+        background-color: var(--primary-color-7);
+    }
+}

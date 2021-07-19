@@ -1,0 +1,227 @@
+.message {
+    display: flex;
+    margin-right: 54px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.avatar {
+    min-width: 44px;
+}
+
+.right {
+    margin-left: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow: hidden;
+}
+
+.nicknameTimeBlock {
+    height: 20px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.tag {
+    height: 16px;
+    line-height: 16px;
+    border-radius: 3px;
+    padding: 0 5px;
+    display: inline-block;
+    font-size: 12px;
+    background-color: var(--primary-color-9);
+    color: var(--primary-text-color-10);
+    transform: scale(0.9);
+    margin-left: -1px;
+    margin-right: 2px;
+    user-select: text;
+}
+
+.nickname {
+    color: #333;
+    font-size: 13px;
+    user-select: text;
+    margin-right: 4px;
+}
+
+.time {
+    color: #666;
+    font-size: 12px;
+}
+
+.contentButtonBlock {
+    display: flex;
+    position: relative;
+    padding-right: 30px;
+    max-width: -webkit-fill-available;
+}
+
+.content {
+    display: inline-block;
+    color: #555;
+    font-size: 14px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 6px 8px;
+    border-radius: 8px;
+    border-top-left-radius: 0px;
+    min-height: 28px;
+    margin-top: 3px;
+    max-width: -webkit-fill-available;
+}
+
+.arrow {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0px 7px 15px 0;
+    border-color: transparent rgba(255, 255, 255, 0.8) transparent transparent;
+    position: absolute;
+    top: 23px;
+    left: 49px;
+}
+
+.buttonList {
+    display: flex;
+    align-self: flex-end;
+    margin-left: 5px;
+    margin-bottom: 2px;
+    position: absolute;
+    right: 5px;
+}
+
+.button {
+    background-color: rgba(255, 255, 255, 0.8);
+
+    &:hover {
+        background-color: #f0f0f0;
+        color: rgba(165, 181, 192, 1);
+    }
+
+    @borderRadius: 3px;
+    &:first-child {
+        border-top-left-radius: @borderRadius;
+        border-bottom-left-radius: @borderRadius;
+    }
+    &:last-child {
+        border-top-right-radius: @borderRadius;
+        border-bottom-right-radius: @borderRadius;
+    }
+}
+
+.textMessage {
+    user-select: text;
+    word-break: break-word;
+    overflow: hidden;
+    line-height: 17px;
+}
+
+.imageMessage {
+    position: relative;
+}
+
+.imageProgress {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+}
+
+.imageProgressNumber {
+    color: var(--primary-text-color-10);
+    text-align: center;
+    line-height: 80px;
+    font-size: 18px;
+}
+
+.image {
+    max-width: 500px;
+    max-height: 400px;
+}
+
+.iamgeLoading {
+    .image {
+        filter: blur(5px);
+    }
+    .imageProgress {
+        display: block;
+    }
+    .imageProgressNumber {
+        display: block;
+    }
+}
+
+.huaji {
+    .image {
+        width: auto;
+        max-height: 150px;
+    }
+}
+
+.selecteAble {
+    user-select: text;
+}
+
+.baidu {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    margin: 0 2px;
+    background-size: 30px auto;
+    background-image: url(~@fiora/assets/images/baidu.png);
+}
+
+.self {
+    flex-direction: row-reverse;
+    margin-right: 0px;
+    margin-left: 54px;
+
+    .right {
+        margin-left: 0px;
+        margin-right: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+    .nicknameTimeBlock {
+        display: flex;
+        flex-direction: row-reverse;
+    }
+    .tag {
+        margin-left: 2px;
+        margin-right: -1px;
+    }
+    .nickname {
+        margin-right: 0;
+        margin-left: 4px;
+    }
+    .contentButtonBlock {
+        flex-direction: row-reverse;
+        padding-left: 30px;
+        padding-right: 0;
+    }
+    .content {
+        color: rgba(255, 255, 255, 0.9);
+        background-color: var(--primary-color-10);
+        border-top-left-radius: 8px;
+        border-top-right-radius: 0px;
+    }
+    .buttonList {
+        margin-right: 5px;
+        left: 0;
+        right: inherit;
+    }
+    .arrow {
+        border-width: 0 0 15px 7px;
+        border-color: transparent transparent transparent var(--primary-color-10);
+        left: initial;
+        right: 49px;
+        top: 23px;
+    }
+    .textMessage {
+        color: var(--primary-text-color-10);
+    }
+}

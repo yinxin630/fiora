@@ -1,0 +1,18 @@
+@import "../../styles/variable.less";
+
+.about {
+    width: 600px !important;
+
+    @media @mobile {
+        width: 94vw !important;
+    }
+
+    :global {
+        p, li {
+            user-select: text;
+        }
+        a {
+            word-break: break-all;
+        }
+    }
+}
