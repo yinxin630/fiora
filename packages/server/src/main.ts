@@ -2,10 +2,10 @@ import config from '@fiora/config/server';
 import getRandomAvatar from '@fiora/utils/getRandomAvatar';
 import { doctor } from '@fiora/bin/scripts/doctor';
 import logger from '@fiora/utils/logger';
-import initMongoDB from './database/mongoose';
+import initMongoDB from '@fiora/database/mongoose/initMongoDB';
+import Socket from '@fiora/database/mongoose/models/socket';
+import Group, { GroupDocument } from '@fiora/database/mongoose/models/group';
 import app from './app';
-import Socket from './models/socket';
-import Group, { GroupDocument } from './models/group';
 
 (async () => {
     if (process.argv.find((argv) => argv === '--doctor')) {

@@ -1,9 +1,9 @@
-import { isValidObjectId, Types } from 'mongoose';
+import { isValidObjectId, Types } from '@fiora/database/mongoose';
 import assert from 'assert';
-import User from '../models/user';
-import Group from '../models/group';
-import Message from '../models/message';
-import { createOrUpdateHistory } from '../models/history';
+import User from '@fiora/database/mongoose/models/user';
+import Group from '@fiora/database/mongoose/models/group';
+import Message from '@fiora/database/mongoose/models/message';
+import { createOrUpdateHistory } from '@fiora/database/mongoose/models/history';
 
 export async function updateHistory(
     ctx: Context<{ userId: string; linkmanId: string; messageId: string }>,

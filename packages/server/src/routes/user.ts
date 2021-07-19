@@ -1,18 +1,18 @@
 import bcrypt from 'bcryptjs';
 import assert, { AssertionError } from 'assert';
 import jwt from 'jwt-simple';
-import { Types } from 'mongoose';
+import { Types } from '@fiora/database/mongoose';
 
 import config from '@fiora/config/server';
 import getRandomAvatar from '@fiora/utils/getRandomAvatar';
 import { SALT_ROUNDS } from '@fiora/utils/const';
-import User, { UserDocument } from '../models/user';
-import Group, { GroupDocument } from '../models/group';
-import Friend, { FriendDocument } from '../models/friend';
-import Socket from '../models/socket';
-import Message, { handleInviteV2Messages } from '../models/message';
-import Notification from '../models/notification';
-import { getNewRegisteredUserIpKey, getNewUserKey, Redis } from '../database/redis';
+import User, { UserDocument } from '@fiora/database/mongoose/models/user';
+import Group, { GroupDocument } from '@fiora/database/mongoose/models/group';
+import Friend, { FriendDocument } from '@fiora/database/mongoose/models/friend';
+import Socket from '@fiora/database/mongoose/models/socket';
+import Message, { handleInviteV2Messages } from '@fiora/database/mongoose/models/message';
+import Notification from '@fiora/database/mongoose/models/notification';
+import { getNewRegisteredUserIpKey, getNewUserKey, Redis } from '@fiora/database/redis/initRedis';
 
 const { isValid } = Types.ObjectId;
 

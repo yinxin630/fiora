@@ -1,23 +1,23 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 import assert, { AssertionError } from 'assert';
-import { Types } from 'mongoose';
+import { Types } from '@fiora/database/mongoose';
 import { Expo, ExpoPushErrorTicket } from 'expo-server-sdk';
 
 import xss from '@fiora/utils/xss';
 import logger from '@fiora/utils/logger';
-import User, { UserDocument } from '../models/user';
-import Group, { GroupDocument } from '../models/group';
+import User, { UserDocument } from '@fiora/database/mongoose/models/user';
+import Group, { GroupDocument } from '@fiora/database/mongoose/models/group';
 import Message, {
     handleInviteV2Message,
     handleInviteV2Messages,
     MessageDocument,
-} from '../models/message';
-import Socket from '../models/socket';
+} from '@fiora/database/mongoose/models/message';
+import Notification from '@fiora/database/mongoose/models/notification';
+import History, { createOrUpdateHistory } from '@fiora/database/mongoose/models/history';
+import Socket from '@fiora/database/mongoose/models/socket';
 
 import client from '../../../config/client';
-import Notification from '../models/notification';
-import History, { createOrUpdateHistory } from '../models/history';
 
 const { isValid } = Types.ObjectId;
 

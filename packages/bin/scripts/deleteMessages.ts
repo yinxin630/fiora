@@ -4,8 +4,8 @@ import inquirer from 'inquirer';
 import { promisify } from 'util';
 import chalk from 'chalk';
 import initMongoDB from '@fiora/database/mongoose';
-import Message from '../../server/src/models/message';
-import History from '../../server/src/models/history';
+import Message from '../../database/mongoose/models/message';
+import History from '../../database/mongoose/models/history';
 
 export async function deleteMessages() {
     const shouldDeleteAllMessages = await inquirer.prompt({

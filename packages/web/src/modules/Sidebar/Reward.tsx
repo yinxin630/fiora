@@ -1,9 +1,9 @@
 import React from 'react';
 
+import AlipayImage from '@fiora/assets/images/alipay.png';
+import WxpayImage from '@fiora/assets/images/wxpay.png';
 import Dialog from '../../components/Dialog';
 import Style from './Reward.less';
-import AlipayImage from '../../assets/images/alipay.png';
-import WxpayImage from '../../assets/images/wxpay.png';
 
 
 interface RewardProps {

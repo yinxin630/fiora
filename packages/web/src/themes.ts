@@ -1,5 +1,5 @@
-import BackgroundImage from './assets/images/background.jpg';
-import BackgroundCoolImage from './assets/images/background-cool.jpg';
+import BackgroundImage from '@fiora/assets/images/background.jpg';
+import BackgroundCoolImage from '@fiora/assets/images/background-cool.jpg';
 
 type Themes = {
     [theme: string]: {

@@ -1,0 +1,16 @@
+{
+  "name": "@fiora/database",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@fiora/config": "^1.0.0",
+    "@fiora/utils": "^1.0.0",
+    "mongoose": "^5.13.3",
+    "redis": "^3.1.2"
+  },
+  "devDependencies": {
+    "@types/mongoose": "^5.11.97",
+    "@types/redis": "^2.8.31"
+  }
+}

@@ -8,11 +8,11 @@ import OSS, { STS } from 'ali-oss';
 
 import config from '@fiora/config/server';
 import logger from '@fiora/utils/logger';
-import User from '../models/user';
-import Group from '../models/group';
+import User from '@fiora/database/mongoose/models/user';
+import Group from '@fiora/database/mongoose/models/group';
 
-import Socket from '../models/socket';
-import { getAllSealIp, getAllSealUser, getSealIpKey, getSealUserKey, Redis } from '../database/redis';
+import Socket from '@fiora/database/mongoose/models/socket';
+import { getAllSealIp, getAllSealUser, getSealIpKey, getSealUserKey, Redis } from '@fiora/database/redis/initRedis';
 
 /** 百度语言合成token */
 let baiduToken = '';

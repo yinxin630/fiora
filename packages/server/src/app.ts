@@ -8,7 +8,7 @@ import { Server } from 'socket.io';
 import logger from '@fiora/utils/logger'; 
 import config from '@fiora/config/server';
 import { getSocketIp } from '@fiora/utils/socket';
-import SocketModel, { SocketDocument } from './models/socket';
+import SocketModel, { SocketDocument } from '@fiora/database/mongoose/models/socket';
 
 import seal from './middlewares/seal';
 import frequency from './middlewares/frequency';

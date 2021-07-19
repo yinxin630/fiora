@@ -1,7 +1,7 @@
 import { SEAL_TEXT } from '@fiora/utils/const';
 import { getSocketIp } from '@fiora/utils/socket';
 import { Socket } from 'socket.io';
-import { getSealIpKey, getSealUserKey, Redis } from '../database/redis';
+import { getSealIpKey, getSealUserKey, Redis } from '@fiora/database/redis/initRedis';
 
 /**
  * 拦截被封禁用户的请求

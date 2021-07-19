@@ -5,8 +5,8 @@
 import bcrypt from 'bcryptjs';
 import chalk from 'chalk';
 
-import User, { UserDocument } from '../../server/src/models/user';
-import Group from '../../server/src/models/group';
+import User, { UserDocument } from '../../database/mongoose/models/user';
+import Group from '../../database/mongoose/models/group';
 
 import { SALT_ROUNDS } from '../../utils/const';
 import getRandomAvatar from '../../utils/getRandomAvatar';

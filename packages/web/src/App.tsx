@@ -1,8 +1,8 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
-import './assets/styles/normalize.less';
-import './assets/styles/iconfont.less';
+import './styles/normalize.less';
+import './styles/iconfont.less';
 
 import { isMobile } from '@fiora/utils/ua';
 import inobounce from './utils/inobounce';

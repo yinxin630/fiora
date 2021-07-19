@@ -1,12 +1,12 @@
 import assert, { AssertionError } from 'assert';
-import { Types } from 'mongoose';
+import { Types } from '@fiora/database/mongoose';
 import stringHash from 'string-hash';
 
 import config from '@fiora/config/server';
 import getRandomAvatar from '@fiora/utils/getRandomAvatar';
-import Group, { GroupDocument } from '../models/group';
-import Socket from '../models/socket';
-import Message from '../models/message';
+import Group, { GroupDocument } from '@fiora/database/mongoose/models/group';
+import Socket from '@fiora/database/mongoose/models/socket';
+import Message from '@fiora/database/mongoose/models/message';
 
 const { isValid } = Types.ObjectId;
 

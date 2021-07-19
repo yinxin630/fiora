@@ -1,6 +1,6 @@
 import { AssertionError } from 'assert';
-import User from '../models/user';
-import Notification from '../models/notification';
+import User from '@fiora/database/mongoose/models/user';
+import Notification from '@fiora/database/mongoose/models/notification';
 
 export async function setNotificationToken(ctx: Context<{ token: string }>) {
     const { token } = ctx.data;
