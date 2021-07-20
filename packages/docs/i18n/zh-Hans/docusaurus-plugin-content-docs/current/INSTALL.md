@@ -25,8 +25,8 @@ sidebar_label: 安装
 1. 克隆项目到本地 `git clone https://github.com/yinxin630/fiora.git -b master`
 2. 确保安装了 [yarn](https://www.npmjs.com/package/yarn), 如果没有安装请执行 `npm install -g yarn`
 3. 安装项目依赖 `yarn install`
-4. 构建客户端代码 `yarn build:client`
-5. 配置 JwtSecret `echo "JwtSecret=<string>" > .env2`. 把 `<string>` 改为一个秘密文本
+4. 构建客户端代码 `yarn build:web`
+5. 配置 JwtSecret `echo "JwtSecret=<string>" > .env2`. 要将 `<string>` 替换为一个秘密文本
 6. 启动服务端 `yarn start`
 7. 使用浏览器打开 `http://[ip地址]:[端口]`(比如 `http://127.0.0.1:9200`)
 

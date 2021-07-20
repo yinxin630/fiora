@@ -7,7 +7,7 @@
     "dev:docs": "docusaurus start",
     "build:docs": "docusaurus build",
     "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
+    "deploy:docs": "docusaurus deploy",
     "serve": "docusaurus serve",
     "clear": "docusaurus clear",
     "write-translations": "docusaurus write-translations"

@@ -25,7 +25,7 @@ Recommended to running on Linux or MacOS systems
 1. Clone the project `git clone https://github.com/yinxin630/fiora.git -b master`
 2. Ensure you have install [yarn](https://www.npmjs.com/package/yarn) before, if not please run `npm install -g yarn`
 3. Install project dependencies `yarn install`
-4. Build client `yarn build:client`
+4. Build client `yarn build:web`
 5. Config JwtSecret `echo "JwtSecret=<string>" > .env2`. Change `<string>` to a secret text
 6. Start the server `yarn start`
 7. Open `http://[ip]:[port]`(such as `http://127.0.0.1:9200`) in browser
