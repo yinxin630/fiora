@@ -4,12 +4,7 @@ import initMongoDB from '@fiora/database/mongoose/initMongoDB';
 
 export async function getUserId(username: string) {
     if (!username) {
-        console.log(
-            chalk.red(
-                'Wrong command, [username] is missing.',
-                chalk.green('Usage: yarn script getUserId [username]'),
-            ),
-        );
+        console.log(chalk.red('Wrong command, [username] is missing.'));
         return;
     }
 
@@ -17,9 +12,12 @@ export async function getUserId(username: string) {
 
     const user = await User.findOne({ username });
     if (!user) {
-        console.log(chalk.red('User does not exist'));
+        console.log(chalk.red(`User [${username}] does not exist`));
     } else {
-        console.log(`The userId of [${username}] is:`, chalk.green(user._id.toString()));
+        console.log(
+            `The userId of [${username}] is:`,
+            chalk.green(user._id.toString()),
+        );
     }
 }
 

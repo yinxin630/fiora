@@ -1,0 +1,9 @@
+{
+  "name": "@fiora/i18n",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "os-locale": "^5.0.0"
+  }
+}

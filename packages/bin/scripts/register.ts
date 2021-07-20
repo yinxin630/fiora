@@ -14,21 +14,11 @@ import getRandomAvatar from '../../utils/getRandomAvatar';
 
 export async function register(username: string, password: string) {
     if (!username) {
-        console.log(
-            chalk.red(
-                'Wrong command, [username] is missing.',
-                chalk.green('Usage: yarn script register [username] [password]'),
-            ),
-        );
+        console.log(chalk.red('Wrong command, [username] is missing.'));
         return;
     }
     if (!password) {
-        console.log(
-            chalk.red(
-                'Wrong command, [password] is missing.',
-                chalk.green('Usage: yarn script register [username] [password]'),
-            ),
-        );
+        console.log(chalk.red('Wrong command, [password] is missing.'));
         return;
     }
 
@@ -59,7 +49,11 @@ export async function register(username: string, password: string) {
         } as UserDocument);
     } catch (createError) {
         if (createError.name === 'ValidationError') {
-            console.log(chalk.red('Username contains unsupported characters or the length exceeds the limit'));
+            console.log(
+                chalk.red(
+                    'Username contains unsupported characters or the length exceeds the limit',
+                ),
+            );
             return;
         }
         console.log(chalk.red('Error:'), createError);
@@ -74,7 +68,7 @@ export async function register(username: string, password: string) {
     }
     await defaultGroup.save();
 
-    console.log(chalk.green('Successfully created user'));
+    console.log(chalk.green(`Successfully created user [${username}]`));
 }
 
 async function run() {

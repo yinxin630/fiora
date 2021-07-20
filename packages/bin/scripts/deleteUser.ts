@@ -10,12 +10,7 @@ import initMongoDB from '@fiora/database/mongoose/initMongoDB';
 
 export async function deleteUser(userId: string, confirm = true) {
     if (!userId) {
-        console.log(
-            chalk.red(
-                'Wrong command, [userId] is missing.',
-                chalk.green('Usage: yarn script deleteUser [userId]'),
-            ),
-        );
+        console.log(chalk.red('Wrong command, [userId] is missing.'));
         return;
     }
 
@@ -24,7 +19,11 @@ export async function deleteUser(userId: string, confirm = true) {
     try {
         const user = await User.findOne({ _id: userId });
         if (user) {
-            console.log('Found user:', chalk.blue(user._id.toString()), chalk.green(user.username));
+            console.log(
+                'Found user:',
+                chalk.blue(user._id.toString()),
+                chalk.green(user.username),
+            );
 
             if (confirm) {
                 const shouldDeleteUser = await inquirer.prompt({
@@ -51,7 +50,9 @@ export async function deleteUser(userId: string, confirm = true) {
             });
             console.log('Delete result:', deleteMessageResult);
 
-            console.log(chalk.yellow('Leave the group that the user has joined'));
+            console.log(
+                chalk.yellow('Leave the group that the user has joined'),
+            );
             const groups = await Group.find({
                 members: user._id,
             });
@@ -71,14 +72,22 @@ export async function deleteUser(userId: string, confirm = true) {
             }
             await Promise.all(groups.map(leaveGroup));
 
-            console.log(chalk.yellow('Delete the friend relationship related to this user'));
+            console.log(
+                chalk.yellow(
+                    'Delete the friend relationship related to this user',
+                ),
+            );
             const deleteFriendResult1 = await Friend.deleteMany({
                 from: user._id,
             });
             const deleteFriendResult2 = await Friend.deleteMany({
                 to: user._id,
             });
-            console.log('Delete result:', deleteFriendResult1, deleteFriendResult2);
+            console.log(
+                'Delete result:',
+                deleteFriendResult1,
+                deleteFriendResult2,
+            );
 
             console.log(chalk.yellow('Delete this user'));
             const deleteUserResult = await User.deleteMany({

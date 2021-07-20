@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "An interesting chat application power by socket.io, koa, mongodb and react",
   "license": "MIT",
+  "bin": "index.ts",
   "scripts": {
     "start": "npx lerna run start --stream",
     "dev:server": "npx lerna run dev:server --stream",
@@ -15,7 +16,7 @@
     "lint": "eslint ./ --ext js,jsx,ts,tsx --ignore-pattern .eslintignore --cache --fix",
     "test": "jest",
     "ts-check": "tsc --noEmit",
-    "install": "npx lerna bootstrap"
+    "install": "npx lerna bootstrap && yarn link"
   },
   "engines": {
     "node": ">= 14"
@@ -50,5 +51,8 @@
     "ts-node": "^10.1.0",
     "typescript": "^3.8.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "commander": "^8.0.0",
+    "shelljs": "^0.8.4"
+  }
 }
