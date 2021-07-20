@@ -4,14 +4,7 @@ import Group from '@fiora/database/mongoose/models/group';
 
 export async function updateDefaultGroupName(newName: string) {
     if (!newName) {
-        console.log(
-            chalk.red(
-                'Wrong command, [newName] is missing.',
-                chalk.green(
-                    'Usage: yarn script updateDefaultGroupName [newName]',
-                ),
-            ),
-        );
+        console.log(chalk.red('Wrong command, [newName] is missing.'));
         return;
     }
 

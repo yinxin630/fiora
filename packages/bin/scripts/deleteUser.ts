@@ -10,12 +10,7 @@ import initMongoDB from '@fiora/database/mongoose/initMongoDB';
 
 export async function deleteUser(userId: string, confirm = true) {
     if (!userId) {
-        console.log(
-            chalk.red(
-                'Wrong command, [userId] is missing.',
-                chalk.green('Usage: yarn script deleteUser [userId]'),
-            ),
-        );
+        console.log(chalk.red('Wrong command, [userId] is missing.'));
         return;
     }
 

@@ -14,25 +14,11 @@ import getRandomAvatar from '../../utils/getRandomAvatar';
 
 export async function register(username: string, password: string) {
     if (!username) {
-        console.log(
-            chalk.red(
-                'Wrong command, [username] is missing.',
-                chalk.green(
-                    'Usage: yarn script register [username] [password]',
-                ),
-            ),
-        );
+        console.log(chalk.red('Wrong command, [username] is missing.'));
         return;
     }
     if (!password) {
-        console.log(
-            chalk.red(
-                'Wrong command, [password] is missing.',
-                chalk.green(
-                    'Usage: yarn script register [username] [password]',
-                ),
-            ),
-        );
+        console.log(chalk.red('Wrong command, [password] is missing.'));
         return;
     }
 

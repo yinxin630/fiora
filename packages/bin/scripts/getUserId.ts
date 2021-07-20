@@ -4,12 +4,7 @@ import initMongoDB from '@fiora/database/mongoose/initMongoDB';
 
 export async function getUserId(username: string) {
     if (!username) {
-        console.log(
-            chalk.red(
-                'Wrong command, [username] is missing.',
-                chalk.green('Usage: yarn script getUserId [username]'),
-            ),
-        );
+        console.log(chalk.red('Wrong command, [username] is missing.'));
         return;
     }
 
