@@ -1,0 +1,6 @@
+**/node_module
+packages/docs/
+packages/web/.linaria-cache/
+packages/web/dist/
+
+yarn-error.log
