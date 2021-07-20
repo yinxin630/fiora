@@ -1,17 +1,18 @@
-#!/usr/bin/env node
+#!/usr/bin/env ts-node
 
-const { program } = require('commander');
-const cp = require('child_process');
+import { program } from 'commander';
+import cp from 'child_process';
+import i18n from './packages/i18n/node.index';
 
-function exec(commandStr) {
+function exec(commandStr: string) {
     const [command, ...args] = commandStr.split(' ');
     cp.execFileSync(command, args, { stdio: 'inherit' });
 }
 
 program
     .command('getUserId <username>')
-    .description('Get user id by username')
-    .action((username) => {
+    .description(i18n('getUserIdDescription'))
+    .action((username: string) => {
         exec(
             `npx ts-node --transpile-only packages/bin/index.ts getUserId ${username}`,
         );
@@ -19,8 +20,8 @@ program
 
 program
     .command('register <username> <password>')
-    .description('Register a new user')
-    .action((username, password) => {
+    .description(i18n('registerDescription'))
+    .action((username: string, password: string) => {
         exec(
             `npx ts-node --transpile-only packages/bin/index.ts register ${username} ${password}`,
         );
@@ -28,8 +29,8 @@ program
 
 program
     .command('deleteUser <userId>')
-    .description('Delete a user')
-    .action((userId) => {
+    .description(i18n('deleteUserDescription'))
+    .action((userId: string) => {
         exec(
             `npx ts-node --transpile-only packages/bin/index.ts deleteUser ${userId}`,
         );
@@ -37,7 +38,7 @@ program
 
 program
     .command('fixUsersAvatar [searchValue] [replaceValue]')
-    .description("Fix user's wrong avatar")
+    .description(i18n('fixUsersAvatarDescription'))
     .action((searchValue = '', replaceValue = '') => {
         exec(
             `npx ts-node --transpile-only packages/bin/index.ts fixUsersAvatar ${searchValue} ${replaceValue}`,
@@ -46,7 +47,7 @@ program
 
 program
     .command('deleteTodayRegisteredUsers')
-    .description('Delete all newly created users today')
+    .description(i18n('deleteTodayRegisteredUsersDescription'))
     .action(() => {
         exec(
             `npx ts-node --transpile-only packages/bin/index.ts deleteTodayRegisteredUsers`,
@@ -55,7 +56,7 @@ program
 
 program
     .command('deleteMessages')
-    .description('Delete all messages')
+    .description(i18n('deleteMessagesDescription'))
     .action(() => {
         exec(
             `npx ts-node --transpile-only packages/bin/index.ts deleteMessages`,
@@ -64,8 +65,8 @@ program
 
 program
     .command('updateDefaultGroupName <newName>')
-    .description('Modify the name of the default group')
-    .action((newName) => {
+    .description(i18n('updateDefaultGroupNameDescription'))
+    .action((newName: string) => {
         exec(
             `npx ts-node --transpile-only packages/bin/index.ts updateDefaultGroupName ${newName}`,
         );
@@ -73,9 +74,11 @@ program
 
 program
     .command('doctor')
-    .description('Run doctor to diagnose environment and configuration issues')
+    .description(i18n('doctorDescription'))
     .action(() => {
         exec(`npx ts-node --transpile-only packages/bin/index.ts doctor`);
     });
+
+program.usage('[command]');
 
 program.parse(process.argv);
