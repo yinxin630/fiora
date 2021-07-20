@@ -1,5 +1,3 @@
-#!/usr/bin/env ts-node
-
 import chalk from 'chalk';
 import path from 'path';
 import fs from 'fs';
