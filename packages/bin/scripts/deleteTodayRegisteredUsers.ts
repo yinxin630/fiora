@@ -20,7 +20,11 @@ export async function deleteTodayRegisteredUsers() {
             $gte: time,
         },
     });
-    console.log(`There are ${chalk.green(users.length.toString())} newly registered users today`);
+    console.log(
+        `There are ${chalk.green(
+            users.length.toString(),
+        )} newly registered users today`,
+    );
     if (users.length === 0) {
         return;
     }
@@ -33,9 +37,13 @@ export async function deleteTodayRegisteredUsers() {
     if (!shouldDeleteUsers.result) {
         return;
     }
-    await Promise.all(users.map((user) => deleteUser(user._id.toString(), false)));
+    await Promise.all(
+        users.map((user) => deleteUser(user._id.toString(), false)),
+    );
 
-    console.log(chalk.green('Successfully deleted today’s newly registered users'));
+    console.log(
+        chalk.green('Successfully deleted today’s newly registered users'),
+    );
 }
 
 async function run() {

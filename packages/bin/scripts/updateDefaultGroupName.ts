@@ -7,7 +7,9 @@ export async function updateDefaultGroupName(newName: string) {
         console.log(
             chalk.red(
                 'Wrong command, [newName] is missing.',
-                chalk.green('Usage: yarn script updateDefaultGroupName [newName]'),
+                chalk.green(
+                    'Usage: yarn script updateDefaultGroupName [newName]',
+                ),
             ),
         );
         return;
@@ -24,7 +26,10 @@ export async function updateDefaultGroupName(newName: string) {
             await group.save();
             console.log(chalk.green('Update default group name success!'));
         } catch (err) {
-            console.log(chalk.red('Update default group name fail!'), err.message);
+            console.log(
+                chalk.red('Update default group name fail!'),
+                err.message,
+            );
         }
     }
 }

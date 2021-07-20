@@ -3,7 +3,13 @@ import inquirer from 'inquirer';
 import User from '@fiora/database/mongoose/models/user';
 import initMongoDB from '@fiora/database/mongoose/initMongoDB';
 
-export async function fixUsersAvatar() {
+export async function fixUsersAvatar(
+    searchValue: string,
+    replaceValue: string,
+) {
+    searchValue = searchValue || 'fioraavatar';
+    replaceValue = replaceValue || 'fiora/avatar';
+
     await initMongoDB();
 
     const users = await User.find({ avatar: { $regex: 'fioraavatar' } });
@@ -21,7 +27,10 @@ export async function fixUsersAvatar() {
         if (shouldFix.result) {
             await Promise.all(
                 users.map((user) => {
-                    user.avatar = user.avatar.replace('fioraavatar', 'fiora/avatar');
+                    user.avatar = user.avatar.replace(
+                        searchValue,
+                        replaceValue,
+                    );
                     return user.save();
                 }),
             );
@@ -33,7 +42,9 @@ export async function fixUsersAvatar() {
 }
 
 async function run() {
-    await fixUsersAvatar();
+    const searchValue = process.argv[3];
+    const replaceValue = process.argv[4];
+    await fixUsersAvatar(searchValue, replaceValue);
     process.exit(0);
 }
 export default run;

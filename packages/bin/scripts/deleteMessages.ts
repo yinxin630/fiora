@@ -34,13 +34,19 @@ export async function deleteMessages() {
         return;
     }
 
-    const files = await promisify(fs.readdir)(path.resolve(__dirname, '../public'));
+    const files = await promisify(fs.readdir)(
+        path.resolve(__dirname, '../../server/public/'),
+    );
     const iamgesAndFiles = files.filter(
-        (filename) => filename.startsWith('ImageMessage_') || filename.startsWith('FileMessage_'),
+        (filename) =>
+            filename.startsWith('ImageMessage_') ||
+            filename.startsWith('FileMessage_'),
     );
     const unlinkAsync = promisify(fs.unlink);
     await Promise.all(
-        iamgesAndFiles.map((file) => unlinkAsync(path.resolve(__dirname, '../public/', file))),
+        iamgesAndFiles.map((file) =>
+            unlinkAsync(path.resolve(__dirname, '../../server/public/', file)),
+        ),
     );
     console.log('Delete files:', chalk.green(iamgesAndFiles.length.toString()));
     console.log(chalk.red(iamgesAndFiles.join('\n')));
