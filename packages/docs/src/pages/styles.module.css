@@ -95,3 +95,7 @@
 .deployTitle {
     color: var(--ifm-color-primary);
 }
+
+.heroButton {
+    margin: 0 10px;
+}
