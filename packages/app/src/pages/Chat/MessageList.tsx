@@ -192,20 +192,18 @@ function MessageList({ $scrollView }: Props) {
                     onClick={closeImageViewerDialog}
                     onSwipeDown={closeImageViewerDialog}
                     saveToLocalByLongPress={false}
-                    renderImage={(image) => {
-                        return (
-                            <Image
-                                source={{
-                                    uri: image.source.uri,
-                                    cache: 'force-cache',
-                                    headers: {
-                                        Referer: referer,
-                                    },
-                                }}
-                                style={image.style}
-                            />
-                        );
-                    }}
+                    renderImage={(image) => (
+                        <Image
+                            source={{
+                                uri: image.source.uri,
+                                cache: 'force-cache',
+                                headers: {
+                                    Referer: referer,
+                                },
+                            }}
+                            style={image.style}
+                        />
+                    )}
                 />
             </Modal>
         </ScrollView>

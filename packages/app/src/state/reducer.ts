@@ -105,17 +105,15 @@ const reducer = produce((state: State = initialState, action: ActionTypes) => {
             return state;
         }
         case SetLinkmanMessagesActionType: {
-            state.linkmans = state.linkmans.map((linkman) => {
-                return {
-                    ...linkman,
-                    ...(action.linkmans[linkman._id]
-                        ? {
-                            messages: action.linkmans[linkman._id].messages,
-                            unread: action.linkmans[linkman._id].unread,
-                        }
-                        : {}),
-                };
-            }) as Linkman[];
+            state.linkmans = state.linkmans.map((linkman) => ({
+                ...linkman,
+                ...(action.linkmans[linkman._id]
+                    ? {
+                        messages: action.linkmans[linkman._id].messages,
+                        unread: action.linkmans[linkman._id].unread,
+                    }
+                    : {}),
+            })) as Linkman[];
             state.linkmans.sort((linkman1, linkman2) => {
                 const lastMessageTime1 =
                     linkman1.messages.length > 0

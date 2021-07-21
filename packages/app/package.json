@@ -11,6 +11,7 @@
     "build:ios": "expo build:ios -t archive"
   },
   "dependencies": {
+    "@expo/vector-icons": "^12.0.5",
     "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-native-toolkit/triangle": "^0.0.1",
@@ -36,13 +37,12 @@
     "react-native-screens": "~3.4.0",
     "react-redux": "^7.2.2",
     "redux": "^4.0.0",
-    "socket.io-client": "^4.1.3",
-    "typescript": "~4.0.0"
+    "socket.io-client": "^4.1.3"
   },
   "devDependencies": {
     "@types/randomcolor": "^0.5.5",
-    "@types/react": "~16.9.35",
-    "@types/react-native": "~0.63.2",
+    "@types/react": "^17.0.14",
+    "@types/react-native": "^0.64.12",
     "@types/react-redux": "^7.1.16",
     "@types/redux": "^3.6.0",
     "@types/socket.io-client": "^3.0.0",
