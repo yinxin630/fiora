@@ -1,0 +1,7 @@
+{
+  "extends": "../../.eslintrc",
+  "rules": {
+    "no-use-before-define": "off",
+    "consistent-return": "off"
+  }
+}

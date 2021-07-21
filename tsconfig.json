@@ -8,7 +8,8 @@
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
         "lib": ["es2015", "es2016", "es2017", "dom"],
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "skipLibCheck": true
     },
     "exclude": ["node_modules"]
 }

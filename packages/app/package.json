@@ -1,0 +1,53 @@
+{
+  "name": "@fiora/app",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "main": "./node_modules/expo/AppEntry.js",
+  "scripts": {
+    "dev:app": "expo start",
+    "eject": "expo eject",
+    "build:android": "expo build:android -t apk",
+    "build:ios": "expo build:ios -t archive"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "^12.0.5",
+    "@react-native-async-storage/async-storage": "~1.15.0",
+    "@react-native-community/masked-view": "0.1.10",
+    "@react-native-toolkit/triangle": "^0.0.1",
+    "autobind-decorator": "^2.1.0",
+    "deepmerge": "^4.2.2",
+    "expo": "^42.0.0",
+    "expo-constants": "~11.0.1",
+    "expo-image-picker": "~10.2.2",
+    "expo-notifications": "~0.12.3",
+    "expo-web-browser": "~9.2.0",
+    "immer": "^8.0.1",
+    "native-base": "^2.4.5",
+    "prop-types": "^15.6.1",
+    "randomcolor": "^0.6.2",
+    "react": "16.13.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-dialog": "^6.2.0",
+    "react-native-gesture-handler": "~1.10.2",
+    "react-native-image-zoom-viewer": "^3.0.1",
+    "react-native-reanimated": "~2.2.0",
+    "react-native-router-flux": "^4.3.1",
+    "react-native-safe-area-context": "3.2.0",
+    "react-native-screens": "~3.4.0",
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.0",
+    "socket.io-client": "^4.1.3"
+  },
+  "devDependencies": {
+    "@types/randomcolor": "^0.5.5",
+    "@types/react": "^17.0.14",
+    "@types/react-native": "^0.64.12",
+    "@types/react-redux": "^7.1.16",
+    "@types/redux": "^3.6.0",
+    "@types/socket.io-client": "^3.0.0",
+    "expo-cli": "^4.7.3",
+    "jest-expo": "^42.0.0",
+    "react-test-renderer": "16.3.1"
+  }
+}

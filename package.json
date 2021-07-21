@@ -9,6 +9,9 @@
     "dev:server": "npx lerna run dev:server --stream",
     "dev:web": "npx lerna run dev:web --stream",
     "build:web": "npx lerna run build:web --stream",
+    "dev:app": "cd packages/app && yarn dev:app && cd ../../",
+    "build:android": "cd packages/app && yarn build:android && cd ../../",
+    "build:ios": "cd packages/app && yarn build:ios && cd ../../",
     "script": "npx lerna run script --stream",
     "dev:docs": "npx lerna run dev:docs --stream",
     "build:docs": "npx lerna run build:docs --stream",
@@ -52,7 +55,6 @@
     "typescript": "^3.8.2"
   },
   "dependencies": {
-    "commander": "^8.0.0",
-    "shelljs": "^0.8.4"
+    "commander": "^8.0.0"
   }
 }
