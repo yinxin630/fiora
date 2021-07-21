@@ -4,6 +4,18 @@ title: Change Log
 sidebar_label: Change Log
 ---
 
+## 2021-6-24
+
+-   Support user names and user tags with Japanese characters
+
+## 2021-5-11
+
+-   Use Aliyun OSS to replace Qiniu CDN
+
+## 2021-3-24
+
+-   Fix the problem that the search function allows regular expression matching
+
 ## 2021-3-14
 
 -   Support the server to calculate the number of unread messages
