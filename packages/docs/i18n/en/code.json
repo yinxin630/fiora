@@ -50,5 +50,9 @@
 
     "Try It Now": {
         "message": "Try It Now"
+    },
+
+    "DocsUrl": {
+        "message": "/fiora/docs/getting-start/"
     }
 }

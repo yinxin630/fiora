@@ -110,6 +110,7 @@ function Home() {
     const tagLine = translate({ message: 'TagLine' });
     const keywords = translate({ message: 'Keywords' });
     const description = translate({ message: 'Description' });
+    const docsUrl = translate({ message: 'DocsUrl' });
 
     return (
         <Layout title={tagLine} keywords={keywords} description={description}>
@@ -130,11 +131,20 @@ function Home() {
                         <Link
                             className={clsx(
                                 'button button--outline button--secondary button--lg',
-                                styles.getStarted,
+                                styles.heroButton,
                             )}
                             to={siteConfig.url}
                         >
                             {translate({ message: 'Try It Now' })}
+                        </Link>
+                        <Link
+                            className={clsx(
+                                'button button--outline button--secondary button--lg',
+                                styles.heroButton,
+                            )}
+                            to={docsUrl}
+                        >
+                            {translate({ message: 'View Docs' })}
                         </Link>
                     </div>
                 </div>

@@ -50,5 +50,9 @@
 
     "Try It Now": {
         "message": "去体验看看"
+    },
+
+    "DocsUrl": {
+        "message": "/fiora/zh-Hans/docs/getting-start/"
     }
 }
