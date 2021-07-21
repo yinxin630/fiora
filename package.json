@@ -55,7 +55,6 @@
     "typescript": "^3.8.2"
   },
   "dependencies": {
-    "commander": "^8.0.0",
-    "shelljs": "^0.8.4"
+    "commander": "^8.0.0"
   }
 }
