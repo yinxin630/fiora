@@ -42,7 +42,10 @@ describe('mergeLinkmans', () => {
             },
         ];
 
-        const linkmans = mergeLinkmans(linkmans1 as any, linkmans2 as any) as Linkman[];
+        const linkmans = mergeLinkmans(
+            linkmans1 as any,
+            linkmans2 as any,
+        ) as Linkman[];
         expect(linkmans).toHaveLength(2);
         expect(linkmans[0]._id).toBe('l2');
         expect(linkmans[1]._id).toBe('l3');

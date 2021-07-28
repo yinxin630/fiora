@@ -6,8 +6,11 @@ import { getOSSFileUrl } from '../../../utils/uploadFile';
 import Style from './Message.less';
 import { CircleProgress } from '../../../components/Progress';
 
-// @ts-ignore
-const ReactViewerAsync = loadable(async () => import(/* webpackChunkName: "react-viewer" */ 'react-viewer'));
+const ReactViewerAsync = loadable(
+    async () =>
+        // @ts-ignore 
+        import(/* webpackChunkName: "react-viewer" */ 'react-viewer'),
+);
 
 interface ImageMessageProps {
     src: string;
@@ -43,7 +46,12 @@ function ImageMessage(props: ImageMessageProps) {
         height = naturehHeight * scale;
         imageSrc = /^(blob|data):/.test(imageSrc)
             ? imageSrc.split('?')[0]
-            : getOSSFileUrl(src, `image/resize,w_${Math.floor(width)},h_${Math.floor(height)}/quality,q_90`);
+            : getOSSFileUrl(
+                src,
+                `image/resize,w_${Math.floor(width)},h_${Math.floor(
+                    height,
+                )}/quality,q_90`,
+            );
     }
 
     let className = Style.imageMessage;
@@ -79,7 +87,9 @@ function ImageMessage(props: ImageMessageProps) {
                     strokeColor="#a0c672"
                     trailWidth={5}
                 />
-                <div className={`${Style.imageProgress} ${Style.imageProgressNumber}`}>
+                <div
+                    className={`${Style.imageProgress} ${Style.imageProgressNumber}`}
+                >
                     {Math.ceil(percent)}%
                 </div>
                 {viewer && (
@@ -88,7 +98,12 @@ function ImageMessage(props: ImageMessageProps) {
                         visible={viewer}
                         onClose={closeViewer}
                         onMaskClick={handleImageViewerMaskClick}
-                        images={[{ src: getOSSFileUrl(src, `image/quality,q_95`), alt: '' }]}
+                        images={[
+                            {
+                                src: getOSSFileUrl(src, `image/quality,q_95`),
+                                alt: '',
+                            },
+                        ]}
                         noNavbar
                     />
                 )}

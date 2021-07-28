@@ -12,7 +12,13 @@ import User from '@fiora/database/mongoose/models/user';
 import Group from '@fiora/database/mongoose/models/group';
 
 import Socket from '@fiora/database/mongoose/models/socket';
-import { getAllSealIp, getAllSealUser, getSealIpKey, getSealUserKey, Redis } from '@fiora/database/redis/initRedis';
+import {
+    getAllSealIp,
+    getAllSealUser,
+    getSealIpKey,
+    getSealUserKey,
+    Redis,
+} from '@fiora/database/redis/initRedis';
 
 /** 百度语言合成token */
 let baiduToken = '';
@@ -57,7 +63,9 @@ export async function search(ctx: Context<{ keywords: string }>) {
  * 搜索表情包, 爬其它站资源
  * @param ctx Context
  */
-export async function searchExpression(ctx: Context<{ keywords: string; limit?: number }>) {
+export async function searchExpression(
+    ctx: Context<{ keywords: string; limit?: number }>,
+) {
     const { keywords, limit = Infinity } = ctx.data;
     if (keywords === '') {
         return [];
@@ -101,7 +109,9 @@ export async function searchExpression(ctx: Context<{ keywords: string; limit?: 
                 width,
                 height,
             }))
-            .filter((image, index) => (limit === Infinity ? true : index < limit));
+            .filter((image, index) =>
+                limit === Infinity ? true : index < limit,
+            );
     } catch (err) {
         assert(false, '搜索表情包失败, 数据解析异常');
     }
@@ -123,7 +133,8 @@ export async function getBaiduToken() {
     assert(res.status === 200, '请求百度token失败');
 
     baiduToken = res.data.access_token;
-    lastBaiduTokenTime = Date.now() + (res.data.expires_in - 60 * 60 * 24) * 1000;
+    lastBaiduTokenTime =
+        Date.now() + (res.data.expires_in - 60 * 60 * 24) * 1000;
     return { token: baiduToken };
 }
 
@@ -199,7 +210,9 @@ export async function sealUserOnlineIp(ctx: Context<{ userId: string }>) {
     const ipList = sockets.map((socket) => socket.ip);
 
     // 如果全部 ip 都已经封禁过了, 则直接提示
-    const isSealIpList = await Promise.all(ipList.map((ip) => Redis.has(getSealIpKey(ip))));
+    const isSealIpList = await Promise.all(
+        ipList.map((ip) => Redis.has(getSealIpKey(ip))),
+    );
     assert(!isSealIpList.every((isSealIp) => isSealIp), IpInSealList);
 
     let errorMessage = '';
@@ -285,7 +298,9 @@ export async function uploadFile(
             });
             const result = await client.put(
                 ctx.data.fileName,
-                ctx.data.isBase64 ? Buffer.from(ctx.data.file, 'base64') : ctx.data.file,
+                ctx.data.isBase64
+                    ? Buffer.from(ctx.data.file, 'base64')
+                    : ctx.data.file,
             );
             if (result.res.status === 200) {
                 return {
@@ -301,7 +316,10 @@ export async function uploadFile(
         if (!isExists) {
             await promisify(fs.mkdir)(filePath);
         }
-        await promisify(fs.writeFile)(path.resolve(filePath, fileName), ctx.data.file);
+        await promisify(fs.writeFile)(
+            path.resolve(filePath, fileName),
+            ctx.data.file,
+        );
         return {
             url: `/${ctx.data.fileName}`,
         };

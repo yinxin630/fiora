@@ -67,7 +67,10 @@ function Chat() {
         if (!linkman) {
             return () => {};
         }
-        const request = linkman.type === 'group' ? fetchGroupOnlineMembers : fetchUserOnlineStatus;
+        const request =
+            linkman.type === 'group'
+                ? fetchGroupOnlineMembers
+                : fetchUserOnlineStatus;
         request();
         const timer = setInterval(() => request(), 1000 * 60);
         return () => clearInterval(timer);
@@ -76,11 +79,20 @@ function Chat() {
     async function intervalUpdateHistory() {
         // Must get real-time state
         const state = store.getState();
-        if (!window.document.hidden && state.focus && state.linkmans[state.focus] && state.user?._id) {
-            const messageKeys = Object.keys(state.linkmans[state.focus].messages);
+        if (
+            !window.document.hidden &&
+            state.focus &&
+            state.linkmans[state.focus] &&
+            state.user?._id
+        ) {
+            const messageKeys = Object.keys(
+                state.linkmans[state.focus].messages,
+            );
             if (messageKeys.length > 0) {
                 const lastMessageId =
-                    state.linkmans[state.focus].messages[messageKeys[messageKeys.length - 1]]._id;
+                    state.linkmans[state.focus].messages[
+                        messageKeys[messageKeys.length - 1]
+                    ]._id;
                 if (lastMessageId !== lastMessageIdCache) {
                     lastMessageIdCache = lastMessageId;
                     await updateHistory(state.focus, lastMessageId);
@@ -102,7 +114,9 @@ function Chat() {
                 <HeaderBar id="" name="" type="" onClickFunction={() => {}} />
                 <div className={Style.noLinkman}>
                     <div className={Style.noLinkmanImage} />
-                    <h2 className={Style.noLinkmanText}>找个群或者好友呀, 不然怎么聊天~~</h2>
+                    <h2 className={Style.noLinkmanText}>
+                        找个群或者好友呀, 不然怎么聊天~~
+                    </h2>
                 </div>
             </div>
         );
@@ -115,7 +129,11 @@ function Chat() {
                 onlineMembers = await getGroupOnlineMembers(focus);
             }
             if (Array.isArray(onlineMembers)) {
-                action.setLinkmanProperty(focus, 'onlineMembers', onlineMembers);
+                action.setLinkmanProperty(
+                    focus,
+                    'onlineMembers',
+                    onlineMembers,
+                );
             }
             toggleGroupManagePanel(true);
         } else {

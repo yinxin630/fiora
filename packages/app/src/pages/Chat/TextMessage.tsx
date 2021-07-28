@@ -16,7 +16,10 @@ function TextMessage({ message, isSelf }: Props) {
 
     function push(str: string) {
         children.push(
-            <Text key={Math.random()} style={{color: isSelf ? 'white' : '#444'}}>
+            <Text
+                key={Math.random()}
+                style={{ color: isSelf ? 'white' : '#444' }}
+            >
                 {str}
             </Text>,
         );
@@ -55,17 +58,18 @@ function TextMessage({ message, isSelf }: Props) {
                     push(copy.substring(0, i));
                 }
                 children.push(
-                    <TouchableOpacity key={Math.random()} onPress={() => Linking.openURL(r)}>
-                        {
-                            // Do not nest in view error in dev environment
+                    <TouchableOpacity
+                        key={Math.random()}
+                        onPress={() => Linking.openURL(r)}
+                    >
+                        {// Do not nest in view error in dev environment
                             process.env.NODE_ENV === 'development' ? (
                                 <View>
                                     <Text style={{ color: '#001be5' }}>{r}</Text>
                                 </View>
                             ) : (
                                 <Text style={{ color: '#001be5' }}>{r}</Text>
-                            )
-                        }
+                            )}
                     </TouchableOpacity>,
                 );
                 offset += i + r.length;

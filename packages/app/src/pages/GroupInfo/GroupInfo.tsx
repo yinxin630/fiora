@@ -21,7 +21,9 @@ type Props = {
 function GroupInfo({ group }: Props) {
     const { _id, avatar, name, members } = group;
     const linkmans = useLinkmans();
-    const linkman = linkmans.find((x) => x._id === _id && x.type === 'group') as Linkman;
+    const linkman = linkmans.find(
+        (x) => x._id === _id && x.type === 'group',
+    ) as Linkman;
     const isJoined = !!linkman;
     const currentLinkman = useFocusLinkman() as Linkman;
 
@@ -68,11 +70,21 @@ function GroupInfo({ group }: Props) {
                 </View>
                 <View style={styles.buttonContainer}>
                     {isJoined ? (
-                        <Button primary block style={styles.button} onPress={handleSendMessage}>
+                        <Button
+                            primary
+                            block
+                            style={styles.button}
+                            onPress={handleSendMessage}
+                        >
                             <Text>发送消息</Text>
                         </Button>
                     ) : (
-                        <Button primary block style={styles.button} onPress={handleJoinGroup}>
+                        <Button
+                            primary
+                            block
+                            style={styles.button}
+                            onPress={handleJoinGroup}
+                        >
                             <Text>加入群组</Text>
                         </Button>
                     )}

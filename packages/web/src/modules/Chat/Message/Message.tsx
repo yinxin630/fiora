@@ -135,7 +135,9 @@ class Message extends Component<MessageProps, MessageState> {
         if (Time.isYesterday(nowTime, messageTime)) {
             return `昨天 ${Time.getHourMinute(messageTime)}`;
         }
-        return `${Time.getMonthDate(messageTime)} ${Time.getHourMinute(messageTime)}`;
+        return `${Time.getMonthDate(messageTime)} ${Time.getHourMinute(
+            messageTime,
+        )}`;
     }
 
     renderContent() {
@@ -145,7 +147,13 @@ class Message extends Component<MessageProps, MessageState> {
                 return <TextMessage content={content} />;
             }
             case 'image': {
-                return <ImageMessage src={content} loading={loading} percent={percent} />;
+                return (
+                    <ImageMessage
+                        src={content}
+                        loading={loading}
+                        percent={percent}
+                    />
+                );
             }
             case 'file': {
                 return <FileMessage file={content} percent={percent} />;
@@ -160,7 +168,12 @@ class Message extends Component<MessageProps, MessageState> {
                 return <InviteMessageV2 inviteInfo={content} />;
             }
             case 'system': {
-                return <SystemMessage message={content} username={originUsername} />;
+                return (
+                    <SystemMessage
+                        message={content}
+                        username={originUsername}
+                    />
+                );
             }
             default:
                 return <div className="unknown">不支持的消息类型</div>;
@@ -179,22 +192,30 @@ class Message extends Component<MessageProps, MessageState> {
         }
 
         return (
-            <div className={`${Style.message} ${isSelf ? Style.self : ''}`} ref={this.$container}>
+            <div
+                className={`${Style.message} ${isSelf ? Style.self : ''}`}
+                ref={this.$container}
+            >
                 <ShowUserOrGroupInfoContext.Consumer>
                     {(context) => (
                         <Avatar
                             className={Style.avatar}
                             src={avatar}
                             size={44}
-                            // @ts-ignore
-                            onClick={() => this.handleClickAvatar(context.showUserInfo)}
+                            onClick={() =>
+                                // @ts-ignore
+                                this.handleClickAvatar(context.showUserInfo)
+                            }
                         />
                     )}
                 </ShowUserOrGroupInfoContext.Consumer>
                 <div className={Style.right}>
                     <div className={Style.nicknameTimeBlock}>
                         {tag && (
-                            <span className={Style.tag} style={{ backgroundColor: tagColor }}>
+                            <span
+                                className={Style.tag}
+                                style={{ backgroundColor: tagColor }}
+                            >
                                 {tag}
                             </span>
                         )}
@@ -206,7 +227,9 @@ class Message extends Component<MessageProps, MessageState> {
                         onMouseEnter={this.handleMouseEnter}
                         onMouseLeave={this.handleMouseLeave}
                     >
-                        <div className={Style.content}>{this.renderContent()}</div>
+                        <div className={Style.content}>
+                            {this.renderContent()}
+                        </div>
                         {showButtonList && (
                             <div className={Style.buttonList}>
                                 <Tooltip

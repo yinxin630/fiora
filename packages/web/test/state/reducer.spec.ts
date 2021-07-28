@@ -152,7 +152,9 @@ describe('redux reducer', () => {
         };
         const newState = reducer(state, action);
         expect(newState.focus).toBe(linkman._id);
-        expect(Object.keys(newState.linkmans[newState.focus].messages)).toHaveLength(0);
+        expect(
+            Object.keys(newState.linkmans[newState.focus].messages),
+        ).toHaveLength(0);
     });
 
     it('should reduce exist messages when more than 50', () => {
@@ -178,7 +180,9 @@ describe('redux reducer', () => {
             payload: linkman._id,
         };
         const newState = reducer(state, action);
-        expect(Object.keys(newState.linkmans[newState.focus].messages)).toHaveLength(50);
+        expect(
+            Object.keys(newState.linkmans[newState.focus].messages),
+        ).toHaveLength(50);
     });
 
     it('should be no change when foucs not exits user id', () => {
@@ -560,7 +564,9 @@ describe('redux reducer', () => {
             },
         };
         const newState = reducer(state, action);
-        expect(newState.linkmans[linkman._id].messages.m1.content).toBe('new_content');
+        expect(newState.linkmans[linkman._id].messages.m1.content).toBe(
+            'new_content',
+        );
     });
 
     it('should update status of key', () => {

@@ -69,7 +69,9 @@ export default function Linkman({
                         </Text>
                         {unread > 0 ? (
                             <View style={styles.unread}>
-                                <Text style={styles.unreadText}>{unread > 99 ? '99' : unread}</Text>
+                                <Text style={styles.unreadText}>
+                                    {unread > 99 ? '99' : unread}
+                                </Text>
                             </View>
                         ) : null}
                     </View>

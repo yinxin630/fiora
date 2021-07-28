@@ -11,6 +11,11 @@ export const isAndroid = Platform.OS === 'android';
 export default {
     os,
     browser: 'App',
-    environment: `App ${process.env.NODE_ENV === 'development' ? '开发版' : packageInfo.expo.version} on ${os} ${isiOS ? Constants.platform?.ios?.systemVersion : Constants.systemVersion} ${isiOS ? Constants.platform?.ios?.model : ''}`,
+    environment: `App ${
+        process.env.NODE_ENV === 'development'
+            ? '开发版'
+            : packageInfo.expo.version
+    } on ${os} ${
+        isiOS ? Constants.platform?.ios?.systemVersion : Constants.systemVersion
+    } ${isiOS ? Constants.platform?.ios?.model : ''}`,
 };
-

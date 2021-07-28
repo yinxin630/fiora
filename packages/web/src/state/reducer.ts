@@ -379,7 +379,9 @@ function reducer(state: State = initialState, action: Action): State {
             if (!state.linkmans[focus]) {
                 /* istanbul ignore next */
                 if (!__TEST__) {
-                    console.warn(`ActionTypes.SetFocus Error: 联系人 ${focus} 不存在`);
+                    console.warn(
+                        `ActionTypes.SetFocus Error: 联系人 ${focus} 不存在`,
+                    );
                 }
                 return state;
             }
@@ -448,7 +450,10 @@ function reducer(state: State = initialState, action: Action): State {
         }
 
         case ActionTypes.RemoveLinkman: {
-            const linkmans = deleteObjectKey(state.linkmans, action.payload as string);
+            const linkmans = deleteObjectKey(
+                state.linkmans,
+                action.payload as string,
+            );
             const linkmanIds = Object.keys(linkmans);
             const focus = linkmanIds.length > 0 ? linkmanIds[0] : '';
             return {
@@ -470,7 +475,9 @@ function reducer(state: State = initialState, action: Action): State {
                     ...linkmans[linkmanId],
                     ...(linkmansMessages[linkmanId]
                         ? {
-                            messages: getMessagesMap(linkmansMessages[linkmanId].messages),
+                            messages: getMessagesMap(
+                                linkmansMessages[linkmanId].messages,
+                            ),
                             unread: linkmansMessages[linkmanId].unread,
                         }
                         : {}),
@@ -520,16 +527,24 @@ function reducer(state: State = initialState, action: Action): State {
         }
 
         case ActionTypes.DeleteMessage: {
-            const { linkmanId, messageId } = action.payload as DeleteMessagePayload;
+            const {
+                linkmanId,
+                messageId,
+            } = action.payload as DeleteMessagePayload;
             if (!state.linkmans[linkmanId]) {
                 /* istanbul ignore next */
                 if (!__TEST__) {
-                    console.warn(`ActionTypes.DeleteMessage Error: 联系人 ${linkmanId} 不存在`);
+                    console.warn(
+                        `ActionTypes.DeleteMessage Error: 联系人 ${linkmanId} 不存在`,
+                    );
                 }
                 return state;
             }
 
-            const messages = deleteObjectKey(state.linkmans[linkmanId].messages, messageId);
+            const messages = deleteObjectKey(
+                state.linkmans[linkmanId].messages,
+                messageId,
+            );
             return {
                 ...state,
                 linkmans: {
@@ -572,7 +587,9 @@ function reducer(state: State = initialState, action: Action): State {
                 messages = {
                     ...state.linkmans[payload.linkmanId].messages,
                     [payload.messageId]: {
-                        ...state.linkmans[payload.linkmanId].messages[payload.messageId],
+                        ...state.linkmans[payload.linkmanId].messages[
+                            payload.messageId
+                        ],
                         ...payload.value,
                     },
                 };

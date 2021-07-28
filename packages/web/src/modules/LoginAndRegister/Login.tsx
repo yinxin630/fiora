@@ -34,7 +34,9 @@ function Login() {
 
             const linkmanIds = [
                 ...user.groups.map((group: any) => group._id),
-                ...user.friends.map((friend: any) => getFriendId(friend.from, friend.to._id)),
+                ...user.friends.map((friend: any) =>
+                    getFriendId(friend.from, friend.to._id),
+                ),
             ];
             const linkmanMessages = await getLinkmansLastMessagesV2(linkmanIds);
             Object.values(linkmanMessages).forEach(
@@ -67,7 +69,11 @@ function Login() {
                 onChange={setPassword}
                 onEnter={handleLogin}
             />
-            <button className={Style.button} onClick={handleLogin} type="button">
+            <button
+                className={Style.button}
+                onClick={handleLogin}
+                type="button"
+            >
                 登录
             </button>
         </div>

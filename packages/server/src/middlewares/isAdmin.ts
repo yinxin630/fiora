@@ -17,7 +17,9 @@ export default function isAdmin(socket: Socket) {
         'getSealIpList',
     ]);
     return async ([event, , cb]: MiddlewareArgs, next: MiddlewareNext) => {
-        socket.data.isAdmin = !!socket.data.user && config.administrator.includes(socket.data.user);
+        socket.data.isAdmin =
+            !!socket.data.user &&
+            config.administrator.includes(socket.data.user);
         const isAdminEvent = requireAdminEvent.has(event);
         if (!socket.data.isAdmin && isAdminEvent) {
             cb(YOU_ARE_NOT_ADMINISTRATOR);

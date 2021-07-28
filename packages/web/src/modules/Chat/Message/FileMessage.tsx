@@ -44,7 +44,9 @@ function FileMessage({ file, percent }: Props) {
     return (
         <a
             className={styles.container}
-            {...(fileUrl ? { href: url, download: filename, target: '_blank' } : {})}
+            {...(fileUrl
+                ? { href: url, download: filename, target: '_blank' }
+                : {})}
         >
             <div className={styles.fileInfo}>
                 <span className={styles.fileInfoText}>{filename}</span>

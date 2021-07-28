@@ -27,7 +27,9 @@ export function getOSSFileUrl(url: string | number = '', process = '') {
     }
     const [rawUrl = '', extraPrams = ''] = url.split('?');
     if (/^\/\/cdn\.suisuijiang\.com/.test(rawUrl)) {
-        return `https:${rawUrl}?x-oss-process=${process}${extraPrams ? `&${extraPrams}` : ''}`;
+        return `https:${rawUrl}?x-oss-process=${process}${
+            extraPrams ? `&${extraPrams}` : ''
+        }`;
     }
     if (url.startsWith('//')) {
         return `https:${url}`;

@@ -40,8 +40,10 @@ export function getOSSFileUrl(url = '', process = '') {
             extraPrams ? `&${extraPrams}` : ''
         }`;
     }
-    if (/\/\/cdn.suisuijiang.com/.test(rawUrl)) {
-        return `${rawUrl}?x-oss-process=${process}${extraPrams ? `&${extraPrams}` : ''}`;
+    if (/\/\/cdn\.suisuijiang\.com/.test(rawUrl)) {
+        return `${rawUrl}?x-oss-process=${process}${
+            extraPrams ? `&${extraPrams}` : ''
+        }`;
     }
     return `${url}`;
 }
@@ -51,7 +53,10 @@ export function getOSSFileUrl(url = '', process = '') {
  * @param blob 文件blob数据
  * @param fileName 文件名
  */
-export default async function uploadFile(blob: Blob, fileName: string): Promise<string> {
+export default async function uploadFile(
+    blob: Blob,
+    fileName: string,
+): Promise<string> {
     // 阿里云 OSS 不可用, 上传文件到服务端
     if (!ossClient) {
         const [uploadErr, result] = await fetch('uploadFile', {

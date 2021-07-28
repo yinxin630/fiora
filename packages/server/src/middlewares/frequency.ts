@@ -2,7 +2,8 @@ import { Socket } from 'socket.io';
 import { getNewUserKey, Redis } from '@fiora/database/redis/initRedis';
 
 export const CALL_SERVICE_FREQUENTLY = '接口调用频繁, 请稍后再试';
-export const NEW_USER_CALL_SERVICE_FREQUENTLY = '接口调用失败, 你正处于萌新限制期, 请不要频繁操作';
+export const NEW_USER_CALL_SERVICE_FREQUENTLY =
+    '接口调用失败, 你正处于萌新限制期, 请不要频繁操作';
 
 const MaxCallPerMinutes = 20;
 const NewUserMaxCallPerMinutes = 5;
@@ -40,7 +41,9 @@ export default function frequency(
             const socketId = socket.id;
             const count = callTimes[socketId] || 0;
 
-            const isNewUser = socket.data.user && (await Redis.has(getNewUserKey(socket.data.user)));
+            const isNewUser =
+                socket.data.user &&
+                (await Redis.has(getNewUserKey(socket.data.user)));
             if (isNewUser && count >= newUserMaxCallPerMinutes) {
                 // new user limit
                 cb('接口调用失败, 你正处于萌新限制期, 请不要频繁操作');

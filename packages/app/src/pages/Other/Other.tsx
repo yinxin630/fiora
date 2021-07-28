@@ -1,4 +1,15 @@
-import { Body, Button, Content, Icon, List, ListItem, Right, Text, Toast, View } from 'native-base';
+import {
+    Body,
+    Button,
+    Content,
+    Icon,
+    List,
+    ListItem,
+    Right,
+    Text,
+    Toast,
+    View,
+} from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { Linking, StyleSheet } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -23,7 +34,9 @@ function Other() {
     const [showPrivacyPolicy, togglePrivacyPolicy] = useState(false);
 
     async function getPrivacyPolicyStatus() {
-        const privacyPoliceStorageValue = await getStorageValue(PrivacyPolicyStorageKey);
+        const privacyPoliceStorageValue = await getStorageValue(
+            PrivacyPolicyStorageKey,
+        );
         togglePrivacyPolicy(privacyPoliceStorageValue !== 'true');
     }
 
@@ -48,7 +61,9 @@ function Other() {
     }
 
     async function login() {
-        const privacyPoliceStorageValue = await getStorageValue(PrivacyPolicyStorageKey);
+        const privacyPoliceStorageValue = await getStorageValue(
+            PrivacyPolicyStorageKey,
+        );
         if (privacyPoliceStorageValue !== 'true') {
             togglePrivacyPolicy(true);
             return;
@@ -70,42 +85,74 @@ function Other() {
                         size={100}
                     />
                     <Text style={styles.name}>
-                        fiora v
-                        {appInfo.expo.version}
+                        fiora v{appInfo.expo.version}
                     </Text>
                 </View>
                 <List style={styles.list}>
                     <ListItem
                         icon
-                        onPress={() => Linking.openURL('https://github.com/yinxin630/fiora-app')}
+                        onPress={() =>
+                            Linking.openURL(
+                                'https://github.com/yinxin630/fiora-app',
+                            )
+                        }
                     >
                         <Body>
                             <Text style={styles.listItemTitle}>源码</Text>
                         </Body>
                         <Right>
-                            <Icon active name="arrow-forward" style={styles.listItemArrow} />
+                            <Icon
+                                active
+                                name="arrow-forward"
+                                style={styles.listItemArrow}
+                            />
                         </Right>
                     </ListItem>
-                    <ListItem icon onPress={() => Linking.openURL('https://www.suisuijiang.com')}>
+                    <ListItem
+                        icon
+                        onPress={() =>
+                            Linking.openURL('https://www.suisuijiang.com')
+                        }
+                    >
                         <Body>
                             <Text style={styles.listItemTitle}>作者</Text>
                         </Body>
                         <Right>
-                            <Icon active name="arrow-forward" style={styles.listItemArrow} />
+                            <Icon
+                                active
+                                name="arrow-forward"
+                                style={styles.listItemArrow}
+                            />
                         </Right>
                     </ListItem>
-                    <ListItem icon onPress={() => Linking.openURL('https://fiora.suisuijiang.com')}>
+                    <ListItem
+                        icon
+                        onPress={() =>
+                            Linking.openURL('https://fiora.suisuijiang.com')
+                        }
+                    >
                         <Body>
-                            <Text style={styles.listItemTitle}>fiora 网页版</Text>
+                            <Text style={styles.listItemTitle}>
+                                fiora 网页版
+                            </Text>
                         </Body>
                         <Right>
-                            <Icon active name="arrow-forward" style={styles.listItemArrow} />
+                            <Icon
+                                active
+                                name="arrow-forward"
+                                style={styles.listItemArrow}
+                            />
                         </Right>
                     </ListItem>
                 </List>
             </Content>
             {isLogin ? (
-                <Button danger block style={styles.logoutButton} onPress={logout}>
+                <Button
+                    danger
+                    block
+                    style={styles.logoutButton}
+                    onPress={logout}
+                >
                     <Text>退出登录</Text>
                 </Button>
             ) : (
@@ -116,12 +163,13 @@ function Other() {
             <View style={styles.copyrightContainer}>
                 <Text style={styles.copyright}>
                     Copyright© 2015-
-                    {new Date().getFullYear()}
-                    {' '}
-                    碎碎酱
+                    {new Date().getFullYear()} 碎碎酱
                 </Text>
             </View>
-            <PrivacyPolicy visible={showPrivacyPolicy} onClose={() => togglePrivacyPolicy(false)} />
+            <PrivacyPolicy
+                visible={showPrivacyPolicy}
+                onClose={() => togglePrivacyPolicy(false)}
+            />
         </PageContainer>
     );
 }

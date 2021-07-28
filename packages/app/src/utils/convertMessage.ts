@@ -56,7 +56,9 @@ function convertSystemMessage(message: Message) {
  */
 function convertMessageHtml(message: Message) {
     if (message.type === 'text') {
-        message.content = message.content.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+        message.content = message.content
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>');
     }
     return message;
 }

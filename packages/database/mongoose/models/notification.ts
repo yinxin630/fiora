@@ -18,6 +18,9 @@ export interface NotificationDocument extends Document {
     token: string;
 }
 
-const Notification = model<NotificationDocument>('Notification', NotificationSchema);
+const Notification = model<NotificationDocument>(
+    'Notification',
+    NotificationSchema,
+);
 
 export default Notification;

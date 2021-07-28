@@ -3,8 +3,10 @@ import loadable from '@loadable/component';
 
 import Style from './CodeMessage.less';
 
-// @ts-ignore
-const CodeDialogAsync = loadable(() => import(/* webpackChunkName: "code-dialog" */ './CodeDialog'));
+const CodeDialogAsync = loadable(() =>
+    // @ts-ignore
+    import(/* webpackChunkName: "code-dialog" */ './CodeDialog'),
+);
 
 type LanguageMap = {
     [language: string]: string;
@@ -50,7 +52,11 @@ function CodeMessage(props: CodeMessageProps) {
 
     return (
         <>
-            <div className={Style.codeMessage} onClick={() => toggleCodeDialog(true)} role="button">
+            <div
+                className={Style.codeMessage}
+                onClick={() => toggleCodeDialog(true)}
+                role="button"
+            >
                 <div className={Style.codeInfo}>
                     <div className={Style.icon}>
                         <i className="iconfont icon-code" />

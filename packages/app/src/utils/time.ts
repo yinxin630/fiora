@@ -21,7 +21,9 @@ export default {
     getHourMinute(time: Date) {
         const hours = time.getHours();
         const minutes = time.getMinutes();
-        return `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}`;
+        return `${hours < 10 ? `0${hours}` : hours}:${
+            minutes < 10 ? `0${minutes}` : minutes
+        }`;
     },
     getMonthDate(time: Date) {
         return `${time.getMonth() + 1}/${time.getDate()}`;

@@ -52,15 +52,17 @@ function GroupProfile() {
                     {linkman.members.map((member) => (
                         <View key={member._id} style={styles.member}>
                             <Avatar src={member.user.avatar} size={24} />
-                            <Text style={styles.memberName}>{member.user.username}</Text>
+                            <Text style={styles.memberName}>
+                                {member.user.username}
+                            </Text>
                             <Pressable
                                 style={styles.memberInfoContainer}
-                                onPress={() => ShowEnvironment(member.environment)}
+                                onPress={() =>
+                                    ShowEnvironment(member.environment)
+                                }
                             >
                                 <Text style={styles.memberInfo}>
-                                    {member.browser} 
-                                    {' '}
-                                    {getOS(member.os)}
+                                    {member.browser} {getOS(member.os)}
                                 </Text>
                             </Pressable>
                         </View>

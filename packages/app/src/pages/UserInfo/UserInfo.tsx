@@ -4,7 +4,12 @@ import { StyleSheet } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import PageContainer from '../../components/PageContainer';
 import Avatar from '../../components/Avatar';
-import { useFocusLinkman, useIsAdmin, useLinkmans, useSelfId } from '../../hooks/useStore';
+import {
+    useFocusLinkman,
+    useIsAdmin,
+    useLinkmans,
+    useSelfId,
+} from '../../hooks/useStore';
 import { Linkman } from '../../types/redux';
 import action from '../../state/action';
 import {
@@ -29,7 +34,9 @@ type Props = {
 function UserInfo({ user }: Props) {
     const { _id, avatar, username } = user;
     const linkmans = useLinkmans();
-    const friend = linkmans.find((linkman) => linkman._id.includes(_id)) as Linkman;
+    const friend = linkmans.find((linkman) =>
+        linkman._id.includes(_id),
+    ) as Linkman;
     const isFriend = friend && friend.type === 'friend';
     const isAdmin = useIsAdmin();
     const currentLinkman = useFocusLinkman() as Linkman;
@@ -121,7 +128,12 @@ function UserInfo({ user }: Props) {
                 <View style={styles.buttonContainer}>
                     {isFriend ? (
                         <>
-                            <Button primary block style={styles.button} onPress={handleSendMessage}>
+                            <Button
+                                primary
+                                block
+                                style={styles.button}
+                                onPress={handleSendMessage}
+                            >
                                 <Text>发送消息</Text>
                             </Button>
                             <Button
@@ -135,7 +147,12 @@ function UserInfo({ user }: Props) {
                             </Button>
                         </>
                     ) : (
-                        <Button primary block style={styles.button} onPress={handleAddFriend}>
+                        <Button
+                            primary
+                            block
+                            style={styles.button}
+                            onPress={handleAddFriend}
+                        >
                             <Text>加为好友</Text>
                         </Button>
                     )}

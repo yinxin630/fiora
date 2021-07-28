@@ -21,22 +21,35 @@ import About from './About';
 import Style from './Sidebar.less';
 import useAero from '../../hooks/useAero';
 
-// @ts-ignore
-const SelfInfoAsync = loadable(() => import(/* webpackChunkName: "self-info" */ './SelfInfo'));
-// @ts-ignore
-const SettingAsync = loadable(() => import(/* webpackChunkName: "setting" */ './Setting'));
+const SelfInfoAsync = loadable(
+    () =>
+        // @ts-ignore
+        import(/* webpackChunkName: "self-info" */ './SelfInfo'),
+);
+const SettingAsync = loadable(
+    // @ts-ignore
+    () => import(/* webpackChunkName: "setting" */ './Setting'),
+);
 
 function Sidebar() {
-    const sidebarVisible = useSelector((state: State) => state.status.sidebarVisible);
+    const sidebarVisible = useSelector(
+        (state: State) => state.status.sidebarVisible,
+    );
     const action = useAction();
     const isLogin = useIsLogin();
     const isConnect = useSelector((state: State) => state.connect);
-    const isAdmin = useSelector((state: State) => state.user && state.user.isAdmin);
-    const avatar = useSelector((state: State) => state.user && state.user.avatar);
+    const isAdmin = useSelector(
+        (state: State) => state.user && state.user.isAdmin,
+    );
+    const avatar = useSelector(
+        (state: State) => state.user && state.user.avatar,
+    );
 
-    const [selfInfoDialogVisible, toggleSelfInfoDialogVisible] = useState(false);
+    const [selfInfoDialogVisible, toggleSelfInfoDialogVisible] =
+        useState(false);
     const [adminDialogVisible, toggleAdminDialogVisible] = useState(false);
-    const [downloadDialogVisible, toggleDownloadDialogVisible] = useState(false);
+    const [downloadDialogVisible, toggleDownloadDialogVisible] =
+        useState(false);
     const [rewardDialogVisible, toggleRewardDialogVisible] = useState(false);
     const [aboutDialogVisible, toggleAboutDialogVisible] = useState(false);
     const [settingDialogVisible, toggleSettingDialogVisible] = useState(false);
@@ -60,7 +73,11 @@ function Sidebar() {
             return children;
         }
         return (
-            <Tooltip placement="right" mouseEnterDelay={0.3} overlay={<span>{text}</span>}>
+            <Tooltip
+                placement="right"
+                mouseEnterDelay={0.3}
+                overlay={<span>{text}</span>}
+            >
                 {children}
             </Tooltip>
         );
@@ -83,9 +100,9 @@ function Sidebar() {
                     />
                 )}
                 <div className={Style.buttons}>
-                    {isLogin
-                        && isAdmin
-                        && renderTooltip(
+                    {isLogin &&
+                        isAdmin &&
+                        renderTooltip(
                             '管理员',
                             <IconButton
                                 width={40}
@@ -95,14 +112,23 @@ function Sidebar() {
                                 onClick={() => toggleAdminDialogVisible(true)}
                             />,
                         )}
-                    <Tooltip placement="right" mouseEnterDelay={0.3} overlay={<span>源码</span>}>
+                    <Tooltip
+                        placement="right"
+                        mouseEnterDelay={0.3}
+                        overlay={<span>源码</span>}
+                    >
                         <a
                             className={Style.linkButton}
                             href="https://github.com/yinxin630/fiora"
                             target="_black"
                             rel="noopener noreferrer"
                         >
-                            <IconButton width={40} height={40} icon="github" iconSize={26} />
+                            <IconButton
+                                width={40}
+                                height={40}
+                                icon="github"
+                                iconSize={26}
+                            />
                         </a>
                     </Tooltip>
                     {renderTooltip(
@@ -135,8 +161,8 @@ function Sidebar() {
                             onClick={() => toggleAboutDialogVisible(true)}
                         />,
                     )}
-                    {isLogin
-                        && renderTooltip(
+                    {isLogin &&
+                        renderTooltip(
                             '设置',
                             <IconButton
                                 width={40}
@@ -146,8 +172,8 @@ function Sidebar() {
                                 onClick={() => toggleSettingDialogVisible(true)}
                             />,
                         )}
-                    {isLogin
-                        && renderTooltip(
+                    {isLogin &&
+                        renderTooltip(
                             '退出登录',
                             <IconButton
                                 width={40}

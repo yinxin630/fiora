@@ -12,11 +12,20 @@ interface AboutProps {
 function About(props: AboutProps) {
     const { visible, onClose } = props;
     return (
-        <Dialog className={Style.about} visible={visible} title="关于" onClose={onClose}>
+        <Dialog
+            className={Style.about}
+            visible={visible}
+            title="关于"
+            onClose={onClose}
+        >
             <div>
                 <div className={Common.block}>
                     <p className={Common.title}>作者</p>
-                    <a href="https://suisuijiang.com" target="_black" rel="noopener noreferrer">
+                    <a
+                        href="https://suisuijiang.com"
+                        target="_black"
+                        rel="noopener noreferrer"
+                    >
                         https://suisuijiang.com
                     </a>
                 </div>
@@ -43,7 +52,9 @@ function About(props: AboutProps) {
                 <div className={Common.block}>
                     <p className={Common.title}>将fiora安装到主屏(PWA)</p>
                     <ul>
-                        <li>点击地址栏最右边三个点按钮(或者地址栏末尾收藏前的按钮)</li>
+                        <li>
+                            点击地址栏最右边三个点按钮(或者地址栏末尾收藏前的按钮)
+                        </li>
                         <li>选择&quot;安装 fiora&quot;</li>
                     </ul>
                 </div>

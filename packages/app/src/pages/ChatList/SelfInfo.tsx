@@ -20,10 +20,17 @@ function SelfInfo() {
         <View style={[styles.container]}>
             <View>
                 <Avatar src={avatar} size={32} />
-                <View style={[styles.onlineStatus, connect ? styles.online : styles.offline]} />
+                <View
+                    style={[
+                        styles.onlineStatus,
+                        connect ? styles.online : styles.offline,
+                    ]}
+                />
             </View>
             <View>
-                <Text style={[styles.nickname, { color: primaryTextColor10 }]}>{username}</Text>
+                <Text style={[styles.nickname, { color: primaryTextColor10 }]}>
+                    {username}
+                </Text>
             </View>
         </View>
     );

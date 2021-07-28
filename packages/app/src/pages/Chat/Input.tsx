@@ -149,8 +149,16 @@ export default function Input({ onHeightChange }: Props) {
                 `${result.uri}?width=${result.width}&height=${result.height}`,
             );
             const key = `ImageMessage/${user._id}_${Date.now()}`;
-            const imageUrl = await uploadFile(result.base64 as string, key, true);
-            sendMessage(id, 'image', `${imageUrl}?width=${result.width}&height=${result.height}`);
+            const imageUrl = await uploadFile(
+                result.base64 as string,
+                key,
+                true,
+            );
+            sendMessage(
+                id,
+                'image',
+                `${imageUrl}?width=${result.width}&height=${result.height}`,
+            );
         }
     }
 
@@ -178,8 +186,16 @@ export default function Input({ onHeightChange }: Props) {
                 `${result.uri}?width=${result.width}&height=${result.height}`,
             );
             const key = `ImageMessage/${user._id}_${Date.now()}`;
-            const imageUrl = await uploadFile(result.base64 as string, key, true);
-            sendMessage(id, 'image', `${imageUrl}?width=${result.width}&height=${result.height}`);
+            const imageUrl = await uploadFile(
+                result.base64 as string,
+                key,
+                true,
+            );
+            sendMessage(
+                id,
+                'image',
+                `${imageUrl}?width=${result.width}&height=${result.height}`,
+            );
         }
     }
 
@@ -192,7 +208,10 @@ export default function Input({ onHeightChange }: Props) {
         const newValue = `${message.substring(
             0,
             cursorPosition.start,
-        )}${expression}${message.substring(cursorPosition.end, message.length)}`;
+        )}${expression}${message.substring(
+            cursorPosition.end,
+            message.length,
+        )}`;
         setMessage(newValue);
         setCursorPosition({
             start: cursorPosition.start + expression.length,
@@ -225,26 +244,47 @@ export default function Input({ onHeightChange }: Props) {
                     </View>
                 ) : (
                     <Button block style={styles.button} onPress={Actions.login}>
-                        <Text style={styles.buttonText}>登录 / 注册, 参与聊天</Text>
+                        <Text style={styles.buttonText}>
+                            登录 / 注册, 参与聊天
+                        </Text>
                     </Button>
                 )}
                 {isLogin && showFunctionList ? (
                     <View style={styles.iconButtonContainer}>
-                        <Button transparent style={styles.iconButton} onPress={openExpression}>
+                        <Button
+                            transparent
+                            style={styles.iconButton}
+                            onPress={openExpression}
+                        >
                             <Ionicons name="ios-happy" size={28} color="#999" />
                         </Button>
-                        <Button transparent style={styles.iconButton} onPress={handleClickImage}>
+                        <Button
+                            transparent
+                            style={styles.iconButton}
+                            onPress={handleClickImage}
+                        >
                             <Ionicons name="ios-image" size={28} color="#999" />
                         </Button>
-                        <Button transparent style={styles.iconButton} onPress={handleClickCamera}>
-                            <Ionicons name="ios-camera" size={28} color="#999" />
+                        <Button
+                            transparent
+                            style={styles.iconButton}
+                            onPress={handleClickCamera}
+                        >
+                            <Ionicons
+                                name="ios-camera"
+                                size={28}
+                                color="#999"
+                            />
                         </Button>
                     </View>
                 ) : null}
                 {showExpression ? (
                     <View style={styles.expressionContainer}>
                         {expressions.default.map((e, i) => (
-                            <TouchableOpacity key={e} onPress={() => insertExpression(e)}>
+                            <TouchableOpacity
+                                key={e}
+                                onPress={() => insertExpression(e)}
+                            >
                                 <View style={styles.expression}>
                                     <Expression index={i} size={30} />
                                 </View>

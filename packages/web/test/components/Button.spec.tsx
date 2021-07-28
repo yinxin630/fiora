@@ -15,7 +15,11 @@ describe('Button', () => {
     });
 
     it('shoule support set custom class name and type', async () => {
-        render(<Button className="custom" type="danger">text</Button>);
+        render(
+            <Button className="custom" type="danger">
+                text
+            </Button>,
+        );
         const $button = screen.getByRole('button');
         expect($button.classList).toContain('custom');
         expect($button.classList).toContain('danger');

@@ -31,7 +31,9 @@ function InviteInfo() {
             return;
         }
         (async () => {
-            const [error, groupInfo] = await fetch('getGroupBasicInfo', { groupId });
+            const [error, groupInfo] = await fetch('getGroupBasicInfo', {
+                groupId,
+            });
             if (!error) {
                 updateGroup((groupInfo as unknown) as GroupBasicInfo);
             }
@@ -84,7 +86,9 @@ function InviteInfo() {
                             onMouseLeave={() => toggleLargetAvatar(false)}
                         />
                         <img
-                            className={`${Style.largeAvatar} ${largerAvatar ? 'show' : 'hide'}`}
+                            className={`${Style.largeAvatar} ${
+                                largerAvatar ? 'show' : 'hide'
+                            }`}
                             src={group.avatar}
                             alt="用户头像"
                         />
@@ -97,13 +101,22 @@ function InviteInfo() {
                         </div>
                         {selfId ? (
                             hasLinkman ? (
-                                <Button onClick={handleFocusGroup}>发送消息</Button>
+                                <Button onClick={handleFocusGroup}>
+                                    发送消息
+                                </Button>
                             ) : (
-                                <Button onClick={handleJoinGroup}>加入群组</Button>
+                                <Button onClick={handleJoinGroup}>
+                                    加入群组
+                                </Button>
                             )
                         ) : (
                             <Button
-                                onClick={() => action.setStatus('loginRegisterDialogVisible', true)}
+                                onClick={() =>
+                                    action.setStatus(
+                                        'loginRegisterDialogVisible',
+                                        true,
+                                    )
+                                }
                             >
                                 登录 / 注册
                             </Button>

@@ -32,7 +32,11 @@ const options = {
 const socket = IO(config.server, options);
 
 async function loginFailback() {
-    const defaultGroup = await guest(platform.os?.family, platform.name, platform.description);
+    const defaultGroup = await guest(
+        platform.os?.family,
+        platform.name,
+        platform.description,
+    );
     if (defaultGroup) {
         const { messages } = defaultGroup;
         dispatch({
@@ -72,7 +76,9 @@ socket.on('connect', async () => {
             });
             const linkmanIds = [
                 ...user.groups.map((group: any) => group._id),
-                ...user.friends.map((friend: any) => getFriendId(friend.from, friend.to._id)),
+                ...user.friends.map((friend: any) =>
+                    getFriendId(friend.from, friend.to._id),
+                ),
             ];
             const linkmanMessages = await getLinkmansLastMessagesV2(linkmanIds);
             Object.values(linkmanMessages).forEach(
@@ -206,7 +212,10 @@ socket.on('message', async (message: any) => {
                     }说`
                     : `${message.from.username}对你说`;
             if (text) {
-                voice.push(from !== prevFrom ? from + text : text, message.from.username);
+                voice.push(
+                    from !== prevFrom ? from + text : text,
+                    message.from.username,
+                );
             }
             prevFrom = from;
             prevName = message.from.username;
@@ -217,16 +226,19 @@ socket.on('message', async (message: any) => {
     }
 });
 
-socket.on('changeGroupName', ({ groupId, name }: { groupId: string; name: string }) => {
-    dispatch({
-        type: ActionTypes.SetLinkmanProperty,
-        payload: {
-            linkmanId: groupId,
-            key: 'name',
-            value: name,
-        } as SetLinkmanPropertyPayload,
-    });
-});
+socket.on(
+    'changeGroupName',
+    ({ groupId, name }: { groupId: string; name: string }) => {
+        dispatch({
+            type: ActionTypes.SetLinkmanProperty,
+            payload: {
+                linkmanId: groupId,
+                key: 'name',
+                value: name,
+            } as SetLinkmanPropertyPayload,
+        });
+    },
+);
 
 socket.on('deleteGroup', ({ groupId }: { groupId: string }) => {
     dispatch({
@@ -244,14 +256,17 @@ socket.on('changeTag', (tag: string) => {
     });
 });
 
-socket.on('deleteMessage', ({ linkmanId, messageId }: { linkmanId: string; messageId: string }) => {
-    dispatch({
-        type: ActionTypes.DeleteMessage,
-        payload: {
-            linkmanId,
-            messageId,
-        } as DeleteMessagePayload,
-    });
-});
+socket.on(
+    'deleteMessage',
+    ({ linkmanId, messageId }: { linkmanId: string; messageId: string }) => {
+        dispatch({
+            type: ActionTypes.DeleteMessage,
+            payload: {
+                linkmanId,
+                messageId,
+            } as DeleteMessagePayload,
+        });
+    },
+);
 
 export default socket;

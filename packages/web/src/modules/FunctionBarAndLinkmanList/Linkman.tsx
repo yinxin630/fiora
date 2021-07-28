@@ -48,7 +48,9 @@ function Linkman(props: LinkmanProps) {
             const messageKeys = Object.keys(nextFocusLinkman.messages);
             if (messageKeys.length > 0) {
                 const lastMessageId =
-                nextFocusLinkman.messages[messageKeys[messageKeys.length - 1]]._id;
+                    nextFocusLinkman.messages[
+                        messageKeys[messageKeys.length - 1]
+                    ]._id;
                 updateHistory(nextFocusLinkman._id, lastMessageId);
             }
         }
@@ -72,7 +74,9 @@ function Linkman(props: LinkmanProps) {
                     <p className={Style.name}>{name}</p>
                     <p className={Style.time}>{formatTime()}</p>
                 </div>
-                <div className={`${Style.rowContainer} ${Style.previewUnreadBlock}`}>
+                <div
+                    className={`${Style.rowContainer} ${Style.previewUnreadBlock}`}
+                >
                     <p
                         className={Style.preview}
                         // eslint-disable-next-line react/no-danger

@@ -33,7 +33,9 @@ function Register() {
 
             const linkmanIds = [
                 ...user.groups.map((group: any) => group._id),
-                ...user.friends.map((friend: any) => getFriendId(friend.from, friend.to._id)),
+                ...user.friends.map((friend: any) =>
+                    getFriendId(friend.from, friend.to._id),
+                ),
             ];
             const linkmanMessages = await getLinkmansLastMessagesV2(linkmanIds);
             Object.values(linkmanMessages).forEach(
@@ -66,7 +68,11 @@ function Register() {
                 onChange={setPassword}
                 onEnter={handleRegister}
             />
-            <button className={Style.button} onClick={handleRegister} type="button">
+            <button
+                className={Style.button}
+                onClick={handleRegister}
+                type="button"
+            >
                 注册
             </button>
         </div>

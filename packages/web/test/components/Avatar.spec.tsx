@@ -18,7 +18,14 @@ describe('Avatar', () => {
         const handleClick = jest.fn();
         const handleMouseEnter = jest.fn();
         const handleMouseLeave = jest.fn();
-        render(<Avatar src="./1.jpg" onClick={handleClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} />);
+        render(
+            <Avatar
+                src="./1.jpg"
+                onClick={handleClick}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+            />,
+        );
         const $img = await screen.findByRole('img');
         fireEvent.click($img);
         expect(handleClick).toBeCalled();
@@ -31,7 +38,7 @@ describe('Avatar', () => {
     it('shoule use failback avatar when fetch error', async () => {
         const src = 'origin.jpg';
         render(<Avatar src={src} />);
-        const $img = await screen.findByRole('img') as HTMLImageElement;
+        const $img = (await screen.findByRole('img')) as HTMLImageElement;
         expect($img.src).toEqual(expect.stringContaining(src));
         fireEvent.error($img);
         expect($img.src).toEqual(expect.stringContaining(avatarFailback));
@@ -42,7 +49,7 @@ describe('Avatar', () => {
     it('shoule not add CDN query params', async () => {
         const src = 'data:base64/png;xxx';
         render(<Avatar src={src} />);
-        const $img = await screen.findByRole('img') as HTMLImageElement;
+        const $img = (await screen.findByRole('img')) as HTMLImageElement;
         expect($img.src).not.toEqual(expect.stringContaining('x-oss-process='));
     });
 });

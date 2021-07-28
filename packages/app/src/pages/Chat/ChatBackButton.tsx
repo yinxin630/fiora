@@ -9,9 +9,7 @@ function ChatBackButton() {
         return result;
     }, 0);
 
-    return (
-        <BackButton text={unread.toString()} />
-    );
+    return <BackButton text={unread.toString()} />;
 }
 
 export default ChatBackButton;

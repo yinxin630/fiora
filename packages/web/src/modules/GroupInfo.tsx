@@ -26,8 +26,9 @@ function GroupInfo(props: GroupInfoProps) {
     const { visible, onClose, group } = props;
 
     const action = useAction();
-    // @ts-ignore
-    const hasLinkman = useSelector((state: State) => !!state.linkmans[group?._id]);
+    const hasLinkman = useSelector(
+        (state: State) => !!state.linkmans[group?._id as string],
+    );
     const [largerAvatar, toggleLargetAvatar] = useState(false);
 
     if (!group) {
@@ -62,7 +63,11 @@ function GroupInfo(props: GroupInfoProps) {
     }
 
     return (
-        <Dialog className={Style.infoDialog} visible={visible} onClose={onClose}>
+        <Dialog
+            className={Style.infoDialog}
+            visible={visible}
+            onClose={onClose}
+        >
             <div className={Style.coantainer}>
                 <div className={Style.header}>
                     <Avatar
@@ -72,7 +77,9 @@ function GroupInfo(props: GroupInfoProps) {
                         onMouseLeave={() => toggleLargetAvatar(false)}
                     />
                     <img
-                        className={`${Style.largeAvatar} ${largerAvatar ? 'show' : 'hide'}`}
+                        className={`${Style.largeAvatar} ${
+                            largerAvatar ? 'show' : 'hide'
+                        }`}
                         src={getOSSFileUrl(group.avatar)}
                         alt="群组头像"
                     />

@@ -16,7 +16,10 @@ export interface ReadFileResult {
  * @param {string} resultType 数据类型, {blob|base64}, 默认blob
  * @param {string} accept 可选文件类型, 默认 * / *
  */
-export default async function readDiskFIle(resultType = 'blob', accept = '*/*') {
+export default async function readDiskFIle(
+    resultType = 'blob',
+    accept = '*/*',
+) {
     const result: ReadFileResult | null = await new Promise((resolve) => {
         const $input = document.createElement('input');
         $input.style.display = 'none';
@@ -84,9 +87,12 @@ export default async function readDiskFIle(resultType = 'blob', accept = '*/*') 
     });
 
     if (result && resultType === 'blob') {
-        result.result = new Blob([new Uint8Array(result.result as ArrayBuffer)], {
-            type: result.type,
-        });
+        result.result = new Blob(
+            [new Uint8Array(result.result as ArrayBuffer)],
+            {
+                type: result.type,
+            },
+        );
     }
     return result;
 }

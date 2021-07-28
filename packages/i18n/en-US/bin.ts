@@ -11,7 +11,8 @@ export const deleteTodayRegisteredUsersDescription =
 
 export const deleteMessagesDescription = 'Delete all messages';
 
-export const updateDefaultGroupNameDescription = 'Modify the name of the default group';
+export const updateDefaultGroupNameDescription =
+    'Modify the name of the default group';
 
 export const doctorDescription =
     'Run doctor to diagnose environment and configuration issues';

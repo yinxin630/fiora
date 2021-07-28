@@ -139,28 +139,32 @@ socket.on('message', (message: Message) => {
             focus: false,
         } as AddLinkmanAction);
 
-        fetch('getLinkmanHistoryMessages', { linkmanId: newLinkman._id, existCount: 0 }).then(
-            ([err, res]) => {
-                if (!err) {
-                    dispatch({
-                        type: AddLinkmanHistoryMessagesActionType,
-                        linkmanId: newLinkman._id,
-                        messages: res,
-                    } as AddLinkmanHistoryMessagesAction);
-                }
-            },
-        );
+        fetch('getLinkmanHistoryMessages', {
+            linkmanId: newLinkman._id,
+            existCount: 0,
+        }).then(([err, res]) => {
+            if (!err) {
+                dispatch({
+                    type: AddLinkmanHistoryMessagesActionType,
+                    linkmanId: newLinkman._id,
+                    messages: res,
+                } as AddLinkmanHistoryMessagesAction);
+            }
+        });
     }
 });
 
-socket.on('changeGroupName', ({ groupId, name }: { groupId: string; name: string }) => {
-    dispatch({
-        type: UpdateGroupPropertyActionType,
-        groupId,
-        key: 'name',
-        value: name,
-    } as UpdateGroupPropertyAction);
-});
+socket.on(
+    'changeGroupName',
+    ({ groupId, name }: { groupId: string; name: string }) => {
+        dispatch({
+            type: UpdateGroupPropertyActionType,
+            groupId,
+            key: 'name',
+            value: name,
+        } as UpdateGroupPropertyAction);
+    },
+);
 
 socket.on('deleteGroup', ({ groupId }: { groupId: string }) => {
     dispatch({
@@ -177,13 +181,16 @@ socket.on('changeTag', (tag: string) => {
     } as UpdateUserPropertyAction);
 });
 
-socket.on('deleteMessage', ({ linkmanId, messageId }: { linkmanId: string; messageId: string }) => {
-    dispatch({
-        type: DeleteLinkmanMessageActionType,
-        linkmanId,
-        messageId,
-    } as DeleteLinkmanMessageAction);
-});
+socket.on(
+    'deleteMessage',
+    ({ linkmanId, messageId }: { linkmanId: string; messageId: string }) => {
+        dispatch({
+            type: DeleteLinkmanMessageActionType,
+            linkmanId,
+            messageId,
+        } as DeleteLinkmanMessageAction);
+    },
+);
 
 socket.connect();
 

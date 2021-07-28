@@ -24,7 +24,10 @@ const cache: Cache = {};
  * @param seed 随机种子
  * @param luminosity 亮度
  */
-export function getPerRandomColor(seed: string, luminosity: ColorMode = 'dark') {
+export function getPerRandomColor(
+    seed: string,
+    luminosity: ColorMode = 'dark',
+) {
     if (cache[seed]) {
         return cache[seed];
     }

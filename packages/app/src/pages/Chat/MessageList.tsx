@@ -6,7 +6,12 @@ import action from '../../state/action';
 import fetch from '../../utils/fetch';
 
 import Message from './Message';
-import { useFocusLinkman, useIsLogin, useSelfId, useStore } from '../../hooks/useStore';
+import {
+    useFocusLinkman,
+    useIsLogin,
+    useSelfId,
+    useStore,
+} from '../../hooks/useStore';
 import { Message as MessageType } from '../../types/redux';
 import Toast from '../../components/Toast';
 import { isAndroid, isiOS } from '../../utils/platform';
@@ -29,7 +34,9 @@ function MessageList({ $scrollView }: Props) {
     const messages = focusLinkman?.messages || [];
 
     const [refreshing, setRefreshing] = useState(false);
-    const [showImageViewerDialog, toggleShowImageViewerDialog] = useState(false);
+    const [showImageViewerDialog, toggleShowImageViewerDialog] = useState(
+        false,
+    );
     const [imageViewerIndex, setImageViewerIndex] = useState(0);
 
     useEffect(() => {
@@ -48,7 +55,9 @@ function MessageList({ $scrollView }: Props) {
     }, []);
 
     function getImages() {
-        const imageMessages = messages.filter((message) => message.type === 'image');
+        const imageMessages = messages.filter(
+            (message) => message.type === 'image',
+        );
         const images = imageMessages.map((message) => {
             const url = message.content;
             const parseResult = /width=(\d+)&height=(\d+)/.exec(url);
@@ -121,14 +130,20 @@ function MessageList({ $scrollView }: Props) {
     /**
      * 加载历史消息后, 自动滚动到合适位置
      */
-    function handleContentSizeChange(contentWidth: number, contentHeight: number) {
+    function handleContentSizeChange(
+        contentWidth: number,
+        contentHeight: number,
+    ) {
         if (prevContentHeight === 0) {
             $scrollView.current!.scrollTo({
                 x: 0,
                 y: 0,
                 animated: false,
             });
-        } else if (contentHeight !== prevContentHeight && messages.length - prevMessageCount > 1) {
+        } else if (
+            contentHeight !== prevContentHeight &&
+            messages.length - prevMessageCount > 1
+        ) {
             $scrollView.current!.scrollTo({
                 x: 0,
                 y: contentHeight - prevContentHeight - 60,
@@ -140,8 +155,14 @@ function MessageList({ $scrollView }: Props) {
     }
 
     function handleScroll(event: any) {
-        const { layoutMeasurement, contentSize, contentOffset } = event.nativeEvent;
-        shouldScroll = contentOffset.y > contentSize.height - layoutMeasurement.height * 1.2;
+        const {
+            layoutMeasurement,
+            contentSize,
+            contentOffset,
+        } = event.nativeEvent;
+        shouldScroll =
+            contentOffset.y >
+            contentSize.height - layoutMeasurement.height * 1.2;
 
         if (contentOffset.y < (isiOS ? 0 : 50)) {
             handleRefresh();
@@ -150,7 +171,9 @@ function MessageList({ $scrollView }: Props) {
 
     function openImageViewer(url: string) {
         const images = getImages();
-        const index = images.findIndex((image) => image.url.indexOf(url) !== -1);
+        const index = images.findIndex(
+            (image) => image.url.indexOf(url) !== -1,
+        );
         toggleShowImageViewerDialog(true);
         setImageViewerIndex(index);
     }

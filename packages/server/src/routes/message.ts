@@ -55,8 +55,10 @@ async function pushNotification(
         try {
             const results = await expo.sendPushNotificationsAsync(chunk);
             results.forEach((result) => {
-                const { status, message: errMessage } =
-                    result as ExpoPushErrorTicket;
+                const {
+                    status,
+                    message: errMessage,
+                } = result as ExpoPushErrorTicket;
                 if (status === 'error') {
                     logger.warn('[Notification]', errMessage);
                 }
@@ -185,7 +187,7 @@ export async function sendMessage(ctx: Context<SendMessageData>) {
         if (notificationTokens.length) {
             pushNotification(
                 notificationTokens,
-                messageData as unknown as MessageDocument,
+                (messageData as unknown) as MessageDocument,
                 toGroup.name,
             );
         }
@@ -207,7 +209,7 @@ export async function sendMessage(ctx: Context<SendMessageData>) {
         if (notificationTokens.length) {
             pushNotification(
                 notificationTokens.map(({ token }) => token),
-                messageData as unknown as MessageDocument,
+                (messageData as unknown) as MessageDocument,
             );
         }
     }
