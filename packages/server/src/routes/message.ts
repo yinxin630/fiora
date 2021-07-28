@@ -14,7 +14,9 @@ import Message, {
     MessageDocument,
 } from '@fiora/database/mongoose/models/message';
 import Notification from '@fiora/database/mongoose/models/notification';
-import History, { createOrUpdateHistory } from '@fiora/database/mongoose/models/history';
+import History, {
+    createOrUpdateHistory,
+} from '@fiora/database/mongoose/models/history';
 import Socket from '@fiora/database/mongoose/models/socket';
 
 import client from '../../../config/client';
@@ -36,12 +38,15 @@ async function pushNotification(
 ) {
     const expo = new Expo({});
 
-    const content = message.type === 'text' ? message.content : `[${message.type}]`;
+    const content =
+        message.type === 'text' ? message.content : `[${message.type}]`;
     const pushMessages = notificationTokens.map((notificationToken) => ({
         to: notificationToken,
         sound: 'default',
         title: groupName || (message.from as any).username,
-        body: groupName ? `${(message.from as any).username}: ${content}` : content,
+        body: groupName
+            ? `${(message.from as any).username}: ${content}`
+            : content,
         data: { focus: message.to },
     }));
 
@@ -50,7 +55,8 @@ async function pushNotification(
         try {
             const results = await expo.sendPushNotificationsAsync(chunk);
             results.forEach((result) => {
-                const { status, message: errMessage } = result as ExpoPushErrorTicket;
+                const { status, message: errMessage } =
+                    result as ExpoPushErrorTicket;
                 if (status === 'error') {
                     logger.warn('[Notification]', errMessage);
                 }
@@ -131,7 +137,10 @@ export async function sendMessage(ctx: Context<SendMessageData>) {
         });
     }
 
-    const user = await User.findOne({ _id: ctx.socket.user }, { username: 1, avatar: 1, tag: 1 });
+    const user = await User.findOne(
+        { _id: ctx.socket.user },
+        { username: 1, avatar: 1, tag: 1 },
+    );
     if (!user) {
         throw new AssertionError({ message: '用户不存在' });
     }
@@ -166,7 +175,9 @@ export async function sendMessage(ctx: Context<SendMessageData>) {
         const notificationTokens: string[] = [];
         notifications.forEach((notification) => {
             // Messages sent by yourself don’t push notification to yourself
-            if (notification.user._id.toString() === ctx.socket.user.toString()) {
+            if (
+                notification.user._id.toString() === ctx.socket.user.toString()
+            ) {
                 return;
             }
             notificationTokens.push(notification.token);
@@ -179,19 +190,18 @@ export async function sendMessage(ctx: Context<SendMessageData>) {
             );
         }
     } else {
-        const sockets = await Socket.find({ user: toUser?._id });
-        ctx.socket.emit(
-            sockets.map((socket) => socket.id),
-            'message',
-            messageData,
-        );
+        const targetSockets = await Socket.find({ user: toUser?._id });
+        const targetSocketIdList =
+            targetSockets?.map((socket) => socket.id) || [];
+        if (targetSocketIdList.length) {
+            ctx.socket.emit(targetSocketIdList, 'message', messageData);
+        }
 
         const selfSockets = await Socket.find({ user: ctx.socket.user });
-        ctx.socket.emit(
-            selfSockets.map((socket) => socket.id),
-            'message',
-            messageData,
-        );
+        const selfSocketIdList = selfSockets?.map((socket) => socket.id) || [];
+        if (selfSocketIdList.length) {
+            ctx.socket.emit(selfSocketIdList, 'message', messageData);
+        }
 
         const notificationTokens = await Notification.find({ user: toUser });
         if (notificationTokens.length) {
@@ -211,7 +221,9 @@ export async function sendMessage(ctx: Context<SendMessageData>) {
  * 获取一组联系人的最后历史消息
  * @param ctx Context
  */
-export async function getLinkmansLastMessages(ctx: Context<{ linkmans: string[] }>) {
+export async function getLinkmansLastMessages(
+    ctx: Context<{ linkmans: string[] }>,
+) {
     const { linkmans } = ctx.data;
     assert(Array.isArray(linkmans), '参数linkmans应该是Array');
 
@@ -241,7 +253,9 @@ export async function getLinkmansLastMessages(ctx: Context<{ linkmans: string[] 
     return messages;
 }
 
-export async function getLinkmansLastMessagesV2(ctx: Context<{ linkmans: string[] }>) {
+export async function getLinkmansLastMessagesV2(
+    ctx: Context<{ linkmans: string[] }>,
+) {
     const { linkmans } = ctx.data;
 
     const histories = await History.find({
@@ -283,24 +297,27 @@ export async function getLinkmansLastMessagesV2(ctx: Context<{ linkmans: string[
             unread: number;
         };
     };
-    const responseData = linkmans.reduce((result: ResponseData, linkmanId, index) => {
-        const messages = linkmansMessages[index];
-        if (historyMap[linkmanId]) {
-            const messageIndex = messages.findIndex(
-                ({ _id }) => _id.toString() === historyMap[linkmanId],
-            );
-            result[linkmanId] = {
-                messages: messages.slice(0, 15).reverse(),
-                unread: messageIndex === -1 ? 100 : messageIndex,
-            };
-        } else {
-            result[linkmanId] = {
-                messages: messages.reverse(),
-                unread: 0,
-            };
-        }
-        return result;
-    }, {});
+    const responseData = linkmans.reduce(
+        (result: ResponseData, linkmanId, index) => {
+            const messages = linkmansMessages[index];
+            if (historyMap[linkmanId]) {
+                const messageIndex = messages.findIndex(
+                    ({ _id }) => _id.toString() === historyMap[linkmanId],
+                );
+                result[linkmanId] = {
+                    messages: messages.slice(0, 15).reverse(),
+                    unread: messageIndex === -1 ? 100 : messageIndex,
+                };
+            } else {
+                result[linkmanId] = {
+                    messages: messages.reverse(),
+                    unread: 0,
+                };
+            }
+            return result;
+        },
+        {},
+    );
 
     return responseData;
 }
@@ -322,7 +339,10 @@ export async function getLinkmanHistoryMessages(
             from: 1,
             createTime: 1,
         },
-        { sort: { createTime: -1 }, limit: EachFetchMessagesCount + existCount },
+        {
+            sort: { createTime: -1 },
+            limit: EachFetchMessagesCount + existCount,
+        },
     ).populate('from', { username: 1, avatar: 1, tag: 1 });
     await handleInviteV2Messages(messages);
     const result = messages.slice(existCount).reverse();
@@ -333,7 +353,9 @@ export async function getLinkmanHistoryMessages(
  * 获取默认群组的历史消息
  * @param ctx Context
  */
-export async function getDefaultGroupHistoryMessages(ctx: Context<{ existCount: number }>) {
+export async function getDefaultGroupHistoryMessages(
+    ctx: Context<{ existCount: number }>,
+) {
     const { existCount } = ctx.data;
 
     const group = await Group.findOne({ isDefault: true });
@@ -348,7 +370,10 @@ export async function getDefaultGroupHistoryMessages(ctx: Context<{ existCount: 
             from: 1,
             createTime: 1,
         },
-        { sort: { createTime: -1 }, limit: EachFetchMessagesCount + existCount },
+        {
+            sort: { createTime: -1 },
+            limit: EachFetchMessagesCount + existCount,
+        },
     ).populate('from', { username: 1, avatar: 1, tag: 1 });
     await handleInviteV2Messages(messages);
     const result = messages.slice(existCount).reverse();
@@ -367,14 +392,18 @@ export async function deleteMessage(ctx: Context<{ messageId: string }>) {
     const { messageId } = ctx.data;
     assert(messageId, 'messageId不能为空');
 
-    assert(!client.disableDeleteMessage || ctx.socket.isAdmin, '已禁止撤回消息');
+    assert(
+        !client.disableDeleteMessage || ctx.socket.isAdmin,
+        '已禁止撤回消息',
+    );
 
     const message = await Message.findOne({ _id: messageId });
     if (!message) {
         throw new AssertionError({ message: '消息不存在' });
     }
     assert(
-        ctx.socket.isAdmin || message.from.toString() === ctx.socket.user.toString(),
+        ctx.socket.isAdmin ||
+            message.from.toString() === ctx.socket.user.toString(),
         '只能撤回本人的消息',
     );
 
@@ -395,19 +424,24 @@ export async function deleteMessage(ctx: Context<{ messageId: string }>) {
     } else {
         // 私聊消息
         const targetUserId = message.to.replace(ctx.socket.user.toString(), '');
-        const sockets = await Socket.find({ user: targetUserId });
-        ctx.socket.emit(
-            sockets.map((socket) => socket.id),
-            messageName,
-            messageData,
-        );
+        const targetSockets = await Socket.find({ user: targetUserId });
+        const targetSocketIdList =
+            targetSockets?.map((socket) => socket.id) || [];
+        if (targetSocketIdList) {
+            ctx.socket.emit(targetSocketIdList, messageName, messageData);
+        }
 
         const selfSockets = await Socket.find({ user: ctx.socket.user });
-        ctx.socket.emit(
-            selfSockets.map((socket) => socket.id).filter((socketId) => socketId !== ctx.socket.id),
-            messageName,
-            messageData,
-        );
+        const selfSocketIdList = selfSockets?.map((socket) => socket.id) || [];
+        if (selfSocketIdList) {
+            ctx.socket.emit(
+                selfSocketIdList.filter(
+                    (socketId) => socketId !== ctx.socket.id,
+                ),
+                messageName,
+                messageData,
+            );
+        }
     }
 
     return {

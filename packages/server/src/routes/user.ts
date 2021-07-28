@@ -10,9 +10,15 @@ import User, { UserDocument } from '@fiora/database/mongoose/models/user';
 import Group, { GroupDocument } from '@fiora/database/mongoose/models/group';
 import Friend, { FriendDocument } from '@fiora/database/mongoose/models/friend';
 import Socket from '@fiora/database/mongoose/models/socket';
-import Message, { handleInviteV2Messages } from '@fiora/database/mongoose/models/message';
+import Message, {
+    handleInviteV2Messages,
+} from '@fiora/database/mongoose/models/message';
 import Notification from '@fiora/database/mongoose/models/notification';
-import { getNewRegisteredUserIpKey, getNewUserKey, Redis } from '@fiora/database/redis/initRedis';
+import {
+    getNewRegisteredUserIpKey,
+    getNewUserKey,
+    Redis,
+} from '@fiora/database/redis/initRedis';
 
 const { isValid } = Types.ObjectId;
 
@@ -55,7 +61,9 @@ async function handleNewUser(user: UserDocument, ip = '') {
         await Redis.set(getNewUserKey(userId), userId, Redis.Day);
 
         if (ip) {
-            const registeredCount = await Redis.get(getNewRegisteredUserIpKey(ip));
+            const registeredCount = await Redis.get(
+                getNewRegisteredUserIpKey(ip),
+            );
             await Redis.set(
                 getNewRegisteredUserIpKey(ip),
                 (parseInt(registeredCount || '0', 10) + 1).toString(),
@@ -74,7 +82,9 @@ async function getUserNotificationTokens(user: UserDocument) {
  * 注册新用户
  * @param ctx Context
  */
-export async function register(ctx: Context<{ username: string; password: string } & Environment>) {
+export async function register(
+    ctx: Context<{ username: string; password: string } & Environment>,
+) {
     assert(!config.disableRegister, '注册功能已被禁用, 请联系管理员开通账号');
 
     const { username, password, os, browser, environment } = ctx.data;
@@ -84,7 +94,9 @@ export async function register(ctx: Context<{ username: string; password: string
     const user = await User.findOne({ username });
     assert(!user, '该用户名已存在');
 
-    const registeredCountWithin24Hours = await Redis.get(getNewRegisteredUserIpKey(ctx.socket.ip));
+    const registeredCountWithin24Hours = await Redis.get(
+        getNewRegisteredUserIpKey(ctx.socket.ip),
+    );
     assert(parseInt(registeredCountWithin24Hours || '0', 10) < 3, '系统错误');
 
     const defaultGroup = await Group.findOne({ isDefault: true });
@@ -157,7 +169,9 @@ export async function register(ctx: Context<{ username: string; password: string
  * 账密登录
  * @param ctx Context
  */
-export async function login(ctx: Context<{ username: string; password: string } & Environment>) {
+export async function login(
+    ctx: Context<{ username: string; password: string } & Environment>,
+) {
     const { username, password, os, browser, environment } = ctx.data;
     assert(username, '用户名不能为空');
     assert(password, '密码不能为空');
@@ -226,7 +240,9 @@ export async function login(ctx: Context<{ username: string; password: string } 
  * token登录
  * @param ctx Context
  */
-export async function loginByToken(ctx: Context<{ token: string } & Environment>) {
+export async function loginByToken(
+    ctx: Context<{ token: string } & Environment>,
+) {
     const { token, os, browser, environment } = ctx.data;
     assert(token, 'token不能为空');
 
@@ -420,7 +436,9 @@ export async function deleteFriend(ctx: Context<{ userId: string }>) {
  * 修改用户密码
  * @param ctx Context
  */
-export async function changePassword(ctx: Context<{ oldPassword: string; newPassword: string }>) {
+export async function changePassword(
+    ctx: Context<{ oldPassword: string; newPassword: string }>,
+) {
     const { oldPassword, newPassword } = ctx.data;
     assert(newPassword, '新密码不能为空');
     assert(oldPassword !== newPassword, '新密码不能与旧密码相同');
@@ -497,7 +515,9 @@ export async function resetUserPassword(ctx: Context<{ username: string }>) {
  * 更新用户标签, 需要管理员权限
  * @param ctx Context
  */
-export async function setUserTag(ctx: Context<{ username: string; tag: string }>) {
+export async function setUserTag(
+    ctx: Context<{ username: string; tag: string }>,
+) {
     const { username, tag } = ctx.data;
     assert(username !== '', 'username不能为空');
     assert(tag !== '', 'tag不能为空');
@@ -516,7 +536,9 @@ export async function setUserTag(ctx: Context<{ username: string; tag: string }>
 
     const sockets = await Socket.find({ user: user._id });
     const socketIdList = sockets.map((socket) => socket.id);
-    ctx.socket.emit(socketIdList, 'changeTag', user.tag);
+    if (socketIdList.length) {
+        ctx.socket.emit(socketIdList, 'changeTag', user.tag);
+    }
 
     return {
         msg: 'ok',
@@ -526,7 +548,9 @@ export async function setUserTag(ctx: Context<{ username: string; tag: string }>
 /**
  * 获取指定在线用户 ip
  */
-export async function getUserIps(ctx: Context<{ userId: string }>): Promise<string[]> {
+export async function getUserIps(
+    ctx: Context<{ userId: string }>,
+): Promise<string[]> {
     const { userId } = ctx.data;
     assert(userId, 'userId不能为空');
     assert(isValid(userId), '不合法的userId');
@@ -545,7 +569,9 @@ function getUserOnlineStatusWrapper() {
             expireTime: number;
         }
     > = {};
-    return async function getUserOnlineStatus(ctx: Context<{ userId: string }>) {
+    return async function getUserOnlineStatus(
+        ctx: Context<{ userId: string }>,
+    ) {
         const { userId } = ctx.data;
         assert(userId, 'userId不能为空');
         assert(isValid(userId), '不合法的userId');
