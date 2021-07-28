@@ -14,7 +14,12 @@ type Props = {
     onLongPress: () => void;
 };
 
-function ImageMessage({ message, openImageViewer, couldDelete, onLongPress }: Props) {
+function ImageMessage({
+    message,
+    openImageViewer,
+    couldDelete,
+    onLongPress,
+}: Props) {
     const maxWidth = ScreenWidth - 130 - 16;
     const maxHeight = 200;
     let scale = 1;
@@ -38,8 +43,16 @@ function ImageMessage({ message, openImageViewer, couldDelete, onLongPress }: Pr
     }
 
     return (
-        <View style={[styles.container, { width: width * scale, height: height * scale }]}>
-            <TouchableOpacity onPress={handleImageClick} {...(couldDelete ? { onLongPress } : {})}>
+        <View
+            style={[
+                styles.container,
+                { width: width * scale, height: height * scale },
+            ]}
+        >
+            <TouchableOpacity
+                onPress={handleImageClick}
+                {...(couldDelete ? { onLongPress } : {})}
+            >
                 <Image
                     src={message.content}
                     style={{ width: width * scale, height: height * scale }}

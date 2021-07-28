@@ -29,10 +29,15 @@ function InviteMessage(props: InviteMessageProps) {
     }
 
     return (
-        <div className={Style.inviteMessage} onClick={handleJoinGroup} role="button">
+        <div
+            className={Style.inviteMessage}
+            onClick={handleJoinGroup}
+            role="button"
+        >
             <div className={Style.info}>
                 <span className={Style.info}>
-                    &quot;{invite.inviterName}&quot; 邀请你加入群组「{invite.groupName}」
+                    &quot;{invite.inviterName}&quot; 邀请你加入群组「
+                    {invite.groupName}」
                 </span>
             </div>
             <p className={Style.join}>加入</p>

@@ -8,7 +8,8 @@ export const SEAL_USER_TIMEOUT = 1000 * 60 * 10; // 10分钟
 export const SEAL_IP_TIMEOUT = 1000 * 60 * 60 * 6; // 6小时
 
 /** 透明图 */
-export const TRANSPARENT_IMAGE = 'data:image/png;base64,R0lGODlhFAAUAIAAAP///wAAACH5BAEAAAAALAAAAAAUABQAAAIRhI+py+0Po5y02ouz3rz7rxUAOw==';
+export const TRANSPARENT_IMAGE =
+    'data:image/png;base64,R0lGODlhFAAUAIAAAP///wAAACH5BAEAAAAALAAAAAAUABQAAAIRhI+py+0Po5y02ouz3rz7rxUAOw==';
 
 /** 加密salt位数 */
 export const SALT_ROUNDS = 10;

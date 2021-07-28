@@ -39,9 +39,9 @@ function App({ title, primaryColor, isLogin }: Props) {
             backgroundColor: primaryColor10,
             borderBottomWidth: 0,
         },
-        navBarButtonColor: "#f9f9f9",
-        renderLeftButton: () => <BackButton />
-    }
+        navBarButtonColor: '#f9f9f9',
+        renderLeftButton: () => <BackButton />,
+    };
 
     return (
         <View style={styles.container}>
@@ -52,7 +52,10 @@ function App({ title, primaryColor, isLogin }: Props) {
                             <Tabs
                                 key="tabs"
                                 hideNavBar
-                                tabBarStyle={{ backgroundColor: primaryColor8, borderTopWidth: 0 }}
+                                tabBarStyle={{
+                                    backgroundColor: primaryColor8,
+                                    borderTopWidth: 0,
+                                }}
                                 showLabel={false}
                             >
                                 <Scene
@@ -66,12 +69,16 @@ function App({ title, primaryColor, isLogin }: Props) {
                                             name="chatbubble-ellipses-outline"
                                             style={{
                                                 fontSize: 24,
-                                                color: focused ? 'white' : '#bbb',
+                                                color: focused
+                                                    ? 'white'
+                                                    : '#bbb',
                                             }}
                                         />
                                     )}
                                     renderLeftButton={() => <SelfInfo />}
-                                    renderRightButton={() => <ChatListRightButton />}
+                                    renderRightButton={() => (
+                                        <ChatListRightButton />
+                                    )}
                                     navigationBarStyle={{
                                         backgroundColor: primaryColor10,
                                         borderBottomWidth: 0,
@@ -87,7 +94,9 @@ function App({ title, primaryColor, isLogin }: Props) {
                                             name="aperture-outline"
                                             style={{
                                                 fontSize: 24,
-                                                color: focused ? 'white' : '#bbb',
+                                                color: focused
+                                                    ? 'white'
+                                                    : '#bbb',
                                             }}
                                         />
                                     )}

@@ -56,8 +56,12 @@ function getHeightPercent() {
 
 function App() {
     const isReady = useSelector((state: State) => state.status.ready);
-    const backgroundImageUrl = useSelector((state: State) => state.status.backgroundImage);
-    const backgroundImage = isReady ? getOSSFileUrl(backgroundImageUrl, `image/quality,q_95`) : '#';
+    const backgroundImageUrl = useSelector(
+        (state: State) => state.status.backgroundImage,
+    );
+    const backgroundImage = isReady
+        ? getOSSFileUrl(backgroundImageUrl, `image/quality,q_95`)
+        : '#';
     const $app = useRef(null);
 
     // 计算窗口高度/宽度百分比
@@ -75,7 +79,9 @@ function App() {
 
     // 获取底图尺寸
     const [backgroundWidth, setBackgroundWidth] = useState(window.innerWidth);
-    const [backgroundHeight, setBackgroundHeight] = useState(window.innerHeight);
+    const [backgroundHeight, setBackgroundHeight] = useState(
+        window.innerHeight,
+    );
     useEffect(() => {
         const img = new Image();
         img.onload = () => {
@@ -109,9 +115,8 @@ function App() {
     // 模糊背景样式
     const blurStyle = useMemo(
         () => ({
-            backgroundPosition: `${(-(1 - width) * window.innerWidth) / 2}px ${
-                (-(1 - height) * window.innerHeight) / 2
-            }px`,
+            backgroundPosition: `${(-(1 - width) * window.innerWidth) /
+                2}px ${(-(1 - height) * window.innerHeight) / 2}px`,
             ...style,
             ...childStyle,
         }),
@@ -143,10 +148,16 @@ function App() {
     }
 
     return (
-        <div className={`${Style.app} ${globalStyles}`} style={style} ref={$app}>
+        <div
+            className={`${Style.app} ${globalStyles}`}
+            style={style}
+            ref={$app}
+        >
             <div className={Style.blur} style={blurStyle} />
             <div className={Style.child} style={childStyle}>
-                <ShowUserOrGroupInfoContext.Provider value={(contextValue as unknown) as null}>
+                <ShowUserOrGroupInfoContext.Provider
+                    value={(contextValue as unknown) as null}
+                >
                     <Sidebar />
                     <FunctionBarAndLinkmanList />
                     <Chat />

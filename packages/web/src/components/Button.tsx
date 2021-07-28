@@ -24,11 +24,20 @@ type Props = {
     className?: string;
     /** 点击事件 */
     onClick?: () => void;
-}
+};
 
-function Button({ type = 'primary', children, className = '', onClick }: Props) {
+function Button({
+    type = 'primary',
+    children,
+    className = '',
+    onClick,
+}: Props) {
     return (
-        <button className={`${button} ${type} ${className}`} type="button" onClick={onClick}>
+        <button
+            className={`${button} ${type} ${className}`}
+            type="button"
+            onClick={onClick}
+        >
             {children}
         </button>
     );

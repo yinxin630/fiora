@@ -12,7 +12,12 @@ import Message from '../../components/Message';
 import Avatar from '../../components/Avatar';
 import Tooltip from '../../components/Tooltip';
 import Dialog from '../../components/Dialog';
-import { changeGroupName, changeGroupAvatar, deleteGroup, leaveGroup } from '../../service';
+import {
+    changeGroupName,
+    changeGroupAvatar,
+    deleteGroup,
+    leaveGroup,
+} from '../../service';
 import useAction from '../../hooks/useAction';
 import config from '../../../../config/client';
 import { ShowUserOrGroupInfoContext } from '../../context';
@@ -45,7 +50,10 @@ function GroupManagePanel(props: GroupManagePanelProps) {
     }
 
     async function handleChangeGroupAvatar() {
-        const image = await readDiskFIle('blob', 'image/png,image/jpeg,image/gif');
+        const image = await readDiskFIle(
+            'blob',
+            'image/png,image/jpeg,image/gif',
+        );
         if (!image) {
             return;
         }
@@ -61,7 +69,11 @@ function GroupManagePanel(props: GroupManagePanelProps) {
             );
             const isSuccess = await changeGroupAvatar(groupId, imageUrl);
             if (isSuccess) {
-                action.setLinkmanProperty(groupId, 'avatar', URL.createObjectURL(image.result));
+                action.setLinkmanProperty(
+                    groupId,
+                    'avatar',
+                    URL.createObjectURL(image.result),
+                );
                 Message.success('修改群头像成功');
             }
         } catch (err) {
@@ -111,7 +123,11 @@ function GroupManagePanel(props: GroupManagePanelProps) {
             role="button"
             data-float-panel="true"
         >
-            <div className={`${Style.container} ${visible ? Style.show : Style.hide}`}>
+            <div
+                className={`${Style.container} ${
+                    visible ? Style.show : Style.hide
+                }`}
+            >
                 <p className={Style.title}>群组信息</p>
                 <div className={Style.content}>
                     {isLogin && selfId === creator ? (
@@ -122,7 +138,10 @@ function GroupManagePanel(props: GroupManagePanelProps) {
                                 value={groupName}
                                 onChange={setGroupName}
                             />
-                            <Button className={Style.button} onClick={handleChangeGroupName}>
+                            <Button
+                                className={Style.button}
+                                onClick={handleChangeGroupName}
+                            >
                                 确认修改
                             </Button>
                         </div>
@@ -165,24 +184,37 @@ function GroupManagePanel(props: GroupManagePanelProps) {
                         </p>
                         <div>
                             {onlineMembers.map((member) => (
-                                <div key={member.user._id} className={Style.onlineMember}>
+                                <div
+                                    key={member.user._id}
+                                    className={Style.onlineMember}
+                                >
                                     <div
                                         className={Style.userinfoBlock}
-                                        onClick={() => handleShowUserInfo(member.user)}
+                                        onClick={() =>
+                                            handleShowUserInfo(member.user)
+                                        }
                                         role="button"
                                     >
-                                        <Avatar size={24} src={member.user.avatar} />
-                                        <p className={Style.username}>{member.user.username}</p>
+                                        <Avatar
+                                            size={24}
+                                            src={member.user.avatar}
+                                        />
+                                        <p className={Style.username}>
+                                            {member.user.username}
+                                        </p>
                                     </div>
                                     <Tooltip
                                         placement="top"
                                         trigger={['hover']}
-                                        overlay={<span>{member.environment}</span>}
+                                        overlay={
+                                            <span>{member.environment}</span>
+                                        }
                                     >
                                         <p className={Style.clientInfoText}>
                                             {member.browser}
                                             &nbsp;&nbsp;
-                                            {member.os === 'Windows Server 2008 R2 / 7'
+                                            {member.os ===
+                                            'Windows Server 2008 R2 / 7'
                                                 ? 'Windows 7'
                                                 : member.os}
                                         </p>

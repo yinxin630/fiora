@@ -61,72 +61,100 @@ function CodeEditor(props: CodeEditorProps) {
                 switch (language) {
                     case 'javascript': {
                         // @ts-ignore
-                        await import(/* webpackChunkName: "react-ace-mode-javascript" */ 'brace/mode/javascript');
+                        await import(
+                            /* webpackChunkName: "react-ace-mode-javascript" */ 'brace/mode/javascript'
+                        );
                         break;
                     }
                     case 'typescript': {
                         // @ts-ignore
-                        await import(/* webpackChunkName: "react-ace-mode-typescript" */ 'brace/mode/typescript');
+                        await import(
+                            /* webpackChunkName: "react-ace-mode-typescript" */ 'brace/mode/typescript'
+                        );
                         break;
                     }
                     case 'java': {
                         // @ts-ignore
-                        await import(/* webpackChunkName: "react-ace-mode-java" */ 'brace/mode/java');
+                        await import(
+                            /* webpackChunkName: "react-ace-mode-java" */ 'brace/mode/java'
+                        );
                         break;
                     }
                     case 'c_cpp': {
                         // @ts-ignore
-                        await import(/* webpackChunkName: "react-ace-mode-c_cpp" */ 'brace/mode/c_cpp');
+                        await import(
+                            /* webpackChunkName: "react-ace-mode-c_cpp" */ 'brace/mode/c_cpp'
+                        );
                         break;
                     }
                     case 'python': {
                         // @ts-ignore
-                        await import(/* webpackChunkName: "react-ace-mode-python" */ 'brace/mode/python');
+                        await import(
+                            /* webpackChunkName: "react-ace-mode-python" */ 'brace/mode/python'
+                        );
                         break;
                     }
                     case 'ruby': {
                         // @ts-ignore
-                        await import(/* webpackChunkName: "react-ace-mode-ruby" */ 'brace/mode/ruby');
+                        await import(
+                            /* webpackChunkName: "react-ace-mode-ruby" */ 'brace/mode/ruby'
+                        );
                         break;
                     }
                     case 'php': {
                         // @ts-ignore
-                        await import(/* webpackChunkName: "react-ace-mode-php" */ 'brace/mode/php');
+                        await import(
+                            /* webpackChunkName: "react-ace-mode-php" */ 'brace/mode/php'
+                        );
                         break;
                     }
                     case 'golang': {
                         // @ts-ignore
-                        await import(/* webpackChunkName: "react-ace-mode-golang" */ 'brace/mode/golang');
+                        await import(
+                            /* webpackChunkName: "react-ace-mode-golang" */ 'brace/mode/golang'
+                        );
                         break;
                     }
                     case 'csharp': {
                         // @ts-ignore
-                        await import(/* webpackChunkName: "react-ace-mode-csharp" */ 'brace/mode/csharp');
+                        await import(
+                            /* webpackChunkName: "react-ace-mode-csharp" */ 'brace/mode/csharp'
+                        );
                         break;
                     }
                     case 'html': {
                         // @ts-ignore
-                        await import(/* webpackChunkName: "react-ace-mode-html" */ 'brace/mode/html');
+                        await import(
+                            /* webpackChunkName: "react-ace-mode-html" */ 'brace/mode/html'
+                        );
                         break;
                     }
                     case 'css': {
                         // @ts-ignore
-                        await import(/* webpackChunkName: "react-ace-mode-css" */ 'brace/mode/css');
+                        await import(
+                            /* webpackChunkName: "react-ace-mode-css" */ 'brace/mode/css'
+                        );
                         break;
                     }
                     case 'text': {
                         // @ts-ignore
-                        await import(/* webpackChunkName: "react-ace-mode-text" */ 'brace/mode/markdown');
+                        await import(
+                            /* webpackChunkName: "react-ace-mode-text" */ 'brace/mode/markdown'
+                        );
                         break;
                     }
                     case 'sql': {
                         // @ts-ignore
-                        await import(/* webpackChunkName: "react-ace-mode-sql" */ 'brace/mode/sql');
+                        await import(
+                            /* webpackChunkName: "react-ace-mode-sql" */ 'brace/mode/sql'
+                        );
                         break;
                     }
                     case 'json': {
                         // @ts-ignore
-                        await import(/* webpackChunkName: "react-ace-mode-json" */ 'brace/mode/json');
+                        await import(
+                            /* webpackChunkName: "react-ace-mode-json" */ 'brace/mode/json'
+                        );
                         break;
                     }
                     default: {
@@ -163,7 +191,12 @@ function CodeEditor(props: CodeEditorProps) {
             },
         };
 
-        return <AceEditor mode={language === 'text' ? 'markdown' : language} {...editorProps} />;
+        return (
+            <AceEditor
+                mode={language === 'text' ? 'markdown' : language}
+                {...editorProps}
+            />
+        );
     }
 
     return (
@@ -190,8 +223,13 @@ function CodeEditor(props: CodeEditorProps) {
                             ))}
                         </Select>
                     </div>
-                    <div className={Style.editorContainer}>{renderEditor()}</div>
-                    <Button className={Style.sendButton} onClick={() => onSend(language, value)}>
+                    <div className={Style.editorContainer}>
+                        {renderEditor()}
+                    </div>
+                    <Button
+                        className={Style.sendButton}
+                        onClick={() => onSend(language, value)}
+                    >
                         发送
                     </Button>
                 </div>

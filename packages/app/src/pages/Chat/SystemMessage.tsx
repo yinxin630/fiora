@@ -13,7 +13,10 @@ function SystemMessage({ message }: Props) {
     return (
         <View style={styles.container}>
             <Text
-                style={[styles.text, { color: getPerRandomColor(from.originUsername as string) }]}
+                style={[
+                    styles.text,
+                    { color: getPerRandomColor(from.originUsername as string) },
+                ]}
             >
                 {from.originUsername}
                 &nbsp;

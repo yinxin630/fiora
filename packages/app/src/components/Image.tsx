@@ -10,7 +10,12 @@ type Props = {
     style?: any;
 };
 
-export default function Image({ src, width = '100%', height = '100%', style }: Props) {
+export default function Image({
+    src,
+    width = '100%',
+    height = '100%',
+    style,
+}: Props) {
     // @ts-ignore
     let source: ImageSourcePropType = src;
     if (typeof src === 'string') {

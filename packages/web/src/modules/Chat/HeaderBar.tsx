@@ -35,12 +35,21 @@ type Props = {
 };
 
 function HeaderBar(props: Props) {
-    const { id, name, type, onlineMembersCount, isOnline, onClickFunction } = props;
+    const {
+        id,
+        name,
+        type,
+        onlineMembersCount,
+        isOnline,
+        onClickFunction,
+    } = props;
 
     const action = useAction();
     const connectStatus = useSelector((state: State) => state.connect);
     const isLogin = useIsLogin();
-    const sidebarVisible = useSelector((state: State) => state.status.sidebarVisible);
+    const sidebarVisible = useSelector(
+        (state: State) => state.status.sidebarVisible,
+    );
     const aero = useAero();
 
     function handleShareGroup() {
@@ -56,14 +65,21 @@ function HeaderBar(props: Props) {
                         height={40}
                         icon="feature"
                         iconSize={24}
-                        onClick={() => action.setStatus('sidebarVisible', !sidebarVisible)}
+                        onClick={() =>
+                            action.setStatus('sidebarVisible', !sidebarVisible)
+                        }
                     />
                     <IconButton
                         width={40}
                         height={40}
                         icon="friends"
                         iconSize={24}
-                        onClick={() => action.setStatus('functionBarAndLinkmanListVisible', true)}
+                        onClick={() =>
+                            action.setStatus(
+                                'functionBarAndLinkmanListVisible',
+                                true,
+                            )
+                        }
                     />
                 </div>
             )}
@@ -72,10 +88,14 @@ function HeaderBar(props: Props) {
                     <span>
                         {name}{' '}
                         {isLogin && onlineMembersCount !== undefined && (
-                            <b className={styles.count}>{`(${onlineMembersCount})`}</b>
+                            <b
+                                className={styles.count}
+                            >{`(${onlineMembersCount})`}</b>
                         )}
                         {isLogin && isOnline !== undefined && (
-                            <b className={styles.count}>{`(${isOnline ? '在线' : '离线'})`}</b>
+                            <b className={styles.count}>{`(${
+                                isOnline ? '在线' : '离线'
+                            })`}</b>
                         )}
                     </span>
                 )}
@@ -87,9 +107,13 @@ function HeaderBar(props: Props) {
                 )}
             </h2>
             {isLogin && type ? (
-                <div className={`${Style.buttonContainer} ${Style.rightButtonContainer}`}>
+                <div
+                    className={`${Style.buttonContainer} ${Style.rightButtonContainer}`}
+                >
                     {type === 'group' && (
-                        <CopyToClipboard text={`${window.location.origin}/invite/group/${id}`}>
+                        <CopyToClipboard
+                            text={`${window.location.origin}/invite/group/${id}`}
+                        >
                             <IconButton
                                 width={40}
                                 height={40}

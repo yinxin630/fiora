@@ -83,7 +83,9 @@ function setUser(user: any) {
         linkmans,
     } as SetUserAction);
 }
-function setLinkmansLastMessages(linkmans: SetLinkmanMessagesAction['linkmans']) {
+function setLinkmansLastMessages(
+    linkmans: SetLinkmanMessagesAction['linkmans'],
+) {
     dispatch({
         type: 'SetLinkmanMessages',
         linkmans,
@@ -144,7 +146,11 @@ function addLinkmanHistoryMessages(linkmanId: string, messages: Message[]) {
         messages,
     } as AddLinkmanHistoryMessagesAction);
 }
-function updateSelfMessage(linkmanId: string, messageId: string, message: Message) {
+function updateSelfMessage(
+    linkmanId: string,
+    messageId: string,
+    message: Message,
+) {
     dispatch({
         type: UpdateSelfMessageActionType,
         linkmanId,

@@ -5,7 +5,12 @@ import expressions from '@fiora/utils/expressions';
 import { addParam } from '@fiora/utils/url';
 import BaiduImage from '@fiora/assets/images/baidu.png';
 import Style from './Expression.less';
-import { Tabs, TabPane, TabContent, ScrollableInkTabBar } from '../../components/Tabs';
+import {
+    Tabs,
+    TabPane,
+    TabContent,
+    ScrollableInkTabBar,
+} from '../../components/Tabs';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { searchExpression } from '../../service';
@@ -46,8 +51,9 @@ function Expression(props: ExpressionProps) {
                     className={Style.defaultExpressionBlock}
                     key={e}
                     data-name={e}
-                    // @ts-ignore
-                    onClick={(event) => onSelectText(event.currentTarget.dataset.name)}
+                    onClick={(event) =>
+                        onSelectText(event.currentTarget.dataset.name as string)
+                    }
                     role="button"
                 >
                     <div
@@ -80,17 +86,34 @@ function Expression(props: ExpressionProps) {
                     onChange={setKeywords}
                     onEnter={handleSearchExpression}
                 />
-                <Button className={Style.searchExpressionButton} onClick={handleSearchExpression}>
+                <Button
+                    className={Style.searchExpressionButton}
+                    onClick={handleSearchExpression}
+                >
                     搜索
                 </Button>
             </div>
-            <div className={`${Style.loading} ${searchLoading ? 'show' : 'hide'}`}>
-                <Loading type="spinningBubbles" color="#4A90E2" height={100} width={100} />
+            <div
+                className={`${Style.loading} ${
+                    searchLoading ? 'show' : 'hide'
+                }`}
+            >
+                <Loading
+                    type="spinningBubbles"
+                    color="#4A90E2"
+                    height={100}
+                    width={100}
+                />
             </div>
             <div className={Style.searchResult}>
                 {searchResults.map(({ image }) => (
                     <div className={Style.searchImage}>
-                        <img src={image} alt="表情" key={image} onClick={handleClickExpression} />
+                        <img
+                            src={image}
+                            alt="表情"
+                            key={image}
+                            onClick={handleClickExpression}
+                        />
                     </div>
                 ))}
             </div>

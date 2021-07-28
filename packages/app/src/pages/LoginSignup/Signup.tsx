@@ -12,14 +12,11 @@ import { Friend, Group } from '../../types/redux';
 
 export default function Signup() {
     async function handleSubmit(username: string, password: string) {
-        const [err, res] = await fetch(
-            'register',
-            {
-                username,
-                password,
-                ...platform,
-            },
-        );
+        const [err, res] = await fetch('register', {
+            username,
+            password,
+            ...platform,
+        });
         if (!err) {
             Toast.show({
                 text: '创建成功',

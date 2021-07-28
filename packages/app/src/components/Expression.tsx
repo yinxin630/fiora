@@ -12,7 +12,9 @@ type Props = {
 
 export default function Expression({ size, index, style }: Props) {
     return (
-        <View style={[{ width: size, height: size, overflow: 'hidden' }, style]}>
+        <View
+            style={[{ width: size, height: size, overflow: 'hidden' }, style]}
+        >
             <Image
                 src={uri}
                 width={size}

@@ -6,7 +6,13 @@ import Dialog from '../../components/Dialog';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Message from '../../components/Message';
-import { getSealList, resetUserPassword, sealUser, setUserTag, sealIp } from '../../service';
+import {
+    getSealList,
+    resetUserPassword,
+    sealUser,
+    setUserTag,
+    sealIp,
+} from '../../service';
 
 interface AdminProps {
     visible: boolean;
@@ -83,7 +89,12 @@ function Admin(props: AdminProps) {
     }
 
     return (
-        <Dialog className={Style.admin} visible={visible} title="管理员控制台" onClose={onClose}>
+        <Dialog
+            className={Style.admin}
+            visible={visible}
+            title="管理员控制台"
+            onClose={onClose}
+        >
             <div className={Common.container}>
                 <div className={Common.block}>
                     <p className={Common.title}>更新用户标签</p>
@@ -114,7 +125,10 @@ function Admin(props: AdminProps) {
                             onChange={setResetPasswordUsername}
                             placeholder="要重置密码的用户名"
                         />
-                        <Button className={Style.button} onClick={handleResetPassword}>
+                        <Button
+                            className={Style.button}
+                            onClick={handleResetPassword}
+                        >
                             确定
                         </Button>
                     </div>

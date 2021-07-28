@@ -9,7 +9,7 @@ jest.mock('@fiora/database/redis/initRedis');
 
 describe('server/middlewares/seal', () => {
     it('should call service success', async () => {
-        const socket = {
+        const socket = ({
             id: 'id',
             data: {
                 user: 'user',
@@ -19,7 +19,7 @@ describe('server/middlewares/seal', () => {
                     'x-real-ip': '127.0.0.1',
                 },
             },
-        } as unknown as Socket;
+        } as unknown) as Socket;
         const middleware = seal(socket);
 
         const { args, next } = getMiddlewareParams();
@@ -30,7 +30,7 @@ describe('server/middlewares/seal', () => {
 
     it('should call service fail when user has been sealed', async () => {
         mocked(Redis.has).mockReturnValue(Promise.resolve(true));
-        const socket = {
+        const socket = ({
             id: 'id',
             data: {
                 user: 'user',
@@ -40,7 +40,7 @@ describe('server/middlewares/seal', () => {
                     'x-real-ip': '127.0.0.1',
                 },
             },
-        } as unknown as Socket;
+        } as unknown) as Socket;
         const middleware = seal(socket);
 
         const { args, cb, next } = getMiddlewareParams();

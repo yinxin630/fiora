@@ -19,7 +19,10 @@ async function read(text: string, cuid: string) {
         baiduToken = result.token;
     }
 
-    const res = await axios.get(`https://tsn.baidu.com/text2audio?tex=${text}&tok=${baiduToken}&cuid=${cuid}&ctp=1&lan=zh&per=4`, { responseType: 'blob' });
+    const res = await axios.get(
+        `https://tsn.baidu.com/text2audio?tex=${text}&tok=${baiduToken}&cuid=${cuid}&ctp=1&lan=zh&per=4`,
+        { responseType: 'blob' },
+    );
     const blob = res.data;
     if (res.status !== 200 || blob.type === 'application/json') {
         console.warn('合成语言失败');
@@ -43,7 +46,7 @@ async function read(text: string, cuid: string) {
 type Task = {
     text: string;
     cuid: string;
-}
+};
 
 const taskQueue: Task[] = [];
 let isWorking = false;

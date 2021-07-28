@@ -18,7 +18,9 @@ function PageContainer({ children, disableSafeAreaView = false }: Props) {
                 {disableSafeAreaView ? (
                     children
                 ) : (
-                    <SafeAreaView style={[styles.container]}>{children}</SafeAreaView>
+                    <SafeAreaView style={[styles.container]}>
+                        {children}
+                    </SafeAreaView>
                 )}
             </View>
         </ImageBackground>

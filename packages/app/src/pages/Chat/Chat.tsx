@@ -1,5 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import { StyleSheet, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native';
+import {
+    StyleSheet,
+    KeyboardAvoidingView,
+    ScrollView,
+    Dimensions,
+} from 'react-native';
 import Constants from 'expo-constants';
 import { Actions } from 'react-native-router-flux';
 
@@ -9,7 +14,12 @@ import MessageList from './MessageList';
 import Input from './Input';
 import PageContainer from '../../components/PageContainer';
 import { Friend, Group, Linkman } from '../../types/redux';
-import { useFocusLinkman, useIsLogin, useSelfId, useStore } from '../../hooks/useStore';
+import {
+    useFocusLinkman,
+    useIsLogin,
+    useSelfId,
+    useStore,
+} from '../../hooks/useStore';
 import {
     getDefaultGroupOnlineMembers,
     getGroupOnlineMembers,
@@ -77,7 +87,10 @@ export default function Chat() {
         if (!linkman || !isLogin) {
             return;
         }
-        const request = linkman.type === 'group' ? fetchGroupOnlineMembers : fetchUserOnlineStatus;
+        const request =
+            linkman.type === 'group'
+                ? fetchGroupOnlineMembers
+                : fetchUserOnlineStatus;
         request();
         const timer = setInterval(() => request(), 1000 * 60);
         return () => clearInterval(timer);
@@ -95,10 +108,14 @@ export default function Chat() {
     async function intervalUpdateHistory() {
         if (isLogin && linkman) {
             if (linkman.messages.length > 0) {
-                const lastMessageId = linkman.messages[linkman.messages.length - 1]._id;
+                const lastMessageId =
+                    linkman.messages[linkman.messages.length - 1]._id;
                 if (lastMessageId !== lastMessageIdCache) {
                     lastMessageIdCache = lastMessageId;
-                    await fetch('updateHistory', { linkmanId: focus, messageId: lastMessageId });
+                    await fetch('updateHistory', {
+                        linkmanId: focus,
+                        messageId: lastMessageId,
+                    });
                 }
             }
         }

@@ -6,9 +6,11 @@ import { SEAL_TEXT, SEAL_USER_TIMEOUT } from '../../../utils/const';
 /** 用户是否被封禁 */
 let isSeal = false;
 
-export default function fetch<T = any>(event: string, data = {}, {
-    toast = true,
-} = {}): Promise<[string | null, T | null]> {
+export default function fetch<T = any>(
+    event: string,
+    data = {},
+    { toast = true } = {},
+): Promise<[string | null, T | null]> {
     if (isSeal) {
         Message.error(SEAL_TEXT);
         return Promise.resolve([SEAL_TEXT, null]);
@@ -26,7 +28,9 @@ export default function fetch<T = any>(event: string, data = {}, {
                 if (res === SEAL_TEXT) {
                     isSeal = true;
                     // 用户封禁和ip封禁时效不同, 这里用的短时间
-                    setTimeout(() => { isSeal = false; }, SEAL_USER_TIMEOUT);
+                    setTimeout(() => {
+                        isSeal = false;
+                    }, SEAL_USER_TIMEOUT);
                 }
                 resolve([res, null]);
             } else {

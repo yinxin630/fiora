@@ -77,7 +77,13 @@ export default function getData() {
         notificationSwitch: getSwitchValue(LocalStorageKey.NotificationSwitch),
         voiceSwitch: getSwitchValue(LocalStorageKey.VoiceSwitch),
         selfVoiceSwitch: getSwitchValue(LocalStorageKey.SelfVoiceSwitch, false),
-        tagColorMode: getTextValue(LocalStorageKey.TagColorMode, config.tagColorMode),
-        enableSearchExpression: getSwitchValue(LocalStorageKey.EnableSearchExpression, false),
+        tagColorMode: getTextValue(
+            LocalStorageKey.TagColorMode,
+            config.tagColorMode,
+        ),
+        enableSearchExpression: getSwitchValue(
+            LocalStorageKey.EnableSearchExpression,
+            false,
+        ),
     };
 }

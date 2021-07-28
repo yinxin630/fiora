@@ -11,7 +11,10 @@ function BackButton({ text = '' }: Props) {
     return (
         <TouchableOpacity onPress={() => Actions.pop()}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Icon name="chevron-back-outline" style={{ color: 'white', fontSize: 28 }} />
+                <Icon
+                    name="chevron-back-outline"
+                    style={{ color: 'white', fontSize: 28 }}
+                />
                 <Text
                     style={{
                         color: 'white',

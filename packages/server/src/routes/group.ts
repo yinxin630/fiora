@@ -185,11 +185,12 @@ function getGroupOnlineMembersWrapperV2() {
             throw new AssertionError({ message: '群组不存在' });
         }
         const result = await getGroupOnlineMembersHelper(group);
-        const resultCacheKey = stringHash(result.map((item) => item.user._id).join(',')).toString(
-            36,
-        );
+        const resultCacheKey = stringHash(
+            result.map((item) => item.user._id).join(','),
+        ).toString(36);
         if (cache[groupId] && cache[groupId].key === resultCacheKey) {
-            cache[groupId].expireTime = Date.now() + GroupOnlineMembersCacheExpireTime;
+            cache[groupId].expireTime =
+                Date.now() + GroupOnlineMembersCacheExpireTime;
             if (resultCacheKey === cacheKey) {
                 return { cache: cacheKey };
             }
@@ -208,7 +209,9 @@ function getGroupOnlineMembersWrapperV2() {
 }
 export const getGroupOnlineMembersV2 = getGroupOnlineMembersWrapperV2();
 
-export async function getGroupOnlineMembers(ctx: Context<{ groupId: string; cache?: string }>) {
+export async function getGroupOnlineMembers(
+    ctx: Context<{ groupId: string; cache?: string }>,
+) {
     const result = await getGroupOnlineMembersV2(ctx);
     return result.members;
 }
@@ -240,7 +243,9 @@ export const getDefaultGroupOnlineMembers = getDefaultGroupOnlineMembersWrapper(
  * 修改群头像, 只有群创建者有权限
  * @param ctx Context
  */
-export async function changeGroupAvatar(ctx: Context<{ groupId: string; avatar: string }>) {
+export async function changeGroupAvatar(
+    ctx: Context<{ groupId: string; avatar: string }>,
+) {
     const { groupId, avatar } = ctx.data;
     assert(isValid(groupId), '无效的群组ID');
     assert(avatar, '头像地址不能为空');
@@ -249,7 +254,10 @@ export async function changeGroupAvatar(ctx: Context<{ groupId: string; avatar: 
     if (!group) {
         throw new AssertionError({ message: '群组不存在' });
     }
-    assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能修改头像');
+    assert(
+        group.creator.toString() === ctx.socket.user.toString(),
+        '只有群主才能修改头像',
+    );
 
     await Group.updateOne({ _id: groupId }, { avatar });
     return {};
@@ -259,7 +267,9 @@ export async function changeGroupAvatar(ctx: Context<{ groupId: string; avatar: 
  * 修改群组头像, 只有群创建者有权限
  * @param ctx Context
  */
-export async function changeGroupName(ctx: Context<{ groupId: string; name: string }>) {
+export async function changeGroupName(
+    ctx: Context<{ groupId: string; name: string }>,
+) {
     const { groupId, name } = ctx.data;
     assert(isValid(groupId), '无效的群组ID');
     assert(name, '群组名称不能为空');
@@ -269,7 +279,10 @@ export async function changeGroupName(ctx: Context<{ groupId: string; name: stri
         throw new AssertionError({ message: '群组不存在' });
     }
     assert(group.name !== name, '新群组名不能和之前一致');
-    assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能修改头像');
+    assert(
+        group.creator.toString() === ctx.socket.user.toString(),
+        '只有群主才能修改头像',
+    );
 
     const targetGroup = await Group.findOne({ name });
     assert(!targetGroup, '该群组名已存在');
@@ -293,7 +306,10 @@ export async function deleteGroup(ctx: Context<{ groupId: string }>) {
     if (!group) {
         throw new AssertionError({ message: '群组不存在' });
     }
-    assert(group.creator.toString() === ctx.socket.user.toString(), '只有群主才能解散群组');
+    assert(
+        group.creator.toString() === ctx.socket.user.toString(),
+        '只有群主才能解散群组',
+    );
     assert(group.isDefault !== true, '默认群组不允许解散');
 
     await Group.deleteOne({ _id: group });

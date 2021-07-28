@@ -45,8 +45,11 @@ const expressionImage = css`
     object-fit: cover;
 `;
 
-// @ts-ignore
-const ExpressionAsync = loadable(() => import(/* webpackChunkName: "expression" */ './Expression'));
+const ExpressionAsync = loadable(
+    () =>
+        // @ts-ignore
+        import(/* webpackChunkName: "expression" */ './Expression'),
+);
 const CodeEditorAsync = loadable(
     // @ts-ignore
     () => import(/* webpackChunkName: "code-editor" */ './CodeEditor'),
@@ -66,7 +69,9 @@ function ChatInput() {
     const tag = useSelector((state: State) => state.user?.tag);
     const focus = useSelector((state: State) => state.focus);
     const linkman = useSelector((state: State) => state.linkmans[focus]);
-    const selfVoiceSwitch = useSelector((state: State) => state.status.selfVoiceSwitch);
+    const selfVoiceSwitch = useSelector(
+        (state: State) => state.status.selfVoiceSwitch,
+    );
     const enableSearchExpression = useSelector(
         (state: State) => state.status.enableSearchExpression,
     );
@@ -83,7 +88,11 @@ function ChatInput() {
     /** 全局输入框聚焦快捷键 */
     function focusInput(e: KeyboardEvent) {
         const $target: HTMLElement = e.target as HTMLElement;
-        if ($target.tagName === 'INPUT' || $target.tagName === 'TEXTAREA' || e.key !== 'i') {
+        if (
+            $target.tagName === 'INPUT' ||
+            $target.tagName === 'TEXTAREA' ||
+            e.key !== 'i'
+        ) {
             return;
         }
         e.preventDefault();
@@ -106,7 +115,9 @@ function ChatInput() {
                     游客朋友你好, 请
                     <b
                         className={Style.guestLogin}
-                        onClick={() => action.setStatus('loginRegisterDialogVisible', true)}
+                        onClick={() =>
+                            action.setStatus('loginRegisterDialogVisible', true)
+                        }
                         role="button"
                     >
                         登录
@@ -122,7 +133,7 @@ function ChatInput() {
      * @param value 要插入的文本
      */
     function insertAtCursor(value: string) {
-        const input = ($input.current as unknown) as HTMLInputElement;
+        const input = $input.current as unknown as HTMLInputElement;
         if (input.selectionStart || input.selectionStart === 0) {
             const startPos = input.selectionStart;
             const endPos = input.selectionEnd;
@@ -223,7 +234,10 @@ function ChatInput() {
 
         const img = new Image();
         img.onload = async () => {
-            const id = addSelfMessage('image', `${url}?width=${img.width}&height=${img.height}`);
+            const id = addSelfMessage(
+                'image',
+                `${url}?width=${img.width}&height=${img.height}`,
+            );
             try {
                 const imageUrl = await uploadFile(
                     image.result as Blob,
@@ -283,7 +297,10 @@ function ChatInput() {
         if (!connect) {
             return Message.error('发送消息失败, 您当前处于离线状态');
         }
-        const image = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
+        const image = await readDiskFile(
+            'blob',
+            'image/png,image/jpeg,image/gif',
+        );
         if (!image) {
             return null;
         }
@@ -307,7 +324,13 @@ function ChatInput() {
         sendFileMessage(file);
     }
 
-    function handleFeatureMenuClick({ key, domEvent }: { key: string; domEvent: any }) {
+    function handleFeatureMenuClick({
+        key,
+        domEvent,
+    }: {
+        key: string;
+        domEvent: any;
+    }) {
         // Quickly hitting the Enter key causes the button to repeatedly trigger the problem
         if (domEvent.keyCode === 13) {
             return;
@@ -340,7 +363,8 @@ function ChatInput() {
             e.preventDefault();
             return Message.error('发送消息失败, 您当前处于离线状态');
         }
-        const { items, types } = e.clipboardData || e.originalEvent.clipboardData;
+        const { items, types } =
+            e.clipboardData || e.originalEvent.clipboardData;
 
         // 如果包含文件内容
         if (types.indexOf('Files') > -1) {
@@ -353,7 +377,11 @@ function ChatInput() {
                         reader.onloadend = function handleLoad() {
                             const image = new Image();
                             image.onload = async () => {
-                                const imageBlob = await compressImage(image, file.type, 0.8);
+                                const imageBlob = await compressImage(
+                                    image,
+                                    file.type,
+                                    0.8,
+                                );
                                 // @ts-ignore
                                 sendImageMessage({
                                     filename: file.name,
@@ -390,7 +418,10 @@ function ChatInput() {
             message.startsWith(window.location.origin) &&
             message.match(/\/invite\/group\/[\w\d]+/)
         ) {
-            const groupId = message.replace(`${window.location.origin}/invite/group/`, '');
+            const groupId = message.replace(
+                `${window.location.origin}/invite/group/`,
+                '',
+            );
             const id = addSelfMessage(
                 'inviteV2',
                 JSON.stringify({
@@ -547,7 +578,11 @@ function ChatInput() {
         return null;
     }
 
-    function handleClickExpressionImage(image: string, width: number, height: number) {
+    function handleClickExpressionImage(
+        image: string,
+        width: number,
+        height: number,
+    ) {
         sendImageMessage(`${image}?width=${width}&height=${height}`);
         setExpressions([]);
         if ($input.current) {
@@ -561,14 +596,14 @@ function ChatInput() {
                 trigger={['click']}
                 visible={expressionDialog}
                 onVisibleChange={toggleExpressionDialog}
-                overlay={(
+                overlay={
                     <div className={Style.expressionDropdown}>
                         <ExpressionAsync
                             onSelectText={handleSelectExpression}
                             onSelectImage={sendImageMessage}
                         />
                     </div>
-                )}
+                }
                 animation="slide-up"
                 placement="topLeft"
             >
@@ -582,7 +617,7 @@ function ChatInput() {
             </Dropdown>
             <Dropdown
                 trigger={['click']}
-                overlay={(
+                overlay={
                     <div className={Style.featureDropdown}>
                         <Menu onClick={handleFeatureMenuClick}>
                             <MenuItem key="huaji">发送滑稽</MenuItem>
@@ -591,7 +626,7 @@ function ChatInput() {
                             <MenuItem key="file">发送文件</MenuItem>
                         </Menu>
                     </div>
-                )}
+                }
                 animation="slide-up"
                 placement="topLeft"
             >
@@ -603,7 +638,11 @@ function ChatInput() {
                     iconSize={32}
                 />
             </Dropdown>
-            <form className={Style.form} autoComplete="off" onSubmit={(e) => e.preventDefault()}>
+            <form
+                className={Style.form}
+                autoComplete="off"
+                onSubmit={(e) => e.preventDefault()}
+            >
                 <input
                     className={Style.input}
                     type="text"
@@ -626,13 +665,13 @@ function ChatInput() {
                     <Tooltip
                         placement="top"
                         mouseEnterDelay={0.5}
-                        overlay={(
+                        overlay={
                             <span>
                                 支持粘贴图片发图
                                 <br />
                                 全局按 i 键聚焦
                             </span>
-                        )}
+                        }
                     >
                         <i className={`iconfont icon-about ${Style.tooltip}`} />
                     </Tooltip>
@@ -657,7 +696,9 @@ function ChatInput() {
                             role="button"
                         >
                             <Avatar size={24} src={member.user.avatar} />
-                            <p className={Style.atText}>{member.user.username}</p>
+                            <p className={Style.atText}>
+                                {member.user.username}
+                            </p>
                         </div>
                     ))}
             </div>
@@ -679,7 +720,13 @@ function ChatInput() {
                                 src={image}
                                 key={image}
                                 alt="表情图"
-                                onClick={() => handleClickExpressionImage(image, width, height)}
+                                onClick={() =>
+                                    handleClickExpressionImage(
+                                        image,
+                                        width,
+                                        height,
+                                    )
+                                }
                             />
                         </div>
                     ))}

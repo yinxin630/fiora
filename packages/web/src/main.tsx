@@ -22,19 +22,21 @@ if (window.location.protocol === 'https:' && 'serviceWorker' in navigator) {
 // 如果配置了前端监控, 动态加载并启动监控
 if (config.frontendMonitorAppId) {
     // @ts-ignore
-    import(/* webpackChunkName: "frontend-monitor" */ 'wpk-reporter').then((module) => {
-        const WpkReporter = module.default;
+    import(/* webpackChunkName: "frontend-monitor" */ 'wpk-reporter').then(
+        (module) => {
+            const WpkReporter = module.default;
 
-        const __wpk = new WpkReporter({
-            bid: config.frontendMonitorAppId,
-            spa: true,
-            rel: config.frontendMonitorAppId,
-            uid: () => localStorage.getItem('username') || '',
-            plugins: [],
-        });
+            const __wpk = new WpkReporter({
+                bid: config.frontendMonitorAppId,
+                spa: true,
+                rel: config.frontendMonitorAppId,
+                uid: () => localStorage.getItem('username') || '',
+                plugins: [],
+            });
 
-        __wpk.installAll();
-    });
+            __wpk.installAll();
+        },
+    );
 }
 
 // 更新 css variable
@@ -44,7 +46,8 @@ setCssVariable(primaryColor, primaryTextColor);
 // 请求 Notification 授权
 if (
     window.Notification &&
-    (window.Notification.permission === 'default' || window.Notification.permission === 'denied')
+    (window.Notification.permission === 'default' ||
+        window.Notification.permission === 'denied')
 ) {
     window.Notification.requestPermission();
 }

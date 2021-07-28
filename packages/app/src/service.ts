@@ -74,7 +74,12 @@ export async function login(
  * @param browser 浏览器
  * @param environment 环境信息
  */
-export async function loginByToken(token: string, os = '', browser = '', environment = '') {
+export async function loginByToken(
+    token: string,
+    os = '',
+    browser = '',
+    environment = '',
+) {
     const [err, user] = await fetch(
         'loginByToken',
         {
@@ -220,8 +225,14 @@ export async function deleteFriend(userId: string) {
  * @param linkmanId 联系人id
  * @param existCount 客户端已有消息条数
  */
-export async function getLinkmanHistoryMessages(linkmanId: string, existCount: number) {
-    const [, messages] = await fetch('getLinkmanHistoryMessages', { linkmanId, existCount });
+export async function getLinkmanHistoryMessages(
+    linkmanId: string,
+    existCount: number,
+) {
+    const [, messages] = await fetch('getLinkmanHistoryMessages', {
+        linkmanId,
+        existCount,
+    });
     return messages;
 }
 
@@ -230,7 +241,9 @@ export async function getLinkmanHistoryMessages(linkmanId: string, existCount: n
  * @param existCount 客户端已有消息条数
  */
 export async function getDefaultGroupHistoryMessages(existCount: number) {
-    const [, messages] = await fetch('getDefaultGroupHistoryMessages', { existCount });
+    const [, messages] = await fetch('getDefaultGroupHistoryMessages', {
+        existCount,
+    });
     return messages;
 }
 
@@ -357,6 +370,10 @@ export async function getUserOnlineStatus(userId: string) {
 }
 
 export async function setNotificationToken(token: string) {
-    const [, res] = await fetch('setNotificationToken', { token }, { toast: false });
+    const [, res] = await fetch(
+        'setNotificationToken',
+        { token },
+        { toast: false },
+    );
     return res && res.isOK;
 }

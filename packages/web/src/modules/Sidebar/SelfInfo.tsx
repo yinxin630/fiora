@@ -30,7 +30,9 @@ function SelfInfo(props: SelfInfoProps) {
     const action = useAction();
     const userId = useSelector((state: State) => state.user?._id);
     const avatar = useSelector((state: State) => state.user?.avatar);
-    const primaryColor = useSelector((state: State) => state.status.primaryColor);
+    const primaryColor = useSelector(
+        (state: State) => state.status.primaryColor,
+    );
     const [loading, toggleLoading] = useState(false);
     const [cropper, setCropper] = useState({
         enable: false,
@@ -62,7 +64,10 @@ function SelfInfo(props: SelfInfoProps) {
     }
 
     async function selectAvatar() {
-        const file = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
+        const file = await readDiskFile(
+            'blob',
+            'image/png,image/jpeg,image/gif',
+        );
         if (!file) {
             return;
         }
@@ -154,14 +159,23 @@ function SelfInfo(props: SelfInfoProps) {
                                     // @ts-ignore
                                     ref={$cropper}
                                     src={cropper.src}
-                                    style={{ width: 0, height: 0, paddingBottom: '50%' }}
+                                    style={{
+                                        width: 0,
+                                        height: 0,
+                                        paddingBottom: '50%',
+                                    }}
                                     aspectRatio={1}
                                 />
-                                <Button className={Style.button} onClick={handleChangeAvatar}>
+                                <Button
+                                    className={Style.button}
+                                    onClick={handleChangeAvatar}
+                                >
                                     修改头像
                                 </Button>
                                 <ReactLoading
-                                    className={`${Style.loading} ${loading ? 'show' : 'hide'}`}
+                                    className={`${Style.loading} ${
+                                        loading ? 'show' : 'hide'
+                                    }`}
                                     type="spinningBubbles"
                                     color={`rgb(${primaryColor}`}
                                     height={120}
@@ -177,7 +191,9 @@ function SelfInfo(props: SelfInfoProps) {
                                     onClick={selectAvatar}
                                 />
                                 <ReactLoading
-                                    className={`${Style.loading} ${loading ? 'show' : 'hide'}`}
+                                    className={`${Style.loading} ${
+                                        loading ? 'show' : 'hide'
+                                    }`}
                                     type="spinningBubbles"
                                     color={`rgb(${primaryColor}`}
                                     height={80}
@@ -204,7 +220,10 @@ function SelfInfo(props: SelfInfoProps) {
                             type="password"
                             placeholder="新密码"
                         />
-                        <Button className={Style.button} onClick={handleChangePassword}>
+                        <Button
+                            className={Style.button}
+                            onClick={handleChangePassword}
+                        >
                             确认修改
                         </Button>
                     </div>
@@ -219,7 +238,10 @@ function SelfInfo(props: SelfInfoProps) {
                             type="text"
                             placeholder="用户名"
                         />
-                        <Button className={Style.button} onClick={handleChangeUsername}>
+                        <Button
+                            className={Style.button}
+                            onClick={handleChangeUsername}
+                        >
                             确认修改
                         </Button>
                     </div>

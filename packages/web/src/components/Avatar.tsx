@@ -14,7 +14,7 @@ type Props = {
     onClick?: () => void;
     onMouseEnter?: () => void;
     onMouseLeave?: () => void;
-}
+};
 
 function Avatar({
     src,
@@ -42,8 +42,11 @@ function Avatar({
         if (/^(blob|data):/.test(src)) {
             return src;
         }
-        return getOSSFileUrl(src, `image/resize,w_${size * 2},h_${size * 2}/quality,q_90`);
-    }, [src])
+        return getOSSFileUrl(
+            src,
+            `image/resize,w_${size * 2},h_${size * 2}/quality,q_90`,
+        );
+    }, [src]);
 
     return (
         <img

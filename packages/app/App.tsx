@@ -10,4 +10,4 @@ export default function Main(props: any) {
             <App {...props} />
         </Provider>
     );
-};
+}

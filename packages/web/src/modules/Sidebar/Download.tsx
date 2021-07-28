@@ -16,13 +16,21 @@ function Download(props: DownloadProps) {
     const iOSDownloadUrl = 'https://apps.apple.com/cn/app/fiora/id1554719127';
 
     return (
-        <Dialog className={Style.download} visible={visible} title="下载APP" onClose={onClose}>
+        <Dialog
+            className={Style.download}
+            visible={visible}
+            title="下载APP"
+            onClose={onClose}
+        >
             <div className={Common.container}>
                 <div className={Common.block}>
                     <p className={Common.title}>Android</p>
                     <div className={Style.android}>
                         <p>
-                            链接: <a href={androidDownloadUrl}>{androidDownloadUrl}</a>
+                            链接:{' '}
+                            <a href={androidDownloadUrl}>
+                                {androidDownloadUrl}
+                            </a>
                         </p>
                         <QRCode value={androidDownloadUrl} size={200} />
                     </div>

@@ -36,7 +36,8 @@ function UserInfo(props: UserInfoProps) {
 
     const action = useAction();
 
-    const selfId = useSelector((state: State) => state.user && state.user._id) || '';
+    const selfId =
+        useSelector((state: State) => state.user && state.user._id) || '';
     // 获取好友id
     if (user && user._id.length === selfId.length) {
         user._id = getFriendId(selfId, user._id);
@@ -47,7 +48,9 @@ function UserInfo(props: UserInfoProps) {
     // @ts-ignore
     const linkman = useSelector((state: State) => state.linkmans[user?._id]);
     const isFriend = linkman && linkman.type === 'friend';
-    const isAdmin = useSelector((state: State) => state.user && state.user.isAdmin);
+    const isAdmin = useSelector(
+        (state: State) => state.user && state.user.isAdmin,
+    );
     const [largerAvatar, toggleLargetAvatar] = useState(false);
 
     const [userIps, setUserIps] = useState([]);
@@ -141,7 +144,11 @@ function UserInfo(props: UserInfoProps) {
     }
 
     return (
-        <Dialog className={Style.infoDialog} visible={visible} onClose={handleClose}>
+        <Dialog
+            className={Style.infoDialog}
+            visible={visible}
+            onClose={handleClose}
+        >
             <div>
                 {visible && user ? (
                     <div className={Style.coantainer}>
@@ -153,27 +160,42 @@ function UserInfo(props: UserInfoProps) {
                                 onMouseLeave={() => toggleLargetAvatar(false)}
                             />
                             <img
-                                className={`${Style.largeAvatar} ${largerAvatar ? 'show' : 'hide'}`}
+                                className={`${Style.largeAvatar} ${
+                                    largerAvatar ? 'show' : 'hide'
+                                }`}
                                 src={getOSSFileUrl(user.avatar)}
                                 alt="用户头像"
                             />
                             <p>{user.username}</p>
                             <p className={Style.ip}>
                                 {userIps.map((ip) => (
-                                    <span key={ip} onClick={() => searchIp(ip)} role="button">
+                                    <span
+                                        key={ip}
+                                        onClick={() => searchIp(ip)}
+                                        role="button"
+                                    >
                                         {ip}
                                     </span>
                                 ))}
                             </p>
                         </div>
                         <div className={Style.info}>
-                            {isFriend ? <Button onClick={handleFocusUser}>发送消息</Button> : null}
                             {isFriend ? (
-                                <Button type="danger" onClick={handleDeleteFriend}>
+                                <Button onClick={handleFocusUser}>
+                                    发送消息
+                                </Button>
+                            ) : null}
+                            {isFriend ? (
+                                <Button
+                                    type="danger"
+                                    onClick={handleDeleteFriend}
+                                >
                                     删除好友
                                 </Button>
                             ) : (
-                                <Button onClick={handleAddFriend}>加为好友</Button>
+                                <Button onClick={handleAddFriend}>
+                                    加为好友
+                                </Button>
                             )}
                             {isAdmin ? (
                                 <Button type="danger" onClick={handleSeal}>

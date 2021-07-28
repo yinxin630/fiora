@@ -11,7 +11,8 @@ function LinkmanList() {
 
     function renderLinkman(linkman: Linkman) {
         const messages = Object.values(linkman.messages);
-        const lastMessage = messages.length > 0 ? messages[messages.length - 1] : null;
+        const lastMessage =
+            messages.length > 0 ? messages[messages.length - 1] : null;
 
         let time = new Date(linkman.createTime);
         let preview = '暂无消息';
@@ -46,7 +47,9 @@ function LinkmanList() {
     }
 
     function sort(linkman1: Linkman, linkman2: Linkman): number {
-        return getLinkmanLastTime(linkman1) < getLinkmanLastTime(linkman2) ? 1 : -1;
+        return getLinkmanLastTime(linkman1) < getLinkmanLastTime(linkman2)
+            ? 1
+            : -1;
     }
 
     return (

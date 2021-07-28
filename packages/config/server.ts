@@ -34,10 +34,14 @@ export default {
     administrator: env.Administrator ? env.Administrator.split(',') : [],
 
     /** 禁用注册功能 */
-    disableRegister: env.DisableRegister ? env.DisableRegister === 'true' : false,
+    disableRegister: env.DisableRegister
+        ? env.DisableRegister === 'true'
+        : false,
 
     /** disable user create new group */
-    disableCreateGroup: env.DisableCreateGroup ? env.DisableCreateGroup === 'true' : false,
+    disableCreateGroup: env.DisableCreateGroup
+        ? env.DisableCreateGroup === 'true'
+        : false,
 
     /** Aliyun OSS */
     aliyunOSS: {

@@ -1,7 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { Tabs, TabPane, TabContent, ScrollableInkTabBar } from '../../components/Tabs';
+import {
+    Tabs,
+    TabPane,
+    TabContent,
+    ScrollableInkTabBar,
+} from '../../components/Tabs';
 import Style from './LoginAndRegister.less';
 import Login from './Login';
 import Register from './Register';

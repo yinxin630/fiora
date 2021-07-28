@@ -41,10 +41,14 @@ function Nofitication() {
         // Push notification to Android device need google service
         // Not supported in China
         if (Constants.isDevice && isiOS) {
-            const { status: existingStatus } = await Notifications.getPermissionsAsync();
+            const {
+                status: existingStatus,
+            } = await Notifications.getPermissionsAsync();
             let finalStatus = existingStatus;
             if (existingStatus !== 'granted') {
-                const { status } = await Notifications.requestPermissionsAsync();
+                const {
+                    status,
+                } = await Notifications.requestPermissionsAsync();
                 finalStatus = status;
             }
             if (finalStatus !== 'granted') {
@@ -80,7 +84,9 @@ function Nofitication() {
         disableNotification();
         registerForPushNotificationsAsync();
 
-        Notifications.addNotificationResponseReceivedListener(handleClickNotification);
+        Notifications.addNotificationResponseReceivedListener(
+            handleClickNotification,
+        );
     }, []);
 
     useEffect(() => {

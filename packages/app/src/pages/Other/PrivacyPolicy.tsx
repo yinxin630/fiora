@@ -30,7 +30,8 @@ function PrivacyPolicy({ visible, onClose }: Props) {
         <Dialog.Container visible={visible}>
             <Dialog.Title>服务协议和隐私条款</Dialog.Title>
             <Dialog.Description style={styles.container}>
-                欢迎使用 fiora APP。我们非常重视您的个人信息和隐私保护，在您使用之前，请务必审慎阅读
+                欢迎使用 fiora
+                APP。我们非常重视您的个人信息和隐私保护，在您使用之前，请务必审慎阅读
                 <TouchableOpacity onPress={handleClickPrivacyPolicy}>
                     <Text style={styles.text}>《隐私政策》</Text>
                 </TouchableOpacity>

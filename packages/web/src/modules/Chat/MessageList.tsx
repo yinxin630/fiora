@@ -41,12 +41,20 @@ function MessageList() {
     const action = useAction();
     const selfId = useSelector((state: State) => state.user?._id || '');
     const focus = useSelector((state: State) => state.focus);
-    const isGroup = useSelector((state: State) => state.linkmans[focus].type === 'group');
-    const creator = useSelector((state: State) => state.linkmans[focus].creator);
-    const messages = useSelector((state: State) => state.linkmans[focus].messages);
+    const isGroup = useSelector(
+        (state: State) => state.linkmans[focus].type === 'group',
+    );
+    const creator = useSelector(
+        (state: State) => state.linkmans[focus].creator,
+    );
+    const messages = useSelector(
+        (state: State) => state.linkmans[focus].messages,
+    );
     const unread = useSelector((state: State) => state.linkmans[focus].unread);
     const isLogin = useIsLogin();
-    const tagColorMode = useSelector((state: State) => state.status.tagColorMode);
+    const tagColorMode = useSelector(
+        (state: State) => state.status.tagColorMode,
+    );
 
     const $list = useRef<HTMLDivElement>(null);
 
@@ -54,7 +62,10 @@ function MessageList() {
         action.setLinkmanProperty(focus, 'unread', 0);
         const messageKeys = Object.keys(messages);
         if (messageKeys.length > 0) {
-            updateHistory(focus, messages[messageKeys[messageKeys.length - 1]]._id);
+            updateHistory(
+                focus,
+                messages[messageKeys[messageKeys.length - 1]]._id,
+            );
         }
     }
 
@@ -70,7 +81,10 @@ function MessageList() {
 
         const $div = e.target as HTMLDivElement;
 
-        if (unread && $div.scrollHeight - $div.clientHeight - $div.scrollTop > 50) {
+        if (
+            unread &&
+            $div.scrollHeight - $div.clientHeight - $div.scrollTop > 50
+        ) {
             clearUnread();
         }
 
@@ -141,7 +155,9 @@ function MessageList() {
                 onScroll={handleScroll}
                 ref={$list}
             >
-                {Object.values(messages).map((message) => renderMessage(message))}
+                {Object.values(messages).map((message) =>
+                    renderMessage(message),
+                )}
             </div>
         </div>
     );

@@ -12,7 +12,12 @@ type Props = {
     onSubmit: (username: string, password: string) => void;
 };
 
-export default function Base({ buttonText, jumpText, jumpPage, onSubmit }: Props) {
+export default function Base({
+    buttonText,
+    jumpText,
+    jumpPage,
+    onSubmit,
+}: Props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -58,7 +63,12 @@ export default function Base({ buttonText, jumpText, jumpPage, onSubmit }: Props
                         autoCompleteType="password"
                     />
                 </Form>
-                <Button primary block style={styles.button} onPress={handlePress}>
+                <Button
+                    primary
+                    block
+                    style={styles.button}
+                    onPress={handlePress}
+                >
                     <Text style={styles.buttonText}>{buttonText}</Text>
                 </Button>
                 <Button transparent style={styles.signup} onPress={handleJump}>

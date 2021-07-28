@@ -30,7 +30,10 @@ function SearchResult({ groups, users }: Props) {
 
     return (
         <PageContainer disableSafeAreaView>
-            <Tabs style={styles.container} tabContainerStyle={{ backgroundColor: 'transparent' }}>
+            <Tabs
+                style={styles.container}
+                tabContainerStyle={{ backgroundColor: 'transparent' }}
+            >
                 <Tab
                     heading={`群组(${groups.length})`}
                     tabStyle={{ backgroundColor: 'transparent' }}
@@ -39,14 +42,18 @@ function SearchResult({ groups, users }: Props) {
                     <PageContainer>
                         <ScrollView>
                             {groups.map((group) => (
-                                <TouchableOpacity key={group._id} onPress={() => handleClickGroup(group)}>
+                                <TouchableOpacity
+                                    key={group._id}
+                                    onPress={() => handleClickGroup(group)}
+                                >
                                     <View style={styles.item}>
                                         <Avatar src={group.avatar} size={40} />
                                         <View style={styles.groupInfo}>
-                                            <Text style={styles.groupName}>{group.name}</Text>
+                                            <Text style={styles.groupName}>
+                                                {group.name}
+                                            </Text>
                                             <Text style={styles.groupMembers}>
-                                                {group.members}
-                                                人
+                                                {group.members}人
                                             </Text>
                                         </View>
                                     </View>
@@ -63,10 +70,15 @@ function SearchResult({ groups, users }: Props) {
                     <PageContainer>
                         <ScrollView>
                             {users.map((user) => (
-                                <TouchableOpacity key={user._id} onPress={() => handleClickUser(user)}>
+                                <TouchableOpacity
+                                    key={user._id}
+                                    onPress={() => handleClickUser(user)}
+                                >
                                     <View style={styles.item}>
                                         <Avatar src={user.avatar} size={40} />
-                                        <Text style={styles.username}>{user.username}</Text>
+                                        <Text style={styles.username}>
+                                            {user.username}
+                                        </Text>
                                     </View>
                                 </TouchableOpacity>
                             ))}

@@ -14,14 +14,20 @@ interface CodeDialogProps {
 
 function CodeDialog(props: CodeDialogProps) {
     const { visible, onClose, language, code } = props;
-    const html = language === 'text'
-        ? xss(code)
-        // @ts-ignore
-        : Prism.highlight(code, Prism.languages[language]);
+    const html =
+        language === 'text'
+            ? xss(code)
+            : // @ts-ignore
+            Prism.highlight(code, Prism.languages[language]);
     setTimeout(Prism.highlightAll.bind(Prism), 0); // TODO: https://github.com/PrismJS/prism/issues/1487
 
     return (
-        <Dialog className={Style.codeDialog} title="查看代码" visible={visible} onClose={onClose}>
+        <Dialog
+            className={Style.codeDialog}
+            title="查看代码"
+            visible={visible}
+            onClose={onClose}
+        >
             <pre className={`${Style.pre} line-numbers`}>
                 <code
                     className={`language-${language} ${Style.code}`}

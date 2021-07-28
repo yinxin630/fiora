@@ -27,13 +27,21 @@ import {
 } from '../types/redux';
 import convertMessage from '../utils/convertMessage';
 
-export function mergeLinkmans(linkmans1: Linkman[], linkmans2: Linkman[]): Linkman[] {
-    const linkmansMap2 = linkmans2.reduce((map: { [key: string]: Linkman }, linkman) => {
-        map[linkman._id] = linkman;
-        return map;
-    }, {});
+export function mergeLinkmans(
+    linkmans1: Linkman[],
+    linkmans2: Linkman[],
+): Linkman[] {
+    const linkmansMap2 = linkmans2.reduce(
+        (map: { [key: string]: Linkman }, linkman) => {
+            map[linkman._id] = linkman;
+            return map;
+        },
+        {},
+    );
     const unionListingsIdSet = new Set(
-        linkmans1.map((linkman) => linkman._id).filter((linkmanId) => !!linkmansMap2[linkmanId]),
+        linkmans1
+            .map((linkman) => linkman._id)
+            .filter((linkmanId) => !!linkmansMap2[linkmanId]),
     );
 
     const linkmans = [
@@ -117,22 +125,31 @@ const reducer = produce((state: State = initialState, action: ActionTypes) => {
             state.linkmans.sort((linkman1, linkman2) => {
                 const lastMessageTime1 =
                     linkman1.messages.length > 0
-                        ? linkman1.messages[linkman1.messages.length - 1].createTime
+                        ? linkman1.messages[linkman1.messages.length - 1]
+                            .createTime
                         : linkman1.createTime;
                 const lastMessageTime2 =
                     linkman2.messages.length > 0
-                        ? linkman2.messages[linkman2.messages.length - 1].createTime
+                        ? linkman2.messages[linkman2.messages.length - 1]
+                            .createTime
                         : linkman2.createTime;
-                return new Date(lastMessageTime1) < new Date(lastMessageTime2) ? 1 : -1;
+                return new Date(lastMessageTime1) < new Date(lastMessageTime2)
+                    ? 1
+                    : -1;
             });
-            if (!state.focus || !state.linkmans.find((linkman) => linkman._id === state.focus)) {
-                state.focus = state.linkmans.length > 0 ? state.linkmans[0]._id : '';
+            if (
+                !state.focus ||
+                !state.linkmans.find((linkman) => linkman._id === state.focus)
+            ) {
+                state.focus =
+                    state.linkmans.length > 0 ? state.linkmans[0]._id : '';
             }
             return state;
         }
         case UpdateGroupPropertyActionType: {
             const group = state.linkmans.find(
-                (linkman) => linkman.type === 'group' && linkman._id === action.groupId,
+                (linkman) =>
+                    linkman.type === 'group' && linkman._id === action.groupId,
             ) as Group;
             if (group) {
                 // @ts-ignore
@@ -142,7 +159,8 @@ const reducer = produce((state: State = initialState, action: ActionTypes) => {
         }
         case UpdateFriendPropertyActionType: {
             const friend = state.linkmans.find(
-                (linkman) => linkman.type !== 'group' && linkman._id === action.userId,
+                (linkman) =>
+                    linkman.type !== 'group' && linkman._id === action.userId,
             ) as Friend;
             if (friend) {
                 // @ts-ignore
@@ -181,11 +199,14 @@ const reducer = produce((state: State = initialState, action: ActionTypes) => {
             return state;
         }
         case RemoveLinkmanActionType: {
-            const index = state.linkmans.findIndex((linkman) => linkman._id === action.linkmanId);
+            const index = state.linkmans.findIndex(
+                (linkman) => linkman._id === action.linkmanId,
+            );
             if (index !== -1) {
                 state.linkmans.splice(index, 1);
                 if (state.focus === action.linkmanId) {
-                    state.focus = state.linkmans.length > 0 ? state.linkmans[0]._id : '';
+                    state.focus =
+                        state.linkmans.length > 0 ? state.linkmans[0]._id : '';
                 }
             }
             return state;
@@ -210,7 +231,9 @@ const reducer = produce((state: State = initialState, action: ActionTypes) => {
                 (linkman) => linkman._id === action.linkmanId,
             );
             if (targetLinkman) {
-                targetLinkman.messages.unshift(...action.messages.map(convertMessage));
+                targetLinkman.messages.unshift(
+                    ...action.messages.map(convertMessage),
+                );
             }
             return state;
         }
@@ -223,7 +246,10 @@ const reducer = produce((state: State = initialState, action: ActionTypes) => {
                     (message) => message._id === action.messageId,
                 );
                 if (targetMessage) {
-                    Object.assign(targetMessage, convertMessage(action.message));
+                    Object.assign(
+                        targetMessage,
+                        convertMessage(action.message),
+                    );
                 }
             }
             return state;

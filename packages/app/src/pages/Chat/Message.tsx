@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import {
+    View,
+    Text,
+    StyleSheet,
+    Dimensions,
+    TouchableOpacity,
+} from 'react-native';
 import Triangle from '@react-native-toolkit/triangle';
 
 import { ActionSheet } from 'native-base';
@@ -12,7 +18,12 @@ import ImageMessage from './ImageMessage';
 import TextMessage from './TextMessage';
 import { getRandomColor } from '../../utils/getRandomColor';
 import InviteMessage from './InviteMessage';
-import { useFocus, useIsAdmin, useSelfId, useTheme } from '../../hooks/useStore';
+import {
+    useFocus,
+    useIsAdmin,
+    useSelfId,
+    useTheme,
+} from '../../hooks/useStore';
 import { deleteMessage } from '../../service';
 import action from '../../state/action';
 
@@ -26,7 +37,13 @@ type Props = {
     openImageViewer: (imageUrl: string) => void;
 };
 
-function Message({ message, isSelf, shouldScroll, scrollToEnd, openImageViewer }: Props) {
+function Message({
+    message,
+    isSelf,
+    shouldScroll,
+    scrollToEnd,
+    openImageViewer,
+}: Props) {
     const { primaryColor8 } = useTheme();
     const isAdmin = useIsAdmin();
     const self = useSelfId();
@@ -45,7 +62,9 @@ function Message({ message, isSelf, shouldScroll, scrollToEnd, openImageViewer }
         ActionSheet.show(
             {
                 options: ['确定', '取消'],
-                cancelButtonIndex: options.findIndex((option) => option === '取消'),
+                cancelButtonIndex: options.findIndex(
+                    (option) => option === '取消',
+                ),
                 title: '是否撤回消息?',
             },
             async (buttonIndex) => {
@@ -75,9 +94,13 @@ function Message({ message, isSelf, shouldScroll, scrollToEnd, openImageViewer }
             return `昨天 ${Time.getHourMinute(createTime)}`;
         }
         if (Time.isSameYear(nowTime, createTime)) {
-            return `${Time.getMonthDate(createTime)} ${Time.getHourMinute(createTime)}`;
+            return `${Time.getMonthDate(createTime)} ${Time.getHourMinute(
+                createTime,
+            )}`;
         }
-        return `${Time.getYearMonthDate(createTime)} ${Time.getHourMinute(createTime)}`;
+        return `${Time.getYearMonthDate(createTime)} ${Time.getHourMinute(
+            createTime,
+        )}`;
     }
 
     function handleClickAvatar() {
@@ -116,7 +139,11 @@ function Message({ message, isSelf, shouldScroll, scrollToEnd, openImageViewer }
                 );
             }
             default:
-                return <Text style={{ color: isSelf ? 'white' : '#666' }}>不支持的消息类型</Text>;
+                return (
+                    <Text style={{ color: isSelf ? 'white' : '#666' }}>
+                        不支持的消息类型
+                    </Text>
+                );
         }
     }
 
@@ -135,23 +162,40 @@ function Message({ message, isSelf, shouldScroll, scrollToEnd, openImageViewer }
                         <View
                             style={[
                                 styles.tag,
-                                { backgroundColor: getRandomColor(message.from.tag) },
+                                {
+                                    backgroundColor: getRandomColor(
+                                        message.from.tag,
+                                    ),
+                                },
                             ]}
                         >
-                            <Text style={styles.tagText}>{message.from.tag}</Text>
+                            <Text style={styles.tagText}>
+                                {message.from.tag}
+                            </Text>
                         </View>
                     )}
-                    <Text style={[styles.nick, isSelf ? styles.nickSelf : styles.nickOther]}>
+                    <Text
+                        style={[
+                            styles.nick,
+                            isSelf ? styles.nickSelf : styles.nickOther,
+                        ]}
+                    >
                         {message.from.username}
                     </Text>
-                    <Text style={[styles.time, isSelf && styles.timeSelf]}>{formatTime()}</Text>
+                    <Text style={[styles.time, isSelf && styles.timeSelf]}>
+                        {formatTime()}
+                    </Text>
                 </View>
                 {couldDelete ? (
                     <TouchableOpacity onLongPress={handleDeleteMessage}>
                         <View
                             style={[
                                 styles.content,
-                                { backgroundColor: isSelf ? primaryColor8 : 'white' },
+                                {
+                                    backgroundColor: isSelf
+                                        ? primaryColor8
+                                        : 'white',
+                                },
                             ]}
                         >
                             {renderContent()}
@@ -161,14 +205,21 @@ function Message({ message, isSelf, shouldScroll, scrollToEnd, openImageViewer }
                     <View
                         style={[
                             styles.content,
-                            { backgroundColor: isSelf ? primaryColor8 : 'white' },
+                            {
+                                backgroundColor: isSelf
+                                    ? primaryColor8
+                                    : 'white',
+                            },
                         ]}
                     >
                         {renderContent()}
                     </View>
                 )}
                 <View
-                    style={[styles.triangle, isSelf ? styles.triangleSelf : styles.triangleOther]}
+                    style={[
+                        styles.triangle,
+                        isSelf ? styles.triangleSelf : styles.triangleOther,
+                    ]}
                 >
                     <Triangle
                         type="isosceles"

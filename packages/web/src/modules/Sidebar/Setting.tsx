@@ -17,7 +17,12 @@ import { State } from '../../state/reducer';
 
 import Style from './Setting.less';
 import Common from './Common.less';
-import { Tabs, TabPane, ScrollableInkTabBar, TabContent } from '../../components/Tabs';
+import {
+    Tabs,
+    TabPane,
+    ScrollableInkTabBar,
+    TabContent,
+} from '../../components/Tabs';
 import { LocalStorageKey } from '../../localStorage';
 import themes from '../../themes';
 
@@ -31,26 +36,40 @@ type Color = {
         r: number;
         g: number;
         b: number;
-    }
-}
+    };
+};
 
 function Setting(props: SettingProps) {
     const { visible, onClose } = props;
 
     const action = useAction();
     const soundSwitch = useSelector((state: State) => state.status.soundSwitch);
-    const notificationSwitch = useSelector((state: State) => state.status.notificationSwitch);
+    const notificationSwitch = useSelector(
+        (state: State) => state.status.notificationSwitch,
+    );
     const voiceSwitch = useSelector((state: State) => state.status.voiceSwitch);
-    const selfVoiceSwitch = useSelector((state: State) => state.status.selfVoiceSwitch);
+    const selfVoiceSwitch = useSelector(
+        (state: State) => state.status.selfVoiceSwitch,
+    );
     const sound = useSelector((state: State) => state.status.sound);
     const theme = useSelector((state: State) => state.status.theme);
-    const primaryColor = useSelector((state: State) => state.status.primaryColor);
-    const primaryTextColor = useSelector((state: State) => state.status.primaryTextColor);
-    const backgroundImage = useSelector((state: State) => state.status.backgroundImage);
+    const primaryColor = useSelector(
+        (state: State) => state.status.primaryColor,
+    );
+    const primaryTextColor = useSelector(
+        (state: State) => state.status.primaryTextColor,
+    );
+    const backgroundImage = useSelector(
+        (state: State) => state.status.backgroundImage,
+    );
     const aero = useSelector((state: State) => state.status.aero);
     const userId = useSelector((state: State) => state.user?._id);
-    const tagColorMode = useSelector((state: State) => state.status.tagColorMode);
-    const enableSearchExpression = useSelector((state: State) => state.status.enableSearchExpression);
+    const tagColorMode = useSelector(
+        (state: State) => state.status.tagColorMode,
+    );
+    const enableSearchExpression = useSelector(
+        (state: State) => state.status.enableSearchExpression,
+    );
 
     const [backgroundLoading, toggleBackgroundLoading] = useState(false);
 
@@ -63,16 +82,28 @@ function Setting(props: SettingProps) {
             action.setStatus('primaryTextColor', themeConfig.primaryTextColor);
             action.setStatus('backgroundImage', themeConfig.backgroundImage);
             action.setStatus('aero', themeConfig.aero);
-            setCssVariable(themeConfig.primaryColor, themeConfig.primaryTextColor);
+            setCssVariable(
+                themeConfig.primaryColor,
+                themeConfig.primaryTextColor,
+            );
             window.localStorage.removeItem(LocalStorageKey.PrimaryColor);
             window.localStorage.removeItem(LocalStorageKey.PrimaryTextColor);
             window.localStorage.removeItem(LocalStorageKey.BackgroundImage);
             window.localStorage.removeItem(LocalStorageKey.Aero);
             Message.success('已修改主题');
         } else {
-            window.localStorage.setItem(LocalStorageKey.PrimaryColor, primaryColor);
-            window.localStorage.setItem(LocalStorageKey.PrimaryTextColor, primaryTextColor);
-            window.localStorage.setItem(LocalStorageKey.BackgroundImage, backgroundImage);
+            window.localStorage.setItem(
+                LocalStorageKey.PrimaryColor,
+                primaryColor,
+            );
+            window.localStorage.setItem(
+                LocalStorageKey.PrimaryTextColor,
+                primaryTextColor,
+            );
+            window.localStorage.setItem(
+                LocalStorageKey.BackgroundImage,
+                backgroundImage,
+            );
             window.localStorage.setItem(LocalStorageKey.Aero, aero.toString());
         }
     }
@@ -85,7 +116,10 @@ function Setting(props: SettingProps) {
     async function selectBackgroundImage() {
         toggleBackgroundLoading(true);
         try {
-            const image = await readDiskFile('blob', 'image/png,image/jpeg,image/gif');
+            const image = await readDiskFile(
+                'blob',
+                'image/png,image/jpeg,image/gif',
+            );
             if (!image) {
                 return;
             }
@@ -127,14 +161,21 @@ function Setting(props: SettingProps) {
                 renderTabContent={() => <TabContent />}
             >
                 <TabPane tab="功能" key="function">
-                    <div className={`${Common.container} ${Style.scrollContainer}`}>
+                    <div
+                        className={`${Common.container} ${Style.scrollContainer}`}
+                    >
                         <div className={Common.block}>
                             <p className={Common.title}>开关</p>
                             <div className={Style.switchContainer}>
                                 <div className={Style.switch}>
                                     <p className={Style.switchText}>声音提醒</p>
                                     <Switch
-                                        onChange={(value) => action.setStatus('soundSwitch', value)}
+                                        onChange={(value) =>
+                                            action.setStatus(
+                                                'soundSwitch',
+                                                value,
+                                            )
+                                        }
                                         checked={soundSwitch}
                                     />
                                 </div>
@@ -142,28 +183,51 @@ function Setting(props: SettingProps) {
                                     <p className={Style.switchText}>桌面提醒</p>
                                     <Switch
                                         onChange={(value) =>
-                                            action.setStatus('notificationSwitch', value)}
+                                            action.setStatus(
+                                                'notificationSwitch',
+                                                value,
+                                            )
+                                        }
                                         checked={notificationSwitch}
                                     />
                                 </div>
                                 <div className={Style.switch}>
                                     <p className={Style.switchText}>语音播报</p>
                                     <Switch
-                                        onChange={(value) => action.setStatus('voiceSwitch', value)}
+                                        onChange={(value) =>
+                                            action.setStatus(
+                                                'voiceSwitch',
+                                                value,
+                                            )
+                                        }
                                         checked={voiceSwitch}
                                     />
                                 </div>
                                 <div className={Style.switch}>
-                                    <p className={Style.switchText}>播报自己消息</p>
+                                    <p className={Style.switchText}>
+                                        播报自己消息
+                                    </p>
                                     <Switch
-                                        onChange={(value) => action.setStatus('selfVoiceSwitch', value)}
+                                        onChange={(value) =>
+                                            action.setStatus(
+                                                'selfVoiceSwitch',
+                                                value,
+                                            )
+                                        }
                                         checked={selfVoiceSwitch}
                                     />
                                 </div>
                                 <div className={Style.switch}>
-                                    <p className={Style.switchText}>根据输入内容推荐表情</p>
+                                    <p className={Style.switchText}>
+                                        根据输入内容推荐表情
+                                    </p>
                                     <Switch
-                                        onChange={(value) => action.setStatus('enableSearchExpression', value)}
+                                        onChange={(value) =>
+                                            action.setStatus(
+                                                'enableSearchExpression',
+                                                value,
+                                            )
+                                        }
                                         checked={enableSearchExpression}
                                     />
                                 </div>
@@ -178,12 +242,22 @@ function Setting(props: SettingProps) {
                                     onChange={handleSelectSound}
                                     horizontal
                                 >
-                                    <RadioButton value="default">默认</RadioButton>
-                                    <RadioButton value="apple">苹果</RadioButton>
-                                    <RadioButton value="pcqq">电脑QQ</RadioButton>
-                                    <RadioButton value="mobileqq">手机QQ</RadioButton>
+                                    <RadioButton value="default">
+                                        默认
+                                    </RadioButton>
+                                    <RadioButton value="apple">
+                                        苹果
+                                    </RadioButton>
+                                    <RadioButton value="pcqq">
+                                        电脑QQ
+                                    </RadioButton>
+                                    <RadioButton value="mobileqq">
+                                        手机QQ
+                                    </RadioButton>
                                     <RadioButton value="momo">陌陌</RadioButton>
-                                    <RadioButton value="huaji">滑稽</RadioButton>
+                                    <RadioButton value="huaji">
+                                        滑稽
+                                    </RadioButton>
                                 </RadioGroup>
                             </div>
                         </div>
@@ -193,107 +267,145 @@ function Setting(props: SettingProps) {
                                 <RadioGroup
                                     className={Style.TagModeRadioGroup}
                                     value={tagColorMode}
-                                    onChange={(newValue: string) => action.setStatus('tagColorMode', newValue)}
+                                    onChange={(newValue: string) =>
+                                        action.setStatus(
+                                            'tagColorMode',
+                                            newValue,
+                                        )
+                                    }
                                     horizontal
                                 >
-                                    <RadioButton value="singleColor">单一颜色</RadioButton>
-                                    <RadioButton value="fixedColor">固定颜色</RadioButton>
-                                    <RadioButton value="randomColor">随机颜色</RadioButton>
+                                    <RadioButton value="singleColor">
+                                        单一颜色
+                                    </RadioButton>
+                                    <RadioButton value="fixedColor">
+                                        固定颜色
+                                    </RadioButton>
+                                    <RadioButton value="randomColor">
+                                        随机颜色
+                                    </RadioButton>
                                 </RadioGroup>
                             </div>
                         </div>
                     </div>
                 </TabPane>
                 <TabPane tab="主题" key="theme">
-                    <div className={`${Common.container} ${Style.scrollContainer}`}>
+                    <div
+                        className={`${Common.container} ${Style.scrollContainer}`}
+                    >
                         <div className={Common.block}>
                             <div>
                                 <RadioGroup
                                     className={Style.TagModeRadioGroup}
                                     value={theme}
-                                    onChange={(newValue: string) => setTheme(newValue)}
+                                    onChange={(newValue: string) =>
+                                        setTheme(newValue)
+                                    }
                                     horizontal
                                 >
-                                    <RadioButton value="default">默认</RadioButton>
+                                    <RadioButton value="default">
+                                        默认
+                                    </RadioButton>
                                     <RadioButton value="cool">清爽</RadioButton>
-                                    <RadioButton value="custom">自定义</RadioButton>
+                                    <RadioButton value="custom">
+                                        自定义
+                                    </RadioButton>
                                 </RadioGroup>
                             </div>
                         </div>
-                        {
-                            theme === 'custom'
-                            && (
-                                <>
-                                    <div className={Common.block}>
-                                        <p className={Common.title}>毛玻璃效果</p>
-                                        <div>
-                                            <Switch
-                                                onChange={(value) => action.setStatus('aero', value)}
-                                                checked={aero}
-                                            />
-                                        </div>
+                        {theme === 'custom' && (
+                            <>
+                                <div className={Common.block}>
+                                    <p className={Common.title}>毛玻璃效果</p>
+                                    <div>
+                                        <Switch
+                                            onChange={(value) =>
+                                                action.setStatus('aero', value)
+                                            }
+                                            checked={aero}
+                                        />
                                     </div>
-                                    <div className={Common.block}>
-                                        <p className={Common.title}>
-                                            背景图{' '}
-                                            <span className={Style.backgroundTip}>
-                                                背景图会被拉伸到浏览器窗口大小, 合理的比例会取得更好的效果
-                                            </span>
-                                        </p>
-                                        <div className={Style.backgroundImageContainer}>
-                                            <img
-                                                className={`${Style.backgroundImage} ${
-                                                    backgroundLoading ? 'blur' : ''
-                                                }`}
-                                                src={getOSSFileUrl(backgroundImage)}
-                                                alt="背景图预览"
-                                                onClick={selectBackgroundImage}
-                                            />
-                                            <ReactLoading
-                                                className={`${Style.backgroundImageLoading} ${
-                                                    backgroundLoading ? 'show' : 'hide'
-                                                }`}
-                                                type="spinningBubbles"
-                                                color={`rgb(${primaryColor}`}
-                                                height={100}
-                                                width={100}
-                                            />
-                                        </div>
+                                </div>
+                                <div className={Common.block}>
+                                    <p className={Common.title}>
+                                        背景图{' '}
+                                        <span className={Style.backgroundTip}>
+                                            背景图会被拉伸到浏览器窗口大小,
+                                            合理的比例会取得更好的效果
+                                        </span>
+                                    </p>
+                                    <div
+                                        className={
+                                            Style.backgroundImageContainer
+                                        }
+                                    >
+                                        <img
+                                            className={`${
+                                                Style.backgroundImage
+                                            } ${
+                                                backgroundLoading ? 'blur' : ''
+                                            }`}
+                                            src={getOSSFileUrl(backgroundImage)}
+                                            alt="背景图预览"
+                                            onClick={selectBackgroundImage}
+                                        />
+                                        <ReactLoading
+                                            className={`${
+                                                Style.backgroundImageLoading
+                                            } ${
+                                                backgroundLoading
+                                                    ? 'show'
+                                                    : 'hide'
+                                            }`}
+                                            type="spinningBubbles"
+                                            color={`rgb(${primaryColor}`}
+                                            height={100}
+                                            width={100}
+                                        />
                                     </div>
-                                    {TwitterPicker && (
-                                        <div className={Common.block}>
-                                            <p className={Common.title}>主题颜色</p>
-                                            <div className={Style.colorInfo}>
-                                                <div style={{ backgroundColor: `rgb(${primaryColor})` }} />
-                                                <span>{`rgb(${primaryColor})`}</span>
-                                            </div>
-                                            <TwitterPicker
-                                                // @ts-ignore
-                                                className={Style.colorPicker}
-                                                color={`rgb(${primaryColor})`}
-                                                onChange={handlePrimaryColorChange}
+                                </div>
+                                {TwitterPicker && (
+                                    <div className={Common.block}>
+                                        <p className={Common.title}>主题颜色</p>
+                                        <div className={Style.colorInfo}>
+                                            <div
+                                                style={{
+                                                    backgroundColor: `rgb(${primaryColor})`,
+                                                }}
                                             />
+                                            <span>{`rgb(${primaryColor})`}</span>
                                         </div>
-                                    )}
-                                    {TwitterPicker && (
-                                        <div className={Common.block}>
-                                            <p className={Common.title}>文字颜色</p>
-                                            <div className={Style.colorInfo}>
-                                                <div style={{ backgroundColor: `rgb(${primaryTextColor})` }} />
-                                                <span>{`rgb(${primaryTextColor})`}</span>
-                                            </div>
-                                            <TwitterPicker
-                                                // @ts-ignore
-                                                className={Style.colorPicker}
-                                                color={`rgb(${primaryTextColor})`}
-                                                onChange={handlePrimaryTextColorChange}
+                                        <TwitterPicker
+                                            // @ts-ignore
+                                            className={Style.colorPicker}
+                                            color={`rgb(${primaryColor})`}
+                                            onChange={handlePrimaryColorChange}
+                                        />
+                                    </div>
+                                )}
+                                {TwitterPicker && (
+                                    <div className={Common.block}>
+                                        <p className={Common.title}>文字颜色</p>
+                                        <div className={Style.colorInfo}>
+                                            <div
+                                                style={{
+                                                    backgroundColor: `rgb(${primaryTextColor})`,
+                                                }}
                                             />
+                                            <span>{`rgb(${primaryTextColor})`}</span>
                                         </div>
-                                    )}
-                                </>
-                            )
-                        }
-
+                                        <TwitterPicker
+                                            // @ts-ignore
+                                            className={Style.colorPicker}
+                                            color={`rgb(${primaryTextColor})`}
+                                            onChange={
+                                                handlePrimaryTextColorChange
+                                            }
+                                        />
+                                    </div>
+                                )}
+                            </>
+                        )}
                     </div>
                 </TabPane>
             </Tabs>

@@ -2,7 +2,12 @@ import React, { useState, useContext, useEffect } from 'react';
 
 import IconButton from '../../components/IconButton';
 import Avatar from '../../components/Avatar';
-import { Tabs, TabPane, TabContent, ScrollableInkTabBar } from '../../components/Tabs';
+import {
+    Tabs,
+    TabPane,
+    TabContent,
+    ScrollableInkTabBar,
+} from '../../components/Tabs';
 import CreateGroup from './CreateGroup';
 import { ShowUserOrGroupInfoContext } from '../../context';
 import { search } from '../../service';
@@ -21,8 +26,13 @@ function FunctionBar() {
     const [addButtonVisible, toggleAddButtonVisible] = useState(true);
     const [searchResultVisible, toggleSearchResultVisible] = useState(false);
     const [searchResultActiveKey, setSearchResultActiveKey] = useState('all');
-    const [createGroupDialogVisible, toggleCreateGroupDialogVisible] = useState(false);
-    const [searchResult, setSearchResult] = useState<SearchResult>({ users: [], groups: [] });
+    const [createGroupDialogVisible, toggleCreateGroupDialogVisible] = useState(
+        false,
+    );
+    const [searchResult, setSearchResult] = useState<SearchResult>({
+        users: [],
+        groups: [],
+    });
 
     const context = useContext(ShowUserOrGroupInfoContext);
     const placeholder = '搜索群组/用户';
@@ -36,7 +46,10 @@ function FunctionBar() {
     }
 
     function handleBodyClick(e: any) {
-        if (e.target.getAttribute('placeholder') === placeholder || !searchResultVisible) {
+        if (
+            e.target.getAttribute('placeholder') === placeholder ||
+            !searchResultVisible
+        ) {
             return;
         }
 
@@ -90,7 +103,11 @@ function FunctionBar() {
         const usersDom = [];
         for (let i = 0; i < count; i++) {
             usersDom.push(
-                <div key={users[i]._id} onClick={() => handleClick(users[i])} role="button">
+                <div
+                    key={users[i]._id}
+                    onClick={() => handleClick(users[i])}
+                    role="button"
+                >
                     <Avatar size={40} src={users[i].avatar} />
                     <p>{users[i].username}</p>
                 </div>,
@@ -112,7 +129,11 @@ function FunctionBar() {
         const groupsDom = [];
         for (let i = 0; i < count; i++) {
             groupsDom.push(
-                <div key={groups[i]._id} onClick={() => handleClick(groups[i])} role="button">
+                <div
+                    key={groups[i]._id}
+                    onClick={() => handleClick(groups[i])}
+                    role="button"
+                >
                     <Avatar size={40} src={groups[i].avatar} />
                     <div>
                         <p>{groups[i].name}</p>
@@ -126,9 +147,15 @@ function FunctionBar() {
 
     return (
         <div className={Style.functionBar}>
-            <form className={Style.form} autoComplete="off" onSubmit={(e) => e.preventDefault()}>
+            <form
+                className={Style.form}
+                autoComplete="off"
+                onSubmit={(e) => e.preventDefault()}
+            >
                 <Input
-                    className={`${Style.input} ${searchResultVisible ? Style.inputFocus : ''}`}
+                    className={`${Style.input} ${
+                        searchResultVisible ? Style.inputFocus : ''
+                    }`}
                     type="text"
                     placeholder={placeholder}
                     value={keywords}
@@ -157,58 +184,84 @@ function FunctionBar() {
                 renderTabContent={() => <TabContent />}
             >
                 <TabPane tab="全部" key="all">
-                    {searchResult.users.length === 0 && searchResult.groups.length === 0 ? (
-                        <p className={Style.none}>没有搜索到内容, 换个关键字试试吧~</p>
-                    ) : (
-                        <div className={Style.allList}>
-                            <div
-                                style={{
-                                    display: searchResult.users.length > 0 ? 'block' : 'none',
-                                }}
-                            >
-                                <p>用户</p>
-                                <div className={Style.userList}>{renderSearchUsers(3)}</div>
+                    {searchResult.users.length === 0 &&
+                    searchResult.groups.length === 0 ? (
+                            // eslint-disable-next-line react/jsx-indent
+                            <p className={Style.none}>
+                                没有搜索到内容, 换个关键字试试吧~
+                            </p>
+                        ) : (
+                            <div className={Style.allList}>
                                 <div
-                                    className={Style.more}
                                     style={{
-                                        display: searchResult.users.length > 3 ? 'block' : 'none',
+                                        display:
+                                        searchResult.users.length > 0
+                                            ? 'block'
+                                            : 'none',
                                     }}
                                 >
-                                    <span
-                                        onClick={() => setSearchResultActiveKey('user')}
-                                        role="button"
+                                    <p>用户</p>
+                                    <div className={Style.userList}>
+                                        {renderSearchUsers(3)}
+                                    </div>
+                                    <div
+                                        className={Style.more}
+                                        style={{
+                                            display:
+                                            searchResult.users.length > 3
+                                                ? 'block'
+                                                : 'none',
+                                        }}
                                     >
-                                        查看更多
-                                    </span>
+                                        <span
+                                            onClick={() =>
+                                                setSearchResultActiveKey('user')
+                                            }
+                                            role="button"
+                                        >
+                                            查看更多
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div
-                                style={{
-                                    display: searchResult.groups.length > 0 ? 'block' : 'none',
-                                }}
-                            >
-                                <p>群组</p>
-                                <div className={Style.groupList}>{renderSearchGroups(3)}</div>
                                 <div
-                                    className={Style.more}
                                     style={{
-                                        display: searchResult.groups.length > 3 ? 'block' : 'none',
+                                        display:
+                                        searchResult.groups.length > 0
+                                            ? 'block'
+                                            : 'none',
                                     }}
                                 >
-                                    <span
-                                        onClick={() => setSearchResultActiveKey('group')}
-                                        role="button"
+                                    <p>群组</p>
+                                    <div className={Style.groupList}>
+                                        {renderSearchGroups(3)}
+                                    </div>
+                                    <div
+                                        className={Style.more}
+                                        style={{
+                                            display:
+                                            searchResult.groups.length > 3
+                                                ? 'block'
+                                                : 'none',
+                                        }}
                                     >
-                                        查看更多
-                                    </span>
+                                        <span
+                                            onClick={() =>
+                                                setSearchResultActiveKey('group')
+                                            }
+                                            role="button"
+                                        >
+                                            查看更多
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
                 </TabPane>
                 <TabPane tab="用户" key="user">
                     {searchResult.users.length === 0 ? (
-                        <p className={Style.none}>没有搜索到内容, 换个关键字试试吧~~</p>
+                        <p className={Style.none}>
+                            没有搜索到内容, 换个关键字试试吧~~
+                        </p>
                     ) : (
                         <div className={`${Style.userList} ${Style.only}`}>
                             {renderSearchUsers()}
@@ -217,7 +270,9 @@ function FunctionBar() {
                 </TabPane>
                 <TabPane tab="群组" key="group">
                     {searchResult.groups.length === 0 ? (
-                        <p className={Style.none}>没有搜索到内容, 换个关键字试试吧~~</p>
+                        <p className={Style.none}>
+                            没有搜索到内容, 换个关键字试试吧~~
+                        </p>
                     ) : (
                         <div className={`${Style.groupList} ${Style.only}`}>
                             {renderSearchGroups()}

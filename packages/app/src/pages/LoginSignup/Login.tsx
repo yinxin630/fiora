@@ -12,14 +12,11 @@ import { Friend, Group } from '../../types/redux';
 
 export default function Login() {
     async function handleSubmit(username: string, password: string) {
-        const [err, res] = await fetch(
-            'login',
-            {
-                username,
-                password,
-                ...platform,
-            },
-        );
+        const [err, res] = await fetch('login', {
+            username,
+            password,
+            ...platform,
+        });
         if (!err) {
             const user = res;
             action.setUser(user);
