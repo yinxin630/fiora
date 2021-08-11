@@ -13,21 +13,25 @@ export async function initOSS() {
             accessKeySecret: token.AccessKeySecret,
             stsToken: token.SecurityToken,
             bucket: token.bucket,
-            refreshSTSToken: async () => {
-                const [, refreshToken] = await fetch('getSTS');
-                if (refreshToken) {
-                    return {
-                        accessKeyId: refreshToken.AccessKeyId,
-                        accessKeySecret: refreshToken.AccessKeySecret,
-                        stsToken: refreshToken.SecurityToken,
-                    };
-                }
-                return null;
-            },
         });
         if (token.endpoint) {
             endpoint = `//${token.endpoint}/`;
         }
+
+        const OneHour = 1000 * 60 * 60;
+        setInterval(async () => {
+            const [, refreshToken] = await fetch('getSTS');
+            if (refreshToken?.enable) {
+                // @ts-ignore
+                ossClient = new OSS({
+                    region: refreshToken.region,
+                    accessKeyId: refreshToken.AccessKeyId,
+                    accessKeySecret: refreshToken.AccessKeySecret,
+                    stsToken: refreshToken.SecurityToken,
+                    bucket: refreshToken.bucket,
+                });
+            }
+        }, OneHour);
     }
 }
 
