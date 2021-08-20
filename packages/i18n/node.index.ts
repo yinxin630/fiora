@@ -8,7 +8,7 @@ const languages = {
     'en-US': enUS,
 };
 
-const locale = osLocale.sync();
+const locale = osLocale.sync() || 'en-US';
 
 export default function i18n(key: keyof typeof enUS | keyof typeof zhCN) {
     // @ts-ignore
