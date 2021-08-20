@@ -1,4 +1,5 @@
 import IO from 'socket.io-client';
+import config from '@fiora/config/app';
 import Toast from './components/Toast';
 import action from './state/action';
 import store from './state/store';
@@ -38,8 +39,7 @@ const options = {
     transports: ['websocket'],
 };
 
-const host = 'https://fiora.suisuijiang.com';
-const socket = IO(host, options);
+const socket = IO(config.server, options);
 
 function fetch<T = any>(
     event: string,

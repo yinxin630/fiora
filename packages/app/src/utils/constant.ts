@@ -1,1 +1,3 @@
-export const referer = 'https://fiora.suisuijiang.com/';
+import config from '@fiora/config/app';
+
+export const referer = config.server + (config.server.endsWith('/') ? '' : '/');

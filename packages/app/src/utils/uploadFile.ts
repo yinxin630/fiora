@@ -1,3 +1,4 @@
+import config from '@fiora/config/app';
 import fetch from './fetch';
 
 /**
@@ -35,7 +36,7 @@ export function getOSSFileUrl(url: string | number = '', process = '') {
         return `https:${url}`;
     }
     if (url.startsWith('/')) {
-        return `https://fiora.suisuijiang.com${url}`;
+        return `${config.server}${url}`;
     }
     return `${url}`;
 }
