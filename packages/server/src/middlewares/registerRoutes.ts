@@ -3,8 +3,12 @@ import logger from '@fiora/utils/logger';
 import { getSocketIp } from '@fiora/utils/socket';
 import { Socket } from 'socket.io';
 
+function defaultCallback() {
+    logger.error('Server Error: emit event with callback');
+}
+
 export default function registerRoutes(socket: Socket, routes: Routes) {
-    return async ([event, data, cb]: MiddlewareArgs) => {
+    return async ([event, data, cb = defaultCallback]: MiddlewareArgs) => {
         const route = routes[event];
         if (route) {
             try {
