@@ -104,4 +104,4 @@ server {
 
 ## 怎么重新构建客户端
 
-`yarn build:client && yarn move-dist`
+`yarn build:web`

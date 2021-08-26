@@ -102,6 +102,6 @@ First cd to the fiora root directory, and then execute the corresponding command
     -If you modify the server configuration, you need to restart the server
     -If you modify the client configuration, you need to rebuild the client
 
-## How to rebuild the client
+## How to rebuild the web client
 
-`yarn build:client && yarn move-dist`
+`yarn build:web`

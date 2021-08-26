@@ -51,7 +51,7 @@ pm2 logs fiora
 ### 运行开发模式
 
 1. 启动服务端 `yarn dev:server`
-2. 启动客户端 `yarn dev:client`
+2. 启动客户端 `yarn dev:web`
 3. 使用浏览器打开 `http://localhost:8080`
 
 ### docker 运行

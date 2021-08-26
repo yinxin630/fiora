@@ -51,7 +51,7 @@ pm2 logs fiora
 ### Run With Develop Mode
 
 1. Start the server `yarn dev:server`
-2. Start the client `yarn dev:client`
+2. Start the client `yarn dev:web`
 3. Open `http://localhost:8080` in browser
 
 ### Running on the docker
