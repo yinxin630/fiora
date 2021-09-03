@@ -22,7 +22,7 @@
     "expo-image-picker": "~10.2.2",
     "expo-notifications": "~0.12.3",
     "expo-web-browser": "~9.2.0",
-    "immer": "^8.0.1",
+    "immer": "^9.0.6",
     "native-base": "^2.4.5",
     "prop-types": "^15.6.1",
     "randomcolor": "^0.6.2",
