@@ -73,7 +73,10 @@ class Message extends Component<MessageProps, MessageState> {
     }
 
     handleMouseEnter = () => {
-        const { isAdmin, isSelf } = this.props;
+        const { isAdmin, isSelf, type } = this.props;
+        if (type === 'system') {
+            return;
+        }
         if (isAdmin || (!client.disableDeleteMessage && isSelf)) {
             this.setState({ showButtonList: true });
         }
@@ -111,6 +114,7 @@ class Message extends Component<MessageProps, MessageState> {
                     messageId: id,
                 } as DeleteMessagePayload,
             });
+            this.setState({ showButtonList: false });
         }
     };
 

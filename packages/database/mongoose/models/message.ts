@@ -22,6 +22,10 @@ const MessageSchema = new Schema({
         type: String,
         default: '',
     },
+    deleted: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 export interface MessageDocument extends Document {
@@ -35,6 +39,8 @@ export interface MessageDocument extends Document {
     content: string;
     /** 创建时间 */
     createTime: Date;
+    /** Has it been deleted */
+    deleted: boolean;
 }
 
 /**
@@ -44,6 +50,12 @@ export interface MessageDocument extends Document {
 const Message = model<MessageDocument>('Message', MessageSchema);
 
 export default Message;
+
+interface SendMessageData {
+    to: string;
+    type: string;
+    content: string;
+}
 
 export async function handleInviteV2Message(message: SendMessageData) {
     if (message.type === 'inviteV2') {

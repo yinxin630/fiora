@@ -46,7 +46,16 @@ function convertSystemMessage(message: Message) {
                 message.content = '不支持的指令';
             }
         }
+    } else if (message.deleted) {
+        message.type = 'system';
+        message.from._id = 'system';
+        message.from.originUsername = message.from.username;
+        message.from.username = '乌贼娘殿下';
+        message.from.avatar = WuZeiNiangImage;
+        message.from.tag = 'system';
+        message.content = `撤回了消息`;
     }
+
     return message;
 }
 

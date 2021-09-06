@@ -17,7 +17,7 @@ export type SetLinkmanMessagesAction = {
     linkmans: Record<
         string,
         {
-            messages: { [linkmanId: string]: Message[] };
+            messages: Message[];
             unread: number;
         }
     >;
@@ -154,6 +154,7 @@ export type Message = {
         originUsername?: string;
     };
     to: string;
+    deleted?: boolean;
 };
 
 export type Group = {
