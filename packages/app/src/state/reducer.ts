@@ -117,7 +117,7 @@ const reducer = produce((state: State = initialState, action: ActionTypes) => {
                 ...linkman,
                 ...(action.linkmans[linkman._id]
                     ? {
-                        messages: action.linkmans[linkman._id].messages,
+                        messages: action.linkmans[linkman._id].messages.map(convertMessage),
                         unread: action.linkmans[linkman._id].unread,
                     }
                     : {}),
@@ -259,11 +259,12 @@ const reducer = produce((state: State = initialState, action: ActionTypes) => {
                 (linkman) => linkman._id === action.linkmanId,
             );
             if (targetLinkman) {
-                const targetMessageIndex = targetLinkman.messages.findIndex(
+                const targetMessage = targetLinkman.messages.find(
                     (message) => message._id === action.messageId,
                 );
-                if (targetMessageIndex !== -1) {
-                    targetLinkman.messages.splice(targetMessageIndex, 1);
+                if (targetMessage) {
+                    targetMessage.deleted = true;
+                    convertMessage(targetMessage);
                 }
             }
             return state;

@@ -38,7 +38,7 @@ const options = {
     transports: ['websocket'],
 };
 
-const host = 'https://fiora.suisuijiang.com';
+const host = 'http://10.132.67.127:9200';
 const socket = IO(host, options);
 
 function fetch<T = any>(

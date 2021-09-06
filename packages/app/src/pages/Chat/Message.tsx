@@ -49,7 +49,8 @@ function Message({
     const self = useSelfId();
     const focus = useFocus();
 
-    const couldDelete = isAdmin || message.from._id === self;
+    const couldDelete =
+        message.type !== 'system' && (isAdmin || message.from._id === self);
 
     useEffect(() => {
         if (shouldScroll) {
