@@ -64,7 +64,7 @@ async function pushNotification(
                 }
             });
         } catch (error) {
-            logger.error('[Notification]', error.message);
+            logger.error('[Notification]', (error as Error).message);
         }
     }
 }
@@ -237,6 +237,7 @@ export async function getLinkmansLastMessages(
                 content: 1,
                 from: 1,
                 createTime: 1,
+                deleted: 1,
             },
             { sort: { createTime: -1 }, limit: FirstTimeMessagesCount },
         ).populate('from', { username: 1, avatar: 1, tag: 1 });
@@ -282,6 +283,7 @@ export async function getLinkmansLastMessagesV2(
                     content: 1,
                     from: 1,
                     createTime: 1,
+                    deleted: 1,
                 },
                 {
                     sort: { createTime: -1 },
@@ -340,6 +342,7 @@ export async function getLinkmanHistoryMessages(
             content: 1,
             from: 1,
             createTime: 1,
+            deleted: 1,
         },
         {
             sort: { createTime: -1 },
@@ -371,6 +374,7 @@ export async function getDefaultGroupHistoryMessages(
             content: 1,
             from: 1,
             createTime: 1,
+            deleted: 1,
         },
         {
             sort: { createTime: -1 },
@@ -382,22 +386,17 @@ export async function getDefaultGroupHistoryMessages(
     return result;
 }
 
-interface DeleteMessageData {
-    /** 消息id */
-    messageId: string;
-}
-
 /**
  * 删除消息, 需要管理员权限
  */
 export async function deleteMessage(ctx: Context<{ messageId: string }>) {
-    const { messageId } = ctx.data;
-    assert(messageId, 'messageId不能为空');
-
     assert(
         !client.disableDeleteMessage || ctx.socket.isAdmin,
         '已禁止撤回消息',
     );
+    
+    const { messageId } = ctx.data;
+    assert(messageId, 'messageId不能为空');
 
     const message = await Message.findOne({ _id: messageId });
     if (!message) {
@@ -409,8 +408,8 @@ export async function deleteMessage(ctx: Context<{ messageId: string }>) {
         '只能撤回本人的消息',
     );
 
-    await Message.deleteOne({ _id: message._id });
-    await History.deleteMany({ message: message._id });
+    message.deleted = true;
+    await message.save();
 
     /**
      * 广播删除消息通知, 区分群消息和私聊消息

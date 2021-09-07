@@ -313,7 +313,7 @@ describe('redux reducer', () => {
     });
 
     it('should add messages to linkmans', () => {
-        const state = ({
+        const state = {
             linkmans: {
                 1: {
                     _id: '1',
@@ -326,7 +326,7 @@ describe('redux reducer', () => {
                     messages: {},
                 },
             },
-        } as unknown) as State;
+        } as unknown as State;
         const action = {
             type: ActionTypes.SetLinkmansLastMessages,
             payload: {
@@ -353,7 +353,7 @@ describe('redux reducer', () => {
     });
 
     it('should add messages to linkman', () => {
-        const state = ({
+        const state = {
             linkmans: {
                 1: {
                     _id: '1',
@@ -361,7 +361,7 @@ describe('redux reducer', () => {
                     messages: {},
                 },
             },
-        } as unknown) as State;
+        } as unknown as State;
         const action = {
             type: ActionTypes.AddLinkmanHistoryMessages,
             payload: {
@@ -442,7 +442,7 @@ describe('redux reducer', () => {
     });
 
     it('should remove message from linkman', () => {
-        const state = ({
+        const state = {
             linkmans: {
                 1: {
                     _id: '1',
@@ -452,12 +452,13 @@ describe('redux reducer', () => {
                             _id: 'm1',
                             type: 'text',
                             content: 'content',
+                            from: {},
                         },
                     },
                     unread: 0,
                 },
             },
-        } as unknown) as State;
+        } as unknown as State;
         const action = {
             type: ActionTypes.DeleteMessage,
             payload: {
@@ -466,7 +467,7 @@ describe('redux reducer', () => {
             },
         };
         const newState = reducer(state, action);
-        expect(Object.keys(newState.linkmans['1'].messages).length).toBe(0);
+        expect(newState.linkmans['1'].messages.m1.deleted).toBe(true);
     });
 
     it('should return origin state when delete not exists linkman message', () => {
@@ -485,7 +486,7 @@ describe('redux reducer', () => {
     });
 
     it('should update linkman property', () => {
-        const state = ({
+        const state = {
             linkmans: {
                 1: {
                     _id: '1',
@@ -494,7 +495,7 @@ describe('redux reducer', () => {
                     unread: 0,
                 },
             },
-        } as unknown) as State;
+        } as unknown as State;
         const action = {
             type: ActionTypes.SetLinkmanProperty,
             payload: {
@@ -508,7 +509,7 @@ describe('redux reducer', () => {
     });
 
     it('should update message from linkman', () => {
-        const state = ({
+        const state = {
             linkmans: {
                 1: {
                     _id: '1',
@@ -523,7 +524,7 @@ describe('redux reducer', () => {
                     unread: 0,
                 },
             },
-        } as unknown) as State;
+        } as unknown as State;
         const action = {
             type: ActionTypes.UpdateMessage,
             payload: {
@@ -570,11 +571,11 @@ describe('redux reducer', () => {
     });
 
     it('should update status of key', () => {
-        const state = ({
+        const state = {
             status: {
                 aero: false,
             },
-        } as unknown) as State;
+        } as unknown as State;
         const action = {
             type: ActionTypes.SetStatus,
             payload: {

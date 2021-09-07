@@ -1,5 +1,6 @@
 import { isMobile } from '@fiora/utils/ua';
 import getFriendId from '@fiora/utils/getFriendId';
+import convertMessage from '@fiora/utils/convertMessage';
 import getData from '../localStorage';
 import {
     Action,
@@ -31,6 +32,7 @@ export interface Message {
     loading: boolean;
     percent: number;
     createTime: string;
+    deleted?: boolean;
 }
 
 export interface MessagesMap {
@@ -225,7 +227,7 @@ function transformFriend(friend: Linkman): Linkman {
         // @ts-ignore
         createTime: friend.createTime,
     };
-    initLinkmanFields((transformedFriend as unknown) as Linkman, 'friend');
+    initLinkmanFields(transformedFriend as unknown as Linkman, 'friend');
     return transformedFriend as Linkman;
 }
 
@@ -304,15 +306,8 @@ function reducer(state: State = initialState, action: Action): State {
         }
 
         case ActionTypes.SetUser: {
-            const {
-                _id,
-                username,
-                avatar,
-                tag,
-                groups,
-                friends,
-                isAdmin,
-            } = action.payload as SetUserPayload;
+            const { _id, username, avatar, tag, groups, friends, isAdmin } =
+                action.payload as SetUserPayload;
             // @ts-ignore
             const linkmans: Linkman[] = [
                 // @ts-ignore
@@ -466,7 +461,8 @@ function reducer(state: State = initialState, action: Action): State {
         }
 
         case ActionTypes.SetLinkmansLastMessages: {
-            const linkmansMessages = action.payload as SetLinkmansLastMessagesPayload;
+            const linkmansMessages =
+                action.payload as SetLinkmansLastMessagesPayload;
             const { linkmans } = state;
             const newState = { ...state, linkmans: {} };
             Object.keys(linkmans).forEach((linkmanId) => {
@@ -527,10 +523,8 @@ function reducer(state: State = initialState, action: Action): State {
         }
 
         case ActionTypes.DeleteMessage: {
-            const {
-                linkmanId,
-                messageId,
-            } = action.payload as DeleteMessagePayload;
+            const { linkmanId, messageId } =
+                action.payload as DeleteMessagePayload;
             if (!state.linkmans[linkmanId]) {
                 /* istanbul ignore next */
                 if (!__TEST__) {
@@ -541,17 +535,21 @@ function reducer(state: State = initialState, action: Action): State {
                 return state;
             }
 
-            const messages = deleteObjectKey(
-                state.linkmans[linkmanId].messages,
-                messageId,
-            );
             return {
                 ...state,
                 linkmans: {
                     ...state.linkmans,
                     [linkmanId]: {
                         ...state.linkmans[linkmanId],
-                        messages,
+                        messages: {
+                            ...state.linkmans[linkmanId].messages,
+                            [messageId]: convertMessage({
+                                ...state.linkmans[linkmanId].messages[
+                                    messageId
+                                ],
+                                deleted: true,
+                            }),
+                        },
                     },
                 },
             };

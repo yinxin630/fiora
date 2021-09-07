@@ -117,7 +117,7 @@ export async function register(
             avatar: getRandomAvatar(),
         } as UserDocument);
     } catch (err) {
-        if (err.name === 'ValidationError') {
+        if ((err as Error).name === 'ValidationError') {
             return '用户名包含不支持的字符或者长度超过限制';
         }
         throw err;
@@ -357,6 +357,7 @@ export async function guest(ctx: Context<Environment>) {
             content: 1,
             from: 1,
             createTime: 1,
+            deleted: 1,
         },
         { sort: { createTime: -1 }, limit: 15 },
     ).populate('from', { username: 1, avatar: 1 });

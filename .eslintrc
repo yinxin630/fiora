@@ -47,7 +47,6 @@
         "jsx-a11y/interactive-supports-focus": 0,
         "jsx-a11y/no-noninteractive-element-interactions": 0,
         "jsx-a11y/no-noninteractive-element-to-interactive-role": 0,
-        "no-console": 0,
         "no-param-reassign": 0,
         "no-plusplus": 0,
         "no-script-url": 0,
