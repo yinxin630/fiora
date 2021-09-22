@@ -64,7 +64,7 @@ export async function deleteUser(userId: string, confirm = true) {
                 console.log('Leave', group.name);
                 const index = group.members.indexOf(user?._id);
                 group.members.splice(index, 1);
-                if (group.creator.toString() === user?._id.toString()) {
+                if (group.creator?.toString() === user?._id.toString()) {
                     // @ts-ignore
                     group.creator = null;
                 }
