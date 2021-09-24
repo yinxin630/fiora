@@ -20,7 +20,6 @@ import History, {
 import Socket from '@fiora/database/mongoose/models/socket';
 
 import { DisableSendMessageKey, Redis } from '@fiora/database/redis/initRedis';
-import { truncate } from 'fs';
 import client from '../../../config/client';
 
 const { isValid } = Types.ObjectId;
