@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 
+import { css } from 'linaria';
 import Style from './Admin.less';
 import Common from './Common.less';
 import Dialog from '../../components/Dialog';
@@ -12,7 +13,16 @@ import {
     sealUser,
     setUserTag,
     sealIp,
+    toggleSendMessage,
 } from '../../service';
+
+const styles = {
+    button: css`
+        width: 100px;
+        height: 36px;
+        margin-right: 12px;
+    `,
+};
 
 interface AdminProps {
     visible: boolean;
@@ -88,6 +98,19 @@ function Admin(props: AdminProps) {
         }
     }
 
+    async function handleDisableSendMessage() {
+        const isSuccess = await toggleSendMessage(false);
+        if (isSuccess) {
+            Message.success('开启禁言成功');
+        }
+    }
+    async function handleEnableSendMessage() {
+        const isSuccess = await toggleSendMessage(true);
+        if (isSuccess) {
+            Message.success('关闭禁言成功');
+        }
+    }
+
     return (
         <Dialog
             className={Style.admin}
@@ -96,6 +119,21 @@ function Admin(props: AdminProps) {
             onClose={onClose}
         >
             <div className={Common.container}>
+                <div className={Common.block}>
+                    <Button
+                        className={styles.button}
+                        type="danger"
+                        onClick={handleDisableSendMessage}
+                    >
+                        开启禁言
+                    </Button>
+                    <Button
+                        className={styles.button}
+                        onClick={handleEnableSendMessage}
+                    >
+                        关闭禁言
+                    </Button>
+                </div>
                 <div className={Common.block}>
                     <p className={Common.title}>更新用户标签</p>
                     <div className={Style.inputBlock}>

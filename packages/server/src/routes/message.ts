@@ -19,6 +19,7 @@ import History, {
 } from '@fiora/database/mongoose/models/history';
 import Socket from '@fiora/database/mongoose/models/socket';
 
+import { DisableSendMessageKey, Redis } from '@fiora/database/redis/initRedis';
 import client from '../../../config/client';
 
 const { isValid } = Types.ObjectId;
@@ -74,6 +75,10 @@ async function pushNotification(
  * @param ctx Context
  */
 export async function sendMessage(ctx: Context<SendMessageData>) {
+    const disableSendMessage = await Redis.get(DisableSendMessageKey);
+    console.log('disableSendMessage =>', disableSendMessage);
+    assert(disableSendMessage !== 'true' || ctx.socket.isAdmin, '全员禁言中');
+
     const { to, content } = ctx.data;
     let { type } = ctx.data;
     assert(to, 'to不能为空');

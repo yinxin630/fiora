@@ -17,6 +17,7 @@ import {
     getAllSealUser,
     getSealIpKey,
     getSealUserKey,
+    DisableSendMessageKey,
     Redis,
 } from '@fiora/database/redis/initRedis';
 
@@ -323,4 +324,13 @@ export async function uploadFile(
         logger.error('[uploadFile]', err.message);
         return `上传文件失败:${err.message}`;
     }
+}
+
+export async function toggleSendMessage(ctx: Context<{ enable: boolean }>) {
+    const { enable } = ctx.data;
+    console.log('enable =>', !enable);
+    await Redis.set(DisableSendMessageKey, (!enable).toString());
+    return {
+        msg: 'ok',
+    };
 }

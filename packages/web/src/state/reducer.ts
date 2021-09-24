@@ -523,7 +523,7 @@ function reducer(state: State = initialState, action: Action): State {
         }
 
         case ActionTypes.DeleteMessage: {
-            const { linkmanId, messageId, isAdmin } =
+            const { linkmanId, messageId, shouldDelete } =
                 action.payload as DeleteMessagePayload;
             if (!state.linkmans[linkmanId]) {
                 /* istanbul ignore next */
@@ -535,7 +535,7 @@ function reducer(state: State = initialState, action: Action): State {
                 return state;
             }
 
-            const newMessages = isAdmin
+            const newMessages = shouldDelete
                 ? deleteObjectKey(state.linkmans[linkmanId].messages, messageId)
                 : {
                     ...state.linkmans[linkmanId].messages,

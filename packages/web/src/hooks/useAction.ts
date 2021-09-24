@@ -99,12 +99,13 @@ export default function useAction() {
             });
         },
 
-        deleteMessage(linkmanId: string, messageId: string) {
+        deleteMessage(linkmanId: string, messageId: string, shouldDelete: boolean = false) {
             dispatch({
                 type: ActionTypes.DeleteMessage,
                 payload: {
                     linkmanId,
                     messageId,
+                    shouldDelete,
                 },
             });
         },
