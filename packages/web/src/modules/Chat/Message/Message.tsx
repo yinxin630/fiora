@@ -100,7 +100,7 @@ class Message extends Component<MessageProps, MessageState> {
                 payload: {
                     linkmanId,
                     messageId: id,
-                    isAdmin,
+                    shouldDelete: isAdmin,
                 } as DeleteMessagePayload,
             });
             return;
@@ -113,7 +113,7 @@ class Message extends Component<MessageProps, MessageState> {
                 payload: {
                     linkmanId,
                     messageId: id,
-                    isAdmin
+                    shouldDelete: isAdmin,
                 } as DeleteMessagePayload,
             });
             this.setState({ showButtonList: false });

@@ -102,7 +102,7 @@ export interface UpdateMessagePayload {
 export interface DeleteMessagePayload {
     linkmanId: string;
     messageId: string;
-    isAdmin: boolean;
+    shouldDelete: boolean;
 }
 
 export interface Action {

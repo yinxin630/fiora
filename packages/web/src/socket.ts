@@ -272,7 +272,7 @@ socket.on(
             payload: {
                 linkmanId,
                 messageId,
-                isAdmin,
+                shouldDelete: isAdmin,
             } as DeleteMessagePayload,
         });
     },

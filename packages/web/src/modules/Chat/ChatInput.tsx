@@ -206,7 +206,7 @@ function ChatInput() {
         }
         const [error, message] = await sendMessage(linkmanId, type, content);
         if (error) {
-            action.deleteMessage(focus, localId);
+            action.deleteMessage(focus, localId, true);
         } else {
             message.loading = false;
             action.updateMessage(focus, localId, message);
