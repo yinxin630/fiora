@@ -158,7 +158,7 @@ socket.on('message', async (message: any) => {
         dispatch({
             type: ActionTypes.AddLinkman,
             payload: {
-                linkman: (newLinkman as unknown) as Linkman,
+                linkman: newLinkman as unknown as Linkman,
                 focus: false,
             },
         });
@@ -258,12 +258,21 @@ socket.on('changeTag', (tag: string) => {
 
 socket.on(
     'deleteMessage',
-    ({ linkmanId, messageId }: { linkmanId: string; messageId: string }) => {
+    ({
+        linkmanId,
+        messageId,
+        isAdmin,
+    }: {
+        linkmanId: string;
+        messageId: string;
+        isAdmin: boolean;
+    }) => {
         dispatch({
             type: ActionTypes.DeleteMessage,
             payload: {
                 linkmanId,
                 messageId,
+                isAdmin,
             } as DeleteMessagePayload,
         });
     },

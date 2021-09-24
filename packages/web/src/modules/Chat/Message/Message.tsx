@@ -93,13 +93,14 @@ class Message extends Component<MessageProps, MessageState> {
      * 管理员撤回消息
      */
     handleDeleteMessage = async () => {
-        const { id, linkmanId, loading } = this.props;
+        const { id, linkmanId, loading, isAdmin } = this.props;
         if (loading) {
             dispatch({
                 type: ActionTypes.DeleteMessage,
                 payload: {
                     linkmanId,
                     messageId: id,
+                    isAdmin,
                 } as DeleteMessagePayload,
             });
             return;
@@ -112,6 +113,7 @@ class Message extends Component<MessageProps, MessageState> {
                 payload: {
                     linkmanId,
                     messageId: id,
+                    isAdmin
                 } as DeleteMessagePayload,
             });
             this.setState({ showButtonList: false });
