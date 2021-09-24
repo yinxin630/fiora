@@ -115,6 +115,7 @@ export async function register(
             salt,
             password: hash,
             avatar: getRandomAvatar(),
+            lastLoginIp: ctx.socket.ip,
         } as UserDocument);
     } catch (err) {
         if ((err as Error).name === 'ValidationError') {
@@ -187,6 +188,7 @@ export async function login(
     await handleNewUser(user);
 
     user.lastLoginTime = new Date();
+    user.lastLoginIp = ctx.socket.ip;
     await user.save();
 
     const groups = await Group.find(
@@ -273,6 +275,7 @@ export async function loginByToken(
     await handleNewUser(user);
 
     user.lastLoginTime = new Date();
+    user.lastLoginIp = ctx.socket.ip;
     await user.save();
 
     const groups = await Group.find(
