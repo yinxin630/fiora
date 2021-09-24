@@ -104,7 +104,7 @@ export async function deleteUser(userIdOrName: string, confirm = true) {
         } else {
             console.log(chalk.red(`User [${userIdOrName}] does not exist`));
         }
-    } catch (err: any) {
+    } catch (err) {
         console.log(chalk.red('Failed to delete user!', err.message));
     }
 }
