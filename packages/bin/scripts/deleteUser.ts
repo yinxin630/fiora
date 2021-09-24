@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import chalk from 'chalk';
 
 import inquirer from 'inquirer';
@@ -6,18 +7,22 @@ import Message from '@fiora/database/mongoose/models/message';
 import Group, { GroupDocument } from '@fiora/database/mongoose/models/group';
 import Friend from '@fiora/database/mongoose/models/friend';
 import History from '@fiora/database/mongoose/models/history';
-import initMongoDB from '@fiora/database/mongoose/initMongoDB';
+import initMongoDB, { mongoose } from '@fiora/database/mongoose/initMongoDB';
 
-export async function deleteUser(userId: string, confirm = true) {
-    if (!userId) {
-        console.log(chalk.red('Wrong command, [userId] is missing.'));
+export async function deleteUser(userIdOrName: string, confirm = true) {
+    if (!userIdOrName) {
+        console.log(chalk.red('Wrong command, [userIdOrName] is missing.'));
         return;
     }
 
     await initMongoDB();
 
     try {
-        const user = await User.findOne({ _id: userId });
+        const user = await User.findOne(
+            mongoose.isValidObjectId(userIdOrName)
+                ? { _id: userIdOrName }
+                : { username: userIdOrName },
+        );
         if (user) {
             console.log(
                 'Found user:',
@@ -97,7 +102,7 @@ export async function deleteUser(userId: string, confirm = true) {
 
             console.log(chalk.green('Successfully deleted user'));
         } else {
-            console.log(chalk.red(`User [${userId}] does not exist`));
+            console.log(chalk.red(`User [${userIdOrName}] does not exist`));
         }
     } catch (err) {
         console.log(chalk.red('Failed to delete user!', err.message));
@@ -105,8 +110,8 @@ export async function deleteUser(userId: string, confirm = true) {
 }
 
 async function run() {
-    const userId = process.argv[3];
-    await deleteUser(userId);
+    const userIdOrName = process.argv[3];
+    await deleteUser(userIdOrName);
     process.exit(0);
 }
 export default run;

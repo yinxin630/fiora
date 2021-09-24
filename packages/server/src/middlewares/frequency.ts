@@ -13,6 +13,8 @@ const MaxCallPerMinutes = 20;
 const NewUserMaxCallPerMinutes = 5;
 const ClearDataInterval = 60000;
 
+const AutoSealDuration = 5; // minutes
+
 type Options = {
     maxCallPerMinutes?: number;
     newUserMaxCallPerMinutes?: number;
@@ -54,7 +56,7 @@ export default function frequency(
                 await Redis.set(
                     getSealUserKey(socket.data.user),
                     socket.data.user,
-                    Redis.Minute * 3,
+                    Redis.Minute * AutoSealDuration,
                 );
             } else if (count >= maxCallPerMinutes) {
                 // normal user limit
@@ -62,7 +64,7 @@ export default function frequency(
                 await Redis.set(
                     getSealUserKey(socket.data.user),
                     socket.data.user,
-                    Redis.Minute * 3,
+                    Redis.Minute * AutoSealDuration,
                 );
             } else {
                 callTimes[socketId] = count + 1;

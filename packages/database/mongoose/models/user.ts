@@ -26,6 +26,7 @@ const UserSchema = new Schema({
             type: String,
         },
     ],
+    lastLoginIp: String,
 });
 
 export interface UserDocument extends Document {
@@ -45,6 +46,8 @@ export interface UserDocument extends Document {
     createTime: Date;
     /** 最后登录时间 */
     lastLoginTime: Date;
+    /** 最后登录IP */
+    lastLoginIp: string;
 }
 
 /**
