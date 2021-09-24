@@ -412,3 +412,8 @@ export async function updateHistory(linkmanId: string, messageId: string) {
     const [, result] = await fetch('updateHistory', { linkmanId, messageId });
     return !!result;
 }
+
+export async function toggleSendMessage(enable: boolean) {
+    const [, result] = await fetch('toggleSendMessage', { enable });
+    return !!result;
+}
