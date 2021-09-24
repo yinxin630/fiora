@@ -523,7 +523,7 @@ function reducer(state: State = initialState, action: Action): State {
         }
 
         case ActionTypes.DeleteMessage: {
-            const { linkmanId, messageId } =
+            const { linkmanId, messageId, isAdmin } =
                 action.payload as DeleteMessagePayload;
             if (!state.linkmans[linkmanId]) {
                 /* istanbul ignore next */
@@ -535,21 +535,23 @@ function reducer(state: State = initialState, action: Action): State {
                 return state;
             }
 
+            const newMessages = isAdmin
+                ? deleteObjectKey(state.linkmans[linkmanId].messages, messageId)
+                : {
+                    ...state.linkmans[linkmanId].messages,
+                    [messageId]: convertMessage({
+                        ...state.linkmans[linkmanId].messages[messageId],
+                        deleted: true,
+                    }),
+                };
+
             return {
                 ...state,
                 linkmans: {
                     ...state.linkmans,
                     [linkmanId]: {
                         ...state.linkmans[linkmanId],
-                        messages: {
-                            ...state.linkmans[linkmanId].messages,
-                            [messageId]: convertMessage({
-                                ...state.linkmans[linkmanId].messages[
-                                    messageId
-                                ],
-                                deleted: true,
-                            }),
-                        },
+                        messages: newMessages,
                     },
                 },
             };

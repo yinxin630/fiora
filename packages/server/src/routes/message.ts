@@ -55,10 +55,8 @@ async function pushNotification(
         try {
             const results = await expo.sendPushNotificationsAsync(chunk);
             results.forEach((result) => {
-                const {
-                    status,
-                    message: errMessage,
-                } = result as ExpoPushErrorTicket;
+                const { status, message: errMessage } =
+                    result as ExpoPushErrorTicket;
                 if (status === 'error') {
                     logger.warn('[Notification]', errMessage);
                 }
@@ -187,7 +185,7 @@ export async function sendMessage(ctx: Context<SendMessageData>) {
         if (notificationTokens.length) {
             pushNotification(
                 notificationTokens,
-                (messageData as unknown) as MessageDocument,
+                messageData as unknown as MessageDocument,
                 toGroup.name,
             );
         }
@@ -209,7 +207,7 @@ export async function sendMessage(ctx: Context<SendMessageData>) {
         if (notificationTokens.length) {
             pushNotification(
                 notificationTokens.map(({ token }) => token),
-                (messageData as unknown) as MessageDocument,
+                messageData as unknown as MessageDocument,
             );
         }
     }
@@ -394,7 +392,7 @@ export async function deleteMessage(ctx: Context<{ messageId: string }>) {
         !client.disableDeleteMessage || ctx.socket.isAdmin,
         '已禁止撤回消息',
     );
-    
+
     const { messageId } = ctx.data;
     assert(messageId, 'messageId不能为空');
 
@@ -408,8 +406,12 @@ export async function deleteMessage(ctx: Context<{ messageId: string }>) {
         '只能撤回本人的消息',
     );
 
-    message.deleted = true;
-    await message.save();
+    if (ctx.socket.isAdmin) {
+        await Message.deleteOne({ _id: messageId });
+    } else {
+        message.deleted = true;
+        await message.save();
+    }
 
     /**
      * 广播删除消息通知, 区分群消息和私聊消息
@@ -418,6 +420,7 @@ export async function deleteMessage(ctx: Context<{ messageId: string }>) {
     const messageData = {
         linkmanId: message.to.toString(),
         messageId,
+        isAdmin: ctx.socket.isAdmin,
     };
     if (isValid(message.to)) {
         // 群消息
