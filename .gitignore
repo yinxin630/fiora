@@ -19,4 +19,5 @@ packages/server/public/avatar/*_*.*
 !packages/server/public/favicon-192.png
 !packages/server/public/favicon-512.png
 !packages/server/public/manifest.json
+!packages/server/public/index.html
 !packages/server/public/PrivacyPolicy.html
