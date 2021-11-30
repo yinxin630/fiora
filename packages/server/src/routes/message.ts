@@ -19,7 +19,12 @@ import History, {
 } from '@fiora/database/mongoose/models/history';
 import Socket from '@fiora/database/mongoose/models/socket';
 
-import { DisableSendMessageKey, Redis } from '@fiora/database/redis/initRedis';
+import {
+    DisableSendMessageKey,
+    DisableNewUserSendMessageKey,
+    Redis,
+    getNewUserKey,
+} from '@fiora/database/redis/initRedis';
 import client from '../../../config/client';
 
 const { isValid } = Types.ObjectId;
@@ -76,8 +81,17 @@ async function pushNotification(
  */
 export async function sendMessage(ctx: Context<SendMessageData>) {
     const disableSendMessage = await Redis.get(DisableSendMessageKey);
-    console.log('disableSendMessage =>', disableSendMessage);
+    const disableNewUserSendMessage = await Redis.get(
+        DisableNewUserSendMessageKey,
+    );
+    const isNewUser = await Redis.has(getNewUserKey(ctx.socket.user));
     assert(disableSendMessage !== 'true' || ctx.socket.isAdmin, '全员禁言中');
+    assert(
+        disableNewUserSendMessage !== 'true' ||
+            ctx.socket.isAdmin ||
+            !isNewUser,
+        '新用户禁言中! 主群禁止闲聊, 多交流fiora和开发技术, 自发维护交流环境',
+    );
 
     const { to, content } = ctx.data;
     let { type } = ctx.data;
