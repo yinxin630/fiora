@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { css } from 'linaria';
 import Style from './Admin.less';
@@ -14,14 +14,22 @@ import {
     setUserTag,
     sealIp,
     toggleSendMessage,
+    toggleNewUserSendMessage,
+    getSystemConfig,
 } from '../../service';
 
 const styles = {
     button: css`
-        width: 100px;
+        min-width: 100px;
         height: 36px;
         margin-right: 12px;
+        padding: 0 10px;
     `,
+};
+
+type SystemConfig = {
+    disableSendMessage: boolean;
+    disableNewUserSendMessage: boolean;
 };
 
 interface AdminProps {
@@ -38,22 +46,28 @@ function Admin(props: AdminProps) {
     const [sealUsername, setSealUsername] = useState('');
     const [sealList, setSealList] = useState({ users: [], ips: [] });
     const [sealIpAddress, setSealIpAddress] = useState('');
+    const [systemConfig, setSystemConfig] = useState<SystemConfig>();
 
-    /**
-     * 获取被封禁的用户列表
-     */
-    const handleGetSealList = useCallback(async () => {
+    console.log('systemConfig ===>', systemConfig);
+
+    async function handleGetSealList() {
         const sealListRes = await getSealList();
         if (sealListRes) {
             setSealList(sealListRes);
         }
-    }, []);
-
+    }
+    async function handleGetSystemConfig() {
+        const systemConfigRes = await getSystemConfig();
+        if (systemConfigRes) {
+            setSystemConfig(systemConfigRes);
+        }
+    }
     useEffect(() => {
         if (visible) {
+            handleGetSystemConfig();
             handleGetSealList();
         }
-    }, [handleGetSealList, visible]);
+    }, [visible]);
 
     /**
      * 处理更新用户标签
@@ -102,12 +116,29 @@ function Admin(props: AdminProps) {
         const isSuccess = await toggleSendMessage(false);
         if (isSuccess) {
             Message.success('开启禁言成功');
+            handleGetSystemConfig();
         }
     }
     async function handleEnableSendMessage() {
         const isSuccess = await toggleSendMessage(true);
         if (isSuccess) {
             Message.success('关闭禁言成功');
+            handleGetSystemConfig();
+        }
+    }
+
+    async function handleDisableSNewUserendMessage() {
+        const isSuccess = await toggleNewUserSendMessage(false);
+        if (isSuccess) {
+            Message.success('开启新用户禁言成功');
+            handleGetSystemConfig();
+        }
+    }
+    async function handleEnableNewUserSendMessage() {
+        const isSuccess = await toggleNewUserSendMessage(true);
+        if (isSuccess) {
+            Message.success('关闭新用户禁言成功');
+            handleGetSystemConfig();
         }
     }
 
@@ -120,19 +151,38 @@ function Admin(props: AdminProps) {
         >
             <div className={Common.container}>
                 <div className={Common.block}>
-                    <Button
-                        className={styles.button}
-                        type="danger"
-                        onClick={handleDisableSendMessage}
-                    >
-                        开启禁言
-                    </Button>
-                    <Button
-                        className={styles.button}
-                        onClick={handleEnableSendMessage}
-                    >
-                        关闭禁言
-                    </Button>
+                    {!systemConfig?.disableSendMessage ? (
+                        <Button
+                            className={styles.button}
+                            type="danger"
+                            onClick={handleDisableSendMessage}
+                        >
+                            开启禁言
+                        </Button>
+                    ) : (
+                        <Button
+                            className={styles.button}
+                            onClick={handleEnableSendMessage}
+                        >
+                            关闭禁言
+                        </Button>
+                    )}
+                    {!systemConfig?.disableNewUserSendMessage ? (
+                        <Button
+                            className={styles.button}
+                            type="danger"
+                            onClick={handleDisableSNewUserendMessage}
+                        >
+                            开启新用户禁言
+                        </Button>
+                    ) : (
+                        <Button
+                            className={styles.button}
+                            onClick={handleEnableNewUserSendMessage}
+                        >
+                            关闭新用户禁言
+                        </Button>
+                    )}
                 </div>
                 <div className={Common.block}>
                     <p className={Common.title}>更新用户标签</p>

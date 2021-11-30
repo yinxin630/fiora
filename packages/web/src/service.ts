@@ -375,6 +375,11 @@ export async function getSealList() {
     return sealList;
 }
 
+export async function getSystemConfig() {
+    const [, systemConfig] = await fetch('getSystemConfig');
+    return systemConfig;
+}
+
 /**
  * 重置指定用户的密码
  * @param username 目标用户名
@@ -415,5 +420,10 @@ export async function updateHistory(linkmanId: string, messageId: string) {
 
 export async function toggleSendMessage(enable: boolean) {
     const [, result] = await fetch('toggleSendMessage', { enable });
+    return !!result;
+}
+
+export async function toggleNewUserSendMessage(enable: boolean) {
+    const [, result] = await fetch('toggleNewUserSendMessage', { enable });
     return !!result;
 }

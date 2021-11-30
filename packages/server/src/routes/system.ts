@@ -18,6 +18,7 @@ import {
     getSealIpKey,
     getSealUserKey,
     DisableSendMessageKey,
+    DisableNewUserSendMessageKey,
     Redis,
 } from '@fiora/database/redis/initRedis';
 
@@ -276,7 +277,8 @@ export async function getSTS(): Promise<STSResult> {
             ...result.credentials,
         };
     } catch (err) {
-        assert.fail(`获取 STS 失败 - ${err.message}`);
+        const typedErr = err as Error;
+        assert.fail(`获取 STS 失败 - ${typedErr.message}`);
     }
 }
 
@@ -321,16 +323,34 @@ export async function uploadFile(
             url: `/${ctx.data.fileName}`,
         };
     } catch (err) {
-        logger.error('[uploadFile]', err.message);
-        return `上传文件失败:${err.message}`;
+        const typedErr = err as Error;
+        logger.error('[uploadFile]', typedErr.message);
+        return `上传文件失败:${typedErr.message}`;
     }
 }
 
 export async function toggleSendMessage(ctx: Context<{ enable: boolean }>) {
     const { enable } = ctx.data;
-    console.log('enable =>', !enable);
     await Redis.set(DisableSendMessageKey, (!enable).toString());
     return {
         msg: 'ok',
+    };
+}
+
+export async function toggleNewUserSendMessage(
+    ctx: Context<{ enable: boolean }>,
+) {
+    const { enable } = ctx.data;
+    await Redis.set(DisableNewUserSendMessageKey, (!enable).toString());
+    return {
+        msg: 'ok',
+    };
+}
+
+export async function getSystemConfig() {
+    return {
+        disableSendMessage: (await Redis.get(DisableSendMessageKey)) === 'true',
+        disableNewUserSendMessage:
+            (await Redis.get(DisableNewUserSendMessageKey)) === 'true',
     };
 }

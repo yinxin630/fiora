@@ -80,3 +80,4 @@ export const Redis = {
 };
 
 export const DisableSendMessageKey = 'DisableSendMessage';
+export const DisableNewUserSendMessageKey = 'DisableNewUserSendMessageKey';
