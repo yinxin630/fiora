@@ -111,6 +111,19 @@ function Admin(props: AdminProps) {
         }
     }
 
+    async function handleDisableSNewUserendMessage() {
+        const isSuccess = await toggleSendMessage(false);
+        if (isSuccess) {
+            Message.success('开启新用户禁言成功');
+        }
+    }
+    async function handleEnableNewUserSendMessage() {
+        const isSuccess = await toggleSendMessage(true);
+        if (isSuccess) {
+            Message.success('关闭新用户禁言成功');
+        }
+    }
+
     return (
         <Dialog
             className={Style.admin}
@@ -132,6 +145,19 @@ function Admin(props: AdminProps) {
                         onClick={handleEnableSendMessage}
                     >
                         关闭禁言
+                    </Button>
+                    <Button
+                        className={styles.button}
+                        type="danger"
+                        onClick={handleDisableSNewUserendMessage}
+                    >
+                        开启新用户禁言
+                    </Button>
+                    <Button
+                        className={styles.button}
+                        onClick={handleEnableNewUserSendMessage}
+                    >
+                        关闭新用户禁言
                     </Button>
                 </div>
                 <div className={Common.block}>

@@ -417,3 +417,8 @@ export async function toggleSendMessage(enable: boolean) {
     const [, result] = await fetch('toggleSendMessage', { enable });
     return !!result;
 }
+
+export async function toggleNewUserSendMessage(enable: boolean) {
+    const [, result] = await fetch('toggleNewUserSendMessage', { enable });
+    return !!result;
+}
