@@ -23,7 +23,6 @@ import {
     DisableSendMessageKey,
     DisableNewUserSendMessageKey,
     Redis,
-    getNewUserKey,
 } from '@fiora/database/redis/initRedis';
 import client from '../../../config/client';
 
@@ -33,6 +32,8 @@ const { isValid } = Types.ObjectId;
 const FirstTimeMessagesCount = 15;
 /** 每次调用接口获取的历史消息数 */
 const EachFetchMessagesCount = 30;
+
+const OneYear = 365 * 24 * 3600 * 1000;
 
 /** 石头剪刀布, 用于随机生成结果 */
 const RPS = ['石头', '剪刀', '布'];
@@ -81,17 +82,20 @@ async function pushNotification(
  */
 export async function sendMessage(ctx: Context<SendMessageData>) {
     const disableSendMessage = await Redis.get(DisableSendMessageKey);
+    assert(disableSendMessage !== 'true' || ctx.socket.isAdmin, '全员禁言中');
+
     const disableNewUserSendMessage = await Redis.get(
         DisableNewUserSendMessageKey,
     );
-    const isNewUser = await Redis.has(getNewUserKey(ctx.socket.user));
-    assert(disableSendMessage !== 'true' || ctx.socket.isAdmin, '全员禁言中');
-    assert(
-        disableNewUserSendMessage !== 'true' ||
-            ctx.socket.isAdmin ||
-            !isNewUser,
-        '新用户禁言中! 主群禁止闲聊, 多交流fiora和开发技术, 自发维护交流环境',
-    );
+    if (disableNewUserSendMessage === 'true') {
+        const user = await User.findById(ctx.socket.user);
+        const isNewUser =
+            user && user.createTime.getTime() > Date.now() - OneYear;
+        assert(
+            ctx.socket.isAdmin || !isNewUser,
+            '新用户禁言中! 主群禁止闲聊, 多交流fiora和开发技术, 自发维护交流环境',
+        );
+    }
 
     const { to, content } = ctx.data;
     let { type } = ctx.data;
