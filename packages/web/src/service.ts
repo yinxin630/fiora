@@ -375,6 +375,11 @@ export async function getSealList() {
     return sealList;
 }
 
+export async function getSystemConfig() {
+    const [, systemConfig] = await fetch('getSystemConfig');
+    return systemConfig;
+}
+
 /**
  * 重置指定用户的密码
  * @param username 目标用户名

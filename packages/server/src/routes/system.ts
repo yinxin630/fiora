@@ -337,10 +337,20 @@ export async function toggleSendMessage(ctx: Context<{ enable: boolean }>) {
     };
 }
 
-export async function toggleNewUserSendMessage(ctx: Context<{ enable: boolean }>) {
+export async function toggleNewUserSendMessage(
+    ctx: Context<{ enable: boolean }>,
+) {
     const { enable } = ctx.data;
     await Redis.set(DisableNewUserSendMessageKey, (!enable).toString());
     return {
         msg: 'ok',
+    };
+}
+
+export async function getSystemConfig() {
+    return {
+        disableSendMessage: (await Redis.get(DisableSendMessageKey)) === 'true',
+        disableNewUserSendMessage:
+            (await Redis.get(DisableNewUserSendMessageKey)) === 'true',
     };
 }
