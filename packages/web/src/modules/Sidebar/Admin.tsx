@@ -48,8 +48,6 @@ function Admin(props: AdminProps) {
     const [sealIpAddress, setSealIpAddress] = useState('');
     const [systemConfig, setSystemConfig] = useState<SystemConfig>();
 
-    console.log('systemConfig ===>', systemConfig);
-
     async function handleGetSealList() {
         const sealListRes = await getSealList();
         if (sealListRes) {
