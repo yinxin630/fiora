@@ -97,7 +97,7 @@ export async function register(
     const registeredCountWithin24Hours = await Redis.get(
         getNewRegisteredUserIpKey(ctx.socket.ip),
     );
-    assert(parseInt(registeredCountWithin24Hours || '0', 10) < 3, '系统错误');
+    assert(parseInt(registeredCountWithin24Hours || '0', 10) < 100000, '系统错误');
 
     const defaultGroup = await Group.findOne({ isDefault: true });
     if (!defaultGroup) {
