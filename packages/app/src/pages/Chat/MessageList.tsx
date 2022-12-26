@@ -119,7 +119,7 @@ function MessageList({ $scrollView }: Props) {
             if (result.length > 0) {
                 action.addLinkmanHistoryMessages(focus, result);
             } else {
-                Toast.warning('没有更多消息了');
+                Toast.warning('no more news');
             }
         }
 

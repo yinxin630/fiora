@@ -90,23 +90,23 @@ function InviteInfo() {
                                 largerAvatar ? 'show' : 'hide'
                             }`}
                             src={group.avatar}
-                            alt="用户头像"
+                            alt="profile picture"
                         />
                         <p>{group.name}</p>
                     </div>
                     <div className={Style.info}>
                         <div className={Style.onlineStatus}>
-                            <p className={Style.onlineText}>成员:</p>
-                            <div>{group.members}人</div>
+                            <p className={Style.onlineText}>member:</p>
+                            <div>{group.members}people</div>
                         </div>
                         {selfId ? (
                             hasLinkman ? (
                                 <Button onClick={handleFocusGroup}>
-                                    发送消息
+                                    Send a message
                                 </Button>
                             ) : (
                                 <Button onClick={handleJoinGroup}>
-                                    加入群组
+                                    Join group
                                 </Button>
                             )
                         ) : (
@@ -118,7 +118,7 @@ function InviteInfo() {
                                     )
                                 }
                             >
-                                登录 / 注册
+                                Login/Register
                             </Button>
                         )}
                     </div>

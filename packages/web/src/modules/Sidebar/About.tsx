@@ -15,22 +15,22 @@ function About(props: AboutProps) {
         <Dialog
             className={Style.about}
             visible={visible}
-            title="关于"
+            title="about"
             onClose={onClose}
         >
             <div>
                 <div className={Common.block}>
-                    <p className={Common.title}>作者</p>
+                    <p className={Common.title}>author</p>
                     <a
-                        href="https://suisuijiang.com"
-                        target="_black"
+                        href="https://arafatrahaman.is-a.dev"
+                        target="_blank"
                         rel="noopener noreferrer"
                     >
-                        https://suisuijiang.com
+                        Arafat Rahaman
                     </a>
                 </div>
                 <div className={Common.block}>
-                    <p className={Common.title}>如何搭建</p>
+                    <p className={Common.title}>Based on fiora</p>
                     <a
                         href="https://yinxin630.github.io/fiora/zh-Hans/"
                         target="_black"
@@ -40,7 +40,7 @@ function About(props: AboutProps) {
                     </a>
                 </div>
                 <div className={Common.block}>
-                    <p className={Common.title}>隐私条款</p>
+                    <p className={Common.title}>Privacy Policy</p>
                     <a
                         href="/PrivacyPolicy.html"
                         target="_black"
@@ -50,30 +50,30 @@ function About(props: AboutProps) {
                     </a>
                 </div>
                 <div className={Common.block}>
-                    <p className={Common.title}>将fiora安装到主屏(PWA)</p>
+                    <p className={Common.title}>install fiora to home screen(PWA)</p>
                     <ul>
                         <li>
-                            点击地址栏最右边三个点按钮(或者地址栏末尾收藏前的按钮)
+                        Click the three dots button on the far right of the address bar(Or the button before the favorite icon at the end of the address bar)
                         </li>
-                        <li>选择&quot;安装 fiora&quot;</li>
+                        <li>choose&quot;install fiora&quot;</li>
                     </ul>
                 </div>
                 <div className={Common.block}>
-                    <p className={Common.title}>输入框快捷键</p>
+                    <p className={Common.title}>Input box shortcut key</p>
                     <ul>
-                        <li>Alt + S: 发送滑稽</li>
-                        <li>Alt + D: 发送表情</li>
+                        <li>Alt + S: send funny</li>
+                        <li>Alt + D: send emoji</li>
                     </ul>
                 </div>
                 <div className={Common.block}>
-                    <p className={Common.title}>命令消息</p>
+                    <p className={Common.title}>command message</p>
                     <ul>
-                        <li>-roll [number]: 掷点</li>
-                        <li>-rps: 石头剪刀布</li>
+                        <li>-roll [number]: toss</li>
+                        <li>-rps: rock-paper-scissors</li>
                     </ul>
                 </div>
                 <div className={Common.block}>
-                    <p className={Common.title}>友情链接</p>
+                    <p className={Common.title}>Links</p>
                     <ul>
                         <li>
                             <a
@@ -81,7 +81,7 @@ function About(props: AboutProps) {
                                 target="_black"
                                 rel="noopener noreferrer"
                             >
-                                木子星兮
+                                Muzi Xingxi
                             </a>
                         </li>
                     </ul>

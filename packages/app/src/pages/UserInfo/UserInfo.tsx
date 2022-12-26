@@ -107,14 +107,14 @@ function UserInfo({ user }: Props) {
     async function handleSealUser() {
         const isSuccess = await sealUser(username);
         if (isSuccess) {
-            Toast.success('封禁用户成功');
+            Toast.success('The user was banned successfully');
         }
     }
 
     async function handleSealIp() {
         const isSuccess = await sealUserOnlineIp(_id);
         if (isSuccess) {
-            Toast.success('封禁用户当前ip成功');
+            Toast.success('The user\'s current IP was banned succesfully');
         }
     }
 
@@ -134,7 +134,7 @@ function UserInfo({ user }: Props) {
                                 style={styles.button}
                                 onPress={handleSendMessage}
                             >
-                                <Text>发送消息</Text>
+                                <Text>Send Message</Text>
                             </Button>
                             <Button
                                 primary
@@ -143,7 +143,7 @@ function UserInfo({ user }: Props) {
                                 style={styles.button}
                                 onPress={handleDeleteFriend}
                             >
-                                <Text>删除好友</Text>
+                                <Text>Delete Friend</Text>
                             </Button>
                         </>
                     ) : (
@@ -153,7 +153,7 @@ function UserInfo({ user }: Props) {
                             style={styles.button}
                             onPress={handleAddFriend}
                         >
-                            <Text>加为好友</Text>
+                            <Text>Add Friend</Text>
                         </Button>
                     )}
                     {isAdmin && (
@@ -165,7 +165,7 @@ function UserInfo({ user }: Props) {
                                 style={styles.button}
                                 onPress={handleSealUser}
                             >
-                                <Text>封禁用户</Text>
+                                <Text>Block</Text>
                             </Button>
                             <Button
                                 primary
@@ -174,7 +174,7 @@ function UserInfo({ user }: Props) {
                                 style={styles.button}
                                 onPress={handleSealIp}
                             >
-                                <Text>封禁 ip</Text>
+                                <Text>Block ip</Text>
                             </Button>
                         </>
                     )}

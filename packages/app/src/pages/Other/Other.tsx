@@ -55,7 +55,7 @@ function Other() {
     async function logout() {
         action.logout();
         await removeStorageValue('token');
-        Toast.show({ text: '您已经退出登录' });
+        Toast.show({ text: 'You have logged out' });
         socket.disconnect();
         socket.connect();
     }
@@ -93,12 +93,12 @@ function Other() {
                         icon
                         onPress={() =>
                             Linking.openURL(
-                                'https://github.com/yinxin630/fiora-app',
+                                'https://arafatrahaman.is-a.dev',
                             )
                         }
                     >
                         <Body>
-                            <Text style={styles.listItemTitle}>源码</Text>
+                            <Text style={styles.listItemTitle}>Owner</Text>
                         </Body>
                         <Right>
                             <Icon
@@ -111,11 +111,11 @@ function Other() {
                     <ListItem
                         icon
                         onPress={() =>
-                            Linking.openURL('https://www.suisuijiang.com')
+                            Linking.openURL('')
                         }
                     >
                         <Body>
-                            <Text style={styles.listItemTitle}>作者</Text>
+                            <Text style={styles.listItemTitle}>Version 1.0 Beta</Text>
                         </Body>
                         <Right>
                             <Icon
@@ -128,12 +128,12 @@ function Other() {
                     <ListItem
                         icon
                         onPress={() =>
-                            Linking.openURL('https://fiora.suisuijiang.com')
+                            Linking.openURL('https://github.com/yinxin630/fiora')
                         }
                     >
                         <Body>
                             <Text style={styles.listItemTitle}>
-                                fiora 网页版
+                                Based on fiora
                             </Text>
                         </Body>
                         <Right>
@@ -153,19 +153,13 @@ function Other() {
                     style={styles.logoutButton}
                     onPress={logout}
                 >
-                    <Text>退出登录</Text>
+                    <Text>Log Out</Text>
                 </Button>
             ) : (
                 <Button block style={styles.logoutButton} onPress={login}>
-                    <Text>登录 / 注册</Text>
+                    <Text>Log In / Register</Text>
                 </Button>
             )}
-            <View style={styles.copyrightContainer}>
-                <Text style={styles.copyright}>
-                    Copyright© 2015-
-                    {new Date().getFullYear()} 碎碎酱
-                </Text>
-            </View>
             <PrivacyPolicy
                 visible={showPrivacyPolicy}
                 onClose={() => togglePrivacyPolicy(false)}

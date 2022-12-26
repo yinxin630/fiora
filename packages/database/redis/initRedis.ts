@@ -6,6 +6,8 @@ import logger from '@fiora/utils/logger';
 export default function initRedis() {
     const client = redis.createClient({
         ...config.redis,
+        no_ready_check: true,
+        auth_pass: "ugi33aSCNECZ7GmIOCRF2SZJama6MXNx"
     });
 
     client.on('error', (err) => {

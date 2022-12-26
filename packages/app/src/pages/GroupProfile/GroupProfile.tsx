@@ -44,11 +44,11 @@ function GroupProfile() {
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>功能</Text>
                     <Button danger onPress={handleLeaveGroup}>
-                        <Text>{isGroupCreator ? '解散群组' : '退出群组'}</Text>
+                        <Text>{isGroupCreator ? 'Disband group' : 'leave group'}</Text>
                     </Button>
                 </View>
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>在线成员</Text>
+                    <Text style={styles.sectionTitle}>online member</Text>
                     {linkman.members.map((member) => (
                         <View key={member._id} style={styles.member}>
                             <Avatar src={member.user.avatar} size={24} />

@@ -1,5 +1,5 @@
 import ip from 'ip';
-
+require('dotenv').config()
 const { env } = process;
 
 export default {
@@ -10,11 +10,11 @@ export default {
     port: env.Port ? parseInt(env.Port, 10) : 9200,
 
     // mongodb address
-    database: env.Database || 'mongodb://localhost:27017/fiora',
+    database: "mongodb+srv://Bot:rattlesnake20@cluster0.ehnrp.mongodb.net/?retryWrites=true&w=majority",
 
     redis: {
-        host: env.RedisHost || 'localhost',
-        port: env.RedisPort ? parseInt(env.RedisPort, 10) : 6379,
+        host: env.RedisHost || 'redis-19086.c1.asia-northeast1-1.gce.cloud.redislabs.com',
+        port: 19086,
     },
 
     // jwt encryption secret

@@ -229,7 +229,7 @@ export default function Input({ onHeightChange }: Props) {
                             // @ts-ignore
                             ref={$input}
                             style={styles.input}
-                            placeholder="随便聊点啥吧, 不要无意义刷屏~~"
+                            placeholder="Just chat about anything, don't swipe the screen meaninglessly~~"
                             onChangeText={handleChangeText}
                             onSubmitEditing={handleSubmit}
                             autoCapitalize="none"
@@ -245,7 +245,7 @@ export default function Input({ onHeightChange }: Props) {
                 ) : (
                     <Button block style={styles.button} onPress={Actions.login}>
                         <Text style={styles.buttonText}>
-                            登录 / 注册, 参与聊天
+                        Login / Register, Join the chat
                         </Text>
                     </Button>
                 )}

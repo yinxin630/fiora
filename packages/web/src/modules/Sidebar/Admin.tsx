@@ -73,7 +73,7 @@ function Admin(props: AdminProps) {
     async function handleSetTag() {
         const isSuccess = await setUserTag(tagUsername, tag.trim());
         if (isSuccess) {
-            Message.success('更新用户标签成功, 请刷新页面更新数据');
+            Message.success('The user label is updated successfully, please refresh the page to update the data');
             setTagUsername('');
             setTag('');
         }
@@ -85,7 +85,7 @@ function Admin(props: AdminProps) {
     async function handleResetPassword() {
         const res = await resetUserPassword(resetPasswordUsername);
         if (res) {
-            Message.success(`已将该用户的密码重置为:${res.newPassword}`);
+            Message.success(`This user's password has been reset to:${res.newPassword}`);
             setResetPasswordUsername('');
         }
     }
@@ -95,7 +95,7 @@ function Admin(props: AdminProps) {
     async function handleSeal() {
         const isSuccess = await sealUser(sealUsername);
         if (isSuccess) {
-            Message.success('封禁用户成功');
+            Message.success('User banned successfully');
             setSealUsername('');
             handleGetSealList();
         }
@@ -104,7 +104,7 @@ function Admin(props: AdminProps) {
     async function handleSealIp() {
         const isSuccess = await sealIp(sealIpAddress);
         if (isSuccess) {
-            Message.success('封禁ip成功');
+            Message.success('Successfully banned ip');
             setSealIpAddress('');
             handleGetSealList();
         }
@@ -113,14 +113,14 @@ function Admin(props: AdminProps) {
     async function handleDisableSendMessage() {
         const isSuccess = await toggleSendMessage(false);
         if (isSuccess) {
-            Message.success('开启禁言成功');
+            Message.success('Successfully unbanned');
             handleGetSystemConfig();
         }
     }
     async function handleEnableSendMessage() {
         const isSuccess = await toggleSendMessage(true);
         if (isSuccess) {
-            Message.success('关闭禁言成功');
+            Message.success('Successfully closed ban');
             handleGetSystemConfig();
         }
     }
@@ -128,14 +128,14 @@ function Admin(props: AdminProps) {
     async function handleDisableSNewUserendMessage() {
         const isSuccess = await toggleNewUserSendMessage(false);
         if (isSuccess) {
-            Message.success('开启新用户禁言成功');
+            Message.success('Enable new user ban successfully');
             handleGetSystemConfig();
         }
     }
     async function handleEnableNewUserSendMessage() {
         const isSuccess = await toggleNewUserSendMessage(true);
         if (isSuccess) {
-            Message.success('关闭新用户禁言成功');
+            Message.success('Successfully close the ban on new users');
             handleGetSystemConfig();
         }
     }
@@ -144,7 +144,7 @@ function Admin(props: AdminProps) {
         <Dialog
             className={Style.admin}
             visible={visible}
-            title="管理员控制台"
+            title="administrator console"
             onClose={onClose}
         >
             <div className={Common.container}>
@@ -155,14 +155,14 @@ function Admin(props: AdminProps) {
                             type="danger"
                             onClick={handleDisableSendMessage}
                         >
-                            开启禁言
+                            turnon mute
                         </Button>
                     ) : (
                         <Button
                             className={styles.button}
                             onClick={handleEnableSendMessage}
                         >
-                            关闭禁言
+                            turn off mute
                         </Button>
                     )}
                     {!systemConfig?.disableNewUserSendMessage ? (
@@ -171,71 +171,71 @@ function Admin(props: AdminProps) {
                             type="danger"
                             onClick={handleDisableSNewUserendMessage}
                         >
-                            开启新用户禁言
+                            Enable new user ban
                         </Button>
                     ) : (
                         <Button
                             className={styles.button}
                             onClick={handleEnableNewUserSendMessage}
                         >
-                            关闭新用户禁言
+                            Close new user ban
                         </Button>
                     )}
                 </div>
                 <div className={Common.block}>
-                    <p className={Common.title}>更新用户标签</p>
+                    <p className={Common.title}>update user label</p>
                     <div className={Style.inputBlock}>
                         <Input
                             className={`${Style.input} ${Style.tagUsernameInput}`}
                             value={tagUsername}
                             onChange={setTagUsername}
-                            placeholder="要更新标签的用户名"
+                            placeholder="Username to update label"
                         />
                         <Input
                             className={`${Style.input} ${Style.tagInput}`}
                             value={tag}
                             onChange={setTag}
-                            placeholder="标签内容"
+                            placeholder="label content"
                         />
                         <Button className={Style.button} onClick={handleSetTag}>
-                            确定
+                        Sure
                         </Button>
                     </div>
                 </div>
                 <div className={Common.block}>
-                    <p className={Common.title}>重置用户密码</p>
+                    <p className={Common.title}>reset user password</p>
                     <div className={Style.inputBlock}>
                         <Input
                             className={Style.input}
                             value={resetPasswordUsername}
                             onChange={setResetPasswordUsername}
-                            placeholder="要重置密码的用户名"
+                            placeholder="username to reset password"
                         />
                         <Button
                             className={Style.button}
                             onClick={handleResetPassword}
                         >
-                            确定
+                            Sure
                         </Button>
                     </div>
                 </div>
 
                 <div className={Common.block}>
-                    <p className={Common.title}>封禁用户</p>
+                    <p className={Common.title}>ban user</p>
                     <div className={Style.inputBlock}>
                         <Input
                             className={Style.input}
                             value={sealUsername}
                             onChange={setSealUsername}
-                            placeholder="要封禁的用户名"
+                            placeholder="Username to ban"
                         />
                         <Button className={Style.button} onClick={handleSeal}>
-                            确定
+                        Sure
                         </Button>
                     </div>
                 </div>
                 <div className={Common.block}>
-                    <p className={Common.title}>封禁用户列表</p>
+                    <p className={Common.title}>Banned User List</p>
                     <div className={Style.sealList}>
                         {sealList.users.map((username) => (
                             <span className={Style.sealUsername} key={username}>
@@ -246,21 +246,21 @@ function Admin(props: AdminProps) {
                 </div>
 
                 <div className={Common.block}>
-                    <p className={Common.title}>封禁ip</p>
+                    <p className={Common.title}>ban ip</p>
                     <div className={Style.inputBlock}>
                         <Input
                             className={Style.input}
                             value={sealIpAddress}
                             onChange={setSealIpAddress}
-                            placeholder="要封禁的ip"
+                            placeholder="ip to be banned"
                         />
                         <Button className={Style.button} onClick={handleSealIp}>
-                            确定
+                            Sure
                         </Button>
                     </div>
                 </div>
                 <div className={Common.block}>
-                    <p className={Common.title}>封禁ip列表</p>
+                    <p className={Common.title}>Banned ip list</p>
                     <div className={Style.sealList}>
                         {sealList.ips.map((ip) => (
                             <span className={Style.sealUsername} key={ip}>

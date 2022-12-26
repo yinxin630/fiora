@@ -59,14 +59,14 @@ function Message({
     }, []);
 
     async function handleDeleteMessage() {
-        const options = ['撤回', '取消'];
+        const options = ['Withdraw', 'Cancel'];
         ActionSheet.show(
             {
-                options: ['确定', '取消'],
+                options: ['OK', 'Cancel'],
                 cancelButtonIndex: options.findIndex(
-                    (option) => option === '取消',
+                    (option) => option === 'Cancel',
                 ),
-                title: '是否撤回消息?',
+                title: 'Do you want to withdraw this message?',
             },
             async (buttonIndex) => {
                 switch (buttonIndex) {
@@ -133,16 +133,16 @@ function Message({
             case 'code': {
                 return (
                     <Text style={{ color: isSelf ? 'white' : '#666' }}>
-                        暂未支持的消息类型[
+                       Message types not yet supported[
                         {message.type}
-                        ], 请在Web端查看
+                        ], Please check it on the web
                     </Text>
                 );
             }
             default:
                 return (
                     <Text style={{ color: isSelf ? 'white' : '#666' }}>
-                        不支持的消息类型
+                       unsupported message type
                     </Text>
                 );
         }

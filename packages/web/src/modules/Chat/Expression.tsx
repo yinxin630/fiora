@@ -37,7 +37,7 @@ function Expression(props: ExpressionProps) {
                 if (result.length !== 0) {
                     setSearchResults(result);
                 } else {
-                    Message.info('没有相关表情, 换个关键字试试吧');
+                    Message.info('There is no relevant emoticon, please try another keyword');
                 }
             }
             toggleSearchLoading(false);
@@ -90,7 +90,7 @@ function Expression(props: ExpressionProps) {
                     className={Style.searchExpressionButton}
                     onClick={handleSearchExpression}
                 >
-                    搜索
+                    search
                 </Button>
             </div>
             <div
@@ -110,7 +110,7 @@ function Expression(props: ExpressionProps) {
                     <div className={Style.searchImage}>
                         <img
                             src={image}
-                            alt="表情"
+                            alt="expression"
                             key={image}
                             onClick={handleClickExpression}
                         />
@@ -127,10 +127,10 @@ function Expression(props: ExpressionProps) {
                 renderTabBar={() => <ScrollableInkTabBar />}
                 renderTabContent={() => <TabContent />}
             >
-                <TabPane tab="默认表情" key="default">
+                <TabPane tab="default expression" key="default">
                     {renderDefaultExpression}
                 </TabPane>
-                <TabPane tab="搜索表情包" key="search">
+                <TabPane tab="Search emoticons" key="search">
                     {renderSearchExpression}
                 </TabPane>
             </Tabs>

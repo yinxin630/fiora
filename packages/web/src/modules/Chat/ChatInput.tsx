@@ -120,7 +120,7 @@ function ChatInput() {
                         }
                         role="button"
                     >
-                        登录
+                        Log in
                     </b>
                     后参与聊天
                 </p>
@@ -224,7 +224,7 @@ function ChatInput() {
         }
 
         if (image.length > config.maxImageSize) {
-            Message.warning('要发送的图片过大', 3);
+            Message.warning('The image to send is too large', 3);
             return;
         }
 
@@ -251,7 +251,7 @@ function ChatInput() {
                 );
             } catch (err) {
                 console.error(err);
-                Message.error('上传图片失败');
+                Message.error('Failed to upload image');
             }
         };
         img.src = url;
@@ -259,7 +259,7 @@ function ChatInput() {
 
     async function sendFileMessage(file: ReadFileResult) {
         if (file.length > config.maxFileSize) {
-            Message.warning('要发送的文件过大', 3);
+            Message.warning('The file to send is too large', 3);
             return;
         }
 
@@ -289,13 +289,13 @@ function ChatInput() {
             );
         } catch (err) {
             console.error(err);
-            Message.error('上传文件失败');
+            Message.error('Failed to upload file');
         }
     }
 
     async function handleSendImage() {
         if (!connect) {
-            return Message.error('发送消息失败, 您当前处于离线状态');
+            return Message.error('Failed to send message, you are currently offline');
         }
         const image = await readDiskFile(
             'blob',
@@ -314,7 +314,7 @@ function ChatInput() {
     }
     async function handleSendFile() {
         if (!connect) {
-            Message.error('发送消息失败, 您当前处于离线状态');
+            Message.error('Failed to send message, you are currently offline');
             return;
         }
         const file = await readDiskFile('blob');
@@ -361,7 +361,7 @@ function ChatInput() {
         // eslint-disable-next-line react/destructuring-assignment
         if (!connect) {
             e.preventDefault();
-            return Message.error('发送消息失败, 您当前处于离线状态');
+            return Message.error('Failed to send message, you are currently offline');
         }
         const { items, types } =
             e.clipboardData || e.originalEvent.clipboardData;
@@ -405,7 +405,7 @@ function ChatInput() {
 
     function sendTextMessage() {
         if (!connect) {
-            return Message.error('发送消息失败, 您当前处于离线状态');
+            return Message.error('Failed to send message, you are currently offline');
         }
 
         // @ts-ignore
@@ -564,11 +564,11 @@ function ChatInput() {
 
     function handleSendCode(language: string, rawCode: string) {
         if (!connect) {
-            return Message.error('发送消息失败, 您当前处于离线状态');
+            return Message.error('Failed to send message, you are currently offline');
         }
 
         if (rawCode === '') {
-            return Message.warning('请输入内容');
+            return Message.warning('Please enter content');
         }
 
         const code = `@language=${language}@${rawCode}`;
@@ -620,10 +620,10 @@ function ChatInput() {
                 overlay={
                     <div className={Style.featureDropdown}>
                         <Menu onClick={handleFeatureMenuClick}>
-                            <MenuItem key="huaji">发送滑稽</MenuItem>
-                            <MenuItem key="image">发送图片</MenuItem>
-                            <MenuItem key="code">发送代码</MenuItem>
-                            <MenuItem key="file">发送文件</MenuItem>
+                            <MenuItem key="huaji">send funny</MenuItem>
+                            <MenuItem key="image">send pictures</MenuItem>
+                            <MenuItem key="code">send code</MenuItem>
+                            <MenuItem key="file">send file</MenuItem>
                         </Menu>
                     </div>
                 }
@@ -646,7 +646,7 @@ function ChatInput() {
                 <input
                     className={Style.input}
                     type="text"
-                    placeholder="随便聊点啥吧, 不要无意义刷屏~~"
+                    placeholder="Just chat about anything, don't swipe the screen meaninglessly~~"
                     maxLength={2048}
                     ref={$input}
                     onKeyDown={handleInputKeyDown}
@@ -667,9 +667,9 @@ function ChatInput() {
                         mouseEnterDelay={0.5}
                         overlay={
                             <span>
-                                支持粘贴图片发图
+                                Support pasting pictures and posting pictures
                                 <br />
-                                全局按 i 键聚焦
+                                Press i globally to focus
                             </span>
                         }
                     >
@@ -719,7 +719,7 @@ function ChatInput() {
                                 className={expressionImage}
                                 src={image}
                                 key={image}
-                                alt="表情图"
+                                alt="emoji"
                                 onClick={() =>
                                     handleClickExpressionImage(
                                         image,

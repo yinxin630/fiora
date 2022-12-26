@@ -21,20 +21,20 @@ function Reward(props: RewardProps) {
         >
             <div>
                 <p className={Style.text}>
-                    如果你觉得这个聊天室代码对你有帮助, 希望打赏下给个鼓励~~
+                If you think this chat room code is helpful to you, I hope to reward you for encouragement~~
                     <br />
-                    作者大多数时间在线, 欢迎提问, 有问必答
+                    The author is online most of the time, welcome to ask questions, answer all questions
                 </p>
                 <div className={Style.imageContainer}>
                     <img
                         className={Style.image}
                         src={AlipayImage}
-                        alt="支付宝二维码"
+                        alt="Alipay QR code"
                     />
                     <img
                         className={Style.image}
                         src={WxpayImage}
-                        alt="微信二维码"
+                        alt="Wechat QR code"
                     />
                 </div>
             </div>

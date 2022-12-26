@@ -64,7 +64,7 @@ function GroupInfo({ group }: Props) {
                 </View>
                 <View style={styles.infoContainer}>
                     <View style={styles.infoRow}>
-                        <Text style={styles.infoLabel}>人数:</Text>
+                        <Text style={styles.infoLabel}>number of people:</Text>
                         <Text style={styles.infoValue}>{members}</Text>
                     </View>
                 </View>
@@ -76,7 +76,7 @@ function GroupInfo({ group }: Props) {
                             style={styles.button}
                             onPress={handleSendMessage}
                         >
-                            <Text>发送消息</Text>
+                            <Text>Send a message</Text>
                         </Button>
                     ) : (
                         <Button
@@ -85,7 +85,7 @@ function GroupInfo({ group }: Props) {
                             style={styles.button}
                             onPress={handleJoinGroup}
                         >
-                            <Text>加入群组</Text>
+                            <Text>Join Group</Text>
                         </Button>
                     )}
                 </View>

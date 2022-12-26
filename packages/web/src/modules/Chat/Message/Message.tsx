@@ -139,7 +139,7 @@ class Message extends Component<MessageProps, MessageState> {
             return Time.getHourMinute(messageTime);
         }
         if (Time.isYesterday(nowTime, messageTime)) {
-            return `昨天 ${Time.getHourMinute(messageTime)}`;
+            return `yesterday ${Time.getHourMinute(messageTime)}`;
         }
         return `${Time.getMonthDate(messageTime)} ${Time.getHourMinute(
             messageTime,
@@ -182,7 +182,7 @@ class Message extends Component<MessageProps, MessageState> {
                 );
             }
             default:
-                return <div className="unknown">不支持的消息类型</div>;
+                return <div className="unknown">unsupported message type  </div>;
         }
     }
 
@@ -241,7 +241,7 @@ class Message extends Component<MessageProps, MessageState> {
                                 <Tooltip
                                     placement={isSelf ? 'left' : 'right'}
                                     mouseEnterDelay={0.3}
-                                    overlay={<span>撤回消息</span>}
+                                    overlay={<span>withdraw message</span>}
                                 >
                                     <div>
                                         <IconButton

@@ -53,7 +53,7 @@ function HeaderBar(props: Props) {
     const aero = useAero();
 
     function handleShareGroup() {
-        Message.success('已复制邀请链接到粘贴板, 去邀请其它人加入群组吧');
+        Message.success('The invitation link has been copied to the clipboard, go invite others to join the group');
     }
 
     return (
@@ -94,7 +94,7 @@ function HeaderBar(props: Props) {
                         )}
                         {isLogin && isOnline !== undefined && (
                             <b className={styles.count}>{`(${
-                                isOnline ? '在线' : '离线'
+                                isOnline ? 'online' : 'offline'
                             })`}</b>
                         )}
                     </span>
@@ -102,7 +102,7 @@ function HeaderBar(props: Props) {
                 {isMobile && (
                     <span className={Style.status}>
                         <div className={connectStatus ? 'online' : 'offline'} />
-                        {connectStatus ? '在线' : '离线'}
+                        {connectStatus ? 'online' : 'offline'}
                     </span>
                 )}
             </h2>

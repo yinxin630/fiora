@@ -114,7 +114,7 @@ function UserInfo(props: UserInfoProps) {
             onClose();
             // @ts-ignore
             action.removeLinkman(user._id);
-            Message.success('删除好友成功');
+            Message.success('Delete friend successfully');
         }
     }
 
@@ -122,7 +122,7 @@ function UserInfo(props: UserInfoProps) {
         // @ts-ignore
         const isSuccess = await sealUser(user.name || user.username);
         if (isSuccess) {
-            Message.success('封禁用户成功');
+            Message.success('User banned successfully');
         }
     }
 
@@ -130,7 +130,7 @@ function UserInfo(props: UserInfoProps) {
         // @ts-ignore
         const isSuccess = await sealUserOnlineIp(originUserId);
         if (isSuccess) {
-            Message.success('封禁ip成功');
+            Message.success('Successfully banned ip');
         }
     }
 
@@ -164,7 +164,7 @@ function UserInfo(props: UserInfoProps) {
                                     largerAvatar ? 'show' : 'hide'
                                 }`}
                                 src={getOSSFileUrl(user.avatar)}
-                                alt="用户头像"
+                                alt="profile picture"
                             />
                             <p>{user.username}</p>
                             <p className={Style.ip}>
@@ -182,7 +182,7 @@ function UserInfo(props: UserInfoProps) {
                         <div className={Style.info}>
                             {isFriend ? (
                                 <Button onClick={handleFocusUser}>
-                                    发送消息
+                                    Send a message
                                 </Button>
                             ) : null}
                             {isFriend ? (
@@ -190,21 +190,21 @@ function UserInfo(props: UserInfoProps) {
                                     type="danger"
                                     onClick={handleDeleteFriend}
                                 >
-                                    删除好友
+                                    Delete friend
                                 </Button>
                             ) : (
                                 <Button onClick={handleAddFriend}>
-                                    加为好友
+                                    Add to friends
                                 </Button>
                             )}
                             {isAdmin ? (
                                 <Button type="danger" onClick={handleSeal}>
-                                    封禁用户
+                                    ban user
                                 </Button>
                             ) : null}
                             {isAdmin ? (
                                 <Button type="danger" onClick={handleSealIp}>
-                                    封禁ip
+                                    Ban ip
                                 </Button>
                             ) : null}
                         </div>

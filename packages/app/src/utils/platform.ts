@@ -13,7 +13,7 @@ export default {
     browser: 'App',
     environment: `App ${
         process.env.NODE_ENV === 'development'
-            ? '开发版'
+            ? 'beta version'
             : packageInfo.expo.version
     } on ${os} ${
         isiOS ? Constants.platform?.ios?.systemVersion : Constants.systemVersion

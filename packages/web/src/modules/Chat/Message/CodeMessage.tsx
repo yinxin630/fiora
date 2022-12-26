@@ -66,7 +66,7 @@ function CodeMessage(props: CodeMessageProps) {
                         <span className={Style.codeSize}>{size}</span>
                     </div>
                 </div>
-                <p className={Style.codeViewButton}>查看</p>
+                <p className={Style.codeViewButton}>Check</p>
             </div>
             {codeDialog && (
                 <CodeDialogAsync

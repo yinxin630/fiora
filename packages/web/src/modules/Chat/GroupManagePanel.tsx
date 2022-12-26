@@ -44,7 +44,7 @@ function GroupManagePanel(props: GroupManagePanelProps) {
     async function handleChangeGroupName() {
         const isSuccess = await changeGroupName(groupId, groupName);
         if (isSuccess) {
-            Message.success('修改群名称成功');
+            Message.success('Group name modified successfully');
             action.setLinkmanProperty(groupId, 'name', groupName);
         }
     }
@@ -59,7 +59,7 @@ function GroupManagePanel(props: GroupManagePanelProps) {
         }
         if (image.length > config.maxAvatarSize) {
             // eslint-disable-next-line consistent-return
-            return Message.error('设置群头像失败, 请选择小于1.5MB的图片');
+            return Message.error('Failed to set group avatar, please choose a picture smaller than 1.5MB');
         }
 
         try {
@@ -74,11 +74,11 @@ function GroupManagePanel(props: GroupManagePanelProps) {
                     'avatar',
                     URL.createObjectURL(image.result),
                 );
-                Message.success('修改群头像成功');
+                Message.success('Modified group avatar successfully');
             }
         } catch (err) {
             console.error(err);
-            Message.error('上传群头像失败');
+            Message.error('Failed to upload group avatar');
         }
     }
 
@@ -88,7 +88,7 @@ function GroupManagePanel(props: GroupManagePanelProps) {
             setDialogStatus(false);
             onClose();
             action.removeLinkman(groupId);
-            Message.success('解散群组成功');
+            Message.success('Disband the group successfully');
         }
     }
 
@@ -97,7 +97,7 @@ function GroupManagePanel(props: GroupManagePanelProps) {
         if (isSuccess) {
             onClose();
             action.removeLinkman(groupId);
-            Message.success('退出群组成功');
+            Message.success('Successfully exited the group');
         }
     }
 
@@ -128,11 +128,11 @@ function GroupManagePanel(props: GroupManagePanelProps) {
                     visible ? Style.show : Style.hide
                 }`}
             >
-                <p className={Style.title}>群组信息</p>
+                <p className={Style.title}>group information</p>
                 <div className={Style.content}>
                     {isLogin && selfId === creator ? (
                         <div className={Style.block}>
-                            <p className={Style.blockTitle}>修改群名称</p>
+                            <p className={Style.blockTitle}>Modify group name</p>
                             <Input
                                 className={Style.input}
                                 value={groupName}
@@ -142,13 +142,13 @@ function GroupManagePanel(props: GroupManagePanelProps) {
                                 className={Style.button}
                                 onClick={handleChangeGroupName}
                             >
-                                确认修改
+                                Confirm the changes
                             </Button>
                         </div>
                     ) : null}
                     {isLogin && selfId === creator ? (
                         <div className={Style.block}>
-                            <p className={Style.blockTitle}>修改群头像</p>
+                            <p className={Style.blockTitle}>Modify group avatar</p>
                             <img
                                 className={Style.avatar}
                                 src={getOSSFileUrl(avatar)}
@@ -159,14 +159,14 @@ function GroupManagePanel(props: GroupManagePanelProps) {
                     ) : null}
 
                     <div className={Style.block}>
-                        <p className={Style.blockTitle}>功能</p>
+                        <p className={Style.blockTitle}>Function</p>
                         {selfId === creator ? (
                             <Button
                                 className={Style.button}
                                 type="danger"
                                 onClick={() => setDialogStatus(true)}
                             >
-                                解散群组
+                                Disband group
                             </Button>
                         ) : (
                             <Button
@@ -174,13 +174,13 @@ function GroupManagePanel(props: GroupManagePanelProps) {
                                 type="danger"
                                 onClick={handleLeaveGroup}
                             >
-                                退出群组
+                                leave group
                             </Button>
                         )}
                     </div>
                     <div className={Style.block}>
                         <p className={Style.blockTitle}>
-                            在线成员 &nbsp;<span>{onlineMembers.length}</span>
+                        online member &nbsp;<span>{onlineMembers.length}</span>
                         </p>
                         <div>
                             {onlineMembers.map((member) => (
@@ -225,7 +225,7 @@ function GroupManagePanel(props: GroupManagePanelProps) {
                     </div>
                     <Dialog
                         className={Style.deleteGroupConfirmDialog}
-                        title="再次确认是否解散群组?"
+                        title="Confirm again whether to disband the group?"
                         visible={deleteConfirmDialog}
                         onClose={() => setDialogStatus(false)}
                     >
@@ -240,7 +240,7 @@ function GroupManagePanel(props: GroupManagePanelProps) {
                             className={Style.deleteGroupConfirmButton}
                             onClick={() => setDialogStatus(false)}
                         >
-                            取消
+                            Cancel
                         </Button>
                     </Dialog>
                 </div>

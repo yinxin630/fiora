@@ -158,7 +158,7 @@ function CodeEditor(props: CodeEditorProps) {
                         break;
                     }
                     default: {
-                        console.warn('不支持的语言包', language);
+                        console.warn('unsupported language pack', language);
                     }
                 }
                 loadedLanguage[language] = true;

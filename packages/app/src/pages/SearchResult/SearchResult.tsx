@@ -35,7 +35,7 @@ function SearchResult({ groups, users }: Props) {
                 tabContainerStyle={{ backgroundColor: 'transparent' }}
             >
                 <Tab
-                    heading={`群组(${groups.length})`}
+                    heading={`Groups(${groups.length})`}
                     tabStyle={{ backgroundColor: 'transparent' }}
                     activeTabStyle={{ backgroundColor: 'transparent' }}
                 >

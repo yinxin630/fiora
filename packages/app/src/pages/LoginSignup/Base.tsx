@@ -34,14 +34,14 @@ export default function Base({
         if (Actions[jumpPage]) {
             Actions.replace(jumpPage);
         } else {
-            Alert.alert(`跳转 ${jumpPage} 失败`);
+            Alert.alert(`Jump ${jumpPage} failed`);
         }
     }
     return (
         <PageContainer>
             <View style={styles.container}>
                 <Form>
-                    <Label style={styles.label}>用户名</Label>
+                    <Label style={styles.label}>Username</Label>
                     <TextInput
                         style={[styles.input]}
                         // @ts-ignore
@@ -51,7 +51,7 @@ export default function Base({
                         autoCapitalize="none"
                         autoCompleteType="username"
                     />
-                    <Label style={styles.label}>密码</Label>
+                    <Label style={styles.label}>Password</Label>
                     <TextInput
                         style={[styles.input]}
                         // @ts-ignore
