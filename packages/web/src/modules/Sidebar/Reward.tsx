@@ -21,7 +21,7 @@ function Reward(props: RewardProps) {
         >
             <div>
                 <p className={Style.text}>
-                If you think this chat room code is helpful to you, I hope to reward you for encouragement~~
+                    If you think this chat room code is helpful to you, I hope to reward you for encouragement~~
                     <br />
                     The author is online most of the time, welcome to ask questions, answer all questions
                 </p>

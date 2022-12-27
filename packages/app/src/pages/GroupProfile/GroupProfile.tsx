@@ -19,7 +19,7 @@ function GroupProfile() {
     }
 
     function ShowEnvironment(environment: string) {
-        Alert.alert('设备信息', environment);
+        Alert.alert('Device Information', environment);
     }
 
     async function handleLeaveGroup() {
@@ -42,7 +42,7 @@ function GroupProfile() {
         <PageContainer>
             <ScrollView style={styles.container}>
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>功能</Text>
+                    <Text style={styles.sectionTitle}>Function</Text>
                     <Button danger onPress={handleLeaveGroup}>
                         <Text>{isGroupCreator ? 'Disband group' : 'leave group'}</Text>
                     </Button>

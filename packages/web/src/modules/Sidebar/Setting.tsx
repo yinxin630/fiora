@@ -205,7 +205,7 @@ function Setting(props: SettingProps) {
                                 </div>
                                 <div className={Style.switch}>
                                     <p className={Style.switchText}>
-                                    broadcast own news
+                                        broadcast own news
                                     </p>
                                     <Switch
                                         onChange={(value) =>
@@ -219,7 +219,7 @@ function Setting(props: SettingProps) {
                                 </div>
                                 <div className={Style.switch}>
                                     <p className={Style.switchText}>
-                                    Recommend emoticons based on input content
+                                        Recommend emoticons based on input content
                                     </p>
                                     <Switch
                                         onChange={(value) =>
@@ -243,20 +243,20 @@ function Setting(props: SettingProps) {
                                     horizontal
                                 >
                                     <RadioButton value="default">
-                                    default
+                                        default
                                     </RadioButton>
                                     <RadioButton value="apple">
-                                    apple
+                                        apple
                                     </RadioButton>
                                     <RadioButton value="pcqq">
-                                    Computer QQ
+                                        Computer QQ
                                     </RadioButton>
                                     <RadioButton value="mobileqq">
-                                    Mobile QQ
+                                        Mobile QQ
                                     </RadioButton>
                                     <RadioButton value="momo">陌陌</RadioButton>
                                     <RadioButton value="huaji">
-                                    funny
+                                        funny
                                     </RadioButton>
                                 </RadioGroup>
                             </div>
@@ -276,7 +276,7 @@ function Setting(props: SettingProps) {
                                     horizontal
                                 >
                                     <RadioButton value="singleColor">
-                                    single color
+                                        single color
                                     </RadioButton>
                                     <RadioButton value="fixedColor">
                                         fixed color
@@ -328,9 +328,9 @@ function Setting(props: SettingProps) {
                                 </div>
                                 <div className={Common.block}>
                                     <p className={Common.title}>
-                                    background image{' '}
+                                        background image{' '}
                                         <span className={Style.backgroundTip}>
-                                        The background image will be stretched to the size of the browser window, A reasonable ratio will achieve better results
+                                            The background image will be stretched to the size of the browser window, A reasonable ratio will achieve better results
                                         </span>
                                     </p>
                                     <div
@@ -345,7 +345,7 @@ function Setting(props: SettingProps) {
                                                 backgroundLoading ? 'blur' : ''
                                             }`}
                                             src={getOSSFileUrl(backgroundImage)}
-                                            alt="Background image preview"
+                                            alt=""
                                             onClick={selectBackgroundImage}
                                         />
                                         <ReactLoading

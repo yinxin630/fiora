@@ -53,7 +53,7 @@ function About(props: AboutProps) {
                     <p className={Common.title}>install fiora to home screen(PWA)</p>
                     <ul>
                         <li>
-                        Click the three dots button on the far right of the address bar(Or the button before the favorite icon at the end of the address bar)
+                            Click the three dots button on the far right of the address bar(Or the button before the favorite icon at the end of the address bar)
                         </li>
                         <li>choose&quot;install fiora&quot;</li>
                     </ul>

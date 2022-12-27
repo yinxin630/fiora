@@ -36,7 +36,7 @@ const EachFetchMessagesCount = 30;
 const OneYear = 365 * 24 * 3600 * 1000;
 
 /** 石头剪刀布, 用于随机生成结果 */
-const RPS = ['石头', '剪刀', '布'];
+const RPS = ['Rock', 'Paper', 'Scissors'];
 
 async function pushNotification(
     notificationTokens: string[],
@@ -82,7 +82,7 @@ async function pushNotification(
  */
 export async function sendMessage(ctx: Context<SendMessageData>) {
     const disableSendMessage = await Redis.get(DisableSendMessageKey);
-    assert(disableSendMessage !== 'true' || ctx.socket.isAdmin, '全员禁言中');
+    assert(disableSendMessage !== 'true' || ctx.socket.isAdmin, 'Everyone is muted');
 
     const disableNewUserSendMessage = await Redis.get(
         DisableNewUserSendMessageKey,
@@ -93,29 +93,29 @@ export async function sendMessage(ctx: Context<SendMessageData>) {
             user && user.createTime.getTime() > Date.now() - OneYear;
         assert(
             ctx.socket.isAdmin || !isNewUser,
-            '新用户禁言中! 主群禁止闲聊, 多交流fiora和开发技术, 自发维护交流环境',
+            'New users are being banned! Chatting in the main group is forbidden, communicate with fiora and development technology more, and maintain the communication environment spontaneously',
         );
     }
 
     const { to, content } = ctx.data;
     let { type } = ctx.data;
-    assert(to, 'to不能为空');
+    assert(to, 'to cannot be empty');
 
     let toGroup: GroupDocument | null = null;
     let toUser: UserDocument | null = null;
     if (isValid(to)) {
         toGroup = await Group.findOne({ _id: to });
-        assert(toGroup, '群组不存在');
+        assert(toGroup, 'group does not exist');
     } else {
         const userId = to.replace(ctx.socket.user.toString(), '');
-        assert(isValid(userId), '无效的用户ID');
+        assert(isValid(userId), 'invalid user id');
         toUser = await User.findOne({ _id: userId });
-        assert(toUser, '用户不存在');
+        assert(toUser, 'User does not exist');
     }
 
     let messageContent = content;
     if (type === 'text') {
-        assert(messageContent.length <= 2048, '消息长度过长');
+        assert(messageContent.length <= 2048, 'message length too long');
 
         const rollRegex = /^-roll( ([0-9]*))?$/;
         if (rollRegex.test(messageContent)) {
@@ -143,16 +143,16 @@ export async function sendMessage(ctx: Context<SendMessageData>) {
         messageContent = xss(messageContent);
     } else if (type === 'file') {
         const file: { size: number } = JSON.parse(content);
-        assert(file.size < client.maxFileSize, '要发送的文件过大');
+        assert(file.size < client.maxFileSize, 'The file to send is too large');
         messageContent = content;
     } else if (type === 'inviteV2') {
         const shareTargetGroup = await Group.findOne({ _id: content });
         if (!shareTargetGroup) {
-            throw new AssertionError({ message: '目标群组不存在' });
+            throw new AssertionError({ message: 'target group does not exist' });
         }
         const user = await User.findOne({ _id: ctx.socket.user });
         if (!user) {
-            throw new AssertionError({ message: '用户不存在' });
+            throw new AssertionError({ message: 'User does not exist' });
         }
         messageContent = JSON.stringify({
             inviter: user._id,
@@ -165,7 +165,7 @@ export async function sendMessage(ctx: Context<SendMessageData>) {
         { username: 1, avatar: 1, tag: 1 },
     );
     if (!user) {
-        throw new AssertionError({ message: '用户不存在' });
+        throw new AssertionError({ message: 'User does not exist' });
     }
 
     const message = await Message.create({
@@ -248,7 +248,7 @@ export async function getLinkmansLastMessages(
     ctx: Context<{ linkmans: string[] }>,
 ) {
     const { linkmans } = ctx.data;
-    assert(Array.isArray(linkmans), '参数linkmans应该是Array');
+    assert(Array.isArray(linkmans), 'The parameter linkmans should be Array');
 
     const promises = linkmans.map(async (linkmanId) => {
         const messages = await Message.find(
@@ -386,7 +386,7 @@ export async function getDefaultGroupHistoryMessages(
 
     const group = await Group.findOne({ isDefault: true });
     if (!group) {
-        throw new AssertionError({ message: '默认群组不存在' });
+        throw new AssertionError({ message: 'Default group does not exist' });
     }
     const messages = await Message.find(
         { to: group._id },
@@ -413,20 +413,20 @@ export async function getDefaultGroupHistoryMessages(
 export async function deleteMessage(ctx: Context<{ messageId: string }>) {
     assert(
         !client.disableDeleteMessage || ctx.socket.isAdmin,
-        '已禁止撤回消息',
+        'Withdrawal disabled',
     );
 
     const { messageId } = ctx.data;
-    assert(messageId, 'messageId不能为空');
+    assert(messageId, 'messageId cannot be empty');
 
     const message = await Message.findOne({ _id: messageId });
     if (!message) {
-        throw new AssertionError({ message: '消息不存在' });
+        throw new AssertionError({ message: 'message does not exist' });
     }
     assert(
         ctx.socket.isAdmin ||
             message.from.toString() === ctx.socket.user.toString(),
-        '只能撤回本人的消息',
+        'Can only withdraw my message',
     );
 
     if (ctx.socket.isAdmin) {

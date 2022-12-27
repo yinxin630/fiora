@@ -85,7 +85,7 @@ function Other() {
                         size={100}
                     />
                     <Text style={styles.name}>
-                        fiora v{appInfo.expo.version}
+                        Fiora globalized v{appInfo.expo.version}
                     </Text>
                 </View>
                 <List style={styles.list}>
@@ -115,7 +115,7 @@ function Other() {
                         }
                     >
                         <Body>
-                            <Text style={styles.listItemTitle}>Version 1.0 Beta</Text>
+                            <Text style={styles.listItemTitle}>Original privacy policy</Text>
                         </Body>
                         <Right>
                             <Icon

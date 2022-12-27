@@ -25,7 +25,7 @@ async function read(text: string, cuid: string) {
     );
     const blob = res.data;
     if (res.status !== 200 || blob.type === 'application/json') {
-        console.warn('合成语言失败');
+        console.warn('synthetic language failure');
     } else {
         $source.setAttribute('src', URL.createObjectURL(blob));
         $audio.load();
@@ -38,7 +38,7 @@ async function read(text: string, cuid: string) {
             // eslint-disable-next-line consistent-return
             return playEndPromise;
         } catch (err) {
-            console.warn('语言朗读消息失败', err.message);
+            console.warn('Language read message failed', err.message);
         }
     }
 }

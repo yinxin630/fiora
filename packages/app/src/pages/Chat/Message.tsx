@@ -133,7 +133,7 @@ function Message({
             case 'code': {
                 return (
                     <Text style={{ color: isSelf ? 'white' : '#666' }}>
-                       Message types not yet supported[
+                        Message types not yet supported[
                         {message.type}
                         ], Please check it on the web
                     </Text>
@@ -142,7 +142,7 @@ function Message({
             default:
                 return (
                     <Text style={{ color: isSelf ? 'white' : '#666' }}>
-                       unsupported message type
+                        unsupported message type
                     </Text>
                 );
         }

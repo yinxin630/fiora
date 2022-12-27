@@ -37,7 +37,7 @@ export default function Linkman({
             return Time.getHourMinute(time);
         }
         if (Time.isYesterday(nowTime, time)) {
-            return '昨天';
+            return 'yesterday';
         }
         if (Time.isSameYear(nowTime, time)) {
             return Time.getMonthDate(time);

@@ -27,7 +27,7 @@ function Download(props: DownloadProps) {
                     <p className={Common.title}>Android</p>
                     <div className={Style.android}>
                         <p>
-                        Link:{' '}
+                            Link:{' '}
                             <a href={androidDownloadUrl}>
                                 {androidDownloadUrl}
                             </a>
@@ -39,7 +39,7 @@ function Download(props: DownloadProps) {
                     <p className={Common.title}>iOS</p>
                     <div className={Style.ios}>
                         <p>
-                        Link: <a href={iOSDownloadUrl}>{iOSDownloadUrl}</a>
+                            Link: <a href={iOSDownloadUrl}>{iOSDownloadUrl}</a>
                         </p>
                         <QRCode value={iOSDownloadUrl} size={200} />
                     </div>

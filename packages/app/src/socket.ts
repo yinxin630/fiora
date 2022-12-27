@@ -38,7 +38,7 @@ const options = {
     transports: ['websocket'],
 };
 
-const host = 'http://10.132.67.127:9200';
+const host = 'https://9200-yinxin630-fiora-q75kl5w76hv.ws-us80.gitpod.io';
 const socket = IO(host, options);
 
 function fetch<T = any>(

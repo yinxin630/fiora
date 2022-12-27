@@ -19,18 +19,18 @@ function convertSystemMessage(message: any) {
     if (message.type === 'system') {
         message.from._id = 'system';
         message.from.originUsername = message.from.username;
-        message.from.username = '乌贼娘殿下';
+        message.from.username = 'Her Majesty the Squid Girl';
         message.from.avatar = WuZeiNiangImage;
         message.from.tag = 'system';
 
         const content = JSON.parse(message.content);
         switch (content.command) {
             case 'roll': {
-                message.content = `掷出了${content.value}点 (上限${content.top}点)`;
+                message.content = `throw out${content.value}point (upper limit${content.top}point)`;
                 break;
             }
             case 'rps': {
-                message.content = `使出了 ${content.value}`;
+                message.content = `resorted to ${content.value}`;
                 break;
             }
             default: {

@@ -198,7 +198,7 @@ function Admin(props: AdminProps) {
                             placeholder="label content"
                         />
                         <Button className={Style.button} onClick={handleSetTag}>
-                        Sure
+                            Sure
                         </Button>
                     </div>
                 </div>
@@ -230,7 +230,7 @@ function Admin(props: AdminProps) {
                             placeholder="Username to ban"
                         />
                         <Button className={Style.button} onClick={handleSeal}>
-                        Sure
+                            Sure
                         </Button>
                     </div>
                 </div>

@@ -164,7 +164,7 @@ function UserInfo(props: UserInfoProps) {
                                     largerAvatar ? 'show' : 'hide'
                                 }`}
                                 src={getOSSFileUrl(user.avatar)}
-                                alt="profile picture"
+                                alt=""
                             />
                             <p>{user.username}</p>
                             <p className={Style.ip}>

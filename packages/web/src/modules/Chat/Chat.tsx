@@ -115,7 +115,7 @@ function Chat() {
                 <div className={Style.noLinkman}>
                     <div className={Style.noLinkmanImage} />
                     <h2 className={Style.noLinkmanText}>
-                    Find a group or friends, otherwise how can we chat~~
+                        Find a group or friends, otherwise how can we chat~~
                     </h2>
                 </div>
             </div>

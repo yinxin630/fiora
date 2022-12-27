@@ -1,15 +1,15 @@
 {
   "expo": {
     "privacy": "public",
-    "name": "fiora",
+    "name": "Fiora",
     "icon": "./icon.png",
-    "version": "1.1.4",
+    "version": "1.0.0",
     "description": "App for fiora. An online chatroom",
     "slug": "fiora",
     "scheme": "fiora",
     "ios": {
       "bundleIdentifier": "com.suisuijiang.fiora",
-      "buildNumber": "1.1.4",
+      "buildNumber": "1.0.0",
       "infoPlist": {
         "LSApplicationQueriesSchemes": ["wxp"],
         "CFBundleLocalizations" : ["zh_CN"],
@@ -17,9 +17,7 @@
       }
     },
     "android": {
-      "package": "com.suisuijiang.fiora",
-      "versionCode": 10,
-      "useNextNotificationsApi": true
+      "package": "com.suisuijiang.fiora"
     },
     "updates": {
       "enabled": false

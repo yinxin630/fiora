@@ -85,14 +85,14 @@ async function getUserNotificationTokens(user: UserDocument) {
 export async function register(
     ctx: Context<{ username: string; password: string } & Environment>,
 ) {
-    assert(!config.disableRegister, '注册功能已被禁用, 请联系管理员开通账号');
+    assert(!config.disableRegister, 'The registration function has been disabled, please contact the administrator to open an account');
 
     const { username, password, os, browser, environment } = ctx.data;
     assert(username, '用户名不能为空');
     assert(password, '密码不能为空');
 
     const user = await User.findOne({ username });
-    assert(!user, '该用户名已存在');
+    assert(!user, 'This username already exists');
 
     const registeredCountWithin24Hours = await Redis.get(
         getNewRegisteredUserIpKey(ctx.socket.ip),
@@ -102,7 +102,7 @@ export async function register(
     const defaultGroup = await Group.findOne({ isDefault: true });
     if (!defaultGroup) {
         // TODO: refactor when node types support "Assertion Functions" https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html#assertion-functions
-        throw new AssertionError({ message: '默认群组不存在' });
+        throw new AssertionError({ message: 'Default group does not exist' });
     }
 
     const salt = await bcrypt.genSalt(SALT_ROUNDS);
@@ -119,7 +119,7 @@ export async function register(
         } as UserDocument);
     } catch (err) {
         if ((err as Error).name === 'ValidationError') {
-            return '用户名包含不支持的字符或者长度超过限制';
+            return 'Username contains unsupported characters or exceeds the limit';
         }
         throw err;
     }
@@ -174,16 +174,16 @@ export async function login(
     ctx: Context<{ username: string; password: string } & Environment>,
 ) {
     const { username, password, os, browser, environment } = ctx.data;
-    assert(username, '用户名不能为空');
-    assert(password, '密码不能为空');
+    assert(username, 'Username can not be empty');
+    assert(password, 'password can not be blank');
 
     const user = await User.findOne({ username });
     if (!user) {
-        throw new AssertionError({ message: '该用户不存在' });
+        throw new AssertionError({ message: 'this user does not exist' });
     }
 
     const isPasswordCorrect = bcrypt.compareSync(password, user.password);
-    assert(isPasswordCorrect, '密码错误');
+    assert(isPasswordCorrect, 'wrong password');
 
     await handleNewUser(user);
 
@@ -246,17 +246,17 @@ export async function loginByToken(
     ctx: Context<{ token: string } & Environment>,
 ) {
     const { token, os, browser, environment } = ctx.data;
-    assert(token, 'token不能为空');
+    assert(token, 'token cannot be empty');
 
     let payload = null;
     try {
         payload = jwt.decode(token, config.jwtSecret);
     } catch (err) {
-        return '非法token';
+        return 'illegal token';
     }
 
-    assert(Date.now() < payload.expires, 'token已过期');
-    assert.equal(environment, payload.environment, '非法登录');
+    assert(Date.now() < payload.expires, 'token has expired');
+    assert.equal(environment, payload.environment, 'illegal login');
 
     const user = await User.findOne(
         { _id: payload.user },
@@ -269,7 +269,7 @@ export async function loginByToken(
         },
     );
     if (!user) {
-        throw new AssertionError({ message: '用户不存在' });
+        throw new AssertionError({ message: 'User does not exist' });
     }
 
     await handleNewUser(user);
@@ -349,7 +349,7 @@ export async function guest(ctx: Context<Environment>) {
         },
     );
     if (!group) {
-        throw new AssertionError({ message: '默认群组不存在' });
+        throw new AssertionError({ message: 'Default group does not exist' });
     }
     ctx.socket.join(group._id.toString());
 
@@ -376,7 +376,7 @@ export async function guest(ctx: Context<Environment>) {
  */
 export async function changeAvatar(ctx: Context<{ avatar: string }>) {
     const { avatar } = ctx.data;
-    assert(avatar, '新头像链接不能为空');
+    assert(avatar, 'New avatar link cannot be empty');
 
     await User.updateOne(
         { _id: ctx.socket.user },
@@ -394,16 +394,16 @@ export async function changeAvatar(ctx: Context<{ avatar: string }>) {
  */
 export async function addFriend(ctx: Context<{ userId: string }>) {
     const { userId } = ctx.data;
-    assert(isValid(userId), '无效的用户ID');
-    assert(ctx.socket.user !== userId, '不能添加自己为好友');
+    assert(isValid(userId), 'invalid user id');
+    assert(ctx.socket.user !== userId, 'Can\'t add myself as a friend');
 
     const user = await User.findOne({ _id: userId });
     if (!user) {
-        throw new AssertionError({ message: '添加好友失败, 用户不存在' });
+        throw new AssertionError({ message: 'Failed to add friend, user does not exist' });
     }
 
     const friend = await Friend.find({ from: ctx.socket.user, to: user._id });
-    assert(friend.length === 0, '你们已经是好友了');
+    assert(friend.length === 0, 'You are already friends');
 
     const newFriend = await Friend.create({
         from: ctx.socket.user as string,
@@ -425,11 +425,11 @@ export async function addFriend(ctx: Context<{ userId: string }>) {
  */
 export async function deleteFriend(ctx: Context<{ userId: string }>) {
     const { userId } = ctx.data;
-    assert(isValid(userId), '无效的用户ID');
+    assert(isValid(userId), 'invalid user id');
 
     const user = await User.findOne({ _id: userId });
     if (!user) {
-        throw new AssertionError({ message: '用户不存在' });
+        throw new AssertionError({ message: 'User does not exist' });
     }
 
     await Friend.deleteOne({ from: ctx.socket.user, to: user._id });
@@ -444,15 +444,15 @@ export async function changePassword(
     ctx: Context<{ oldPassword: string; newPassword: string }>,
 ) {
     const { oldPassword, newPassword } = ctx.data;
-    assert(newPassword, '新密码不能为空');
-    assert(oldPassword !== newPassword, '新密码不能与旧密码相同');
+    assert(newPassword, 'New password cannot be empty');
+    assert(oldPassword !== newPassword, 'The new password cannot be the same as the old password');
 
     const user = await User.findOne({ _id: ctx.socket.user });
     if (!user) {
-        throw new AssertionError({ message: '用户不存在' });
+        throw new AssertionError({ message: 'User does not exist' });
     }
     const isPasswordCorrect = bcrypt.compareSync(oldPassword, user.password);
-    assert(isPasswordCorrect, '旧密码不正确');
+    assert(isPasswordCorrect, 'The old password is incorrect');
 
     const salt = await bcrypt.genSalt(SALT_ROUNDS);
     const hash = await bcrypt.hash(newPassword, salt);
@@ -471,14 +471,14 @@ export async function changePassword(
  */
 export async function changeUsername(ctx: Context<{ username: string }>) {
     const { username } = ctx.data;
-    assert(username, '新用户名不能为空');
+    assert(username, 'New username cannot be empty');
 
     const user = await User.findOne({ username });
-    assert(!user, '该用户名已存在, 换一个试试吧');
+    assert(!user, 'This username already exists, please try another one');
 
     const self = await User.findOne({ _id: ctx.socket.user });
     if (!self) {
-        throw new AssertionError({ message: '用户不存在' });
+        throw new AssertionError({ message: 'User does not exist' });
     }
 
     self.username = username;
@@ -495,11 +495,11 @@ export async function changeUsername(ctx: Context<{ username: string }>) {
  */
 export async function resetUserPassword(ctx: Context<{ username: string }>) {
     const { username } = ctx.data;
-    assert(username !== '', 'username不能为空');
+    assert(username !== '', 'username cannot be empty');
 
     const user = await User.findOne({ username });
     if (!user) {
-        throw new AssertionError({ message: '用户不存在' });
+        throw new AssertionError({ message: 'User does not exist' });
     }
 
     const newPassword = 'helloworld';
@@ -523,8 +523,8 @@ export async function setUserTag(
     ctx: Context<{ username: string; tag: string }>,
 ) {
     const { username, tag } = ctx.data;
-    assert(username !== '', 'username不能为空');
-    assert(tag !== '', 'tag不能为空');
+    assert(username !== '', 'username cannot be empty');
+    assert(tag !== '', 'tag cannot be empty');
     assert(
         /^([0-9a-zA-Z]{1,2}|[\u4e00-\u9eff]){1,5}$/.test(tag),
         '标签不符合要求, 允许5个汉字或者10个字母',
@@ -556,8 +556,8 @@ export async function getUserIps(
     ctx: Context<{ userId: string }>,
 ): Promise<string[]> {
     const { userId } = ctx.data;
-    assert(userId, 'userId不能为空');
-    assert(isValid(userId), '不合法的userId');
+    assert(userId, 'userId cannot be empty');
+    assert(isValid(userId), 'Invalid userId');
 
     const sockets = await Socket.find({ user: userId });
     const ipList = sockets.map((socket) => socket.ip) || [];
@@ -577,8 +577,8 @@ function getUserOnlineStatusWrapper() {
         ctx: Context<{ userId: string }>,
     ) {
         const { userId } = ctx.data;
-        assert(userId, 'userId不能为空');
-        assert(isValid(userId), '不合法的userId');
+        assert(userId, 'userId cannot be empty');
+        assert(isValid(userId), 'Invalid userId');
 
         if (cache[userId] && cache[userId].expireTime > Date.now()) {
             return {

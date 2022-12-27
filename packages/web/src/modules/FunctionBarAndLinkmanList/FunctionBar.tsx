@@ -260,7 +260,7 @@ function FunctionBar() {
                 <TabPane tab="user" key="user">
                     {searchResult.users.length === 0 ? (
                         <p className={Style.none}>
-                          No results, try another keyword~~
+                            No results, try another keyword~~
                         </p>
                     ) : (
                         <div className={`${Style.userList} ${Style.only}`}>

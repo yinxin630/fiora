@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev:web": "cross-env NODE_ENV=development DOTENV_CONFIG_PATH=../../.env webpack serve --config build/webpack.dev.js",
-    "build": "rm -rf dist && cross-env NODE_ENV=production DOTENV_CONFIG_PATH=../../.env webpack --config build/webpack.prod.js && cp -r -f dist/fiora/* ../server/public"
+    "build:web": "rm -rf dist && cross-env NODE_ENV=production DOTENV_CONFIG_PATH=../../.env webpack --config build/webpack.prod.js && cp -r -f dist/fiora/* ../server/public"
   },
   "dependencies": {
     "@fiora/assets": "^1.0.0",

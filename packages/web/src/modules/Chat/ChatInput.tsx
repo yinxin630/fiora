@@ -112,7 +112,7 @@ function ChatInput() {
         return (
             <div className={Style.chatInput}>
                 <p className={Style.guest}>
-                    游客朋友你好, 请
+                Hello guests, please
                     <b
                         className={Style.guestLogin}
                         onClick={() =>
@@ -122,7 +122,7 @@ function ChatInput() {
                     >
                         Log in
                     </b>
-                    后参与聊天
+                    to interact
                 </p>
             </div>
         );

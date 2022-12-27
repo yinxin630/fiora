@@ -90,7 +90,7 @@ function InviteInfo() {
                                 largerAvatar ? 'show' : 'hide'
                             }`}
                             src={group.avatar}
-                            alt="profile picture"
+
                         />
                         <p>{group.name}</p>
                     </div>

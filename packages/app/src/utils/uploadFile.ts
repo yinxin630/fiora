@@ -16,7 +16,7 @@ export default async function uploadFile(
         isBase64,
     });
     if (uploadErr) {
-        throw Error(`上传图片失败::${uploadErr}`);
+        throw Error(`Failed to upload image::${uploadErr}`);
     }
     return result.url;
 }

@@ -245,7 +245,7 @@ export default function Input({ onHeightChange }: Props) {
                 ) : (
                     <Button block style={styles.button} onPress={Actions.login}>
                         <Text style={styles.buttonText}>
-                        Login / Register, Join the chat
+                            Login / Register, Join the chat
                         </Text>
                     </Button>
                 )}

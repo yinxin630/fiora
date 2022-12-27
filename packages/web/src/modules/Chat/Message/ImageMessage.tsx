@@ -75,7 +75,6 @@ function ImageMessage(props: ImageMessageProps) {
                 <img
                     className={Style.image}
                     src={imageSrc}
-                    alt="message picture"
                     width={width}
                     height={height}
                     onClick={() => toggleViewer(true)}

@@ -180,7 +180,7 @@ function GroupManagePanel(props: GroupManagePanelProps) {
                     </div>
                     <div className={Style.block}>
                         <p className={Style.blockTitle}>
-                        online member &nbsp;<span>{onlineMembers.length}</span>
+                            online member &nbsp;<span>{onlineMembers.length}</span>
                         </p>
                         <div>
                             {onlineMembers.map((member) => (
