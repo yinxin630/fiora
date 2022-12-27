@@ -1,3 +1,0 @@
----
-id: getting-start
----
