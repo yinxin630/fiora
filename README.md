@@ -13,6 +13,8 @@ Documentation: [https://yinxin630.github.io/fiora/](https://yinxin630.github.io/
 **Other Client**   
 Vscode Extension: [https://github.com/moonrailgun/fiora-for-vscode](https://github.com/moonrailgun/fiora-for-vscode)   
 
+If you are seek for other open-source IM Application which like discord or slack, maybe try out `Tailchat`: https://tailchat.msgbyte.com/ 
+
 ## Features
 
 1. Register an account and log in, it can save your data for a long time
