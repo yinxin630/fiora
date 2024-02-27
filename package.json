@@ -49,7 +49,9 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "jest": "^26.1.0",
     "lerna": "^4.0.0",
+    "ncp": "^2.0.0",
     "redis-mock": "^0.56.3",
+    "rimraf": "^5.0.5",
     "ts-jest": "^26.1.3",
     "ts-node": "^10.1.0",
     "typescript": "^3.8.2"
